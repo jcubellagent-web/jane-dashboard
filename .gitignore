@@ -1,0 +1,21 @@
+# Secrets - never commit
+.secrets/
+
+# Temporary files
+*.tmp
+*.temp
+*.pyc
+__pycache__/
+
+# Video intermediates (keep final outputs)
+video_edit/*/frame_*.jpg
+video_edit/*/frame_*.png
+video_edit/*_temp.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Large media files (optional - uncomment if needed)
+# *.mp4
+# *.mov

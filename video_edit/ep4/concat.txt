@@ -1,0 +1,8 @@
+file '/Users/jc_agent/.openclaw/workspace/video_edit/ep4/seg_0.mp4'
+file '/Users/jc_agent/.openclaw/workspace/video_edit/ep4/seg_1.mp4'
+file '/Users/jc_agent/.openclaw/workspace/video_edit/ep4/seg_2.mp4'
+file '/Users/jc_agent/.openclaw/workspace/video_edit/ep4/seg_3.mp4'
+file '/Users/jc_agent/.openclaw/workspace/video_edit/ep4/seg_4.mp4'
+file '/Users/jc_agent/.openclaw/workspace/video_edit/ep4/seg_5.mp4'
+file '/Users/jc_agent/.openclaw/workspace/video_edit/ep4/seg_6.mp4'
+file '/Users/jc_agent/.openclaw/workspace/video_edit/ep4/seg_7.mp4'

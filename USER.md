@@ -32,6 +32,10 @@
 - Uses NFA (Not Financial Advice) disclaimer
 - Prefers to build trust gradually — start professional, mature from there
 
+## Wallets
+
+- **Solana:** `6EYvnXTGFj5HQzLAJMYs4EpYnzQ6A4gUVrG5vncP96h8`
+
 ## Context
 
 - First day together (January 31, 2026)

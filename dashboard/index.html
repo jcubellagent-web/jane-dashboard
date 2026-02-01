@@ -3323,52 +3323,130 @@
         // Chat WebSocket connection
         let chatWs = null;
         let chatReconnectTimer = null;
+        let chatConnected = false;
+        let msgIdCounter = 1;
         
         function connectChat() {
             if (chatWs && chatWs.readyState === WebSocket.OPEN) return;
             
-            chatWs = new WebSocket(`ws://localhost:18789?token=${GATEWAY_TOKEN}`);
+            chatWs = new WebSocket(`ws://localhost:18789`);
             
             chatWs.onopen = () => {
-                console.log('Chat connected');
-                // Load history
-                chatWs.send(JSON.stringify({ type: 'chat.history', limit: 20 }));
+                console.log('Chat WebSocket opened, sending handshake...');
             };
             
             chatWs.onmessage = (event) => {
                 const data = JSON.parse(event.data);
+                console.log('Chat received:', data.type || data.event);
                 
-                if (data.type === 'chat.history') {
-                    // Load existing messages
+                // Handle challenge
+                if (data.type === 'event' && data.event === 'connect.challenge') {
+                    // Send connect request
+                    const connectReq = {
+                        type: 'req',
+                        id: `msg_${msgIdCounter++}`,
+                        method: 'connect',
+                        params: {
+                            minProtocol: 3,
+                            maxProtocol: 3,
+                            client: {
+                                id: 'dashboard-chat',
+                                version: '1.0.0',
+                                platform: 'web',
+                                mode: 'operator'
+                            },
+                            role: 'operator',
+                            scopes: ['operator.read', 'operator.write'],
+                            caps: [],
+                            commands: [],
+                            permissions: {},
+                            auth: { token: GATEWAY_TOKEN },
+                            locale: 'en-US',
+                            userAgent: 'jane-dashboard/1.0'
+                        }
+                    };
+                    chatWs.send(JSON.stringify(connectReq));
+                }
+                
+                // Handle connect response
+                if (data.type === 'res' && data.ok && data.payload?.type === 'hello-ok') {
+                    console.log('Chat connected successfully!');
+                    chatConnected = true;
+                    // Load history
+                    chatWs.send(JSON.stringify({
+                        type: 'req',
+                        id: `msg_${msgIdCounter++}`,
+                        method: 'chat.history',
+                        params: { limit: 20 }
+                    }));
+                }
+                
+                // Handle history response
+                if (data.type === 'res' && data.ok && data.payload?.messages) {
                     const messages = document.getElementById('chat-messages');
                     messages.innerHTML = '';
-                    if (data.messages && data.messages.length > 0) {
-                        data.messages.forEach(msg => addChatMessage(msg.role, msg.content, msg.timestamp));
+                    if (data.payload.messages.length > 0) {
+                        data.payload.messages.forEach(msg => {
+                            addChatMessage(msg.role, msg.content, msg.ts);
+                        });
                     } else {
                         addChatMessage('assistant', 'Hey Josh! 👋 How can I help you today?');
                     }
                     messages.scrollTop = messages.scrollHeight;
-                } else if (data.type === 'chat.message' || data.type === 'chat.chunk') {
-                    // New message or streaming chunk
-                    if (data.role === 'assistant' && data.content) {
-                        addChatMessage('assistant', data.content, data.timestamp);
+                }
+                
+                // Handle chat events (new messages)
+                if (data.type === 'event' && data.event === 'chat.message') {
+                    const msg = data.payload;
+                    if (msg.role === 'assistant') {
+                        addChatMessage('assistant', msg.content, msg.ts);
                         document.getElementById('chat-messages').scrollTop = 
                             document.getElementById('chat-messages').scrollHeight;
                     }
-                } else if (data.type === 'chat.typing') {
-                    // Show typing indicator
-                    showTypingIndicator(data.typing);
+                }
+                
+                // Handle streaming
+                if (data.type === 'event' && data.event === 'chat.delta') {
+                    // Handle streaming delta - append to last assistant message
+                    updateStreamingMessage(data.payload.content);
+                }
+                
+                if (data.type === 'event' && data.event === 'chat.typing') {
+                    showTypingIndicator(data.payload?.typing);
                 }
             };
             
             chatWs.onclose = () => {
-                console.log('Chat disconnected, reconnecting...');
+                console.log('Chat disconnected');
+                chatConnected = false;
                 chatReconnectTimer = setTimeout(connectChat, 3000);
             };
             
             chatWs.onerror = (err) => {
                 console.error('Chat error:', err);
             };
+        }
+        
+        let streamingMessageEl = null;
+        
+        function updateStreamingMessage(content) {
+            if (!streamingMessageEl) {
+                streamingMessageEl = document.createElement('div');
+                streamingMessageEl.className = 'message jane streaming';
+                streamingMessageEl.innerHTML = '<div class="message-content"></div><div class="message-time">Now</div>';
+                document.getElementById('chat-messages').appendChild(streamingMessageEl);
+            }
+            const contentEl = streamingMessageEl.querySelector('.message-content');
+            contentEl.textContent += content;
+            document.getElementById('chat-messages').scrollTop = 
+                document.getElementById('chat-messages').scrollHeight;
+        }
+        
+        function finalizeStreamingMessage() {
+            if (streamingMessageEl) {
+                streamingMessageEl.classList.remove('streaming');
+                streamingMessageEl = null;
+            }
         }
         
         function addChatMessage(role, content, timestamp) {
@@ -3419,10 +3497,15 @@
             messages.scrollTop = messages.scrollHeight;
             
             // Send via WebSocket
-            if (chatWs && chatWs.readyState === WebSocket.OPEN) {
-                chatWs.send(JSON.stringify({ type: 'chat.send', message: message }));
+            if (chatWs && chatWs.readyState === WebSocket.OPEN && chatConnected) {
+                chatWs.send(JSON.stringify({
+                    type: 'req',
+                    id: `msg_${msgIdCounter++}`,
+                    method: 'chat.send',
+                    params: { message: message }
+                }));
             } else {
-                addChatMessage('assistant', 'Connection lost. Reconnecting...');
+                addChatMessage('assistant', 'Connecting... please wait.');
                 connectChat();
             }
         }

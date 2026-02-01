@@ -134,6 +134,25 @@ const server = http.createServer((req, res) => {
         });
         return;
     }
+    
+    // API endpoint for crypto prices (proxy to avoid CORS)
+    if (req.url === '/api/crypto') {
+        const https = require('https');
+        const url = 'https://api.coingecko.com/api/v3/simple/price?ids=solana,bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true';
+        
+        https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (proxyRes) => {
+            let data = '';
+            proxyRes.on('data', chunk => data += chunk);
+            proxyRes.on('end', () => {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(data);
+            });
+        }).on('error', (err) => {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: err.message }));
+        });
+        return;
+    }
 
     // Parse URL and strip query string
     const urlPath = new URL(req.url, `http://${req.headers.host}`).pathname;

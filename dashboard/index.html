@@ -3325,6 +3325,7 @@
         let chatReconnectTimer = null;
         let chatConnected = false;
         let msgIdCounter = 1;
+        let chatSessionKey = 'agent:main:main';  // Default session key
         
         function connectChat() {
             if (chatWs && chatWs.readyState === WebSocket.OPEN) return;
@@ -3350,10 +3351,10 @@
                             minProtocol: 3,
                             maxProtocol: 3,
                             client: {
-                                id: 'dashboard-chat',
+                                id: 'webchat',
                                 version: '1.0.0',
                                 platform: 'web',
-                                mode: 'operator'
+                                mode: 'webchat'
                             },
                             role: 'operator',
                             scopes: ['operator.read', 'operator.write'],
@@ -3372,47 +3373,72 @@
                 if (data.type === 'res' && data.ok && data.payload?.type === 'hello-ok') {
                     console.log('Chat connected successfully!');
                     chatConnected = true;
+                    
+                    // Get session key from snapshot
+                    const defaults = data.payload?.snapshot?.sessionDefaults;
+                    if (defaults?.mainSessionKey) {
+                        chatSessionKey = defaults.mainSessionKey;
+                    }
+                    
                     // Load history
                     chatWs.send(JSON.stringify({
                         type: 'req',
                         id: `msg_${msgIdCounter++}`,
                         method: 'chat.history',
-                        params: { limit: 20 }
+                        params: { sessionKey: chatSessionKey, limit: 30 }
                     }));
                 }
                 
                 // Handle history response
-                if (data.type === 'res' && data.ok && data.payload?.messages) {
-                    const messages = document.getElementById('chat-messages');
-                    messages.innerHTML = '';
-                    if (data.payload.messages.length > 0) {
-                        data.payload.messages.forEach(msg => {
-                            addChatMessage(msg.role, msg.content, msg.ts);
+                if (data.type === 'res' && data.ok && Array.isArray(data.payload?.messages)) {
+                    const messagesEl = document.getElementById('chat-messages');
+                    messagesEl.innerHTML = '';
+                    
+                    const msgs = data.payload.messages;
+                    if (msgs.length > 0) {
+                        msgs.forEach(msg => {
+                            // Extract text content from message
+                            let text = '';
+                            if (typeof msg.content === 'string') {
+                                text = msg.content;
+                            } else if (Array.isArray(msg.content)) {
+                                text = msg.content
+                                    .filter(c => c.type === 'text')
+                                    .map(c => c.text)
+                                    .join('\n');
+                            }
+                            if (text && (msg.role === 'user' || msg.role === 'assistant')) {
+                                addChatMessage(msg.role, text, msg.timestamp || msg.ts);
+                            }
                         });
                     } else {
                         addChatMessage('assistant', 'Hey Josh! 👋 How can I help you today?');
                     }
-                    messages.scrollTop = messages.scrollHeight;
+                    messagesEl.scrollTop = messagesEl.scrollHeight;
                 }
                 
-                // Handle chat events (new messages)
-                if (data.type === 'event' && data.event === 'chat.message') {
-                    const msg = data.payload;
-                    if (msg.role === 'assistant') {
-                        addChatMessage('assistant', msg.content, msg.ts);
+                // Handle chat events (new messages, streaming, etc.)
+                if (data.type === 'event' && data.event === 'chat') {
+                    const payload = data.payload;
+                    // Only handle events for our session
+                    if (payload?.sessionKey && payload.sessionKey !== chatSessionKey) return;
+                    
+                    if (payload?.state === 'delta' && payload?.message) {
+                        // Streaming update
+                        showTypingIndicator(false);
+                        updateStreamingMessage(payload.message);
+                    } else if (payload?.state === 'final' && payload?.message) {
+                        // Final message
+                        showTypingIndicator(false);
+                        finalizeStreamingMessage();
+                        addChatMessage('assistant', payload.message, Date.now());
                         document.getElementById('chat-messages').scrollTop = 
                             document.getElementById('chat-messages').scrollHeight;
+                    } else if (payload?.state === 'error') {
+                        showTypingIndicator(false);
+                        finalizeStreamingMessage();
+                        addChatMessage('assistant', 'Sorry, something went wrong. Please try again.', Date.now());
                     }
-                }
-                
-                // Handle streaming
-                if (data.type === 'event' && data.event === 'chat.delta') {
-                    // Handle streaming delta - append to last assistant message
-                    updateStreamingMessage(data.payload.content);
-                }
-                
-                if (data.type === 'event' && data.event === 'chat.typing') {
-                    showTypingIndicator(data.payload?.typing);
                 }
             };
             
@@ -3502,8 +3528,9 @@
                     type: 'req',
                     id: `msg_${msgIdCounter++}`,
                     method: 'chat.send',
-                    params: { message: message }
+                    params: { sessionKey: chatSessionKey, message: message }
                 }));
+                showTypingIndicator(true);
             } else {
                 addChatMessage('assistant', 'Connecting... please wait.');
                 connectChat();

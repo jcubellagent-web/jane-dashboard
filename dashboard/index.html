@@ -3299,7 +3299,14 @@
         }
 
         // Initialize data fetching (called after GridStack setup)
+        let dataFetchingInitialized = false;
         function initDataFetching() {
+            if (dataFetchingInitialized) {
+                console.log('Data fetching already initialized, skipping');
+                return;
+            }
+            dataFetchingInitialized = true;
+            
             loadTasks();
             fetchTikTokStats();
             fetchMindmap();
@@ -3547,6 +3554,15 @@
         // Initialize after DOM is ready
         (function() {
             let initialized = false;
+            let dataInitialized = false;
+            
+            // Ensure data fetching runs (call directly, GridStack will call it too but we double-check)
+            function ensureDataInit() {
+                if (dataInitialized) return;
+                dataInitialized = true;
+                console.log('Ensuring data initialization...');
+                initDataFetching();
+            }
             
             function initAll() {
                 if (initialized) return;
@@ -3563,15 +3579,17 @@
                         console.log('GridStack available, initializing with', widgets.length, 'widgets');
                         initGridStack();
                     } else {
-                        // Fallback: just run data fetching without GridStack
-                        console.log('GridStack not available or no widgets, running in standard mode');
-                        initDataFetching();
+                        // No GridStack, just run data fetching
+                        console.log('GridStack not available, running in standard mode');
+                        ensureDataInit();
                     }
                 } catch (error) {
                     console.error('Dashboard init error:', error);
-                    // Ensure data fetching runs even on error
-                    initDataFetching();
+                    ensureDataInit();
                 }
+                
+                // Safety: ensure data fetching runs after a delay if not already started
+                setTimeout(ensureDataInit, 500);
             }
             
             // Run immediately since script is at end of body

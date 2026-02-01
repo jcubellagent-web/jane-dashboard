@@ -1165,6 +1165,38 @@
             color: var(--text-secondary);
         }
 
+        .personal-interests {
+            background: rgba(0,0,0,0.15);
+            border-radius: 10px;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .news-item.interest-crypto {
+            border-left-color: #f7931a;
+        }
+
+        .news-item.interest-nfl {
+            border-left-color: #002244;
+            background: linear-gradient(90deg, rgba(0, 34, 68, 0.1), transparent);
+        }
+
+        .news-item.interest-nft {
+            border-left-color: #9945ff;
+        }
+
+        .news-item.interest-crypto .news-category {
+            color: #f7931a;
+        }
+
+        .news-item.interest-nfl .news-category {
+            color: #c60c30;
+        }
+
+        .news-item.interest-nft .news-category {
+            color: #9945ff;
+        }
+
         /* TikTok Growth Section */
         .tiktok-section {
             display: flex;
@@ -1730,6 +1762,28 @@
                             <div class="news-category">Digital Assets</div>
                             <div class="news-title">Galaxy hires new Chief Product Officer</div>
                             <div class="news-meta">Intersection of TradFi and crypto • Jan 26</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Personal Interests from X -->
+                <div class="personal-interests">
+                    <div class="news-header">🐦 From Your X Feed (@jcubnft)</div>
+                    <div id="personal-news-feed">
+                        <div class="news-item interest-crypto">
+                            <div class="news-category">🏦 Institutional Crypto</div>
+                            <div class="news-title">Fidelity launching crypto stablecoin</div>
+                            <div class="news-meta">$6T asset manager enters stablecoin market • Your turn @Vanguard</div>
+                        </div>
+                        <div class="news-item interest-nfl">
+                            <div class="news-category">🏈 Patriots</div>
+                            <div class="news-title">Drake Maye playoff highlights trending</div>
+                            <div class="news-meta">"Gonna remember this play for the rest of my life" • 325K views</div>
+                        </div>
+                        <div class="news-item interest-nft">
+                            <div class="news-category">🎴 Panini NFTs</div>
+                            <div class="news-title">Your Drake collection ready for the season</div>
+                            <div class="news-meta">#gopats #PaniniNFT • Pinned post</div>
                         </div>
                     </div>
                 </div>

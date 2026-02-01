@@ -34,5 +34,14 @@
     { "topic": "Nasdaq Acquisitions", "icon": "🏢" },
     { "topic": "Private Market Trends", "icon": "📊" },
     { "topic": "Trading Tech Innovation", "icon": "💻" }
-  ]
+  ],
+  "personalInterests": {
+    "twitter": "@jcubnft",
+    "topics": [
+      { "name": "Patriots / Drake Maye", "icon": "🏈", "tags": ["#gopats", "Drake Maye"] },
+      { "name": "Institutional Crypto", "icon": "🏦", "tags": ["Fidelity", "Vanguard", "BlackRock", "stablecoin"] },
+      { "name": "Panini NFTs", "icon": "🎴", "tags": ["#PaniniNFT", "@PaniniAmerica"] },
+      { "name": "DeFi / Web3", "icon": "🔗", "tags": ["DeFi", "staking", "blockchain"] }
+    ]
+  }
 }

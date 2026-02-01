@@ -3344,6 +3344,9 @@
                         📱
                     </button>
                 </div>
+                <button class="layout-btn" id="refresh-all-btn" onclick="refreshAll()" aria-label="Refresh all widgets" title="Refresh all data">
+                    🔄 Refresh All
+                </button>
                 <button class="layout-btn" id="edit-layout-btn" onclick="toggleEditMode()" aria-label="Edit layout">
                     🔧 Edit Layout
                 </button>
@@ -5670,6 +5673,49 @@
             } catch (error) {
                 console.error('Failed to load Sorare stats:', error);
                 document.getElementById('sorare-updated').textContent = 'Error loading';
+            }
+        }
+
+        // Refresh all data
+        async function refreshAll() {
+            const btn = document.getElementById('refresh-all-btn');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '🔄 Refreshing...';
+            }
+            
+            showToast('Refreshing all widgets...');
+            
+            try {
+                // Call all fetch functions
+                await Promise.allSettled([
+                    fetchSystemStats(),
+                    fetchCryptoPrices(),
+                    fetchWeather(),
+                    fetchWalletBalances(),
+                    fetchTikTokStats(),
+                    fetchSorareStats(),
+                    fetchMindmap(),
+                    fetchAINews(),
+                    fetchWorkIntel(),
+                    fetchJaneTasks(),
+                    fetchTradingPositions()
+                ]);
+                
+                // Also refresh tasks
+                loadTasks();
+                updateUptime();
+                checkGatewayStatus();
+                
+                showToast('✅ All widgets refreshed!');
+            } catch (e) {
+                console.error('Refresh all error:', e);
+                showToast('⚠️ Some widgets failed to refresh');
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '🔄 Refresh All';
+                }
             }
         }
 

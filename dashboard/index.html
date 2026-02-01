@@ -942,9 +942,9 @@
             <h1><span>Jane</span> Dashboard</h1>
         </div>
         <div class="header-actions">
-            <div class="status-indicator">
-                <div class="status-dot"></div>
-                <span>Online</span>
+            <div class="status-indicator" id="gateway-status" title="Gateway status">
+                <div class="status-dot" id="status-dot"></div>
+                <span id="status-text">Checking...</span>
             </div>
             <div class="time" id="current-time">--:--</div>
             <button class="chat-toggle" onclick="toggleChat()" title="Cmd+K">
@@ -1209,7 +1209,7 @@
             </div>
 
             <footer>
-                Jane 🌿 · Personal Assistant · First boot Jan 31, 2026 · Dashboard v2.5
+                Jane 🌿 · Personal Assistant · First boot Jan 31, 2026 · Dashboard v2.6
             </footer>
         </div>
 
@@ -1561,6 +1561,27 @@
         setInterval(updateUptime, 60000);
         setInterval(fetchCryptoPrices, 60000);  // Update prices every minute
         setInterval(fetchWeather, 600000);  // Update weather every 10 minutes
+
+        // Check gateway status
+        async function checkGatewayStatus() {
+            const dot = document.getElementById('status-dot');
+            const text = document.getElementById('status-text');
+            try {
+                const response = await fetch('http://127.0.0.1:18789/health', { method: 'GET' });
+                if (response.ok) {
+                    dot.style.background = 'var(--accent)';
+                    text.textContent = 'Online';
+                } else {
+                    throw new Error('Not OK');
+                }
+            } catch (e) {
+                dot.style.background = '#ef4444';
+                dot.style.animation = 'none';
+                text.textContent = 'Offline';
+            }
+        }
+        checkGatewayStatus();
+        setInterval(checkGatewayStatus, 30000);  // Check every 30 seconds
 
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {

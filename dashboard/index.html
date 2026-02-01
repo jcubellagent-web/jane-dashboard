@@ -3366,9 +3366,8 @@
             navigator.serviceWorker.register('sw.js').catch(() => {});
         }
 
-        // Initialize data immediately (before GridStack setup)
-        // This ensures data loads even if GridStack fails
-        setTimeout(initDataFetching, 0);
+        // Initialize all data immediately
+        initDataFetching();
 
         // ========================================
         // GridStack Layout System

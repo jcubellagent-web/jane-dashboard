@@ -27,6 +27,54 @@ const MIME_TYPES = {
 
 const { execSync } = require('child_process');
 const os = require('os');
+const https = require('https');
+
+// Crypto price cache (to avoid rate limits)
+let cryptoCache = { data: null, timestamp: 0 };
+
+// Fallback to CoinCap API
+function fetchCoinCap(res, cacheTimestamp) {
+    const coins = ['bitcoin', 'ethereum', 'solana'];
+    const results = {};
+    let completed = 0;
+    
+    coins.forEach(coin => {
+        https.get(`https://api.coincap.io/v2/assets/${coin}`, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (proxyRes) => {
+            let data = '';
+            proxyRes.on('data', chunk => data += chunk);
+            proxyRes.on('end', () => {
+                try {
+                    const parsed = JSON.parse(data);
+                    results[coin] = {
+                        usd: parseFloat(parsed.data.priceUsd),
+                        usd_24h_change: parseFloat(parsed.data.changePercent24Hr)
+                    };
+                } catch (e) {
+                    results[coin] = { usd: 0, usd_24h_change: 0 };
+                }
+                completed++;
+                if (completed === coins.length) {
+                    const formatted = {
+                        bitcoin: results.bitcoin,
+                        ethereum: results.ethereum,
+                        solana: results.solana
+                    };
+                    // Cache the result
+                    cryptoCache = { data: formatted, timestamp: cacheTimestamp };
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify(formatted));
+                }
+            });
+        }).on('error', () => {
+            completed++;
+            results[coin] = { usd: 0, usd_24h_change: 0 };
+            if (completed === coins.length) {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(results));
+            }
+        });
+    });
+}
 
 // Get system stats
 function getSystemStats() {
@@ -150,20 +198,43 @@ const server = http.createServer((req, res) => {
     }
     
     // API endpoint for crypto prices (proxy to avoid CORS)
+    // Uses CoinGecko with CoinCap fallback, plus caching to avoid rate limits
     if (req.url === '/api/crypto') {
         const https = require('https');
-        const url = 'https://api.coingecko.com/api/v3/simple/price?ids=solana,bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true';
         
-        https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (proxyRes) => {
+        // Check cache first (valid for 30 seconds)
+        const now = Date.now();
+        if (cryptoCache.data && (now - cryptoCache.timestamp) < 30000) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(cryptoCache.data));
+            return;
+        }
+        
+        const coingeckoUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=solana,bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true';
+        
+        // Try CoinGecko first
+        https.get(coingeckoUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (proxyRes) => {
             let data = '';
             proxyRes.on('data', chunk => data += chunk);
             proxyRes.on('end', () => {
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(data);
+                try {
+                    const parsed = JSON.parse(data);
+                    // Check if it's a rate limit error
+                    if (parsed.status?.error_code === 429 || !parsed.solana) {
+                        throw new Error('Rate limited or invalid response');
+                    }
+                    // Cache the result
+                    cryptoCache = { data: parsed, timestamp: now };
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(data);
+                } catch (e) {
+                    // Fallback to CoinCap
+                    fetchCoinCap(res, now);
+                }
             });
-        }).on('error', (err) => {
-            res.writeHead(500, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: err.message }));
+        }).on('error', () => {
+            // Fallback to CoinCap
+            fetchCoinCap(res, now);
         });
         return;
     }

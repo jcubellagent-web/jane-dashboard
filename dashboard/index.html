@@ -5688,36 +5688,50 @@
             
             showToast('Refreshing all widgets...');
             
-            try {
-                // Call all fetch functions
-                await Promise.allSettled([
-                    fetchSystemStats(),
-                    fetchCryptoPrices(),
-                    fetchWeather(),
-                    fetchWalletBalances(),
-                    fetchTikTokStats(),
-                    fetchSorareStats(),
-                    fetchMindmap(),
-                    fetchAINews(),
-                    fetchWorkIntel(),
-                    fetchJaneTasks(),
-                    fetchTradingPositions()
-                ]);
-                
-                // Also refresh tasks
-                loadTasks();
-                updateUptime();
-                checkGatewayStatus();
-                
-                showToast('✅ All widgets refreshed!');
-            } catch (e) {
-                console.error('Refresh all error:', e);
-                showToast('⚠️ Some widgets failed to refresh');
-            } finally {
-                if (btn) {
-                    btn.disabled = false;
-                    btn.innerHTML = '🔄 Refresh All';
+            // Define all fetch operations with names
+            const operations = [
+                { name: 'System Stats', fn: fetchSystemStats },
+                { name: 'Crypto Prices', fn: fetchCryptoPrices },
+                { name: 'Weather', fn: fetchWeather },
+                { name: 'Wallet Balances', fn: fetchWalletBalances },
+                { name: 'TikTok Stats', fn: fetchTikTokStats },
+                { name: 'Sorare Stats', fn: fetchSorareStats },
+                { name: 'Mindmap', fn: fetchMindmap },
+                { name: 'AI News', fn: fetchAINews },
+                { name: 'Work Intel', fn: fetchWorkIntel },
+                { name: 'Jane Tasks', fn: fetchJaneTasks },
+                { name: 'Trading Positions', fn: fetchTradingPositions }
+            ];
+            
+            // Run all operations and track results
+            const results = await Promise.allSettled(operations.map(op => op.fn()));
+            
+            // Find failures
+            const failures = [];
+            results.forEach((result, index) => {
+                if (result.status === 'rejected') {
+                    failures.push(operations[index].name);
+                    console.error(`${operations[index].name} failed:`, result.reason);
                 }
+            });
+            
+            // Also refresh sync tasks
+            loadTasks();
+            updateUptime();
+            checkGatewayStatus();
+            
+            if (failures.length === 0) {
+                showToast('✅ All widgets refreshed!');
+            } else if (failures.length <= 2) {
+                showToast(`⚠️ Failed: ${failures.join(', ')}`);
+            } else {
+                showToast(`⚠️ ${failures.length} widgets failed to refresh`);
+                console.log('Failed widgets:', failures);
+            }
+            
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = '🔄 Refresh All';
             }
         }
 

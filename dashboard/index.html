@@ -4241,19 +4241,17 @@
                 hamburger.setAttribute('aria-expanded', 'true');
                 document.body.style.overflow = 'hidden';
                 
-                // Update status in menu
+                // Update status in menu - show current time and online status
                 const menuStatusDot = document.getElementById('menu-status-dot');
                 const menuStatusText = document.getElementById('menu-status-text');
                 const menuTime = document.getElementById('menu-time');
                 
-                // Check actual connection status
-                const isOnline = typeof chatConnected !== 'undefined' ? chatConnected : true;
-                
+                // Dashboard is online if page loaded successfully
                 if (menuStatusDot) {
-                    menuStatusDot.style.background = isOnline ? 'var(--accent)' : '#ef4444';
+                    menuStatusDot.style.background = 'var(--accent)';
                 }
                 if (menuStatusText) {
-                    menuStatusText.textContent = isOnline ? 'Online' : 'Offline';
+                    menuStatusText.textContent = 'Online';
                 }
                 if (menuTime) {
                     const now = new Date();

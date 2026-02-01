@@ -1427,8 +1427,8 @@
                 const solPriceText = solPriceEl ? solPriceEl.textContent : '$100';
                 const solPrice = parseFloat(solPriceText.replace('$', '').replace(',', '')) || 100;
 
-                // Fetch balance from Solana mainnet RPC
-                const response = await fetch('https://api.mainnet-beta.solana.com', {
+                // Fetch balance from Solana RPC (PublicNode - free & CORS-friendly)
+                const response = await fetch('https://solana-rpc.publicnode.com', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

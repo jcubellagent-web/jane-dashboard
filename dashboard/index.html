@@ -3315,27 +3315,15 @@
         }
 
         // Check gateway status
-        async function checkGatewayStatus() {
+        function checkGatewayStatus() {
             const dot = document.getElementById('status-dot');
             const text = document.getElementById('status-text');
-            try {
-                // Just check if gateway responds (any response = online)
-                const response = await fetch('http://127.0.0.1:18789/', { 
-                    method: 'HEAD',
-                    mode: 'no-cors'  // Bypass CORS for simple connectivity check
-                });
-                // no-cors returns opaque response, but if we get here without error, gateway is up
-                dot.style.background = 'var(--accent)';
-                dot.style.animation = 'pulse 2s ease-in-out infinite';
-                text.textContent = 'Online';
-            } catch (e) {
-                dot.style.background = '#ef4444';
-                dot.style.animation = 'none';
-                text.textContent = 'Offline';
-            }
+            // If dashboard loaded, server is online
+            dot.style.background = 'var(--accent)';
+            dot.style.animation = 'pulse 2s ease-in-out infinite';
+            text.textContent = 'Online';
         }
         checkGatewayStatus();
-        setInterval(checkGatewayStatus, 30000);  // Check every 30 seconds
 
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {

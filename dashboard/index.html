@@ -700,6 +700,77 @@
             grid-column: span 4;
         }
 
+        /* Crypto Prices Section */
+        .crypto-section {
+            grid-column: span 4;
+        }
+
+        .crypto-prices {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .crypto-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+
+        .crypto-item:hover {
+            background: rgba(0,0,0,0.3);
+        }
+
+        .crypto-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .crypto-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .crypto-icon.sol { background: linear-gradient(135deg, #9945FF, #14F195); }
+        .crypto-icon.btc { background: linear-gradient(135deg, #F7931A, #FFB347); }
+        .crypto-icon.eth { background: linear-gradient(135deg, #627EEA, #8C9EFF); }
+
+        .crypto-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .crypto-symbol {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .crypto-price-info {
+            text-align: right;
+        }
+
+        .crypto-price {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .crypto-change {
+            font-size: 0.75rem;
+        }
+
+        .crypto-change.up { color: var(--accent); }
+        .crypto-change.down { color: #ef4444; }
+
         .wallet-balance {
             text-align: center;
             padding: 1.5rem;
@@ -844,7 +915,8 @@
             .commands-section { grid-column: span 12; }
             .activity-section { grid-column: span 12; }
             .kanban-section { grid-column: span 12; }
-            .wallet-section { grid-column: span 12; }
+            .wallet-section { grid-column: span 6; }
+            .crypto-section { grid-column: span 6; }
             .chat-panel { width: 100%; right: -100%; }
         }
 
@@ -857,6 +929,7 @@
             .hero-content { flex-direction: column; text-align: center; }
             .bottom-nav { display: flex; }
             .chat-toggle { display: none; }
+            .wallet-section, .crypto-section { grid-column: span 12; }
         }
     </style>
 </head>
@@ -1078,16 +1151,65 @@
                     <div class="card-title">👻 Phantom Wallet</div>
                 </div>
                 <div class="wallet-balance">
-                    <h3>0.5 SOL</h3>
-                    <p>≈ $50.82 USD</p>
+                    <h3 id="wallet-sol">0.5 SOL</h3>
+                    <p id="wallet-usd">≈ $50.82 USD</p>
                 </div>
                 <div class="wallet-address" onclick="copyAddress()" title="Click to copy">
                     ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L
                 </div>
             </div>
 
+            <!-- Crypto Prices -->
+            <div class="card crypto-section">
+                <div class="card-header">
+                    <div class="card-title">📈 Crypto Prices</div>
+                    <span style="font-size: 0.7rem; color: var(--text-secondary);" id="price-updated">Loading...</span>
+                </div>
+                <div class="crypto-prices">
+                    <div class="crypto-item">
+                        <div class="crypto-info">
+                            <div class="crypto-icon sol">◎</div>
+                            <div>
+                                <div class="crypto-name">Solana</div>
+                                <div class="crypto-symbol">SOL</div>
+                            </div>
+                        </div>
+                        <div class="crypto-price-info">
+                            <div class="crypto-price" id="sol-price">$--</div>
+                            <div class="crypto-change" id="sol-change">--%</div>
+                        </div>
+                    </div>
+                    <div class="crypto-item">
+                        <div class="crypto-info">
+                            <div class="crypto-icon btc">₿</div>
+                            <div>
+                                <div class="crypto-name">Bitcoin</div>
+                                <div class="crypto-symbol">BTC</div>
+                            </div>
+                        </div>
+                        <div class="crypto-price-info">
+                            <div class="crypto-price" id="btc-price">$--</div>
+                            <div class="crypto-change" id="btc-change">--%</div>
+                        </div>
+                    </div>
+                    <div class="crypto-item">
+                        <div class="crypto-info">
+                            <div class="crypto-icon eth">Ξ</div>
+                            <div>
+                                <div class="crypto-name">Ethereum</div>
+                                <div class="crypto-symbol">ETH</div>
+                            </div>
+                        </div>
+                        <div class="crypto-price-info">
+                            <div class="crypto-price" id="eth-price">$--</div>
+                            <div class="crypto-change" id="eth-change">--%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <footer>
-                Jane 🌿 · Personal Assistant · First boot Jan 31, 2026 · Dashboard v2.2
+                Jane 🌿 · Personal Assistant · First boot Jan 31, 2026 · Dashboard v2.3
             </footer>
         </div>
 
@@ -1321,11 +1443,58 @@
             document.getElementById('uptime').textContent = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
         }
 
+        // Fetch crypto prices from CoinGecko
+        async function fetchCryptoPrices() {
+            try {
+                const response = await fetch(
+                    'https://api.coingecko.com/api/v3/simple/price?ids=solana,bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true'
+                );
+                if (!response.ok) throw new Error('Failed to fetch');
+                const data = await response.json();
+
+                // Update SOL
+                const solPrice = data.solana.usd;
+                const solChange = data.solana.usd_24h_change;
+                document.getElementById('sol-price').textContent = '$' + solPrice.toLocaleString(undefined, { maximumFractionDigits: 2 });
+                const solChangeEl = document.getElementById('sol-change');
+                solChangeEl.textContent = (solChange >= 0 ? '+' : '') + solChange.toFixed(2) + '%';
+                solChangeEl.className = 'crypto-change ' + (solChange >= 0 ? 'up' : 'down');
+
+                // Update BTC
+                const btcPrice = data.bitcoin.usd;
+                const btcChange = data.bitcoin.usd_24h_change;
+                document.getElementById('btc-price').textContent = '$' + btcPrice.toLocaleString(undefined, { maximumFractionDigits: 0 });
+                const btcChangeEl = document.getElementById('btc-change');
+                btcChangeEl.textContent = (btcChange >= 0 ? '+' : '') + btcChange.toFixed(2) + '%';
+                btcChangeEl.className = 'crypto-change ' + (btcChange >= 0 ? 'up' : 'down');
+
+                // Update ETH
+                const ethPrice = data.ethereum.usd;
+                const ethChange = data.ethereum.usd_24h_change;
+                document.getElementById('eth-price').textContent = '$' + ethPrice.toLocaleString(undefined, { maximumFractionDigits: 2 });
+                const ethChangeEl = document.getElementById('eth-change');
+                ethChangeEl.textContent = (ethChange >= 0 ? '+' : '') + ethChange.toFixed(2) + '%';
+                ethChangeEl.className = 'crypto-change ' + (ethChange >= 0 ? 'up' : 'down');
+
+                // Update wallet value
+                const walletValue = 0.5 * solPrice;
+                document.getElementById('wallet-usd').textContent = '≈ $' + walletValue.toFixed(2) + ' USD';
+
+                // Update timestamp
+                document.getElementById('price-updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            } catch (error) {
+                document.getElementById('price-updated').textContent = 'Unable to load';
+                console.error('Failed to fetch crypto prices:', error);
+            }
+        }
+
         // Initialize
         loadTasks();
         updateUptime();
+        fetchCryptoPrices();
         setInterval(loadTasks, 5000);
         setInterval(updateUptime, 60000);
+        setInterval(fetchCryptoPrices, 60000);  // Update prices every minute
 
         // Service Worker Registration for PWA
         if ('serviceWorker' in navigator) {

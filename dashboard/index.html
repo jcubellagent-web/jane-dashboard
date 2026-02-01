@@ -2138,6 +2138,66 @@
             transform: scale(1) translateY(0) translateX(180px);
         }
 
+        /* Native mobile device styling (actual phones, not desktop preview) */
+        body.native-mobile {
+            padding: 0;
+        }
+        
+        body.native-mobile .main-container {
+            padding: 0.5rem;
+            max-width: 100%;
+        }
+        
+        body.native-mobile .dashboard {
+            width: 100%;
+            max-width: 100%;
+            padding: 0;
+        }
+        
+        body.native-mobile .mobile-frame {
+            display: none !important;
+        }
+        
+        body.native-mobile header {
+            padding: 0.5rem 1rem;
+        }
+        
+        body.native-mobile .logo h1 {
+            font-size: 1rem;
+        }
+        
+        body.native-mobile .chat-fab {
+            bottom: 20px;
+            right: 20px;
+            transform: none;
+        }
+        
+        body.native-mobile .chat-panel {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            width: 100%;
+            max-width: 100%;
+            height: 70vh;
+            border-radius: 20px 20px 0 0;
+            transform: translateY(100%);
+        }
+        
+        body.native-mobile .chat-panel.open {
+            transform: translateY(0);
+        }
+        
+        /* Hide view toggle buttons on native mobile */
+        body.native-mobile .view-btn {
+            display: none;
+        }
+        
+        /* Hide reorder toolbar on native mobile (use touch to scroll) */
+        body.native-mobile .mobile-reorder-toolbar {
+            display: none !important;
+        }
+
         .layout-btn {
             background: rgba(255,255,255,0.1);
             border: 1px solid var(--border);
@@ -5284,12 +5344,18 @@
                 if (desktopBtn) desktopBtn.classList.remove('active');
                 if (mobileBtn) mobileBtn.classList.add('active');
                 
-                // Wrap dashboard in mobile frame if not already
-                if (mainContainer && dashboard && !document.querySelector('.mobile-frame')) {
+                // Only show decorative phone frame on desktop (not on actual mobile devices)
+                const onRealMobile = isActualMobileDevice();
+                if (!onRealMobile && mainContainer && dashboard && !document.querySelector('.mobile-frame')) {
                     const frame = document.createElement('div');
                     frame.className = 'mobile-frame';
                     mainContainer.insertBefore(frame, dashboard);
                     frame.appendChild(dashboard);
+                }
+                
+                // On actual mobile, add class for native mobile styling
+                if (onRealMobile) {
+                    document.body.classList.add('native-mobile');
                 }
             } else {
                 document.body.classList.remove('mobile-preview');
@@ -5305,15 +5371,39 @@
             }
         }
         
-        // Load saved view preference on startup
+        // Detect if running on actual mobile device
+        function isActualMobileDevice() {
+            // Check user agent for mobile devices
+            const mobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            // Also check screen width (most phones are under 768px)
+            const smallScreen = window.innerWidth <= 768;
+            // Check for touch capability
+            const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            
+            return mobileUA || (smallScreen && hasTouch);
+        }
+        
+        // Load saved view preference on startup (with mobile auto-detect)
         (function() {
-            const savedView = localStorage.getItem('jane-dashboard-view') || 'desktop';
-            window.currentView = savedView;
+            const savedView = localStorage.getItem('jane-dashboard-view');
+            let viewToUse;
+            
+            if (savedView) {
+                // User has a saved preference, use it
+                viewToUse = savedView;
+            } else {
+                // No saved preference - auto-detect based on device
+                viewToUse = isActualMobileDevice() ? 'mobile' : 'desktop';
+                // Save the auto-detected preference
+                localStorage.setItem('jane-dashboard-view', viewToUse);
+            }
+            
+            window.currentView = viewToUse;
             // Apply view mode after DOM is ready
             if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', () => applyViewMode(savedView));
+                document.addEventListener('DOMContentLoaded', () => applyViewMode(viewToUse));
             } else {
-                applyViewMode(savedView);
+                applyViewMode(viewToUse);
             }
         })();
         

@@ -1050,6 +1050,160 @@
             color: var(--text-primary);
         }
 
+        /* TikTok Growth Section */
+        .tiktok-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .tiktok-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+
+        .tiktok-stat {
+            text-align: center;
+            padding: 0.75rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+
+        .tiktok-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .tiktok-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .tiktok-stat-change {
+            font-size: 0.7rem;
+            margin-top: 0.25rem;
+        }
+
+        .tiktok-stat-change.up { color: var(--accent); }
+        .tiktok-stat-change.down { color: #ef4444; }
+
+        .tiktok-milestones {
+            background: rgba(0,0,0,0.15);
+            border-radius: 10px;
+            padding: 0.75rem;
+        }
+
+        .milestone-header, .videos-header {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .milestone-item {
+            margin-bottom: 0.6rem;
+        }
+
+        .milestone-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .milestone-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .milestone-icon {
+            font-size: 0.9rem;
+        }
+
+        .milestone-name {
+            font-size: 0.75rem;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .milestone-req {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+
+        .milestone-progress {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .milestone-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .milestone-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff0050, #00f2ea);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .milestone-percent {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            min-width: 35px;
+            text-align: right;
+        }
+
+        .recent-videos {
+            background: rgba(0,0,0,0.15);
+            border-radius: 10px;
+            padding: 0.75rem;
+        }
+
+        .video-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 6px;
+            margin-bottom: 0.4rem;
+            font-size: 0.75rem;
+        }
+
+        .video-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .video-title {
+            font-weight: 500;
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-right: 0.5rem;
+        }
+
+        .video-stats {
+            display: flex;
+            gap: 0.75rem;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .video-stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+
         /* Footer */
         footer {
             grid-column: span 12;
@@ -1153,7 +1307,8 @@
         @media (max-width: 1200px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .hero-section { grid-column: span 12; }
-            .accounts-section { grid-column: span 12; }
+            .tiktok-section { grid-column: span 6; }
+            .accounts-section { grid-column: span 6; }
             .commands-section { grid-column: span 12; }
             .activity-section { grid-column: span 12; }
             .kanban-section { grid-column: span 12; }
@@ -1171,7 +1326,8 @@
             .hero-content { flex-direction: column; text-align: center; }
             .bottom-nav { display: flex; }
             .chat-toggle { display: none; }
-            .wallet-section, .crypto-section { grid-column: span 12; }
+            .wallet-section, .crypto-section, .tiktok-section, .accounts-section { grid-column: span 12; }
+            .tiktok-stats-grid { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
 </head>
@@ -1279,6 +1435,85 @@
                         <h2 id="greeting">Hey Josh! 👋</h2>
                         <p id="greeting-sub">I'm Jane, your personal AI assistant. Use this dashboard as your command center — check tasks, monitor accounts, or chat with me directly. I'm always here to help.</p>
                     </div>
+                </div>
+            </div>
+
+            <!-- TikTok Growth Stats -->
+            <div class="card tiktok-section" style="grid-column: span 4;">
+                <div class="card-header">
+                    <div class="card-title">🎵 TikTok Growth</div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 0.7rem; color: var(--text-secondary);" id="tiktok-updated">--</span>
+                        <button class="refresh-btn" onclick="fetchTikTokStats()" title="Refresh">↻</button>
+                    </div>
+                </div>
+                
+                <!-- Main Stats -->
+                <div class="tiktok-stats-grid">
+                    <div class="tiktok-stat">
+                        <div class="tiktok-stat-value" id="tt-followers">--</div>
+                        <div class="tiktok-stat-label">Followers</div>
+                        <div class="tiktok-stat-change up" id="tt-followers-change">--</div>
+                    </div>
+                    <div class="tiktok-stat">
+                        <div class="tiktok-stat-value" id="tt-likes">--</div>
+                        <div class="tiktok-stat-label">Total Likes</div>
+                        <div class="tiktok-stat-change up" id="tt-likes-change">--</div>
+                    </div>
+                    <div class="tiktok-stat">
+                        <div class="tiktok-stat-value" id="tt-videos">--</div>
+                        <div class="tiktok-stat-label">Videos</div>
+                    </div>
+                </div>
+                
+                <!-- Monetization Progress -->
+                <div class="tiktok-milestones">
+                    <div class="milestone-header">📈 Path to Monetization</div>
+                    <div class="milestone-item" id="milestone-live">
+                        <div class="milestone-info">
+                            <span class="milestone-icon">🎁</span>
+                            <span class="milestone-name">LIVE Gifts</span>
+                            <span class="milestone-req">1,000 followers</span>
+                        </div>
+                        <div class="milestone-progress">
+                            <div class="milestone-bar">
+                                <div class="milestone-fill" id="live-progress" style="width: 0%"></div>
+                            </div>
+                            <span class="milestone-percent" id="live-percent">0%</span>
+                        </div>
+                    </div>
+                    <div class="milestone-item" id="milestone-fund">
+                        <div class="milestone-info">
+                            <span class="milestone-icon">💰</span>
+                            <span class="milestone-name">Creator Fund</span>
+                            <span class="milestone-req">10,000 followers</span>
+                        </div>
+                        <div class="milestone-progress">
+                            <div class="milestone-bar">
+                                <div class="milestone-fill" id="fund-progress" style="width: 0%"></div>
+                            </div>
+                            <span class="milestone-percent" id="fund-percent">0%</span>
+                        </div>
+                    </div>
+                    <div class="milestone-item" id="milestone-marketplace">
+                        <div class="milestone-info">
+                            <span class="milestone-icon">🏪</span>
+                            <span class="milestone-name">Creator Marketplace</span>
+                            <span class="milestone-req">100,000 followers</span>
+                        </div>
+                        <div class="milestone-progress">
+                            <div class="milestone-bar">
+                                <div class="milestone-fill" id="marketplace-progress" style="width: 0%"></div>
+                            </div>
+                            <span class="milestone-percent" id="marketplace-percent">0%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Video Performance -->
+                <div class="recent-videos">
+                    <div class="videos-header">🎬 Recent Videos</div>
+                    <div id="recent-videos-list"></div>
                 </div>
             </div>
 
@@ -2080,8 +2315,87 @@
             }
         }
 
+        // Fetch TikTok Stats
+        async function fetchTikTokStats() {
+            try {
+                const response = await fetch('/tiktok-stats.json?' + Date.now());
+                if (!response.ok) throw new Error('Failed to load TikTok stats');
+                const data = await response.json();
+                
+                // Update main stats
+                document.getElementById('tt-followers').textContent = data.profile.followers.toLocaleString();
+                document.getElementById('tt-likes').textContent = data.profile.totalLikes.toLocaleString();
+                document.getElementById('tt-videos').textContent = data.recentVideos?.length || '--';
+                
+                // Calculate growth (if history available)
+                if (data.history && data.history.length >= 2) {
+                    const prev = data.history[data.history.length - 2];
+                    const curr = data.history[data.history.length - 1];
+                    
+                    const followerGrowth = curr.followers - prev.followers;
+                    const likesGrowth = curr.likes - prev.likes;
+                    
+                    const fgEl = document.getElementById('tt-followers-change');
+                    fgEl.textContent = (followerGrowth >= 0 ? '+' : '') + followerGrowth + ' today';
+                    fgEl.className = 'tiktok-stat-change ' + (followerGrowth >= 0 ? 'up' : 'down');
+                    
+                    const lgEl = document.getElementById('tt-likes-change');
+                    lgEl.textContent = (likesGrowth >= 0 ? '+' : '') + likesGrowth + ' today';
+                    lgEl.className = 'tiktok-stat-change ' + (likesGrowth >= 0 ? 'up' : 'down');
+                }
+                
+                // Update milestones
+                const followers = data.profile.followers;
+                
+                // LIVE Gifts (1,000)
+                const livePercent = Math.min(100, (followers / 1000) * 100);
+                document.getElementById('live-progress').style.width = livePercent + '%';
+                document.getElementById('live-percent').textContent = livePercent.toFixed(1) + '%';
+                
+                // Creator Fund (10,000)
+                const fundPercent = Math.min(100, (followers / 10000) * 100);
+                document.getElementById('fund-progress').style.width = fundPercent + '%';
+                document.getElementById('fund-percent').textContent = fundPercent.toFixed(1) + '%';
+                
+                // Creator Marketplace (100,000)
+                const marketPercent = Math.min(100, (followers / 100000) * 100);
+                document.getElementById('marketplace-progress').style.width = marketPercent + '%';
+                document.getElementById('marketplace-percent').textContent = marketPercent.toFixed(2) + '%';
+                
+                // Update recent videos
+                const videosList = document.getElementById('recent-videos-list');
+                if (data.recentVideos && data.recentVideos.length > 0) {
+                    let html = '';
+                    data.recentVideos.slice(0, 4).forEach(video => {
+                        html += `
+                            <div class="video-item">
+                                <span class="video-title">${video.title}</span>
+                                <div class="video-stats">
+                                    <span>👁️ ${video.views.toLocaleString()}</span>
+                                    <span>❤️ ${video.likes}</span>
+                                    <span>💬 ${video.comments}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    videosList.innerHTML = html;
+                } else {
+                    videosList.innerHTML = '<div style="font-size: 0.75rem; color: var(--text-secondary); text-align: center;">No recent videos</div>';
+                }
+                
+                // Update timestamp
+                const updated = new Date(data.lastUpdated);
+                document.getElementById('tiktok-updated').textContent = 'Updated ' + updated.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                
+            } catch (error) {
+                console.error('Failed to load TikTok stats:', error);
+                document.getElementById('tiktok-updated').textContent = 'Error loading';
+            }
+        }
+
         // Initialize
         loadTasks();
+        fetchTikTokStats();
         fetchTradingPositions();
         setInterval(fetchTradingPositions, 30000);  // Update every 30 seconds
         updateUptime();
@@ -2093,6 +2407,7 @@
         setInterval(fetchCryptoPrices, 60000);  // Update prices every minute
         setInterval(fetchWeather, 600000);  // Update weather every 10 minutes
         setInterval(fetchWalletBalances, 120000);  // Update wallet balances every 2 minutes
+        setInterval(fetchTikTokStats, 300000);  // Update TikTok stats every 5 minutes
 
         // Check gateway status
         async function checkGatewayStatus() {

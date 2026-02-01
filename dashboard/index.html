@@ -9,6 +9,9 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
     <title>Jane Dashboard 🌿</title>
+    <!-- GridStack.js for drag & drop -->
+    <link href="https://cdn.jsdelivr.net/npm/gridstack@10.0.1/dist/gridstack.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/gridstack@10.0.1/dist/gridstack-all.js"></script>
     <style>
         * {
             margin: 0;
@@ -1617,6 +1620,98 @@
             font-size: 0.75rem;
         }
 
+        /* GridStack Layout Controls */
+        .layout-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: 1rem;
+        }
+
+        .layout-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .layout-btn:hover {
+            background: rgba(255,255,255,0.15);
+            color: var(--text-primary);
+        }
+
+        .layout-btn.active {
+            background: rgba(74, 222, 128, 0.2);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .layout-btn.danger:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        /* GridStack Overrides */
+        .grid-stack {
+            background: transparent !important;
+        }
+
+        .grid-stack > .grid-stack-item > .grid-stack-item-content {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: auto;
+            transition: border-color 0.2s;
+        }
+
+        .grid-stack > .grid-stack-item > .grid-stack-item-content:hover {
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .edit-mode .grid-stack-item-content {
+            border: 2px dashed var(--accent) !important;
+            cursor: move;
+        }
+
+        .edit-mode .widget-drag-handle {
+            display: flex !important;
+        }
+
+        .widget-drag-handle {
+            display: none;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--accent);
+            color: #000;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            z-index: 100;
+            cursor: move;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .grid-stack .card {
+            background: transparent !important;
+            border: none !important;
+            height: 100%;
+        }
+
+        .grid-stack .card:hover {
+            transform: none;
+        }
+
         /* Toast notifications */
         .toast {
             position: fixed;
@@ -1752,6 +1847,14 @@
                 <span id="status-text">Checking...</span>
             </div>
             <div class="time" id="current-time">--:--</div>
+            <div class="layout-controls">
+                <button class="layout-btn" id="edit-layout-btn" onclick="toggleEditMode()">
+                    🔧 Edit Layout
+                </button>
+                <button class="layout-btn danger" id="reset-layout-btn" onclick="resetLayout()" style="display:none;">
+                    ↺ Reset
+                </button>
+            </div>
             <button class="chat-toggle" onclick="toggleChat()" title="Cmd+K">
                 💬 Chat with Jane <kbd style="background: rgba(0,0,0,0.3); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.7rem; margin-left: 0.5rem;">⌘K</kbd>
             </button>
@@ -1759,9 +1862,9 @@
     </header>
 
     <div class="main-container">
-        <div class="dashboard">
-            <!-- Quick Stats -->
-            <div class="stats-grid">
+        <div class="dashboard" id="dashboard-container">
+            <!-- Quick Stats (data-widget for GridStack) -->
+            <div class="stats-grid" data-widget="stats" data-gs-w="12" data-gs-h="1" data-gs-no-resize="true">
                 <div class="stat-card">
                     <div class="stat-icon green">⏱️</div>
                     <div class="stat-info">
@@ -1800,7 +1903,7 @@
             </div>
             
             <!-- System Monitor -->
-            <div class="card system-section" style="grid-column: span 4;">
+            <div class="card system-section" data-widget="system" data-gs-w="4" data-gs-h="2">
                 <div class="card-header">
                     <div class="card-title">🖥️ Mac Mini Status</div>
                     <button class="refresh-btn" onclick="fetchSystemStats()" title="Refresh">↻</button>
@@ -1835,7 +1938,7 @@
             </div>
 
             <!-- Mindmap - Second Brain Summary -->
-            <div class="card mindmap-section" style="grid-column: span 4;">
+            <div class="card mindmap-section" data-widget="mindmap" data-gs-w="4" data-gs-h="3">
                 <div class="card-header">
                     <div class="card-title">🧠 Mindmap</div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -1943,7 +2046,7 @@
             </div>
 
             <!-- Connected Accounts -->
-            <div class="card accounts-section">
+            <div class="card accounts-section" data-widget="accounts" data-gs-w="4" data-gs-h="2">
                 <div class="card-header">
                     <div class="card-title">🔗 Connected Accounts</div>
                 </div>
@@ -1982,7 +2085,7 @@
             </div>
 
             <!-- AI News -->
-            <div class="card ai-news-section">
+            <div class="card ai-news-section" data-widget="ai-news" data-gs-w="8" data-gs-h="3">
                 <div class="card-header">
                     <div class="card-title">🤖 Latest in AI</div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -2064,7 +2167,7 @@
             </div>
 
             <!-- TikTok Growth Stats -->
-            <div class="card tiktok-section" style="grid-column: span 4;">
+            <div class="card tiktok-section" data-widget="tiktok" data-gs-w="4" data-gs-h="3">
                 <div class="card-header">
                     <div class="card-title">🎵 TikTok Growth</div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -2143,7 +2246,7 @@
             </div>
 
             <!-- Work Intel -->
-            <div class="card work-intel-section" style="grid-column: span 6;">
+            <div class="card work-intel-section" data-widget="work-intel" data-gs-w="6" data-gs-h="4">
                 <div class="card-header">
                     <div class="card-title">💼 Work Intel - Nasdaq</div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -2228,7 +2331,7 @@
             </div>
 
             <!-- Quick Commands -->
-            <div class="card commands-section">
+            <div class="card commands-section" data-widget="commands" data-gs-w="6" data-gs-h="2">
                 <div class="card-header">
                     <div class="card-title">⚡ Quick Commands</div>
                 </div>
@@ -2261,7 +2364,7 @@
             </div>
 
             <!-- Recent Activity -->
-            <div class="card activity-section">
+            <div class="card activity-section" data-widget="activity" data-gs-w="6" data-gs-h="2">
                 <div class="card-header">
                     <div class="card-title">📊 Today's Activity</div>
                 </div>
@@ -2302,7 +2405,7 @@
             </div>
 
             <!-- Kanban Mini Board -->
-            <div class="card kanban-section">
+            <div class="card kanban-section" data-widget="kanban" data-gs-w="8" data-gs-h="2">
                 <div class="card-header">
                     <div class="card-title">📋 Task Board</div>
                     <a href="/kanban/" style="font-size: 0.75rem; color: var(--accent); text-decoration: none;">View Full Board →</a>
@@ -2336,7 +2439,7 @@
             </div>
 
             <!-- Wallets -->
-            <div class="card wallet-section">
+            <div class="card wallet-section" data-widget="wallet" data-gs-w="4" data-gs-h="2">
                 <div class="card-header">
                     <div class="card-title">👻 Solana Wallets</div>
                     <button class="refresh-btn" onclick="fetchWalletBalances()" title="Refresh">↻</button>
@@ -2364,7 +2467,7 @@
             </div>
 
             <!-- Crypto Prices -->
-            <div class="card crypto-section">
+            <div class="card crypto-section" data-widget="crypto" data-gs-w="4" data-gs-h="2">
                 <div class="card-header">
                     <div class="card-title">📈 Crypto Prices</div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -2416,7 +2519,7 @@
             </div>
 
             <!-- Trading Positions -->
-            <div class="card trading-section" style="grid-column: span 12;">
+            <div class="card trading-section" data-widget="trading" data-gs-w="12" data-gs-h="3">
                 <div class="card-header">
                     <div class="card-title">📈 Active Trades</div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -3270,6 +3373,159 @@
         // Initialize system stats
         fetchSystemStats();
         setInterval(fetchSystemStats, 60000);  // Update every minute
+
+        // ========================================
+        // GridStack Layout System
+        // ========================================
+        
+        let grid = null;
+        let isEditMode = false;
+        const LAYOUT_KEY = 'jane-dashboard-layout-v1';
+        
+        // Default widget layout (order and position)
+        const DEFAULT_LAYOUT = [
+            { id: 'stats', x: 0, y: 0, w: 12, h: 1, noResize: true },
+            { id: 'system', x: 0, y: 1, w: 4, h: 2 },
+            { id: 'mindmap', x: 4, y: 1, w: 4, h: 3 },
+            { id: 'accounts', x: 8, y: 1, w: 4, h: 2 },
+            { id: 'ai-news', x: 0, y: 3, w: 8, h: 3 },
+            { id: 'tiktok', x: 8, y: 3, w: 4, h: 3 },
+            { id: 'work-intel', x: 0, y: 6, w: 6, h: 4 },
+            { id: 'commands', x: 6, y: 6, w: 6, h: 2 },
+            { id: 'activity', x: 6, y: 8, w: 6, h: 2 },
+            { id: 'kanban', x: 0, y: 10, w: 8, h: 2 },
+            { id: 'wallet', x: 8, y: 10, w: 4, h: 2 },
+            { id: 'crypto', x: 0, y: 12, w: 4, h: 2 },
+            { id: 'trading', x: 0, y: 14, w: 12, h: 3 }
+        ];
+        
+        // Initialize GridStack
+        function initGridStack() {
+            const container = document.getElementById('dashboard-container');
+            if (!container || typeof GridStack === 'undefined') return;
+            
+            // Get all widgets with data-widget attribute
+            const widgets = container.querySelectorAll('[data-widget]');
+            if (widgets.length === 0) return;
+            
+            // Load saved layout or use default
+            const savedLayout = loadLayout();
+            
+            // Convert widgets to GridStack format
+            const items = [];
+            widgets.forEach(widget => {
+                const widgetId = widget.dataset.widget;
+                const saved = savedLayout?.find(l => l.id === widgetId);
+                const defaults = DEFAULT_LAYOUT.find(d => d.id === widgetId) || { w: 4, h: 2 };
+                
+                // Clone widget content
+                const content = widget.outerHTML;
+                
+                items.push({
+                    id: widgetId,
+                    x: saved?.x ?? defaults.x ?? 0,
+                    y: saved?.y ?? defaults.y ?? 0,
+                    w: saved?.w ?? defaults.w ?? 4,
+                    h: saved?.h ?? defaults.h ?? 2,
+                    noResize: defaults.noResize || false,
+                    content: `<div class="widget-drag-handle">⋮⋮ drag</div>${content}`
+                });
+                
+                // Remove original widget
+                widget.remove();
+            });
+            
+            // Sort by y then x for proper order
+            items.sort((a, b) => (a.y * 100 + a.x) - (b.y * 100 + b.x));
+            
+            // Add grid-stack class to container
+            container.classList.add('grid-stack');
+            
+            // Initialize GridStack
+            grid = GridStack.init({
+                column: 12,
+                cellHeight: 80,
+                margin: 8,
+                float: true,
+                animate: true,
+                draggable: { handle: '.widget-drag-handle' },
+                resizable: { handles: 'se,sw' },
+                disableDrag: true,
+                disableResize: true
+            }, container);
+            
+            // Add widgets
+            grid.load(items);
+            
+            // Save on change
+            grid.on('change', saveLayout);
+        }
+        
+        // Toggle edit mode
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            const editBtn = document.getElementById('edit-layout-btn');
+            const resetBtn = document.getElementById('reset-layout-btn');
+            const container = document.getElementById('dashboard-container');
+            
+            if (isEditMode) {
+                editBtn.classList.add('active');
+                editBtn.innerHTML = '✓ Done Editing';
+                resetBtn.style.display = 'flex';
+                container.classList.add('edit-mode');
+                grid?.enable();
+                showToast('Drag widgets to rearrange. Click "Done" when finished.');
+            } else {
+                editBtn.classList.remove('active');
+                editBtn.innerHTML = '🔧 Edit Layout';
+                resetBtn.style.display = 'none';
+                container.classList.remove('edit-mode');
+                grid?.disable();
+                saveLayout();
+                showToast('Layout saved!');
+            }
+        }
+        
+        // Save layout to localStorage
+        function saveLayout() {
+            if (!grid) return;
+            const items = grid.getGridItems().map(el => {
+                const node = el.gridstackNode;
+                return {
+                    id: node.id,
+                    x: node.x,
+                    y: node.y,
+                    w: node.w,
+                    h: node.h
+                };
+            });
+            localStorage.setItem(LAYOUT_KEY, JSON.stringify(items));
+        }
+        
+        // Load layout from localStorage
+        function loadLayout() {
+            try {
+                const saved = localStorage.getItem(LAYOUT_KEY);
+                return saved ? JSON.parse(saved) : null;
+            } catch (e) {
+                return null;
+            }
+        }
+        
+        // Reset layout to default
+        function resetLayout() {
+            if (!confirm('Reset layout to default? This cannot be undone.')) return;
+            localStorage.removeItem(LAYOUT_KEY);
+            location.reload();
+        }
+        
+        // Initialize after DOM is ready
+        document.addEventListener('DOMContentLoaded', initGridStack);
+        
+        // Also try initializing now if DOM is already ready
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            setTimeout(initGridStack, 100);
+        }
     </script>
 </body>
 </html>

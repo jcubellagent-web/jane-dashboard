@@ -2809,32 +2809,13 @@
             document.getElementById('tasks-done').textContent = counts['done'];
         }
 
-        // Calculate uptime (time since midnight or session start)
+        // Calculate uptime (time since midnight today)
         function updateUptime() {
-            // Use localStorage to persist boot time across refreshes
-            let bootTime;
-            const storedBoot = localStorage.getItem('jane-dashboard-boot');
-            const today = new Date().toDateString();
-            
-            if (storedBoot) {
-                const stored = JSON.parse(storedBoot);
-                // Reset if it's a new day
-                if (stored.date === today) {
-                    bootTime = new Date(stored.time);
-                } else {
-                    // New day - reset to midnight
-                    bootTime = new Date();
-                    bootTime.setHours(0, 0, 0, 0);
-                    localStorage.setItem('jane-dashboard-boot', JSON.stringify({ date: today, time: bootTime.toISOString() }));
-                }
-            } else {
-                // First visit today - use midnight
-                bootTime = new Date();
-                bootTime.setHours(0, 0, 0, 0);
-                localStorage.setItem('jane-dashboard-boot', JSON.stringify({ date: today, time: bootTime.toISOString() }));
-            }
-            
+            // Simple: just show time since midnight today
             const now = new Date();
+            const midnight = new Date();
+            midnight.setHours(0, 0, 0, 0);
+            
             const diff = now - bootTime;
             const hours = Math.floor(diff / (1000 * 60 * 60));
             const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));

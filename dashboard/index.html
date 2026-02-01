@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
-    <title>Jane Dashboard</title>
+    <title>Jane Dashboard 🌿</title>
     <style>
         * {
             margin: 0;
@@ -20,6 +20,7 @@
             --bg-primary: #0f172a;
             --bg-secondary: #1e293b;
             --bg-card: rgba(30, 41, 59, 0.8);
+            --bg-chat: rgba(15, 23, 42, 0.95);
             --accent: #4ade80;
             --accent-blue: #60a5fa;
             --accent-purple: #a78bfa;
@@ -28,6 +29,8 @@
             --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
             --border: rgba(255,255,255,0.1);
+            --chat-user: #3b82f6;
+            --chat-jane: #4ade80;
         }
 
         body {
@@ -95,10 +98,10 @@
             color: var(--accent);
         }
 
-        .header-status {
+        .header-actions {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
         .status-indicator {
@@ -122,19 +125,250 @@
             50% { opacity: 0.8; box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
         }
 
+        .chat-toggle {
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            border: none;
+            border-radius: 12px;
+            padding: 0.75rem 1.25rem;
+            color: #000;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(74, 222, 128, 0.3);
+        }
+
         .time {
             font-size: 0.875rem;
             color: var(--text-secondary);
         }
 
-        /* Main Grid */
+        /* Main Layout */
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 73px);
+        }
+
+        /* Dashboard Content */
         .dashboard {
+            flex: 1;
             display: grid;
             grid-template-columns: repeat(12, 1fr);
             gap: 1.5rem;
             padding: 2rem;
-            max-width: 1800px;
+            max-width: 1400px;
             margin: 0 auto;
+            align-content: start;
+        }
+
+        /* Chat Panel */
+        .chat-panel {
+            width: 400px;
+            background: var(--bg-chat);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            right: -420px;
+            top: 73px;
+            height: calc(100vh - 73px);
+            transition: right 0.3s ease;
+            z-index: 50;
+        }
+
+        .chat-panel.open {
+            right: 0;
+        }
+
+        .chat-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            line-height: 1;
+        }
+
+        .close-chat:hover {
+            color: var(--text-primary);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 0.75rem 1rem;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            animation: messageIn 0.3s ease;
+        }
+
+        @keyframes messageIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: var(--chat-user);
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.jane {
+            align-self: flex-start;
+            background: rgba(74, 222, 128, 0.2);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .message.user .message-time {
+            text-align: right;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            padding: 0.75rem 1rem;
+            background: rgba(74, 222, 128, 0.2);
+            border-radius: 16px;
+            border-bottom-left-radius: 4px;
+        }
+
+        .typing-indicator.visible {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+
+        .chat-input-container {
+            padding: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-btn:hover {
+            background: rgba(74, 222, 128, 0.2);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .chat-input-row {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .chat-input:focus {
+            border-color: var(--accent);
+        }
+
+        .chat-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .send-btn {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            border: none;
+            border-radius: 50%;
+            color: #000;
+            font-size: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         /* Card Base */
@@ -220,59 +454,40 @@
             color: var(--text-secondary);
         }
 
-        /* Kanban Mini */
-        .kanban-section {
+        /* Welcome/Hero Section */
+        .hero-section {
             grid-column: span 8;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(96, 165, 250, 0.15));
+            border: 1px solid rgba(74, 222, 128, 0.3);
         }
 
-        .kanban-columns {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .kanban-column {
-            background: rgba(0,0,0,0.2);
-            border-radius: 12px;
-            padding: 0.75rem;
-            min-height: 200px;
-        }
-
-        .kanban-column-header {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 0.75rem;
+        .hero-content {
             display: flex;
-            justify-content: space-between;
+            gap: 2rem;
             align-items: center;
         }
 
-        .kanban-column-header .count {
-            background: rgba(255,255,255,0.1);
-            padding: 0.15rem 0.5rem;
-            border-radius: 8px;
+        .hero-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            flex-shrink: 0;
         }
 
-        .mini-task {
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px;
-            padding: 0.6rem 0.75rem;
+        .hero-text h2 {
+            font-size: 1.5rem;
             margin-bottom: 0.5rem;
-            font-size: 0.8rem;
-            border-left: 2px solid transparent;
-            cursor: pointer;
-            transition: all 0.2s;
         }
 
-        .mini-task:hover {
-            background: rgba(255,255,255,0.1);
+        .hero-text p {
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
-
-        .mini-task.high { border-left-color: #ef4444; }
-        .mini-task.medium { border-left-color: #f59e0b; }
-        .mini-task.low { border-left-color: var(--accent); }
 
         /* Accounts Section */
         .accounts-section {
@@ -288,6 +503,10 @@
             border-radius: 10px;
             margin-bottom: 0.75rem;
             transition: all 0.2s;
+        }
+
+        .account-item:last-child {
+            margin-bottom: 0;
         }
 
         .account-item:hover {
@@ -332,6 +551,53 @@
             color: var(--accent);
         }
 
+        /* Quick Commands */
+        .commands-section {
+            grid-column: span 6;
+        }
+
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        .command-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .command-btn:hover {
+            background: rgba(0,0,0,0.3);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .command-btn .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .command-btn span {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
         /* Activity Feed */
         .activity-section {
             grid-column: span 6;
@@ -361,6 +627,10 @@
         .activity-dot.purple { background: var(--accent-purple); }
         .activity-dot.orange { background: var(--accent-orange); }
 
+        .activity-content {
+            flex: 1;
+        }
+
         .activity-content h4 {
             font-size: 0.875rem;
             font-weight: 500;
@@ -375,56 +645,55 @@
         .activity-time {
             font-size: 0.7rem;
             color: var(--text-secondary);
-            margin-left: auto;
             white-space: nowrap;
         }
 
-        /* Quick Actions */
-        .actions-section {
-            grid-column: span 6;
+        /* Kanban Mini */
+        .kanban-section {
+            grid-column: span 8;
         }
 
-        .actions-grid {
+        .kanban-columns {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
         }
 
-        .action-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem;
+        .kanban-column {
             background: rgba(0,0,0,0.2);
-            border: 1px solid var(--border);
             border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: var(--text-primary);
-            text-decoration: none;
+            padding: 0.75rem;
+            min-height: 150px;
         }
 
-        .action-btn:hover {
-            background: rgba(0,0,0,0.3);
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        .action-btn .icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+        .kanban-column-header {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            background: rgba(255,255,255,0.1);
         }
 
-        .action-btn span {
-            font-size: 0.875rem;
-            font-weight: 500;
+        .kanban-column-header .count {
+            background: rgba(255,255,255,0.1);
+            padding: 0.15rem 0.5rem;
+            border-radius: 8px;
         }
+
+        .mini-task {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 0.6rem 0.75rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            border-left: 2px solid transparent;
+        }
+
+        .mini-task.high { border-left-color: #ef4444; }
+        .mini-task.medium { border-left-color: #f59e0b; }
+        .mini-task.low { border-left-color: var(--accent); }
 
         /* Wallet Section */
         .wallet-section {
@@ -452,88 +721,71 @@
 
         .wallet-address {
             font-family: monospace;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             background: rgba(0,0,0,0.3);
             padding: 0.5rem;
             border-radius: 8px;
             text-align: center;
             color: var(--text-secondary);
             word-break: break-all;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        /* Notes Section */
-        .notes-section {
-            grid-column: span 4;
-        }
-
-        .notes-content {
-            background: rgba(0,0,0,0.2);
-            border-radius: 12px;
-            padding: 1rem;
-            font-size: 0.875rem;
-            line-height: 1.6;
-            color: var(--text-secondary);
-            min-height: 150px;
-        }
-
-        .notes-content strong {
+        .wallet-address:hover {
+            background: rgba(0,0,0,0.4);
             color: var(--text-primary);
-        }
-
-        /* TikTok Stats */
-        .tiktok-section {
-            grid-column: span 4;
-        }
-
-        .tiktok-stat {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .tiktok-stat:last-child {
-            border-bottom: none;
-        }
-
-        .tiktok-stat-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
-
-        .tiktok-stat-value {
-            font-size: 1rem;
-            font-weight: 600;
         }
 
         /* Footer */
         footer {
+            grid-column: span 12;
             text-align: center;
-            padding: 2rem;
+            padding: 1rem;
             color: var(--text-secondary);
             font-size: 0.75rem;
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            color: var(--text-primary);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 200;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
         }
 
         /* Responsive */
         @media (max-width: 1200px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .kanban-section { grid-column: span 12; }
+            .hero-section { grid-column: span 12; }
             .accounts-section { grid-column: span 12; }
+            .commands-section { grid-column: span 12; }
             .activity-section { grid-column: span 12; }
-            .actions-section { grid-column: span 12; }
-            .wallet-section { grid-column: span 6; }
-            .notes-section { grid-column: span 6; }
-            .tiktok-section { grid-column: span 12; }
+            .kanban-section { grid-column: span 12; }
+            .wallet-section { grid-column: span 12; }
+            .chat-panel { width: 100%; right: -100%; }
         }
 
         @media (max-width: 768px) {
             .dashboard { padding: 1rem; gap: 1rem; }
             .stats-grid { grid-template-columns: 1fr; }
             .kanban-columns { grid-template-columns: repeat(2, 1fr); }
-            .wallet-section, .notes-section { grid-column: span 12; }
+            .commands-grid { grid-template-columns: 1fr; }
             header { padding: 1rem; }
-            .header-status { display: none; }
+            .hero-content { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
@@ -545,259 +797,266 @@
             <div class="logo-icon">🌿</div>
             <h1><span>Jane</span> Dashboard</h1>
         </div>
-        <div class="header-status">
+        <div class="header-actions">
             <div class="status-indicator">
                 <div class="status-dot"></div>
                 <span>Online</span>
             </div>
             <div class="time" id="current-time">--:--</div>
+            <button class="chat-toggle" onclick="toggleChat()">
+                💬 Chat with Jane
+            </button>
         </div>
     </header>
 
-    <div class="dashboard">
-        <!-- Quick Stats -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon green">✅</div>
-                <div class="stat-info">
-                    <h3 id="tasks-done">4</h3>
-                    <p>Tasks Completed</p>
+    <div class="main-container">
+        <div class="dashboard">
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon green">⏱️</div>
+                    <div class="stat-info">
+                        <h3 id="uptime">4h</h3>
+                        <p>Online Today</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon blue">💬</div>
+                    <div class="stat-info">
+                        <h3 id="messages-count">47</h3>
+                        <p>Messages Today</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple">✅</div>
+                    <div class="stat-info">
+                        <h3 id="tasks-done">4</h3>
+                        <p>Tasks Completed</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange">💰</div>
+                    <div class="stat-info">
+                        <h3 id="sol-balance">0.5 SOL</h3>
+                        <p>Wallet Balance</p>
+                    </div>
                 </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon blue">🔄</div>
-                <div class="stat-info">
-                    <h3 id="tasks-progress">1</h3>
-                    <p>In Progress</p>
+
+            <!-- Hero Welcome -->
+            <div class="card hero-section">
+                <div class="hero-content">
+                    <div class="hero-avatar">🌿</div>
+                    <div class="hero-text">
+                        <h2>Hey Josh! 👋</h2>
+                        <p>I'm Jane, your personal AI assistant. Use this dashboard as your command center — check tasks, monitor accounts, or chat with me directly. I'm always here to help.</p>
+                    </div>
                 </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon purple">📺</div>
-                <div class="stat-info">
-                    <h3 id="tiktok-videos">5</h3>
-                    <p>TikTok Episodes</p>
+
+            <!-- Connected Accounts -->
+            <div class="card accounts-section">
+                <div class="card-header">
+                    <div class="card-title">🔗 Connected Accounts</div>
+                </div>
+                <div class="account-item">
+                    <div class="account-icon whatsapp">💬</div>
+                    <div class="account-info">
+                        <h4>WhatsApp</h4>
+                        <p>Primary channel</p>
+                    </div>
+                    <span class="account-status">Active</span>
+                </div>
+                <div class="account-item">
+                    <div class="account-icon tiktok">🎵</div>
+                    <div class="account-info">
+                        <h4>TikTok</h4>
+                        <p>@degencollector</p>
+                    </div>
+                    <span class="account-status">Active</span>
+                </div>
+                <div class="account-item">
+                    <div class="account-icon x">𝕏</div>
+                    <div class="account-info">
+                        <h4>X / Twitter</h4>
+                        <p>@AgentJc11443</p>
+                    </div>
+                    <span class="account-status">Active</span>
+                </div>
+                <div class="account-item">
+                    <div class="account-icon gmail">📧</div>
+                    <div class="account-info">
+                        <h4>Gmail</h4>
+                        <p>jcubellagent@gmail.com</p>
+                    </div>
+                    <span class="account-status">Active</span>
                 </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon orange">💰</div>
-                <div class="stat-info">
-                    <h3 id="sol-balance">0.5</h3>
-                    <p>SOL Balance</p>
+
+            <!-- Quick Commands -->
+            <div class="card commands-section">
+                <div class="card-header">
+                    <div class="card-title">⚡ Quick Commands</div>
+                </div>
+                <div class="commands-grid">
+                    <button class="command-btn" onclick="sendCommand('Check my emails')">
+                        <div class="icon">📧</div>
+                        <span>Check Emails</span>
+                    </button>
+                    <button class="command-btn" onclick="sendCommand('What\'s on my calendar today?')">
+                        <div class="icon">📅</div>
+                        <span>Today's Calendar</span>
+                    </button>
+                    <button class="command-btn" onclick="sendCommand('Check the weather')">
+                        <div class="icon">🌤️</div>
+                        <span>Weather</span>
+                    </button>
+                    <button class="command-btn" onclick="sendCommand('What are my current tasks?')">
+                        <div class="icon">📋</div>
+                        <span>My Tasks</span>
+                    </button>
+                    <button class="command-btn" onclick="sendCommand('Check my TikTok notifications')">
+                        <div class="icon">🎵</div>
+                        <span>TikTok Updates</span>
+                    </button>
+                    <button class="command-btn" onclick="sendCommand('Check SOL wallet balance')">
+                        <div class="icon">💰</div>
+                        <span>Wallet Balance</span>
+                    </button>
                 </div>
             </div>
+
+            <!-- Recent Activity -->
+            <div class="card activity-section">
+                <div class="card-header">
+                    <div class="card-title">📊 Today's Activity</div>
+                </div>
+                <div id="activity-feed">
+                    <div class="activity-item">
+                        <div class="activity-dot green"></div>
+                        <div class="activity-content">
+                            <h4>Dashboard Portal Created</h4>
+                            <p>Built communication portal for direct messaging</p>
+                        </div>
+                        <span class="activity-time">Just now</span>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot blue"></div>
+                        <div class="activity-content">
+                            <h4>Webhooks Enabled</h4>
+                            <p>Dashboard can now send messages to Jane</p>
+                        </div>
+                        <span class="activity-time">Just now</span>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot purple"></div>
+                        <div class="activity-content">
+                            <h4>Mac Mini Optimized</h4>
+                            <p>Sleep prevention, ffmpeg, git workspace</p>
+                        </div>
+                        <span class="activity-time">30 min ago</span>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot orange"></div>
+                        <div class="activity-content">
+                            <h4>TikTok EP.4 Posted</h4>
+                            <p>Drake Maye Hunt series - 81 views</p>
+                        </div>
+                        <span class="activity-time">2 hrs ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kanban Mini Board -->
+            <div class="card kanban-section">
+                <div class="card-header">
+                    <div class="card-title">📋 Task Board</div>
+                    <a href="/kanban/" style="font-size: 0.75rem; color: var(--accent); text-decoration: none;">View Full Board →</a>
+                </div>
+                <div class="kanban-columns">
+                    <div class="kanban-column">
+                        <div class="kanban-column-header">
+                            Backlog <span class="count" id="backlog-count">0</span>
+                        </div>
+                        <div id="backlog-tasks"></div>
+                    </div>
+                    <div class="kanban-column">
+                        <div class="kanban-column-header">
+                            In Progress <span class="count" id="progress-count">0</span>
+                        </div>
+                        <div id="progress-tasks"></div>
+                    </div>
+                    <div class="kanban-column">
+                        <div class="kanban-column-header">
+                            Review <span class="count" id="review-count">0</span>
+                        </div>
+                        <div id="review-tasks"></div>
+                    </div>
+                    <div class="kanban-column">
+                        <div class="kanban-column-header">
+                            Done <span class="count" id="done-count">0</span>
+                        </div>
+                        <div id="done-tasks"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wallet -->
+            <div class="card wallet-section">
+                <div class="card-header">
+                    <div class="card-title">👻 Phantom Wallet</div>
+                </div>
+                <div class="wallet-balance">
+                    <h3>0.5 SOL</h3>
+                    <p>≈ $50.82 USD</p>
+                </div>
+                <div class="wallet-address" onclick="copyAddress()" title="Click to copy">
+                    ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L
+                </div>
+            </div>
+
+            <footer>
+                Jane 🌿 · Personal Assistant · First boot Jan 31, 2026 · Dashboard v2.0
+            </footer>
         </div>
 
-        <!-- Kanban Board -->
-        <div class="card kanban-section">
-            <div class="card-header">
-                <div class="card-title">📋 Task Board</div>
-                <a href="/kanban/" style="font-size: 0.75rem; color: var(--accent); text-decoration: none;">View Full Board →</a>
+        <!-- Chat Panel -->
+        <div class="chat-panel" id="chat-panel">
+            <div class="chat-header">
+                <h2>🌿 Chat with Jane</h2>
+                <button class="close-chat" onclick="toggleChat()">×</button>
             </div>
-            <div class="kanban-columns">
-                <div class="kanban-column">
-                    <div class="kanban-column-header">
-                        Backlog <span class="count" id="backlog-count">2</span>
-                    </div>
-                    <div id="backlog-tasks"></div>
-                </div>
-                <div class="kanban-column">
-                    <div class="kanban-column-header">
-                        In Progress <span class="count" id="progress-count">1</span>
-                    </div>
-                    <div id="progress-tasks"></div>
-                </div>
-                <div class="kanban-column">
-                    <div class="kanban-column-header">
-                        Review <span class="count" id="review-count">0</span>
-                    </div>
-                    <div id="review-tasks"></div>
-                </div>
-                <div class="kanban-column">
-                    <div class="kanban-column-header">
-                        Done <span class="count" id="done-count">4</span>
-                    </div>
-                    <div id="done-tasks"></div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message jane">
+                    Hey Josh! 👋 This is your direct line to me. Type anything here and I'll respond. You can also use the quick commands below!
+                    <div class="message-time">Just now</div>
                 </div>
             </div>
-        </div>
-
-        <!-- Connected Accounts -->
-        <div class="card accounts-section">
-            <div class="card-header">
-                <div class="card-title">🔗 Connected Accounts</div>
+            <div class="typing-indicator" id="typing">
+                <span></span><span></span><span></span>
             </div>
-            <div class="account-item">
-                <div class="account-icon whatsapp">💬</div>
-                <div class="account-info">
-                    <h4>WhatsApp</h4>
-                    <p>Primary channel</p>
+            <div class="chat-input-container">
+                <div class="quick-actions">
+                    <button class="quick-btn" onclick="quickSend('What\'s new?')">What's new?</button>
+                    <button class="quick-btn" onclick="quickSend('Check emails')">📧 Emails</button>
+                    <button class="quick-btn" onclick="quickSend('Weather')">🌤️ Weather</button>
+                    <button class="quick-btn" onclick="quickSend('Status')">📊 Status</button>
                 </div>
-                <span class="account-status">Connected</span>
-            </div>
-            <div class="account-item">
-                <div class="account-icon tiktok">🎵</div>
-                <div class="account-info">
-                    <h4>TikTok</h4>
-                    <p>@degencollector</p>
+                <div class="chat-input-row">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Type a message..." onkeypress="handleKeyPress(event)">
+                    <button class="send-btn" id="send-btn" onclick="sendMessage()">→</button>
                 </div>
-                <span class="account-status">Active</span>
-            </div>
-            <div class="account-item">
-                <div class="account-icon x">𝕏</div>
-                <div class="account-info">
-                    <h4>X / Twitter</h4>
-                    <p>@AgentJc11443</p>
-                </div>
-                <span class="account-status">Active</span>
-            </div>
-            <div class="account-item">
-                <div class="account-icon gmail">📧</div>
-                <div class="account-info">
-                    <h4>Gmail</h4>
-                    <p>jcubellagent@gmail.com</p>
-                </div>
-                <span class="account-status">Active</span>
-            </div>
-            <div class="account-item">
-                <div class="account-icon phantom">👻</div>
-                <div class="account-info">
-                    <h4>Phantom Wallet</h4>
-                    <p>Solana</p>
-                </div>
-                <span class="account-status">Connected</span>
-            </div>
-        </div>
-
-        <!-- Activity Feed -->
-        <div class="card activity-section">
-            <div class="card-header">
-                <div class="card-title">📊 Recent Activity</div>
-            </div>
-            <div id="activity-feed">
-                <div class="activity-item">
-                    <div class="activity-dot green"></div>
-                    <div class="activity-content">
-                        <h4>Kanban Dashboard Created</h4>
-                        <p>Built task tracking board for project management</p>
-                    </div>
-                    <span class="activity-time">Just now</span>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-dot blue"></div>
-                    <div class="activity-content">
-                        <h4>Claude Code Configured</h4>
-                        <p>API key set up and working</p>
-                    </div>
-                    <span class="activity-time">5 min ago</span>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-dot purple"></div>
-                    <div class="activity-content">
-                        <h4>Mac Mini Optimized</h4>
-                        <p>Sleep prevention, ffmpeg, git workspace</p>
-                    </div>
-                    <span class="activity-time">30 min ago</span>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-dot orange"></div>
-                    <div class="activity-content">
-                        <h4>TikTok EP.4 Posted</h4>
-                        <p>Drake Maye Hunt series - 81 views</p>
-                    </div>
-                    <span class="activity-time">2 hrs ago</span>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-dot green"></div>
-                    <div class="activity-content">
-                        <h4>Paper Trading Complete</h4>
-                        <p>$1,000 fake SOL session (-12.7% P&L)</p>
-                    </div>
-                    <span class="activity-time">3 hrs ago</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Quick Actions -->
-        <div class="card actions-section">
-            <div class="card-header">
-                <div class="card-title">⚡ Quick Actions</div>
-            </div>
-            <div class="actions-grid">
-                <a href="/kanban/" class="action-btn">
-                    <div class="icon">📋</div>
-                    <span>Open Task Board</span>
-                </a>
-                <a href="https://www.tiktok.com/@degencollector" target="_blank" class="action-btn">
-                    <div class="icon">🎵</div>
-                    <span>View TikTok</span>
-                </a>
-                <a href="https://x.com/AgentJc11443" target="_blank" class="action-btn">
-                    <div class="icon">𝕏</div>
-                    <span>View X Profile</span>
-                </a>
-                <a href="https://solscan.io/account/ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L" target="_blank" class="action-btn">
-                    <div class="icon">👻</div>
-                    <span>View Wallet</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- Wallet -->
-        <div class="card wallet-section">
-            <div class="card-header">
-                <div class="card-title">👻 Phantom Wallet</div>
-            </div>
-            <div class="wallet-balance">
-                <h3>0.5 SOL</h3>
-                <p>≈ $50.82 USD</p>
-            </div>
-            <div class="wallet-address">
-                ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L
-            </div>
-        </div>
-
-        <!-- TikTok Stats -->
-        <div class="card tiktok-section">
-            <div class="card-header">
-                <div class="card-title">📺 TikTok Stats</div>
-            </div>
-            <div class="tiktok-stat">
-                <span class="tiktok-stat-label">Account</span>
-                <span class="tiktok-stat-value">@degencollector</span>
-            </div>
-            <div class="tiktok-stat">
-                <span class="tiktok-stat-label">Followers</span>
-                <span class="tiktok-stat-value">354</span>
-            </div>
-            <div class="tiktok-stat">
-                <span class="tiktok-stat-label">Videos Posted</span>
-                <span class="tiktok-stat-value">24</span>
-            </div>
-            <div class="tiktok-stat">
-                <span class="tiktok-stat-label">Drake Maye Episodes</span>
-                <span class="tiktok-stat-value">5</span>
-            </div>
-        </div>
-
-        <!-- Notes -->
-        <div class="card notes-section">
-            <div class="card-header">
-                <div class="card-title">📝 Key Notes</div>
-            </div>
-            <div class="notes-content">
-                <strong>First day online:</strong> Jan 31, 2026<br><br>
-                <strong>Next up:</strong> Google Voice setup (Gmail needs to age a few days)<br><br>
-                <strong>Series:</strong> Drake Maye Hunt - hunting for Drake Maye cards in Panini packs<br><br>
-                <strong>Video specs:</strong> Max 30s, variable speed, 12 text overlays, 12% music volume
             </div>
         </div>
     </div>
 
-    <footer>
-        Jane 🌿 · Personal Assistant · Built Jan 31, 2026
-    </footer>
+    <div class="toast" id="toast"></div>
 
     <script>
+        // Configuration
+        const HOOK_URL = 'http://127.0.0.1:18789/hooks/agent';
+        const HOOK_TOKEN = '5c8d56dd45438059dddecbedb8a7123abaf72721153dc95d';
+
         // Update time
         function updateTime() {
             const now = new Date();
@@ -806,6 +1065,118 @@
         }
         updateTime();
         setInterval(updateTime, 1000);
+
+        // Chat panel toggle
+        function toggleChat() {
+            const panel = document.getElementById('chat-panel');
+            panel.classList.toggle('open');
+            if (panel.classList.contains('open')) {
+                document.getElementById('chat-input').focus();
+            }
+        }
+
+        // Send message to Jane via webhook
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Add user message to chat
+            addMessage(message, 'user');
+            input.value = '';
+
+            // Show typing indicator
+            document.getElementById('typing').classList.add('visible');
+
+            try {
+                const response = await fetch(HOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${HOOK_TOKEN}`
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        name: 'Dashboard',
+                        sessionKey: 'dashboard:chat',
+                        deliver: false  // Don't send to WhatsApp
+                    })
+                });
+
+                if (response.ok) {
+                    // Message sent successfully - Jane will process it
+                    setTimeout(() => {
+                        document.getElementById('typing').classList.remove('visible');
+                        addMessage("Message received! I'm processing your request. Check WhatsApp for my response, or I'll update here if I can.", 'jane');
+                    }, 1500);
+                } else {
+                    throw new Error('Failed to send');
+                }
+            } catch (error) {
+                document.getElementById('typing').classList.remove('visible');
+                addMessage("Hmm, I couldn't send that message. Make sure the gateway is running.", 'jane');
+                showToast('Failed to send message');
+            }
+        }
+
+        // Add message to chat UI
+        function addMessage(text, sender) {
+            const container = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `message ${sender}`;
+            
+            const time = new Date().toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit'
+            });
+            
+            div.innerHTML = `${escapeHtml(text)}<div class="message-time">${time}</div>`;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Quick send (from buttons)
+        function quickSend(text) {
+            document.getElementById('chat-input').value = text;
+            sendMessage();
+        }
+
+        // Send command (from dashboard buttons)
+        function sendCommand(command) {
+            toggleChat();  // Open chat panel
+            setTimeout(() => {
+                document.getElementById('chat-input').value = command;
+                sendMessage();
+            }, 300);
+        }
+
+        // Handle enter key
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Copy wallet address
+        function copyAddress() {
+            navigator.clipboard.writeText('ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L');
+            showToast('Address copied!');
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
         // Load tasks from shared storage
         function loadTasks() {
@@ -826,12 +1197,12 @@
             // Populate
             const counts = { 'backlog': 0, 'in-progress': 0, 'review': 0, 'done': 0 };
             
-            tasks.forEach(task => {
+            tasks.slice(0, 12).forEach(task => {  // Limit to 12 tasks
                 if (columns[task.status]) {
                     counts[task.status]++;
                     const div = document.createElement('div');
                     div.className = `mini-task ${task.priority}`;
-                    div.textContent = task.title;
+                    div.textContent = task.title.length > 30 ? task.title.slice(0, 30) + '...' : task.title;
                     columns[task.status].appendChild(div);
                 }
             });
@@ -844,13 +1215,23 @@
 
             // Update stats
             document.getElementById('tasks-done').textContent = counts['done'];
-            document.getElementById('tasks-progress').textContent = counts['in-progress'];
         }
 
-        loadTasks();
+        // Calculate uptime (hours since 2:45 PM today)
+        function updateUptime() {
+            const bootTime = new Date();
+            bootTime.setHours(14, 45, 0, 0);  // 2:45 PM
+            const now = new Date();
+            const hours = Math.floor((now - bootTime) / (1000 * 60 * 60));
+            const mins = Math.floor(((now - bootTime) % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById('uptime').textContent = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+        }
 
-        // Refresh tasks every 5 seconds
+        // Initialize
+        loadTasks();
+        updateUptime();
         setInterval(loadTasks, 5000);
+        setInterval(updateUptime, 60000);
 
         // Service Worker Registration for PWA
         if ('serviceWorker' in navigator) {

@@ -1,7 +1,7 @@
 {
   "name": "Jane Dashboard",
   "short_name": "Jane",
-  "description": "Personal assistant dashboard",
+  "description": "Personal AI Assistant Dashboard & Communication Portal",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",
@@ -20,5 +20,7 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "categories": ["productivity", "utilities"],
+  "lang": "en-US"
 }

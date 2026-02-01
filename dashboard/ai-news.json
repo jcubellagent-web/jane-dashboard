@@ -1,0 +1,48 @@
+{
+  "lastUpdated": "2026-01-31T23:00:00Z",
+  "news": [
+    {
+      "tag": "🔥 Breaking",
+      "title": "Nvidia's $100B OpenAI deal \"on ice\"",
+      "desc": "Partnership being rethought; now discussing tens of billions equity investment instead",
+      "source": "WSJ",
+      "date": "Jan 31",
+      "featured": true
+    },
+    {
+      "tag": "🚀 Product",
+      "title": "GPT-4o retiring February 13th",
+      "desc": "Only 0.1% of ChatGPT users still choosing GPT-4o daily after GPT-5 launch",
+      "source": "OpenAI",
+      "date": "Jan 30"
+    },
+    {
+      "tag": "🔧 Agents",
+      "title": "Anthropic launches Cowork plugins",
+      "desc": "Domain expert plugins for sales, legal, finance, marketing - agentic AI expansion",
+      "source": "Anthropic",
+      "date": "Jan 30"
+    },
+    {
+      "tag": "💰 Funding",
+      "title": "Tesla invests $2B in xAI",
+      "desc": "Musk's AI company (X.com, Grok) gets Tesla backing for physical-world AI deployment",
+      "source": "Tesla",
+      "date": "Jan 28"
+    },
+    {
+      "tag": "🗺️ Feature",
+      "title": "Gemini now in Google Maps",
+      "desc": "AI tour guide for walking directions - ask about neighborhoods, restaurants",
+      "source": "Google",
+      "date": "Jan 29"
+    },
+    {
+      "tag": "🐰 Hardware",
+      "title": "Rabbit announces \"project cyberdeck\"",
+      "desc": "Portable device for vibe-coding; r1 gets agentic task capabilities",
+      "source": "Rabbit",
+      "date": "Jan 30"
+    }
+  ]
+}

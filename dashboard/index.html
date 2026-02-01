@@ -2162,10 +2162,18 @@
             display: none !important;
         }
         
-        /* Clean mobile header */
+        /* Clean mobile header - flush to top */
         body.native-mobile header {
-            padding: 0.75rem 1rem;
+            padding: 0.5rem 1rem;
+            padding-top: env(safe-area-inset-top, 0.5rem);
             justify-content: space-between;
+            position: sticky;
+            top: 0;
+        }
+        
+        body.native-mobile {
+            padding-top: 0;
+            margin-top: 0;
         }
         
         body.native-mobile .logo {

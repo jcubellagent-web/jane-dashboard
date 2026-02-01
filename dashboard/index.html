@@ -3401,12 +3401,12 @@
         // GridStack Layout System
         // ========================================
         
-        let grid = null;
-        let isEditMode = false;
-        const LAYOUT_KEY = 'jane-dashboard-layout-v1';
+        window.grid = null;
+        window.isEditMode = false;
+        window.LAYOUT_KEY = 'jane-dashboard-layout-v1';
         
         // Default widget layout (order and position)
-        const DEFAULT_LAYOUT = [
+        window.DEFAULT_LAYOUT = [
             { id: 'stats', x: 0, y: 0, w: 12, h: 1, noResize: true },
             { id: 'system', x: 0, y: 1, w: 4, h: 2 },
             { id: 'mindmap', x: 4, y: 1, w: 4, h: 3 },
@@ -3448,7 +3448,7 @@
                 widgets.forEach(widget => {
                     const widgetId = widget.dataset.widget;
                     const saved = savedLayout?.find(l => l.id === widgetId);
-                    const defaults = DEFAULT_LAYOUT.find(d => d.id === widgetId) || { w: 4, h: 2 };
+                    const defaults = window.DEFAULT_LAYOUT.find(d => d.id === widgetId) || { w: 4, h: 2 };
                     
                     // Clone widget content
                     const content = widget.outerHTML;
@@ -3474,7 +3474,7 @@
                 container.classList.add('grid-stack');
                 
                 // Initialize GridStack
-                grid = GridStack.init({
+                window.grid = GridStack.init({
                     column: 12,
                     cellHeight: 80,
                     margin: 8,
@@ -3487,10 +3487,10 @@
                 }, container);
                 
                 // Add widgets
-                grid.load(items);
+                window.grid.load(items);
                 
                 // Save on change
-                grid.on('change', saveLayout);
+                window.grid.on('change', saveLayout);
                 
                 console.log('GridStack initialized successfully');
                 
@@ -3505,24 +3505,24 @@
         
         // Toggle edit mode
         function toggleEditMode() {
-            isEditMode = !isEditMode;
+            window.isEditMode = !window.isEditMode;
             const editBtn = document.getElementById('edit-layout-btn');
             const resetBtn = document.getElementById('reset-layout-btn');
             const container = document.getElementById('dashboard-container');
             
-            if (isEditMode) {
+            if (window.isEditMode) {
                 editBtn.classList.add('active');
                 editBtn.innerHTML = '✓ Done Editing';
                 resetBtn.style.display = 'flex';
                 container.classList.add('edit-mode');
-                grid?.enable();
+                window.grid?.enable();
                 showToast('Drag widgets to rearrange. Click "Done" when finished.');
             } else {
                 editBtn.classList.remove('active');
                 editBtn.innerHTML = '🔧 Edit Layout';
                 resetBtn.style.display = 'none';
                 container.classList.remove('edit-mode');
-                grid?.disable();
+                window.grid?.disable();
                 saveLayout();
                 showToast('Layout saved!');
             }
@@ -3530,8 +3530,8 @@
         
         // Save layout to localStorage
         function saveLayout() {
-            if (!grid) return;
-            const items = grid.getGridItems().map(el => {
+            if (!window.grid) return;
+            const items = window.grid.getGridItems().map(el => {
                 const node = el.gridstackNode;
                 return {
                     id: node.id,
@@ -3541,13 +3541,13 @@
                     h: node.h
                 };
             });
-            localStorage.setItem(LAYOUT_KEY, JSON.stringify(items));
+            localStorage.setItem(window.LAYOUT_KEY, JSON.stringify(items));
         }
         
         // Load layout from localStorage
         function loadLayout() {
             try {
-                const saved = localStorage.getItem(LAYOUT_KEY);
+                const saved = localStorage.getItem(window.LAYOUT_KEY);
                 return saved ? JSON.parse(saved) : null;
             } catch (e) {
                 return null;
@@ -3561,30 +3561,35 @@
             location.reload();
         }
         
-        // Initialize data - multiple fallbacks for reliability
+        // Initialize dashboard - GridStack first, then data
         (function initDashboard() {
-            // If already called, skip
             if (window._dashboardInitialized) return;
             
             function doInit() {
                 if (window._dashboardInitialized) return;
                 window._dashboardInitialized = true;
                 console.log('Dashboard initializing...');
-                initDataFetching();
+                
+                // Try to initialize GridStack (it will call initDataFetching after)
+                const container = document.getElementById('dashboard-container');
+                const widgets = container?.querySelectorAll('[data-widget]');
+                
+                if (typeof GridStack !== 'undefined' && widgets && widgets.length > 0) {
+                    console.log('Initializing GridStack layout...');
+                    initGridStack();
+                } else {
+                    // No GridStack - just load data directly
+                    console.log('GridStack not available, loading data directly');
+                    initDataFetching();
+                }
             }
             
-            // Method 1: DOMContentLoaded
+            // Multiple fallbacks for reliability
             document.addEventListener('DOMContentLoaded', doInit);
-            
-            // Method 2: window.onload as fallback
             window.addEventListener('load', doInit);
-            
-            // Method 3: If DOM already ready, init immediately
             if (document.readyState === 'complete' || document.readyState === 'interactive') {
                 doInit();
             }
-            
-            // Method 4: Fallback with timeout
             setTimeout(doInit, 100);
         })();
     </script>

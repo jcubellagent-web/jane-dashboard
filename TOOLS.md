@@ -2,38 +2,71 @@
 
 Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
 
-## What Goes Here
+---
 
-Things like:
+## Accounts
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
+### Gmail
+- **Email:** agentjc11443@gmail.com
+- **Password:** `~/.openclaw/workspace/.secrets/gmail.txt`
 
-## Examples
+### X/Twitter
+- **Handle:** @AgentJc11443
+- Uses Gmail for login
 
-```markdown
-### Cameras
+### Phantom Wallet (Solana)
+- **Address:** `ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L`
+- **Seed phrase:** `~/.openclaw/workspace/.secrets/phantom_wallet.txt`
 
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
+---
 
-### SSH
+## Jupiter Wallet Extension Setup
 
-- home-server → 192.168.1.100, user: admin
+If the Jupiter Extension is missing from the OpenClaw browser, here's how to reinstall:
 
-### TTS
+### Steps:
+1. In the OpenClaw-controlled browser, go to: `https://chromewebstore.google.com/detail/jupiter/iledlaeogohbilgbfhmbgkgmpplbfboh`
+2. Click "Add to Chrome" → confirm
+3. Click the Jupiter icon in Chrome toolbar
+4. Select "Import Wallet"
+5. Paste seed phrase from `~/.openclaw/workspace/.secrets/phantom_wallet.txt`
+6. Set a password (or use the Gmail password for consistency)
+7. Done — wallet should auto-connect on jup.ag
 
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
-```
+### Why it disappears:
+- OpenClaw uses an isolated `openclaw` Chrome profile
+- Extensions in your personal Chrome don't carry over
+- Browser restarts may require re-setup
 
-## Why Separate?
+---
 
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
+## Dashboard
+
+- **Local:** `http://localhost:3000`
+- **Network:** `http://192.168.5.21:3000`
+- **Server:** `~/.openclaw/workspace/dashboard/server.js` (launchd service)
+
+---
+
+## Trading
+
+### Memecoin Strategy
+- **Entry:** "Moderately safe" tokens, strong community
+- **Hold period:** 1-2 weeks
+- **Take profit:** 50% at 2x, let rest ride
+- **Stop loss:** -30% from entry
+
+### Position Monitor
+- Cron job: `memecoin-price-monitor` (every 30 min)
+- Positions file: `~/.openclaw/workspace/trading/positions.json`
+
+---
+
+## Communication
+
+- **Primary:** WhatsApp (Josh's mobile)
+- **Josh's phone:** +17175759384
+- **iMessage:** Paused
 
 ---
 

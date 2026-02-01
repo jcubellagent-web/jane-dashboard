@@ -2497,61 +2497,32 @@
         // Fetch Work Intel / Market Data
         async function fetchWorkIntel() {
             try {
-                // Fetch Nasdaq stock price from Yahoo Finance API (via a proxy or alternative)
-                // Using Alpha Vantage demo or similar free API
-                const symbols = ['NDAQ'];
+                const response = await fetch('/api/market');
+                if (!response.ok) throw new Error('Failed to fetch market data');
+                const data = await response.json();
                 
-                // Try fetching from Yahoo Finance via RapidAPI alternative or use static for now
-                // For demo, we'll fetch from a free endpoint
-                const response = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/NDAQ?interval=1d&range=1d');
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    const result = data.chart.result[0];
-                    const meta = result.meta;
-                    const price = meta.regularMarketPrice;
-                    const prevClose = meta.chartPreviousClose || meta.previousClose;
-                    const change = price - prevClose;
-                    const changePercent = (change / prevClose) * 100;
-                    
-                    document.getElementById('ndaq-price').textContent = '$' + price.toFixed(2);
+                // Update NDAQ
+                if (data.ndaq) {
+                    document.getElementById('ndaq-price').textContent = '$' + data.ndaq.price.toFixed(2);
                     const changeEl = document.getElementById('ndaq-change');
-                    changeEl.textContent = (change >= 0 ? '+' : '') + change.toFixed(2) + ' (' + changePercent.toFixed(2) + '%)';
-                    changeEl.className = 'market-change ' + (change >= 0 ? 'up' : 'down');
+                    changeEl.textContent = (data.ndaq.change >= 0 ? '+' : '') + data.ndaq.change.toFixed(2) + ' (' + data.ndaq.changePercent.toFixed(2) + '%)';
+                    changeEl.className = 'market-change ' + (data.ndaq.change >= 0 ? 'up' : 'down');
                 }
                 
-                // Fetch major indices
-                const indicesData = await Promise.allSettled([
-                    fetch('https://query1.finance.yahoo.com/v8/finance/chart/%5EIXIC?interval=1d&range=1d'),
-                    fetch('https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1d&range=1d')
-                ]);
-                
-                // Nasdaq Composite (using as proxy for NDX)
-                if (indicesData[0].status === 'fulfilled' && indicesData[0].value.ok) {
-                    const data = await indicesData[0].value.json();
-                    const meta = data.chart.result[0].meta;
-                    const price = meta.regularMarketPrice;
-                    const prevClose = meta.chartPreviousClose || meta.previousClose;
-                    const change = ((price - prevClose) / prevClose) * 100;
-                    
-                    document.getElementById('ndx-price').textContent = price.toLocaleString(undefined, {maximumFractionDigits: 0});
+                // Update Nasdaq Composite (NDX proxy)
+                if (data.ixic) {
+                    document.getElementById('ndx-price').textContent = data.ixic.price.toLocaleString(undefined, {maximumFractionDigits: 0});
                     const changeEl = document.getElementById('ndx-change');
-                    changeEl.textContent = (change >= 0 ? '+' : '') + change.toFixed(2) + '%';
-                    changeEl.className = 'market-change ' + (change >= 0 ? 'up' : 'down');
+                    changeEl.textContent = (data.ixic.changePercent >= 0 ? '+' : '') + data.ixic.changePercent.toFixed(2) + '%';
+                    changeEl.className = 'market-change ' + (data.ixic.changePercent >= 0 ? 'up' : 'down');
                 }
                 
-                // S&P 500
-                if (indicesData[1].status === 'fulfilled' && indicesData[1].value.ok) {
-                    const data = await indicesData[1].value.json();
-                    const meta = data.chart.result[0].meta;
-                    const price = meta.regularMarketPrice;
-                    const prevClose = meta.chartPreviousClose || meta.previousClose;
-                    const change = ((price - prevClose) / prevClose) * 100;
-                    
-                    document.getElementById('spx-price').textContent = price.toLocaleString(undefined, {maximumFractionDigits: 0});
+                // Update S&P 500
+                if (data.gspc) {
+                    document.getElementById('spx-price').textContent = data.gspc.price.toLocaleString(undefined, {maximumFractionDigits: 0});
                     const changeEl = document.getElementById('spx-change');
-                    changeEl.textContent = (change >= 0 ? '+' : '') + change.toFixed(2) + '%';
-                    changeEl.className = 'market-change ' + (change >= 0 ? 'up' : 'down');
+                    changeEl.textContent = (data.gspc.changePercent >= 0 ? '+' : '') + data.gspc.changePercent.toFixed(2) + '%';
+                    changeEl.className = 'market-change ' + (data.gspc.changePercent >= 0 ? 'up' : 'down');
                 }
                 
                 document.getElementById('work-updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });

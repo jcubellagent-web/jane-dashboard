@@ -61,6 +61,48 @@ function getSystemStats() {
     }
 }
 
+// Fetch market data server-side (bypasses CORS)
+async function fetchMarketData() {
+    const https = require('https');
+    
+    const fetchJSON = (url) => new Promise((resolve, reject) => {
+        https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
+            let data = '';
+            res.on('data', chunk => data += chunk);
+            res.on('end', () => {
+                try { resolve(JSON.parse(data)); } 
+                catch (e) { reject(e); }
+            });
+        }).on('error', reject);
+    });
+    
+    try {
+        const [ndaq, ixic, gspc] = await Promise.all([
+            fetchJSON('https://query1.finance.yahoo.com/v8/finance/chart/NDAQ?interval=1d&range=1d').catch(() => null),
+            fetchJSON('https://query1.finance.yahoo.com/v8/finance/chart/%5EIXIC?interval=1d&range=1d').catch(() => null),
+            fetchJSON('https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1d&range=1d').catch(() => null)
+        ]);
+        
+        const extract = (data) => {
+            if (!data?.chart?.result?.[0]) return null;
+            const meta = data.chart.result[0].meta;
+            const price = meta.regularMarketPrice;
+            const prev = meta.chartPreviousClose || meta.previousClose;
+            return { price, change: price - prev, changePercent: ((price - prev) / prev) * 100 };
+        };
+        
+        return {
+            ndaq: extract(ndaq),
+            ixic: extract(ixic),
+            gspc: extract(gspc),
+            timestamp: new Date().toISOString()
+        };
+    } catch (error) {
+        console.error('Market data error:', error.message);
+        return { error: 'Failed to fetch market data' };
+    }
+}
+
 const server = http.createServer((req, res) => {
     // CORS headers for local development
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -78,6 +120,18 @@ const server = http.createServer((req, res) => {
         const stats = getSystemStats();
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(stats));
+        return;
+    }
+    
+    // API endpoint for market data
+    if (req.url === '/api/market') {
+        fetchMarketData().then(data => {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(data));
+        }).catch(err => {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: err.message }));
+        });
         return;
     }
 

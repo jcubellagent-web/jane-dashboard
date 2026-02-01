@@ -1695,14 +1695,41 @@
             document.getElementById('tasks-done').textContent = counts['done'];
         }
 
-        // Calculate uptime (hours since 2:45 PM today)
+        // Calculate uptime (time since midnight or session start)
         function updateUptime() {
-            const bootTime = new Date();
-            bootTime.setHours(14, 45, 0, 0);  // 2:45 PM
+            // Use localStorage to persist boot time across refreshes
+            let bootTime;
+            const storedBoot = localStorage.getItem('jane-dashboard-boot');
+            const today = new Date().toDateString();
+            
+            if (storedBoot) {
+                const stored = JSON.parse(storedBoot);
+                // Reset if it's a new day
+                if (stored.date === today) {
+                    bootTime = new Date(stored.time);
+                } else {
+                    // New day - reset to midnight
+                    bootTime = new Date();
+                    bootTime.setHours(0, 0, 0, 0);
+                    localStorage.setItem('jane-dashboard-boot', JSON.stringify({ date: today, time: bootTime.toISOString() }));
+                }
+            } else {
+                // First visit today - use midnight
+                bootTime = new Date();
+                bootTime.setHours(0, 0, 0, 0);
+                localStorage.setItem('jane-dashboard-boot', JSON.stringify({ date: today, time: bootTime.toISOString() }));
+            }
+            
             const now = new Date();
-            const hours = Math.floor((now - bootTime) / (1000 * 60 * 60));
-            const mins = Math.floor(((now - bootTime) % (1000 * 60 * 60)) / (1000 * 60));
-            document.getElementById('uptime').textContent = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+            const diff = now - bootTime;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            if (hours > 0) {
+                document.getElementById('uptime').textContent = `${hours}h ${mins}m`;
+            } else {
+                document.getElementById('uptime').textContent = `${mins}m`;
+            }
         }
 
         // Fetch crypto prices from CoinGecko

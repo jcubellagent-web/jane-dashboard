@@ -3392,10 +3392,10 @@
                 // Handle history response
                 if (data.type === 'res' && data.ok && Array.isArray(data.payload?.messages)) {
                     const messagesEl = document.getElementById('chat-messages');
-                    messagesEl.innerHTML = '';
-                    
                     const msgs = data.payload.messages;
-                    let hasMessages = false;
+                    
+                    // Build all HTML first to avoid flash
+                    const htmlParts = [];
                     
                     msgs.forEach(msg => {
                         // Skip tool results and system messages
@@ -3415,14 +3415,20 @@
                         
                         // Only show if there's actual text content
                         if (text && text.trim() && (msg.role === 'user' || msg.role === 'assistant')) {
-                            addChatMessage(msg.role, text, msg.timestamp || msg.ts);
-                            hasMessages = true;
+                            const cssClass = msg.role === 'user' ? 'user' : 'jane';
+                            const time = (msg.timestamp || msg.ts) 
+                                ? new Date(msg.timestamp || msg.ts).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) 
+                                : 'Just now';
+                            htmlParts.push(`<div class="message ${cssClass}"><div>${escapeHtml(text)}</div><div class="message-time">${time}</div></div>`);
                         }
                     });
                     
-                    if (!hasMessages) {
-                        addChatMessage('assistant', 'Hey Josh! 👋 How can I help you today?');
+                    if (htmlParts.length === 0) {
+                        htmlParts.push('<div class="message jane"><div>Hey Josh! 👋 How can I help you today?</div><div class="message-time">Just now</div></div>');
                     }
+                    
+                    // Update all at once
+                    messagesEl.innerHTML = htmlParts.join('');
                     messagesEl.scrollTop = messagesEl.scrollHeight;
                 }
                 

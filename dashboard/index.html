@@ -3624,7 +3624,7 @@
                     <div class="card-title">🎵 TikTok Growth</div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <span style="font-size: 0.7rem; color: var(--text-secondary);" id="tiktok-updated">--</span>
-                        <button class="refresh-btn" onclick="fetchTikTokStats()" title="Refresh">↻</button>
+                        <button class="refresh-btn" onclick="refreshTikTokStats()" title="Refresh & request live update">↻</button>
                     </div>
                 </div>
                 
@@ -5259,7 +5259,24 @@
             }
         }
 
-        // Fetch TikTok Stats
+        // Request live TikTok stats update from Jane
+        async function refreshTikTokStats() {
+            // First fetch cached data
+            await fetchTikTokStats();
+            
+            // Then request a live update
+            try {
+                const response = await fetch('/api/tiktok-request-update');
+                const data = await response.json();
+                if (data.success) {
+                    showToast('📊 TikTok update requested! Jane will refresh stats shortly.');
+                }
+            } catch (e) {
+                console.error('Failed to request TikTok update:', e);
+            }
+        }
+        
+        // Fetch TikTok Stats (from cached JSON)
         async function fetchTikTokStats() {
             try {
                 const response = await fetch('/tiktok-stats.json?' + Date.now());

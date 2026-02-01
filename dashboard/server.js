@@ -135,6 +135,20 @@ const server = http.createServer((req, res) => {
         return;
     }
     
+    // API endpoint to request TikTok stats refresh
+    // Creates a flag file that Jane checks during heartbeats
+    if (req.url === '/api/tiktok-request-update') {
+        const flagFile = path.join(ROOT, '.tiktok-refresh-requested');
+        fs.writeFileSync(flagFile, new Date().toISOString());
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ 
+            success: true, 
+            message: 'Update requested. Jane will refresh TikTok stats shortly.',
+            requestedAt: new Date().toISOString()
+        }));
+        return;
+    }
+    
     // API endpoint for crypto prices (proxy to avoid CORS)
     if (req.url === '/api/crypto') {
         const https = require('https');

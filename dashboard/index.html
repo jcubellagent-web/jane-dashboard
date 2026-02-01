@@ -1050,6 +1050,137 @@
             color: var(--text-primary);
         }
 
+        /* Mindmap Section */
+        .mindmap-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .mindmap-themes {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .theme-item {
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+        }
+
+        .theme-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.35rem;
+        }
+
+        .theme-name {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .theme-percent {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .theme-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .theme-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+
+        .mindmap-categories {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+        }
+
+        .cat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            cursor: default;
+            transition: all 0.2s;
+        }
+
+        .cat-item:hover {
+            background: rgba(0,0,0,0.3);
+            transform: scale(1.05);
+        }
+
+        .cat-icon {
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .cat-count {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .mindmap-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .mind-tag {
+            font-size: 0.65rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--tag-color, var(--border));
+            border-radius: 12px;
+            color: var(--tag-color, var(--text-secondary));
+        }
+
+        .mindmap-recent {
+            background: rgba(0,0,0,0.15);
+            border-radius: 8px;
+            padding: 0.6rem;
+        }
+
+        .recent-header {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .recent-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            padding: 0.3rem 0;
+        }
+
+        .recent-icon {
+            font-size: 0.9rem;
+        }
+
+        .recent-text {
+            flex: 1;
+        }
+
+        .recent-date {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+
         /* Work Intel Section */
         .work-intel-section {
             display: flex;
@@ -1455,6 +1586,7 @@
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .hero-section { grid-column: span 12; }
             .tiktok-section { grid-column: span 6; }
+            .mindmap-section { grid-column: span 6; }
             .accounts-section { grid-column: span 6; }
             .commands-section { grid-column: span 6; }
             .work-intel-section { grid-column: span 6; }
@@ -1474,7 +1606,8 @@
             .hero-content { flex-direction: column; text-align: center; }
             .bottom-nav { display: flex; }
             .chat-toggle { display: none; }
-            .wallet-section, .crypto-section, .tiktok-section, .accounts-section, .work-intel-section { grid-column: span 12; }
+            .wallet-section, .crypto-section, .tiktok-section, .accounts-section, .work-intel-section, .mindmap-section { grid-column: span 12; }
+            .mindmap-categories { grid-template-columns: repeat(3, 1fr); }
             .tiktok-stats-grid { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
@@ -1662,6 +1795,114 @@
                 <div class="recent-videos">
                     <div class="videos-header">🎬 Recent Videos</div>
                     <div id="recent-videos-list"></div>
+                </div>
+            </div>
+
+            <!-- Mindmap - Second Brain Summary -->
+            <div class="card mindmap-section" style="grid-column: span 4;">
+                <div class="card-header">
+                    <div class="card-title">🧠 Mindmap</div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 0.7rem; color: var(--text-secondary);" id="mindmap-updated">--</span>
+                        <button class="refresh-btn" onclick="fetchMindmap()" title="Refresh">↻</button>
+                    </div>
+                </div>
+                
+                <!-- Theme Strengths -->
+                <div class="mindmap-themes">
+                    <div class="theme-item" id="theme-0">
+                        <div class="theme-header">
+                            <span class="theme-name">Finance & Crypto</span>
+                            <span class="theme-percent">85%</span>
+                        </div>
+                        <div class="theme-bar">
+                            <div class="theme-fill" style="width: 85%; background: linear-gradient(90deg, #f7931a, #fcd34d);"></div>
+                        </div>
+                    </div>
+                    <div class="theme-item" id="theme-1">
+                        <div class="theme-header">
+                            <span class="theme-name">Sports & NFL</span>
+                            <span class="theme-percent">70%</span>
+                        </div>
+                        <div class="theme-bar">
+                            <div class="theme-fill" style="width: 70%; background: linear-gradient(90deg, #002244, #c60c30);"></div>
+                        </div>
+                    </div>
+                    <div class="theme-item" id="theme-2">
+                        <div class="theme-header">
+                            <span class="theme-name">Digital Collectibles</span>
+                            <span class="theme-percent">60%</span>
+                        </div>
+                        <div class="theme-bar">
+                            <div class="theme-fill" style="width: 60%; background: linear-gradient(90deg, #9945ff, #14f195);"></div>
+                        </div>
+                    </div>
+                    <div class="theme-item" id="theme-3">
+                        <div class="theme-header">
+                            <span class="theme-name">Tech & Web3</span>
+                            <span class="theme-percent">50%</span>
+                        </div>
+                        <div class="theme-bar">
+                            <div class="theme-fill" style="width: 50%; background: linear-gradient(90deg, #60a5fa, #a78bfa);"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category Grid -->
+                <div class="mindmap-categories">
+                    <div class="cat-item" title="Profile">
+                        <span class="cat-icon">👤</span>
+                        <span class="cat-count" id="cat-profile">1</span>
+                    </div>
+                    <div class="cat-item" title="Articles">
+                        <span class="cat-icon">📚</span>
+                        <span class="cat-count" id="cat-articles">0</span>
+                    </div>
+                    <div class="cat-item" title="Ideas">
+                        <span class="cat-icon">💡</span>
+                        <span class="cat-count" id="cat-ideas">0</span>
+                    </div>
+                    <div class="cat-item" title="Bookmarks">
+                        <span class="cat-icon">🔖</span>
+                        <span class="cat-count" id="cat-bookmarks">0</span>
+                    </div>
+                    <div class="cat-item" title="People">
+                        <span class="cat-icon">👥</span>
+                        <span class="cat-count" id="cat-people">0</span>
+                    </div>
+                    <div class="cat-item" title="Notes">
+                        <span class="cat-icon">📝</span>
+                        <span class="cat-count" id="cat-notes">0</span>
+                    </div>
+                </div>
+                
+                <!-- Top Tags -->
+                <div class="mindmap-tags">
+                    <span class="mind-tag" style="--tag-color: #f7931a;">#crypto</span>
+                    <span class="mind-tag" style="--tag-color: #002244;">#patriots</span>
+                    <span class="mind-tag" style="--tag-color: #60a5fa;">#work</span>
+                    <span class="mind-tag" style="--tag-color: #9945ff;">#nft</span>
+                </div>
+                
+                <!-- Recent -->
+                <div class="mindmap-recent">
+                    <div class="recent-header">Recent Additions</div>
+                    <div class="recent-item">
+                        <span class="recent-icon">👤</span>
+                        <span class="recent-text">Profile created</span>
+                        <span class="recent-date">Today</span>
+                    </div>
+                    <div class="recent-item">
+                        <span class="recent-icon">⚙️</span>
+                        <span class="recent-text">Preferences set</span>
+                        <span class="recent-date">Today</span>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 0.75rem;">
+                    <a href="#" onclick="sendCommand('What\\'s in my Second Brain?'); return false;" style="font-size: 0.7rem; color: var(--accent); text-decoration: none;">
+                        Send me things via WhatsApp to grow your brain! →
+                    </a>
                 </div>
             </div>
 
@@ -2548,6 +2789,42 @@
             }
         }
 
+        // Fetch Mindmap Stats
+        async function fetchMindmap() {
+            try {
+                const response = await fetch('/mindmap-stats.json?' + Date.now());
+                if (!response.ok) throw new Error('Failed to load mindmap stats');
+                const data = await response.json();
+                
+                // Update category counts
+                if (data.categories) {
+                    document.getElementById('cat-profile').textContent = data.categories.profile?.count || 0;
+                    document.getElementById('cat-articles').textContent = data.categories.articles?.count || 0;
+                    document.getElementById('cat-ideas').textContent = data.categories.ideas?.count || 0;
+                    document.getElementById('cat-bookmarks').textContent = data.categories.bookmarks?.count || 0;
+                    document.getElementById('cat-people').textContent = data.categories.people?.count || 0;
+                    document.getElementById('cat-notes').textContent = data.categories.notes?.count || 0;
+                }
+                
+                // Update themes
+                if (data.themes) {
+                    data.themes.forEach((theme, i) => {
+                        const el = document.getElementById('theme-' + i);
+                        if (el) {
+                            el.querySelector('.theme-name').textContent = theme.name;
+                            el.querySelector('.theme-percent').textContent = theme.strength + '%';
+                            el.querySelector('.theme-fill').style.width = theme.strength + '%';
+                        }
+                    });
+                }
+                
+                document.getElementById('mindmap-updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                
+            } catch (error) {
+                console.error('Failed to load mindmap:', error);
+            }
+        }
+
         // Fetch Work Intel / Market Data
         async function fetchWorkIntel() {
             try {
@@ -2668,6 +2945,7 @@
         // Initialize
         loadTasks();
         fetchTikTokStats();
+        fetchMindmap();
         fetchWorkIntel();
         fetchTradingPositions();
         setInterval(fetchTradingPositions, 30000);  // Update every 30 seconds

@@ -1,0 +1,31 @@
+{
+  "lastUpdated": "2026-02-01T06:35:00Z",
+  "totalItems": 2,
+  "categories": {
+    "profile": { "count": 1, "icon": "👤", "color": "#60a5fa" },
+    "preferences": { "count": 1, "icon": "⚙️", "color": "#a78bfa" },
+    "articles": { "count": 0, "icon": "📚", "color": "#f472b6" },
+    "interests": { "count": 0, "icon": "🎯", "color": "#4ade80" },
+    "people": { "count": 0, "icon": "👥", "color": "#fb923c" },
+    "ideas": { "count": 0, "icon": "💡", "color": "#facc15" },
+    "projects": { "count": 0, "icon": "📁", "color": "#38bdf8" },
+    "bookmarks": { "count": 0, "icon": "🔖", "color": "#f87171" },
+    "notes": { "count": 0, "icon": "📝", "color": "#94a3b8" }
+  },
+  "topTags": [
+    { "tag": "#crypto", "count": 3 },
+    { "tag": "#patriots", "count": 2 },
+    { "tag": "#work", "count": 2 },
+    { "tag": "#nft", "count": 1 }
+  ],
+  "recentItems": [
+    { "title": "Profile created", "category": "profile", "date": "2026-02-01" },
+    { "title": "Preferences set", "category": "preferences", "date": "2026-02-01" }
+  ],
+  "themes": [
+    { "name": "Finance & Crypto", "strength": 85, "keywords": ["nasdaq", "crypto", "stablecoin", "trading"] },
+    { "name": "Sports & NFL", "strength": 70, "keywords": ["patriots", "drake maye", "nfl"] },
+    { "name": "Digital Collectibles", "strength": 60, "keywords": ["panini", "nft", "cards"] },
+    { "name": "Tech & Web3", "strength": 50, "keywords": ["blockchain", "defi", "web3"] }
+  ]
+}

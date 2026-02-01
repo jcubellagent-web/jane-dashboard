@@ -904,6 +904,115 @@
             }
         }
 
+        /* System Monitor */
+        .system-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .system-stat {
+            display: grid;
+            grid-template-columns: 60px 1fr 50px;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .stat-value {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .stat-value-full {
+            font-size: 0.8rem;
+            font-weight: 600;
+            grid-column: span 2;
+        }
+
+        .progress-bar-mini {
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill-mini {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-fill-mini.warning { background: var(--accent-orange); }
+        .progress-fill-mini.danger { background: #ef4444; }
+
+        /* Refresh Button */
+        .refresh-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 6px;
+            width: 28px;
+            height: 28px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .refresh-btn:hover {
+            background: rgba(255,255,255,0.2);
+            color: var(--accent);
+        }
+
+        .refresh-btn.spinning {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Alert Badges */
+        .alert-badge {
+            display: inline-block;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+
+        .alert-badge.profit { background: rgba(74, 222, 128, 0.3); color: var(--accent); }
+        .alert-badge.danger { background: rgba(239, 68, 68, 0.3); color: #ef4444; }
+        .alert-badge.target { background: rgba(251, 146, 60, 0.3); color: var(--accent-orange); }
+
+        @keyframes badgePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Stats grid with 5 items */
+        .stats-grid {
+            grid-template-columns: repeat(5, 1fr);
+        }
+
+        @media (max-width: 1200px) {
+            .stats-grid { grid-template-columns: repeat(3, 1fr); }
+            .system-section { grid-column: span 12; }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
         .wallet-balance {
             text-align: center;
             padding: 1.5rem;
@@ -1118,6 +1227,48 @@
                         <p>Wallet Balance</p>
                     </div>
                 </div>
+                <div class="stat-card" id="portfolio-card">
+                    <div class="stat-icon purple">📊</div>
+                    <div class="stat-info">
+                        <h3 id="total-portfolio">$--</h3>
+                        <p>Total Portfolio</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- System Monitor -->
+            <div class="card system-section" style="grid-column: span 4;">
+                <div class="card-header">
+                    <div class="card-title">🖥️ Mac Mini Status</div>
+                    <button class="refresh-btn" onclick="fetchSystemStats()" title="Refresh">↻</button>
+                </div>
+                <div class="system-stats">
+                    <div class="system-stat">
+                        <div class="stat-label">CPU</div>
+                        <div class="progress-bar-mini">
+                            <div class="progress-fill-mini" id="cpu-bar" style="width: 0%"></div>
+                        </div>
+                        <div class="stat-value" id="cpu-usage">--%</div>
+                    </div>
+                    <div class="system-stat">
+                        <div class="stat-label">Memory</div>
+                        <div class="progress-bar-mini">
+                            <div class="progress-fill-mini" id="mem-bar" style="width: 0%"></div>
+                        </div>
+                        <div class="stat-value" id="mem-usage">--%</div>
+                    </div>
+                    <div class="system-stat">
+                        <div class="stat-label">Disk</div>
+                        <div class="progress-bar-mini">
+                            <div class="progress-fill-mini" id="disk-bar" style="width: 0%"></div>
+                        </div>
+                        <div class="stat-value" id="disk-usage">--%</div>
+                    </div>
+                    <div class="system-stat">
+                        <div class="stat-label">Uptime</div>
+                        <div class="stat-value-full" id="system-uptime">--</div>
+                    </div>
+                </div>
             </div>
 
             <!-- Hero Welcome -->
@@ -1282,6 +1433,7 @@
             <div class="card wallet-section">
                 <div class="card-header">
                     <div class="card-title">👻 Solana Wallets</div>
+                    <button class="refresh-btn" onclick="fetchWalletBalances()" title="Refresh">↻</button>
                 </div>
                 <div style="margin-bottom: 1rem;">
                     <div style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Jane's Wallet</div>
@@ -1309,7 +1461,10 @@
             <div class="card crypto-section">
                 <div class="card-header">
                     <div class="card-title">📈 Crypto Prices</div>
-                    <span style="font-size: 0.7rem; color: var(--text-secondary);" id="price-updated">Loading...</span>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 0.7rem; color: var(--text-secondary);" id="price-updated">Loading...</span>
+                        <button class="refresh-btn" onclick="fetchCryptoPrices()" title="Refresh">↻</button>
+                    </div>
                 </div>
                 <div class="crypto-prices">
                     <div class="crypto-item">
@@ -1358,7 +1513,10 @@
             <div class="card trading-section" style="grid-column: span 12;">
                 <div class="card-header">
                     <div class="card-title">📈 Active Trades</div>
-                    <span style="font-size: 0.7rem; color: var(--text-secondary);" id="trades-updated">Loading...</span>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 0.7rem; color: var(--text-secondary);" id="trades-updated">Loading...</span>
+                        <button class="refresh-btn" onclick="fetchTradingPositions()" title="Refresh">↻</button>
+                    </div>
                 </div>
                 <div class="trading-summary" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
                     <div style="text-align: center; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 12px;">
@@ -1380,7 +1538,7 @@
             </div>
 
             <footer>
-                Jane 🌿 · Personal Assistant · First boot Jan 31, 2026 · Dashboard v3.0
+                Jane 🌿 · Personal Assistant · First boot Jan 31, 2026 · Dashboard v3.1
             </footer>
         </div>
 
@@ -1422,20 +1580,20 @@
             <span class="nav-icon">🏠</span>
             <span class="nav-label">Home</span>
         </a>
-        <a href="/kanban/" class="nav-item">
-            <span class="nav-icon">📋</span>
-            <span class="nav-label">Tasks</span>
+        <a href="#" class="nav-item" onclick="scrollToTrades(); return false;">
+            <span class="nav-icon">📈</span>
+            <span class="nav-label">Trades</span>
         </a>
         <button class="nav-item chat-fab" onclick="toggleChat()">
             <span class="nav-icon">💬</span>
         </button>
+        <a href="/kanban/" class="nav-item">
+            <span class="nav-icon">📋</span>
+            <span class="nav-label">Tasks</span>
+        </a>
         <a href="/notes/" class="nav-item">
             <span class="nav-icon">📝</span>
             <span class="nav-label">Notes</span>
-        </a>
-        <a href="/links/" class="nav-item">
-            <span class="nav-icon">🔗</span>
-            <span class="nav-label">Links</span>
         </a>
     </nav>
 
@@ -1814,6 +1972,66 @@
             }
         }
 
+        // Fetch system stats via server endpoint
+        async function fetchSystemStats() {
+            const btn = document.querySelector('.system-section .refresh-btn');
+            if (btn) btn.classList.add('spinning');
+            
+            try {
+                const response = await fetch('/api/system');
+                if (!response.ok) throw new Error('No system API');
+                const data = await response.json();
+                
+                // Update CPU
+                document.getElementById('cpu-usage').textContent = data.cpu + '%';
+                const cpuBar = document.getElementById('cpu-bar');
+                cpuBar.style.width = data.cpu + '%';
+                cpuBar.className = 'progress-fill-mini' + (data.cpu > 80 ? ' danger' : data.cpu > 60 ? ' warning' : '');
+                
+                // Update Memory
+                document.getElementById('mem-usage').textContent = data.memory + '%';
+                const memBar = document.getElementById('mem-bar');
+                memBar.style.width = data.memory + '%';
+                memBar.className = 'progress-fill-mini' + (data.memory > 80 ? ' danger' : data.memory > 60 ? ' warning' : '');
+                
+                // Update Disk
+                document.getElementById('disk-usage').textContent = data.disk + '%';
+                const diskBar = document.getElementById('disk-bar');
+                diskBar.style.width = data.disk + '%';
+                diskBar.className = 'progress-fill-mini' + (data.disk > 80 ? ' danger' : data.disk > 60 ? ' warning' : '');
+                
+                // Update Uptime
+                document.getElementById('system-uptime').textContent = data.uptime;
+            } catch (error) {
+                // Fallback: estimate from client side
+                document.getElementById('cpu-usage').textContent = '--';
+                document.getElementById('mem-usage').textContent = '--';
+                document.getElementById('disk-usage').textContent = '--';
+                document.getElementById('system-uptime').textContent = 'API unavailable';
+            }
+            
+            if (btn) setTimeout(() => btn.classList.remove('spinning'), 500);
+        }
+
+        // Get alert badge for position
+        function getAlertBadge(pnlPercent, currentPrice, targetPrice, stopPrice) {
+            const distanceToTP = ((targetPrice - currentPrice) / currentPrice) * 100;
+            const distanceToSL = ((currentPrice - stopPrice) / currentPrice) * 100;
+            
+            if (pnlPercent >= 15) return '<span class="alert-badge profit">🔥 HOT</span>';
+            if (pnlPercent >= 10) return '<span class="alert-badge profit">📈 +10%</span>';
+            if (distanceToTP <= 20) return '<span class="alert-badge target">🎯 NEAR TP</span>';
+            if (pnlPercent <= -20) return '<span class="alert-badge danger">⚠️ DANGER</span>';
+            if (distanceToSL <= 10) return '<span class="alert-badge danger">🛑 NEAR SL</span>';
+            return '';
+        }
+
+        // Update total portfolio value
+        function updateTotalPortfolio(walletValue, tradingValue) {
+            const total = walletValue + tradingValue;
+            document.getElementById('total-portfolio').textContent = '$' + total.toFixed(2);
+        }
+
         // Trading positions data
         const POSITIONS = [
             {
@@ -1893,12 +2111,14 @@
                     // Clamp progress
                     const clampedProgress = Math.max(0, Math.min(100, progressFromStop));
                     
+                    const alertBadge = getAlertBadge(pnlPercent, currentPrice, pos.targetPrice, pos.stopPrice);
+                    
                     html += `
                         <div class="position-card">
                             <div class="position-info">
                                 <div class="position-icon">${pos.icon}</div>
                                 <div>
-                                    <div class="position-name">${pos.token}</div>
+                                    <div class="position-name">${pos.token}${alertBadge}</div>
                                     <div class="position-amount">${pos.amount.toLocaleString(undefined, {maximumFractionDigits: 2})} tokens</div>
                                 </div>
                             </div>
@@ -1940,6 +2160,11 @@
                 pnlEl.style.color = totalPnlPercent >= 0 ? 'var(--accent)' : '#ef4444';
                 
                 document.getElementById('trades-updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                
+                // Update portfolio total (trading value + wallet)
+                const walletText = document.getElementById('wallet-usd')?.textContent || '$0';
+                const walletValue = parseFloat(walletText.replace(/[^0-9.]/g, '')) || 0;
+                updateTotalPortfolio(walletValue, totalValue);
                 
             } catch (error) {
                 console.error('Failed to fetch trading positions:', error);
@@ -2003,10 +2228,19 @@
             }
         });
 
+        // Scroll to trades section
+        function scrollToTrades() {
+            document.querySelector('.trading-section')?.scrollIntoView({ behavior: 'smooth' });
+        }
+
         // Service Worker Registration for PWA
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js').catch(() => {});
         }
+
+        // Initialize system stats
+        fetchSystemStats();
+        setInterval(fetchSystemStats, 60000);  // Update every minute
     </script>
 </body>
 </html>

@@ -25,6 +25,42 @@ const MIME_TYPES = {
     '.woff2': 'font/woff2',
 };
 
+const { execSync } = require('child_process');
+const os = require('os');
+
+// Get system stats
+function getSystemStats() {
+    try {
+        // CPU usage (macOS)
+        const cpuRaw = execSync("top -l 1 | grep 'CPU usage' | awk '{print $3}' | tr -d '%'", { encoding: 'utf8' });
+        const cpu = parseFloat(cpuRaw) || 0;
+        
+        // Memory usage
+        const totalMem = os.totalmem();
+        const freeMem = os.freemem();
+        const memory = Math.round(((totalMem - freeMem) / totalMem) * 100);
+        
+        // Disk usage
+        const diskRaw = execSync("df -h / | tail -1 | awk '{print $5}' | tr -d '%'", { encoding: 'utf8' });
+        const disk = parseInt(diskRaw) || 0;
+        
+        // System uptime
+        const uptimeSeconds = os.uptime();
+        const days = Math.floor(uptimeSeconds / 86400);
+        const hours = Math.floor((uptimeSeconds % 86400) / 3600);
+        const minutes = Math.floor((uptimeSeconds % 3600) / 60);
+        let uptime = '';
+        if (days > 0) uptime += `${days}d `;
+        if (hours > 0) uptime += `${hours}h `;
+        uptime += `${minutes}m`;
+        
+        return { cpu: Math.round(cpu), memory, disk, uptime };
+    } catch (error) {
+        console.error('System stats error:', error.message);
+        return { cpu: 0, memory: 0, disk: 0, uptime: 'unknown' };
+    }
+}
+
 const server = http.createServer((req, res) => {
     // CORS headers for local development
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -34,6 +70,14 @@ const server = http.createServer((req, res) => {
     if (req.method === 'OPTIONS') {
         res.writeHead(204);
         res.end();
+        return;
+    }
+
+    // API endpoint for system stats
+    if (req.url === '/api/system') {
+        const stats = getSystemStats();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(stats));
         return;
     }
 

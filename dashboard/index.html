@@ -3758,7 +3758,7 @@
         
         // Default widget layout (order and position)
         window.DEFAULT_LAYOUT = [
-            { id: 'stats', x: 0, y: 0, w: 12, h: 1, noResize: true },
+            { id: 'stats', x: 0, y: 0, w: 12, h: 1 },
             { id: 'system', x: 0, y: 1, w: 4, h: 2 },
             { id: 'mindmap', x: 4, y: 1, w: 4, h: 3 },
             { id: 'accounts', x: 8, y: 1, w: 4, h: 2 },
@@ -3874,14 +3874,16 @@
                 editBtn.innerHTML = '✓ Done Editing';
                 resetBtn.style.display = 'flex';
                 container.classList.add('edit-mode');
-                window.grid?.enable();
-                showToast('Drag widgets to rearrange. Click "Done" when finished.');
+                window.grid?.enableMove(true);
+                window.grid?.enableResize(true);
+                showToast('Drag to move, resize from corners. Click "Done" when finished.');
             } else {
                 editBtn.classList.remove('active');
                 editBtn.innerHTML = '🔧 Edit Layout';
                 resetBtn.style.display = 'none';
                 container.classList.remove('edit-mode');
-                window.grid?.disable();
+                window.grid?.enableMove(false);
+                window.grid?.enableResize(false);
                 saveLayout();
                 showToast('Layout saved!');
             }

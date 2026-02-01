@@ -1,34 +1,45 @@
 {
-  "lastUpdated": "2026-02-01T21:45:00Z",
-  "account": "@degencollector",
+  "lastUpdated": "2026-02-01T23:30:00Z",
   "profile": {
-    "followers": 362,
+    "handle": "@degencollector",
+    "followers": 375,
     "following": 5,
-    "totalLikes": 2000
+    "likes": 2018
   },
-  "history": [
-    { "date": "2026-01-31", "followers": 340, "likes": 1800 },
-    { "date": "2026-02-01", "followers": 362, "likes": 2000 }
-  ],
-  "recentVideos": [
-    { "id": "EP.7", "title": "Drake Maye Hunt EP.7", "views": 324, "likes": 0, "comments": 0, "posted": "2026-02-01", "status": "posted", "note": "EPIC Purple Pack - Jared Goff 9/25!" },
-    { "id": "EP.6", "title": "Drake Maye Hunt EP.6", "views": 882, "likes": 0, "comments": 0, "posted": "2026-02-01", "status": "posted", "note": "Anthony Richardson Ultra Rare!" },
-    { "id": "EP.5", "title": "Drake Maye Hunt EP.5", "views": 338, "likes": 2, "comments": 2, "posted": "2026-02-01" },
-    { "id": "EP.4", "title": "Drake Maye Hunt EP.4", "views": 1293, "likes": 6, "comments": 2, "posted": "2026-02-01" }
+  "videos": [
+    {
+      "title": "Drake Maye Hunt EP.7",
+      "views": 344,
+      "likes": 0,
+      "comments": 0,
+      "posted": "2026-02-01"
+    },
+    {
+      "title": "Drake Maye Hunt EP.6",
+      "views": 1235,
+      "likes": 0,
+      "comments": 0,
+      "posted": "2026-02-01"
+    },
+    {
+      "title": "Drake Maye Hunt EP.5",
+      "views": 340,
+      "likes": 2,
+      "comments": 2,
+      "posted": "2026-01-31"
+    },
+    {
+      "title": "Drake Maye Hunt EP.4",
+      "views": 1395,
+      "likes": 6,
+      "comments": 2,
+      "posted": "2026-01-31"
+    }
   ],
   "series": {
     "name": "Drake Maye Hunt",
-    "totalEpisodes": 7,
-    "packsOpened": 7,
-    "drakeMayeFound": false,
-    "bestPulls": [
-      { "episode": 7, "card": "Jared Goff 9/25", "rarity": "EPIC", "value": "$9" },
-      { "episode": 6, "card": "Anthony Richardson 7/49", "rarity": "Ultra Rare", "value": "$18" }
-    ]
-  },
-  "milestones": {
-    "liveGifts": { "name": "LIVE Gifts", "required": 1000, "current": 362, "icon": "🎁" },
-    "creatorFund": { "name": "Creator Fund", "required": 10000, "current": 362, "icon": "💰" },
-    "creatorMarketplace": { "name": "Creator Marketplace", "required": 100000, "current": 362, "icon": "🏪" }
+    "episodes": 7,
+    "totalViews": 3314,
+    "bestPulls": ["Anthony Richardson 7/49 Ultra Rare", "Jared Goff 9/25 EPIC"]
   }
 }

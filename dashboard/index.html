@@ -14,6 +14,24 @@
     <link href="https://cdn.jsdelivr.net/npm/gridstack@10.0.1/dist/gridstack.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/gridstack@10.0.1/dist/gridstack-all.js"></script>
     <style>
+        /* Kiosk Mode - hide all editing UI when ?kiosk is in URL */
+        body.kiosk-mode .mobile-editor-sheet,
+        body.kiosk-mode .mobile-reorder-toolbar,
+        body.kiosk-mode .mobile-menu,
+        body.kiosk-mode .hamburger-btn,
+        body.kiosk-mode #edit-layout-btn,
+        body.kiosk-mode .view-toggle,
+        body.kiosk-mode .chat-fab,
+        body.kiosk-mode .chat-panel {
+            display: none !important;
+        }
+        body.kiosk-mode header {
+            padding: 0.5rem 1rem;
+        }
+        body.kiosk-mode .header-title {
+            font-size: 1rem;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -4236,6 +4254,11 @@
     </nav>
 
     <script>
+        // Kiosk mode - clean display without editing controls
+        if (window.location.search.includes('kiosk')) {
+            document.body.classList.add('kiosk-mode');
+        }
+        
         // Configuration
         const GATEWAY_TOKEN = '47cf46ba8962b26d18a3d690d80a3e109f57e2525b8f6941';
         const bootTime = new Date(); // Page load time for uptime calculation

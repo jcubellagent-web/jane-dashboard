@@ -14,9 +14,13 @@
       "entryDate": "2026-02-01T05:04:00Z",
       "entryTx": "4qouebKaDpamxSwd8BuQqipD5xCpvStognWwky5qjktH5tGyLz8Ufca9n3w9UNt7Kn8m88h4K35YpBPqfhuxyVBf",
       "status": "open",
-      "currentPrice": 0.006898,
-      "currentMC": 6898518,
-      "pnlPercent": -13.2
+      "currentPrice": 0.00850,
+      "currentMC": 8502146,
+      "pnlPercent": 6.95,
+      "priceChange1h": 10.89,
+      "priceChange24h": 26.70,
+      "lastUpdated": "2026-02-01T15:55:00Z",
+      "note": "Steady climb, +7% from entry. Holding well above stop."
     },
     {
       "token": "COPPERINU",
@@ -32,9 +36,13 @@
       "entryDate": "2026-02-01T05:05:00Z",
       "entryTx": "vV1CZZRnLAhz1SvMdQX8xNBBKzvYvpMM9JvnYAyTSv36TEq7cBMmgDyZ2VFMmCohjDdVWtASxSwsNzBAC1GSbrC",
       "status": "open",
-      "currentPrice": 0.007423,
-      "currentMC": 7423759,
-      "pnlPercent": -3.3
+      "currentPrice": 0.01355,
+      "currentMC": 13558070,
+      "pnlPercent": 76.43,
+      "priceChange1h": 34.97,
+      "priceChange24h": 92.39,
+      "lastUpdated": "2026-02-01T15:55:00Z",
+      "note": "🔥🔥 ABSOLUTE RIPPER! +76% from entry, nearly 2x! Halfway to $0.03 target. Consider partial profit?"
     },
     {
       "token": "pippin",
@@ -50,17 +58,21 @@
       "entryDate": "2026-02-01T05:06:00Z",
       "entryTx": "4oAyRbYACKszWwp5XZBMj7oV6bPnVNe9H3kgeV2wmrL7GTbuzPPMkgZdqoR9fHox12tk9AzAcZozkpDKbpTuTz4A",
       "status": "open",
-      "currentPrice": 0.1786,
-      "currentMC": 178645681,
-      "pnlPercent": -1.9
+      "currentPrice": 0.1749,
+      "currentMC": 174960027,
+      "pnlPercent": -3.90,
+      "priceChange1h": -3.69,
+      "priceChange24h": -21.53,
+      "lastUpdated": "2026-02-01T15:55:00Z",
+      "note": "Slight dip -4%, 24h showing -21%. Holding well above stop ($0.127). Watching for recovery."
     }
   ],
   "wallet": "ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L",
-  "lastChecked": "2026-02-01T08:40:39Z",
+  "lastChecked": "2026-02-01T15:55:00Z",
   "lastPrices": {
-    "WOJAK": 0.006898,
-    "COPPERINU": 0.007423,
-    "pippin": 0.1786
+    "WOJAK": 0.00850,
+    "COPPERINU": 0.01355,
+    "pippin": 0.1749
   },
   "strategy": {
     "takeProfit": "50% at 2x, rest rides",

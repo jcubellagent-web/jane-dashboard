@@ -1849,7 +1849,7 @@
             </div>
             <div class="time" id="current-time">--:--</div>
             <div class="layout-controls">
-                <button class="layout-btn" id="edit-layout-btn" onclick="toggleEditMode()">
+                <button class="layout-btn" id="edit-layout-btn" onclick="showToast('Layout editing coming soon!')" style="opacity: 0.5;">
                     🔧 Edit Layout
                 </button>
                 <button class="layout-btn danger" id="reset-layout-btn" onclick="resetLayout()" style="display:none;">
@@ -2831,19 +2831,22 @@
 
         // Calculate uptime (time since midnight today)
         function updateUptime() {
-            // Simple: just show time since midnight today
             const now = new Date();
             const midnight = new Date();
             midnight.setHours(0, 0, 0, 0);
             
-            const diff = now - bootTime;
+            // Time since midnight (how long "today" has been)
+            const diff = now - midnight;
             const hours = Math.floor(diff / (1000 * 60 * 60));
             const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             
-            if (hours > 0) {
-                document.getElementById('uptime').textContent = `${hours}h ${mins}m`;
-            } else {
-                document.getElementById('uptime').textContent = `${mins}m`;
+            const el = document.getElementById('uptime');
+            if (el) {
+                if (hours > 0) {
+                    el.textContent = `${hours}h ${mins}m`;
+                } else {
+                    el.textContent = `${mins}m`;
+                }
             }
         }
 
@@ -3561,36 +3564,23 @@
             location.reload();
         }
         
-        // Initialize dashboard - GridStack first, then data
-        (function initDashboard() {
-            if (window._dashboardInitialized) return;
-            
-            function doInit() {
-                if (window._dashboardInitialized) return;
-                window._dashboardInitialized = true;
-                console.log('Dashboard initializing...');
-                
-                // Try to initialize GridStack (it will call initDataFetching after)
-                const container = document.getElementById('dashboard-container');
-                const widgets = container?.querySelectorAll('[data-widget]');
-                
-                if (typeof GridStack !== 'undefined' && widgets && widgets.length > 0) {
-                    console.log('Initializing GridStack layout...');
-                    initGridStack();
-                } else {
-                    // No GridStack - just load data directly
-                    console.log('GridStack not available, loading data directly');
-                    initDataFetching();
-                }
+        // Simple initialization - just load data when page is ready
+        // GridStack drag-drop disabled for now (causing init issues)
+        (function() {
+            function init() {
+                if (window._dashInit) return;
+                window._dashInit = true;
+                console.log('Dashboard init starting...');
+                initDataFetching();
+                console.log('Dashboard init complete');
             }
             
-            // Multiple fallbacks for reliability
-            document.addEventListener('DOMContentLoaded', doInit);
-            window.addEventListener('load', doInit);
-            if (document.readyState === 'complete' || document.readyState === 'interactive') {
-                doInit();
+            // Run when DOM ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
             }
-            setTimeout(doInit, 100);
         })();
     </script>
 </body>

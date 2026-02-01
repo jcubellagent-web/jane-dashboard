@@ -1548,27 +1548,12 @@
                 <h2>🌿 Chat with Jane</h2>
                 <button class="close-chat" onclick="toggleChat()">×</button>
             </div>
-            <div class="chat-messages" id="chat-messages">
-                <div class="message jane">
-                    Hey Josh! 👋 This is your direct line to me. Type anything here and I'll respond. You can also use the quick commands below!
-                    <div class="message-time">Just now</div>
-                </div>
-            </div>
-            <div class="typing-indicator" id="typing">
-                <span></span><span></span><span></span>
-            </div>
-            <div class="chat-input-container">
-                <div class="quick-actions">
-                    <button class="quick-btn" onclick="quickSend('What\'s new?')">What's new?</button>
-                    <button class="quick-btn" onclick="quickSend('Check emails')">📧 Emails</button>
-                    <button class="quick-btn" onclick="quickSend('Weather')">🌤️ Weather</button>
-                    <button class="quick-btn" onclick="quickSend('Status')">📊 Status</button>
-                </div>
-                <div class="chat-input-row">
-                    <input type="text" class="chat-input" id="chat-input" placeholder="Type a message..." onkeypress="handleKeyPress(event)">
-                    <button class="send-btn" id="send-btn" onclick="sendMessage()">→</button>
-                </div>
-            </div>
+            <iframe 
+                id="chat-iframe"
+                src="http://localhost:18789/?token=47cf46ba8962b26d18a3d690d80a3e109f57e2525b8f6941"
+                style="width: 100%; height: calc(100% - 60px); border: none; background: var(--bg-primary);"
+                allow="clipboard-write"
+            ></iframe>
         </div>
     </div>
 
@@ -1599,8 +1584,7 @@
 
     <script>
         // Configuration
-        const HOOK_URL = 'http://127.0.0.1:18789/hooks/agent';
-        const HOOK_TOKEN = '5c8d56dd45438059dddecbedb8a7123abaf72721153dc95d';
+        const GATEWAY_TOKEN = '47cf46ba8962b26d18a3d690d80a3e109f57e2525b8f6941';
 
         // Update time and greeting
         function updateTime() {
@@ -1645,86 +1629,10 @@
             }
         }
 
-        // Send message to Jane via webhook
-        async function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const message = input.value.trim();
-            if (!message) return;
-
-            // Add user message to chat
-            addMessage(message, 'user');
-            input.value = '';
-
-            // Show typing indicator
-            document.getElementById('typing').classList.add('visible');
-
-            try {
-                const response = await fetch(HOOK_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${HOOK_TOKEN}`
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        name: 'Dashboard',
-                        sessionKey: 'dashboard:chat',
-                        deliver: false  // Don't send to WhatsApp
-                    })
-                });
-
-                if (response.ok) {
-                    // Message sent successfully - Jane will process it
-                    setTimeout(() => {
-                        document.getElementById('typing').classList.remove('visible');
-                        addMessage("Message received! I'm processing your request. Check WhatsApp for my response, or I'll update here if I can.", 'jane');
-                    }, 1500);
-                } else {
-                    throw new Error('Failed to send');
-                }
-            } catch (error) {
-                document.getElementById('typing').classList.remove('visible');
-                addMessage("Hmm, I couldn't send that message. Make sure the gateway is running.", 'jane');
-                showToast('Failed to send message');
-            }
-        }
-
-        // Add message to chat UI
-        function addMessage(text, sender) {
-            const container = document.getElementById('chat-messages');
-            const div = document.createElement('div');
-            div.className = `message ${sender}`;
-            
-            const time = new Date().toLocaleTimeString('en-US', { 
-                hour: 'numeric', 
-                minute: '2-digit'
-            });
-            
-            div.innerHTML = `${escapeHtml(text)}<div class="message-time">${time}</div>`;
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
-        }
-
-        // Quick send (from buttons)
-        function quickSend(text) {
-            document.getElementById('chat-input').value = text;
-            sendMessage();
-        }
-
-        // Send command (from dashboard buttons)
+        // Chat is now embedded via iframe - no custom send needed
         function sendCommand(command) {
-            toggleChat();  // Open chat panel
-            setTimeout(() => {
-                document.getElementById('chat-input').value = command;
-                sendMessage();
-            }, 300);
-        }
-
-        // Handle enter key
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
+            // Open chat panel - user can type in the embedded webchat
+            toggleChat();
         }
 
         // Copy wallet address

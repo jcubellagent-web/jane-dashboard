@@ -2138,13 +2138,17 @@
             transform: scale(1) translateY(0) translateX(180px);
         }
 
-        /* Native mobile device styling (actual phones, not desktop preview) */
+        /* ========================================
+           NATIVE MOBILE STYLING
+           For actual phones (iPhone, Android)
+           ======================================== */
+        
         body.native-mobile {
             padding: 0;
         }
         
         body.native-mobile .main-container {
-            padding: 0.5rem;
+            padding: 0.75rem;
             max-width: 100%;
         }
         
@@ -2158,18 +2162,275 @@
             display: none !important;
         }
         
+        /* Clean mobile header */
         body.native-mobile header {
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1rem;
+            justify-content: space-between;
+        }
+        
+        body.native-mobile .logo {
+            gap: 0.5rem;
+        }
+        
+        body.native-mobile .logo-icon {
+            width: 36px;
+            height: 36px;
+            font-size: 1.25rem;
+            border-radius: 10px;
         }
         
         body.native-mobile .logo h1 {
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
         
+        /* Hide desktop controls on mobile */
+        body.native-mobile .header-actions .status-indicator,
+        body.native-mobile .header-actions .time,
+        body.native-mobile .header-actions .layout-controls,
+        body.native-mobile .view-btn,
+        body.native-mobile .mobile-reorder-toolbar {
+            display: none !important;
+        }
+        
+        /* Show hamburger menu on mobile */
+        body.native-mobile .hamburger-btn {
+            display: flex !important;
+        }
+        
+        /* ========================================
+           HAMBURGER MENU
+           ======================================== */
+        
+        .hamburger-btn {
+            display: none;
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 5px;
+            padding: 12px;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .hamburger-btn:hover, .hamburger-btn:focus {
+            background: rgba(255,255,255,0.15);
+            outline: none;
+        }
+        
+        .hamburger-btn:focus-visible {
+            box-shadow: 0 0 0 3px var(--accent);
+        }
+        
+        .hamburger-btn .bar {
+            width: 20px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        
+        .hamburger-btn.active .bar:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .hamburger-btn.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger-btn.active .bar:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+        
+        /* Mobile menu overlay */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .mobile-menu-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+        
+        /* Slide-out menu panel */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 280px;
+            max-width: 85vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-left: 1px solid var(--border);
+            z-index: 999;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        .mobile-menu-header {
+            padding: 1.25rem 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .mobile-menu-header h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .mobile-menu-close {
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .mobile-menu-close:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        
+        .mobile-menu-section {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .mobile-menu-section:last-child {
+            border-bottom: none;
+        }
+        
+        .mobile-menu-section h3 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+        
+        .mobile-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s;
+            text-align: left;
+            min-height: 48px; /* Accessibility: minimum touch target */
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .mobile-menu-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .mobile-menu-item:hover, .mobile-menu-item:focus {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--border-hover);
+            outline: none;
+        }
+        
+        .mobile-menu-item:focus-visible {
+            box-shadow: 0 0 0 3px var(--accent);
+        }
+        
+        .mobile-menu-item .icon {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .mobile-menu-item.active {
+            background: rgba(74, 222, 128, 0.15);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .mobile-menu-item.danger {
+            color: #f87171;
+        }
+        
+        .mobile-menu-item.danger:hover {
+            background: rgba(248, 113, 113, 0.1);
+            border-color: #f87171;
+        }
+        
+        /* Status section in menu */
+        .mobile-menu-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: rgba(74, 222, 128, 0.1);
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .mobile-menu-status .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+        
+        .mobile-menu-status .status-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .mobile-menu-status .status-time {
+            margin-left: auto;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Chat FAB for native mobile */
         body.native-mobile .chat-fab {
-            bottom: 20px;
-            right: 20px;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            font-size: 1.5rem;
             transform: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
         
         body.native-mobile .chat-panel {
@@ -2179,7 +2440,7 @@
             left: 0;
             width: 100%;
             max-width: 100%;
-            height: 70vh;
+            height: 85vh;
             border-radius: 20px 20px 0 0;
             transform: translateY(100%);
         }
@@ -2188,14 +2449,69 @@
             transform: translateY(0);
         }
         
-        /* Hide view toggle buttons on native mobile */
-        body.native-mobile .view-btn {
-            display: none;
+        /* ========================================
+           ACCESSIBILITY IMPROVEMENTS
+           ======================================== */
+        
+        /* Skip to main content link */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: #000;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            z-index: 10000;
+            transition: top 0.3s;
         }
         
-        /* Hide reorder toolbar on native mobile (use touch to scroll) */
-        body.native-mobile .mobile-reorder-toolbar {
-            display: none !important;
+        .skip-link:focus {
+            top: 10px;
+        }
+        
+        /* Ensure all interactive elements have visible focus states */
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        [tabindex]:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        
+        /* Minimum touch target size (44px) for mobile */
+        body.native-mobile button,
+        body.native-mobile a,
+        body.native-mobile [role="button"] {
+            min-height: 44px;
+            min-width: 44px;
+        }
+        
+        /* Improve contrast for secondary text */
+        body.native-mobile .text-secondary,
+        body.native-mobile [class*="secondary"] {
+            color: #9ca3af;
+        }
+        
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --border: rgba(255,255,255,0.3);
+                --text-secondary: #c0c0c0;
+            }
         }
 
         .layout-btn {
@@ -2715,37 +3031,105 @@
     </style>
 </head>
 <body>
+    <!-- Skip to main content (accessibility) -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
     <div class="bg-gradient"></div>
 
-    <header>
+    <header role="banner">
         <div class="logo">
-            <div class="logo-icon">🌿</div>
+            <div class="logo-icon" aria-hidden="true">🌿</div>
             <h1><span>Jane</span> Dashboard</h1>
         </div>
         <div class="header-actions">
-            <div class="status-indicator" id="gateway-status" title="Gateway status">
+            <div class="status-indicator" id="gateway-status" title="Gateway status" role="status" aria-live="polite">
                 <div class="status-dot" id="status-dot"></div>
                 <span id="status-text">Checking...</span>
             </div>
-            <div class="time" id="current-time">--:--</div>
+            <div class="time" id="current-time" aria-label="Current time">--:--</div>
             <div class="layout-controls">
-                <div class="view-toggle">
-                    <button class="view-btn active" id="desktop-view-btn" onclick="setView('desktop')" title="Desktop View">
+                <div class="view-toggle" role="group" aria-label="View mode">
+                    <button class="view-btn active" id="desktop-view-btn" onclick="setView('desktop')" title="Desktop View" aria-pressed="true">
                         🖥️
                     </button>
-                    <button class="view-btn" id="mobile-view-btn" onclick="setView('mobile')" title="Mobile View (iPhone 17 Pro)">
+                    <button class="view-btn" id="mobile-view-btn" onclick="setView('mobile')" title="Mobile View (iPhone 17 Pro)" aria-pressed="false">
                         📱
                     </button>
                 </div>
-                <button class="layout-btn" id="edit-layout-btn" onclick="toggleEditMode()">
+                <button class="layout-btn" id="edit-layout-btn" onclick="toggleEditMode()" aria-label="Edit layout">
                     🔧 Edit Layout
                 </button>
-                <button class="layout-btn danger" id="reset-layout-btn" onclick="resetLayout()" style="display:none;">
+                <button class="layout-btn danger" id="reset-layout-btn" onclick="resetLayout()" style="display:none;" aria-label="Reset layout">
                     ↺ Reset
                 </button>
             </div>
+            <!-- Hamburger menu button (mobile only) -->
+            <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
         </div>
     </header>
+    
+    <!-- Mobile menu overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+    
+    <!-- Mobile slide-out menu -->
+    <nav class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile menu">
+        <div class="mobile-menu-header">
+            <h2>Menu</h2>
+            <button class="mobile-menu-close" onclick="toggleMobileMenu()" aria-label="Close menu">×</button>
+        </div>
+        
+        <div class="mobile-menu-section">
+            <div class="mobile-menu-status">
+                <div class="status-dot" id="menu-status-dot"></div>
+                <span class="status-text" id="menu-status-text">Online</span>
+                <span class="status-time" id="menu-time">--:--</span>
+            </div>
+        </div>
+        
+        <div class="mobile-menu-section">
+            <h3>Quick Actions</h3>
+            <button class="mobile-menu-item" onclick="refreshAllWidgets(); toggleMobileMenu();">
+                <span class="icon">🔄</span>
+                <span>Refresh All Data</span>
+            </button>
+            <button class="mobile-menu-item" onclick="toggleChat(); toggleMobileMenu();">
+                <span class="icon">💬</span>
+                <span>Chat with Jane</span>
+            </button>
+        </div>
+        
+        <div class="mobile-menu-section">
+            <h3>Navigation</h3>
+            <a href="/kanban/" class="mobile-menu-item">
+                <span class="icon">📋</span>
+                <span>Task Board</span>
+            </a>
+            <a href="/notes/" class="mobile-menu-item">
+                <span class="icon">📝</span>
+                <span>Notes</span>
+            </a>
+            <a href="/timer/" class="mobile-menu-item">
+                <span class="icon">🍅</span>
+                <span>Focus Timer</span>
+            </a>
+        </div>
+        
+        <div class="mobile-menu-section">
+            <h3>Settings</h3>
+            <button class="mobile-menu-item" onclick="scrollToTop(); toggleMobileMenu();">
+                <span class="icon">⬆️</span>
+                <span>Scroll to Top</span>
+            </button>
+            <button class="mobile-menu-item" onclick="clearMobileViewPreference(); toggleMobileMenu();">
+                <span class="icon">🔄</span>
+                <span>Reset View Preference</span>
+            </button>
+        </div>
+    </nav>
 
     <!-- Mobile Reorder Toolbar -->
     <div class="mobile-reorder-toolbar" id="mobile-reorder-toolbar">
@@ -2762,7 +3146,7 @@
         💬
     </button>
 
-    <div class="main-container">
+    <main class="main-container" id="main-content" role="main">
         <div class="dashboard" id="dashboard-container">
             <!-- Quick Stats (data-widget for GridStack) -->
             <div class="stats-grid" data-widget="stats" data-gs-w="12" data-gs-h="1" data-gs-no-resize="true">
@@ -3530,7 +3914,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <div class="toast" id="toast"></div>
 
@@ -3670,6 +4054,90 @@
             } else {
                 fab.classList.remove('hidden');
             }
+        }
+        
+        // ========================================
+        // MOBILE MENU FUNCTIONS
+        // ========================================
+        
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const overlay = document.getElementById('mobile-menu-overlay');
+            const hamburger = document.getElementById('hamburger-btn');
+            
+            const isOpen = menu.classList.contains('open');
+            
+            if (isOpen) {
+                // Close menu
+                menu.classList.remove('open');
+                overlay.classList.remove('show');
+                hamburger.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            } else {
+                // Open menu
+                menu.classList.add('open');
+                overlay.classList.add('show');
+                hamburger.classList.add('active');
+                hamburger.setAttribute('aria-expanded', 'true');
+                document.body.style.overflow = 'hidden';
+                
+                // Update status in menu
+                const menuStatusDot = document.getElementById('menu-status-dot');
+                const menuStatusText = document.getElementById('menu-status-text');
+                const menuTime = document.getElementById('menu-time');
+                const mainStatusDot = document.getElementById('status-dot');
+                const mainStatusText = document.getElementById('status-text');
+                const mainTime = document.getElementById('current-time');
+                
+                if (menuStatusDot && mainStatusDot) {
+                    menuStatusDot.style.background = getComputedStyle(mainStatusDot).background;
+                }
+                if (menuStatusText && mainStatusText) {
+                    menuStatusText.textContent = mainStatusText.textContent;
+                }
+                if (menuTime && mainTime) {
+                    menuTime.textContent = mainTime.textContent;
+                }
+                
+                // Focus first menu item for accessibility
+                setTimeout(() => {
+                    const firstItem = menu.querySelector('.mobile-menu-item');
+                    if (firstItem) firstItem.focus();
+                }, 100);
+            }
+        }
+        
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const menu = document.getElementById('mobile-menu');
+                if (menu && menu.classList.contains('open')) {
+                    toggleMobileMenu();
+                }
+            }
+        });
+        
+        function refreshAllWidgets() {
+            // Call all refresh functions
+            if (typeof fetchWeather === 'function') fetchWeather();
+            if (typeof fetchCrypto === 'function') fetchCrypto();
+            if (typeof fetchSystemStats === 'function') fetchSystemStats();
+            if (typeof fetchWalletBalances === 'function') fetchWalletBalances();
+            if (typeof fetchAINews === 'function') fetchAINews();
+            if (typeof fetchTradingPositions === 'function') fetchTradingPositions();
+            if (typeof fetchMindmap === 'function') fetchMindmap();
+            showToast('Refreshing all data...');
+        }
+        
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function clearMobileViewPreference() {
+            localStorage.removeItem('jane-dashboard-view');
+            showToast('View preference cleared. Reloading...');
+            setTimeout(() => location.reload(), 1000);
         }
 
         // Chat WebSocket connection

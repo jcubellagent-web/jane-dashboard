@@ -8,6 +8,15 @@
 - **X/Twitter:** @jcubnft (verified, 1,054 followers, joined March 2021)
 - **TikTok:** @degencollector
 
+## Work
+
+- **Company:** Nasdaq
+- **LinkedIn:** linkedin.com/in/joshua-cubell
+- **Certifications:** Series 66 (NASAA), FINRA licenses
+- **Education:** Gettysburg College (Dean's List)
+- **Interests:** Digital assets, private markets, trading technology, market data
+- **Notable:** Won "Best Stock Pitch" at Emerald Asset Management (PYPL analysis)
+
 ## Interests & Passions
 
 ### Sports

@@ -1834,6 +1834,153 @@
                 </div>
             </div>
 
+            <!-- Mindmap - Second Brain Summary -->
+            <div class="card mindmap-section" style="grid-column: span 4;">
+                <div class="card-header">
+                    <div class="card-title">🧠 Mindmap</div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 0.7rem; color: var(--text-secondary);" id="mindmap-updated">--</span>
+                        <button class="refresh-btn" onclick="fetchMindmap()" title="Refresh">↻</button>
+                    </div>
+                </div>
+                
+                <!-- Theme Strengths -->
+                <div class="mindmap-themes">
+                    <div class="theme-item" id="theme-0">
+                        <div class="theme-header">
+                            <span class="theme-name">Finance & Crypto</span>
+                            <span class="theme-percent">85%</span>
+                        </div>
+                        <div class="theme-bar">
+                            <div class="theme-fill" style="width: 85%; background: linear-gradient(90deg, #f7931a, #fcd34d);"></div>
+                        </div>
+                    </div>
+                    <div class="theme-item" id="theme-1">
+                        <div class="theme-header">
+                            <span class="theme-name">Sports & NFL</span>
+                            <span class="theme-percent">70%</span>
+                        </div>
+                        <div class="theme-bar">
+                            <div class="theme-fill" style="width: 70%; background: linear-gradient(90deg, #002244, #c60c30);"></div>
+                        </div>
+                    </div>
+                    <div class="theme-item" id="theme-2">
+                        <div class="theme-header">
+                            <span class="theme-name">Digital Collectibles</span>
+                            <span class="theme-percent">60%</span>
+                        </div>
+                        <div class="theme-bar">
+                            <div class="theme-fill" style="width: 60%; background: linear-gradient(90deg, #9945ff, #14f195);"></div>
+                        </div>
+                    </div>
+                    <div class="theme-item" id="theme-3">
+                        <div class="theme-header">
+                            <span class="theme-name">Tech & Web3</span>
+                            <span class="theme-percent">50%</span>
+                        </div>
+                        <div class="theme-bar">
+                            <div class="theme-fill" style="width: 50%; background: linear-gradient(90deg, #60a5fa, #a78bfa);"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category Grid -->
+                <div class="mindmap-categories">
+                    <div class="cat-item" title="Profile">
+                        <span class="cat-icon">👤</span>
+                        <span class="cat-count" id="cat-profile">1</span>
+                    </div>
+                    <div class="cat-item" title="Articles">
+                        <span class="cat-icon">📚</span>
+                        <span class="cat-count" id="cat-articles">0</span>
+                    </div>
+                    <div class="cat-item" title="Ideas">
+                        <span class="cat-icon">💡</span>
+                        <span class="cat-count" id="cat-ideas">0</span>
+                    </div>
+                    <div class="cat-item" title="Bookmarks">
+                        <span class="cat-icon">🔖</span>
+                        <span class="cat-count" id="cat-bookmarks">0</span>
+                    </div>
+                    <div class="cat-item" title="People">
+                        <span class="cat-icon">👥</span>
+                        <span class="cat-count" id="cat-people">0</span>
+                    </div>
+                    <div class="cat-item" title="Notes">
+                        <span class="cat-icon">📝</span>
+                        <span class="cat-count" id="cat-notes">0</span>
+                    </div>
+                </div>
+                
+                <!-- Top Tags -->
+                <div class="mindmap-tags">
+                    <span class="mind-tag" style="--tag-color: #f7931a;">#crypto</span>
+                    <span class="mind-tag" style="--tag-color: #002244;">#patriots</span>
+                    <span class="mind-tag" style="--tag-color: #60a5fa;">#work</span>
+                    <span class="mind-tag" style="--tag-color: #9945ff;">#nft</span>
+                </div>
+                
+                <!-- Recent -->
+                <div class="mindmap-recent">
+                    <div class="recent-header">Recent Additions</div>
+                    <div class="recent-item">
+                        <span class="recent-icon">👤</span>
+                        <span class="recent-text">Profile created</span>
+                        <span class="recent-date">Today</span>
+                    </div>
+                    <div class="recent-item">
+                        <span class="recent-icon">⚙️</span>
+                        <span class="recent-text">Preferences set</span>
+                        <span class="recent-date">Today</span>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 0.75rem;">
+                    <a href="#" onclick="sendCommand('What\\'s in my Second Brain?'); return false;" style="font-size: 0.7rem; color: var(--accent); text-decoration: none;">
+                        Send me things via WhatsApp to grow your brain! →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Connected Accounts -->
+            <div class="card accounts-section">
+                <div class="card-header">
+                    <div class="card-title">🔗 Connected Accounts</div>
+                </div>
+                <div class="account-item">
+                    <div class="account-icon whatsapp">💬</div>
+                    <div class="account-info">
+                        <h4>WhatsApp</h4>
+                        <p>Primary channel</p>
+                    </div>
+                    <span class="account-status">Active</span>
+                </div>
+                <div class="account-item">
+                    <div class="account-icon tiktok">🎵</div>
+                    <div class="account-info">
+                        <h4>TikTok</h4>
+                        <p>@degencollector</p>
+                    </div>
+                    <span class="account-status">Active</span>
+                </div>
+                <div class="account-item">
+                    <div class="account-icon x">𝕏</div>
+                    <div class="account-info">
+                        <h4>X / Twitter</h4>
+                        <p>@AgentJc11443</p>
+                    </div>
+                    <span class="account-status">Active</span>
+                </div>
+                <div class="account-item">
+                    <div class="account-icon gmail">📧</div>
+                    <div class="account-info">
+                        <h4>Gmail</h4>
+                        <p>jcubellagent@gmail.com</p>
+                    </div>
+                    <span class="account-status">Active</span>
+                </div>
+            </div>
+
             <!-- AI News -->
             <div class="card ai-news-section">
                 <div class="card-header">
@@ -1992,153 +2139,6 @@
                 <div class="recent-videos">
                     <div class="videos-header">🎬 Recent Videos</div>
                     <div id="recent-videos-list"></div>
-                </div>
-            </div>
-
-            <!-- Mindmap - Second Brain Summary -->
-            <div class="card mindmap-section" style="grid-column: span 4;">
-                <div class="card-header">
-                    <div class="card-title">🧠 Mindmap</div>
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <span style="font-size: 0.7rem; color: var(--text-secondary);" id="mindmap-updated">--</span>
-                        <button class="refresh-btn" onclick="fetchMindmap()" title="Refresh">↻</button>
-                    </div>
-                </div>
-                
-                <!-- Theme Strengths -->
-                <div class="mindmap-themes">
-                    <div class="theme-item" id="theme-0">
-                        <div class="theme-header">
-                            <span class="theme-name">Finance & Crypto</span>
-                            <span class="theme-percent">85%</span>
-                        </div>
-                        <div class="theme-bar">
-                            <div class="theme-fill" style="width: 85%; background: linear-gradient(90deg, #f7931a, #fcd34d);"></div>
-                        </div>
-                    </div>
-                    <div class="theme-item" id="theme-1">
-                        <div class="theme-header">
-                            <span class="theme-name">Sports & NFL</span>
-                            <span class="theme-percent">70%</span>
-                        </div>
-                        <div class="theme-bar">
-                            <div class="theme-fill" style="width: 70%; background: linear-gradient(90deg, #002244, #c60c30);"></div>
-                        </div>
-                    </div>
-                    <div class="theme-item" id="theme-2">
-                        <div class="theme-header">
-                            <span class="theme-name">Digital Collectibles</span>
-                            <span class="theme-percent">60%</span>
-                        </div>
-                        <div class="theme-bar">
-                            <div class="theme-fill" style="width: 60%; background: linear-gradient(90deg, #9945ff, #14f195);"></div>
-                        </div>
-                    </div>
-                    <div class="theme-item" id="theme-3">
-                        <div class="theme-header">
-                            <span class="theme-name">Tech & Web3</span>
-                            <span class="theme-percent">50%</span>
-                        </div>
-                        <div class="theme-bar">
-                            <div class="theme-fill" style="width: 50%; background: linear-gradient(90deg, #60a5fa, #a78bfa);"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Category Grid -->
-                <div class="mindmap-categories">
-                    <div class="cat-item" title="Profile">
-                        <span class="cat-icon">👤</span>
-                        <span class="cat-count" id="cat-profile">1</span>
-                    </div>
-                    <div class="cat-item" title="Articles">
-                        <span class="cat-icon">📚</span>
-                        <span class="cat-count" id="cat-articles">0</span>
-                    </div>
-                    <div class="cat-item" title="Ideas">
-                        <span class="cat-icon">💡</span>
-                        <span class="cat-count" id="cat-ideas">0</span>
-                    </div>
-                    <div class="cat-item" title="Bookmarks">
-                        <span class="cat-icon">🔖</span>
-                        <span class="cat-count" id="cat-bookmarks">0</span>
-                    </div>
-                    <div class="cat-item" title="People">
-                        <span class="cat-icon">👥</span>
-                        <span class="cat-count" id="cat-people">0</span>
-                    </div>
-                    <div class="cat-item" title="Notes">
-                        <span class="cat-icon">📝</span>
-                        <span class="cat-count" id="cat-notes">0</span>
-                    </div>
-                </div>
-                
-                <!-- Top Tags -->
-                <div class="mindmap-tags">
-                    <span class="mind-tag" style="--tag-color: #f7931a;">#crypto</span>
-                    <span class="mind-tag" style="--tag-color: #002244;">#patriots</span>
-                    <span class="mind-tag" style="--tag-color: #60a5fa;">#work</span>
-                    <span class="mind-tag" style="--tag-color: #9945ff;">#nft</span>
-                </div>
-                
-                <!-- Recent -->
-                <div class="mindmap-recent">
-                    <div class="recent-header">Recent Additions</div>
-                    <div class="recent-item">
-                        <span class="recent-icon">👤</span>
-                        <span class="recent-text">Profile created</span>
-                        <span class="recent-date">Today</span>
-                    </div>
-                    <div class="recent-item">
-                        <span class="recent-icon">⚙️</span>
-                        <span class="recent-text">Preferences set</span>
-                        <span class="recent-date">Today</span>
-                    </div>
-                </div>
-                
-                <div style="text-align: center; margin-top: 0.75rem;">
-                    <a href="#" onclick="sendCommand('What\\'s in my Second Brain?'); return false;" style="font-size: 0.7rem; color: var(--accent); text-decoration: none;">
-                        Send me things via WhatsApp to grow your brain! →
-                    </a>
-                </div>
-            </div>
-
-            <!-- Connected Accounts -->
-            <div class="card accounts-section">
-                <div class="card-header">
-                    <div class="card-title">🔗 Connected Accounts</div>
-                </div>
-                <div class="account-item">
-                    <div class="account-icon whatsapp">💬</div>
-                    <div class="account-info">
-                        <h4>WhatsApp</h4>
-                        <p>Primary channel</p>
-                    </div>
-                    <span class="account-status">Active</span>
-                </div>
-                <div class="account-item">
-                    <div class="account-icon tiktok">🎵</div>
-                    <div class="account-info">
-                        <h4>TikTok</h4>
-                        <p>@degencollector</p>
-                    </div>
-                    <span class="account-status">Active</span>
-                </div>
-                <div class="account-item">
-                    <div class="account-icon x">𝕏</div>
-                    <div class="account-info">
-                        <h4>X / Twitter</h4>
-                        <p>@AgentJc11443</p>
-                    </div>
-                    <span class="account-status">Active</span>
-                </div>
-                <div class="account-item">
-                    <div class="account-icon gmail">📧</div>
-                    <div class="account-info">
-                        <h4>Gmail</h4>
-                        <p>jcubellagent@gmail.com</p>
-                    </div>
-                    <span class="account-status">Active</span>
                 </div>
             </div>
 

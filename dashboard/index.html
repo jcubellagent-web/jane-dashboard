@@ -5023,13 +5023,18 @@
                 });
             }
 
-            // Update counts
-            document.getElementById('backlog-count').textContent = counts['backlog'];
-            document.getElementById('progress-count').textContent = counts['in-progress'];
-            document.getElementById('review-count').textContent = counts['review'];
-            document.getElementById('done-count').textContent = counts['done'];
+            // Update counts (with null checks for elements that may not exist)
+            const backlogCountEl = document.getElementById('backlog-count');
+            const progressCountEl = document.getElementById('progress-count');
+            const reviewCountEl = document.getElementById('review-count');
+            const doneCountEl = document.getElementById('done-count');
+            
+            if (backlogCountEl) backlogCountEl.textContent = counts['backlog'];
+            if (progressCountEl) progressCountEl.textContent = counts['in-progress'];
+            if (reviewCountEl) reviewCountEl.textContent = counts['review'];
+            if (doneCountEl) doneCountEl.textContent = counts['done'];
 
-            // Update stats
+            // Update stats in top bar
             const tasksDoneEl = document.getElementById('tasks-done');
             if (tasksDoneEl) tasksDoneEl.textContent = counts['done'];
         }

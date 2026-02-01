@@ -3461,8 +3461,8 @@
                 <div class="stat-card">
                     <div class="stat-icon green">⏱️</div>
                     <div class="stat-info">
-                        <h3 id="uptime">4h</h3>
-                        <p>Online Today</p>
+                        <h3 id="uptime">--</h3>
+                        <p>Session Time</p>
                     </div>
                 </div>
                 <div class="stat-card" id="weather-card" style="cursor: pointer;" onclick="sendCommand('What\'s the weather like?')">
@@ -3475,7 +3475,7 @@
                 <div class="stat-card">
                     <div class="stat-icon purple">✅</div>
                     <div class="stat-info">
-                        <h3 id="tasks-done">12</h3>
+                        <h3 id="tasks-done">--</h3>
                         <p>Tasks Completed</p>
                     </div>
                 </div>
@@ -5034,23 +5034,25 @@
             if (tasksDoneEl) tasksDoneEl.textContent = counts['done'];
         }
 
-        // Calculate uptime (time since midnight today)
+        // Track page load time for session duration
+        const pageLoadTime = Date.now();
+        
+        // Calculate uptime (session duration - how long dashboard has been open)
         function updateUptime() {
-            const now = new Date();
-            const midnight = new Date();
-            midnight.setHours(0, 0, 0, 0);
-            
-            // Time since midnight (how long "today" has been)
-            const diff = now - midnight;
+            const now = Date.now();
+            const diff = now - pageLoadTime;
             const hours = Math.floor(diff / (1000 * 60 * 60));
             const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((diff % (1000 * 60)) / 1000);
             
             const el = document.getElementById('uptime');
             if (el) {
                 if (hours > 0) {
                     el.textContent = `${hours}h ${mins}m`;
+                } else if (mins > 0) {
+                    el.textContent = `${mins}m ${secs}s`;
                 } else {
-                    el.textContent = `${mins}m`;
+                    el.textContent = `${secs}s`;
                 }
             }
         }
@@ -5746,7 +5748,7 @@
             // Set up intervals
             setInterval(fetchTradingPositions, 30000);  // Every 30 seconds
             setInterval(loadTasks, 5000);              // Every 5 seconds
-            setInterval(updateUptime, 60000);          // Every minute
+            setInterval(updateUptime, 1000);           // Every second (session timer)
             setInterval(fetchCryptoPrices, 60000);     // Every minute
             setInterval(fetchSystemStats, 60000);      // Every minute
             setInterval(fetchWeather, 600000);         // Every 10 minutes

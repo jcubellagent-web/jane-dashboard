@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' http://localhost:* https://*.coingecko.com https://wttr.in https://api.mainnet-beta.solana.com https://solana-mainnet.rpc.extrnode.com https://*.publicnode.com https://api.dexscreener.com; frame-src 'self' http://localhost:*;">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -2594,6 +2595,7 @@
     <script>
         // Configuration
         const GATEWAY_TOKEN = '47cf46ba8962b26d18a3d690d80a3e109f57e2525b8f6941';
+        const bootTime = new Date(); // Page load time for uptime calculation
 
         // Trading positions data (must be defined early for onclick handlers)
         const POSITIONS = [
@@ -3280,7 +3282,7 @@
         }
 
         // Initialize data fetching (called after GridStack setup)
-        let dataFetchingInitialized = false;
+        var dataFetchingInitialized = false;
         function initDataFetching() {
             if (dataFetchingInitialized) {
                 console.log('Data fetching already initialized, skipping');
@@ -3299,6 +3301,7 @@
             fetchCryptoPrices();
             fetchWeather();
             fetchWalletBalances();
+            checkGatewayStatus();
             
             // Set up intervals
             setInterval(fetchTradingPositions, 30000);  // Every 30 seconds
@@ -3318,12 +3321,12 @@
         function checkGatewayStatus() {
             const dot = document.getElementById('status-dot');
             const text = document.getElementById('status-text');
+            if (!dot || !text) return;
             // If dashboard loaded, server is online
             dot.style.background = 'var(--accent)';
             dot.style.animation = 'pulse 2s ease-in-out infinite';
             text.textContent = 'Online';
         }
-        checkGatewayStatus();
 
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
@@ -3354,8 +3357,7 @@
             navigator.serviceWorker.register('sw.js').catch(() => {});
         }
 
-        // Initialize all data immediately
-        initDataFetching();
+        // NOTE: Data fetching is called AFTER GridStack initializes (see initGridStack)
 
         // ========================================
         // GridStack Layout System
@@ -3453,6 +3455,9 @@
                 grid.on('change', saveLayout);
                 
                 console.log('GridStack initialized successfully');
+                
+                // Initialize data AFTER GridStack has restructured the DOM
+                setTimeout(() => initDataFetching(), 50);
             } catch (error) {
                 console.error('GridStack initialization failed:', error);
                 // Still run data fetching even if GridStack fails
@@ -3518,33 +3523,31 @@
             location.reload();
         }
         
-        // Initialize GridStack after DOM is ready (data fetching already started above)
-        (function() {
-            let gridInitialized = false;
+        // Initialize data - multiple fallbacks for reliability
+        (function initDashboard() {
+            // If already called, skip
+            if (window._dashboardInitialized) return;
             
-            function initGridStackLayout() {
-                if (gridInitialized) return;
-                gridInitialized = true;
-                
-                try {
-                    const container = document.getElementById('dashboard-container');
-                    const widgets = container?.querySelectorAll('[data-widget]');
-                    
-                    if (typeof GridStack !== 'undefined' && widgets && widgets.length > 0) {
-                        console.log('Initializing GridStack with', widgets.length, 'widgets');
-                        initGridStack();
-                    }
-                } catch (error) {
-                    console.error('GridStack init error:', error);
-                }
+            function doInit() {
+                if (window._dashboardInitialized) return;
+                window._dashboardInitialized = true;
+                console.log('Dashboard initializing...');
+                initDataFetching();
             }
             
-            // Run after DOM is ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initGridStackLayout);
-            } else {
-                initGridStackLayout();
+            // Method 1: DOMContentLoaded
+            document.addEventListener('DOMContentLoaded', doInit);
+            
+            // Method 2: window.onload as fallback
+            window.addEventListener('load', doInit);
+            
+            // Method 3: If DOM already ready, init immediately
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                doInit();
             }
+            
+            // Method 4: Fallback with timeout
+            setTimeout(doInit, 100);
         })();
     </script>
 </body>

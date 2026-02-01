@@ -5240,11 +5240,14 @@
         // Update total portfolio value
         function updateTotalPortfolio(walletValue, tradingValue) {
             const total = walletValue + tradingValue;
-            document.getElementById('total-portfolio').textContent = '$' + total.toFixed(2);
+            const el = document.getElementById('total-portfolio');
+            if (el) el.textContent = '$' + total.toFixed(2);
         }
 
         async function fetchTradingPositions() {
             const grid = document.getElementById('positions-grid');
+            if (!grid) return; // Widget not visible
+            
             let totalValue = 0;
             const totalInvested = 30.82; // Sum of all cost bases
             

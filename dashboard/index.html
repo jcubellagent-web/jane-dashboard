@@ -1448,15 +1448,14 @@
                     totalUsd += solBalance * solPrice;
                 }
 
-                // Valuable tokens in Josh's wallet with their mint addresses
+                // Valuable tokens in Josh's wallet with their mint addresses (audited 2026-01-31)
                 const valuableTokens = [
                     { mint: 'Cm6fNnMk7NfzStP9CZpsQA2v3jjzbcYGAxdJySmHpump', symbol: 'Buttcoin', amount: 20490.24 },
                     { mint: '43VWkd99HjqkhFTZbWBpMpRhjG469nWa7x7uEsgSH7We', symbol: 'STNK', amount: 7.049 },
                     { mint: 'FtUEW73K6vEYHfbkfpdBZfWpxgQar2HipGdbutEhpump', symbol: 'titcoin', amount: 61544.72 },
+                    { mint: '9gwTegFJJErDpWJKjPfLr2g2zrE3nL1v5zpwbtsk3c6P', symbol: 'USEDCAR', amount: 96263.91 },
                     { mint: 'HCgybxq5Upy8Mccihrp7EsmwwFqYZtrHrsmsKwtGXLgW', symbol: 'STARS', amount: 97.45 },
-                    { mint: 'AbDm7PoYahHX12Huuq5jcg6ezpBF6nFKgLwgHTPTgeZs', symbol: 'pepcat', amount: 41633 },
-                    { mint: 'SHARKSYJjqaNyxVfrpnBN9pjgkhwDhatnMyicWPnr1s', symbol: 'SHARK', amount: 1.16 },
-                    { mint: 'BLZEEuZUBVqFhj8adcCFPJvPVCiCyVmh3hkJMrU8KuJA', symbol: 'BLZE', amount: 72.04 }
+                    { mint: 'AbDm7PoYahHX12Huuq5jcg6ezpBF6nFKgLwgHTPTgeZs', symbol: 'pepcat', amount: 41633 }
                 ];
 
                 // Fetch live prices from DexScreener for each token

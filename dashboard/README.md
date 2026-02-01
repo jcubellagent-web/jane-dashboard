@@ -77,12 +77,19 @@ dashboard/
 ├── kanban/          # Task board
 ├── notes/           # Quick notes
 ├── links/           # Bookmarks
+├── timer/           # Focus timer
 └── settings/        # Preferences
 ```
 
+### 🍅 Focus Timer (/timer/)
+- Pomodoro technique timer
+- Focus (25m), Short Break (5m), Long Break (15m)
+- Session tracking and stats
+- Auto-suggest breaks
+
 ## Version
 
-v2.6 · January 31, 2026
+v2.7 · January 31, 2026
 
 ---
 

@@ -52,6 +52,17 @@ If the Jupiter Extension is missing from the OpenClaw browser, here's how to rei
 
 ---
 
+## TikTok Video Editing
+
+### Pack Opening Videos (@degencollector)
+- **Workflow doc:** `~/.openclaw/workspace/video_edit/PACK_OPENING_WORKFLOW.md`
+- **ALWAYS get floor prices** from Panini Blockchain before editing
+- **Marketplace URL:** `https://nft.paniniamerica.net/marketplace/nfts.html`
+- Add floor price to each card overlay + pack total value at end
+- Target duration: 30 seconds max
+
+---
+
 ## Trading
 
 ### Memecoin Strategy

@@ -14,13 +14,13 @@
       "entryDate": "2026-02-01T05:04:00Z",
       "entryTx": "4qouebKaDpamxSwd8BuQqipD5xCpvStognWwky5qjktH5tGyLz8Ufca9n3w9UNt7Kn8m88h4K35YpBPqfhuxyVBf",
       "status": "open",
-      "currentPrice": 0.00841,
-      "currentMC": 8410000,
-      "pnlPercent": 5.79,
-      "priceChange1h": -12.89,
-      "priceChange24h": 34.43,
-      "lastUpdated": "2026-02-01T19:33:00Z",
-      "note": "Pulled back from $9.4M to $8.4M MC. +5.8% from entry. Still healthy above stop."
+      "currentPrice": 0.008619,
+      "currentMC": 8619119,
+      "pnlPercent": 8.42,
+      "priceChange1h": -0.32,
+      "priceChange24h": 37.76,
+      "lastUpdated": "2026-02-01T20:35:00Z",
+      "note": "Climbing nicely. +8.4% from entry ($8.6M MC). 24h +38%. Well above stop. Holding."
     },
     {
       "token": "COPPERINU",
@@ -36,13 +36,13 @@
       "entryDate": "2026-02-01T05:05:00Z",
       "entryTx": "vV1CZZRnLAhz1SvMdQX8xNBBKzvYvpMM9JvnYAyTSv36TEq7cBMmgDyZ2VFMmCohjDdVWtASxSwsNzBAC1GSbrC",
       "status": "open",
-      "currentPrice": 0.01239,
-      "currentMC": 12390000,
-      "pnlPercent": 61.33,
-      "priceChange1h": 2.07,
-      "priceChange24h": 78.56,
-      "lastUpdated": "2026-02-01T19:33:00Z",
-      "note": "Pumping! $12.4M MC now. +61% from entry. Already took 50% profit. Remaining rides to $0.03."
+      "currentPrice": 0.01055,
+      "currentMC": 10550897,
+      "pnlPercent": 37.37,
+      "priceChange1h": -13.67,
+      "priceChange24h": 61.9,
+      "lastUpdated": "2026-02-01T20:35:00Z",
+      "note": "Pullback from $11.6M to $10.5M MC (-9% since last check). Still +37% from entry. 50% already sold. Remaining rides to $0.03."
     },
     {
       "token": "pippin",
@@ -58,13 +58,13 @@
       "entryDate": "2026-02-01T05:06:00Z",
       "entryTx": "4oAyRbYACKszWwp5XZBMj7oV6bPnVNe9H3kgeV2wmrL7GTbuzPPMkgZdqoR9fHox12tk9AzAcZozkpDKbpTuTz4A",
       "status": "open",
-      "currentPrice": 0.1859,
-      "currentMC": 185900000,
-      "pnlPercent": 2.14,
-      "priceChange1h": -2.87,
-      "priceChange24h": -6.47,
-      "lastUpdated": "2026-02-01T19:33:00Z",
-      "note": "Flat, +2% from entry. $186M MC. Well above stop ($0.127). Target: $400M MC."
+      "currentPrice": 0.1867,
+      "currentMC": 186741760,
+      "pnlPercent": 2.58,
+      "priceChange1h": 0.24,
+      "priceChange24h": -3.64,
+      "lastUpdated": "2026-02-01T20:35:00Z",
+      "note": "Stable at $187M MC. +2.6% from entry. Well above stop ($0.127). Target: $400M MC."
     }
   ],
   "realizedTrades": [
@@ -83,11 +83,11 @@
     }
   ],
   "wallet": "ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L",
-  "lastChecked": "2026-02-01T19:33:00Z",
+  "lastChecked": "2026-02-01T20:35:00Z",
   "lastPrices": {
-    "WOJAK": 0.00841,
-    "COPPERINU": 0.01239,
-    "pippin": 0.1859
+    "WOJAK": 0.008619,
+    "COPPERINU": 0.01055,
+    "pippin": 0.1867
   },
   "strategy": {
     "takeProfit": "50% at 2x, rest rides",

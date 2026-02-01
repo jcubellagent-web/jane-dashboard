@@ -3441,18 +3441,30 @@
                     if (payload?.state === 'delta' && payload?.message) {
                         // Streaming update - extract text if it's an object
                         showTypingIndicator(false);
-                        let streamText = payload.message;
-                        if (typeof streamText !== 'string') {
-                            // Try to extract text from content array
-                            if (Array.isArray(streamText)) {
-                                streamText = streamText
-                                    .filter(c => c && c.type === 'text')
-                                    .map(c => c.text || '')
+                        let streamText = '';
+                        const msg = payload.message;
+                        
+                        if (typeof msg === 'string') {
+                            streamText = msg;
+                        } else if (Array.isArray(msg)) {
+                            // Extract text from content array
+                            streamText = msg
+                                .filter(c => c && c.type === 'text' && typeof c.text === 'string')
+                                .map(c => c.text)
+                                .join('');
+                        } else if (msg && typeof msg === 'object') {
+                            // Handle object with text property or content array
+                            if (typeof msg.text === 'string') {
+                                streamText = msg.text;
+                            } else if (Array.isArray(msg.content)) {
+                                streamText = msg.content
+                                    .filter(c => c && c.type === 'text' && typeof c.text === 'string')
+                                    .map(c => c.text)
                                     .join('');
-                            } else {
-                                streamText = String(streamText);
                             }
+                            // Otherwise skip - don't convert object to "[object Object]"
                         }
+                        
                         if (streamText) updateStreamingMessage(streamText);
                     } else if (payload?.state === 'final') {
                         // Final - refresh history to get the response
@@ -3569,6 +3581,8 @@
                     }
                 }));
                 showTypingIndicator(true);
+                // Scroll after typing indicator is added
+                messages.scrollTop = messages.scrollHeight;
             } else {
                 addChatMessage('assistant', 'Connecting... please wait.');
                 connectChat();
@@ -3642,11 +3656,14 @@
                     janeSolBalance = janeData.result.value / 1e9;
                 }
                 
-                // Update Jane's wallet display
+                // Update Jane's wallet display (with null checks)
                 const janeUsd = janeSolBalance * solPrice;
-                document.getElementById('wallet-sol').textContent = janeSolBalance.toFixed(3) + ' SOL';
-                document.getElementById('wallet-usd').textContent = '≈ $' + janeUsd.toFixed(2) + ' USD';
-                document.getElementById('sol-balance').textContent = janeSolBalance.toFixed(2) + ' SOL';
+                const walletSolEl = document.getElementById('wallet-sol');
+                const walletUsdEl = document.getElementById('wallet-usd');
+                const solBalanceEl = document.getElementById('sol-balance');
+                if (walletSolEl) walletSolEl.textContent = janeSolBalance.toFixed(3) + ' SOL';
+                if (walletUsdEl) walletUsdEl.textContent = '≈ $' + janeUsd.toFixed(2) + ' USD';
+                if (solBalanceEl) solBalanceEl.textContent = janeSolBalance.toFixed(2) + ' SOL';
 
                 // Fetch Josh's SOL balance
                 const joshResponse = await fetch('https://solana-rpc.publicnode.com', {
@@ -3669,14 +3686,18 @@
                     totalUsd += joshSolBalance * solPrice;
                 }
 
-                // Update display
-                document.getElementById('josh-wallet-sol').textContent = joshSolBalance.toFixed(4) + ' SOL';
-                document.getElementById('josh-wallet-usd').textContent = '≈ $' + totalUsd.toFixed(2) + ' USD';
+                // Update display (with null checks)
+                const joshSolEl = document.getElementById('josh-wallet-sol');
+                const joshUsdEl = document.getElementById('josh-wallet-usd');
+                if (joshSolEl) joshSolEl.textContent = joshSolBalance.toFixed(4) + ' SOL';
+                if (joshUsdEl) joshUsdEl.textContent = '≈ $' + totalUsd.toFixed(2) + ' USD';
                 
             } catch (error) {
                 console.error('Failed to fetch wallet balance:', error);
-                document.getElementById('josh-wallet-sol').textContent = '? SOL';
-                document.getElementById('josh-wallet-usd').textContent = 'Error loading';
+                const joshSolEl = document.getElementById('josh-wallet-sol');
+                const joshUsdEl = document.getElementById('josh-wallet-usd');
+                if (joshSolEl) joshSolEl.textContent = '? SOL';
+                if (joshUsdEl) joshUsdEl.textContent = 'Error loading';
             }
         }
 

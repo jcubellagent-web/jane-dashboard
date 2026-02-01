@@ -2513,6 +2513,198 @@
                 --text-secondary: #c0c0c0;
             }
         }
+        
+        /* ========================================
+           MOBILE LAYOUT EDITOR SHEET
+           ======================================== */
+        
+        .mobile-editor-sheet {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-primary);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .mobile-editor-sheet.open {
+            transform: translateY(0);
+        }
+        
+        .mobile-editor-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            background: rgba(15, 23, 42, 0.98);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .mobile-editor-header h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .mobile-editor-close,
+        .mobile-editor-save {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            min-height: 44px;
+            min-width: 44px;
+        }
+        
+        .mobile-editor-close {
+            color: var(--text-secondary);
+        }
+        
+        .mobile-editor-save {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .mobile-editor-hint {
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .mobile-editor-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+        
+        .mobile-editor-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        
+        .mobile-editor-item.dragging {
+            background: rgba(74, 222, 128, 0.15);
+            border-color: var(--accent);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            transform: scale(1.02);
+        }
+        
+        .mobile-editor-drag {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            cursor: grab;
+            flex-shrink: 0;
+        }
+        
+        .mobile-editor-drag:active {
+            cursor: grabbing;
+        }
+        
+        .mobile-editor-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        
+        .mobile-editor-name {
+            flex: 1;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .mobile-editor-arrows {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .mobile-editor-arrow {
+            width: 40px;
+            height: 32px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+        
+        .mobile-editor-arrow:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000;
+        }
+        
+        .mobile-editor-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .mobile-editor-arrow:disabled:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--border);
+            color: var(--text-primary);
+        }
+        
+        /* Hide toggle for widgets */
+        .mobile-editor-toggle {
+            width: 50px;
+            height: 30px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .mobile-editor-toggle::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: var(--text-secondary);
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+        
+        .mobile-editor-toggle.active {
+            background: var(--accent);
+        }
+        
+        .mobile-editor-toggle.active::after {
+            left: 23px;
+            background: #000;
+        }
 
         .layout-btn {
             background: rgba(255,255,255,0.1);
@@ -3119,7 +3311,11 @@
         </div>
         
         <div class="mobile-menu-section">
-            <h3>Settings</h3>
+            <h3>Customize</h3>
+            <button class="mobile-menu-item" onclick="openMobileLayoutEditor(); toggleMobileMenu();">
+                <span class="icon">📐</span>
+                <span>Edit Layout</span>
+            </button>
             <button class="mobile-menu-item" onclick="scrollToTop(); toggleMobileMenu();">
                 <span class="icon">⬆️</span>
                 <span>Scroll to Top</span>
@@ -3130,6 +3326,19 @@
             </button>
         </div>
     </nav>
+    
+    <!-- Mobile Layout Editor (full-screen sheet) -->
+    <div class="mobile-editor-sheet" id="mobile-editor-sheet" role="dialog" aria-label="Edit Layout" aria-modal="true">
+        <div class="mobile-editor-header">
+            <button class="mobile-editor-close" onclick="closeMobileLayoutEditor()" aria-label="Cancel">Cancel</button>
+            <h2>Edit Layout</h2>
+            <button class="mobile-editor-save" onclick="saveMobileLayout()" aria-label="Save">Save</button>
+        </div>
+        <p class="mobile-editor-hint">Drag or use arrows to reorder widgets</p>
+        <div class="mobile-editor-list" id="mobile-editor-list">
+            <!-- Populated dynamically -->
+        </div>
+    </div>
 
     <!-- Mobile Reorder Toolbar -->
     <div class="mobile-reorder-toolbar" id="mobile-reorder-toolbar">
@@ -4138,6 +4347,174 @@
             localStorage.removeItem('jane-dashboard-view');
             showToast('View preference cleared. Reloading...');
             setTimeout(() => location.reload(), 1000);
+        }
+        
+        // ========================================
+        // MOBILE LAYOUT EDITOR
+        // ========================================
+        
+        let mobileEditorOrder = [];
+        
+        function openMobileLayoutEditor() {
+            const sheet = document.getElementById('mobile-editor-sheet');
+            const list = document.getElementById('mobile-editor-list');
+            
+            // Get current widget order from DOM
+            const gridStack = document.querySelector('.grid-stack');
+            const widgets = Array.from(gridStack.querySelectorAll('.grid-stack-item'))
+                .filter(el => el.style.display !== 'none');
+            
+            mobileEditorOrder = widgets.map(el => {
+                const widgetEl = el.querySelector('[data-widget]');
+                return widgetEl?.getAttribute('data-widget') || el.getAttribute('gs-id');
+            }).filter(Boolean);
+            
+            // Render the list
+            renderMobileEditorList();
+            
+            // Open sheet
+            sheet.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeMobileLayoutEditor() {
+            const sheet = document.getElementById('mobile-editor-sheet');
+            sheet.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        
+        function renderMobileEditorList() {
+            const list = document.getElementById('mobile-editor-list');
+            
+            list.innerHTML = mobileEditorOrder.map((widgetId, index) => {
+                const info = WIDGET_INFO[widgetId] || { name: widgetId, icon: '📦' };
+                return `
+                    <div class="mobile-editor-item" data-widget-id="${widgetId}">
+                        <div class="mobile-editor-drag" aria-label="Drag to reorder">⋮⋮</div>
+                        <span class="mobile-editor-icon">${info.icon}</span>
+                        <span class="mobile-editor-name">${info.name}</span>
+                        <div class="mobile-editor-arrows">
+                            <button class="mobile-editor-arrow" onclick="mobileEditorMoveUp('${widgetId}')" ${index === 0 ? 'disabled' : ''} aria-label="Move up">↑</button>
+                            <button class="mobile-editor-arrow" onclick="mobileEditorMoveDown('${widgetId}')" ${index === mobileEditorOrder.length - 1 ? 'disabled' : ''} aria-label="Move down">↓</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Add touch drag support
+            initMobileEditorDrag();
+        }
+        
+        function mobileEditorMoveUp(widgetId) {
+            const index = mobileEditorOrder.indexOf(widgetId);
+            if (index > 0) {
+                [mobileEditorOrder[index], mobileEditorOrder[index - 1]] = [mobileEditorOrder[index - 1], mobileEditorOrder[index]];
+                renderMobileEditorList();
+            }
+        }
+        
+        function mobileEditorMoveDown(widgetId) {
+            const index = mobileEditorOrder.indexOf(widgetId);
+            if (index < mobileEditorOrder.length - 1) {
+                [mobileEditorOrder[index], mobileEditorOrder[index + 1]] = [mobileEditorOrder[index + 1], mobileEditorOrder[index]];
+                renderMobileEditorList();
+            }
+        }
+        
+        function saveMobileLayout() {
+            // Reorder DOM elements
+            const gridStack = document.querySelector('.grid-stack');
+            
+            mobileEditorOrder.forEach((widgetId, index) => {
+                const widget = Array.from(gridStack.querySelectorAll('.grid-stack-item')).find(el => {
+                    const widgetEl = el.querySelector('[data-widget]');
+                    return (widgetEl?.getAttribute('data-widget') || el.getAttribute('gs-id')) === widgetId;
+                });
+                if (widget) {
+                    gridStack.appendChild(widget);
+                }
+            });
+            
+            // Save to localStorage
+            const order = mobileEditorOrder.map((id, index) => ({
+                id: id,
+                x: 0,
+                y: index,
+                w: 12,
+                h: 2
+            }));
+            localStorage.setItem(window.LAYOUT_KEY_MOBILE, JSON.stringify(order));
+            
+            closeMobileLayoutEditor();
+            showToast('Layout saved! 📱');
+        }
+        
+        // Touch drag support for mobile editor
+        function initMobileEditorDrag() {
+            const list = document.getElementById('mobile-editor-list');
+            let draggedItem = null;
+            let draggedId = null;
+            let startY = 0;
+            let currentY = 0;
+            
+            list.querySelectorAll('.mobile-editor-item').forEach(item => {
+                const dragHandle = item.querySelector('.mobile-editor-drag');
+                
+                dragHandle.addEventListener('touchstart', (e) => {
+                    draggedItem = item;
+                    draggedId = item.dataset.widgetId;
+                    startY = e.touches[0].clientY;
+                    item.classList.add('dragging');
+                }, { passive: true });
+            });
+            
+            document.addEventListener('touchmove', (e) => {
+                if (!draggedItem) return;
+                
+                currentY = e.touches[0].clientY;
+                const deltaY = currentY - startY;
+                
+                // Visual feedback
+                draggedItem.style.transform = `translateY(${deltaY}px) scale(1.02)`;
+                
+                // Find target position
+                const items = Array.from(list.querySelectorAll('.mobile-editor-item'));
+                const draggedIndex = items.indexOf(draggedItem);
+                
+                items.forEach((item, index) => {
+                    if (item === draggedItem) return;
+                    const rect = item.getBoundingClientRect();
+                    const midY = rect.top + rect.height / 2;
+                    
+                    if (currentY < midY && index < draggedIndex) {
+                        // Move up
+                        const targetIndex = mobileEditorOrder.indexOf(draggedId);
+                        if (targetIndex > 0) {
+                            mobileEditorOrder.splice(targetIndex, 1);
+                            mobileEditorOrder.splice(index, 0, draggedId);
+                            renderMobileEditorList();
+                            draggedItem = null;
+                        }
+                    } else if (currentY > midY && index > draggedIndex) {
+                        // Move down
+                        const targetIndex = mobileEditorOrder.indexOf(draggedId);
+                        if (targetIndex < mobileEditorOrder.length - 1) {
+                            mobileEditorOrder.splice(targetIndex, 1);
+                            mobileEditorOrder.splice(index, 0, draggedId);
+                            renderMobileEditorList();
+                            draggedItem = null;
+                        }
+                    }
+                });
+            }, { passive: true });
+            
+            document.addEventListener('touchend', () => {
+                if (draggedItem) {
+                    draggedItem.classList.remove('dragging');
+                    draggedItem.style.transform = '';
+                    draggedItem = null;
+                }
+            });
         }
 
         // Chat WebSocket connection

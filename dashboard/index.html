@@ -784,6 +784,111 @@
             white-space: nowrap;
         }
 
+        /* Jane's Tasks Widget */
+        .jane-tasks-section {
+            grid-column: span 6;
+        }
+        
+        .jane-tasks-group {
+            margin-bottom: 0.75rem;
+        }
+        
+        .jane-tasks-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .jane-tasks-group-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .jane-tasks-group-icon {
+            font-size: 0.9rem;
+        }
+        
+        .jane-tasks-count {
+            margin-left: auto;
+            background: rgba(255,255,255,0.1);
+            padding: 0.15rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.65rem;
+        }
+        
+        .jane-tasks-group.completed .jane-tasks-group-header {
+            color: var(--accent);
+        }
+        
+        .jane-tasks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        
+        .jane-task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            padding: 0.5rem 0.6rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+        
+        .jane-task-item:hover {
+            background: rgba(255,255,255,0.06);
+        }
+        
+        .jane-task-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .jane-task-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .jane-task-title {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.15rem;
+        }
+        
+        .jane-task-detail {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .jane-task-empty {
+            color: rgba(255,255,255,0.3);
+            font-size: 0.75rem;
+            text-align: center;
+            padding: 0.75rem;
+            font-style: italic;
+        }
+        
+        .jane-tasks-group.completed .jane-task-item {
+            opacity: 0.7;
+        }
+        
+        .jane-tasks-group.completed .jane-task-title {
+            text-decoration: line-through;
+            text-decoration-color: var(--accent);
+        }
+
         /* Kanban Mini */
         .kanban-section {
             grid-column: span 8;
@@ -3898,44 +4003,37 @@
                 </div>
             </div>
 
-            <!-- Kanban Mini Board -->
-            <div class="card kanban-section" data-widget="kanban" data-gs-w="8" data-gs-h="2">
+            <!-- Jane's Tasks -->
+            <div class="card jane-tasks-section" data-widget="jane-tasks" data-gs-w="6" data-gs-h="3">
                 <div class="card-header">
-                    <div class="card-title">📋 Task Board</div>
-                    <a href="/kanban/" style="font-size: 0.75rem; color: var(--accent); text-decoration: none;">View Full Board →</a>
+                    <div class="card-title">🌿 Jane's Tasks</div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 0.7rem; color: var(--text-secondary);" id="jane-tasks-updated">--</span>
+                        <button class="refresh-btn" onclick="fetchJaneTasks()" title="Refresh">↻</button>
+                    </div>
                 </div>
-                <div class="kanban-columns">
-                    <div class="kanban-column">
-                        <div class="kanban-column-header">
-                            Backlog <span class="count" id="backlog-count">0</span>
-                        </div>
-                        <div class="kanban-tasks" id="backlog-tasks">
-                            <div class="kanban-empty">No tasks</div>
-                        </div>
+                
+                <!-- In Progress -->
+                <div class="jane-tasks-group">
+                    <div class="jane-tasks-group-header">
+                        <span class="jane-tasks-group-icon">⏳</span>
+                        <span>In Progress</span>
+                        <span class="jane-tasks-count" id="jane-inprogress-count">0</span>
                     </div>
-                    <div class="kanban-column">
-                        <div class="kanban-column-header">
-                            In Progress <span class="count" id="progress-count">0</span>
-                        </div>
-                        <div class="kanban-tasks" id="progress-tasks">
-                            <div class="kanban-empty">No tasks</div>
-                        </div>
+                    <div class="jane-tasks-list" id="jane-inprogress-list">
+                        <div class="jane-task-empty">No active tasks</div>
                     </div>
-                    <div class="kanban-column">
-                        <div class="kanban-column-header">
-                            Review <span class="count" id="review-count">0</span>
-                        </div>
-                        <div class="kanban-tasks" id="review-tasks">
-                            <div class="kanban-empty">No tasks</div>
-                        </div>
+                </div>
+                
+                <!-- Completed Today -->
+                <div class="jane-tasks-group completed">
+                    <div class="jane-tasks-group-header">
+                        <span class="jane-tasks-group-icon">✅</span>
+                        <span>Completed Today</span>
+                        <span class="jane-tasks-count" id="jane-completed-count">0</span>
                     </div>
-                    <div class="kanban-column">
-                        <div class="kanban-column-header">
-                            Done <span class="count" id="done-count">0</span>
-                        </div>
-                        <div class="kanban-tasks" id="done-tasks">
-                            <div class="kanban-empty">No tasks</div>
-                        </div>
+                    <div class="jane-tasks-list" id="jane-completed-list">
+                        <div class="jane-task-empty">Nothing yet</div>
                     </div>
                 </div>
             </div>
@@ -4309,7 +4407,7 @@
         // ========================================
         
         // All available widgets
-        const ALL_WIDGETS = ['mac-status', 'accounts', 'mindmap', 'ai-news', 'work-intel', 'tiktok', 'crypto', 'commands', 'kanban', 'sorare', 'calendar', 'wallets', 'trading'];
+        const ALL_WIDGETS = ['mac-status', 'accounts', 'mindmap', 'ai-news', 'work-intel', 'tiktok', 'crypto', 'commands', 'jane-tasks', 'sorare', 'calendar', 'wallets', 'trading'];
         
         let mobileEditorVisibility = {};
         
@@ -5281,6 +5379,65 @@
             }
         }
         
+        // Fetch Jane's Tasks
+        async function fetchJaneTasks() {
+            try {
+                const response = await fetch('/jane-tasks.json?' + Date.now());
+                if (!response.ok) throw new Error('Failed to load tasks');
+                const data = await response.json();
+                
+                // Update in progress tasks
+                const inProgressList = document.getElementById('jane-inprogress-list');
+                const inProgressCount = document.getElementById('jane-inprogress-count');
+                
+                if (data.inProgress && data.inProgress.length > 0) {
+                    inProgressList.innerHTML = data.inProgress.map(task => `
+                        <div class="jane-task-item">
+                            <span class="jane-task-icon">${task.icon || '📌'}</span>
+                            <div class="jane-task-content">
+                                <div class="jane-task-title">${task.task}</div>
+                                <div class="jane-task-detail">${task.detail || ''}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                    inProgressCount.textContent = data.inProgress.length;
+                } else {
+                    inProgressList.innerHTML = '<div class="jane-task-empty">No active tasks</div>';
+                    inProgressCount.textContent = '0';
+                }
+                
+                // Update completed tasks
+                const completedList = document.getElementById('jane-completed-list');
+                const completedCount = document.getElementById('jane-completed-count');
+                
+                if (data.completed && data.completed.length > 0) {
+                    // Show only today's completed tasks (most recent 5)
+                    const recentCompleted = data.completed.slice(0, 5);
+                    completedList.innerHTML = recentCompleted.map(task => `
+                        <div class="jane-task-item">
+                            <span class="jane-task-icon">${task.icon || '✓'}</span>
+                            <div class="jane-task-content">
+                                <div class="jane-task-title">${task.task}</div>
+                                <div class="jane-task-detail">${task.detail || ''}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                    completedCount.textContent = data.completed.length;
+                } else {
+                    completedList.innerHTML = '<div class="jane-task-empty">Nothing yet</div>';
+                    completedCount.textContent = '0';
+                }
+                
+                // Update timestamp
+                if (data.lastUpdated) {
+                    const updated = new Date(data.lastUpdated);
+                    document.getElementById('jane-tasks-updated').textContent = updated.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                }
+            } catch (error) {
+                console.error('Failed to fetch Jane tasks:', error);
+            }
+        }
+        
         // Fetch TikTok Stats (from cached JSON)
         async function fetchTikTokStats() {
             try {
@@ -5437,6 +5594,7 @@
             dataFetchingInitialized = true;
             
             loadTasks();
+            fetchJaneTasks();
             fetchTikTokStats();
             fetchSorareStats();
             fetchMindmap();
@@ -5532,7 +5690,7 @@
             { id: 'work-intel', x: 0, y: 6, w: 6, h: 4 },
             { id: 'commands', x: 6, y: 6, w: 6, h: 2 },
             { id: 'activity', x: 6, y: 8, w: 6, h: 2 },
-            { id: 'kanban', x: 0, y: 10, w: 8, h: 2 },
+            { id: 'jane-tasks', x: 0, y: 10, w: 6, h: 3 },
             { id: 'wallet', x: 8, y: 10, w: 4, h: 2 },
             { id: 'crypto', x: 0, y: 12, w: 4, h: 2 },
             { id: 'trading', x: 0, y: 14, w: 12, h: 3 }
@@ -5676,7 +5834,7 @@
             'calendar': { name: 'Calendar', icon: '📅' },
             'work-intel': { name: 'Work Intel', icon: '💼' },
             'tiktok': { name: 'TikTok Growth', icon: '📈' },
-            'kanban': { name: 'Tasks', icon: '✅' },
+            'jane-tasks': { name: "Jane's Tasks", icon: '🌿' },
             'mindmap': { name: 'Mindmap', icon: '🧠' },
             'mac-status': { name: 'Mac Status', icon: '🖥️' },
             'commands': { name: 'Commands', icon: '⌨️' },

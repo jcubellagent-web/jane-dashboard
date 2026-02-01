@@ -1055,46 +1055,24 @@
             grid-column: span 8;
         }
 
-        .ai-news-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.75rem;
-        }
-
-        .ai-news-item {
-            background: rgba(0,0,0,0.2);
-            border-radius: 10px;
-            padding: 0.75rem;
-            transition: all 0.2s;
-            border-left: 3px solid transparent;
-        }
-
-        .ai-news-item:hover {
-            background: rgba(0,0,0,0.3);
-            transform: translateY(-2px);
-        }
-
-        .ai-news-item.featured {
-            grid-column: span 3;
+        .ai-featured {
             background: linear-gradient(135deg, rgba(96, 165, 250, 0.15), rgba(167, 139, 250, 0.15));
             border-left: 3px solid var(--accent-blue);
-            display: grid;
-            grid-template-columns: auto 1fr;
-            grid-template-rows: auto auto auto;
-            gap: 0.25rem 1rem;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.75rem;
         }
 
-        .ai-news-item.featured .ai-news-tag {
-            grid-row: 1;
+        .ai-featured-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0.25rem 0;
         }
 
-        .ai-news-item.featured .ai-news-title {
-            font-size: 1.1rem;
-            grid-column: 1 / -1;
-        }
-
-        .ai-news-item.featured .ai-news-desc {
-            grid-column: 1 / -1;
+        .ai-featured-desc {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
         }
 
         .ai-news-tag {
@@ -1102,21 +1080,6 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--accent-blue);
-            margin-bottom: 0.35rem;
-        }
-
-        .ai-news-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 0.35rem;
-            line-height: 1.3;
-        }
-
-        .ai-news-desc {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-            line-height: 1.4;
-            margin-bottom: 0.35rem;
         }
 
         .ai-news-source {
@@ -1125,15 +1088,92 @@
             opacity: 0.7;
         }
 
+        .agentic-tracks {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .agentic-track {
+            background: rgba(0,0,0,0.15);
+            border-radius: 10px;
+            padding: 0.75rem;
+        }
+
+        .agentic-track.consumer {
+            border-top: 2px solid #4ade80;
+        }
+
+        .agentic-track.enterprise {
+            border-top: 2px solid #60a5fa;
+        }
+
+        .track-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.6rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .track-icon {
+            font-size: 1rem;
+        }
+
+        .track-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+        }
+
+        .agentic-track.consumer .track-title { color: #4ade80; }
+        .agentic-track.enterprise .track-title { color: #60a5fa; }
+
+        .track-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .track-item {
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 0.5rem 0.6rem;
+            transition: all 0.2s;
+        }
+
+        .track-item:hover {
+            background: rgba(0,0,0,0.3);
+        }
+
+        .track-item-title {
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+            line-height: 1.3;
+        }
+
+        .track-item-desc {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.2rem;
+        }
+
+        .track-item-source {
+            font-size: 0.55rem;
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
         @media (max-width: 1200px) {
             .ai-news-section { grid-column: span 12; }
-            .ai-news-grid { grid-template-columns: repeat(2, 1fr); }
-            .ai-news-item.featured { grid-column: span 2; }
         }
 
         @media (max-width: 768px) {
-            .ai-news-grid { grid-template-columns: 1fr; }
-            .ai-news-item.featured { grid-column: span 1; }
+            .agentic-tracks { grid-template-columns: 1fr; }
         }
 
         /* Mindmap Section */
@@ -1803,42 +1843,75 @@
                         <button class="refresh-btn" onclick="fetchAINews()" title="Refresh">↻</button>
                     </div>
                 </div>
-                <div class="ai-news-grid" id="ai-news-grid">
-                    <div class="ai-news-item featured">
-                        <div class="ai-news-tag">🔥 Breaking</div>
-                        <div class="ai-news-title">Nvidia's $100B OpenAI deal "on ice"</div>
-                        <div class="ai-news-desc">Partnership being rethought; now discussing tens of billions equity investment instead</div>
-                        <div class="ai-news-source">WSJ · Jan 31</div>
+                
+                <!-- Featured -->
+                <div class="ai-featured" id="ai-featured">
+                    <div class="ai-news-tag">🔥 Breaking</div>
+                    <div class="ai-featured-title">Nvidia's $100B OpenAI deal "on ice"</div>
+                    <div class="ai-featured-desc">Partnership being rethought; now discussing tens of billions equity investment instead</div>
+                    <div class="ai-news-source">WSJ · Jan 31</div>
+                </div>
+                
+                <!-- Agentic AI Tracks -->
+                <div class="agentic-tracks">
+                    <!-- Consumer Track -->
+                    <div class="agentic-track consumer">
+                        <div class="track-header">
+                            <span class="track-icon">👤</span>
+                            <span class="track-title">Agentic AI: Consumer</span>
+                        </div>
+                        <div class="track-items" id="agentic-consumer">
+                            <div class="track-item">
+                                <div class="track-item-title">Rabbit r1 gets agentic computer control</div>
+                                <div class="track-item-desc">OTA update enables plug-and-play PC control</div>
+                                <div class="track-item-source">Rabbit · Jan 30</div>
+                            </div>
+                            <div class="track-item">
+                                <div class="track-item-title">Gemini as personal tour guide</div>
+                                <div class="track-item-desc">Ask about neighborhoods while walking</div>
+                                <div class="track-item-source">Google · Jan 29</div>
+                            </div>
+                            <div class="track-item">
+                                <div class="track-item-title">Claude Code sets up Home Assistant</div>
+                                <div class="track-item-desc">Smart home configured in one afternoon</div>
+                                <div class="track-item-source">Verge · Jan 28</div>
+                            </div>
+                            <div class="track-item">
+                                <div class="track-item-title">OpenClaw (Moltbot) goes viral</div>
+                                <div class="track-item-desc">Open-source local AI agent trending</div>
+                                <div class="track-item-source">Verge · Jan 28</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="ai-news-item">
-                        <div class="ai-news-tag">🚀 Product</div>
-                        <div class="ai-news-title">GPT-4o retiring February 13th</div>
-                        <div class="ai-news-desc">Only 0.1% of ChatGPT users still choosing GPT-4o daily after GPT-5 launch</div>
-                        <div class="ai-news-source">OpenAI · Jan 30</div>
-                    </div>
-                    <div class="ai-news-item">
-                        <div class="ai-news-tag">🔧 Agents</div>
-                        <div class="ai-news-title">Anthropic launches Cowork plugins</div>
-                        <div class="ai-news-desc">Domain expert plugins for sales, legal, finance, marketing - agentic AI expansion</div>
-                        <div class="ai-news-source">Anthropic · Jan 30</div>
-                    </div>
-                    <div class="ai-news-item">
-                        <div class="ai-news-tag">💰 Funding</div>
-                        <div class="ai-news-title">Tesla invests $2B in xAI</div>
-                        <div class="ai-news-desc">Musk's AI company (X.com, Grok) gets Tesla backing for physical-world AI deployment</div>
-                        <div class="ai-news-source">Tesla · Jan 28</div>
-                    </div>
-                    <div class="ai-news-item">
-                        <div class="ai-news-tag">🗺️ Feature</div>
-                        <div class="ai-news-title">Gemini now in Google Maps</div>
-                        <div class="ai-news-desc">AI tour guide for walking directions - ask about neighborhoods, restaurants</div>
-                        <div class="ai-news-source">Google · Jan 29</div>
-                    </div>
-                    <div class="ai-news-item">
-                        <div class="ai-news-tag">🐰 Hardware</div>
-                        <div class="ai-news-title">Rabbit announces "project cyberdeck"</div>
-                        <div class="ai-news-desc">Portable device for vibe-coding; r1 gets agentic task capabilities</div>
-                        <div class="ai-news-source">Rabbit · Jan 30</div>
+                    
+                    <!-- Enterprise Track -->
+                    <div class="agentic-track enterprise">
+                        <div class="track-header">
+                            <span class="track-icon">🏢</span>
+                            <span class="track-title">Agentic AI: Enterprise</span>
+                        </div>
+                        <div class="track-items" id="agentic-enterprise">
+                            <div class="track-item">
+                                <div class="track-item-title">Anthropic Cowork plugins launch</div>
+                                <div class="track-item-desc">Domain experts: sales, legal, finance</div>
+                                <div class="track-item-source">Anthropic · Jan 30</div>
+                            </div>
+                            <div class="track-item">
+                                <div class="track-item-title">Tesla deploys $2B for physical AI</div>
+                                <div class="track-item-desc">xAI investment for Optimus deployment</div>
+                                <div class="track-item-source">Tesla · Jan 28</div>
+                            </div>
+                            <div class="track-item">
+                                <div class="track-item-title">DOT using Gemini for regulations</div>
+                                <div class="track-item-desc">Government AI adoption accelerates</div>
+                                <div class="track-item-source">ProPublica · Jan 27</div>
+                            </div>
+                            <div class="track-item">
+                                <div class="track-item-title">Google AI Plus ($7.99/mo)</div>
+                                <div class="track-item-desc">Enterprise-lite: Gemini 3 Pro, 35 countries</div>
+                                <div class="track-item-source">Google · Jan 27</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2920,19 +2993,45 @@
                 if (!response.ok) throw new Error('Failed to load AI news');
                 const data = await response.json();
                 
-                if (data.news && data.news.length > 0) {
+                // Update featured
+                if (data.featured) {
+                    const f = data.featured;
+                    document.getElementById('ai-featured').innerHTML = `
+                        <div class="ai-news-tag">${f.tag}</div>
+                        <div class="ai-featured-title">${f.title}</div>
+                        <div class="ai-featured-desc">${f.desc}</div>
+                        <div class="ai-news-source">${f.source} · ${f.date}</div>
+                    `;
+                }
+                
+                // Update consumer track
+                if (data.agenticRetail) {
                     let html = '';
-                    data.news.forEach(item => {
+                    data.agenticRetail.forEach(item => {
                         html += `
-                            <div class="ai-news-item${item.featured ? ' featured' : ''}">
-                                <div class="ai-news-tag">${item.tag}</div>
-                                <div class="ai-news-title">${item.title}</div>
-                                <div class="ai-news-desc">${item.desc}</div>
-                                <div class="ai-news-source">${item.source} · ${item.date}</div>
+                            <div class="track-item">
+                                <div class="track-item-title">${item.title}</div>
+                                <div class="track-item-desc">${item.desc}</div>
+                                <div class="track-item-source">${item.source} · ${item.date}</div>
                             </div>
                         `;
                     });
-                    document.getElementById('ai-news-grid').innerHTML = html;
+                    document.getElementById('agentic-consumer').innerHTML = html;
+                }
+                
+                // Update enterprise track
+                if (data.agenticEnterprise) {
+                    let html = '';
+                    data.agenticEnterprise.forEach(item => {
+                        html += `
+                            <div class="track-item">
+                                <div class="track-item-title">${item.title}</div>
+                                <div class="track-item-desc">${item.desc}</div>
+                                <div class="track-item-source">${item.source} · ${item.date}</div>
+                            </div>
+                        `;
+                    });
+                    document.getElementById('agentic-enterprise').innerHTML = html;
                 }
                 
                 const updated = new Date(data.lastUpdated);

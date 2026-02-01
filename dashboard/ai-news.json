@@ -1,47 +1,70 @@
 {
   "lastUpdated": "2026-01-31T23:00:00Z",
-  "news": [
+  "featured": {
+    "tag": "🔥 Breaking",
+    "title": "Nvidia's $100B OpenAI deal \"on ice\"",
+    "desc": "Partnership being rethought; now discussing tens of billions equity investment instead",
+    "source": "WSJ",
+    "date": "Jan 31"
+  },
+  "agenticRetail": [
     {
-      "tag": "🔥 Breaking",
-      "title": "Nvidia's $100B OpenAI deal \"on ice\"",
-      "desc": "Partnership being rethought; now discussing tens of billions equity investment instead",
-      "source": "WSJ",
-      "date": "Jan 31",
-      "featured": true
-    },
-    {
-      "tag": "🚀 Product",
-      "title": "GPT-4o retiring February 13th",
-      "desc": "Only 0.1% of ChatGPT users still choosing GPT-4o daily after GPT-5 launch",
-      "source": "OpenAI",
+      "title": "Rabbit r1 gets agentic computer control",
+      "desc": "OTA update enables plug-and-play PC control, integrates OpenClaw for task automation",
+      "source": "Rabbit",
       "date": "Jan 30"
     },
     {
-      "tag": "🔧 Agents",
-      "title": "Anthropic launches Cowork plugins",
-      "desc": "Domain expert plugins for sales, legal, finance, marketing - agentic AI expansion",
-      "source": "Anthropic",
-      "date": "Jan 30"
-    },
-    {
-      "tag": "💰 Funding",
-      "title": "Tesla invests $2B in xAI",
-      "desc": "Musk's AI company (X.com, Grok) gets Tesla backing for physical-world AI deployment",
-      "source": "Tesla",
-      "date": "Jan 28"
-    },
-    {
-      "tag": "🗺️ Feature",
-      "title": "Gemini now in Google Maps",
-      "desc": "AI tour guide for walking directions - ask about neighborhoods, restaurants",
+      "title": "Gemini as personal tour guide in Maps",
+      "desc": "Ask about neighborhoods, get restaurant recs while walking - rolling out iOS/Android",
       "source": "Google",
       "date": "Jan 29"
     },
     {
-      "tag": "🐰 Hardware",
-      "title": "Rabbit announces \"project cyberdeck\"",
-      "desc": "Portable device for vibe-coding; r1 gets agentic task capabilities",
-      "source": "Rabbit",
+      "title": "Claude Code sets up Home Assistant",
+      "desc": "User reports AI agent configured smart home in one afternoon after years of trying",
+      "source": "The Verge",
+      "date": "Jan 28"
+    },
+    {
+      "title": "OpenClaw (Moltbot) goes viral",
+      "desc": "Open-source local AI agent trending; creator deals with rebrand and crypto scammers",
+      "source": "The Verge",
+      "date": "Jan 28"
+    }
+  ],
+  "agenticEnterprise": [
+    {
+      "title": "Anthropic Cowork plugins launch",
+      "desc": "Domain expert AI for sales, legal, finance, marketing, data analysis, customer support",
+      "source": "Anthropic",
+      "date": "Jan 30"
+    },
+    {
+      "title": "Tesla deploys $2B for physical-world AI",
+      "desc": "xAI investment targets AI products and services deployment at scale via Optimus",
+      "source": "Tesla",
+      "date": "Jan 28"
+    },
+    {
+      "title": "DOT using Gemini for regulations",
+      "desc": "Transportation Dept. writing rules with AI; officials say 'don't need perfect rules'",
+      "source": "ProPublica",
+      "date": "Jan 27"
+    },
+    {
+      "title": "Google AI Plus for business ($7.99/mo)",
+      "desc": "Gemini 3 Pro access, 200GB storage - enterprise-lite tier now in 35 countries",
+      "source": "Google",
+      "date": "Jan 27"
+    }
+  ],
+  "general": [
+    {
+      "tag": "🚀 Product",
+      "title": "GPT-4o retiring February 13th",
+      "desc": "Only 0.1% still using it daily after GPT-5 launch",
+      "source": "OpenAI",
       "date": "Jan 30"
     }
   ]

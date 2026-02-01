@@ -3564,24 +3564,10 @@
             location.reload();
         }
         
-        // Simple initialization - just load data when page is ready
-        // GridStack drag-drop disabled for now (causing init issues)
-        (function() {
-            function init() {
-                if (window._dashInit) return;
-                window._dashInit = true;
-                console.log('Dashboard init starting...');
-                initDataFetching();
-                console.log('Dashboard init complete');
-            }
-            
-            // Run when DOM ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', init);
-            } else {
-                init();
-            }
-        })();
+        // Initialize dashboard - direct call at script end
+        console.log('Script loaded, readyState:', document.readyState);
+        initDataFetching();
+        console.log('Dashboard initialized');
     </script>
 </body>
 </html>

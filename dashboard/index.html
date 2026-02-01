@@ -3407,67 +3407,83 @@
         
         // Initialize GridStack
         function initGridStack() {
-            const container = document.getElementById('dashboard-container');
-            if (!container || typeof GridStack === 'undefined') return;
-            
-            // Get all widgets with data-widget attribute
-            const widgets = container.querySelectorAll('[data-widget]');
-            if (widgets.length === 0) return;
-            
-            // Load saved layout or use default
-            const savedLayout = loadLayout();
-            
-            // Convert widgets to GridStack format
-            const items = [];
-            widgets.forEach(widget => {
-                const widgetId = widget.dataset.widget;
-                const saved = savedLayout?.find(l => l.id === widgetId);
-                const defaults = DEFAULT_LAYOUT.find(d => d.id === widgetId) || { w: 4, h: 2 };
+            try {
+                const container = document.getElementById('dashboard-container');
+                if (!container || typeof GridStack === 'undefined') {
+                    console.log('GridStack not available, skipping');
+                    initDataFetching();
+                    return;
+                }
                 
-                // Clone widget content
-                const content = widget.outerHTML;
+                // Get all widgets with data-widget attribute
+                const widgets = container.querySelectorAll('[data-widget]');
+                if (widgets.length === 0) {
+                    console.log('No widgets found, skipping GridStack');
+                    initDataFetching();
+                    return;
+                }
                 
-                items.push({
-                    id: widgetId,
-                    x: saved?.x ?? defaults.x ?? 0,
-                    y: saved?.y ?? defaults.y ?? 0,
-                    w: saved?.w ?? defaults.w ?? 4,
-                    h: saved?.h ?? defaults.h ?? 2,
-                    noResize: defaults.noResize || false,
-                    content: `<div class="widget-drag-handle">⋮⋮ drag</div>${content}`
+                // Load saved layout or use default
+                const savedLayout = loadLayout();
+                
+                // Convert widgets to GridStack format
+                const items = [];
+                widgets.forEach(widget => {
+                    const widgetId = widget.dataset.widget;
+                    const saved = savedLayout?.find(l => l.id === widgetId);
+                    const defaults = DEFAULT_LAYOUT.find(d => d.id === widgetId) || { w: 4, h: 2 };
+                    
+                    // Clone widget content
+                    const content = widget.outerHTML;
+                    
+                    items.push({
+                        id: widgetId,
+                        x: saved?.x ?? defaults.x ?? 0,
+                        y: saved?.y ?? defaults.y ?? 0,
+                        w: saved?.w ?? defaults.w ?? 4,
+                        h: saved?.h ?? defaults.h ?? 2,
+                        noResize: defaults.noResize || false,
+                        content: `<div class="widget-drag-handle">⋮⋮ drag</div>${content}`
+                    });
+                    
+                    // Remove original widget
+                    widget.remove();
                 });
                 
-                // Remove original widget
-                widget.remove();
-            });
-            
-            // Sort by y then x for proper order
-            items.sort((a, b) => (a.y * 100 + a.x) - (b.y * 100 + b.x));
-            
-            // Add grid-stack class to container
-            container.classList.add('grid-stack');
-            
-            // Initialize GridStack
-            grid = GridStack.init({
-                column: 12,
-                cellHeight: 80,
-                margin: 8,
-                float: true,
-                animate: true,
-                draggable: { handle: '.widget-drag-handle' },
-                resizable: { handles: 'se,sw' },
-                disableDrag: true,
-                disableResize: true
-            }, container);
-            
-            // Add widgets
-            grid.load(items);
-            
-            // Save on change
-            grid.on('change', saveLayout);
-            
-            // Now that DOM is restructured, fetch all data
-            setTimeout(initDataFetching, 100);
+                // Sort by y then x for proper order
+                items.sort((a, b) => (a.y * 100 + a.x) - (b.y * 100 + b.x));
+                
+                // Add grid-stack class to container
+                container.classList.add('grid-stack');
+                
+                // Initialize GridStack
+                grid = GridStack.init({
+                    column: 12,
+                    cellHeight: 80,
+                    margin: 8,
+                    float: true,
+                    animate: true,
+                    draggable: { handle: '.widget-drag-handle' },
+                    resizable: { handles: 'se,sw' },
+                    disableDrag: true,
+                    disableResize: true
+                }, container);
+                
+                // Add widgets
+                grid.load(items);
+                
+                // Save on change
+                grid.on('change', saveLayout);
+                
+                console.log('GridStack initialized successfully');
+                
+                // Now that DOM is restructured, fetch all data
+                setTimeout(initDataFetching, 100);
+            } catch (error) {
+                console.error('GridStack initialization failed:', error);
+                // Still run data fetching even if GridStack fails
+                initDataFetching();
+            }
         }
         
         // Toggle edit mode
@@ -3535,15 +3551,24 @@
             if (gridStackInitialized) return;
             gridStackInitialized = true;
             
-            const container = document.getElementById('dashboard-container');
-            const widgets = container?.querySelectorAll('[data-widget]');
+            console.log('Initializing dashboard...');
             
-            // Try to init GridStack if available and widgets exist
-            if (typeof GridStack !== 'undefined' && widgets && widgets.length > 0) {
-                initGridStack();
-            } else {
-                // Fallback: just run data fetching without GridStack
-                console.log('GridStack not available, running in standard mode');
+            try {
+                const container = document.getElementById('dashboard-container');
+                const widgets = container?.querySelectorAll('[data-widget]');
+                
+                // Try to init GridStack if available and widgets exist
+                if (typeof GridStack !== 'undefined' && widgets && widgets.length > 0) {
+                    console.log('GridStack available, initializing with', widgets.length, 'widgets');
+                    initGridStack();
+                } else {
+                    // Fallback: just run data fetching without GridStack
+                    console.log('GridStack not available or no widgets, running in standard mode');
+                    initDataFetching();
+                }
+            } catch (error) {
+                console.error('Dashboard init error:', error);
+                // Ensure data fetching runs even on error
                 initDataFetching();
             }
         }

@@ -2173,11 +2173,11 @@
         .mobile-reorder-toolbar {
             display: none;
             position: fixed;
-            left: calc(50% - 380px);
+            left: 20px;
             top: 80px;
-            width: 280px;
+            width: 260px;
             max-height: calc(100vh - 120px);
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(15, 23, 42, 0.98);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
@@ -2186,6 +2186,13 @@
             z-index: 1000;
             overflow-y: auto;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Position toolbar to left of mobile frame on wider screens */
+        @media (min-width: 1200px) {
+            .mobile-reorder-toolbar {
+                left: calc(50% - 400px);
+            }
         }
 
         body.mobile-preview.edit-mode .mobile-reorder-toolbar {
@@ -4851,6 +4858,7 @@
                 editBtn.innerHTML = '✓ Done Editing';
                 resetBtn.style.display = 'flex';
                 container.classList.add('edit-mode');
+                document.body.classList.add('edit-mode');
                 window.grid?.enableMove(true);
                 window.grid?.enableResize(true);
                 
@@ -4866,6 +4874,7 @@
                 editBtn.innerHTML = '🔧 Edit Layout';
                 resetBtn.style.display = 'none';
                 container.classList.remove('edit-mode');
+                document.body.classList.remove('edit-mode');
                 window.grid?.enableMove(false);
                 window.grid?.enableResize(false);
                 // Show prompt asking which views to save to

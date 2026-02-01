@@ -206,28 +206,6 @@
             50% { opacity: 0.8; box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
         }
 
-        .chat-toggle {
-            background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(96, 165, 250, 0.15));
-            border: 1px solid rgba(74, 222, 128, 0.3);
-            border-radius: 12px;
-            padding: 0.65rem 1.1rem;
-            color: var(--accent);
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(8px);
-        }
-
-        .chat-toggle:hover {
-            background: linear-gradient(135deg, rgba(74, 222, 128, 0.25), rgba(96, 165, 250, 0.25));
-            border-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(74, 222, 128, 0.2);
-        }
-
         .time {
             font-size: 0.875rem;
             color: var(--text-secondary);
@@ -252,34 +230,79 @@
         }
 
         /* Chat Panel */
+        /* Floating chat button */
+        .chat-fab {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            border: none;
+            border-radius: 16px;
+            color: #000;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(74, 222, 128, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chat-fab:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 28px rgba(74, 222, 128, 0.4);
+        }
+
+        .chat-fab.hidden {
+            transform: scale(0);
+            opacity: 0;
+            pointer-events: none;
+        }
+
         .chat-panel {
-            width: 400px;
-            background: var(--bg-chat);
-            border-left: 1px solid var(--border);
+            width: 380px;
+            height: 500px;
+            max-height: calc(100vh - 120px);
+            background: rgba(10, 15, 26, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
             display: flex;
             flex-direction: column;
             position: fixed;
-            right: -420px;
-            top: 73px;
-            height: calc(100vh - 73px);
-            transition: right 0.3s ease;
-            z-index: 50;
+            left: 24px;
+            bottom: 24px;
+            transform: scale(0.9) translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 101;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            overflow: hidden;
         }
 
         .chat-panel.open {
-            right: 0;
+            transform: scale(1) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .chat-header {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border);
+            padding: 0.875rem 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            flex-shrink: 0;
         }
 
         .chat-header h2 {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -287,16 +310,19 @@
         }
 
         .close-chat {
-            background: none;
+            background: rgba(255, 255, 255, 0.05);
             border: none;
             color: var(--text-secondary);
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             cursor: pointer;
-            padding: 0.25rem;
+            padding: 0.35rem 0.5rem;
             line-height: 1;
+            border-radius: 8px;
+            transition: all 0.2s;
         }
 
         .close-chat:hover {
+            background: rgba(255, 255, 255, 0.1);
             color: var(--text-primary);
         }
 
@@ -2147,7 +2173,7 @@
             .kanban-section { grid-column: span 12; }
             .wallet-section { grid-column: span 6; }
             .crypto-section { grid-column: span 6; }
-            .chat-panel { width: 100%; right: -100%; }
+            .chat-panel { width: 340px; }
         }
 
         @media (max-width: 768px) {
@@ -2158,10 +2184,25 @@
             header { padding: 1rem; }
             .hero-content { flex-direction: column; text-align: center; }
             .bottom-nav { display: flex; }
-            .chat-toggle { display: none; }
             .wallet-section, .crypto-section, .tiktok-section, .accounts-section, .work-intel-section, .mindmap-section { grid-column: span 12; }
             .mindmap-categories { grid-template-columns: repeat(3, 1fr); }
             .tiktok-stats-grid { grid-template-columns: repeat(3, 1fr); }
+            
+            /* Mobile chat */
+            .chat-fab { 
+                bottom: 80px; 
+                left: 16px;
+                width: 50px;
+                height: 50px;
+                border-radius: 14px;
+            }
+            .chat-panel { 
+                width: calc(100% - 32px); 
+                left: 16px;
+                bottom: 80px;
+                height: 60vh;
+                max-height: 450px;
+            }
         }
     </style>
 </head>
@@ -2187,11 +2228,13 @@
                     ↺ Reset
                 </button>
             </div>
-            <button class="chat-toggle" onclick="toggleChat()" title="Cmd+K">
-                💬 Chat with Jane <kbd style="background: rgba(0,0,0,0.3); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.7rem; margin-left: 0.5rem;">⌘K</kbd>
-            </button>
         </div>
     </header>
+
+    <!-- Floating Chat Button -->
+    <button class="chat-fab" id="chat-fab" onclick="toggleChat()" title="Chat with Jane (⌘K)">
+        💬
+    </button>
 
     <div class="main-container">
         <div class="dashboard" id="dashboard-container">
@@ -3076,9 +3119,17 @@
         // Chat panel toggle
         function toggleChat() {
             const panel = document.getElementById('chat-panel');
+            const fab = document.getElementById('chat-fab');
             panel.classList.toggle('open');
+            
             if (panel.classList.contains('open')) {
-                document.getElementById('chat-input').focus();
+                fab.classList.add('hidden');
+                setTimeout(() => {
+                    const input = document.getElementById('chat-input');
+                    if (input) input.focus();
+                }, 100);
+            } else {
+                fab.classList.remove('hidden');
             }
         }
 

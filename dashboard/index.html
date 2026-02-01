@@ -5558,15 +5558,20 @@
         
         // Fetch TikTok Stats (from cached JSON)
         async function fetchTikTokStats() {
+            const followersEl = document.getElementById('tt-followers');
+            const likesEl = document.getElementById('tt-likes');
+            const videosEl = document.getElementById('tt-videos');
+            if (!followersEl && !likesEl) return; // Widget not visible
+            
             try {
                 const response = await fetch('/tiktok-stats.json?' + Date.now());
                 if (!response.ok) throw new Error('Failed to load TikTok stats');
                 const data = await response.json();
                 
                 // Update main stats
-                document.getElementById('tt-followers').textContent = data.profile.followers.toLocaleString();
-                document.getElementById('tt-likes').textContent = data.profile.totalLikes.toLocaleString();
-                document.getElementById('tt-videos').textContent = data.recentVideos?.length || '--';
+                if (followersEl) followersEl.textContent = data.profile?.followers?.toLocaleString() || '--';
+                if (likesEl) likesEl.textContent = (data.profile?.likes || data.profile?.totalLikes)?.toLocaleString() || '--';
+                if (videosEl) videosEl.textContent = data.videos?.length || data.recentVideos?.length || '--';
                 
                 // Calculate growth (if history available)
                 if (data.history && data.history.length >= 2) {
@@ -5577,79 +5582,96 @@
                     const likesGrowth = curr.likes - prev.likes;
                     
                     const fgEl = document.getElementById('tt-followers-change');
-                    fgEl.textContent = (followerGrowth >= 0 ? '+' : '') + followerGrowth + ' today';
-                    fgEl.className = 'tiktok-stat-change ' + (followerGrowth >= 0 ? 'up' : 'down');
+                    if (fgEl) {
+                        fgEl.textContent = (followerGrowth >= 0 ? '+' : '') + followerGrowth + ' today';
+                        fgEl.className = 'tiktok-stat-change ' + (followerGrowth >= 0 ? 'up' : 'down');
+                    }
                     
                     const lgEl = document.getElementById('tt-likes-change');
-                    lgEl.textContent = (likesGrowth >= 0 ? '+' : '') + likesGrowth + ' today';
-                    lgEl.className = 'tiktok-stat-change ' + (likesGrowth >= 0 ? 'up' : 'down');
+                    if (lgEl) {
+                        lgEl.textContent = (likesGrowth >= 0 ? '+' : '') + likesGrowth + ' today';
+                        lgEl.className = 'tiktok-stat-change ' + (likesGrowth >= 0 ? 'up' : 'down');
+                    }
                 }
                 
                 // Update milestones
-                const followers = data.profile.followers;
+                const followers = data.profile?.followers || 0;
                 
                 // LIVE Gifts (1,000)
                 const livePercent = Math.min(100, (followers / 1000) * 100);
-                document.getElementById('live-progress').style.width = livePercent + '%';
-                document.getElementById('live-percent').textContent = livePercent.toFixed(1) + '%';
+                const liveProgressEl = document.getElementById('live-progress');
+                const livePercentEl = document.getElementById('live-percent');
+                if (liveProgressEl) liveProgressEl.style.width = livePercent + '%';
+                if (livePercentEl) livePercentEl.textContent = livePercent.toFixed(1) + '%';
                 
                 // Creator Fund (10,000)
                 const fundPercent = Math.min(100, (followers / 10000) * 100);
-                document.getElementById('fund-progress').style.width = fundPercent + '%';
-                document.getElementById('fund-percent').textContent = fundPercent.toFixed(1) + '%';
+                const fundProgressEl = document.getElementById('fund-progress');
+                const fundPercentEl = document.getElementById('fund-percent');
+                if (fundProgressEl) fundProgressEl.style.width = fundPercent + '%';
+                if (fundPercentEl) fundPercentEl.textContent = fundPercent.toFixed(1) + '%';
                 
                 // Creator Marketplace (100,000)
                 const marketPercent = Math.min(100, (followers / 100000) * 100);
-                document.getElementById('marketplace-progress').style.width = marketPercent + '%';
-                document.getElementById('marketplace-percent').textContent = marketPercent.toFixed(2) + '%';
+                const marketProgressEl = document.getElementById('marketplace-progress');
+                const marketPercentEl = document.getElementById('marketplace-percent');
+                if (marketProgressEl) marketProgressEl.style.width = marketPercent + '%';
+                if (marketPercentEl) marketPercentEl.textContent = marketPercent.toFixed(2) + '%';
                 
                 // Update recent videos
                 const videosList = document.getElementById('recent-videos-list');
-                if (data.recentVideos && data.recentVideos.length > 0) {
+                const videos = data.videos || data.recentVideos || [];
+                if (videosList && videos.length > 0) {
                     let html = '';
-                    data.recentVideos.slice(0, 4).forEach(video => {
+                    videos.slice(0, 4).forEach(video => {
                         html += `
                             <div class="video-item">
                                 <span class="video-title">${video.title}</span>
                                 <div class="video-stats">
-                                    <span>👁️ ${video.views.toLocaleString()}</span>
-                                    <span>❤️ ${video.likes}</span>
-                                    <span>💬 ${video.comments}</span>
+                                    <span>👁️ ${(video.views || 0).toLocaleString()}</span>
+                                    <span>❤️ ${video.likes || 0}</span>
+                                    <span>💬 ${video.comments || 0}</span>
                                 </div>
                             </div>
                         `;
                     });
                     videosList.innerHTML = html;
-                } else {
+                } else if (videosList) {
                     videosList.innerHTML = '<div style="font-size: 0.75rem; color: var(--text-secondary); text-align: center;">No recent videos</div>';
                 }
                 
                 // Update timestamp
-                const updated = new Date(data.lastUpdated);
-                document.getElementById('tiktok-updated').textContent = 'Updated ' + updated.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                const ttUpdatedEl = document.getElementById('tiktok-updated');
+                if (ttUpdatedEl && data.lastUpdated) {
+                    const updated = new Date(data.lastUpdated);
+                    ttUpdatedEl.textContent = 'Updated ' + updated.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                }
                 
             } catch (error) {
                 console.error('Failed to load TikTok stats:', error);
-                document.getElementById('tiktok-updated').textContent = 'Error loading';
+                const errEl = document.getElementById('tiktok-updated');
+                if (errEl) errEl.textContent = 'Error loading';
             }
         }
 
         // Fetch Sorare NBA stats
         async function fetchSorareStats() {
+            const capEl = document.getElementById('sorare-cap');
+            const playersEl = document.getElementById('sorare-players');
+            if (!capEl && !playersEl) return; // Widget not visible
+            
             try {
                 const response = await fetch('/sorare-stats.json?' + Date.now());
                 if (!response.ok) throw new Error('Failed to load Sorare stats');
                 const data = await response.json();
                 
                 // Update cap display
-                if (data.currentLineup) {
-                    document.getElementById('sorare-cap').textContent = 
-                        data.currentLineup.capUsed + '/' + data.currentLineup.capLimit;
+                if (data.currentLineup && capEl) {
+                    capEl.textContent = data.currentLineup.capUsed + '/' + data.currentLineup.capLimit;
                 }
                 
                 // Update players
-                const playersEl = document.getElementById('sorare-players');
-                if (data.currentLineup && data.currentLineup.players) {
+                if (data.currentLineup && data.currentLineup.players && playersEl) {
                     let html = '';
                     data.currentLineup.players.forEach(player => {
                         const isMvp = player.isMVP ? ' mvp' : '';
@@ -5669,7 +5691,7 @@
                 
                 // Update games
                 const gamesEl = document.getElementById('sorare-games');
-                if (data.todaysGames) {
+                if (data.todaysGames && gamesEl) {
                     let html = '';
                     data.todaysGames.forEach(game => {
                         const hasPlayer = game.myPlayers && game.myPlayers.length > 0;
@@ -5687,18 +5709,22 @@
                 }
                 
                 // Update upcoming
-                if (data.upcomingGameWeek) {
-                    document.getElementById('sorare-next-gw').textContent = 
-                        data.upcomingGameWeek.name + ' in ' + data.upcomingGameWeek.startsIn;
+                const nextGwEl = document.getElementById('sorare-next-gw');
+                if (data.upcomingGameWeek && nextGwEl) {
+                    nextGwEl.textContent = data.upcomingGameWeek.name + ' in ' + data.upcomingGameWeek.startsIn;
                 }
                 
                 // Update timestamp
-                const updated = new Date(data.lastUpdated);
-                document.getElementById('sorare-updated').textContent = 'Updated ' + updated.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                const updatedEl = document.getElementById('sorare-updated');
+                if (updatedEl) {
+                    const updated = new Date(data.lastUpdated);
+                    updatedEl.textContent = 'Updated ' + updated.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                }
                 
             } catch (error) {
                 console.error('Failed to load Sorare stats:', error);
-                document.getElementById('sorare-updated').textContent = 'Error loading';
+                const errEl = document.getElementById('sorare-updated');
+                if (errEl) errEl.textContent = 'Error loading';
             }
         }
 

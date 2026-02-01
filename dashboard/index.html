@@ -2655,8 +2655,10 @@
         // Update time and greeting
         function updateTime() {
             const now = new Date();
-            document.getElementById('current-time').textContent = 
-                now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            const timeEl = document.getElementById('current-time');
+            if (timeEl) {
+                timeEl.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            }
             
             // Update greeting based on time of day
             const hour = now.getHours();
@@ -2680,8 +2682,10 @@
                 subtext = 'Burning the midnight oil? I\'m always here when you need me.';
             }
             
-            document.getElementById('greeting').textContent = greeting + ' ' + emoji;
-            document.getElementById('greeting-sub').textContent = subtext;
+            const greetEl = document.getElementById('greeting');
+            const subEl = document.getElementById('greeting-sub');
+            if (greetEl) greetEl.textContent = greeting + ' ' + emoji;
+            if (subEl) subEl.textContent = subtext;
         }
         updateTime();
         setInterval(updateTime, 1000);
@@ -3564,10 +3568,8 @@
             location.reload();
         }
         
-        // Initialize dashboard - direct call at script end
-        console.log('Script loaded, readyState:', document.readyState);
+        // Initialize dashboard
         initDataFetching();
-        console.log('Dashboard initialized');
     </script>
 </body>
 </html>

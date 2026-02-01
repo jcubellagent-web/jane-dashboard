@@ -3327,7 +3327,7 @@
         function connectChat() {
             if (chatWs && chatWs.readyState === WebSocket.OPEN) return;
             
-            chatWs = new WebSocket(`ws://localhost:18788?token=${GATEWAY_TOKEN}`);
+            chatWs = new WebSocket(`ws://localhost:18789?token=${GATEWAY_TOKEN}`);
             
             chatWs.onopen = () => {
                 console.log('Chat connected');

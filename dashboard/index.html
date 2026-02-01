@@ -771,6 +771,139 @@
         .crypto-change.up { color: var(--accent); }
         .crypto-change.down { color: #ef4444; }
 
+        /* Trading Positions */
+        .position-card {
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 1rem;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .position-card:hover {
+            background: rgba(0,0,0,0.3);
+        }
+
+        .position-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .position-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .position-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .position-amount {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .position-progress {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+
+        .progress-bar-container {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            position: relative;
+            overflow: visible;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-bar-fill.profit { background: linear-gradient(90deg, var(--accent), #22c55e); }
+        .progress-bar-fill.loss { background: linear-gradient(90deg, #ef4444, #f87171); }
+
+        .progress-marker {
+            position: absolute;
+            top: -4px;
+            width: 2px;
+            height: 16px;
+            background: var(--text-secondary);
+        }
+
+        .progress-marker.entry { left: 50%; background: #60a5fa; }
+        .progress-marker.current { background: #fff; z-index: 2; }
+
+        .price-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            margin-top: 0.25rem;
+        }
+
+        .price-info .entry { color: #60a5fa; }
+        .price-info .current { color: var(--text-primary); }
+
+        .position-pnl {
+            text-align: right;
+        }
+
+        .pnl-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .pnl-value.up { color: var(--accent); }
+        .pnl-value.down { color: #ef4444; }
+
+        .pnl-usd {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .target-info {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .target-info .tp { color: var(--accent); }
+        .target-info .sl { color: #ef4444; }
+
+        @media (max-width: 768px) {
+            .position-card {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+            .position-pnl {
+                text-align: left;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
         .wallet-balance {
             text-align: center;
             padding: 1.5rem;
@@ -1221,8 +1354,33 @@
                 </div>
             </div>
 
+            <!-- Trading Positions -->
+            <div class="card trading-section" style="grid-column: span 12;">
+                <div class="card-header">
+                    <div class="card-title">📈 Active Trades</div>
+                    <span style="font-size: 0.7rem; color: var(--text-secondary);" id="trades-updated">Loading...</span>
+                </div>
+                <div class="trading-summary" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                    <div style="text-align: center; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 12px;">
+                        <div style="font-size: 1.5rem; font-weight: 700;" id="total-invested">$31.50</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">Total Invested</div>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 12px;">
+                        <div style="font-size: 1.5rem; font-weight: 700;" id="total-value">$--</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">Current Value</div>
+                    </div>
+                    <div style="text-align: center; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 12px;">
+                        <div style="font-size: 1.5rem; font-weight: 700;" id="total-pnl">--%</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">Total P/L</div>
+                    </div>
+                </div>
+                <div class="positions-grid" id="positions-grid" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <!-- Positions will be loaded here -->
+                </div>
+            </div>
+
             <footer>
-                Jane 🌿 · Personal Assistant · First boot Jan 31, 2026 · Dashboard v2.8
+                Jane 🌿 · Personal Assistant · First boot Jan 31, 2026 · Dashboard v2.9
             </footer>
         </div>
 
@@ -1631,8 +1789,143 @@
             }
         }
 
+        // Trading positions data
+        const POSITIONS = [
+            {
+                token: 'WOJAK',
+                symbol: 'WOJAK',
+                contract: '8J69rbLTzWWgUJziFY8jeu5tDwEPBwUz4pKBMr5rpump',
+                amount: 1313.39,
+                entryPrice: 0.00795,
+                costBasis: 10.44,
+                targetPrice: 0.025,
+                stopPrice: 0.0056,
+                icon: '😢'
+            },
+            {
+                token: 'COPPERINU',
+                symbol: 'COPPERINU', 
+                contract: '61Wj56QgGyyB966T7YsMzEAKRLcMvJpDbPzjkrCZc4Bi',
+                amount: 1309.22,
+                entryPrice: 0.00768,
+                costBasis: 10.05,
+                targetPrice: 0.030,
+                stopPrice: 0.0054,
+                icon: '🐕'
+            },
+            {
+                token: 'pippin',
+                symbol: 'pippin',
+                contract: 'Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump',
+                amount: 56.74,
+                entryPrice: 0.182,
+                costBasis: 10.33,
+                targetPrice: 0.40,
+                stopPrice: 0.127,
+                icon: '🤖'
+            }
+        ];
+
+        async function fetchTradingPositions() {
+            const grid = document.getElementById('positions-grid');
+            let totalValue = 0;
+            const totalInvested = 30.82; // Sum of all cost bases
+            
+            grid.innerHTML = '<div style="text-align: center; color: var(--text-secondary);">Loading positions...</div>';
+            
+            try {
+                // Fetch all token prices from DexScreener
+                const contracts = POSITIONS.map(p => p.contract).join(',');
+                const response = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${contracts}`);
+                const data = await response.json();
+                
+                // Map prices by contract
+                const prices = {};
+                if (data.pairs) {
+                    data.pairs.forEach(pair => {
+                        if (!prices[pair.baseToken.address]) {
+                            prices[pair.baseToken.address] = parseFloat(pair.priceUsd);
+                        }
+                    });
+                }
+                
+                // Build position cards
+                let html = '';
+                POSITIONS.forEach(pos => {
+                    const currentPrice = prices[pos.contract] || 0;
+                    const currentValue = pos.amount * currentPrice;
+                    totalValue += currentValue;
+                    
+                    const pnlPercent = ((currentPrice - pos.entryPrice) / pos.entryPrice) * 100;
+                    const pnlUsd = currentValue - pos.costBasis;
+                    const isProfit = pnlPercent >= 0;
+                    
+                    // Calculate progress towards TP (0% = SL, 50% = Entry, 100% = TP)
+                    const range = pos.targetPrice - pos.stopPrice;
+                    const progressFromStop = (currentPrice - pos.stopPrice) / range * 100;
+                    const entryFromStop = (pos.entryPrice - pos.stopPrice) / range * 100;
+                    
+                    // Clamp progress
+                    const clampedProgress = Math.max(0, Math.min(100, progressFromStop));
+                    
+                    html += `
+                        <div class="position-card">
+                            <div class="position-info">
+                                <div class="position-icon">${pos.icon}</div>
+                                <div>
+                                    <div class="position-name">${pos.token}</div>
+                                    <div class="position-amount">${pos.amount.toLocaleString(undefined, {maximumFractionDigits: 2})} tokens</div>
+                                </div>
+                            </div>
+                            <div class="position-progress">
+                                <div class="progress-labels">
+                                    <span class="sl">SL: $${pos.stopPrice.toFixed(4)}</span>
+                                    <span>Entry: $${pos.entryPrice.toFixed(4)}</span>
+                                    <span class="tp">TP: $${pos.targetPrice.toFixed(3)}</span>
+                                </div>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-fill ${isProfit ? 'profit' : 'loss'}" style="width: ${clampedProgress}%"></div>
+                                    <div class="progress-marker entry" style="left: ${entryFromStop}%"></div>
+                                    <div class="progress-marker current" style="left: ${clampedProgress}%"></div>
+                                </div>
+                                <div class="price-info">
+                                    <span class="entry">Entry: $${pos.entryPrice.toFixed(4)}</span>
+                                    <span class="current">Current: $${currentPrice.toFixed(4)}</span>
+                                </div>
+                            </div>
+                            <div class="position-pnl">
+                                <div class="pnl-value ${isProfit ? 'up' : 'down'}">${isProfit ? '+' : ''}${pnlPercent.toFixed(2)}%</div>
+                                <div class="pnl-usd">${isProfit ? '+' : ''}$${pnlUsd.toFixed(2)}</div>
+                                <div class="target-info">
+                                    <span class="tp">TP: ${((pos.targetPrice / pos.entryPrice - 1) * 100).toFixed(0)}%</span> · 
+                                    <span class="sl">SL: ${((pos.stopPrice / pos.entryPrice - 1) * 100).toFixed(0)}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                grid.innerHTML = html;
+                
+                // Update summary
+                const totalPnlPercent = ((totalValue - totalInvested) / totalInvested) * 100;
+                document.getElementById('total-value').textContent = '$' + totalValue.toFixed(2);
+                const pnlEl = document.getElementById('total-pnl');
+                pnlEl.textContent = (totalPnlPercent >= 0 ? '+' : '') + totalPnlPercent.toFixed(2) + '%';
+                pnlEl.style.color = totalPnlPercent >= 0 ? 'var(--accent)' : '#ef4444';
+                
+                document.getElementById('trades-updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                
+            } catch (error) {
+                console.error('Failed to fetch trading positions:', error);
+                grid.innerHTML = '<div style="text-align: center; color: #ef4444;">Failed to load positions</div>';
+            }
+        }
+
         // Initialize
         loadTasks();
+        fetchTradingPositions();
+        setInterval(fetchTradingPositions, 30000);  // Update every 30 seconds
         updateUptime();
         fetchCryptoPrices();
         fetchWeather();

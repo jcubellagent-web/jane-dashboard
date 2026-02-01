@@ -1,0 +1,61 @@
+{
+  "positions": [
+    {
+      "token": "WOJAK",
+      "symbol": "WOJAK",
+      "contract": "8J69rbLTzWWgUJziFY8jeu5tDwEPBwUz4pKBMr5rpump",
+      "amount": 1313.39,
+      "entryPrice": 0.00795,
+      "entryMC": 7900000,
+      "costBasis": 10.44,
+      "targetPrice": 0.025,
+      "targetMC": 25000000,
+      "stopPrice": 0.0056,
+      "entryDate": "2026-02-01T05:04:00Z",
+      "entryTx": "4qouebKaDpamxSwd8BuQqipD5xCpvStognWwky5qjktH5tGyLz8Ufca9n3w9UNt7Kn8m88h4K35YpBPqfhuxyVBf",
+      "status": "open"
+    },
+    {
+      "token": "COPPERINU",
+      "symbol": "COPPERINU",
+      "contract": "61Wj56QgGyyB966T7YsMzEAKRLcMvJpDbPzjkrCZc4Bi",
+      "amount": 1309.22,
+      "entryPrice": 0.00768,
+      "entryMC": 7600000,
+      "costBasis": 10.05,
+      "targetPrice": 0.030,
+      "targetMC": 30000000,
+      "stopPrice": 0.0054,
+      "entryDate": "2026-02-01T05:05:00Z",
+      "entryTx": "vV1CZZRnLAhz1SvMdQX8xNBBKzvYvpMM9JvnYAyTSv36TEq7cBMmgDyZ2VFMmCohjDdVWtASxSwsNzBAC1GSbrC",
+      "status": "open"
+    },
+    {
+      "token": "pippin",
+      "symbol": "pippin",
+      "contract": "Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump",
+      "amount": 56.74,
+      "entryPrice": 0.182,
+      "entryMC": 182000000,
+      "costBasis": 10.33,
+      "targetPrice": 0.40,
+      "targetMC": 400000000,
+      "stopPrice": 0.127,
+      "entryDate": "2026-02-01T05:06:00Z",
+      "entryTx": "4oAyRbYACKszWwp5XZBMj7oV6bPnVNe9H3kgeV2wmrL7GTbuzPPMkgZdqoR9fHox12tk9AzAcZozkpDKbpTuTz4A",
+      "status": "open"
+    }
+  ],
+  "wallet": "ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L",
+  "lastChecked": "2026-02-01T05:05:28Z",
+  "lastPrices": {
+    "WOJAK": 0.007754,
+    "COPPERINU": 0.008323,
+    "pippin": 0.1813
+  },
+  "strategy": {
+    "takeProfit": "50% at 2x, rest rides",
+    "stopLoss": "-30% from entry",
+    "holdPeriod": "1-2 weeks"
+  }
+}

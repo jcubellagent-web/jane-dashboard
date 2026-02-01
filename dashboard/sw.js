@@ -3,7 +3,7 @@
  * Enables offline access and caching
  */
 
-const CACHE_NAME = 'jane-dashboard-v2.7';
+const CACHE_NAME = 'jane-dashboard-v3.2';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
@@ -50,9 +50,11 @@ self.addEventListener('fetch', (event) => {
     // Skip non-GET requests
     if (event.request.method !== 'GET') return;
 
-    // Skip API calls (they should always go to network)
+    // Skip API calls and JSON files (they should always go to network)
     const url = new URL(event.request.url);
     if (url.pathname.includes('/hooks/') || 
+        url.pathname.endsWith('.json') ||
+        url.pathname.includes('/api/') ||
         url.hostname === 'api.coingecko.com' ||
         url.hostname === 'wttr.in') {
         return;

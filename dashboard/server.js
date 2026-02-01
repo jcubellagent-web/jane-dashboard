@@ -81,7 +81,9 @@ const server = http.createServer((req, res) => {
         return;
     }
 
-    let filePath = path.join(ROOT, req.url === '/' ? 'index.html' : req.url);
+    // Parse URL and strip query string
+    const urlPath = new URL(req.url, `http://${req.headers.host}`).pathname;
+    let filePath = path.join(ROOT, urlPath === '/' ? 'index.html' : urlPath);
     
     // Security: prevent directory traversal
     if (!filePath.startsWith(ROOT)) {

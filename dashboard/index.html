@@ -3545,40 +3545,43 @@
         }
         
         // Initialize after DOM is ready
-        let gridStackInitialized = false;
-        
-        function initAll() {
-            if (gridStackInitialized) return;
-            gridStackInitialized = true;
+        (function() {
+            let initialized = false;
             
-            console.log('Initializing dashboard...');
-            
-            try {
-                const container = document.getElementById('dashboard-container');
-                const widgets = container?.querySelectorAll('[data-widget]');
+            function initAll() {
+                if (initialized) return;
+                initialized = true;
                 
-                // Try to init GridStack if available and widgets exist
-                if (typeof GridStack !== 'undefined' && widgets && widgets.length > 0) {
-                    console.log('GridStack available, initializing with', widgets.length, 'widgets');
-                    initGridStack();
-                } else {
-                    // Fallback: just run data fetching without GridStack
-                    console.log('GridStack not available or no widgets, running in standard mode');
+                console.log('Initializing dashboard...');
+                
+                try {
+                    const container = document.getElementById('dashboard-container');
+                    const widgets = container?.querySelectorAll('[data-widget]');
+                    
+                    // Try to init GridStack if available and widgets exist
+                    if (typeof GridStack !== 'undefined' && widgets && widgets.length > 0) {
+                        console.log('GridStack available, initializing with', widgets.length, 'widgets');
+                        initGridStack();
+                    } else {
+                        // Fallback: just run data fetching without GridStack
+                        console.log('GridStack not available or no widgets, running in standard mode');
+                        initDataFetching();
+                    }
+                } catch (error) {
+                    console.error('Dashboard init error:', error);
+                    // Ensure data fetching runs even on error
                     initDataFetching();
                 }
-            } catch (error) {
-                console.error('Dashboard init error:', error);
-                // Ensure data fetching runs even on error
-                initDataFetching();
             }
-        }
-        
-        document.addEventListener('DOMContentLoaded', initAll);
-        
-        // Also try initializing now if DOM is already ready
-        if (document.readyState === 'complete' || document.readyState === 'interactive') {
-            setTimeout(initAll, 100);
-        }
+            
+            // Run immediately since script is at end of body
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initAll);
+            } else {
+                // DOM is already ready, run immediately
+                initAll();
+            }
+        })();
     </script>
 </body>
 </html>

@@ -7,12 +7,16 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 ## Accounts
 
 ### Gmail
-- **Email:** agentjc11443@gmail.com
+- **Email:** jcubellagent@gmail.com
 - **Password:** `~/.openclaw/workspace/.secrets/gmail.txt`
 
 ### X/Twitter
 - **Handle:** @AgentJc11443
 - Uses Gmail for login
+
+### Claude API (Anthropic)
+- **API Key:** `~/.openclaw/workspace/.secrets/claude_api_key.txt`
+- For Claude Developer Platform / API access
 
 ### Phantom Wallet (Solana)
 - **Address:** `ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L`

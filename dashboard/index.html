@@ -2766,6 +2766,41 @@
         .mobile-editor-toggle.active::after {
             transform: translateX(20px);
         }
+        
+        /* Reorder arrows */
+        .mobile-editor-arrows {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            flex-shrink: 0;
+        }
+        
+        .mobile-editor-arrow {
+            width: 36px;
+            height: 28px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .mobile-editor-arrow:hover:not(:disabled) {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000;
+        }
+        
+        .mobile-editor-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
 
         .layout-btn {
             background: rgba(255,255,255,0.1);
@@ -4410,6 +4445,7 @@
         const ALL_WIDGETS = ['mac-status', 'accounts', 'mindmap', 'ai-news', 'work-intel', 'tiktok', 'crypto', 'commands', 'jane-tasks', 'sorare', 'calendar', 'wallets', 'trading'];
         
         let mobileEditorVisibility = {};
+        let mobileEditorOrder = [];
         
         function openMobileLayoutEditor() {
             const sheet = document.getElementById('mobile-editor-sheet');
@@ -4417,9 +4453,27 @@
             // Get current hidden widgets
             const hiddenWidgets = getHiddenWidgets();
             
+            // Get current layout order from localStorage or use default
+            let savedLayout = [];
+            try {
+                const saved = localStorage.getItem(window.LAYOUT_KEY_MOBILE);
+                if (saved) {
+                    savedLayout = JSON.parse(saved).sort((a, b) => a.y - b.y).map(item => item.id);
+                }
+            } catch (e) {}
+            
+            // Build order: saved layout first, then any missing widgets
+            mobileEditorOrder = [];
+            savedLayout.forEach(id => {
+                if (ALL_WIDGETS.includes(id)) mobileEditorOrder.push(id);
+            });
+            ALL_WIDGETS.forEach(id => {
+                if (!mobileEditorOrder.includes(id)) mobileEditorOrder.push(id);
+            });
+            
             // Build visibility map for all widgets
             mobileEditorVisibility = {};
-            ALL_WIDGETS.forEach(id => {
+            mobileEditorOrder.forEach(id => {
                 mobileEditorVisibility[id] = !hiddenWidgets.includes(id);
             });
             
@@ -4440,11 +4494,18 @@
         function renderMobileEditorList() {
             const list = document.getElementById('mobile-editor-list');
             
-            list.innerHTML = ALL_WIDGETS.map(widgetId => {
+            list.innerHTML = mobileEditorOrder.map((widgetId, index) => {
                 const info = WIDGET_INFO[widgetId] || { name: widgetId, icon: '📦' };
                 const isVisible = mobileEditorVisibility[widgetId];
+                const isFirst = index === 0;
+                const isLast = index === mobileEditorOrder.length - 1;
+                
                 return `
                     <div class="mobile-editor-item ${isVisible ? '' : 'hidden'}" data-widget-id="${widgetId}">
+                        <div class="mobile-editor-arrows">
+                            <button class="mobile-editor-arrow" onclick="mobileEditorMoveUp('${widgetId}')" ${isFirst ? 'disabled' : ''} aria-label="Move up">↑</button>
+                            <button class="mobile-editor-arrow" onclick="mobileEditorMoveDown('${widgetId}')" ${isLast ? 'disabled' : ''} aria-label="Move down">↓</button>
+                        </div>
                         <span class="mobile-editor-icon">${info.icon}</span>
                         <span class="mobile-editor-name">${info.name}</span>
                         <button 
@@ -4459,6 +4520,22 @@
             }).join('');
         }
         
+        function mobileEditorMoveUp(widgetId) {
+            const index = mobileEditorOrder.indexOf(widgetId);
+            if (index > 0) {
+                [mobileEditorOrder[index], mobileEditorOrder[index - 1]] = [mobileEditorOrder[index - 1], mobileEditorOrder[index]];
+                renderMobileEditorList();
+            }
+        }
+        
+        function mobileEditorMoveDown(widgetId) {
+            const index = mobileEditorOrder.indexOf(widgetId);
+            if (index < mobileEditorOrder.length - 1) {
+                [mobileEditorOrder[index], mobileEditorOrder[index + 1]] = [mobileEditorOrder[index + 1], mobileEditorOrder[index]];
+                renderMobileEditorList();
+            }
+        }
+        
         function toggleMobileEditorWidget(widgetId) {
             mobileEditorVisibility[widgetId] = !mobileEditorVisibility[widgetId];
             renderMobileEditorList();
@@ -4466,13 +4543,25 @@
         
         function saveMobileLayout() {
             // Build list of hidden widgets
-            const hiddenWidgets = ALL_WIDGETS.filter(id => !mobileEditorVisibility[id]);
+            const hiddenWidgets = mobileEditorOrder.filter(id => !mobileEditorVisibility[id]);
             
-            // Save to localStorage
+            // Save hidden widgets
             localStorage.setItem(window.HIDDEN_WIDGETS_KEY_MOBILE, JSON.stringify(hiddenWidgets));
             
+            // Save order (visible widgets with y position based on order)
+            const layoutOrder = mobileEditorOrder
+                .filter(id => mobileEditorVisibility[id])
+                .map((id, index) => ({
+                    id: id,
+                    x: 0,
+                    y: index,
+                    w: 12,
+                    h: 2
+                }));
+            localStorage.setItem(window.LAYOUT_KEY_MOBILE, JSON.stringify(layoutOrder));
+            
             closeMobileLayoutEditor();
-            showToast('Widgets updated! Refreshing...');
+            showToast('Layout saved! Refreshing...');
             
             // Reload to apply changes
             setTimeout(() => location.reload(), 500);

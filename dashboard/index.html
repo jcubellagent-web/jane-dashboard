@@ -3338,7 +3338,7 @@
             
             chatWs.onmessage = (event) => {
                 const data = JSON.parse(event.data);
-                console.log('Chat received:', data.type || data.event);
+                console.log('Chat received:', data.type || data.event, data.event || '', JSON.stringify(data).slice(0, 200));
                 
                 // Handle challenge
                 if (data.type === 'event' && data.event === 'connect.challenge') {
@@ -3427,17 +3427,23 @@
                         // Streaming update
                         showTypingIndicator(false);
                         updateStreamingMessage(payload.message);
-                    } else if (payload?.state === 'final' && payload?.message) {
-                        // Final message
+                    } else if (payload?.state === 'final') {
+                        // Final - refresh history to get the response
                         showTypingIndicator(false);
                         finalizeStreamingMessage();
-                        addChatMessage('assistant', payload.message, Date.now());
-                        document.getElementById('chat-messages').scrollTop = 
-                            document.getElementById('chat-messages').scrollHeight;
-                    } else if (payload?.state === 'error') {
+                        // Fetch updated history
+                        chatWs.send(JSON.stringify({
+                            type: 'req',
+                            id: `msg_${msgIdCounter++}`,
+                            method: 'chat.history',
+                            params: { sessionKey: chatSessionKey, limit: 30 }
+                        }));
+                    } else if (payload?.state === 'error' || payload?.state === 'aborted') {
                         showTypingIndicator(false);
                         finalizeStreamingMessage();
-                        addChatMessage('assistant', 'Sorry, something went wrong. Please try again.', Date.now());
+                        if (payload?.state === 'error') {
+                            addChatMessage('assistant', 'Sorry, something went wrong. Please try again.', Date.now());
+                        }
                     }
                 }
             };
@@ -3524,11 +3530,16 @@
             
             // Send via WebSocket
             if (chatWs && chatWs.readyState === WebSocket.OPEN && chatConnected) {
+                const idempotencyKey = `dash_${Date.now()}_${Math.random().toString(36).slice(2)}`;
                 chatWs.send(JSON.stringify({
                     type: 'req',
                     id: `msg_${msgIdCounter++}`,
                     method: 'chat.send',
-                    params: { sessionKey: chatSessionKey, message: message }
+                    params: { 
+                        sessionKey: chatSessionKey, 
+                        message: message,
+                        idempotencyKey: idempotencyKey
+                    }
                 }));
                 showTypingIndicator(true);
             } else {

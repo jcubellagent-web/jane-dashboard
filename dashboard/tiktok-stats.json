@@ -1,20 +1,20 @@
 {
-  "lastUpdated": "2026-02-01T19:30:00Z",
+  "lastUpdated": "2026-02-01T21:45:00Z",
   "account": "@degencollector",
   "profile": {
-    "followers": 355,
+    "followers": 362,
     "following": 5,
-    "totalLikes": 1973
+    "totalLikes": 2000
   },
   "history": [
     { "date": "2026-01-31", "followers": 340, "likes": 1800 },
-    { "date": "2026-02-01", "followers": 355, "likes": 1973 }
+    { "date": "2026-02-01", "followers": 362, "likes": 2000 }
   ],
   "recentVideos": [
-    { "id": "EP.7", "title": "Drake Maye Hunt EP.7", "views": 0, "likes": 0, "comments": 0, "posted": "2026-02-01", "status": "ready", "note": "EPIC Purple Pack - Jared Goff 9/25!" },
-    { "id": "EP.6", "title": "Drake Maye Hunt EP.6", "views": 0, "likes": 0, "comments": 0, "posted": "2026-02-01", "status": "posted", "note": "Anthony Richardson Ultra Rare!" },
-    { "id": "EP.5", "title": "Drake Maye Hunt EP.5", "views": 308, "likes": 2, "comments": 2, "posted": "2026-02-01" },
-    { "id": "EP.4", "title": "Drake Maye Hunt EP.4", "views": 413, "likes": 6, "comments": 2, "posted": "2026-02-01" }
+    { "id": "EP.7", "title": "Drake Maye Hunt EP.7", "views": 324, "likes": 0, "comments": 0, "posted": "2026-02-01", "status": "posted", "note": "EPIC Purple Pack - Jared Goff 9/25!" },
+    { "id": "EP.6", "title": "Drake Maye Hunt EP.6", "views": 882, "likes": 0, "comments": 0, "posted": "2026-02-01", "status": "posted", "note": "Anthony Richardson Ultra Rare!" },
+    { "id": "EP.5", "title": "Drake Maye Hunt EP.5", "views": 338, "likes": 2, "comments": 2, "posted": "2026-02-01" },
+    { "id": "EP.4", "title": "Drake Maye Hunt EP.4", "views": 1293, "likes": 6, "comments": 2, "posted": "2026-02-01" }
   ],
   "series": {
     "name": "Drake Maye Hunt",
@@ -27,8 +27,8 @@
     ]
   },
   "milestones": {
-    "liveGifts": { "name": "LIVE Gifts", "required": 1000, "current": 355, "icon": "🎁" },
-    "creatorFund": { "name": "Creator Fund", "required": 10000, "current": 355, "icon": "💰" },
-    "creatorMarketplace": { "name": "Creator Marketplace", "required": 100000, "current": 355, "icon": "🏪" }
+    "liveGifts": { "name": "LIVE Gifts", "required": 1000, "current": 362, "icon": "🎁" },
+    "creatorFund": { "name": "Creator Fund", "required": 10000, "current": 362, "icon": "💰" },
+    "creatorMarketplace": { "name": "Creator Marketplace", "required": 100000, "current": 362, "icon": "🏪" }
   }
 }

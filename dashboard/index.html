@@ -1145,17 +1145,30 @@
                 </div>
             </div>
 
-            <!-- Wallet -->
+            <!-- Wallets -->
             <div class="card wallet-section">
                 <div class="card-header">
-                    <div class="card-title">👻 Phantom Wallet</div>
+                    <div class="card-title">👻 Solana Wallets</div>
                 </div>
-                <div class="wallet-balance">
-                    <h3 id="wallet-sol">0.5 SOL</h3>
-                    <p id="wallet-usd">≈ $50.82 USD</p>
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Jane's Wallet</div>
+                    <div class="wallet-balance" style="padding: 0.75rem; margin-bottom: 0.5rem;">
+                        <h3 id="wallet-sol" style="font-size: 1.25rem;">0.5 SOL</h3>
+                        <p id="wallet-usd" style="font-size: 0.8rem;">≈ $50.82 USD</p>
+                    </div>
+                    <div class="wallet-address" onclick="copyAddress('ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L')" title="Click to copy">
+                        ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L
+                    </div>
                 </div>
-                <div class="wallet-address" onclick="copyAddress()" title="Click to copy">
-                    ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L
+                <div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Josh's Wallet</div>
+                    <div class="wallet-balance" style="padding: 0.75rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, rgba(96, 165, 250, 0.2), rgba(59, 130, 246, 0.2));">
+                        <h3 id="josh-wallet-sol" style="font-size: 1.25rem;">-- SOL</h3>
+                        <p id="josh-wallet-usd" style="font-size: 0.8rem;">Loading...</p>
+                    </div>
+                    <div class="wallet-address" onclick="copyAddress('6EYvnXTGFj5HQzLAJMYs4EpYnzQ6A4gUVrG5vncP96h8')" title="Click to copy">
+                        6EYvnXTGFj5HQzLAJMYs4EpYnzQ6A4gUVrG5vncP96h8
+                    </div>
                 </div>
             </div>
 
@@ -1209,7 +1222,7 @@
             </div>
 
             <footer>
-                Jane 🌿 · Personal Assistant · First boot Jan 31, 2026 · Dashboard v2.7
+                Jane 🌿 · Personal Assistant · First boot Jan 31, 2026 · Dashboard v2.8
             </footer>
         </div>
 
@@ -1399,9 +1412,45 @@
         }
 
         // Copy wallet address
-        function copyAddress() {
-            navigator.clipboard.writeText('ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L');
+        function copyAddress(address) {
+            navigator.clipboard.writeText(address);
             showToast('Address copied!');
+        }
+
+        // Fetch wallet balances from Solana RPC
+        async function fetchWalletBalances() {
+            const janeWallet = 'ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L';
+            const joshWallet = '6EYvnXTGFj5HQzLAJMYs4EpYnzQ6A4gUVrG5vncP96h8';
+            
+            try {
+                // Fetch SOL price first
+                const priceRes = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
+                const priceData = await priceRes.json();
+                const solPrice = priceData.solana.usd;
+
+                // Fetch Josh's wallet balance
+                const balanceRes = await fetch('https://api.mainnet-beta.solana.com', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        jsonrpc: '2.0',
+                        id: 1,
+                        method: 'getBalance',
+                        params: [joshWallet]
+                    })
+                });
+                const balanceData = await balanceRes.json();
+                
+                if (balanceData.result && balanceData.result.value !== undefined) {
+                    const solBalance = balanceData.result.value / 1e9;  // Convert lamports to SOL
+                    const usdValue = solBalance * solPrice;
+                    document.getElementById('josh-wallet-sol').textContent = solBalance.toFixed(4) + ' SOL';
+                    document.getElementById('josh-wallet-usd').textContent = '≈ $' + usdValue.toFixed(2) + ' USD';
+                }
+            } catch (error) {
+                console.error('Failed to fetch wallet balance:', error);
+                document.getElementById('josh-wallet-usd').textContent = 'Unable to load';
+            }
         }
 
         // Toast notification
@@ -1557,10 +1606,12 @@
         updateUptime();
         fetchCryptoPrices();
         fetchWeather();
+        fetchWalletBalances();
         setInterval(loadTasks, 5000);
         setInterval(updateUptime, 60000);
         setInterval(fetchCryptoPrices, 60000);  // Update prices every minute
         setInterval(fetchWeather, 600000);  // Update weather every 10 minutes
+        setInterval(fetchWalletBalances, 120000);  // Update wallet balances every 2 minutes
 
         // Check gateway status
         async function checkGatewayStatus() {

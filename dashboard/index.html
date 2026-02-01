@@ -1417,34 +1417,43 @@
             showToast('Address copied!');
         }
 
-        // Fetch wallet balances using Solscan API (CORS-friendly)
+        // Fetch wallet balances from Solana RPC
         async function fetchWalletBalances() {
             const joshWallet = '6EYvnXTGFj5HQzLAJMYs4EpYnzQ6A4gUVrG5vncP96h8';
             
             try {
-                // Use Solscan public API for balance (CORS-friendly)
-                const response = await fetch(`https://public-api.solscan.io/account/${joshWallet}`);
+                // Get SOL price from the crypto prices we already fetched
+                const solPriceEl = document.getElementById('sol-price');
+                const solPriceText = solPriceEl ? solPriceEl.textContent : '$100';
+                const solPrice = parseFloat(solPriceText.replace('$', '').replace(',', '')) || 100;
+
+                // Fetch balance from Solana mainnet RPC
+                const response = await fetch('https://api.mainnet-beta.solana.com', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        jsonrpc: '2.0',
+                        id: 1,
+                        method: 'getBalance',
+                        params: [joshWallet]
+                    })
+                });
                 
-                if (response.ok) {
-                    const data = await response.json();
-                    const solBalance = (data.lamports || 0) / 1e9;
-                    
-                    // Get SOL price from the crypto prices we already fetched
-                    const solPriceEl = document.getElementById('sol-price');
-                    const solPriceText = solPriceEl ? solPriceEl.textContent : '$0';
-                    const solPrice = parseFloat(solPriceText.replace('$', '').replace(',', '')) || 0;
-                    
+                const data = await response.json();
+                console.log('Solana RPC response:', data);
+                
+                if (data.result && data.result.value !== undefined) {
+                    const solBalance = data.result.value / 1e9;  // Convert lamports to SOL
                     const usdValue = solBalance * solPrice;
                     document.getElementById('josh-wallet-sol').textContent = solBalance.toFixed(4) + ' SOL';
                     document.getElementById('josh-wallet-usd').textContent = '≈ $' + usdValue.toFixed(2) + ' USD';
-                } else {
-                    throw new Error('Solscan API error');
+                } else if (data.error) {
+                    throw new Error(data.error.message);
                 }
             } catch (error) {
                 console.error('Failed to fetch wallet balance:', error);
-                // Try alternative: just show a link to check manually
                 document.getElementById('josh-wallet-sol').textContent = '? SOL';
-                document.getElementById('josh-wallet-usd').textContent = 'Click to view on Solscan';
+                document.getElementById('josh-wallet-usd').textContent = 'Check console for error';
             }
         }
 

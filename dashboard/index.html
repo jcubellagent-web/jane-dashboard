@@ -767,6 +767,75 @@
             opacity: 1;
         }
 
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            display: none;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom));
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            text-decoration: none;
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            transition: all 0.2s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--accent);
+        }
+
+        .nav-item.active {
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .nav-icon {
+            font-size: 1.25rem;
+        }
+
+        .nav-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .chat-fab {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            border-radius: 50%;
+            margin-top: -20px;
+            box-shadow: 0 4px 20px rgba(74, 222, 128, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-fab .nav-icon {
+            font-size: 1.5rem;
+        }
+
+        .chat-fab .nav-label {
+            display: none;
+        }
+
         /* Responsive */
         @media (max-width: 1200px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -780,12 +849,14 @@
         }
 
         @media (max-width: 768px) {
-            .dashboard { padding: 1rem; gap: 1rem; }
+            .dashboard { padding: 1rem; padding-bottom: 6rem; gap: 1rem; }
             .stats-grid { grid-template-columns: 1fr; }
             .kanban-columns { grid-template-columns: repeat(2, 1fr); }
             .commands-grid { grid-template-columns: 1fr; }
             header { padding: 1rem; }
             .hero-content { flex-direction: column; text-align: center; }
+            .bottom-nav { display: flex; }
+            .chat-toggle { display: none; }
         }
     </style>
 </head>
@@ -911,18 +982,18 @@
                         <div class="icon">🌤️</div>
                         <span>Weather</span>
                     </button>
-                    <button class="command-btn" onclick="sendCommand('What are my current tasks?')">
+                    <a class="command-btn" href="/kanban/">
                         <div class="icon">📋</div>
-                        <span>My Tasks</span>
-                    </button>
-                    <button class="command-btn" onclick="sendCommand('Check my TikTok notifications')">
-                        <div class="icon">🎵</div>
-                        <span>TikTok Updates</span>
-                    </button>
-                    <button class="command-btn" onclick="sendCommand('Check SOL wallet balance')">
-                        <div class="icon">💰</div>
-                        <span>Wallet Balance</span>
-                    </button>
+                        <span>Task Board</span>
+                    </a>
+                    <a class="command-btn" href="/notes/">
+                        <div class="icon">📝</div>
+                        <span>Quick Notes</span>
+                    </a>
+                    <a class="command-btn" href="/settings/">
+                        <div class="icon">⚙️</div>
+                        <span>Settings</span>
+                    </a>
                 </div>
             </div>
 
@@ -1051,6 +1122,29 @@
     </div>
 
     <div class="toast" id="toast"></div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="/" class="nav-item active">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Home</span>
+        </a>
+        <a href="/kanban/" class="nav-item">
+            <span class="nav-icon">📋</span>
+            <span class="nav-label">Tasks</span>
+        </a>
+        <button class="nav-item chat-fab" onclick="toggleChat()">
+            <span class="nav-icon">💬</span>
+        </button>
+        <a href="/notes/" class="nav-item">
+            <span class="nav-icon">📝</span>
+            <span class="nav-label">Notes</span>
+        </a>
+        <a href="/settings/" class="nav-item">
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-label">Settings</span>
+        </a>
+    </nav>
 
     <script>
         // Configuration

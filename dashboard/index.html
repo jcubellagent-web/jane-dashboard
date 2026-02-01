@@ -2169,6 +2169,143 @@
             color: #ef4444;
         }
 
+        /* Mobile Reorder Toolbar */
+        .mobile-reorder-toolbar {
+            display: none;
+            position: fixed;
+            left: calc(50% - 380px);
+            top: 80px;
+            width: 280px;
+            max-height: calc(100vh - 120px);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1rem;
+            z-index: 1000;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        body.mobile-preview.edit-mode .mobile-reorder-toolbar {
+            display: block;
+        }
+
+        .reorder-toolbar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .reorder-toolbar-header h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .reorder-toolbar-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            line-height: 1;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .reorder-toolbar-close:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-primary);
+        }
+
+        .reorder-widget-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .reorder-widget-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 0.75rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+
+        .reorder-widget-item:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--border-hover);
+        }
+
+        .reorder-widget-item.dragging {
+            background: rgba(74, 222, 128, 0.15);
+            border-color: var(--accent);
+        }
+
+        .reorder-widget-name {
+            flex: 1;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .reorder-widget-icon {
+            font-size: 1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .reorder-btn-group {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .reorder-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .reorder-btn:hover:not(:disabled) {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000;
+        }
+
+        .reorder-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .reorder-btn.top-btn:hover:not(:disabled),
+        .reorder-btn.bottom-btn:hover:not(:disabled) {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
         /* GridStack Overrides */
         .grid-stack {
             background: transparent !important;
@@ -2542,6 +2679,16 @@
             </div>
         </div>
     </header>
+
+    <!-- Mobile Reorder Toolbar -->
+    <div class="mobile-reorder-toolbar" id="mobile-reorder-toolbar">
+        <div class="reorder-toolbar-header">
+            <h3>📱 Reorder Widgets</h3>
+        </div>
+        <div class="reorder-widget-list" id="reorder-widget-list">
+            <!-- Populated dynamically -->
+        </div>
+    </div>
 
     <!-- Floating Chat Button -->
     <button class="chat-fab" id="chat-fab" onclick="toggleChat()" title="Chat with Jane (⌘K)">
@@ -4678,6 +4825,11 @@
                 
                 console.log('GridStack initialized successfully');
                 
+                // For mobile view, reorder DOM elements based on saved layout
+                if (window.currentView === 'mobile' && savedLayout) {
+                    reorderMobileWidgets(savedLayout);
+                }
+                
                 // Initialize data AFTER GridStack has restructured the DOM
                 setTimeout(() => initDataFetching(), 50);
             } catch (error) {
@@ -4701,7 +4853,14 @@
                 container.classList.add('edit-mode');
                 window.grid?.enableMove(true);
                 window.grid?.enableResize(true);
-                showToast('Drag to move, resize from corners. Click "Done" when finished.');
+                
+                // On mobile, populate the reorder toolbar
+                if (window.currentView === 'mobile') {
+                    populateMobileReorderToolbar();
+                    showToast('Use the toolbar on the left to reorder widgets.');
+                } else {
+                    showToast('Drag to move, resize from corners. Click "Done" when finished.');
+                }
             } else {
                 editBtn.classList.remove('active');
                 editBtn.innerHTML = '🔧 Edit Layout';
@@ -4712,6 +4871,175 @@
                 // Show prompt asking which views to save to
                 showLayoutSavePrompt();
             }
+        }
+        
+        // Widget display names and icons
+        const WIDGET_INFO = {
+            'stats': { name: 'Quick Stats', icon: '📊' },
+            'crypto': { name: 'Crypto Prices', icon: '💰' },
+            'ai-news': { name: 'AI News', icon: '🤖' },
+            'weather': { name: 'Weather', icon: '🌤️' },
+            'calendar': { name: 'Calendar', icon: '📅' },
+            'work-intel': { name: 'Work Intel', icon: '💼' },
+            'tiktok': { name: 'TikTok Growth', icon: '📈' },
+            'kanban': { name: 'Tasks', icon: '✅' },
+            'mindmap': { name: 'Mindmap', icon: '🧠' },
+            'mac-status': { name: 'Mac Status', icon: '🖥️' },
+            'commands': { name: 'Commands', icon: '⌨️' },
+            'sorare': { name: 'Sorare NBA', icon: '🏀' },
+            'trading': { name: 'Trading', icon: '📉' },
+            'accounts': { name: 'Accounts', icon: '🔗' }
+        };
+        
+        // Populate the mobile reorder toolbar
+        function populateMobileReorderToolbar() {
+            const list = document.getElementById('reorder-widget-list');
+            if (!list) return;
+            
+            // Get widgets in current DOM order (flexbox order)
+            const gridStack = document.querySelector('.grid-stack');
+            if (!gridStack) return;
+            
+            const widgets = Array.from(gridStack.querySelectorAll('.grid-stack-item'))
+                .filter(el => el.style.display !== 'none')
+                .map(el => {
+                    const widgetEl = el.querySelector('[data-widget]');
+                    const id = widgetEl?.getAttribute('data-widget') || el.getAttribute('gs-id');
+                    return { el, id };
+                })
+                .filter(w => w.id);
+            
+            list.innerHTML = widgets.map((w, index) => {
+                const info = WIDGET_INFO[w.id] || { name: w.id, icon: '📦' };
+                return `
+                    <div class="reorder-widget-item" data-widget-id="${w.id}">
+                        <span class="reorder-widget-icon">${info.icon}</span>
+                        <span class="reorder-widget-name">${info.name}</span>
+                        <div class="reorder-btn-group">
+                            <button class="reorder-btn top-btn" onclick="moveWidgetToPosition('${w.id}', 0)" title="Move to top" ${index === 0 ? 'disabled' : ''}>⤒</button>
+                            <button class="reorder-btn" onclick="moveWidgetUp('${w.id}')" title="Move up" ${index === 0 ? 'disabled' : ''}>↑</button>
+                            <button class="reorder-btn" onclick="moveWidgetDown('${w.id}')" title="Move down" ${index === widgets.length - 1 ? 'disabled' : ''}>↓</button>
+                            <button class="reorder-btn bottom-btn" onclick="moveWidgetToPosition('${w.id}', ${widgets.length - 1})" title="Move to bottom" ${index === widgets.length - 1 ? 'disabled' : ''}>⤓</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Move widget up in the list
+        function moveWidgetUp(widgetId) {
+            const gridStack = document.querySelector('.grid-stack');
+            const widgets = Array.from(gridStack.querySelectorAll('.grid-stack-item'))
+                .filter(el => el.style.display !== 'none');
+            
+            const index = widgets.findIndex(el => {
+                const widgetEl = el.querySelector('[data-widget]');
+                return (widgetEl?.getAttribute('data-widget') || el.getAttribute('gs-id')) === widgetId;
+            });
+            
+            if (index > 0) {
+                const widget = widgets[index];
+                const prevWidget = widgets[index - 1];
+                gridStack.insertBefore(widget, prevWidget);
+                populateMobileReorderToolbar();
+                saveMobileWidgetOrder();
+            }
+        }
+        
+        // Move widget down in the list
+        function moveWidgetDown(widgetId) {
+            const gridStack = document.querySelector('.grid-stack');
+            const widgets = Array.from(gridStack.querySelectorAll('.grid-stack-item'))
+                .filter(el => el.style.display !== 'none');
+            
+            const index = widgets.findIndex(el => {
+                const widgetEl = el.querySelector('[data-widget]');
+                return (widgetEl?.getAttribute('data-widget') || el.getAttribute('gs-id')) === widgetId;
+            });
+            
+            if (index < widgets.length - 1) {
+                const widget = widgets[index];
+                const nextWidget = widgets[index + 1];
+                gridStack.insertBefore(nextWidget, widget);
+                populateMobileReorderToolbar();
+                saveMobileWidgetOrder();
+            }
+        }
+        
+        // Move widget to specific position (top or bottom)
+        function moveWidgetToPosition(widgetId, targetIndex) {
+            const gridStack = document.querySelector('.grid-stack');
+            const widgets = Array.from(gridStack.querySelectorAll('.grid-stack-item'))
+                .filter(el => el.style.display !== 'none');
+            
+            const currentIndex = widgets.findIndex(el => {
+                const widgetEl = el.querySelector('[data-widget]');
+                return (widgetEl?.getAttribute('data-widget') || el.getAttribute('gs-id')) === widgetId;
+            });
+            
+            if (currentIndex === targetIndex) return;
+            
+            const widget = widgets[currentIndex];
+            
+            if (targetIndex === 0) {
+                // Move to top
+                gridStack.insertBefore(widget, widgets[0]);
+            } else {
+                // Move to bottom
+                gridStack.appendChild(widget);
+            }
+            
+            populateMobileReorderToolbar();
+            saveMobileWidgetOrder();
+        }
+        
+        // Save mobile widget order to localStorage
+        function saveMobileWidgetOrder() {
+            const gridStack = document.querySelector('.grid-stack');
+            const widgets = Array.from(gridStack.querySelectorAll('.grid-stack-item'))
+                .filter(el => el.style.display !== 'none');
+            
+            const order = widgets.map((el, index) => {
+                const widgetEl = el.querySelector('[data-widget]');
+                const id = widgetEl?.getAttribute('data-widget') || el.getAttribute('gs-id');
+                // Store with incrementing y values to preserve order
+                return {
+                    id: id,
+                    x: 0,
+                    y: index,
+                    w: 12,
+                    h: 2
+                };
+            });
+            
+            localStorage.setItem(window.LAYOUT_KEY_MOBILE, JSON.stringify(order));
+        }
+        
+        // Reorder mobile widgets based on saved layout (by y value)
+        function reorderMobileWidgets(savedLayout) {
+            const gridStack = document.querySelector('.grid-stack');
+            if (!gridStack) return;
+            
+            const widgets = Array.from(gridStack.querySelectorAll('.grid-stack-item'));
+            
+            // Sort savedLayout by y value
+            const sortedLayout = [...savedLayout].sort((a, b) => a.y - b.y);
+            
+            // Reorder DOM elements to match saved order
+            sortedLayout.forEach(layoutItem => {
+                const widget = widgets.find(el => {
+                    const widgetEl = el.querySelector('[data-widget]');
+                    const id = widgetEl?.getAttribute('data-widget') || el.getAttribute('gs-id');
+                    return id === layoutItem.id;
+                });
+                
+                if (widget) {
+                    // Move to end (which builds the correct order)
+                    gridStack.appendChild(widget);
+                }
+            });
+            
+            console.log('Mobile widgets reordered based on saved layout');
         }
         
         // Get current layout key based on view

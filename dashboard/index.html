@@ -2256,6 +2256,105 @@
             opacity: 1;
         }
 
+        /* Layout Save Modal */
+        .layout-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+        }
+        
+        .layout-modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .layout-modal {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.2s ease;
+        }
+        
+        .layout-modal-overlay.show .layout-modal {
+            transform: scale(1);
+        }
+        
+        .layout-modal h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.25rem;
+        }
+        
+        .layout-modal p {
+            color: var(--text-secondary);
+            margin: 0 0 1.25rem 0;
+        }
+        
+        .layout-modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .layout-modal-btn {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .layout-modal-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent);
+        }
+        
+        .layout-modal-btn.primary {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+        
+        .layout-modal-btn.primary:hover {
+            background: #22c55e;
+        }
+        
+        .layout-modal-btn.danger {
+            background: #ef4444;
+            border-color: #ef4444;
+        }
+        
+        .layout-modal-btn.danger:hover {
+            background: #dc2626;
+        }
+        
+        .layout-modal-btn.cancel {
+            background: transparent;
+            color: var(--text-secondary);
+        }
+        
+        .layout-modal-btn.cancel:hover {
+            color: var(--text);
+        }
+
         /* Bottom Navigation */
         .bottom-nav {
             position: fixed;
@@ -4436,8 +4535,12 @@
         
         window.grid = null;
         window.isEditMode = false;
-        window.LAYOUT_KEY = 'jane-dashboard-layout-v1';
-        window.HIDDEN_WIDGETS_KEY = 'jane-dashboard-hidden-v1';
+        window.currentView = 'desktop'; // Track current view mode
+        window.LAYOUT_KEY_DESKTOP = 'jane-dashboard-layout-desktop-v1';
+        window.LAYOUT_KEY_MOBILE = 'jane-dashboard-layout-mobile-v1';
+        window.HIDDEN_WIDGETS_KEY_DESKTOP = 'jane-dashboard-hidden-desktop-v1';
+        window.HIDDEN_WIDGETS_KEY_MOBILE = 'jane-dashboard-hidden-mobile-v1';
+        window.pendingLayoutChange = null; // Store pending changes for confirmation
         
         // Default widget layout (order and position)
         window.DEFAULT_LAYOUT = [
@@ -4567,13 +4670,22 @@
                 container.classList.remove('edit-mode');
                 window.grid?.enableMove(false);
                 window.grid?.enableResize(false);
-                saveLayout();
-                showToast('Layout saved!');
+                // Show prompt asking which views to save to
+                showLayoutSavePrompt();
             }
         }
         
-        // Save layout to localStorage
-        function saveLayout() {
+        // Get current layout key based on view
+        function getLayoutKey() {
+            return window.currentView === 'mobile' ? window.LAYOUT_KEY_MOBILE : window.LAYOUT_KEY_DESKTOP;
+        }
+        
+        function getHiddenKey() {
+            return window.currentView === 'mobile' ? window.HIDDEN_WIDGETS_KEY_MOBILE : window.HIDDEN_WIDGETS_KEY_DESKTOP;
+        }
+        
+        // Save layout to localStorage (internal - no prompt)
+        function saveLayoutInternal(targetView) {
             if (!window.grid) return;
             const items = window.grid.getGridItems().map(el => {
                 const node = el.gridstackNode;
@@ -4585,24 +4697,126 @@
                     h: node.h
                 };
             });
-            localStorage.setItem(window.LAYOUT_KEY, JSON.stringify(items));
+            const key = targetView === 'mobile' ? window.LAYOUT_KEY_MOBILE : window.LAYOUT_KEY_DESKTOP;
+            localStorage.setItem(key, JSON.stringify(items));
+        }
+        
+        // Save layout to current view (called during auto-save on change)
+        function saveLayout() {
+            if (!window.grid) return;
+            saveLayoutInternal(window.currentView);
+        }
+        
+        // Show modal asking which views to save to
+        function showLayoutSavePrompt() {
+            // Create modal if it doesn't exist
+            let modal = document.getElementById('layout-save-modal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'layout-save-modal';
+                modal.className = 'layout-modal-overlay';
+                modal.innerHTML = `
+                    <div class="layout-modal">
+                        <h3>💾 Save Layout Changes</h3>
+                        <p>Apply this layout to:</p>
+                        <div class="layout-modal-buttons">
+                            <button onclick="saveToView('current')" class="layout-modal-btn">
+                                ${window.currentView === 'desktop' ? '🖥️ Desktop Only' : '📱 Mobile Only'}
+                            </button>
+                            <button onclick="saveToView('both')" class="layout-modal-btn primary">
+                                🖥️📱 Both Views
+                            </button>
+                            <button onclick="closeLayoutModal()" class="layout-modal-btn cancel">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            } else {
+                // Update button text for current view
+                const currentBtn = modal.querySelector('.layout-modal-buttons button:first-child');
+                currentBtn.innerHTML = window.currentView === 'desktop' ? '🖥️ Desktop Only' : '📱 Mobile Only';
+            }
+            modal.classList.add('show');
+        }
+        
+        function closeLayoutModal() {
+            const modal = document.getElementById('layout-save-modal');
+            if (modal) modal.classList.remove('show');
+        }
+        
+        function saveToView(target) {
+            closeLayoutModal();
+            if (target === 'both') {
+                saveLayoutInternal('desktop');
+                saveLayoutInternal('mobile');
+                showToast('Layout saved to both views! 🖥️📱');
+            } else {
+                saveLayoutInternal(window.currentView);
+                showToast(`Layout saved to ${window.currentView} view! ${window.currentView === 'desktop' ? '🖥️' : '📱'}`);
+            }
         }
         
         // Load layout from localStorage
         function loadLayout() {
             try {
-                const saved = localStorage.getItem(window.LAYOUT_KEY);
+                const saved = localStorage.getItem(getLayoutKey());
                 return saved ? JSON.parse(saved) : null;
             } catch (e) {
                 return null;
             }
         }
         
-        // Remove widget
+        // Remove widget with prompt
         function removeWidget(widgetId) {
             if (!window.grid) return;
             
             // Find the widget element
+            const widgetEl = document.querySelector(`[data-widget="${widgetId}"]`)?.closest('.grid-stack-item');
+            if (!widgetEl) return;
+            
+            // Show confirmation for which views
+            showWidgetRemovePrompt(widgetId, widgetEl);
+        }
+        
+        function showWidgetRemovePrompt(widgetId, widgetEl) {
+            let modal = document.getElementById('widget-remove-modal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'widget-remove-modal';
+                modal.className = 'layout-modal-overlay';
+                document.body.appendChild(modal);
+            }
+            
+            modal.innerHTML = `
+                <div class="layout-modal">
+                    <h3>🗑️ Remove Widget</h3>
+                    <p>Remove "<strong>${widgetId}</strong>" from:</p>
+                    <div class="layout-modal-buttons">
+                        <button onclick="doRemoveWidget('${widgetId}', 'current')" class="layout-modal-btn">
+                            ${window.currentView === 'desktop' ? '🖥️ Desktop Only' : '📱 Mobile Only'}
+                        </button>
+                        <button onclick="doRemoveWidget('${widgetId}', 'both')" class="layout-modal-btn danger">
+                            🖥️📱 Both Views
+                        </button>
+                        <button onclick="closeWidgetRemoveModal()" class="layout-modal-btn cancel">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            `;
+            modal.classList.add('show');
+        }
+        
+        function closeWidgetRemoveModal() {
+            const modal = document.getElementById('widget-remove-modal');
+            if (modal) modal.classList.remove('show');
+        }
+        
+        function doRemoveWidget(widgetId, target) {
+            closeWidgetRemoveModal();
+            
             const widgetEl = document.querySelector(`[data-widget="${widgetId}"]`)?.closest('.grid-stack-item');
             if (!widgetEl) return;
             
@@ -4614,22 +4828,38 @@
             setTimeout(() => {
                 window.grid.removeWidget(widgetEl);
                 
-                // Save to hidden widgets list
-                const hidden = getHiddenWidgets();
+                // Save to hidden widgets list(s)
+                if (target === 'both') {
+                    addToHiddenWidgets(widgetId, 'desktop');
+                    addToHiddenWidgets(widgetId, 'mobile');
+                    saveLayoutInternal('desktop');
+                    saveLayoutInternal('mobile');
+                    showToast(`Removed "${widgetId}" from both views 🖥️📱`);
+                } else {
+                    addToHiddenWidgets(widgetId, window.currentView);
+                    saveLayoutInternal(window.currentView);
+                    showToast(`Removed "${widgetId}" from ${window.currentView} view ${window.currentView === 'desktop' ? '🖥️' : '📱'}`);
+                }
+            }, 300);
+        }
+        
+        function addToHiddenWidgets(widgetId, view) {
+            const key = view === 'mobile' ? window.HIDDEN_WIDGETS_KEY_MOBILE : window.HIDDEN_WIDGETS_KEY_DESKTOP;
+            try {
+                const hidden = JSON.parse(localStorage.getItem(key) || '[]');
                 if (!hidden.includes(widgetId)) {
                     hidden.push(widgetId);
-                    localStorage.setItem(window.HIDDEN_WIDGETS_KEY, JSON.stringify(hidden));
+                    localStorage.setItem(key, JSON.stringify(hidden));
                 }
-                
-                saveLayout();
-                showToast(`Removed "${widgetId}" widget`);
-            }, 300);
+            } catch (e) {
+                localStorage.setItem(key, JSON.stringify([widgetId]));
+            }
         }
         
         // Get hidden widgets from localStorage
         function getHiddenWidgets() {
             try {
-                const saved = localStorage.getItem(window.HIDDEN_WIDGETS_KEY);
+                const saved = localStorage.getItem(getHiddenKey());
                 return saved ? JSON.parse(saved) : [];
             } catch (e) {
                 return [];
@@ -4638,26 +4868,48 @@
         
         // Reset layout to default
         function resetLayout() {
-            if (!confirm('Reset layout to default? This will restore all widgets. Continue?')) return;
-            localStorage.removeItem(window.LAYOUT_KEY);
-            localStorage.removeItem(window.HIDDEN_WIDGETS_KEY);
+            const viewName = window.currentView === 'desktop' ? 'desktop' : 'mobile';
+            const choice = confirm(`Reset ${viewName} layout to default?\n\nClick OK to reset ${viewName} only.\nOr cancel and use the browser console to reset both.`);
+            if (!choice) return;
+            
+            // Reset current view only
+            const layoutKey = getLayoutKey();
+            const hiddenKey = getHiddenKey();
+            localStorage.removeItem(layoutKey);
+            localStorage.removeItem(hiddenKey);
             location.reload();
         }
 
         // View toggle (desktop/mobile)
         function setView(mode) {
+            // If switching views, save current view preference and reload
+            if (mode !== window.currentView) {
+                // Save the view preference
+                localStorage.setItem('jane-dashboard-view', mode);
+                // Reload to apply the new view's layout
+                location.reload();
+                return;
+            }
+            
+            applyViewMode(mode);
+        }
+        
+        // Apply visual view mode (called on load)
+        function applyViewMode(mode) {
             const desktopBtn = document.getElementById('desktop-view-btn');
             const mobileBtn = document.getElementById('mobile-view-btn');
             const mainContainer = document.querySelector('.main-container');
             const dashboard = document.getElementById('dashboard-container');
             
+            window.currentView = mode;
+            
             if (mode === 'mobile') {
                 document.body.classList.add('mobile-preview');
-                desktopBtn.classList.remove('active');
-                mobileBtn.classList.add('active');
+                if (desktopBtn) desktopBtn.classList.remove('active');
+                if (mobileBtn) mobileBtn.classList.add('active');
                 
                 // Wrap dashboard in mobile frame if not already
-                if (!document.querySelector('.mobile-frame')) {
+                if (mainContainer && dashboard && !document.querySelector('.mobile-frame')) {
                     const frame = document.createElement('div');
                     frame.className = 'mobile-frame';
                     mainContainer.insertBefore(frame, dashboard);
@@ -4665,17 +4917,29 @@
                 }
             } else {
                 document.body.classList.remove('mobile-preview');
-                desktopBtn.classList.add('active');
-                mobileBtn.classList.remove('active');
+                if (desktopBtn) desktopBtn.classList.add('active');
+                if (mobileBtn) mobileBtn.classList.remove('active');
                 
                 // Unwrap dashboard from mobile frame
                 const frame = document.querySelector('.mobile-frame');
-                if (frame) {
+                if (frame && mainContainer && dashboard) {
                     mainContainer.insertBefore(dashboard, frame);
                     frame.remove();
                 }
             }
         }
+        
+        // Load saved view preference on startup
+        (function() {
+            const savedView = localStorage.getItem('jane-dashboard-view') || 'desktop';
+            window.currentView = savedView;
+            // Apply view mode after DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => applyViewMode(savedView));
+            } else {
+                applyViewMode(savedView);
+            }
+        })();
         
         // Initialize dashboard (GridStack first, then data fetching)
         initGridStack();

@@ -947,8 +947,8 @@
                 <span>Online</span>
             </div>
             <div class="time" id="current-time">--:--</div>
-            <button class="chat-toggle" onclick="toggleChat()">
-                💬 Chat with Jane
+            <button class="chat-toggle" onclick="toggleChat()" title="Cmd+K">
+                💬 Chat with Jane <kbd style="background: rgba(0,0,0,0.3); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.7rem; margin-left: 0.5rem;">⌘K</kbd>
             </button>
         </div>
     </header>
@@ -992,8 +992,8 @@
                 <div class="hero-content">
                     <div class="hero-avatar">🌿</div>
                     <div class="hero-text">
-                        <h2>Hey Josh! 👋</h2>
-                        <p>I'm Jane, your personal AI assistant. Use this dashboard as your command center — check tasks, monitor accounts, or chat with me directly. I'm always here to help.</p>
+                        <h2 id="greeting">Hey Josh! 👋</h2>
+                        <p id="greeting-sub">I'm Jane, your personal AI assistant. Use this dashboard as your command center — check tasks, monitor accounts, or chat with me directly. I'm always here to help.</p>
                     </div>
                 </div>
             </div>
@@ -1209,7 +1209,7 @@
             </div>
 
             <footer>
-                Jane 🌿 · Personal Assistant · First boot Jan 31, 2026 · Dashboard v2.4
+                Jane 🌿 · Personal Assistant · First boot Jan 31, 2026 · Dashboard v2.5
             </footer>
         </div>
 
@@ -1273,11 +1273,36 @@
         const HOOK_URL = 'http://127.0.0.1:18789/hooks/agent';
         const HOOK_TOKEN = '5c8d56dd45438059dddecbedb8a7123abaf72721153dc95d';
 
-        // Update time
+        // Update time and greeting
         function updateTime() {
             const now = new Date();
             document.getElementById('current-time').textContent = 
                 now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            
+            // Update greeting based on time of day
+            const hour = now.getHours();
+            let greeting, emoji, subtext;
+            
+            if (hour >= 5 && hour < 12) {
+                greeting = 'Good morning, Josh!';
+                emoji = '☀️';
+                subtext = 'Ready to start the day? Check your tasks or chat with me.';
+            } else if (hour >= 12 && hour < 17) {
+                greeting = 'Good afternoon, Josh!';
+                emoji = '🌤️';
+                subtext = 'How\'s your day going? I\'m here if you need anything.';
+            } else if (hour >= 17 && hour < 21) {
+                greeting = 'Good evening, Josh!';
+                emoji = '🌅';
+                subtext = 'Winding down? Let me know if there\'s anything I can help with.';
+            } else {
+                greeting = 'Hey Josh!';
+                emoji = '🌙';
+                subtext = 'Burning the midnight oil? I\'m always here when you need me.';
+            }
+            
+            document.getElementById('greeting').textContent = greeting + ' ' + emoji;
+            document.getElementById('greeting-sub').textContent = subtext;
         }
         updateTime();
         setInterval(updateTime, 1000);
@@ -1536,6 +1561,25 @@
         setInterval(updateUptime, 60000);
         setInterval(fetchCryptoPrices, 60000);  // Update prices every minute
         setInterval(fetchWeather, 600000);  // Update weather every 10 minutes
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Cmd/Ctrl + K to open chat
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                toggleChat();
+                if (document.getElementById('chat-panel').classList.contains('open')) {
+                    document.getElementById('chat-input').focus();
+                }
+            }
+            // Escape to close chat
+            if (e.key === 'Escape') {
+                const panel = document.getElementById('chat-panel');
+                if (panel.classList.contains('open')) {
+                    panel.classList.remove('open');
+                }
+            }
+        });
 
         // Service Worker Registration for PWA
         if ('serviceWorker' in navigator) {

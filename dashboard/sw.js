@@ -3,7 +3,7 @@
  * Enables offline access and caching
  */
 
-const CACHE_NAME = 'jane-dashboard-v2.5';
+const CACHE_NAME = 'jane-dashboard-v2.7';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
@@ -18,6 +18,8 @@ const ASSETS_TO_CACHE = [
     '/links/index.html',
     '/settings/',
     '/settings/index.html',
+    '/timer/',
+    '/timer/index.html',
     '/api.js'
 ];
 

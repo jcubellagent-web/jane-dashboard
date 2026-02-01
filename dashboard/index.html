@@ -2595,6 +2595,43 @@
         // Configuration
         const GATEWAY_TOKEN = '47cf46ba8962b26d18a3d690d80a3e109f57e2525b8f6941';
 
+        // Trading positions data (must be defined early for onclick handlers)
+        const POSITIONS = [
+            {
+                token: 'WOJAK',
+                symbol: 'WOJAK',
+                contract: '8J69rbLTzWWgUJziFY8jeu5tDwEPBwUz4pKBMr5rpump',
+                amount: 1313.39,
+                entryPrice: 0.00795,
+                costBasis: 10.44,
+                targetPrice: 0.025,
+                stopPrice: 0.0056,
+                icon: '😢'
+            },
+            {
+                token: 'COPPERINU',
+                symbol: 'COPPERINU', 
+                contract: '61Wj56QgGyyB966T7YsMzEAKRLcMvJpDbPzjkrCZc4Bi',
+                amount: 1309.22,
+                entryPrice: 0.00768,
+                costBasis: 10.05,
+                targetPrice: 0.030,
+                stopPrice: 0.0054,
+                icon: '🐕'
+            },
+            {
+                token: 'pippin',
+                symbol: 'pippin',
+                contract: 'Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump',
+                amount: 56.74,
+                entryPrice: 0.182,
+                costBasis: 10.33,
+                targetPrice: 0.40,
+                stopPrice: 0.127,
+                icon: '🤖'
+            }
+        ];
+
         // Update time and greeting
         function updateTime() {
             const now = new Date();
@@ -2949,43 +2986,6 @@
             document.getElementById('total-portfolio').textContent = '$' + total.toFixed(2);
         }
 
-        // Trading positions data
-        const POSITIONS = [
-            {
-                token: 'WOJAK',
-                symbol: 'WOJAK',
-                contract: '8J69rbLTzWWgUJziFY8jeu5tDwEPBwUz4pKBMr5rpump',
-                amount: 1313.39,
-                entryPrice: 0.00795,
-                costBasis: 10.44,
-                targetPrice: 0.025,
-                stopPrice: 0.0056,
-                icon: '😢'
-            },
-            {
-                token: 'COPPERINU',
-                symbol: 'COPPERINU', 
-                contract: '61Wj56QgGyyB966T7YsMzEAKRLcMvJpDbPzjkrCZc4Bi',
-                amount: 1309.22,
-                entryPrice: 0.00768,
-                costBasis: 10.05,
-                targetPrice: 0.030,
-                stopPrice: 0.0054,
-                icon: '🐕'
-            },
-            {
-                token: 'pippin',
-                symbol: 'pippin',
-                contract: 'Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump',
-                amount: 56.74,
-                entryPrice: 0.182,
-                costBasis: 10.33,
-                targetPrice: 0.40,
-                stopPrice: 0.127,
-                icon: '🤖'
-            }
-        ];
-
         async function fetchTradingPositions() {
             const grid = document.getElementById('positions-grid');
             let totalValue = 0;
@@ -3298,25 +3298,33 @@
             }
         }
 
-        // Initialize
-        loadTasks();
-        fetchTikTokStats();
-        fetchMindmap();
-        fetchAINews();
-        fetchWorkIntel();
-        fetchTradingPositions();
-        setInterval(fetchTradingPositions, 30000);  // Update every 30 seconds
-        updateUptime();
-        fetchCryptoPrices();
-        fetchWeather();
-        fetchWalletBalances();
-        setInterval(loadTasks, 5000);
-        setInterval(updateUptime, 60000);
-        setInterval(fetchCryptoPrices, 60000);  // Update prices every minute
-        setInterval(fetchWeather, 600000);  // Update weather every 10 minutes
-        setInterval(fetchWalletBalances, 120000);  // Update wallet balances every 2 minutes
-        setInterval(fetchTikTokStats, 300000);  // Update TikTok stats every 5 minutes
-        setInterval(fetchWorkIntel, 60000);  // Update market data every minute
+        // Initialize data fetching (called after GridStack setup)
+        function initDataFetching() {
+            loadTasks();
+            fetchTikTokStats();
+            fetchMindmap();
+            fetchAINews();
+            fetchWorkIntel();
+            fetchTradingPositions();
+            fetchSystemStats();
+            updateUptime();
+            fetchCryptoPrices();
+            fetchWeather();
+            fetchWalletBalances();
+            
+            // Set up intervals
+            setInterval(fetchTradingPositions, 30000);  // Every 30 seconds
+            setInterval(loadTasks, 5000);              // Every 5 seconds
+            setInterval(updateUptime, 60000);          // Every minute
+            setInterval(fetchCryptoPrices, 60000);     // Every minute
+            setInterval(fetchSystemStats, 60000);      // Every minute
+            setInterval(fetchWeather, 600000);         // Every 10 minutes
+            setInterval(fetchWalletBalances, 120000);  // Every 2 minutes
+            setInterval(fetchTikTokStats, 300000);     // Every 5 minutes
+            setInterval(fetchWorkIntel, 60000);        // Every minute
+            
+            console.log('Dashboard data fetching initialized');
+        }
 
         // Check gateway status
         async function checkGatewayStatus() {
@@ -3370,9 +3378,7 @@
             navigator.serviceWorker.register('sw.js').catch(() => {});
         }
 
-        // Initialize system stats
-        fetchSystemStats();
-        setInterval(fetchSystemStats, 60000);  // Update every minute
+        // System stats will be initialized with other data after GridStack
 
         // ========================================
         // GridStack Layout System
@@ -3459,6 +3465,9 @@
             
             // Save on change
             grid.on('change', saveLayout);
+            
+            // Now that DOM is restructured, fetch all data
+            setTimeout(initDataFetching, 100);
         }
         
         // Toggle edit mode
@@ -3520,11 +3529,30 @@
         }
         
         // Initialize after DOM is ready
-        document.addEventListener('DOMContentLoaded', initGridStack);
+        let gridStackInitialized = false;
+        
+        function initAll() {
+            if (gridStackInitialized) return;
+            gridStackInitialized = true;
+            
+            const container = document.getElementById('dashboard-container');
+            const widgets = container?.querySelectorAll('[data-widget]');
+            
+            // Try to init GridStack if available and widgets exist
+            if (typeof GridStack !== 'undefined' && widgets && widgets.length > 0) {
+                initGridStack();
+            } else {
+                // Fallback: just run data fetching without GridStack
+                console.log('GridStack not available, running in standard mode');
+                initDataFetching();
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', initAll);
         
         // Also try initializing now if DOM is already ready
         if (document.readyState === 'complete' || document.readyState === 'interactive') {
-            setTimeout(initGridStack, 100);
+            setTimeout(initAll, 100);
         }
     </script>
 </body>

@@ -1114,7 +1114,7 @@
                 <div class="stat-card">
                     <div class="stat-icon orange">💰</div>
                     <div class="stat-info">
-                        <h3 id="sol-balance">0.5 SOL</h3>
+                        <h3 id="sol-balance">-- SOL</h3>
                         <p>Wallet Balance</p>
                     </div>
                 </div>
@@ -1212,34 +1212,34 @@
                     <div class="activity-item">
                         <div class="activity-dot green"></div>
                         <div class="activity-content">
-                            <h4>Dashboard Portal Created</h4>
-                            <p>Built communication portal for direct messaging</p>
+                            <h4>Memecoin Trades Executed</h4>
+                            <p>Bought WOJAK, COPPERINU, pippin (~$31 total)</p>
                         </div>
-                        <span class="activity-time">Just now</span>
+                        <span class="activity-time">Tonight</span>
                     </div>
                     <div class="activity-item">
                         <div class="activity-dot blue"></div>
                         <div class="activity-content">
-                            <h4>Webhooks Enabled</h4>
-                            <p>Dashboard can now send messages to Jane</p>
+                            <h4>Price Monitor Active</h4>
+                            <p>Cron job checking positions every 30 min</p>
                         </div>
-                        <span class="activity-time">Just now</span>
+                        <span class="activity-time">Tonight</span>
                     </div>
                     <div class="activity-item">
                         <div class="activity-dot purple"></div>
                         <div class="activity-content">
-                            <h4>Mac Mini Optimized</h4>
-                            <p>Sleep prevention, ffmpeg, git workspace</p>
+                            <h4>Trading Section Added</h4>
+                            <p>Dashboard v2.9 with live P/L tracking</p>
                         </div>
-                        <span class="activity-time">30 min ago</span>
+                        <span class="activity-time">Tonight</span>
                     </div>
                     <div class="activity-item">
                         <div class="activity-dot orange"></div>
                         <div class="activity-content">
-                            <h4>TikTok EP.4 Posted</h4>
-                            <p>Drake Maye Hunt series - 81 views</p>
+                            <h4>TikTok Series Paused</h4>
+                            <p>Drake Maye Hunt - EP.4 posted (81 views)</p>
                         </div>
-                        <span class="activity-time">2 hrs ago</span>
+                        <span class="activity-time">Yesterday</span>
                     </div>
                 </div>
             </div>
@@ -1362,7 +1362,7 @@
                 </div>
                 <div class="trading-summary" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
                     <div style="text-align: center; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 12px;">
-                        <div style="font-size: 1.5rem; font-weight: 700;" id="total-invested">$31.50</div>
+                        <div style="font-size: 1.5rem; font-weight: 700;" id="total-invested">$30.82</div>
                         <div style="font-size: 0.75rem; color: var(--text-secondary);">Total Invested</div>
                     </div>
                     <div style="text-align: center; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 12px;">
@@ -1380,7 +1380,7 @@
             </div>
 
             <footer>
-                Jane 🌿 · Personal Assistant · First boot Jan 31, 2026 · Dashboard v2.9
+                Jane 🌿 · Personal Assistant · First boot Jan 31, 2026 · Dashboard v3.0
             </footer>
         </div>
 
@@ -1575,8 +1575,9 @@
             showToast('Address copied!');
         }
 
-        // Fetch wallet balances and token portfolio
+        // Fetch wallet balances for both Jane and Josh
         async function fetchWalletBalances() {
+            const janeWallet = 'ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L';
             const joshWallet = '6EYvnXTGFj5HQzLAJMYs4EpYnzQ6A4gUVrG5vncP96h8';
             
             try {
@@ -1585,8 +1586,33 @@
                 const solPriceText = solPriceEl ? solPriceEl.textContent : '$100';
                 const solPrice = parseFloat(solPriceText.replace('$', '').replace(',', '')) || 100;
 
-                // Fetch SOL balance
-                const solResponse = await fetch('https://solana-rpc.publicnode.com', {
+                // Fetch Jane's SOL balance
+                const janeResponse = await fetch('https://solana-rpc.publicnode.com', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        jsonrpc: '2.0',
+                        id: 1,
+                        method: 'getBalance',
+                        params: [janeWallet]
+                    })
+                });
+                
+                const janeData = await janeResponse.json();
+                let janeSolBalance = 0;
+                
+                if (janeData.result && janeData.result.value !== undefined) {
+                    janeSolBalance = janeData.result.value / 1e9;
+                }
+                
+                // Update Jane's wallet display
+                const janeUsd = janeSolBalance * solPrice;
+                document.getElementById('wallet-sol').textContent = janeSolBalance.toFixed(3) + ' SOL';
+                document.getElementById('wallet-usd').textContent = '≈ $' + janeUsd.toFixed(2) + ' USD';
+                document.getElementById('sol-balance').textContent = janeSolBalance.toFixed(2) + ' SOL';
+
+                // Fetch Josh's SOL balance
+                const joshResponse = await fetch('https://solana-rpc.publicnode.com', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -1597,42 +1623,18 @@
                     })
                 });
                 
-                const solData = await solResponse.json();
+                const joshData = await joshResponse.json();
+                let joshSolBalance = 0;
                 let totalUsd = 0;
-                let solBalance = 0;
                 
-                if (solData.result && solData.result.value !== undefined) {
-                    solBalance = solData.result.value / 1e9;
-                    totalUsd += solBalance * solPrice;
-                }
-
-                // Valuable tokens in Josh's wallet with their mint addresses (audited 2026-01-31)
-                const valuableTokens = [
-                    { mint: 'Cm6fNnMk7NfzStP9CZpsQA2v3jjzbcYGAxdJySmHpump', symbol: 'Buttcoin', amount: 20490.24 },
-                    { mint: '43VWkd99HjqkhFTZbWBpMpRhjG469nWa7x7uEsgSH7We', symbol: 'STNK', amount: 7.049 },
-                    { mint: 'FtUEW73K6vEYHfbkfpdBZfWpxgQar2HipGdbutEhpump', symbol: 'titcoin', amount: 61544.72 },
-                    { mint: '9gwTegFJJErDpWJKjPfLr2g2zrE3nL1v5zpwbtsk3c6P', symbol: 'USEDCAR', amount: 96263.91 },
-                    { mint: 'HCgybxq5Upy8Mccihrp7EsmwwFqYZtrHrsmsKwtGXLgW', symbol: 'STARS', amount: 97.45 },
-                    { mint: 'AbDm7PoYahHX12Huuq5jcg6ezpBF6nFKgLwgHTPTgeZs', symbol: 'pepcat', amount: 41633 }
-                ];
-
-                // Fetch live prices from DexScreener for each token
-                for (const token of valuableTokens) {
-                    try {
-                        const priceRes = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${token.mint}`);
-                        const priceData = await priceRes.json();
-                        if (priceData.pairs && priceData.pairs[0] && priceData.pairs[0].priceUsd) {
-                            const price = parseFloat(priceData.pairs[0].priceUsd);
-                            totalUsd += token.amount * price;
-                        }
-                    } catch (e) {
-                        console.log(`Failed to fetch price for ${token.symbol}`);
-                    }
+                if (joshData.result && joshData.result.value !== undefined) {
+                    joshSolBalance = joshData.result.value / 1e9;
+                    totalUsd += joshSolBalance * solPrice;
                 }
 
                 // Update display
-                document.getElementById('josh-wallet-sol').textContent = solBalance.toFixed(4) + ' SOL';
-                document.getElementById('josh-wallet-usd').textContent = 'Portfolio: $' + totalUsd.toFixed(2);
+                document.getElementById('josh-wallet-sol').textContent = joshSolBalance.toFixed(4) + ' SOL';
+                document.getElementById('josh-wallet-usd').textContent = '≈ $' + totalUsd.toFixed(2) + ' USD';
                 
             } catch (error) {
                 console.error('Failed to fetch wallet balance:', error);
@@ -1764,10 +1766,6 @@
                 const ethChangeEl = document.getElementById('eth-change');
                 ethChangeEl.textContent = (ethChange >= 0 ? '+' : '') + ethChange.toFixed(2) + '%';
                 ethChangeEl.className = 'crypto-change ' + (ethChange >= 0 ? 'up' : 'down');
-
-                // Update wallet value
-                const walletValue = 0.5 * solPrice;
-                document.getElementById('wallet-usd').textContent = '≈ $' + walletValue.toFixed(2) + ' USD';
 
                 // Update timestamp
                 document.getElementById('price-updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });

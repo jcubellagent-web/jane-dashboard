@@ -47,11 +47,11 @@
     }
   ],
   "wallet": "ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L",
-  "lastChecked": "2026-02-01T07:38:43Z",
+  "lastChecked": "2026-02-01T08:09:37Z",
   "lastPrices": {
-    "WOJAK": 0.007721,
-    "COPPERINU": 0.008302,
-    "pippin": 0.1781
+    "WOJAK": 0.007622,
+    "COPPERINU": 0.008139,
+    "pippin": 0.1780
   },
   "strategy": {
     "takeProfit": "50% at 2x, rest rides",

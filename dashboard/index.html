@@ -5881,10 +5881,10 @@
                         <h3>💾 Save Layout Changes</h3>
                         <p>Apply this layout to:</p>
                         <div class="layout-modal-buttons">
-                            <button onclick="saveToView('current')" class="layout-modal-btn">
+                            <button onclick="saveToView('current')" class="layout-modal-btn primary">
                                 ${window.currentView === 'desktop' ? '🖥️ Desktop Only' : '📱 Mobile Only'}
                             </button>
-                            <button onclick="saveToView('both')" class="layout-modal-btn primary">
+                            <button onclick="saveToView('both')" class="layout-modal-btn">
                                 🖥️📱 Both Views
                             </button>
                             <button onclick="closeLayoutModal()" class="layout-modal-btn cancel">
@@ -5955,7 +5955,7 @@
                     <h3>🗑️ Remove Widget</h3>
                     <p>Remove "<strong>${widgetId}</strong>" from:</p>
                     <div class="layout-modal-buttons">
-                        <button onclick="doRemoveWidget('${widgetId}', 'current')" class="layout-modal-btn">
+                        <button onclick="doRemoveWidget('${widgetId}', 'current')" class="layout-modal-btn primary">
                             ${window.currentView === 'desktop' ? '🖥️ Desktop Only' : '📱 Mobile Only'}
                         </button>
                         <button onclick="doRemoveWidget('${widgetId}', 'both')" class="layout-modal-btn danger">

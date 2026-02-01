@@ -3395,23 +3395,32 @@
                     messagesEl.innerHTML = '';
                     
                     const msgs = data.payload.messages;
-                    if (msgs.length > 0) {
-                        msgs.forEach(msg => {
-                            // Extract text content from message
-                            let text = '';
-                            if (typeof msg.content === 'string') {
-                                text = msg.content;
-                            } else if (Array.isArray(msg.content)) {
-                                text = msg.content
-                                    .filter(c => c.type === 'text')
-                                    .map(c => c.text)
-                                    .join('\n');
-                            }
-                            if (text && (msg.role === 'user' || msg.role === 'assistant')) {
-                                addChatMessage(msg.role, text, msg.timestamp || msg.ts);
-                            }
-                        });
-                    } else {
+                    let hasMessages = false;
+                    
+                    msgs.forEach(msg => {
+                        // Skip tool results and system messages
+                        if (msg.role === 'toolResult' || msg.role === 'tool' || msg.role === 'system') return;
+                        
+                        // Extract text content from message
+                        let text = '';
+                        if (typeof msg.content === 'string') {
+                            text = msg.content;
+                        } else if (Array.isArray(msg.content)) {
+                            // Only get text type content, skip thinking/toolCall
+                            const textParts = msg.content
+                                .filter(c => c && c.type === 'text' && typeof c.text === 'string')
+                                .map(c => c.text);
+                            text = textParts.join('\n');
+                        }
+                        
+                        // Only show if there's actual text content
+                        if (text && text.trim() && (msg.role === 'user' || msg.role === 'assistant')) {
+                            addChatMessage(msg.role, text, msg.timestamp || msg.ts);
+                            hasMessages = true;
+                        }
+                    });
+                    
+                    if (!hasMessages) {
                         addChatMessage('assistant', 'Hey Josh! 👋 How can I help you today?');
                     }
                     messagesEl.scrollTop = messagesEl.scrollHeight;
@@ -3424,9 +3433,21 @@
                     if (payload?.sessionKey && payload.sessionKey !== chatSessionKey) return;
                     
                     if (payload?.state === 'delta' && payload?.message) {
-                        // Streaming update
+                        // Streaming update - extract text if it's an object
                         showTypingIndicator(false);
-                        updateStreamingMessage(payload.message);
+                        let streamText = payload.message;
+                        if (typeof streamText !== 'string') {
+                            // Try to extract text from content array
+                            if (Array.isArray(streamText)) {
+                                streamText = streamText
+                                    .filter(c => c && c.type === 'text')
+                                    .map(c => c.text || '')
+                                    .join('');
+                            } else {
+                                streamText = String(streamText);
+                            }
+                        }
+                        if (streamText) updateStreamingMessage(streamText);
                     } else if (payload?.state === 'final') {
                         // Final - refresh history to get the response
                         showTypingIndicator(false);

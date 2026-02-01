@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-01T06:30:00Z",
+  "lastUpdated": "2026-02-01T19:30:00Z",
   "account": "@degencollector",
   "profile": {
     "followers": 355,
@@ -11,11 +11,21 @@
     { "date": "2026-02-01", "followers": 355, "likes": 1973 }
   ],
   "recentVideos": [
+    { "id": "EP.7", "title": "Drake Maye Hunt EP.7", "views": 0, "likes": 0, "comments": 0, "posted": "2026-02-01", "status": "ready", "note": "EPIC Purple Pack - Jared Goff 9/25!" },
+    { "id": "EP.6", "title": "Drake Maye Hunt EP.6", "views": 0, "likes": 0, "comments": 0, "posted": "2026-02-01", "status": "posted", "note": "Anthony Richardson Ultra Rare!" },
     { "id": "EP.5", "title": "Drake Maye Hunt EP.5", "views": 308, "likes": 2, "comments": 2, "posted": "2026-02-01" },
-    { "id": "EP.4", "title": "Drake Maye Hunt EP.4", "views": 413, "likes": 6, "comments": 2, "posted": "2026-02-01" },
-    { "id": "EP.3", "title": "Drake Maye Hunt EP.3", "views": 305, "likes": 3, "comments": 0, "posted": "2026-02-01" },
-    { "id": "EP.2", "title": "Drake Maye Hunt EP.2", "views": 269, "likes": 1, "comments": 0, "posted": "2026-02-01" }
+    { "id": "EP.4", "title": "Drake Maye Hunt EP.4", "views": 413, "likes": 6, "comments": 2, "posted": "2026-02-01" }
   ],
+  "series": {
+    "name": "Drake Maye Hunt",
+    "totalEpisodes": 7,
+    "packsOpened": 7,
+    "drakeMayeFound": false,
+    "bestPulls": [
+      { "episode": 7, "card": "Jared Goff 9/25", "rarity": "EPIC", "value": "$9" },
+      { "episode": 6, "card": "Anthony Richardson 7/49", "rarity": "Ultra Rare", "value": "$18" }
+    ]
+  },
   "milestones": {
     "liveGifts": { "name": "LIVE Gifts", "required": 1000, "current": 355, "icon": "🎁" },
     "creatorFund": { "name": "Creator Fund", "required": 10000, "current": 355, "icon": "💰" },

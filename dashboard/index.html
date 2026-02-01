@@ -532,6 +532,7 @@
         .account-icon.phantom { background: linear-gradient(135deg, #ab9ff2, #534bb1); }
         .account-icon.gmail { background: linear-gradient(135deg, #ea4335, #fbbc04); }
         .account-icon.whatsapp { background: #25d366; }
+        .account-icon.sorare { background: linear-gradient(135deg, #ff6b00, #ff9500); }
 
         .account-info {
             flex: 1;
@@ -1612,6 +1613,157 @@
             gap: 0.2rem;
         }
 
+        /* Sorare NBA Section */
+        .sorare-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sorare-lineup {
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            padding: 0.75rem;
+        }
+
+        .lineup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .lineup-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .lineup-cap {
+            font-size: 0.7rem;
+            color: var(--accent);
+            background: rgba(74, 222, 128, 0.15);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .lineup-players {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .lineup-player {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 0.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 6px;
+            font-size: 0.7rem;
+        }
+
+        .lineup-player.mvp {
+            background: linear-gradient(90deg, rgba(251, 191, 36, 0.15), rgba(251, 191, 36, 0.05));
+            border-left: 2px solid #fbbf24;
+        }
+
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .player-name {
+            font-weight: 500;
+        }
+
+        .player-team {
+            color: var(--text-secondary);
+            font-size: 0.65rem;
+        }
+
+        .player-game {
+            color: var(--text-secondary);
+            font-size: 0.65rem;
+        }
+
+        .sorare-games {
+            background: rgba(0,0,0,0.15);
+            border-radius: 10px;
+            padding: 0.75rem;
+        }
+
+        .games-header {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .games-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .game-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.35rem 0.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 5px;
+            font-size: 0.7rem;
+        }
+
+        .game-item.has-player {
+            background: rgba(74, 222, 128, 0.1);
+            border-left: 2px solid var(--accent);
+        }
+
+        .game-time {
+            color: var(--text-secondary);
+            min-width: 55px;
+        }
+
+        .game-teams {
+            font-weight: 500;
+            flex: 1;
+            text-align: center;
+        }
+
+        .game-my-players {
+            font-size: 0.6rem;
+            color: var(--accent);
+            max-width: 80px;
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sorare-upcoming {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            background: rgba(96, 165, 250, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .upcoming-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .upcoming-info {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+        }
+
         /* Footer */
         footer {
             grid-column: span 12;
@@ -2083,6 +2235,14 @@
                     </div>
                     <span class="account-status">Active</span>
                 </div>
+                <div class="account-item">
+                    <div class="account-icon sorare">🏀</div>
+                    <div class="account-info">
+                        <h4>Sorare NBA</h4>
+                        <p>jcubnft</p>
+                    </div>
+                    <span class="account-status">Active</span>
+                </div>
             </div>
 
             <!-- AI News -->
@@ -2243,6 +2403,42 @@
                 <div class="recent-videos">
                     <div class="videos-header">🎬 Recent Videos</div>
                     <div id="recent-videos-list"></div>
+                </div>
+            </div>
+
+            <!-- Sorare NBA -->
+            <div class="card sorare-section" data-widget="sorare" data-gs-w="4" data-gs-h="3">
+                <div class="card-header">
+                    <div class="card-title">🏀 Sorare NBA</div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 0.7rem; color: var(--text-secondary);" id="sorare-updated">--</span>
+                        <button class="refresh-btn" onclick="fetchSorareStats()" title="Refresh">↻</button>
+                    </div>
+                </div>
+                
+                <!-- Current Lineup -->
+                <div class="sorare-lineup">
+                    <div class="lineup-header">
+                        <span class="lineup-title">📋 Today's Lineup</span>
+                        <span class="lineup-cap" id="sorare-cap">--/120</span>
+                    </div>
+                    <div class="lineup-players" id="sorare-players">
+                        <div style="text-align: center; color: var(--text-secondary); padding: 1rem;">Loading...</div>
+                    </div>
+                </div>
+                
+                <!-- Today's Games -->
+                <div class="sorare-games">
+                    <div class="games-header">🎮 Today's Games</div>
+                    <div class="games-list" id="sorare-games">
+                        <div style="text-align: center; color: var(--text-secondary);">Loading...</div>
+                    </div>
+                </div>
+                
+                <!-- Upcoming -->
+                <div class="sorare-upcoming">
+                    <div class="upcoming-label">Next Game Week:</div>
+                    <div class="upcoming-info" id="sorare-next-gw">GW31 in 1d 4h</div>
                 </div>
             </div>
 
@@ -3326,6 +3522,74 @@
             }
         }
 
+        // Fetch Sorare NBA stats
+        async function fetchSorareStats() {
+            try {
+                const response = await fetch('/sorare-stats.json?' + Date.now());
+                if (!response.ok) throw new Error('Failed to load Sorare stats');
+                const data = await response.json();
+                
+                // Update cap display
+                if (data.currentLineup) {
+                    document.getElementById('sorare-cap').textContent = 
+                        data.currentLineup.capUsed + '/' + data.currentLineup.capLimit;
+                }
+                
+                // Update players
+                const playersEl = document.getElementById('sorare-players');
+                if (data.currentLineup && data.currentLineup.players) {
+                    let html = '';
+                    data.currentLineup.players.forEach(player => {
+                        const isMvp = player.isMVP ? ' mvp' : '';
+                        const mvpBadge = player.isMVP ? ' ⭐' : '';
+                        html += `
+                            <div class="lineup-player${isMvp}">
+                                <div class="player-info">
+                                    <span class="player-name">${player.name}${mvpBadge}</span>
+                                    <span class="player-team">${player.team}</span>
+                                </div>
+                                <span class="player-game">${player.gameTime} vs ${player.opponent}</span>
+                            </div>
+                        `;
+                    });
+                    playersEl.innerHTML = html;
+                }
+                
+                // Update games
+                const gamesEl = document.getElementById('sorare-games');
+                if (data.todaysGames) {
+                    let html = '';
+                    data.todaysGames.forEach(game => {
+                        const hasPlayer = game.myPlayers && game.myPlayers.length > 0;
+                        const playerClass = hasPlayer ? ' has-player' : '';
+                        const playerNames = hasPlayer ? game.myPlayers.map(p => p.split(' ')[0]).join(', ') : '';
+                        html += `
+                            <div class="game-item${playerClass}">
+                                <span class="game-time">${game.time}</span>
+                                <span class="game-teams">${game.away} @ ${game.home}</span>
+                                <span class="game-my-players">${playerNames}</span>
+                            </div>
+                        `;
+                    });
+                    gamesEl.innerHTML = html;
+                }
+                
+                // Update upcoming
+                if (data.upcomingGameWeek) {
+                    document.getElementById('sorare-next-gw').textContent = 
+                        data.upcomingGameWeek.name + ' in ' + data.upcomingGameWeek.startsIn;
+                }
+                
+                // Update timestamp
+                const updated = new Date(data.lastUpdated);
+                document.getElementById('sorare-updated').textContent = 'Updated ' + updated.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                
+            } catch (error) {
+                console.error('Failed to load Sorare stats:', error);
+                document.getElementById('sorare-updated').textContent = 'Error loading';
+            }
+        }
+
         // Initialize data fetching (called after GridStack setup)
         var dataFetchingInitialized = false;
         function initDataFetching() {
@@ -3337,6 +3601,7 @@
             
             loadTasks();
             fetchTikTokStats();
+            fetchSorareStats();
             fetchMindmap();
             fetchAINews();
             fetchWorkIntel();
@@ -3357,6 +3622,7 @@
             setInterval(fetchWeather, 600000);         // Every 10 minutes
             setInterval(fetchWalletBalances, 120000);  // Every 2 minutes
             setInterval(fetchTikTokStats, 300000);     // Every 5 minutes
+            setInterval(fetchSorareStats, 300000);     // Every 5 minutes
             setInterval(fetchWorkIntel, 60000);        // Every minute
             
             console.log('Dashboard data fetching initialized');

@@ -4245,18 +4245,19 @@
                 const menuStatusDot = document.getElementById('menu-status-dot');
                 const menuStatusText = document.getElementById('menu-status-text');
                 const menuTime = document.getElementById('menu-time');
-                const mainStatusDot = document.getElementById('status-dot');
-                const mainStatusText = document.getElementById('status-text');
-                const mainTime = document.getElementById('current-time');
                 
-                if (menuStatusDot && mainStatusDot) {
-                    menuStatusDot.style.background = getComputedStyle(mainStatusDot).background;
+                // Check actual connection status
+                const isOnline = typeof chatConnected !== 'undefined' ? chatConnected : true;
+                
+                if (menuStatusDot) {
+                    menuStatusDot.style.background = isOnline ? 'var(--accent)' : '#ef4444';
                 }
-                if (menuStatusText && mainStatusText) {
-                    menuStatusText.textContent = mainStatusText.textContent;
+                if (menuStatusText) {
+                    menuStatusText.textContent = isOnline ? 'Online' : 'Offline';
                 }
-                if (menuTime && mainTime) {
-                    menuTime.textContent = mainTime.textContent;
+                if (menuTime) {
+                    const now = new Date();
+                    menuTime.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
                 }
                 
                 // Focus first menu item for accessibility

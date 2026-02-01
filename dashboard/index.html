@@ -2001,7 +2001,7 @@
             </div>
             <div class="time" id="current-time">--:--</div>
             <div class="layout-controls">
-                <button class="layout-btn" id="edit-layout-btn" onclick="showToast('Layout editing coming soon!')" style="opacity: 0.5;">
+                <button class="layout-btn" id="edit-layout-btn" onclick="toggleEditMode()">
                     🔧 Edit Layout
                 </button>
                 <button class="layout-btn danger" id="reset-layout-btn" onclick="resetLayout()" style="display:none;">
@@ -3058,6 +3058,11 @@
                 );
                 if (!response.ok) throw new Error('Failed to fetch');
                 const data = await response.json();
+                
+                // Check for API error response
+                if (data.status?.error_code || !data.solana) {
+                    throw new Error(data.status?.error_message || 'Invalid response');
+                }
 
                 // Update SOL
                 const solPrice = data.solana.usd;
@@ -3686,6 +3691,7 @@
             { id: 'accounts', x: 8, y: 1, w: 4, h: 2 },
             { id: 'ai-news', x: 0, y: 3, w: 8, h: 3 },
             { id: 'tiktok', x: 8, y: 3, w: 4, h: 3 },
+            { id: 'sorare', x: 8, y: 6, w: 4, h: 3 },
             { id: 'work-intel', x: 0, y: 6, w: 6, h: 4 },
             { id: 'commands', x: 6, y: 6, w: 6, h: 2 },
             { id: 'activity', x: 6, y: 8, w: 6, h: 2 },
@@ -3834,8 +3840,8 @@
             location.reload();
         }
         
-        // Initialize dashboard
-        initDataFetching();
+        // Initialize dashboard (GridStack first, then data fetching)
+        initGridStack();
     </script>
 </body>
 </html>

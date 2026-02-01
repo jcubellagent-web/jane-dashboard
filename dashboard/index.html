@@ -3385,7 +3385,9 @@
             navigator.serviceWorker.register('sw.js').catch(() => {});
         }
 
-        // System stats will be initialized with other data after GridStack
+        // Initialize data immediately (before GridStack setup)
+        // This ensures data loads even if GridStack fails
+        setTimeout(initDataFetching, 0);
 
         // ========================================
         // GridStack Layout System
@@ -3483,9 +3485,6 @@
                 grid.on('change', saveLayout);
                 
                 console.log('GridStack initialized successfully');
-                
-                // Now that DOM is restructured, fetch all data
-                setTimeout(initDataFetching, 100);
             } catch (error) {
                 console.error('GridStack initialization failed:', error);
                 // Still run data fetching even if GridStack fails
@@ -3551,53 +3550,32 @@
             location.reload();
         }
         
-        // Initialize after DOM is ready
+        // Initialize GridStack after DOM is ready (data fetching already started above)
         (function() {
-            let initialized = false;
-            let dataInitialized = false;
+            let gridInitialized = false;
             
-            // Ensure data fetching runs (call directly, GridStack will call it too but we double-check)
-            function ensureDataInit() {
-                if (dataInitialized) return;
-                dataInitialized = true;
-                console.log('Ensuring data initialization...');
-                initDataFetching();
-            }
-            
-            function initAll() {
-                if (initialized) return;
-                initialized = true;
-                
-                console.log('Initializing dashboard...');
+            function initGridStackLayout() {
+                if (gridInitialized) return;
+                gridInitialized = true;
                 
                 try {
                     const container = document.getElementById('dashboard-container');
                     const widgets = container?.querySelectorAll('[data-widget]');
                     
-                    // Try to init GridStack if available and widgets exist
                     if (typeof GridStack !== 'undefined' && widgets && widgets.length > 0) {
-                        console.log('GridStack available, initializing with', widgets.length, 'widgets');
+                        console.log('Initializing GridStack with', widgets.length, 'widgets');
                         initGridStack();
-                    } else {
-                        // No GridStack, just run data fetching
-                        console.log('GridStack not available, running in standard mode');
-                        ensureDataInit();
                     }
                 } catch (error) {
-                    console.error('Dashboard init error:', error);
-                    ensureDataInit();
+                    console.error('GridStack init error:', error);
                 }
-                
-                // Safety: ensure data fetching runs after a delay if not already started
-                setTimeout(ensureDataInit, 500);
             }
             
-            // Run immediately since script is at end of body
+            // Run after DOM is ready
             if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initAll);
+                document.addEventListener('DOMContentLoaded', initGridStackLayout);
             } else {
-                // DOM is already ready, run immediately
-                initAll();
+                initGridStackLayout();
             }
         })();
     </script>

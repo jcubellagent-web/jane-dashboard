@@ -431,51 +431,85 @@ const server = http.createServer((req, res) => {
     
     // API endpoint for Polymarket prediction markets (competitive markets with 20-80% odds)
     if (req.url === '/api/predictions') {
-        // Fetch more markets so we can filter for competitive ones
-        const polymarketUrl = 'https://gamma-api.polymarket.com/markets?closed=false&order=volume24hr&ascending=false&limit=100';
+        const mainUrl = 'https://gamma-api.polymarket.com/markets?closed=false&order=volume24hr&ascending=false&limit=100';
+        const superBowlUrl = 'https://gamma-api.polymarket.com/markets?closed=false&limit=50&tag=nfl';
         
-        https.get(polymarketUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (proxyRes) => {
-            let data = '';
-            proxyRes.on('data', chunk => data += chunk);
-            proxyRes.on('end', () => {
-                try {
-                    const markets = JSON.parse(data);
-                    const simplified = markets.map(m => {
-                        const prices = JSON.parse(m.outcomePrices || '["0.5","0.5"]');
-                        const yesPrice = parseFloat(prices[0]) * 100;
-                        return {
-                            question: m.question,
-                            yesOdds: Math.round(yesPrice),
-                            volume24h: m.volume24hr || 0,
-                            totalVolume: m.volumeNum || 0,
-                            slug: m.slug,
-                            image: m.icon || m.image,
-                            endDate: m.endDate
-                        };
-                    });
-                    
-                    // Filter for competitive markets (odds between 15% and 85%)
-                    // These are the interesting ones where outcome is uncertain
-                    const competitive = simplified.filter(m => m.yesOdds >= 15 && m.yesOdds <= 85);
-                    
-                    // Sort by 24h volume (already sorted, but ensure it)
-                    competitive.sort((a, b) => b.volume24h - a.volume24h);
-                    
-                    // Return top 10 competitive markets
-                    const top10 = competitive.slice(0, 10);
-                    
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ 
-                        markets: top10, 
-                        lastUpdated: new Date().toISOString(),
-                        filter: 'competitive (15-85% odds)'
-                    }));
-                } catch (e) {
-                    res.writeHead(500, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ error: 'Failed to parse Polymarket data' }));
+        const fetchUrl = (url) => new Promise((resolve, reject) => {
+            https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
+                let data = '';
+                res.on('data', chunk => data += chunk);
+                res.on('end', () => {
+                    try { resolve(JSON.parse(data)); } 
+                    catch (e) { resolve([]); }
+                });
+            }).on('error', () => resolve([]));
+        });
+        
+        Promise.all([fetchUrl(mainUrl), fetchUrl(superBowlUrl)]).then(([mainMarkets, nflMarkets]) => {
+            const parseMarket = m => {
+                const prices = JSON.parse(m.outcomePrices || '["0.5","0.5"]');
+                const yesPrice = parseFloat(prices[0]) * 100;
+                return {
+                    question: m.question,
+                    yesOdds: Math.round(yesPrice),
+                    volume24h: m.volume24hr || 0,
+                    totalVolume: m.volumeNum || 0,
+                    slug: m.slug,
+                    image: m.icon || m.image,
+                    endDate: m.endDate
+                };
+            };
+            
+            const simplified = mainMarkets.map(parseMarket);
+            const nflSimplified = nflMarkets.map(parseMarket);
+            
+            // Super Bowl LX - pin until Feb 10, 2026 (day after game)
+            const superBowlDate = new Date('2026-02-10T00:00:00');
+            const now = new Date();
+            let pinnedMarket = null;
+            
+            if (now < superBowlDate) {
+                // Search both lists for Super Bowl markets
+                const allMarkets = [...simplified, ...nflSimplified];
+                const seahawks = allMarkets.find(m => m.question && m.question.toLowerCase().includes('seahawks') && m.question.toLowerCase().includes('super bowl'));
+                const patriots = allMarkets.find(m => m.question && m.question.toLowerCase().includes('patriots') && m.question.toLowerCase().includes('super bowl'));
+                
+                if (seahawks && patriots) {
+                    pinnedMarket = {
+                        question: '🏈 Super Bowl LX: Seahawks vs Patriots',
+                        yesOdds: seahawks.yesOdds,
+                        noOdds: patriots.yesOdds,
+                        volume24h: (seahawks.volume24h || 0) + (patriots.volume24h || 0),
+                        slug: 'will-the-seattle-seahawks-win-super-bowl-2026',
+                        isPinned: true,
+                        teams: {
+                            favorite: { name: 'Seahawks', odds: seahawks.yesOdds },
+                            underdog: { name: 'Patriots', odds: patriots.yesOdds }
+                        }
+                    };
                 }
+            }
+            
+            // Filter for competitive markets (odds between 15% and 85%)
+            const competitive = simplified.filter(m => {
+                if (m.question && m.question.toLowerCase().includes('super bowl')) return false;
+                return m.yesOdds >= 15 && m.yesOdds <= 85;
             });
-        }).on('error', (err) => {
+            
+            competitive.sort((a, b) => b.volume24h - a.volume24h);
+            
+            const finalMarkets = pinnedMarket 
+                ? [pinnedMarket, ...competitive.slice(0, 9)]
+                : competitive.slice(0, 10);
+            
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ 
+                markets: finalMarkets, 
+                lastUpdated: new Date().toISOString(),
+                filter: 'competitive (15-85% odds)',
+                hasPinned: !!pinnedMarket
+            }));
+        }).catch(err => {
             res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: err.message }));
         });

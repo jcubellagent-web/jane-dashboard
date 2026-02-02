@@ -5983,6 +5983,32 @@
                 if (data.markets && data.markets.length > 0) {
                     let html = '';
                     data.markets.forEach((market, index) => {
+                        // Handle pinned Super Bowl market specially
+                        if (market.isPinned && market.teams) {
+                            const fav = market.teams.favorite;
+                            const dog = market.teams.underdog;
+                            html += `
+                                <div class="prediction-item pinned-market" style="background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(59,130,246,0.15)); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.5rem; margin-bottom: 0.5rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                                        <span style="font-size: 0.8rem; font-weight: 600;">${market.question}</span>
+                                        <span style="font-size: 0.6rem; color: var(--accent); background: rgba(34,197,94,0.2); padding: 0.1rem 0.4rem; border-radius: 4px;">📌 PINNED</span>
+                                    </div>
+                                    <div style="display: flex; gap: 1rem; justify-content: center;">
+                                        <div style="text-align: center; flex: 1; background: rgba(0,0,0,0.2); border-radius: 6px; padding: 0.4rem;">
+                                            <div style="font-size: 1.1rem; font-weight: 700; color: #22c55e;">${fav.odds}%</div>
+                                            <div style="font-size: 0.65rem; color: var(--text-secondary);">${fav.name}</div>
+                                        </div>
+                                        <div style="display: flex; align-items: center; font-size: 0.7rem; color: var(--text-secondary);">vs</div>
+                                        <div style="text-align: center; flex: 1; background: rgba(0,0,0,0.2); border-radius: 6px; padding: 0.4rem;">
+                                            <div style="font-size: 1.1rem; font-weight: 700; color: #3b82f6;">${dog.odds}%</div>
+                                            <div style="font-size: 0.65rem; color: var(--text-secondary);">${dog.name}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            return;
+                        }
+                        
                         const odds = market.yesOdds;
                         let oddsClass = 'medium';
                         if (odds >= 70) oddsClass = 'high';
@@ -5997,10 +6023,13 @@
                             volStr = '$' + (vol / 1000).toFixed(0) + 'K';
                         }
                         
+                        // Adjust rank for pinned market
+                        const displayRank = data.hasPinned ? index : index + 1;
+                        
                         html += `
                             <a href="https://polymarket.com/event/${market.slug}" target="_blank" rel="noopener" class="prediction-link">
                                 <div class="prediction-item">
-                                    <span class="prediction-rank">${index + 1}</span>
+                                    <span class="prediction-rank">${displayRank}</span>
                                     <span class="prediction-odds ${oddsClass}">${odds}%</span>
                                     <span class="prediction-question">${market.question}</span>
                                     <span class="prediction-volume">${volStr}</span>

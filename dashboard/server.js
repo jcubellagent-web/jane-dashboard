@@ -429,9 +429,10 @@ const server = http.createServer((req, res) => {
         return;
     }
     
-    // API endpoint for Polymarket prediction markets (top 10 by 24h volume)
+    // API endpoint for Polymarket prediction markets (competitive markets with 20-80% odds)
     if (req.url === '/api/predictions') {
-        const polymarketUrl = 'https://gamma-api.polymarket.com/markets?closed=false&order=volume24hr&ascending=false&limit=10';
+        // Fetch more markets so we can filter for competitive ones
+        const polymarketUrl = 'https://gamma-api.polymarket.com/markets?closed=false&order=volume24hr&ascending=false&limit=100';
         
         https.get(polymarketUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (proxyRes) => {
             let data = '';
@@ -452,8 +453,23 @@ const server = http.createServer((req, res) => {
                             endDate: m.endDate
                         };
                     });
+                    
+                    // Filter for competitive markets (odds between 15% and 85%)
+                    // These are the interesting ones where outcome is uncertain
+                    const competitive = simplified.filter(m => m.yesOdds >= 15 && m.yesOdds <= 85);
+                    
+                    // Sort by 24h volume (already sorted, but ensure it)
+                    competitive.sort((a, b) => b.volume24h - a.volume24h);
+                    
+                    // Return top 10 competitive markets
+                    const top10 = competitive.slice(0, 10);
+                    
                     res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ markets: simplified, lastUpdated: new Date().toISOString() }));
+                    res.end(JSON.stringify({ 
+                        markets: top10, 
+                        lastUpdated: new Date().toISOString(),
+                        filter: 'competitive (15-85% odds)'
+                    }));
                 } catch (e) {
                     res.writeHead(500, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ error: 'Failed to parse Polymarket data' }));

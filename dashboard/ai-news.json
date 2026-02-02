@@ -1,16 +1,16 @@
 {
-  "lastUpdated": "2026-01-31T23:00:00Z",
+  "lastUpdated": "2026-02-01T23:55:00Z",
   "featured": {
     "tag": "🔥 Breaking",
-    "title": "Nvidia's $100B OpenAI deal \"on ice\"",
-    "desc": "Partnership being rethought; now discussing tens of billions equity investment instead",
-    "source": "WSJ",
-    "date": "Jan 31"
+    "title": "NYC killing AI chatbot that told businesses to break the law",
+    "desc": "Mamdani plans to shut down Eric Adams' chatbot that advised illegal wage theft and cash refusals",
+    "source": "The Verge",
+    "date": "Feb 1"
   },
   "agenticRetail": [
     {
-      "title": "Rabbit r1 gets agentic computer control",
-      "desc": "OTA update enables plug-and-play PC control, integrates OpenClaw for task automation",
+      "title": "Rabbit announces 'Project Cyberdeck'",
+      "desc": "New portable device specifically designed for vibe-coding, plus r1 gets agentic computer control",
       "source": "Rabbit",
       "date": "Jan 30"
     },
@@ -35,6 +35,12 @@
   ],
   "agenticEnterprise": [
     {
+      "title": "Google Project Genie 3 world model",
+      "desc": "AI creates playable game worlds from prompts - users building Nintendo-style knockoffs",
+      "source": "The Verge",
+      "date": "Jan 30"
+    },
+    {
       "title": "Anthropic Cowork plugins launch",
       "desc": "Domain expert AI for sales, legal, finance, marketing, data analysis, customer support",
       "source": "Anthropic",
@@ -51,21 +57,22 @@
       "desc": "Transportation Dept. writing rules with AI; officials say 'don't need perfect rules'",
       "source": "ProPublica",
       "date": "Jan 27"
-    },
-    {
-      "title": "Google AI Plus for business ($7.99/mo)",
-      "desc": "Gemini 3 Pro access, 200GB storage - enterprise-lite tier now in 35 countries",
-      "source": "Google",
-      "date": "Jan 27"
     }
   ],
   "general": [
     {
-      "tag": "🚀 Product",
-      "title": "GPT-4o retiring February 13th",
+      "tag": "⚠️ Retiring",
+      "title": "GPT-4o being retired February 13th",
       "desc": "Only 0.1% still using it daily after GPT-5 launch",
       "source": "OpenAI",
       "date": "Jan 30"
+    },
+    {
+      "tag": "💰 Deal",
+      "title": "Nvidia's $100B OpenAI deal \"on ice\"",
+      "desc": "Partnership rethought; discussing tens of billions equity instead",
+      "source": "WSJ",
+      "date": "Jan 31"
     }
   ]
 }

@@ -5352,7 +5352,7 @@
         // Fetch AI News
         async function fetchAINews() {
             try {
-                const response = await fetch('/ai-news.json?' + Date.now());
+                const response = await fetch('/api/ai-news');
                 if (!response.ok) throw new Error('Failed to load AI news');
                 const data = await response.json();
                 
@@ -5408,7 +5408,7 @@
         // Fetch Mindmap Stats
         async function fetchMindmap() {
             try {
-                const response = await fetch('/mindmap-stats.json?' + Date.now());
+                const response = await fetch('/api/mindmap');
                 if (!response.ok) throw new Error('Failed to load mindmap stats');
                 const data = await response.json();
                 
@@ -5500,7 +5500,7 @@
         // Fetch Jane's Tasks
         async function fetchJaneTasks() {
             try {
-                const response = await fetch('/jane-tasks.json?' + Date.now());
+                const response = await fetch('/api/tasks');
                 if (!response.ok) throw new Error('Failed to load tasks');
                 const data = await response.json();
                 
@@ -5564,7 +5564,7 @@
             if (!followersEl && !likesEl) return; // Widget not visible
             
             try {
-                const response = await fetch('/tiktok-stats.json?' + Date.now());
+                const response = await fetch('/api/tiktok');
                 if (!response.ok) throw new Error('Failed to load TikTok stats');
                 const data = await response.json();
                 
@@ -5661,7 +5661,7 @@
             if (!capEl && !playersEl) return; // Widget not visible
             
             try {
-                const response = await fetch('/sorare-stats.json?' + Date.now());
+                const response = await fetch('/api/sorare');
                 if (!response.ok) throw new Error('Failed to load Sorare stats');
                 const data = await response.json();
                 

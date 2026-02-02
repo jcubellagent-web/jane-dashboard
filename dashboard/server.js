@@ -29,8 +29,179 @@ const { execSync } = require('child_process');
 const os = require('os');
 const https = require('https');
 
-// Crypto price cache (to avoid rate limits)
+// Caches (to avoid rate limits)
 let cryptoCache = { data: null, timestamp: 0 };
+let aiNewsCache = { data: null, timestamp: 0 };
+
+// Paths for dynamic data
+const WORKSPACE = path.join(os.homedir(), '.openclaw', 'workspace');
+const SECOND_BRAIN = path.join(os.homedir(), 'Desktop', 'Second Brain');
+const MEMORY_DIR = path.join(WORKSPACE, 'memory');
+
+// Fetch AI news from RSS feeds
+async function fetchAINewsFromFeeds() {
+    const feeds = [
+        { url: 'https://www.theverge.com/ai-artificial-intelligence/rss/index.xml', source: 'The Verge' },
+        { url: 'https://techcrunch.com/category/artificial-intelligence/feed/', source: 'TechCrunch' },
+        { url: 'https://www.wired.com/feed/tag/ai/latest/rss', source: 'Wired' }
+    ];
+    
+    const fetchFeed = (url) => new Promise((resolve) => {
+        const protocol = url.startsWith('https') ? https : require('http');
+        const req = protocol.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 5000 }, (res) => {
+            let data = '';
+            res.on('data', chunk => data += chunk);
+            res.on('end', () => resolve(data));
+        });
+        req.on('error', () => resolve(''));
+        req.on('timeout', () => { req.destroy(); resolve(''); });
+    });
+    
+    const parseRSS = (xml, source) => {
+        const items = [];
+        const itemRegex = /<item>([\s\S]*?)<\/item>/gi;
+        let match;
+        while ((match = itemRegex.exec(xml)) !== null && items.length < 5) {
+            const item = match[1];
+            const title = item.match(/<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/title>/)?.[1] || '';
+            const desc = item.match(/<description>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/description>/)?.[1] || '';
+            const pubDate = item.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || '';
+            const link = item.match(/<link>(.*?)<\/link>/)?.[1] || '';
+            if (title) {
+                const date = new Date(pubDate);
+                items.push({
+                    title: title.replace(/<[^>]*>/g, '').substring(0, 80),
+                    desc: desc.replace(/<[^>]*>/g, '').substring(0, 120),
+                    source,
+                    date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                    timestamp: date.getTime(),
+                    link
+                });
+            }
+        }
+        return items;
+    };
+    
+    try {
+        const results = await Promise.all(feeds.map(async f => {
+            const xml = await fetchFeed(f.url);
+            return parseRSS(xml, f.source);
+        }));
+        
+        const allItems = results.flat().sort((a, b) => b.timestamp - a.timestamp);
+        const featured = allItems[0] || { title: 'No news available', desc: '', source: '-', date: '-' };
+        
+        return {
+            lastUpdated: new Date().toISOString(),
+            featured: { tag: '🔥 Breaking', ...featured },
+            agenticRetail: allItems.slice(1, 5),
+            agenticEnterprise: allItems.slice(5, 9),
+            general: allItems.slice(9, 12).map(item => ({ tag: '📰 News', ...item }))
+        };
+    } catch (error) {
+        console.error('AI News fetch error:', error.message);
+        return null;
+    }
+}
+
+// Scan Second Brain folder for mindmap stats
+function getMindmapStats() {
+    const stats = { topics: {}, lastUpdated: new Date().toISOString() };
+    
+    try {
+        if (!fs.existsSync(SECOND_BRAIN)) {
+            return { topics: { 'No Second Brain folder': 0 }, lastUpdated: stats.lastUpdated };
+        }
+        
+        const countFiles = (dir, depth = 0) => {
+            if (depth > 3) return 0;
+            let count = 0;
+            const items = fs.readdirSync(dir, { withFileTypes: true });
+            for (const item of items) {
+                if (item.name.startsWith('.')) continue;
+                if (item.isDirectory()) {
+                    count += countFiles(path.join(dir, item.name), depth + 1);
+                } else if (item.name.endsWith('.md') || item.name.endsWith('.txt')) {
+                    count++;
+                }
+            }
+            return count;
+        };
+        
+        const topDirs = fs.readdirSync(SECOND_BRAIN, { withFileTypes: true })
+            .filter(d => d.isDirectory() && !d.name.startsWith('.'));
+        
+        for (const dir of topDirs) {
+            const dirPath = path.join(SECOND_BRAIN, dir.name);
+            const fileCount = countFiles(dirPath);
+            if (fileCount > 0) {
+                stats.topics[dir.name] = fileCount;
+            }
+        }
+        
+        // Calculate percentages (relative to highest)
+        const maxCount = Math.max(...Object.values(stats.topics), 1);
+        const topicsWithPercent = {};
+        for (const [topic, count] of Object.entries(stats.topics)) {
+            topicsWithPercent[topic] = Math.round((count / maxCount) * 100);
+        }
+        stats.topics = topicsWithPercent;
+        
+    } catch (error) {
+        console.error('Mindmap stats error:', error.message);
+    }
+    
+    return stats;
+}
+
+// Get Jane's tasks from memory files
+function getJaneTasks() {
+    const tasks = { inProgress: [], completed: [], lastUpdated: new Date().toISOString() };
+    
+    try {
+        // Read today's memory file
+        const today = new Date().toISOString().split('T')[0];
+        const todayFile = path.join(MEMORY_DIR, `${today}.md`);
+        
+        if (fs.existsSync(todayFile)) {
+            const content = fs.readFileSync(todayFile, 'utf8');
+            
+            // Find "In Progress" items (lines with - [ ])
+            const inProgressRegex = /^[-*]\s*\[\s*\]\s*(.+)$/gm;
+            let match;
+            while ((match = inProgressRegex.exec(content)) !== null) {
+                tasks.inProgress.push({ task: match[1].trim(), status: 'in-progress', icon: '📌' });
+            }
+            
+            // Find completed items (lines with - [x])
+            const completedRegex = /^[-*]\s*\[x\]\s*(.+)$/gim;
+            while ((match = completedRegex.exec(content)) !== null) {
+                tasks.completed.push({ task: match[1].trim(), status: 'done', icon: '✓' });
+            }
+        }
+        
+        // Also check for a dedicated tasks file
+        const tasksFile = path.join(WORKSPACE, 'tasks.json');
+        if (fs.existsSync(tasksFile)) {
+            const taskData = JSON.parse(fs.readFileSync(tasksFile, 'utf8'));
+            if (taskData.inProgress) tasks.inProgress = taskData.inProgress;
+            if (taskData.completed) tasks.completed = taskData.completed;
+        }
+        
+    } catch (error) {
+        console.error('Jane tasks error:', error.message);
+    }
+    
+    // Fallback defaults if nothing found
+    if (tasks.inProgress.length === 0) {
+        tasks.inProgress = [
+            { task: 'Monitor memecoin positions', status: 'in-progress', icon: '📈', detail: 'WOJAK, COPPERINU, pippin' },
+            { task: 'TikTok stats monitoring', status: 'in-progress', icon: '🎵', detail: 'Auto-refresh 2-3x daily' }
+        ];
+    }
+    
+    return tasks;
+}
 
 // Fallback to CoinCap API
 function fetchCoinCap(res, cacheTimestamp) {
@@ -168,6 +339,80 @@ const server = http.createServer((req, res) => {
         const stats = getSystemStats();
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(stats));
+        return;
+    }
+    
+    // API endpoint for AI news (fetches from RSS feeds)
+    if (req.url === '/api/ai-news') {
+        // Cache for 10 minutes
+        const now = Date.now();
+        if (aiNewsCache.data && (now - aiNewsCache.timestamp) < 600000) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(aiNewsCache.data));
+            return;
+        }
+        
+        fetchAINewsFromFeeds().then(data => {
+            if (data) {
+                aiNewsCache = { data, timestamp: now };
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(data));
+            } else {
+                // Fallback to static file
+                const staticFile = path.join(ROOT, 'ai-news.json');
+                if (fs.existsSync(staticFile)) {
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(fs.readFileSync(staticFile));
+                } else {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Failed to fetch AI news' }));
+                }
+            }
+        });
+        return;
+    }
+    
+    // API endpoint for mindmap/Second Brain stats
+    if (req.url === '/api/mindmap') {
+        const stats = getMindmapStats();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(stats));
+        return;
+    }
+    
+    // API endpoint for Jane's tasks
+    if (req.url === '/api/tasks') {
+        const tasks = getJaneTasks();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(tasks));
+        return;
+    }
+    
+    // API endpoint for TikTok stats (reads from JSON, updated by Jane's heartbeat)
+    if (req.url === '/api/tiktok') {
+        const statsFile = path.join(ROOT, 'tiktok-stats.json');
+        if (fs.existsSync(statsFile)) {
+            const stats = JSON.parse(fs.readFileSync(statsFile, 'utf8'));
+            stats.note = 'Updated via heartbeat browser scraping (TikTok has no public API)';
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(stats));
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'No TikTok stats available yet' }));
+        }
+        return;
+    }
+    
+    // API endpoint for Sorare lineup (reads from JSON, can be updated via Sorare GraphQL API)
+    if (req.url === '/api/sorare') {
+        const statsFile = path.join(ROOT, 'sorare-stats.json');
+        if (fs.existsSync(statsFile)) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(fs.readFileSync(statsFile));
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'No Sorare stats available' }));
+        }
         return;
     }
     

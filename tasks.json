@@ -1,0 +1,14 @@
+{
+  "inProgress": [
+    { "task": "Monitor memecoin positions", "status": "in-progress", "icon": "📈", "detail": "WOJAK, COPPERINU, pippin" },
+    { "task": "TikTok stats monitoring", "status": "in-progress", "icon": "🎵", "detail": "Auto-refresh 2-3x daily" }
+  ],
+  "completed": [
+    { "task": "Mobile dashboard redesign", "status": "done", "icon": "📱", "detail": "Hamburger menu, accessibility, native styling" },
+    { "task": "Remote access setup", "status": "done", "icon": "🌐", "detail": "Cloudflare Tunnel for external access" },
+    { "task": "TikTok EP.6 & EP.7 posted", "status": "done", "icon": "✅", "detail": "Drake Maye Hunt series" },
+    { "task": "Kiosk mode added", "status": "done", "icon": "🖥️", "detail": "?kiosk URL param for dedicated display" },
+    { "task": "Dynamic API endpoints", "status": "done", "icon": "🤖", "detail": "AI News, Mindmap, Tasks now live" }
+  ],
+  "lastUpdated": "2026-02-01T23:59:00Z"
+}

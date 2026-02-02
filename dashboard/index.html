@@ -113,11 +113,20 @@
             min-height: 100vh;
         }
         
-        /* Prevent horizontal scroll on mobile */
+        /* Prevent horizontal scroll on mobile + enable smooth scrolling */
         @media (max-width: 768px) {
-            html, body {
+            html {
                 overflow-x: hidden !important;
+                overflow-y: auto;
+                scroll-behavior: smooth;
+            }
+            
+            body {
+                overflow-x: hidden !important;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
                 touch-action: pan-y pinch-zoom;
+                scroll-behavior: smooth;
             }
             
             * {
@@ -162,6 +171,21 @@
 
         *::-webkit-scrollbar-corner {
             background: transparent;
+        }
+        
+        /* iOS momentum scrolling for all scrollable elements */
+        @media (max-width: 768px) {
+            [style*="overflow-y: auto"],
+            [style*="overflow-y:auto"],
+            .chat-messages,
+            .completed-list,
+            .kanban-column-items,
+            .jane-tasks-list,
+            .positions-list,
+            .news-list,
+            .card {
+                -webkit-overflow-scrolling: touch;
+            }
         }
 
         /* Hide scrollbar until hover (Apple-style auto-hide) */
@@ -2814,17 +2838,26 @@
         
         body.native-mobile {
             padding: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
         
         body.native-mobile .main-container {
             padding: 0.75rem;
+            padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 80px);
             max-width: 100%;
+            min-height: auto;
+            overflow: visible;
         }
         
         body.native-mobile .dashboard {
             width: 100%;
             max-width: 100%;
             padding: 0;
+            padding-bottom: 1rem;
+            overflow: visible;
         }
         
         body.native-mobile .mobile-frame {

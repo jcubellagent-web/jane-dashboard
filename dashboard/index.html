@@ -1385,6 +1385,80 @@
             opacity: 0.7;
         }
 
+        /* Panini Collection Widget */
+        .panini-section {
+            grid-column: span 6;
+            min-height: 450px;
+        }
+
+        .panini-stats {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .panini-stat {
+            text-align: center;
+            flex: 1;
+            padding: 0.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+        }
+
+        .panini-stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .panini-stat-label {
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .panini-card {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .panini-card:last-child {
+            border-bottom: none;
+        }
+
+        .panini-rarity {
+            font-size: 0.55rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .panini-rarity.legendary { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #000; }
+        .panini-rarity.epic { background: linear-gradient(135deg, #a855f7, #7c3aed); color: #fff; }
+        .panini-rarity.ultra-rare { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: #fff; }
+        .panini-rarity.rare { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+        .panini-rarity.uncommon { background: rgba(255,255,255,0.2); color: #fff; }
+
+        .panini-name {
+            flex: 1;
+            font-size: 0.75rem;
+        }
+
+        .panini-serial {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+
+        .panini-price {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
         /* Prediction Markets Widget */
         .predictions-section {
             grid-column: span 6;
@@ -3962,6 +4036,37 @@
                 </div>
             </div>
 
+            <!-- Panini Collection -->
+            <div class="card panini-section" data-widget="panini" data-gs-w="6" data-gs-h="5" style="min-height: 450px;">
+                <div class="card-header">
+                    <div class="card-title">🏈 Panini Collection</div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 0.7rem; color: var(--text-secondary);" id="panini-updated">--</span>
+                        <button class="refresh-btn" onclick="fetchPaniniCollection()" title="Refresh">↻</button>
+                    </div>
+                </div>
+                <div class="panini-stats" id="panini-stats">
+                    <div class="panini-stat">
+                        <div class="panini-stat-value" id="panini-total-value">--</div>
+                        <div class="panini-stat-label">Listed Value</div>
+                    </div>
+                    <div class="panini-stat">
+                        <div class="panini-stat-value" id="panini-cards-listed">--</div>
+                        <div class="panini-stat-label">Cards >$10</div>
+                    </div>
+                    <div class="panini-stat">
+                        <div class="panini-stat-value" id="panini-total-cards">--</div>
+                        <div class="panini-stat-label">Total Cards</div>
+                    </div>
+                </div>
+                <div style="font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                    Top valued active listings (floor >$10)
+                </div>
+                <div class="panini-list" id="panini-list" style="max-height: 220px; overflow-y: auto;">
+                    <div style="text-align: center; color: var(--text-secondary); padding: 1rem;">Loading...</div>
+                </div>
+            </div>
+
             <!-- Prediction Markets -->
             <div class="card predictions-section" data-widget="predictions" data-gs-w="6" data-gs-h="4">
                 <div class="card-header">
@@ -4547,7 +4652,7 @@
         // ========================================
         
         // All available widgets
-        const ALL_WIDGETS = ['stats', 'system', 'accounts', 'mindmap', 'ai-news', 'predictions', 'work-intel', 'tiktok', 'crypto', 'commands', 'jane-tasks', 'sorare', 'wallet', 'trading', 'activity'];
+        const ALL_WIDGETS = ['stats', 'system', 'accounts', 'mindmap', 'ai-news', 'panini', 'predictions', 'work-intel', 'tiktok', 'crypto', 'commands', 'jane-tasks', 'sorare', 'wallet', 'trading', 'activity'];
         
         let mobileEditorVisibility = {};
         let mobileEditorOrder = [];
@@ -5814,6 +5919,57 @@
             }
         }
 
+        // Fetch Panini Collection
+        async function fetchPaniniCollection() {
+            const listEl = document.getElementById('panini-list');
+            if (!listEl) return;
+            
+            try {
+                const response = await fetch('/api/panini');
+                if (!response.ok) throw new Error('Failed to load Panini data');
+                const data = await response.json();
+                
+                // Update stats
+                const totalValueEl = document.getElementById('panini-total-value');
+                const cardsListedEl = document.getElementById('panini-cards-listed');
+                const totalCardsEl = document.getElementById('panini-total-cards');
+                
+                if (totalValueEl) totalValueEl.textContent = '$' + (data.totalListedValue || 0).toLocaleString();
+                if (cardsListedEl) cardsListedEl.textContent = data.activeListings?.over10 || 0;
+                if (totalCardsEl) totalCardsEl.textContent = (data.profile?.totalCards || 0).toLocaleString();
+                
+                // Build card list
+                if (data.valuableCards && data.valuableCards.length > 0) {
+                    const top15 = data.valuableCards.slice(0, 15);
+                    let html = '';
+                    top15.forEach(card => {
+                        const rarityClass = card.rarity.toLowerCase().replace(' ', '-');
+                        html += `
+                            <div class="panini-card">
+                                <span class="panini-rarity ${rarityClass}">${card.rarity}</span>
+                                <span class="panini-name">${card.name}</span>
+                                <span class="panini-serial">${card.serial}</span>
+                                <span class="panini-price">$${card.price.toLocaleString()}</span>
+                            </div>
+                        `;
+                    });
+                    listEl.innerHTML = html;
+                } else {
+                    listEl.innerHTML = '<div style="text-align: center; color: var(--text-secondary); padding: 1rem;">No collection data</div>';
+                }
+                
+                // Update timestamp
+                const updatedEl = document.getElementById('panini-updated');
+                if (updatedEl && data.lastUpdated) {
+                    const updated = new Date(data.lastUpdated);
+                    updatedEl.textContent = 'Updated ' + updated.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                }
+                
+            } catch (error) {
+                console.error('Failed to load Panini collection:', error);
+            }
+        }
+
         // Fetch Prediction Markets from Polymarket
         async function fetchPredictions() {
             const listEl = document.getElementById('predictions-list');
@@ -5889,6 +6045,7 @@
                 { name: 'Wallet Balances', fn: fetchWalletBalances },
                 { name: 'TikTok Stats', fn: fetchTikTokStats },
                 { name: 'Sorare Stats', fn: fetchSorareStats },
+                { name: 'Panini Collection', fn: fetchPaniniCollection },
                 { name: 'Predictions', fn: fetchPredictions },
                 { name: 'Mindmap', fn: fetchMindmap },
                 { name: 'AI News', fn: fetchAINews },
@@ -5942,6 +6099,7 @@
             fetchJaneTasks();
             fetchTikTokStats();
             fetchSorareStats();
+            fetchPaniniCollection();
             fetchPredictions();
             fetchMindmap();
             fetchAINews();
@@ -6177,6 +6335,7 @@
             'system': { name: 'Mac Status', icon: '🖥️' },
             'crypto': { name: 'Crypto Prices', icon: '💰' },
             'ai-news': { name: 'AI News', icon: '🤖' },
+            'panini': { name: 'Panini NFTs', icon: '🏈' },
             'predictions': { name: 'Predictions', icon: '🔮' },
             'work-intel': { name: 'Work Intel', icon: '💼' },
             'tiktok': { name: 'TikTok Growth', icon: '📈' },

@@ -403,6 +403,19 @@ const server = http.createServer((req, res) => {
         return;
     }
     
+    // API endpoint for Panini collection (scraped from profile, updated periodically)
+    if (req.url === '/api/panini') {
+        const collectionFile = path.join(ROOT, 'panini-collection.json');
+        if (fs.existsSync(collectionFile)) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(fs.readFileSync(collectionFile));
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'No Panini collection data available' }));
+        }
+        return;
+    }
+    
     // API endpoint for Sorare lineup (reads from JSON, can be updated via Sorare GraphQL API)
     if (req.url === '/api/sorare') {
         const statsFile = path.join(ROOT, 'sorare-stats.json');

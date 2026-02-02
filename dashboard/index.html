@@ -116,14 +116,14 @@
         /* Prevent horizontal scroll on mobile + enable smooth scrolling */
         @media (max-width: 768px) {
             html {
-                overflow-x: hidden !important;
-                overflow-y: auto;
-                scroll-behavior: smooth;
+                overflow: hidden !important;
+                height: 100%;
             }
             
             body {
                 overflow-x: hidden !important;
-                overflow-y: auto;
+                overflow-y: scroll;
+                height: 100%;
                 -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
                 touch-action: pan-y pinch-zoom;
                 scroll-behavior: smooth;
@@ -2838,26 +2838,32 @@
         
         body.native-mobile {
             padding: 0;
-            overflow-y: auto;
             overflow-x: hidden;
+            overflow-y: scroll;
+            height: 100%;
             -webkit-overflow-scrolling: touch;
             scroll-behavior: smooth;
         }
         
         body.native-mobile .main-container {
             padding: 0.75rem;
-            padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 80px);
+            padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 100px);
             max-width: 100%;
             min-height: auto;
             overflow: visible;
+            /* Ensure content determines scroll height accurately */
+            display: block;
         }
         
         body.native-mobile .dashboard {
             width: 100%;
             max-width: 100%;
             padding: 0;
-            padding-bottom: 1rem;
+            padding-bottom: 2rem;
             overflow: visible;
+            /* Use auto height so scroll calculations are accurate */
+            height: auto;
+            min-height: 0;
         }
         
         body.native-mobile .mobile-frame {
@@ -3910,7 +3916,17 @@
         }
 
         @media (max-width: 768px) {
-            .dashboard { padding: 1rem; padding-bottom: 6rem; gap: 1rem; }
+            .main-container {
+                min-height: auto;
+                display: block;
+            }
+            .dashboard { 
+                padding: 1rem; 
+                padding-bottom: 6rem; 
+                gap: 1rem;
+                height: auto;
+                min-height: 0;
+            }
             .stats-grid { grid-template-columns: 1fr; }
             .kanban-columns { grid-template-columns: repeat(2, 1fr); }
             .commands-grid { grid-template-columns: 1fr; }

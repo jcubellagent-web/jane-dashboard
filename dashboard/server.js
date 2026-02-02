@@ -449,15 +449,30 @@ const server = http.createServer((req, res) => {
             const parseMarket = m => {
                 const prices = JSON.parse(m.outcomePrices || '["0.5","0.5"]');
                 const yesPrice = parseFloat(prices[0]) * 100;
-                return {
+                const noPrice = parseFloat(prices[1]) * 100;
+                
+                const market = {
                     question: m.question,
                     yesOdds: Math.round(yesPrice),
+                    noOdds: Math.round(noPrice),
                     volume24h: m.volume24hr || 0,
                     totalVolume: m.volumeNum || 0,
                     slug: m.slug,
                     image: m.icon || m.image,
                     endDate: m.endDate
                 };
+                
+                // Parse team names for sports matchups (e.g., "Bruins vs. Lightning")
+                const vsMatch = (m.question || '').match(/^(.+?)\s+vs\.?\s+(.+?)$/i);
+                if (vsMatch) {
+                    market.isSportsMatch = true;
+                    market.teams = {
+                        team1: { name: vsMatch[1].trim(), odds: Math.round(yesPrice) },
+                        team2: { name: vsMatch[2].trim(), odds: Math.round(noPrice) }
+                    };
+                }
+                
+                return market;
             };
             
             const simplified = mainMarkets.map(parseMarket);

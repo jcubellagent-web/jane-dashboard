@@ -1514,6 +1514,44 @@
             line-height: 1.3;
         }
 
+        /* Sports matchup display */
+        .sports-teams {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+        }
+
+        .sports-teams .team {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .sports-teams .vs {
+            color: var(--text-secondary);
+            font-size: 0.6rem;
+            padding: 0 0.2rem;
+        }
+
+        .sports-teams .team-odds {
+            padding: 0.15rem 0.35rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.7rem;
+        }
+
+        .sports-teams .team-odds.high {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .sports-teams .team-odds.low {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
         .prediction-volume {
             font-size: 0.65rem;
             color: var(--text-secondary);
@@ -6009,11 +6047,6 @@
                             return;
                         }
                         
-                        const odds = market.yesOdds;
-                        let oddsClass = 'medium';
-                        if (odds >= 70) oddsClass = 'high';
-                        else if (odds <= 30) oddsClass = 'low';
-                        
                         // Format volume
                         const vol = market.volume24h;
                         let volStr = '$' + Math.round(vol).toLocaleString();
@@ -6026,16 +6059,44 @@
                         // Adjust rank for pinned market
                         const displayRank = data.hasPinned ? index : index + 1;
                         
-                        html += `
-                            <a href="https://polymarket.com/event/${market.slug}" target="_blank" rel="noopener" class="prediction-link">
-                                <div class="prediction-item">
-                                    <span class="prediction-rank">${displayRank}</span>
-                                    <span class="prediction-odds ${oddsClass}">${odds}%</span>
-                                    <span class="prediction-question">${market.question}</span>
-                                    <span class="prediction-volume">${volStr}</span>
-                                </div>
-                            </a>
-                        `;
+                        // Sports match with both teams
+                        if (market.isSportsMatch && market.teams) {
+                            const t1 = market.teams.team1;
+                            const t2 = market.teams.team2;
+                            const t1Class = t1.odds >= 50 ? 'high' : 'low';
+                            const t2Class = t2.odds >= 50 ? 'high' : 'low';
+                            
+                            html += `
+                                <a href="https://polymarket.com/event/${market.slug}" target="_blank" rel="noopener" class="prediction-link">
+                                    <div class="prediction-item sports-match">
+                                        <span class="prediction-rank">${displayRank}</span>
+                                        <span class="sports-teams">
+                                            <span class="team"><span class="team-odds ${t1Class}">${t1.odds}%</span> ${t1.name}</span>
+                                            <span class="vs">vs</span>
+                                            <span class="team">${t2.name} <span class="team-odds ${t2Class}">${t2.odds}%</span></span>
+                                        </span>
+                                        <span class="prediction-volume">${volStr}</span>
+                                    </div>
+                                </a>
+                            `;
+                        } else {
+                            // Regular non-sports market
+                            const odds = market.yesOdds;
+                            let oddsClass = 'medium';
+                            if (odds >= 70) oddsClass = 'high';
+                            else if (odds <= 30) oddsClass = 'low';
+                            
+                            html += `
+                                <a href="https://polymarket.com/event/${market.slug}" target="_blank" rel="noopener" class="prediction-link">
+                                    <div class="prediction-item">
+                                        <span class="prediction-rank">${displayRank}</span>
+                                        <span class="prediction-odds ${oddsClass}">${odds}%</span>
+                                        <span class="prediction-question">${market.question}</span>
+                                        <span class="prediction-volume">${volStr}</span>
+                                    </div>
+                                </a>
+                            `;
+                        }
                     });
                     listEl.innerHTML = html;
                 } else {

@@ -498,9 +498,64 @@ const server = http.createServer((req, res) => {
             
             competitive.sort((a, b) => b.volume24h - a.volume24h);
             
+            // Detect sports markets (typically have "vs." or sports-related slugs)
+            const isSportsMarket = (m) => {
+                const q = (m.question || '').toLowerCase();
+                const s = (m.slug || '').toLowerCase();
+                // "vs." pattern or sports league prefixes in slug
+                return q.includes(' vs. ') || q.includes(' vs ') ||
+                       s.startsWith('nba-') || s.startsWith('nfl-') || 
+                       s.startsWith('nhl-') || s.startsWith('mlb-') ||
+                       s.startsWith('ncaa-') || s.startsWith('ufc-');
+            };
+            
+            // Build balanced list: max 3 sports in top 5
+            const sports = competitive.filter(isSportsMarket);
+            const nonSports = competitive.filter(m => !isSportsMarket(m));
+            
+            let balanced = [];
+            let sportsCount = 0;
+            let sportsIdx = 0;
+            let nonSportsIdx = 0;
+            
+            // Fill top 10 with max 3 sports in positions 1-5
+            while (balanced.length < 10 && (sportsIdx < sports.length || nonSportsIdx < nonSports.length)) {
+                const inTop5 = balanced.length < 5;
+                
+                if (inTop5 && sportsCount < 3 && sportsIdx < sports.length) {
+                    // Can still add sports to top 5
+                    const nextSports = sports[sportsIdx];
+                    const nextNonSports = nonSports[nonSportsIdx];
+                    
+                    // Pick higher volume
+                    if (!nextNonSports || (nextSports && nextSports.volume24h >= nextNonSports.volume24h)) {
+                        balanced.push(sports[sportsIdx++]);
+                        sportsCount++;
+                    } else {
+                        balanced.push(nonSports[nonSportsIdx++]);
+                    }
+                } else if (inTop5) {
+                    // Top 5 but sports maxed out - must use non-sports
+                    if (nonSportsIdx < nonSports.length) {
+                        balanced.push(nonSports[nonSportsIdx++]);
+                    } else if (sportsIdx < sports.length) {
+                        balanced.push(sports[sportsIdx++]);
+                    }
+                } else {
+                    // After top 5, just fill by volume
+                    const nextS = sports[sportsIdx];
+                    const nextN = nonSports[nonSportsIdx];
+                    if (nextS && (!nextN || nextS.volume24h >= nextN.volume24h)) {
+                        balanced.push(sports[sportsIdx++]);
+                    } else if (nextN) {
+                        balanced.push(nonSports[nonSportsIdx++]);
+                    }
+                }
+            }
+            
             const finalMarkets = pinnedMarket 
-                ? [pinnedMarket, ...competitive.slice(0, 9)]
-                : competitive.slice(0, 10);
+                ? [pinnedMarket, ...balanced.slice(0, 9)]
+                : balanced.slice(0, 10);
             
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ 

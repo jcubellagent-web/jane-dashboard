@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' http://localhost:* ws://localhost:* wss://localhost:* https://*.coingecko.com https://wttr.in https://api.open-meteo.com https://api.mainnet-beta.solana.com https://solana-mainnet.rpc.extrnode.com https://*.publicnode.com https://api.dexscreener.com; frame-src 'self' http://localhost:*;">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
-    <title>Jane Dashboard 🌿</title>
+    <title>Jane Dashboard</title>
     <!-- GridStack.js for drag & drop -->
     <link href="https://cdn.jsdelivr.net/npm/gridstack@10.0.1/dist/gridstack.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/gridstack@10.0.1/dist/gridstack-all.js"></script>
@@ -32,6 +32,45 @@
             font-size: 1rem;
         }
         
+        /* Night/Ambient Mode - activates automatically 10pm-7am */
+        body.night-mode {
+            filter: brightness(0.7) saturate(0.85);
+        }
+        
+        body.night-mode::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 147, 41, 0.03);
+            pointer-events: none;
+            z-index: 99999;
+        }
+        
+        body.night-mode .bg-gradient {
+            opacity: 0.5;
+        }
+        
+        /* Night mode indicator */
+        .night-indicator {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(255, 147, 41, 0.2);
+            color: #ffb366;
+            padding: 0.4rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            display: none;
+            align-items: center;
+            gap: 0.4rem;
+            z-index: 100000;
+            backdrop-filter: blur(10px);
+        }
+        
+        body.night-mode .night-indicator {
+            display: flex;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -51,20 +90,39 @@
             --accent-pink: #f472b6;
             --text-primary: #f1f5f9;
             --text-secondary: #8b9dc3;
-            --border: rgba(255,255,255,0.06);
-            --border-hover: rgba(255,255,255,0.12);
+            --border: rgba(255,255,255,0.12);
+            --border-hover: rgba(255,255,255,0.22);
             --chat-user: #3b82f6;
             --chat-jane: #4ade80;
             --glass-blur: 16px;
             --shadow-glow: 0 0 40px rgba(74, 222, 128, 0.05);
         }
 
+        html, body {
+            overflow-x: hidden;
+            overscroll-behavior-x: none;
+            width: 100%;
+            max-width: 100%;
+            position: relative;
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
-            overflow-x: hidden;
+        }
+        
+        /* Prevent horizontal scroll on mobile */
+        @media (max-width: 768px) {
+            html, body {
+                overflow-x: hidden !important;
+                touch-action: pan-y pinch-zoom;
+            }
+            
+            * {
+                max-width: 100vw;
+            }
         }
 
         /* Apple-style scrollbars */
@@ -169,6 +227,15 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: var(--shadow-glow);
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 0.875rem 1rem;
+                gap: 0.5rem;
+            }
         }
 
         .logo {
@@ -201,6 +268,23 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            flex-shrink: 1;
+            overflow: hidden;
+        }
+        
+        @media (max-width: 768px) {
+            .header-actions {
+                gap: 0.5rem;
+            }
+            
+            .header-actions .status-label {
+                display: none;
+            }
+            
+            .header-actions .ws-label,
+            .header-actions #status-text {
+                display: none;
+            }
         }
 
         .status-indicator {
@@ -209,6 +293,13 @@
             gap: 0.5rem;
             font-size: 0.875rem;
             color: var(--text-secondary);
+        }
+        
+        .status-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.6;
         }
 
         .status-dot {
@@ -224,6 +315,31 @@
             50% { opacity: 0.8; box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
         }
 
+        .ws-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            margin-left: 0.5rem;
+        }
+        
+        .ws-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-orange);
+            transition: all 0.3s ease;
+        }
+        
+        .ws-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
         .time {
             font-size: 0.875rem;
             color: var(--text-secondary);
@@ -233,6 +349,9 @@
         .main-container {
             display: flex;
             min-height: calc(100vh - 73px);
+            overflow-x: clip;
+            max-width: 100%;
+            width: 100%;
         }
 
         /* Dashboard Content */
@@ -522,7 +641,7 @@
             border-radius: 20px;
             padding: 1.5rem;
             transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255,255,255,0.03);
         }
 
         .card:hover {
@@ -891,6 +1010,36 @@
             text-overflow: ellipsis;
         }
         
+        /* RAG Status Indicators */
+        .jane-task-rag {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 0.35rem;
+        }
+        
+        .jane-task-rag.green {
+            background: #22c55e;
+            box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
+        }
+        
+        .jane-task-rag.amber {
+            background: #f59e0b;
+            box-shadow: 0 0 6px rgba(245, 158, 11, 0.5);
+        }
+        
+        .jane-task-rag.red {
+            background: #ef4444;
+            box-shadow: 0 0 6px rgba(239, 68, 68, 0.5);
+            animation: pulse-red 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
         .jane-task-empty {
             color: rgba(255,255,255,0.3);
             font-size: 0.75rem;
@@ -906,6 +1055,101 @@
         .jane-tasks-group.completed .jane-task-title {
             text-decoration: line-through;
             text-decoration-color: var(--accent);
+        }
+
+        /* Sub-Agents (embedded in Jane's Status) */
+        .subagents-group {
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        
+        .subagents-list {
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        
+        .subagent-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 6px;
+            margin-bottom: 0.35rem;
+            border-left: 2px solid var(--accent);
+            transition: all 0.2s;
+        }
+        
+        .subagent-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .subagent-item:hover {
+            background: rgba(255,255,255,0.06);
+        }
+        
+        .subagent-item.idle {
+            border-left-color: var(--text-secondary);
+            opacity: 0.6;
+        }
+        
+        .subagent-item.cron {
+            border-left-color: var(--accent-purple);
+        }
+        
+        .subagent-item.spawn {
+            border-left-color: var(--accent-blue);
+        }
+        
+        .subagent-icon {
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .subagent-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .subagent-name {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .subagent-status {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .subagent-badge {
+            font-size: 0.55rem;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+            background: rgba(74, 222, 128, 0.2);
+            color: var(--accent);
+            margin-right: 0.25rem;
+            text-transform: uppercase;
+        }
+        
+        .subagent-badge.cron {
+            background: rgba(167, 139, 250, 0.2);
+            color: var(--accent-purple);
+        }
+        
+        .subagent-empty {
+            color: rgba(255,255,255,0.3);
+            font-size: 0.7rem;
+            text-align: center;
+            padding: 0.5rem;
+            font-style: italic;
         }
 
         /* Kanban Mini */
@@ -1656,108 +1900,212 @@
             .agentic-tracks { grid-template-columns: 1fr; }
         }
 
-        /* Mindmap Section */
+        /* Mindmap Section - Bubble Clusters */
         .mindmap-section {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .mindmap-themes {
-            display: flex;
-            flex-direction: column;
             gap: 0.5rem;
+            overflow: visible !important;
         }
 
-        .theme-item {
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            padding: 0.5rem 0.75rem;
+        .mindmap-section:has(.bubble:hover) {
+            z-index: 9999;
         }
 
-        .theme-header {
+        .bubble-container {
+            position: relative;
+            height: 200px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.35rem;
-        }
-
-        .theme-name {
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        .theme-percent {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-        }
-
-        .theme-bar {
-            height: 4px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .theme-fill {
-            height: 100%;
-            border-radius: 2px;
-            transition: width 0.5s ease;
-        }
-
-        .mindmap-categories {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            justify-content: center;
             gap: 0.5rem;
-        }
-
-        .cat-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            flex-wrap: wrap;
             padding: 0.5rem;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            cursor: default;
-            transition: all 0.2s;
+            overflow: visible;
         }
 
-        .cat-item:hover {
-            background: rgba(0,0,0,0.3);
-            transform: scale(1.05);
+        .bubble {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), transparent 60%);
         }
 
-        .cat-icon {
-            font-size: 1.1rem;
-            margin-bottom: 0.2rem;
+        .bubble:hover {
+            transform: scale(1.15);
+            z-index: 10000;
+            opacity: 1 !important;
+        }
+        
+        .bubble-empty {
+            border: 2px dashed rgba(255,255,255,0.2);
+            background: rgba(30, 40, 60, 0.5) !important;
+        }
+        
+        .bubble-empty:hover {
+            border-color: rgba(255,255,255,0.4);
         }
 
-        .cat-count {
-            font-size: 0.8rem;
+        .bubble-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.15rem;
+        }
+
+        .bubble-name {
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            text-align: center;
+            max-width: 90%;
+        }
+
+        .bubble-glow {
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: -1;
+        }
+
+        .bubble:hover .bubble-glow {
+            opacity: 0.6;
+            animation: pulse-glow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.1); opacity: 0.3; }
+        }
+
+        /* Artifact popup on hover */
+        .artifact-popup {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-hover);
+            border-radius: 10px;
+            padding: 0.6rem 0.8rem;
+            min-width: 200px;
+            max-width: 280px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 10001;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1);
+            pointer-events: none;
+            backdrop-filter: blur(12px);
+        }
+
+        .bubble:hover .artifact-popup,
+        .bubble.bubble-active .artifact-popup {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        
+        /* Active state for touch devices */
+        .bubble.bubble-active .bubble-glow {
+            opacity: 0.6;
+            animation: pulse-glow 1.5s ease-in-out infinite;
+        }
+        
+        /* Ensure card and GridStack containers allow overflow for bubble popups */
+        .card[data-widget="mindmap"],
+        .card.mindmap-section {
+            overflow: visible !important;
+        }
+        
+        /* GridStack item overflow for mindmap - must override all levels */
+        .grid-stack-item:has([data-widget="mindmap"]),
+        .grid-stack-item:has(.mindmap-section) {
+            overflow: visible !important;
+            z-index: auto;
+        }
+        
+        .grid-stack-item:has([data-widget="mindmap"]):hover,
+        .grid-stack-item:has(.mindmap-section):hover {
+            z-index: 9999 !important;
+        }
+        
+        .grid-stack-item-content:has([data-widget="mindmap"]),
+        .grid-stack-item-content:has(.mindmap-section) {
+            overflow: visible !important;
+        }
+
+        .artifact-popup::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: var(--bg-secondary);
+        }
+
+        .artifact-header {
+            font-size: 0.7rem;
             font-weight: 600;
             color: var(--text-secondary);
-        }
-
-        .mindmap-tags {
+            margin-bottom: 0.4rem;
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
+            align-items: center;
+            gap: 0.3rem;
         }
 
-        .mind-tag {
+        .artifact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .artifact-item {
+            display: flex;
+            flex-direction: column;
+            padding: 0.3rem 0.4rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 6px;
+            border-left: 2px solid var(--artifact-color, var(--accent));
+        }
+
+        .artifact-title {
             font-size: 0.65rem;
-            padding: 0.25rem 0.5rem;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--tag-color, var(--border));
-            border-radius: 12px;
-            color: var(--tag-color, var(--text-secondary));
+            font-weight: 500;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .mindmap-recent {
-            background: rgba(0,0,0,0.15);
-            border-radius: 8px;
-            padding: 0.6rem;
+        .artifact-meta {
+            font-size: 0.55rem;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
         }
+
+        .artifact-empty {
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            text-align: center;
+            padding: 0.5rem;
+        }
+
+        /* Legacy styles for compatibility */
+        .mindmap-themes { display: none; }
+        .mindmap-categories { display: none; }
+        .mindmap-tags { display: none; }
+        .mindmap-recent { display: none; }
 
         .recent-header {
             font-size: 0.7rem;
@@ -3182,6 +3530,8 @@
         /* GridStack Overrides */
         .grid-stack {
             background: transparent !important;
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
         .grid-stack > .grid-stack-item > .grid-stack-item-content {
@@ -3192,7 +3542,7 @@
             border-radius: 20px;
             overflow: auto;
             transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255,255,255,0.03);
         }
 
         .grid-stack > .grid-stack-item > .grid-stack-item-content:hover {
@@ -3517,10 +3867,239 @@
                 height: 60vh;
                 max-height: 450px;
             }
+            
+            /* Larger touch targets on mobile */
+            .refresh-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 1.1rem;
+                border-radius: 10px;
+            }
+            
+            .close-chat,
+            .night-toggle,
+            .view-toggle button,
+            #edit-layout-btn {
+                min-width: 44px;
+                min-height: 44px;
+            }
+        }
+        
+        /* Full-screen chat on small mobile */
+        @media (max-width: 480px) {
+            .chat-panel {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                height: 100vh;
+                height: 100dvh;
+                max-height: none;
+                border-radius: 0;
+                z-index: 10000;
+                display: flex;
+                flex-direction: column;
+                background: var(--bg-chat, rgba(10, 15, 26, 0.98));
+            }
+            
+            .chat-panel.open {
+                transform: none;
+            }
+            
+            .chat-header {
+                padding: 1rem 1.25rem;
+                padding-top: calc(env(safe-area-inset-top, 0px) + 1rem);
+                background: var(--bg, #0a0f1a);
+                flex-shrink: 0;
+            }
+            
+            .chat-messages {
+                flex: 1;
+                min-height: 0;
+                overflow-y: auto;
+                padding-bottom: 0;
+            }
+            
+            .chat-input-container {
+                flex-shrink: 0;
+                padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.75rem);
+                background: var(--bg, #0a0f1a);
+            }
+            
+            .chat-fab {
+                bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+                right: 16px;
+                width: 56px;
+                height: 56px;
+            }
+        }
+        
+        /* Clock screensaver overlay */
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+        
+        .clock-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            cursor: pointer;
+        }
+        
+        .clock-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .clock-container {
+            text-align: center;
+        }
+        
+        .clock-time {
+            font-size: 28vw;
+            font-weight: 700;
+            font-family: 'Bebas Neue', Impact, 'Arial Black', sans-serif;
+            color: #3b82f6;
+            letter-spacing: 0.02em;
+            line-height: 1;
+        }
+        
+        .clock-date {
+            font-size: 4vw;
+            font-weight: 700;
+            font-family: 'Bebas Neue', Impact, 'Arial Black', sans-serif;
+            color: rgba(59, 130, 246, 0.5);
+            margin-top: 1rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        
+        .clock-logo {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+            /* Starting position - will be animated by JS */
+            top: 50px;
+            left: 50px;
+        }
+        
+        .clock-hint {
+            position: absolute;
+            bottom: 3rem;
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.2);
+            transition: opacity 0.3s ease;
+        }
+        
+        .clock-overlay:hover .clock-hint {
+            opacity: 1;
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .clock-time {
+                font-size: 32vw;
+            }
+            .clock-date {
+                font-size: 6vw;
+            }
+        }
+        
+        /* Data change highlight animations */
+        .data-flash {
+            animation: dataFlash 0.6s ease-out;
+        }
+        
+        .data-flash-up {
+            animation: dataFlashUp 0.8s ease-out;
+        }
+        
+        .data-flash-down {
+            animation: dataFlashDown 0.8s ease-out;
+        }
+        
+        @keyframes dataFlash {
+            0% { background: rgba(74, 222, 128, 0.3); }
+            100% { background: transparent; }
+        }
+        
+        @keyframes dataFlashUp {
+            0% { color: var(--accent); transform: scale(1.1); text-shadow: 0 0 10px var(--accent); }
+            100% { color: inherit; transform: scale(1); text-shadow: none; }
+        }
+        
+        @keyframes dataFlashDown {
+            0% { color: #ef4444; transform: scale(1.1); text-shadow: 0 0 10px #ef4444; }
+            100% { color: inherit; transform: scale(1); text-shadow: none; }
+        }
+        
+        /* Smooth number transition container */
+        .animate-number {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+        
+        /* Pull-to-refresh indicator */
+        .pull-refresh-indicator {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(-60px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            z-index: 10001;
+            transition: transform 0.2s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        
+        .pull-refresh-indicator.visible {
+            transform: translateX(-50%) translateY(20px);
+        }
+        
+        .pull-refresh-indicator.refreshing {
+            transform: translateX(-50%) translateY(20px);
+        }
+        
+        .pull-refresh-indicator .spinner {
+            animation: spin 1s linear infinite;
         }
     </style>
 </head>
 <body>
+    <!-- Pull-to-refresh indicator (mobile) -->
+    <div class="pull-refresh-indicator" id="pull-refresh">
+        <span class="pull-icon">↓</span>
+        <span class="pull-text">Pull to refresh</span>
+    </div>
+    
+    <!-- Clock screensaver overlay -->
+    <div class="clock-overlay" id="clock-overlay">
+        <img src="icon-192.png" alt="Jane" class="clock-logo">
+        <div class="clock-container">
+            <div class="clock-time" id="clock-time">00:00</div>
+            <div class="clock-date" id="clock-date">Sunday, February 1</div>
+        </div>
+        <div class="clock-hint">Click anywhere to exit</div>
+    </div>
+    
     <!-- Skip to main content (accessibility) -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
     
@@ -3528,13 +4107,19 @@
 
     <header role="banner">
         <div class="logo">
-            <div class="logo-icon" aria-hidden="true">🌿</div>
+            <img src="icon-192.png" alt="Jane" class="logo-icon" style="width: 32px; height: 32px; border-radius: 8px;">
             <h1><span>Jane</span> Dashboard</h1>
         </div>
         <div class="header-actions">
-            <div class="status-indicator" id="gateway-status" title="Gateway status" role="status" aria-live="polite">
+            <div class="status-indicator" id="gateway-status" title="OpenClaw gateway status" role="status" aria-live="polite">
+                <span class="status-label">Gateway:</span>
                 <div class="status-dot" id="status-dot"></div>
                 <span id="status-text">Checking...</span>
+            </div>
+            <div class="ws-indicator" title="Real-time WebSocket updates">
+                <span class="status-label">Updates:</span>
+                <div class="ws-dot" id="ws-status"></div>
+                <span class="ws-label">Live</span>
             </div>
             <div class="time" id="current-time" aria-label="Current time">--:--</div>
             <div class="layout-controls">
@@ -3551,6 +4136,12 @@
                 </button>
                 <button class="layout-btn" id="edit-layout-btn" onclick="toggleEditMode()" aria-label="Edit layout">
                     🔧 Edit Layout
+                </button>
+                <button class="layout-btn" id="night-mode-btn" onclick="toggleNightMode()" aria-label="Toggle night mode" title="Toggle night mode">
+                    🌙
+                </button>
+                <button class="layout-btn" id="clock-mode-btn" onclick="toggleClockMode()" aria-label="Clock screensaver" title="Clock screensaver">
+                    🕐
                 </button>
                 <button class="layout-btn danger" id="reset-layout-btn" onclick="resetLayout()" style="display:none;" aria-label="Reset layout">
                     ↺ Reset
@@ -3725,111 +4316,25 @@
                 </div>
             </div>
 
-            <!-- Mindmap - Second Brain Summary -->
+            <!-- Mindmap - Bubble Clusters -->
             <div class="card mindmap-section" data-widget="mindmap" data-gs-w="4" data-gs-h="3">
                 <div class="card-header">
-                    <div class="card-title">🧠 Mindmap</div>
+                    <div class="card-title">🧠 Second Brain</div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <span style="font-size: 0.7rem; color: var(--text-secondary);" id="mindmap-updated">--</span>
-                        <button class="refresh-btn" onclick="fetchMindmap()" title="Refresh">↻</button>
+                        <button class="refresh-btn" onclick="fetchBubbles()" title="Refresh">↻</button>
                     </div>
                 </div>
                 
-                <!-- Theme Strengths -->
-                <div class="mindmap-themes">
-                    <div class="theme-item" id="theme-0">
-                        <div class="theme-header">
-                            <span class="theme-name">Finance & Crypto</span>
-                            <span class="theme-percent">85%</span>
-                        </div>
-                        <div class="theme-bar">
-                            <div class="theme-fill" style="width: 85%; background: linear-gradient(90deg, #f7931a, #fcd34d);"></div>
-                        </div>
-                    </div>
-                    <div class="theme-item" id="theme-1">
-                        <div class="theme-header">
-                            <span class="theme-name">Sports & NFL</span>
-                            <span class="theme-percent">70%</span>
-                        </div>
-                        <div class="theme-bar">
-                            <div class="theme-fill" style="width: 70%; background: linear-gradient(90deg, #002244, #c60c30);"></div>
-                        </div>
-                    </div>
-                    <div class="theme-item" id="theme-2">
-                        <div class="theme-header">
-                            <span class="theme-name">Digital Collectibles</span>
-                            <span class="theme-percent">60%</span>
-                        </div>
-                        <div class="theme-bar">
-                            <div class="theme-fill" style="width: 60%; background: linear-gradient(90deg, #9945ff, #14f195);"></div>
-                        </div>
-                    </div>
-                    <div class="theme-item" id="theme-3">
-                        <div class="theme-header">
-                            <span class="theme-name">Tech & Web3</span>
-                            <span class="theme-percent">50%</span>
-                        </div>
-                        <div class="theme-bar">
-                            <div class="theme-fill" style="width: 50%; background: linear-gradient(90deg, #60a5fa, #a78bfa);"></div>
-                        </div>
-                    </div>
+                <!-- Bubble Cluster Visualization -->
+                <div class="bubble-container" id="bubble-container">
+                    <!-- Bubbles rendered by JS -->
                 </div>
                 
-                <!-- Category Grid -->
-                <div class="mindmap-categories">
-                    <div class="cat-item" title="Profile">
-                        <span class="cat-icon">👤</span>
-                        <span class="cat-count" id="cat-profile">1</span>
-                    </div>
-                    <div class="cat-item" title="Articles">
-                        <span class="cat-icon">📚</span>
-                        <span class="cat-count" id="cat-articles">0</span>
-                    </div>
-                    <div class="cat-item" title="Ideas">
-                        <span class="cat-icon">💡</span>
-                        <span class="cat-count" id="cat-ideas">0</span>
-                    </div>
-                    <div class="cat-item" title="Bookmarks">
-                        <span class="cat-icon">🔖</span>
-                        <span class="cat-count" id="cat-bookmarks">0</span>
-                    </div>
-                    <div class="cat-item" title="People">
-                        <span class="cat-icon">👥</span>
-                        <span class="cat-count" id="cat-people">0</span>
-                    </div>
-                    <div class="cat-item" title="Notes">
-                        <span class="cat-icon">📝</span>
-                        <span class="cat-count" id="cat-notes">0</span>
-                    </div>
-                </div>
-                
-                <!-- Top Tags -->
-                <div class="mindmap-tags">
-                    <span class="mind-tag" style="--tag-color: #f7931a;">#crypto</span>
-                    <span class="mind-tag" style="--tag-color: #002244;">#patriots</span>
-                    <span class="mind-tag" style="--tag-color: #60a5fa;">#work</span>
-                    <span class="mind-tag" style="--tag-color: #9945ff;">#nft</span>
-                </div>
-                
-                <!-- Recent -->
-                <div class="mindmap-recent">
-                    <div class="recent-header">Recent Additions</div>
-                    <div class="recent-item">
-                        <span class="recent-icon">👤</span>
-                        <span class="recent-text">Profile created</span>
-                        <span class="recent-date">Today</span>
-                    </div>
-                    <div class="recent-item">
-                        <span class="recent-icon">⚙️</span>
-                        <span class="recent-text">Preferences set</span>
-                        <span class="recent-date">Today</span>
-                    </div>
-                </div>
-                
-                <div style="text-align: center; margin-top: 0.75rem;">
-                    <a href="#" onclick="sendCommand('What\\'s in my Second Brain?'); return false;" style="font-size: 0.7rem; color: var(--accent); text-decoration: none;">
-                        Send me things via WhatsApp to grow your brain! →
-                    </a>
+                <div style="text-align: center; margin-top: 0.5rem;">
+                    <span style="font-size: 0.6rem; color: var(--text-secondary);">
+                        Send me cool stuff via WhatsApp → I'll save it here
+                    </span>
                 </div>
             </div>
 
@@ -4075,36 +4580,6 @@
             </div>
 
             <!-- Panini Collection -->
-            <div class="card panini-section" data-widget="panini" data-gs-w="6" data-gs-h="5" style="min-height: 450px;">
-                <div class="card-header">
-                    <div class="card-title">🏈 Panini Collection</div>
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <span style="font-size: 0.7rem; color: var(--text-secondary);" id="panini-updated">--</span>
-                        <button class="refresh-btn" onclick="fetchPaniniCollection()" title="Refresh">↻</button>
-                    </div>
-                </div>
-                <div class="panini-stats" id="panini-stats">
-                    <div class="panini-stat">
-                        <div class="panini-stat-value" id="panini-total-value">--</div>
-                        <div class="panini-stat-label">Listed Value</div>
-                    </div>
-                    <div class="panini-stat">
-                        <div class="panini-stat-value" id="panini-cards-listed">--</div>
-                        <div class="panini-stat-label">Cards >$10</div>
-                    </div>
-                    <div class="panini-stat">
-                        <div class="panini-stat-value" id="panini-total-cards">--</div>
-                        <div class="panini-stat-label">Total Cards</div>
-                    </div>
-                </div>
-                <div style="font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
-                    Top valued active listings (floor >$10)
-                </div>
-                <div class="panini-list" id="panini-list" style="max-height: 220px; overflow-y: auto;">
-                    <div style="text-align: center; color: var(--text-secondary); padding: 1rem;">Loading...</div>
-                </div>
-            </div>
-
             <!-- Prediction Markets -->
             <div class="card predictions-section" data-widget="predictions" data-gs-w="6" data-gs-h="4">
                 <div class="card-header">
@@ -4281,13 +4756,25 @@
                 </div>
             </div>
 
-            <!-- Jane's Tasks -->
-            <div class="card jane-tasks-section" data-widget="jane-tasks" data-gs-w="6" data-gs-h="3">
+            <!-- Jane's Tasks & Sub-Agents -->
+            <div class="card jane-tasks-section" data-widget="jane-tasks" data-gs-w="6" data-gs-h="4">
                 <div class="card-header">
-                    <div class="card-title">🌿 Jane's Tasks</div>
+                    <div class="card-title"><img src="icon-192.png" alt="" style="width: 18px; height: 18px; border-radius: 4px; vertical-align: middle; margin-right: 6px;">Jane's Status</div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <span style="font-size: 0.7rem; color: var(--text-secondary);" id="jane-tasks-updated">--</span>
-                        <button class="refresh-btn" onclick="fetchJaneTasks()" title="Refresh">↻</button>
+                        <button class="refresh-btn" onclick="fetchJaneTasks(); fetchSubAgents();" title="Refresh">↻</button>
+                    </div>
+                </div>
+                
+                <!-- Sub-Agents Section -->
+                <div class="jane-tasks-group subagents-group">
+                    <div class="jane-tasks-group-header">
+                        <span class="jane-tasks-group-icon">🤖</span>
+                        <span>Sub-Agents</span>
+                        <span class="jane-tasks-count" id="subagents-count">0</span>
+                    </div>
+                    <div class="subagents-list" id="subagents-list">
+                        <div class="subagent-empty">No active sub-agents</div>
                     </div>
                 </div>
                 
@@ -4425,14 +4912,14 @@
             </div>
 
             <footer>
-                Jane 🌿 · Personal Assistant · First boot Jan 31, 2026 · Dashboard v3.1
+                Jane · Personal Assistant · First boot Jan 31, 2026 · Dashboard v3.1
             </footer>
         </div>
 
         <!-- Chat Panel -->
         <div class="chat-panel" id="chat-panel">
             <div class="chat-header">
-                <h2>🌿 Chat with Jane</h2>
+                <h2><img src="icon-192.png" alt="" style="width: 24px; height: 24px; border-radius: 6px; vertical-align: middle; margin-right: 8px;">Chat with Jane</h2>
                 <button class="close-chat" onclick="toggleChat()">×</button>
             </div>
             <div class="chat-messages" id="chat-messages">
@@ -4690,7 +5177,7 @@
         // ========================================
         
         // All available widgets
-        const ALL_WIDGETS = ['stats', 'system', 'accounts', 'mindmap', 'ai-news', 'panini', 'predictions', 'work-intel', 'tiktok', 'crypto', 'commands', 'jane-tasks', 'sorare', 'wallet', 'trading', 'activity'];
+        const ALL_WIDGETS = ['stats', 'system', 'accounts', 'mindmap', 'ai-news', 'predictions', 'work-intel', 'tiktok', 'crypto', 'commands', 'jane-tasks', 'sorare', 'wallet', 'trading', 'activity'];
         
         let mobileEditorVisibility = {};
         let mobileEditorOrder = [];
@@ -5102,7 +5589,203 @@
             }
             // Connect chat when panel opens
             connectChat();
+            
+            // Close bubble popups when tapping outside (for mobile)
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.bubble')) {
+                    document.querySelectorAll('.bubble.bubble-active').forEach(b => {
+                        b.classList.remove('bubble-active');
+                    });
+                }
+            });
+            
+            // Pull-to-refresh for mobile
+            initPullToRefresh();
         });
+        
+        // Pull-to-refresh implementation
+        function initPullToRefresh() {
+            const indicator = document.getElementById('pull-refresh');
+            if (!indicator) return;
+            
+            let startY = 0;
+            let currentY = 0;
+            let pulling = false;
+            let refreshing = false;
+            const threshold = 80;
+            
+            // Only enable on touch devices
+            if (!('ontouchstart' in window)) return;
+            
+            document.addEventListener('touchstart', function(e) {
+                // Only trigger when at top of page and not in a scrollable container
+                if (window.scrollY === 0 && !refreshing) {
+                    const target = e.target;
+                    // Don't trigger in chat panel or other scrollable areas
+                    if (target.closest('.chat-messages') || target.closest('.grid-stack')) return;
+                    
+                    startY = e.touches[0].pageY;
+                    pulling = true;
+                }
+            }, { passive: true });
+            
+            document.addEventListener('touchmove', function(e) {
+                if (!pulling || refreshing) return;
+                
+                currentY = e.touches[0].pageY;
+                const pullDistance = currentY - startY;
+                
+                if (pullDistance > 0 && window.scrollY === 0) {
+                    const progress = Math.min(pullDistance / threshold, 1);
+                    const translateY = Math.min(pullDistance * 0.5, 60);
+                    
+                    indicator.style.transform = `translateX(-50%) translateY(${translateY - 60}px)`;
+                    indicator.style.opacity = progress;
+                    
+                    if (pullDistance > threshold) {
+                        indicator.querySelector('.pull-text').textContent = 'Release to refresh';
+                        indicator.querySelector('.pull-icon').textContent = '↑';
+                    } else {
+                        indicator.querySelector('.pull-text').textContent = 'Pull to refresh';
+                        indicator.querySelector('.pull-icon').textContent = '↓';
+                    }
+                }
+            }, { passive: true });
+            
+            document.addEventListener('touchend', function(e) {
+                if (!pulling) return;
+                pulling = false;
+                
+                const pullDistance = currentY - startY;
+                
+                if (pullDistance > threshold && !refreshing) {
+                    // Trigger refresh
+                    refreshing = true;
+                    indicator.querySelector('.pull-text').textContent = 'Refreshing...';
+                    indicator.querySelector('.pull-icon').textContent = '↻';
+                    indicator.querySelector('.pull-icon').classList.add('spinner');
+                    indicator.style.transform = 'translateX(-50%) translateY(20px)';
+                    indicator.style.opacity = '1';
+                    
+                    // Refresh all data
+                    refreshAll().then(() => {
+                        setTimeout(() => {
+                            indicator.style.transform = 'translateX(-50%) translateY(-60px)';
+                            indicator.style.opacity = '0';
+                            indicator.querySelector('.pull-icon').classList.remove('spinner');
+                            indicator.querySelector('.pull-text').textContent = 'Pull to refresh';
+                            indicator.querySelector('.pull-icon').textContent = '↓';
+                            refreshing = false;
+                            
+                            // Haptic feedback if available
+                            if (navigator.vibrate) {
+                                navigator.vibrate(50);
+                            }
+                        }, 500);
+                    });
+                } else {
+                    // Cancel - animate back
+                    indicator.style.transform = 'translateX(-50%) translateY(-60px)';
+                    indicator.style.opacity = '0';
+                }
+                
+                startY = 0;
+                currentY = 0;
+            }, { passive: true });
+        }
+        
+        // Smooth number animation - animates from old value to new value
+        function animateNumber(element, newValue, duration = 500) {
+            if (!element) return;
+            
+            const text = element.textContent.trim();
+            const oldValue = parseFloat(text.replace(/[^0-9.-]/g, '')) || 0;
+            const isFormatted = text.includes(',') || text.includes('K') || text.includes('M');
+            const prefix = text.match(/^[^0-9-]*/)?.[0] || '';
+            const suffix = text.match(/[^0-9.]*$/)?.[0] || '';
+            
+            // If values are same, no animation needed
+            if (oldValue === newValue) return;
+            
+            const startTime = performance.now();
+            const diff = newValue - oldValue;
+            const isUp = diff > 0;
+            
+            // Add flash class
+            element.classList.add(isUp ? 'data-flash-up' : 'data-flash-down');
+            setTimeout(() => {
+                element.classList.remove('data-flash-up', 'data-flash-down');
+            }, 800);
+            
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Ease out cubic
+                const easeProgress = 1 - Math.pow(1 - progress, 3);
+                const currentValue = oldValue + (diff * easeProgress);
+                
+                // Format the number
+                let displayValue;
+                if (isFormatted && Math.abs(currentValue) >= 1000) {
+                    if (Math.abs(currentValue) >= 1000000) {
+                        displayValue = (currentValue / 1000000).toFixed(1) + 'M';
+                    } else if (Math.abs(currentValue) >= 10000) {
+                        displayValue = (currentValue / 1000).toFixed(1) + 'K';
+                    } else {
+                        displayValue = Math.round(currentValue).toLocaleString();
+                    }
+                } else if (Number.isInteger(newValue)) {
+                    displayValue = Math.round(currentValue).toLocaleString();
+                } else {
+                    displayValue = currentValue.toFixed(2);
+                }
+                
+                element.textContent = prefix + displayValue + suffix;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+        
+        // Helper to flash a card/element when data changes
+        function flashElement(element) {
+            if (!element) return;
+            element.classList.add('data-flash');
+            setTimeout(() => element.classList.remove('data-flash'), 600);
+        }
+        
+        // Track previous values for change detection
+        const previousValues = {
+            followers: null,
+            likes: null,
+            solBalance: null,
+            totalPnl: null
+        };
+        
+        // Update value with animation if changed
+        function updateWithAnimation(elementId, newValue, key) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            const numValue = parseFloat(String(newValue).replace(/[^0-9.-]/g, '')) || 0;
+            
+            if (previousValues[key] !== null && previousValues[key] !== numValue) {
+                animateNumber(element, numValue);
+            } else {
+                // First load - just set the value
+                if (typeof newValue === 'number') {
+                    element.textContent = newValue.toLocaleString();
+                } else {
+                    element.textContent = newValue;
+                }
+            }
+            
+            previousValues[key] = numValue;
+        }
         
         function sendCommand(command) {
             toggleChat();
@@ -5158,7 +5841,19 @@
                 const solBalanceEl = document.getElementById('sol-balance');
                 if (walletSolEl) walletSolEl.textContent = janeSolBalance.toFixed(3) + ' SOL';
                 if (walletUsdEl) walletUsdEl.textContent = '≈ $' + janeUsd.toFixed(2) + ' USD';
-                if (solBalanceEl) solBalanceEl.textContent = janeSolBalance.toFixed(2) + ' SOL';
+                
+                // Animate SOL balance if changed
+                if (solBalanceEl) {
+                    const roundedBalance = Math.round(janeSolBalance * 100) / 100;
+                    if (previousValues.solBalance !== null && previousValues.solBalance !== roundedBalance) {
+                        animateNumber(solBalanceEl, roundedBalance);
+                        solBalanceEl.textContent = roundedBalance.toFixed(2) + ' SOL';
+                        flashElement(solBalanceEl.closest('.stat-card'));
+                    } else {
+                        solBalanceEl.textContent = roundedBalance.toFixed(2) + ' SOL';
+                    }
+                    previousValues.solBalance = roundedBalance;
+                }
 
                 // Fetch Josh's SOL balance
                 const joshResponse = await fetch('https://solana-rpc.publicnode.com', {
@@ -5558,10 +6253,20 @@
                 
                 grid.innerHTML = html;
                 
-                // Update summary
+                // Update summary with animation
                 const totalPnlPercent = ((totalValue - totalInvested) / totalInvested) * 100;
+                const roundedPnl = Math.round(totalPnlPercent * 100) / 100;
+                
                 document.getElementById('total-value').textContent = '$' + totalValue.toFixed(2);
                 const pnlEl = document.getElementById('total-pnl');
+                
+                if (previousValues.totalPnl !== null && previousValues.totalPnl !== roundedPnl) {
+                    const isUp = roundedPnl > previousValues.totalPnl;
+                    pnlEl.classList.add(isUp ? 'data-flash-up' : 'data-flash-down');
+                    setTimeout(() => pnlEl.classList.remove('data-flash-up', 'data-flash-down'), 800);
+                }
+                previousValues.totalPnl = roundedPnl;
+                
                 pnlEl.textContent = (totalPnlPercent >= 0 ? '+' : '') + totalPnlPercent.toFixed(2) + '%';
                 pnlEl.style.color = totalPnlPercent >= 0 ? 'var(--accent)' : '#ef4444';
                 
@@ -5634,40 +6339,127 @@
             }
         }
 
-        // Fetch Mindmap Stats
-        async function fetchMindmap() {
+        // Fetch Bubble Cluster Data
+        async function fetchBubbles() {
             try {
-                const response = await fetch('/api/mindmap');
-                if (!response.ok) throw new Error('Failed to load mindmap stats');
+                const response = await fetch('/api/bubbles');
+                if (!response.ok) throw new Error('Failed to load bubble data');
                 const data = await response.json();
                 
-                // Update category counts
-                if (data.categories) {
-                    document.getElementById('cat-profile').textContent = data.categories.profile?.count || 0;
-                    document.getElementById('cat-articles').textContent = data.categories.articles?.count || 0;
-                    document.getElementById('cat-ideas').textContent = data.categories.ideas?.count || 0;
-                    document.getElementById('cat-bookmarks').textContent = data.categories.bookmarks?.count || 0;
-                    document.getElementById('cat-people').textContent = data.categories.people?.count || 0;
-                    document.getElementById('cat-notes').textContent = data.categories.notes?.count || 0;
-                }
-                
-                // Update themes
-                if (data.themes) {
-                    data.themes.forEach((theme, i) => {
-                        const el = document.getElementById('theme-' + i);
-                        if (el) {
-                            el.querySelector('.theme-name').textContent = theme.name;
-                            el.querySelector('.theme-percent').textContent = theme.strength + '%';
-                            el.querySelector('.theme-fill').style.width = theme.strength + '%';
-                        }
-                    });
-                }
-                
+                renderBubbles(data.clusters || []);
                 document.getElementById('mindmap-updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
                 
             } catch (error) {
-                console.error('Failed to load mindmap:', error);
+                console.error('Failed to load bubbles:', error);
             }
+        }
+        
+        // Alias for backward compatibility
+        function fetchMindmap() { fetchBubbles(); }
+        
+        // Render bubble clusters
+        function renderBubbles(clusters) {
+            const container = document.getElementById('bubble-container');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            clusters.forEach(cluster => {
+                const size = Math.max(55, Math.min(90, cluster.size));
+                const isEmpty = !cluster.count || cluster.count === 0;
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble' + (isEmpty ? ' bubble-empty' : '');
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                
+                // Empty bubbles are more transparent
+                const opacity = isEmpty ? 0.5 : 1;
+                bubble.style.background = `radial-gradient(circle at 30% 30%, ${adjustColor(cluster.color, 40)}, ${cluster.color} 70%, ${adjustColor(cluster.color, -30)})`;
+                bubble.style.opacity = opacity;
+                
+                // Icon
+                const icon = document.createElement('div');
+                icon.className = 'bubble-icon';
+                icon.textContent = cluster.icon;
+                bubble.appendChild(icon);
+                
+                // Name with count
+                const name = document.createElement('div');
+                name.className = 'bubble-name';
+                name.textContent = cluster.count > 0 ? `${cluster.name} (${cluster.count})` : cluster.name;
+                bubble.appendChild(name);
+                
+                // Glow effect (only for non-empty)
+                if (!isEmpty) {
+                    const glow = document.createElement('div');
+                    glow.className = 'bubble-glow';
+                    glow.style.boxShadow = `0 0 25px ${cluster.color}, 0 0 50px ${cluster.color}`;
+                    bubble.appendChild(glow);
+                }
+                
+                // Artifact popup
+                const popup = document.createElement('div');
+                popup.className = 'artifact-popup';
+                popup.innerHTML = renderArtifactPopup(cluster);
+                bubble.appendChild(popup);
+                
+                // Touch/click handler for mobile
+                bubble.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const wasActive = this.classList.contains('bubble-active');
+                    
+                    // Close all other bubbles
+                    document.querySelectorAll('.bubble.bubble-active').forEach(b => {
+                        b.classList.remove('bubble-active');
+                    });
+                    
+                    // Toggle this bubble (if it wasn't already active)
+                    if (!wasActive) {
+                        this.classList.add('bubble-active');
+                    }
+                });
+                
+                container.appendChild(bubble);
+            });
+        }
+        
+        // Render artifact popup content
+        function renderArtifactPopup(cluster) {
+            const countText = cluster.count > 0 ? `(${cluster.count})` : '';
+            let html = `<div class="artifact-header">${cluster.icon} ${cluster.name} ${countText}</div>`;
+            
+            if (!cluster.artifacts || cluster.artifacts.length === 0) {
+                html += `<div class="artifact-empty">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.3rem;">📭</div>
+                    <div>Nothing saved yet</div>
+                    <div style="font-size: 0.5rem; margin-top: 0.2rem; opacity: 0.7;">Send me something to save!</div>
+                </div>`;
+            } else {
+                html += '<div class="artifact-list">';
+                cluster.artifacts.forEach(artifact => {
+                    html += `
+                        <div class="artifact-item" style="--artifact-color: ${cluster.color}">
+                            <div class="artifact-title">${artifact.title}</div>
+                            <div class="artifact-meta">
+                                <span>${artifact.detail || ''}</span>
+                                <span>${artifact.time}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+            
+            return html;
+        }
+        
+        // Helper to lighten/darken colors
+        function adjustColor(hex, amount) {
+            hex = hex.replace('#', '');
+            const r = Math.max(0, Math.min(255, parseInt(hex.substr(0, 2), 16) + amount));
+            const g = Math.max(0, Math.min(255, parseInt(hex.substr(2, 2), 16) + amount));
+            const b = Math.max(0, Math.min(255, parseInt(hex.substr(4, 2), 16) + amount));
+            return `rgb(${r}, ${g}, ${b})`;
         }
 
         // Fetch Work Intel / Market Data
@@ -5745,6 +6537,7 @@
                                 <div class="jane-task-title">${task.task}</div>
                                 <div class="jane-task-detail">${task.detail || ''}</div>
                             </div>
+                            ${task.rag ? `<div class="jane-task-rag ${task.rag}" title="${task.rag === 'green' ? 'On track' : task.rag === 'amber' ? 'Needs attention' : 'Blocked'}"></div>` : ''}
                         </div>
                     `).join('');
                     inProgressCount.textContent = data.inProgress.length;
@@ -5785,6 +6578,109 @@
             }
         }
         
+        // Fetch Sub-Agents / Active Sessions
+        async function fetchSubAgents() {
+            try {
+                const response = await fetch('/api/sessions');
+                if (!response.ok) throw new Error('Failed to load sessions');
+                const data = await response.json();
+                
+                const list = document.getElementById('subagents-list');
+                const countEl = document.getElementById('subagents-count');
+                
+                if (!data.sessions || data.sessions.length === 0) {
+                    list.innerHTML = '<div class="subagent-empty">No sub-agents running</div>';
+                    if (countEl) countEl.textContent = '0';
+                    return;
+                }
+                
+                // Filter out main session, show spawned/cron sessions
+                const subAgents = data.sessions.filter(s => !s.key.endsWith(':main'));
+                const activeAgents = subAgents.filter(s => {
+                    // Consider "active" if updated in last 5 minutes
+                    const fiveMinAgo = Date.now() - (5 * 60 * 1000);
+                    return s.updatedAt > fiveMinAgo;
+                });
+                
+                if (subAgents.length === 0) {
+                    list.innerHTML = '<div class="subagent-empty">No sub-agents running</div>';
+                    if (countEl) countEl.textContent = '0';
+                } else {
+                    list.innerHTML = subAgents.slice(0, 3).map(session => {
+                        const isActive = activeAgents.includes(session);
+                        const isCron = session.key.includes(':cron:');
+                        const isSpawn = session.key.includes(':spawn:');
+                        
+                        // Determine type and icon
+                        let icon = '🤖';
+                        let badgeClass = '';
+                        let itemClass = '';
+                        let badgeText = 'agent';
+                        
+                        if (isCron) {
+                            icon = '⏰';
+                            badgeClass = 'cron';
+                            itemClass = 'cron';
+                            badgeText = 'cron';
+                        } else if (isSpawn) {
+                            icon = '🚀';
+                            itemClass = 'spawn';
+                            badgeText = 'spawn';
+                        }
+                        
+                        if (!isActive) {
+                            itemClass += ' idle';
+                        }
+                        
+                        // Get display name or parse from key
+                        let name = session.displayName;
+                        if (!name || name.includes(':')) {
+                            const keyParts = session.key.split(':');
+                            name = keyParts[keyParts.length - 1] || 'Agent';
+                        }
+                        if (name.length > 25) name = name.substring(0, 22) + '...';
+                        
+                        // Get last message snippet
+                        let lastMessage = '';
+                        if (session.messages && session.messages.length > 0) {
+                            const msg = session.messages[0];
+                            if (msg.content) {
+                                const textPart = Array.isArray(msg.content) 
+                                    ? msg.content.find(c => c.type === 'text')?.text 
+                                    : msg.content;
+                                if (textPart) {
+                                    lastMessage = textPart.substring(0, 60).replace(/\n/g, ' ');
+                                }
+                            }
+                        }
+                        
+                        // Format time
+                        const updated = new Date(session.updatedAt);
+                        const timeStr = updated.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                        
+                        return `
+                            <div class="subagent-item ${itemClass}">
+                                <span class="subagent-icon">${icon}</span>
+                                <div class="subagent-content">
+                                    <div class="subagent-name">
+                                        <span class="subagent-badge ${badgeClass}">${badgeText}</span>
+                                        ${name}
+                                    </div>
+                                    <div class="subagent-status">${isActive ? '●' : '○'} ${timeStr}${lastMessage ? ' · ' + lastMessage : ''}</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                    
+                    if (countEl) countEl.textContent = activeAgents.length > 0 ? activeAgents.length : subAgents.length;
+                }
+            } catch (error) {
+                console.error('Failed to fetch sub-agents:', error);
+                const list = document.getElementById('subagents-list');
+                if (list) list.innerHTML = '<div class="subagent-empty">Unable to load</div>';
+            }
+        }
+        
         // Fetch TikTok Stats (from cached JSON)
         async function fetchTikTokStats() {
             const followersEl = document.getElementById('tt-followers');
@@ -5797,9 +6693,30 @@
                 if (!response.ok) throw new Error('Failed to load TikTok stats');
                 const data = await response.json();
                 
-                // Update main stats
-                if (followersEl) followersEl.textContent = data.profile?.followers?.toLocaleString() || '--';
-                if (likesEl) likesEl.textContent = (data.profile?.likes || data.profile?.totalLikes)?.toLocaleString() || '--';
+                // Update main stats with animation
+                const newFollowers = data.profile?.followers;
+                const newLikes = data.profile?.likes || data.profile?.totalLikes;
+                
+                if (followersEl && newFollowers) {
+                    if (previousValues.followers !== null && previousValues.followers !== newFollowers) {
+                        animateNumber(followersEl, newFollowers);
+                        flashElement(followersEl.closest('.tiktok-stat'));
+                    } else {
+                        followersEl.textContent = newFollowers.toLocaleString();
+                    }
+                    previousValues.followers = newFollowers;
+                }
+                
+                if (likesEl && newLikes) {
+                    if (previousValues.likes !== null && previousValues.likes !== newLikes) {
+                        animateNumber(likesEl, newLikes);
+                        flashElement(likesEl.closest('.tiktok-stat'));
+                    } else {
+                        likesEl.textContent = newLikes.toLocaleString();
+                    }
+                    previousValues.likes = newLikes;
+                }
+                
                 if (videosEl) videosEl.textContent = data.videos?.length || data.recentVideos?.length || '--';
                 
                 // Calculate growth (if history available)
@@ -6132,13 +7049,13 @@
                 { name: 'Wallet Balances', fn: fetchWalletBalances },
                 { name: 'TikTok Stats', fn: fetchTikTokStats },
                 { name: 'Sorare Stats', fn: fetchSorareStats },
-                { name: 'Panini Collection', fn: fetchPaniniCollection },
                 { name: 'Predictions', fn: fetchPredictions },
                 { name: 'Mindmap', fn: fetchMindmap },
                 { name: 'AI News', fn: fetchAINews },
                 { name: 'Work Intel', fn: fetchWorkIntel },
                 { name: 'Jane Tasks', fn: fetchJaneTasks },
-                { name: 'Trading Positions', fn: fetchTradingPositions }
+                { name: 'Trading Positions', fn: fetchTradingPositions },
+                { name: 'Sub-Agents', fn: fetchSubAgents }
             ];
             
             // Run all operations and track results
@@ -6184,9 +7101,9 @@
             
             loadTasks();
             fetchJaneTasks();
+            fetchSubAgents();
             fetchTikTokStats();
             fetchSorareStats();
-            fetchPaniniCollection();
             fetchPredictions();
             fetchMindmap();
             fetchAINews();
@@ -6201,6 +7118,7 @@
             
             // Set up intervals
             setInterval(fetchTradingPositions, 30000);  // Every 30 seconds
+            setInterval(fetchSubAgents, 30000);        // Every 30 seconds
             setInterval(loadTasks, 5000);              // Every 5 seconds
             setInterval(updateUptime, 1000);           // Every second (session timer)
             setInterval(fetchCryptoPrices, 60000);     // Every minute
@@ -6212,6 +7130,128 @@
             setInterval(fetchWorkIntel, 60000);        // Every minute
             
             console.log('Dashboard data fetching initialized');
+            
+            // Initialize WebSocket for real-time updates
+            initWebSocket();
+        }
+        
+        // ============================================
+        // WebSocket Client for Real-Time Push Updates
+        // ============================================
+        let ws = null;
+        let wsReconnectTimer = null;
+        let wsReconnectAttempts = 0;
+        const WS_MAX_RECONNECT_ATTEMPTS = 10;
+        const WS_RECONNECT_DELAY = 3000;
+        
+        function initWebSocket() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsUrl = `${protocol}//${window.location.host}`;
+            
+            try {
+                ws = new WebSocket(wsUrl);
+                
+                ws.onopen = () => {
+                    console.log('📡 WebSocket connected');
+                    wsReconnectAttempts = 0;
+                    updateWsStatus(true);
+                };
+                
+                ws.onmessage = (event) => {
+                    try {
+                        const msg = JSON.parse(event.data);
+                        handleWsMessage(msg);
+                    } catch (err) {
+                        console.error('WebSocket message parse error:', err);
+                    }
+                };
+                
+                ws.onclose = () => {
+                    console.log('📡 WebSocket disconnected');
+                    updateWsStatus(false);
+                    scheduleWsReconnect();
+                };
+                
+                ws.onerror = (err) => {
+                    console.error('📡 WebSocket error');
+                    updateWsStatus(false);
+                };
+            } catch (err) {
+                console.error('Failed to create WebSocket:', err);
+                scheduleWsReconnect();
+            }
+        }
+        
+        function scheduleWsReconnect() {
+            if (wsReconnectTimer) return;
+            if (wsReconnectAttempts >= WS_MAX_RECONNECT_ATTEMPTS) {
+                console.log('📡 Max reconnect attempts reached');
+                return;
+            }
+            
+            wsReconnectAttempts++;
+            const delay = WS_RECONNECT_DELAY * Math.min(wsReconnectAttempts, 5);
+            console.log(`📡 Reconnecting in ${delay/1000}s (attempt ${wsReconnectAttempts})`);
+            
+            wsReconnectTimer = setTimeout(() => {
+                wsReconnectTimer = null;
+                initWebSocket();
+            }, delay);
+        }
+        
+        function updateWsStatus(connected) {
+            const indicator = document.getElementById('ws-status');
+            if (indicator) {
+                indicator.style.background = connected ? 'var(--accent)' : 'var(--accent-orange)';
+                indicator.title = connected ? 'Real-time updates active' : 'Reconnecting...';
+            }
+        }
+        
+        function handleWsMessage(msg) {
+            if (msg.type === 'connected') {
+                console.log('📡 WebSocket handshake complete');
+                return;
+            }
+            
+            if (msg.type === 'update') {
+                console.log(`📥 Real-time update: ${msg.widget}`);
+                
+                // Flash indicator
+                flashUpdateIndicator();
+                
+                // Refresh the appropriate widget
+                switch (msg.widget) {
+                    case 'tasks':
+                        fetchJaneTasks();
+                        break;
+                    case 'sessions':
+                        fetchSubAgents();
+                        break;
+                    case 'tiktok':
+                        fetchTikTokStats();
+                        break;
+                    case 'trading':
+                        fetchTradingPositions();
+                        break;
+                    case 'sorare':
+                        fetchSorareStats();
+                        break;
+                    default:
+                        console.log(`Unknown widget update: ${msg.widget}`);
+                }
+            }
+        }
+        
+        function flashUpdateIndicator() {
+            const indicator = document.getElementById('ws-status');
+            if (indicator) {
+                indicator.style.transform = 'scale(1.5)';
+                indicator.style.boxShadow = '0 0 10px var(--accent)';
+                setTimeout(() => {
+                    indicator.style.transform = 'scale(1)';
+                    indicator.style.boxShadow = 'none';
+                }, 300);
+            }
         }
 
         // Check gateway status
@@ -6281,8 +7321,8 @@
             { id: 'work-intel', x: 0, y: 6, w: 6, h: 4 },
             { id: 'commands', x: 6, y: 6, w: 6, h: 2 },
             { id: 'activity', x: 6, y: 8, w: 6, h: 2 },
-            { id: 'jane-tasks', x: 0, y: 10, w: 6, h: 3 },
-            { id: 'wallet', x: 8, y: 10, w: 4, h: 2 },
+            { id: 'jane-tasks', x: 0, y: 10, w: 6, h: 4 },
+            { id: 'wallet', x: 6, y: 10, w: 4, h: 2 },
             { id: 'crypto', x: 0, y: 12, w: 4, h: 2 },
             { id: 'trading', x: 0, y: 14, w: 12, h: 3 }
         ];
@@ -6422,11 +7462,10 @@
             'system': { name: 'Mac Status', icon: '🖥️' },
             'crypto': { name: 'Crypto Prices', icon: '💰' },
             'ai-news': { name: 'AI News', icon: '🤖' },
-            'panini': { name: 'Panini NFTs', icon: '🏈' },
             'predictions': { name: 'Predictions', icon: '🔮' },
             'work-intel': { name: 'Work Intel', icon: '💼' },
             'tiktok': { name: 'TikTok Growth', icon: '📈' },
-            'jane-tasks': { name: "Jane's Tasks", icon: '🌿' },
+            'jane-tasks': { name: "Jane's Status", icon: '🦾' },
             'mindmap': { name: 'Mindmap', icon: '🧠' },
             'commands': { name: 'Commands', icon: '⌨️' },
             'sorare': { name: 'Sorare NBA', icon: '🏀' },
@@ -6885,6 +7924,149 @@
         
         // Initialize dashboard (GridStack first, then data fetching)
         initGridStack();
+        
+        // ============================================
+        // Night/Ambient Mode - Manual Toggle
+        // ============================================
+        function toggleNightMode() {
+            const isNight = document.body.classList.toggle('night-mode');
+            localStorage.setItem('jane-dashboard-night-mode', isNight ? 'on' : 'off');
+            
+            // Update button appearance
+            const btn = document.getElementById('night-mode-btn');
+            if (btn) {
+                btn.innerHTML = isNight ? '☀️' : '🌙';
+                btn.title = isNight ? 'Switch to day mode' : 'Switch to night mode';
+            }
+        }
+        
+        // Load saved preference on startup
+        function initNightMode() {
+            const saved = localStorage.getItem('jane-dashboard-night-mode');
+            if (saved === 'on') {
+                document.body.classList.add('night-mode');
+                const btn = document.getElementById('night-mode-btn');
+                if (btn) {
+                    btn.innerHTML = '☀️';
+                    btn.title = 'Switch to day mode';
+                }
+            }
+        }
+        
+        // Clock screensaver mode
+        let clockInterval = null;
+        let logoAnimationFrame = null;
+        let logoX = 50, logoY = 50;
+        let logoVX = 2, logoVY = 1.5;
+        
+        function toggleClockMode() {
+            const overlay = document.getElementById('clock-overlay');
+            if (!overlay) return;
+            
+            const isActive = overlay.classList.toggle('active');
+            
+            if (isActive) {
+                updateClockDisplay();
+                clockInterval = setInterval(updateClockDisplay, 1000);
+                
+                // Start logo bounce animation
+                startLogoBounce();
+                
+                // Click anywhere to exit
+                overlay.onclick = function() {
+                    toggleClockMode();
+                };
+            } else {
+                if (clockInterval) {
+                    clearInterval(clockInterval);
+                    clockInterval = null;
+                }
+                if (logoAnimationFrame) {
+                    cancelAnimationFrame(logoAnimationFrame);
+                    logoAnimationFrame = null;
+                }
+                overlay.onclick = null;
+            }
+        }
+        
+        function startLogoBounce() {
+            const logo = document.querySelector('.clock-logo');
+            const overlay = document.getElementById('clock-overlay');
+            if (!logo || !overlay) return;
+            
+            const logoSize = 80;
+            const speed = 1.5;
+            
+            // Random starting direction
+            const angle = Math.random() * Math.PI * 2;
+            logoVX = Math.cos(angle) * speed;
+            logoVY = Math.sin(angle) * speed;
+            
+            // Random starting position
+            logoX = Math.random() * (window.innerWidth - logoSize);
+            logoY = Math.random() * (window.innerHeight - logoSize);
+            
+            function animate() {
+                if (!overlay.classList.contains('active')) return;
+                
+                const maxX = window.innerWidth - logoSize;
+                const maxY = window.innerHeight - logoSize;
+                
+                logoX += logoVX;
+                logoY += logoVY;
+                
+                // Bounce off walls
+                if (logoX <= 0 || logoX >= maxX) {
+                    logoVX = -logoVX;
+                    logoX = Math.max(0, Math.min(logoX, maxX));
+                }
+                if (logoY <= 0 || logoY >= maxY) {
+                    logoVY = -logoVY;
+                    logoY = Math.max(0, Math.min(logoY, maxY));
+                }
+                
+                logo.style.left = logoX + 'px';
+                logo.style.top = logoY + 'px';
+                
+                logoAnimationFrame = requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+        
+        function updateClockDisplay() {
+            const now = new Date();
+            
+            // Time - 12 hour format
+            let hours = now.getHours();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            
+            const timeEl = document.getElementById('clock-time');
+            if (timeEl) {
+                timeEl.textContent = `${hours}:${minutes}`;
+            }
+            
+            // Date
+            const options = { weekday: 'long', month: 'long', day: 'numeric' };
+            const dateStr = now.toLocaleDateString('en-US', options);
+            
+            const dateEl = document.getElementById('clock-date');
+            if (dateEl) {
+                dateEl.textContent = dateStr;
+            }
+        }
+        
+        // Initialize night mode from saved preference
+        initNightMode();
+        
+        // Add night indicator to body
+        const nightIndicator = document.createElement('div');
+        nightIndicator.className = 'night-indicator';
+        nightIndicator.innerHTML = '🌙 Night Mode';
+        document.body.appendChild(nightIndicator);
     </script>
 </body>
 </html>

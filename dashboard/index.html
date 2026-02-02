@@ -1384,6 +1384,77 @@
             opacity: 0.7;
         }
 
+        /* Prediction Markets Widget */
+        .predictions-section {
+            grid-column: span 6;
+            min-height: 400px;
+        }
+
+        .prediction-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .prediction-item:last-child {
+            border-bottom: none;
+        }
+
+        .prediction-rank {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            width: 1.2rem;
+            text-align: center;
+        }
+
+        .prediction-odds {
+            min-width: 3rem;
+            text-align: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .prediction-odds.high {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .prediction-odds.medium {
+            background: rgba(234, 179, 8, 0.2);
+            color: #eab308;
+        }
+
+        .prediction-odds.low {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .prediction-question {
+            flex: 1;
+            font-size: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .prediction-volume {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            text-align: right;
+            min-width: 4rem;
+        }
+
+        .prediction-link {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .prediction-link:hover .prediction-question {
+            color: var(--accent-blue);
+        }
+
         .agentic-tracks {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -3893,6 +3964,23 @@
                 </div>
             </div>
 
+            <!-- Prediction Markets -->
+            <div class="card predictions-section" data-widget="predictions" data-gs-w="6" data-gs-h="4">
+                <div class="card-header">
+                    <div class="card-title">🔮 Prediction Markets</div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 0.7rem; color: var(--text-secondary);" id="predictions-updated">--</span>
+                        <button class="refresh-btn" onclick="fetchPredictions()" title="Refresh">↻</button>
+                    </div>
+                </div>
+                <div class="predictions-subtitle" style="font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                    Top 10 by 24h volume on Polymarket
+                </div>
+                <div class="predictions-list" id="predictions-list" style="max-height: 350px; overflow-y: auto;">
+                    <div style="text-align: center; color: var(--text-secondary); padding: 1rem;">Loading...</div>
+                </div>
+            </div>
+
             <!-- Work Intel -->
             <div class="card work-intel-section" data-widget="work-intel" data-gs-w="6" data-gs-h="4">
                 <div class="card-header">
@@ -4461,7 +4549,7 @@
         // ========================================
         
         // All available widgets
-        const ALL_WIDGETS = ['stats', 'system', 'accounts', 'mindmap', 'ai-news', 'work-intel', 'tiktok', 'crypto', 'commands', 'jane-tasks', 'sorare', 'wallet', 'trading', 'activity'];
+        const ALL_WIDGETS = ['stats', 'system', 'accounts', 'mindmap', 'ai-news', 'predictions', 'work-intel', 'tiktok', 'crypto', 'commands', 'jane-tasks', 'sorare', 'wallet', 'trading', 'activity'];
         
         let mobileEditorVisibility = {};
         let mobileEditorOrder = [];
@@ -5728,6 +5816,63 @@
             }
         }
 
+        // Fetch Prediction Markets from Polymarket
+        async function fetchPredictions() {
+            const listEl = document.getElementById('predictions-list');
+            if (!listEl) return; // Widget not visible
+            
+            try {
+                const response = await fetch('/api/predictions');
+                if (!response.ok) throw new Error('Failed to load predictions');
+                const data = await response.json();
+                
+                if (data.markets && data.markets.length > 0) {
+                    let html = '';
+                    data.markets.forEach((market, index) => {
+                        const odds = market.yesOdds;
+                        let oddsClass = 'medium';
+                        if (odds >= 70) oddsClass = 'high';
+                        else if (odds <= 30) oddsClass = 'low';
+                        
+                        // Format volume
+                        const vol = market.volume24h;
+                        let volStr = '$' + Math.round(vol).toLocaleString();
+                        if (vol >= 1000000) {
+                            volStr = '$' + (vol / 1000000).toFixed(1) + 'M';
+                        } else if (vol >= 1000) {
+                            volStr = '$' + (vol / 1000).toFixed(0) + 'K';
+                        }
+                        
+                        html += `
+                            <a href="https://polymarket.com/event/${market.slug}" target="_blank" rel="noopener" class="prediction-link">
+                                <div class="prediction-item">
+                                    <span class="prediction-rank">${index + 1}</span>
+                                    <span class="prediction-odds ${oddsClass}">${odds}%</span>
+                                    <span class="prediction-question">${market.question}</span>
+                                    <span class="prediction-volume">${volStr}</span>
+                                </div>
+                            </a>
+                        `;
+                    });
+                    listEl.innerHTML = html;
+                } else {
+                    listEl.innerHTML = '<div style="text-align: center; color: var(--text-secondary); padding: 1rem;">No markets available</div>';
+                }
+                
+                // Update timestamp
+                const updatedEl = document.getElementById('predictions-updated');
+                if (updatedEl && data.lastUpdated) {
+                    const updated = new Date(data.lastUpdated);
+                    updatedEl.textContent = 'Updated ' + updated.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                }
+                
+            } catch (error) {
+                console.error('Failed to load predictions:', error);
+                const errEl = document.getElementById('predictions-updated');
+                if (errEl) errEl.textContent = 'Error loading';
+            }
+        }
+
         // Refresh all data
         async function refreshAll() {
             const btn = document.getElementById('refresh-all-btn');
@@ -5746,6 +5891,7 @@
                 { name: 'Wallet Balances', fn: fetchWalletBalances },
                 { name: 'TikTok Stats', fn: fetchTikTokStats },
                 { name: 'Sorare Stats', fn: fetchSorareStats },
+                { name: 'Predictions', fn: fetchPredictions },
                 { name: 'Mindmap', fn: fetchMindmap },
                 { name: 'AI News', fn: fetchAINews },
                 { name: 'Work Intel', fn: fetchWorkIntel },
@@ -5798,6 +5944,7 @@
             fetchJaneTasks();
             fetchTikTokStats();
             fetchSorareStats();
+            fetchPredictions();
             fetchMindmap();
             fetchAINews();
             fetchWorkIntel();
@@ -6032,6 +6179,7 @@
             'system': { name: 'Mac Status', icon: '🖥️' },
             'crypto': { name: 'Crypto Prices', icon: '💰' },
             'ai-news': { name: 'AI News', icon: '🤖' },
+            'predictions': { name: 'Predictions', icon: '🔮' },
             'work-intel': { name: 'Work Intel', icon: '💼' },
             'tiktok': { name: 'TikTok Growth', icon: '📈' },
             'jane-tasks': { name: "Jane's Tasks", icon: '🌿' },

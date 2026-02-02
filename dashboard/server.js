@@ -416,6 +416,43 @@ const server = http.createServer((req, res) => {
         return;
     }
     
+    // API endpoint for Polymarket prediction markets (top 10 by 24h volume)
+    if (req.url === '/api/predictions') {
+        const polymarketUrl = 'https://gamma-api.polymarket.com/markets?closed=false&order=volume24hr&ascending=false&limit=10';
+        
+        https.get(polymarketUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (proxyRes) => {
+            let data = '';
+            proxyRes.on('data', chunk => data += chunk);
+            proxyRes.on('end', () => {
+                try {
+                    const markets = JSON.parse(data);
+                    const simplified = markets.map(m => {
+                        const prices = JSON.parse(m.outcomePrices || '["0.5","0.5"]');
+                        const yesPrice = parseFloat(prices[0]) * 100;
+                        return {
+                            question: m.question,
+                            yesOdds: Math.round(yesPrice),
+                            volume24h: m.volume24hr || 0,
+                            totalVolume: m.volumeNum || 0,
+                            slug: m.slug,
+                            image: m.icon || m.image,
+                            endDate: m.endDate
+                        };
+                    });
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ markets: simplified, lastUpdated: new Date().toISOString() }));
+                } catch (e) {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Failed to parse Polymarket data' }));
+                }
+            });
+        }).on('error', (err) => {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: err.message }));
+        });
+        return;
+    }
+    
     // API endpoint for market data
     if (req.url === '/api/market') {
         fetchMarketData().then(data => {

@@ -331,6 +331,78 @@
             letter-spacing: 0.5px;
         }
         
+        /* TikTok Widget */
+        .tiktok-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .tiktok-stat {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+        }
+        
+        .tiktok-stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .tiktok-stat-label {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+        }
+        
+        .tiktok-stat-change {
+            font-size: 0.65rem;
+            margin-top: 0.25rem;
+        }
+        
+        .tiktok-stat-change.positive {
+            color: var(--green);
+        }
+        
+        .tiktok-stat-change.neutral {
+            color: var(--text-dim);
+        }
+        
+        .tiktok-videos-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .tiktok-video-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            font-size: 0.8rem;
+        }
+        
+        .tiktok-video-views {
+            font-weight: 600;
+            color: var(--accent);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .tiktok-section-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0.75rem 0 0.5rem 0;
+        }
+        
         /* Completed */
         .completed-section {
             background: var(--card);
@@ -1033,11 +1105,51 @@
             </div>
         </section>
         
-        <!-- Metrics Grid -->
+        <!-- TikTok Stats -->
         <section class="status-card">
             <div class="status-card-header">
-                <span class="status-card-icon">📈</span>
-                <span class="status-card-title">Metrics</span>
+                <span class="status-card-icon">🎵</span>
+                <span class="status-card-title">TikTok @degencollector</span>
+                <div class="widget-meta">
+                    <span class="widget-timestamp" id="tiktok-updated">--</span>
+                    <button class="widget-refresh" onclick="refreshWidget('tiktok')" title="Refresh">↻</button>
+                </div>
+            </div>
+            
+            <!-- Main Stats -->
+            <div class="tiktok-stats-grid">
+                <div class="tiktok-stat">
+                    <div class="tiktok-stat-value" id="tiktok-followers">--</div>
+                    <div class="tiktok-stat-label">Followers</div>
+                    <div class="tiktok-stat-change neutral" id="tiktok-followers-change">--</div>
+                </div>
+                <div class="tiktok-stat">
+                    <div class="tiktok-stat-value" id="tiktok-likes">--</div>
+                    <div class="tiktok-stat-label">Total Likes</div>
+                    <div class="tiktok-stat-change neutral" id="tiktok-likes-change">--</div>
+                </div>
+                <div class="tiktok-stat">
+                    <div class="tiktok-stat-value" id="tiktok-following">--</div>
+                    <div class="tiktok-stat-label">Following</div>
+                    <div class="tiktok-stat-change neutral" id="tiktok-following-change">&nbsp;</div>
+                </div>
+            </div>
+            
+            <!-- Recent Videos -->
+            <div class="tiktok-section-label">📹 Recent Videos</div>
+            <div class="tiktok-videos-list" id="tiktok-videos-list">
+                <div class="tiktok-video-item">
+                    <span>Loading...</span>
+                    <span class="tiktok-video-views">--</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- PENGUIN Position -->
+        <section class="status-card">
+            <div class="status-card-header">
+                <span class="status-card-icon">🐧</span>
+                <span class="status-card-title">PENGUIN Position</span>
                 <div class="widget-meta">
                     <span class="widget-timestamp" id="metrics-updated">--</span>
                     <button class="widget-refresh" onclick="refreshWidget('metrics')" title="Refresh">↻</button>
@@ -1045,14 +1157,14 @@
             </div>
             <div class="metrics-grid" style="margin-top: 0.5rem;">
                 <div class="metric-card">
-                    <div class="metric-icon">🎵</div>
-                    <div class="metric-value" id="tiktok-followers">--</div>
-                    <div class="metric-label">TikTok</div>
+                    <div class="metric-icon">💰</div>
+                    <div class="metric-value" id="penguin-value">--</div>
+                    <div class="metric-label">Value</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-icon">🐧</div>
-                    <div class="metric-value" id="penguin-value">--</div>
-                    <div class="metric-label">PENGUIN</div>
+                    <div class="metric-icon">📊</div>
+                    <div class="metric-value" id="penguin-pnl">--</div>
+                    <div class="metric-label">P&L</div>
                 </div>
             </div>
         </section>
@@ -1075,7 +1187,7 @@
         <!-- Version & Refresh -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
             <div style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.5rem;">
-                v7.9 • <span id="last-refresh">--</span>
+                v8.0 • <span id="last-refresh">--</span>
             </div>
             <button onclick="forceRefresh()" style="background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.75rem;">
                 🔄 Force Refresh
@@ -1253,16 +1365,80 @@
             }
         }
         
-        // Fetch TikTok
+        // Fetch TikTok with change tracking
         async function fetchTikTok() {
             try {
                 const res = await fetch('/api/tiktok');
                 const data = await res.json();
-                // Handle both data.followers and data.profile.followers
-                const followers = data.followers || data.profile?.followers;
-                if (followers) {
-                    document.getElementById('tiktok-followers').textContent = followers.toLocaleString();
+                
+                // Get current values
+                const profile = data.profile || data;
+                const followers = profile.followers || 0;
+                const likes = profile.totalLikes || 0;
+                const following = profile.following || 0;
+                const recentVideos = data.recentVideos || [];
+                
+                // Get previous values from localStorage
+                const prev = JSON.parse(localStorage.getItem('tiktok_prev') || '{}');
+                
+                // Update display
+                document.getElementById('tiktok-followers').textContent = followers.toLocaleString();
+                document.getElementById('tiktok-likes').textContent = likes.toLocaleString();
+                document.getElementById('tiktok-following').textContent = following;
+                
+                // Calculate and show changes
+                const followersChange = document.getElementById('tiktok-followers-change');
+                const likesChange = document.getElementById('tiktok-likes-change');
+                
+                if (prev.followers !== undefined && prev.followers !== followers) {
+                    const diff = followers - prev.followers;
+                    followersChange.textContent = diff > 0 ? `+${diff} new` : `${diff}`;
+                    followersChange.className = 'tiktok-stat-change ' + (diff > 0 ? 'positive' : 'neutral');
+                } else {
+                    followersChange.textContent = 'No change';
+                    followersChange.className = 'tiktok-stat-change neutral';
                 }
+                
+                if (prev.likes !== undefined && prev.likes !== likes) {
+                    const diff = likes - prev.likes;
+                    likesChange.textContent = diff > 0 ? `+${diff} new` : `${diff}`;
+                    likesChange.className = 'tiktok-stat-change ' + (diff > 0 ? 'positive' : 'neutral');
+                } else {
+                    likesChange.textContent = 'No change';
+                    likesChange.className = 'tiktok-stat-change neutral';
+                }
+                
+                // Store current values for next comparison
+                localStorage.setItem('tiktok_prev', JSON.stringify({
+                    followers,
+                    likes,
+                    following,
+                    timestamp: Date.now()
+                }));
+                
+                // Render recent videos
+                const videosList = document.getElementById('tiktok-videos-list');
+                if (recentVideos.length > 0) {
+                    videosList.innerHTML = recentVideos.slice(0, 5).map((video, i) => {
+                        const views = typeof video.views === 'string' ? video.views : video.views.toLocaleString();
+                        return `
+                            <div class="tiktok-video-item">
+                                <span>Video ${i + 1}</span>
+                                <span class="tiktok-video-views">👁 ${views}</span>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    videosList.innerHTML = '<div class="tiktok-video-item"><span>No recent videos</span></div>';
+                }
+                
+                // Update timestamp
+                const updated = data.lastUpdated ? new Date(data.lastUpdated) : new Date();
+                document.getElementById('tiktok-updated').textContent = updated.toLocaleTimeString('en-US', {
+                    hour: 'numeric',
+                    minute: '2-digit'
+                }).toLowerCase();
+                
             } catch (err) {
                 console.error('Failed to fetch TikTok:', err);
             }
@@ -1272,6 +1448,7 @@
         async function fetchPenguinBalance() {
             const wallet = 'ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L';
             const penguinMint = '8Jx8AAHj86wbQgUTjGuj6GTTL5Ps3cqxKRTvpaJApump';
+            const costBasis = 51.95; // Entry cost
             
             try {
                 // Fetch PENGUIN token balance
@@ -1310,6 +1487,22 @@
                 // Calculate and display USD value
                 const usdValue = penguinBalance * penguinPrice;
                 document.getElementById('penguin-value').textContent = '$' + usdValue.toFixed(2);
+                
+                // Calculate and display P&L
+                const pnl = usdValue - costBasis;
+                const pnlPercent = ((usdValue / costBasis) - 1) * 100;
+                const pnlEl = document.getElementById('penguin-pnl');
+                if (pnlEl) {
+                    const isPositive = pnl >= 0;
+                    pnlEl.textContent = `${isPositive ? '+' : ''}${pnlPercent.toFixed(1)}%`;
+                    pnlEl.style.color = isPositive ? 'var(--green)' : 'var(--red)';
+                }
+                
+                // Update timestamp
+                document.getElementById('metrics-updated').textContent = new Date().toLocaleTimeString('en-US', {
+                    hour: 'numeric',
+                    minute: '2-digit'
+                }).toLowerCase();
                 
             } catch (err) {
                 console.error('Failed to fetch PENGUIN:', err);
@@ -1722,10 +1915,11 @@
                         await fetchTasks();
                         updateTimestamp('tasks-updated');
                         break;
-                    case 'metrics':
+                    case 'tiktok':
                         await fetchTikTok();
+                        break;
+                    case 'metrics':
                         await fetchPenguinBalance();
-                        updateTimestamp('metrics-updated');
                         break;
                     case 'agents':
                         await fetchAgentsAndCron();

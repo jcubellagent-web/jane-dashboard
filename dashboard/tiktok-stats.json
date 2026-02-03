@@ -1,39 +1,39 @@
 {
-  "lastUpdated": "2026-02-03T04:29:30-05:00",
+  "lastUpdated": "2026-02-03T13:08:46-05:00",
   "profile": {
     "username": "degencollector",
     "displayName": "DegenDigitalCollector",
     "followers": 470,
     "following": 5,
-    "totalLikes": 2106,
+    "totalLikes": 2107,
     "bio": "Hunting and sharing the latest and greatest tokenized collectibles"
   },
   "snapshot24hAgo": {
-    "timestamp": "2026-02-02T07:59:00-05:00",
+    "timestamp": "2026-02-02T13:08:00-05:00",
     "followers": 465,
     "totalLikes": 2050,
     "comments": 0
   },
   "changes24h": {
     "followers": 5,
-    "likes": 56,
+    "likes": 57,
     "comments": 0
   },
   "recentVideos": [
     {"id": "7602085781653490999", "views": 237},
     {"id": "7602082172207500558", "views": 268},
-    {"id": "7601975241534868750", "views": 401},
-    {"id": "7601968732671413559", "views": 2006},
+    {"id": "7601975241534868750", "views": 403},
+    {"id": "7601968732671413559", "views": 2007},
     {"id": "7601662386331766071", "views": 360},
-    {"id": "7601655146241707319", "views": 2361},
+    {"id": "7601655146241707319", "views": 2415},
     {"id": "7601653439860428046", "views": 443},
     {"id": "7601631374386154766", "views": 304},
-    {"id": "7573371761413180686", "views": 9554},
+    {"id": "7573371761413180686", "views": 9555},
     {"id": "7537478391562325262", "views": 201}
   ],
   "topPerformers": [
     {"id": "7534067096330784055", "views": "20.7K"},
     {"id": "7536332316327693581", "views": 9639},
-    {"id": "7573371761413180686", "views": 9554}
+    {"id": "7573371761413180686", "views": 9555}
   ]
 }

@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0a0f1a">
+    <title>Jane 🦾</title>
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <script>
+        // Kill all service workers and clear caches
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                    registration.unregister();
+                }
+            });
+            caches.keys().then(function(names) {
+                for (let name of names) caches.delete(name);
+            });
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        :root {
+            --bg: #0a0f1a;
+            --card: rgba(255,255,255,0.05);
+            --card-hover: rgba(255,255,255,0.08);
+            --accent: #4ade80;
+            --accent-blue: #60a5fa;
+            --text: #f1f5f9;
+            --text-dim: #64748b;
+            --green: #22c55e;
+            --amber: #f59e0b;
+            --red: #ef4444;
+            --border: rgba(255,255,255,0.08);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+        
+        .container {
+            max-width: 430px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            min-height: 100dvh;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .brand-icon {
+            font-size: 1.75rem;
+        }
+        
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .header-right {
+            text-align: right;
+        }
+        
+        .status-row {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            justify-content: flex-end;
+            margin-bottom: 0.25rem;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .status-text {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .time {
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        /* Tasks Progress */
+        .tasks-section {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .tasks-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .tasks-title {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .tasks-count {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.75rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-blue));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .rag-dots {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .rag-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .rag-dot.green { background: var(--green); box-shadow: 0 0 8px rgba(34,197,94,0.5); }
+        .rag-dot.amber { background: var(--amber); box-shadow: 0 0 8px rgba(245,158,11,0.5); }
+        .rag-dot.red { background: var(--red); box-shadow: 0 0 8px rgba(239,68,68,0.5); animation: pulse-red 1.5s ease-in-out infinite; }
+        
+        @keyframes pulse-red {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        .rag-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-left: auto;
+        }
+        
+        /* Positions */
+        .positions-section {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .section-title {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .position-row {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .position-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .position-icon {
+            font-size: 1.1rem;
+            margin-right: 0.6rem;
+        }
+        
+        .position-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            flex: 1;
+        }
+        
+        .position-pnl {
+            font-weight: 700;
+            font-size: 1rem;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .position-pnl.positive { color: var(--green); }
+        .position-pnl.negative { color: var(--red); }
+        
+        .position-arrow {
+            margin-left: 0.4rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .metric-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1rem;
+        }
+        
+        .metric-icon {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .metric-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Completed */
+        .completed-section {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .completed-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .completed-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            font-size: 0.85rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .completed-item:last-child {
+            border-bottom: none;
+        }
+        
+        .completed-icon {
+            font-size: 0.9rem;
+        }
+        
+        .completed-text {
+            flex: 1;
+            color: var(--text-dim);
+        }
+        
+        .completed-check {
+            color: var(--accent);
+        }
+        
+        /* Floating Chat Button */
+        .chat-fab {
+            position: fixed;
+            bottom: calc(24px + env(safe-area-inset-bottom));
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            color: #000;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(74, 222, 128, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            z-index: 1000;
+        }
+        
+        .chat-fab:active {
+            transform: scale(0.95);
+        }
+        
+        /* Health Status Cards - Mac & Jane */
+        .health-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .health-card.healthy {
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), transparent);
+        }
+        
+        .health-card.warning {
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), transparent);
+        }
+        
+        .health-card.critical {
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), transparent);
+        }
+        
+        .health-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .health-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .health-card.healthy .health-icon {
+            background: rgba(34, 197, 94, 0.2);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+        
+        .health-card.warning .health-icon {
+            background: rgba(245, 158, 11, 0.2);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+        }
+        
+        .health-card.critical .health-icon {
+            background: rgba(239, 68, 68, 0.2);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+            animation: pulse-critical 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-critical {
+            0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.6); }
+        }
+        
+        .health-info {
+            flex: 1;
+        }
+        
+        .health-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+        
+        .health-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+        
+        .health-status {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.25rem 0.6rem;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+        
+        .health-card.healthy .health-status {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--green);
+        }
+        
+        .health-card.warning .health-status {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--amber);
+        }
+        
+        .health-card.critical .health-status {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--red);
+        }
+        
+        .health-metrics {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .health-metric {
+            flex: 1;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            padding: 0.5rem;
+            text-align: center;
+        }
+        
+        .health-metric-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .health-metric-label {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+        
+        .health-metric.good .health-metric-value { color: var(--green); }
+        .health-metric.warn .health-metric-value { color: var(--amber); }
+        .health-metric.bad .health-metric-value { color: var(--red); }
+        
+        /* Regular Status Cards */
+        .status-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .status-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .status-card-icon {
+            font-size: 1.1rem;
+        }
+        
+        .status-card-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            flex: 1;
+        }
+        
+        .status-badge {
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-badge.online {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--green);
+        }
+        
+        .status-badge.offline {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--red);
+        }
+        
+        .status-badge.warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--amber);
+        }
+        
+        .status-card-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+        }
+        
+        .detail-label {
+            color: var(--text-dim);
+        }
+        
+        .detail-value {
+            font-weight: 500;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        /* Connected Accounts Grid */
+        .accounts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .account-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.6rem 0.3rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            font-size: 0.7rem;
+            gap: 0.3rem;
+            border: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+        
+        .account-item.online {
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+        
+        .account-item.offline {
+            border-color: rgba(239, 68, 68, 0.3);
+            opacity: 0.6;
+        }
+        
+        .account-icon {
+            font-size: 1.2rem;
+        }
+        
+        .account-name {
+            color: var(--text-dim);
+            font-size: 0.65rem;
+        }
+        
+        /* Prediction Markets */
+        .pm-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .pm-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+        }
+        
+        .pm-question {
+            font-size: 0.8rem;
+            flex: 1;
+            margin-right: 0.5rem;
+        }
+        
+        .pm-odds {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .pm-odds.yes { color: var(--green); }
+        .pm-odds.no { color: var(--red); }
+        
+        /* Second Brain */
+        .brain-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .brain-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .brain-stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .brain-stat-label {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+        
+        .brain-recent {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        
+        .brain-item {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            padding: 0.3rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        
+        .brain-item::before {
+            content: '•';
+            color: var(--accent);
+        }
+        
+        /* Night Mode */
+        body.night-mode {
+            filter: brightness(0.7) saturate(0.85);
+        }
+        
+        /* Pull to refresh indicator */
+        .refresh-indicator {
+            text-align: center;
+            padding: 0.5rem;
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            display: none;
+        }
+        
+        .refresh-indicator.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="refresh-indicator" id="refresh-indicator">↻ Pull to refresh</div>
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="brand">
+                <img src="icon-192.png" alt="Jane" class="brand-icon" style="width: 36px; height: 36px; border-radius: 8px;">
+                <span class="brand-name">JANE</span>
+            </div>
+            <div class="header-right">
+                <div class="time" id="current-time">--:--</div>
+            </div>
+        </header>
+        
+        <!-- 1. Mac Mini Status -->
+        <section class="health-card healthy" id="mac-health-card">
+            <div class="health-header">
+                <div class="health-icon" id="mac-health-icon">😊</div>
+                <div class="health-info">
+                    <div class="health-title">Mac Mini</div>
+                    <div class="health-subtitle" id="mac-uptime">Uptime: --</div>
+                </div>
+                <span class="health-status" id="mac-status-badge">Healthy</span>
+            </div>
+            <div class="health-metrics">
+                <div class="health-metric good" id="mac-cpu-metric">
+                    <div class="health-metric-value" id="mac-cpu">--%</div>
+                    <div class="health-metric-label">CPU</div>
+                </div>
+                <div class="health-metric good" id="mac-memory-metric">
+                    <div class="health-metric-value" id="mac-memory">--%</div>
+                    <div class="health-metric-label">Memory</div>
+                </div>
+                <div class="health-metric good" id="mac-disk-metric">
+                    <div class="health-metric-value" id="mac-disk">--%</div>
+                    <div class="health-metric-label">Disk</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 2. Jane's Status -->
+        <section class="health-card healthy" id="jane-health-card">
+            <div class="health-header">
+                <div class="health-icon" id="jane-health-icon">🦾</div>
+                <div class="health-info">
+                    <div class="health-title">Jane</div>
+                    <div class="health-subtitle" id="jane-last-active">Last active: Just now</div>
+                </div>
+                <span class="health-status" id="jane-status-badge">Active</span>
+            </div>
+            <div class="health-metrics">
+                <div class="health-metric good">
+                    <div class="health-metric-value" id="jane-session">Main</div>
+                    <div class="health-metric-label">Session</div>
+                </div>
+                <div class="health-metric good">
+                    <div class="health-metric-value" id="jane-model">Opus</div>
+                    <div class="health-metric-label">Model</div>
+                </div>
+                <div class="health-metric good" id="jane-tasks-metric">
+                    <div class="health-metric-value" id="jane-tasks-count">0</div>
+                    <div class="health-metric-label">Tasks</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 3. Connected Accounts -->
+        <section class="status-card">
+            <div class="status-card-header">
+                <span class="status-card-icon">🔗</span>
+                <span class="status-card-title">Connected Accounts</span>
+            </div>
+            <div class="accounts-grid" id="accounts-grid">
+                <div class="account-item online" title="WhatsApp">
+                    <span class="account-icon">💬</span>
+                    <span class="account-name">WhatsApp</span>
+                </div>
+                <div class="account-item online" title="Gmail">
+                    <span class="account-icon">📧</span>
+                    <span class="account-name">Gmail</span>
+                </div>
+                <div class="account-item online" title="TikTok">
+                    <span class="account-icon">🎵</span>
+                    <span class="account-name">TikTok</span>
+                </div>
+                <div class="account-item online" title="X">
+                    <span class="account-icon">𝕏</span>
+                    <span class="account-name">X</span>
+                </div>
+                <div class="account-item online" title="Solana">
+                    <span class="account-icon">◎</span>
+                    <span class="account-name">Solana</span>
+                </div>
+                <div class="account-item online" title="Sorare">
+                    <span class="account-icon">⚽</span>
+                    <span class="account-name">Sorare</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 4. Prediction Markets -->
+        <section class="status-card">
+            <div class="status-card-header">
+                <span class="status-card-icon">📊</span>
+                <span class="status-card-title">Prediction Markets</span>
+            </div>
+            <div id="pm-list" class="pm-list">
+                <div class="pm-item">
+                    <span class="pm-question">Loading predictions...</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 5. Second Brain -->
+        <section class="status-card">
+            <div class="status-card-header">
+                <span class="status-card-icon">🧠</span>
+                <span class="status-card-title">Second Brain</span>
+            </div>
+            <div class="brain-stats" id="brain-stats">
+                <div class="brain-stat">
+                    <span class="brain-stat-value" id="brain-notes">--</span>
+                    <span class="brain-stat-label">Notes</span>
+                </div>
+                <div class="brain-stat">
+                    <span class="brain-stat-value" id="brain-captures">--</span>
+                    <span class="brain-stat-label">Captures</span>
+                </div>
+                <div class="brain-stat">
+                    <span class="brain-stat-value" id="brain-links">--</span>
+                    <span class="brain-stat-label">Links</span>
+                </div>
+            </div>
+            <div class="brain-recent" id="brain-recent">
+                <div class="brain-item">No recent captures</div>
+            </div>
+        </section>
+        
+        <!-- Tasks Progress -->
+        <section class="tasks-section">
+            <div class="tasks-header">
+                <span class="tasks-title">In Progress</span>
+                <span class="tasks-count" id="tasks-count">0 tasks</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="rag-dots" id="rag-dots">
+                <!-- Filled by JS -->
+            </div>
+        </section>
+        
+        <!-- Positions -->
+        <section class="positions-section">
+            <div class="section-title">Positions</div>
+            <div id="positions-list">
+                <!-- Filled by JS -->
+            </div>
+        </section>
+        
+        <!-- Metrics Grid -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon">🎵</div>
+                <div class="metric-value" id="tiktok-followers">--</div>
+                <div class="metric-label">TikTok Followers</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">💰</div>
+                <div class="metric-value" id="sol-balance">--</div>
+                <div class="metric-label">SOL Balance</div>
+            </div>
+        </div>
+        
+        <!-- Completed Today -->
+        <section class="completed-section">
+            <div class="section-title">Completed Today (<span id="completed-count">0</span>)</div>
+            <div class="completed-list" id="completed-list">
+                <!-- Filled by JS -->
+            </div>
+        </section>
+        
+    </div>
+    
+    <!-- Floating Chat Button -->
+    <button class="chat-fab" onclick="openChat()" aria-label="Chat with Jane">
+        💬
+    </button>
+    
+    <script>
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            }).toLowerCase();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+        
+        // Fetch tasks
+        async function fetchTasks() {
+            try {
+                const res = await fetch('/api/tasks');
+                const data = await res.json();
+                
+                // Update progress
+                const inProgress = data.inProgress || [];
+                const completed = data.completed || [];
+                const total = inProgress.length + completed.length;
+                const pct = total > 0 ? (completed.length / total * 100) : 0;
+                
+                document.getElementById('tasks-count').textContent = `${inProgress.length} task${inProgress.length !== 1 ? 's' : ''}`;
+                document.getElementById('progress-fill').style.width = `${pct}%`;
+                
+                // RAG dots
+                const ragDots = document.getElementById('rag-dots');
+                if (inProgress.length > 0) {
+                    const dots = inProgress.map(t => `<div class="rag-dot ${t.rag || 'green'}" title="${t.task}"></div>`).join('');
+                    const allGreen = inProgress.every(t => t.rag === 'green' || !t.rag);
+                    ragDots.innerHTML = dots + `<span class="rag-label">${allGreen ? 'all green' : 'needs attention'}</span>`;
+                } else {
+                    ragDots.innerHTML = '<span class="rag-label">no active tasks</span>';
+                }
+                
+                // Completed list
+                document.getElementById('completed-count').textContent = completed.length;
+                const completedList = document.getElementById('completed-list');
+                completedList.innerHTML = completed.slice(0, 6).map(t => `
+                    <div class="completed-item">
+                        <span class="completed-icon">${t.icon || '✓'}</span>
+                        <span class="completed-text">${t.task}</span>
+                        <span class="completed-check">✓</span>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Failed to fetch tasks:', err);
+            }
+        }
+        
+        // Fetch positions
+        async function fetchPositions() {
+            try {
+                const res = await fetch('/api/trading');
+                if (!res.ok) return;
+                const data = await res.json();
+                
+                const list = document.getElementById('positions-list');
+                const openPositions = (data.positions || []).filter(p => p.status === 'open' || !p.status);
+                
+                if (openPositions.length === 0) {
+                    // Show realized P&L from summary or realizedTrades
+                    if (data.summary && data.summary.totalRealizedPnL !== undefined) {
+                        const totalRealized = data.summary.totalRealizedPnL;
+                        const totalPercent = data.summary.totalRealizedPercent;
+                        const isPositive = totalRealized >= 0;
+                        list.innerHTML = `
+                            <div style="text-align: center; padding: 0.5rem;">
+                                <div style="color: var(--text-dim); font-size: 0.75rem; margin-bottom: 0.25rem;">All positions closed</div>
+                                <div style="font-size: 1.1rem; font-weight: 700; color: ${isPositive ? 'var(--green)' : 'var(--red)'};">
+                                    ${isPositive ? '+' : ''}$${totalRealized.toFixed(2)} <span style="font-size: 0.8rem; opacity: 0.8;">(${isPositive ? '+' : ''}${totalPercent.toFixed(1)}%)</span>
+                                </div>
+                            </div>
+                        `;
+                    } else if (data.realizedTrades && data.realizedTrades.length > 0) {
+                        const totalRealized = data.realizedTrades.reduce((sum, t) => sum + (t.realizedPnL || 0), 0);
+                        const isPositive = totalRealized >= 0;
+                        list.innerHTML = `
+                            <div style="text-align: center; padding: 0.5rem;">
+                                <div style="color: var(--text-dim); font-size: 0.75rem; margin-bottom: 0.25rem;">All positions closed</div>
+                                <div style="font-size: 1.1rem; font-weight: 700; color: ${isPositive ? 'var(--green)' : 'var(--red)'};">
+                                    ${isPositive ? '+' : ''}$${totalRealized.toFixed(2)} realized
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        list.innerHTML = '<div style="color: var(--text-dim); font-size: 0.85rem; text-align: center;">No open positions</div>';
+                    }
+                    return;
+                }
+                
+                list.innerHTML = openPositions.map(p => {
+                    const pnl = p.pnlPercent || 0;
+                    const isPositive = pnl >= 0;
+                    return `
+                        <div class="position-row">
+                            <span class="position-icon">${p.icon || '📈'}</span>
+                            <span class="position-name">${p.symbol || p.token}</span>
+                            <span class="position-pnl ${isPositive ? 'positive' : 'negative'}">${isPositive ? '+' : ''}${pnl.toFixed(1)}%</span>
+                            <span class="position-arrow">${isPositive ? '↗' : '↘'}</span>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error('Failed to fetch positions:', err);
+            }
+        }
+        
+        // Fetch TikTok
+        async function fetchTikTok() {
+            try {
+                const res = await fetch('/api/tiktok');
+                const data = await res.json();
+                // Handle both data.followers and data.profile.followers
+                const followers = data.followers || data.profile?.followers;
+                if (followers) {
+                    document.getElementById('tiktok-followers').textContent = followers.toLocaleString();
+                }
+            } catch (err) {
+                console.error('Failed to fetch TikTok:', err);
+            }
+        }
+        
+        // Fetch SOL balance from wallet API
+        async function fetchSolBalance() {
+            try {
+                // Try to get actual wallet balance first
+                const walletRes = await fetch('/api/wallet');
+                if (walletRes.ok) {
+                    const walletData = await walletRes.json();
+                    const balance = walletData.jane?.balance || walletData.balance || 0;
+                    const usdValue = walletData.jane?.usd || walletData.usd || 0;
+                    if (usdValue > 0) {
+                        document.getElementById('sol-balance').textContent = '$' + usdValue.toFixed(0);
+                        return;
+                    }
+                }
+                
+                // Fallback: use known balance from positions API
+                const posRes = await fetch('/api/trading');
+                if (posRes.ok) {
+                    const posData = await posRes.json();
+                    if (posData.walletBalance) {
+                        document.getElementById('sol-balance').textContent = posData.walletBalance;
+                        return;
+                    }
+                }
+                
+                // Final fallback: estimate from crypto price
+                const cryptoRes = await fetch('/api/crypto');
+                const cryptoData = await cryptoRes.json();
+                if (cryptoData.solana) {
+                    // Use known balance: 0.584 SOL
+                    const solBalance = 0.584;
+                    document.getElementById('sol-balance').textContent = '$' + (cryptoData.solana.usd * solBalance).toFixed(0);
+                }
+            } catch (err) {
+                document.getElementById('sol-balance').textContent = '--';
+            }
+        }
+        
+        // Open chat
+        function openChat() {
+            window.location.href = '/?chat=open';
+        }
+        
+        // Night mode
+        function checkNightMode() {
+            const saved = localStorage.getItem('jane-dashboard-night-mode');
+            if (saved === 'on') {
+                document.body.classList.add('night-mode');
+            }
+        }
+        checkNightMode();
+        
+        // WebSocket for real-time updates
+        function initWebSocket() {
+            const ws = new WebSocket(`ws://${window.location.host}`);
+            ws.onmessage = (event) => {
+                const msg = JSON.parse(event.data);
+                if (msg.type === 'update') {
+                    if (msg.widget === 'tasks') fetchTasks();
+                    if (msg.widget === 'trading') fetchPositions();
+                    if (msg.widget === 'tiktok') fetchTikTok();
+                }
+            };
+            ws.onclose = () => setTimeout(initWebSocket, 3000);
+        }
+        
+        // Fetch Mac Mini Status with health visualization
+        async function fetchMacStatus() {
+            const card = document.getElementById('mac-health-card');
+            const icon = document.getElementById('mac-health-icon');
+            const badge = document.getElementById('mac-status-badge');
+            const cpuMetric = document.getElementById('mac-cpu-metric');
+            const memMetric = document.getElementById('mac-memory-metric');
+            const diskMetric = document.getElementById('mac-disk-metric');
+            
+            try {
+                const res = await fetch('/api/system');
+                if (!res.ok) throw new Error('No system API');
+                
+                const data = await res.json();
+                const cpu = data.cpu || 0;
+                const memory = data.memory || 0;
+                const disk = data.disk || 0;
+                
+                // Update values
+                document.getElementById('mac-uptime').textContent = 'Uptime: ' + (data.uptime || '--');
+                document.getElementById('mac-cpu').textContent = cpu + '%';
+                document.getElementById('mac-memory').textContent = memory + '%';
+                document.getElementById('mac-disk').textContent = disk + '%';
+                
+                // Determine overall health
+                let health = 'healthy';
+                let healthIcon = '😊';
+                let statusText = 'Healthy';
+                
+                if (cpu > 90 || memory > 95 || disk > 90) {
+                    health = 'critical';
+                    healthIcon = '🔥';
+                    statusText = 'Critical';
+                } else if (cpu > 70 || memory > 85 || disk > 80) {
+                    health = 'warning';
+                    healthIcon = '😐';
+                    statusText = 'Elevated';
+                }
+                
+                // Update card styling
+                card.className = 'health-card ' + health;
+                icon.textContent = healthIcon;
+                badge.textContent = statusText;
+                
+                // Update individual metric colors
+                cpuMetric.className = 'health-metric ' + (cpu > 90 ? 'bad' : cpu > 70 ? 'warn' : 'good');
+                memMetric.className = 'health-metric ' + (memory > 95 ? 'bad' : memory > 85 ? 'warn' : 'good');
+                diskMetric.className = 'health-metric ' + (disk > 90 ? 'bad' : disk > 80 ? 'warn' : 'good');
+                
+            } catch (err) {
+                // Show healthy by default if can't reach API (means server is up)
+                card.className = 'health-card healthy';
+                icon.textContent = '😊';
+                badge.textContent = 'Online';
+                document.getElementById('mac-uptime').textContent = 'Uptime: Running';
+            }
+        }
+        
+        // Fetch Jane's Status with health visualization
+        async function fetchJaneStatus() {
+            const card = document.getElementById('jane-health-card');
+            const icon = document.getElementById('jane-health-icon');
+            const badge = document.getElementById('jane-status-badge');
+            
+            try {
+                const res = await fetch('/api/sessions');
+                const tasksRes = await fetch('/api/tasks');
+                
+                let tasksCount = 0;
+                if (tasksRes.ok) {
+                    const tasksData = await tasksRes.json();
+                    tasksCount = (tasksData.inProgress || []).length;
+                    document.getElementById('jane-tasks-count').textContent = tasksCount;
+                }
+                
+                if (!res.ok) throw new Error('No sessions API');
+                
+                const data = await res.json();
+                const mainSession = data.sessions?.find(s => s.kind === 'main') || data.sessions?.[0];
+                
+                if (mainSession) {
+                    // Update session info
+                    const kind = mainSession.kind || 'Main';
+                    document.getElementById('jane-session').textContent = kind.charAt(0).toUpperCase() + kind.slice(1);
+                    
+                    // Format last active time
+                    let lastActiveText = 'Just now';
+                    let minutesAgo = 0;
+                    
+                    if (mainSession.lastActivity) {
+                        const lastActive = new Date(mainSession.lastActivity);
+                        const now = new Date();
+                        minutesAgo = Math.floor((now - lastActive) / 60000);
+                        
+                        if (minutesAgo < 1) {
+                            lastActiveText = 'Just now';
+                        } else if (minutesAgo < 60) {
+                            lastActiveText = `${minutesAgo}m ago`;
+                        } else {
+                            lastActiveText = `${Math.floor(minutesAgo/60)}h ago`;
+                        }
+                    }
+                    document.getElementById('jane-last-active').textContent = 'Last active: ' + lastActiveText;
+                    
+                    // Show model
+                    if (mainSession.model) {
+                        const modelName = mainSession.model.split('/').pop().replace('claude-', '').split('-')[0];
+                        document.getElementById('jane-model').textContent = modelName.charAt(0).toUpperCase() + modelName.slice(1);
+                    }
+                    
+                    // Determine health based on activity
+                    let health = 'healthy';
+                    let healthIcon = '🦾';
+                    let statusText = 'Active';
+                    
+                    if (minutesAgo > 60) {
+                        health = 'warning';
+                        healthIcon = '😴';
+                        statusText = 'Idle';
+                    }
+                    if (minutesAgo > 240) {
+                        health = 'critical';
+                        healthIcon = '💤';
+                        statusText = 'Sleeping';
+                    }
+                    
+                    card.className = 'health-card ' + health;
+                    icon.textContent = healthIcon;
+                    badge.textContent = statusText;
+                }
+            } catch (err) {
+                // Default to active
+                card.className = 'health-card healthy';
+                icon.textContent = '🦾';
+                badge.textContent = 'Active';
+            }
+        }
+        
+        // Fetch Prediction Markets
+        async function fetchPredictionMarkets() {
+            try {
+                const res = await fetch('/api/predictions');
+                if (!res.ok) {
+                    document.getElementById('pm-list').innerHTML = `
+                        <div class="pm-item">
+                            <span class="pm-question">Polymarket unavailable</span>
+                        </div>
+                    `;
+                    return;
+                }
+                const data = await res.json();
+                
+                // Get top markets or featured
+                let markets = [];
+                if (data.featured) markets.push(data.featured);
+                if (data.top) markets = [...markets, ...data.top.slice(0, 2)];
+                if (data.markets) markets = [...markets, ...data.markets.slice(0, 3)];
+                
+                if (markets.length === 0) {
+                    document.getElementById('pm-list').innerHTML = `
+                        <div class="pm-item">
+                            <span class="pm-question">No active markets</span>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                document.getElementById('pm-list').innerHTML = markets.slice(0, 3).map(m => {
+                    const odds = m.yesOdds || m.probability || 50;
+                    const question = (m.question || m.title || '').substring(0, 50);
+                    return `
+                        <div class="pm-item">
+                            <span class="pm-question">${question}${question.length >= 50 ? '...' : ''}</span>
+                            <span class="pm-odds ${odds > 50 ? 'yes' : 'no'}">${odds}%</span>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                document.getElementById('pm-list').innerHTML = `
+                    <div class="pm-item">
+                        <span class="pm-question">Polymarket unavailable</span>
+                    </div>
+                `;
+            }
+        }
+        
+        // Fetch Second Brain Stats (uses /api/mindmap)
+        async function fetchSecondBrain() {
+            try {
+                const res = await fetch('/api/mindmap');
+                if (!res.ok) {
+                    document.getElementById('brain-notes').textContent = '--';
+                    document.getElementById('brain-captures').textContent = '--';
+                    document.getElementById('brain-links').textContent = '--';
+                    return;
+                }
+                const data = await res.json();
+                
+                // Map mindmap stats to brain display
+                document.getElementById('brain-notes').textContent = data.total || data.notes || 0;
+                document.getElementById('brain-captures').textContent = data.recent?.length || data.captures || 0;
+                document.getElementById('brain-links').textContent = data.links || data.connections || 0;
+                
+                // Show recent items
+                if (data.recent && data.recent.length > 0) {
+                    document.getElementById('brain-recent').innerHTML = data.recent.slice(0, 3).map(item => `
+                        <div class="brain-item">${item.name || item.title || item}</div>
+                    `).join('');
+                } else if (data.recentCaptures && data.recentCaptures.length > 0) {
+                    document.getElementById('brain-recent').innerHTML = data.recentCaptures.slice(0, 3).map(item => `
+                        <div class="brain-item">${item.name || item.title || item}</div>
+                    `).join('');
+                }
+            } catch (err) {
+                document.getElementById('brain-notes').textContent = '--';
+                document.getElementById('brain-captures').textContent = '--';
+                document.getElementById('brain-links').textContent = '--';
+            }
+        }
+        
+        // Init
+        fetchMacStatus();
+        fetchJaneStatus();
+        fetchPredictionMarkets();
+        fetchSecondBrain();
+        fetchTasks();
+        fetchPositions();
+        fetchTikTok();
+        fetchSolBalance();
+        initWebSocket();
+        
+        // Refresh intervals
+        setInterval(fetchMacStatus, 60000);
+        setInterval(fetchJaneStatus, 30000);
+        setInterval(fetchPredictionMarkets, 120000);
+        setInterval(fetchSecondBrain, 120000);
+        setInterval(fetchTasks, 30000);
+        setInterval(fetchPositions, 30000);
+        setInterval(fetchTikTok, 300000);
+        setInterval(fetchSolBalance, 60000);
+    </script>
+</body>
+</html>

@@ -1821,12 +1821,20 @@
                         return 'politics';
                     }
                     if (ql.includes('bitcoin') || ql.includes('crypto') || ql.includes('btc') || 
-                        ql.includes('eth') || ql.includes('solana') || ql.includes('price of')) {
+                        ql.includes('eth') || ql.includes('solana') || ql.includes('price of') ||
+                        ql.includes('price above') || ql.includes('price below')) {
                         return 'finance';
                     }
                     if (ql.includes('ai') || ql.includes('openai') || ql.includes('google') || 
                         ql.includes('apple') || ql.includes('acquired') || ql.includes('ipo') ||
-                        ql.includes('stock') || ql.includes('company')) {
+                        ql.includes('stock') || ql.includes('company') || ql.includes('market cap') ||
+                        ql.includes('fed') || ql.includes('rate cut') || ql.includes('rate hike') ||
+                        ql.includes('recession') || ql.includes('inflation') || ql.includes('gdp') ||
+                        ql.includes('earnings') || ql.includes('revenue') || ql.includes('layoff') ||
+                        ql.includes('ceo') || ql.includes('amazon') || ql.includes('meta') ||
+                        ql.includes('microsoft') || ql.includes('nvidia') || ql.includes('tesla') ||
+                        ql.includes('s&p') || ql.includes('dow') || ql.includes('nasdaq') ||
+                        ql.includes('economy') || ql.includes('tariff') || ql.includes('trade war')) {
                         return 'finance';
                     }
                     return 'other';

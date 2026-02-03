@@ -752,6 +752,11 @@ const server = http.createServer((req, res) => {
     if (req.url === '/api/predictions') {
         const mainUrl = 'https://gamma-api.polymarket.com/markets?closed=false&order=volume24hr&ascending=false&limit=100';
         const superBowlUrl = 'https://gamma-api.polymarket.com/markets?closed=false&limit=50&tag=nfl';
+        // Business & Finance specific tags
+        const cryptoUrl = 'https://gamma-api.polymarket.com/markets?closed=false&order=volume24hr&ascending=false&limit=30&tag=crypto';
+        const businessUrl = 'https://gamma-api.polymarket.com/markets?closed=false&order=volume24hr&ascending=false&limit=30&tag=business';
+        const economyUrl = 'https://gamma-api.polymarket.com/markets?closed=false&order=volume24hr&ascending=false&limit=30&tag=economy';
+        const techUrl = 'https://gamma-api.polymarket.com/markets?closed=false&order=volume24hr&ascending=false&limit=30&tag=tech';
         
         const fetchUrl = (url) => new Promise((resolve, reject) => {
             https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
@@ -764,7 +769,16 @@ const server = http.createServer((req, res) => {
             }).on('error', () => resolve([]));
         });
         
-        Promise.all([fetchUrl(mainUrl), fetchUrl(superBowlUrl)]).then(([mainMarkets, nflMarkets]) => {
+        Promise.all([
+            fetchUrl(mainUrl), 
+            fetchUrl(superBowlUrl),
+            fetchUrl(cryptoUrl),
+            fetchUrl(businessUrl),
+            fetchUrl(economyUrl),
+            fetchUrl(techUrl)
+        ]).then(([mainMarkets, nflMarkets, cryptoMarkets, businessMarkets, economyMarkets, techMarkets]) => {
+            // Combine all finance/business markets
+            const financeMarkets = [...cryptoMarkets, ...businessMarkets, ...economyMarkets, ...techMarkets];
             const parseMarket = m => {
                 const prices = JSON.parse(m.outcomePrices || '["0.5","0.5"]');
                 const yesPrice = parseFloat(prices[0]) * 100;
@@ -796,6 +810,7 @@ const server = http.createServer((req, res) => {
             
             const simplified = mainMarkets.map(parseMarket);
             const nflSimplified = nflMarkets.map(parseMarket);
+            const financeSimplified = financeMarkets.map(parseMarket);
             
             // Super Bowl LX - pin until Feb 10, 2026 (day after game)
             const superBowlDate = new Date('2026-02-10T00:00:00');
@@ -824,8 +839,17 @@ const server = http.createServer((req, res) => {
                 }
             }
             
+            // Combine all markets, removing duplicates by slug
+            const allMarketsRaw = [...simplified, ...financeSimplified];
+            const seenSlugs = new Set();
+            const allMarketsDeduped = allMarketsRaw.filter(m => {
+                if (seenSlugs.has(m.slug)) return false;
+                seenSlugs.add(m.slug);
+                return true;
+            });
+            
             // Filter for competitive markets (odds between 15% and 85%)
-            const competitive = simplified.filter(m => {
+            const competitive = allMarketsDeduped.filter(m => {
                 if (m.question && m.question.toLowerCase().includes('super bowl')) return false;
                 return m.yesOdds >= 15 && m.yesOdds <= 85;
             });
@@ -843,47 +867,70 @@ const server = http.createServer((req, res) => {
                        s.startsWith('ncaa-') || s.startsWith('ufc-');
             };
             
-            // Build balanced list: max 3 sports in top 5
+            // Detect finance/business markets
+            const isFinanceMarket = (m) => {
+                const q = (m.question || '').toLowerCase();
+                return q.includes('bitcoin') || q.includes('crypto') || q.includes('btc') ||
+                       q.includes('eth') || q.includes('solana') || q.includes('price') ||
+                       q.includes('stock') || q.includes('market') || q.includes('fed') ||
+                       q.includes('recession') || q.includes('rate') || q.includes('inflation') ||
+                       q.includes('gdp') || q.includes('ipo') || q.includes('acquisition') ||
+                       q.includes('company') || q.includes('ceo') || q.includes('layoff') ||
+                       q.includes('apple') || q.includes('google') || q.includes('meta') ||
+                       q.includes('amazon') || q.includes('microsoft') || q.includes('nvidia') ||
+                       q.includes('tesla') || q.includes('openai') || q.includes('ai ') ||
+                       q.includes('earnings') || q.includes('revenue') || q.includes('s&p') ||
+                       q.includes('dow') || q.includes('nasdaq');
+            };
+            
+            // Build balanced list: ensure finance gets representation
             const sports = competitive.filter(isSportsMarket);
-            const nonSports = competitive.filter(m => !isSportsMarket(m));
+            const finance = competitive.filter(m => !isSportsMarket(m) && isFinanceMarket(m));
+            const nonSports = competitive.filter(m => !isSportsMarket(m) && !isFinanceMarket(m));
             
             let balanced = [];
             let sportsCount = 0;
+            let financeCount = 0;
             let sportsIdx = 0;
-            let nonSportsIdx = 0;
+            let financeIdx = 0;
+            let otherIdx = 0;
             
-            // Fill top 10 with max 3 sports in positions 1-5
-            while (balanced.length < 10 && (sportsIdx < sports.length || nonSportsIdx < nonSports.length)) {
-                const inTop5 = balanced.length < 5;
+            // Ensure at least 4 finance markets get included, max 3 sports
+            // First, add top finance markets
+            while (financeIdx < finance.length && financeCount < 4) {
+                balanced.push(finance[financeIdx++]);
+                financeCount++;
+            }
+            
+            // Then add up to 3 sports
+            while (sportsIdx < sports.length && sportsCount < 3 && balanced.length < 12) {
+                balanced.push(sports[sportsIdx++]);
+                sportsCount++;
+            }
+            
+            // Fill rest with remaining finance, then others by volume
+            while (balanced.length < 12) {
+                const nextF = finance[financeIdx];
+                const nextS = sports[sportsIdx];
+                const nextO = nonSports[otherIdx];
                 
-                if (inTop5 && sportsCount < 3 && sportsIdx < sports.length) {
-                    // Can still add sports to top 5
-                    const nextSports = sports[sportsIdx];
-                    const nextNonSports = nonSports[nonSportsIdx];
-                    
-                    // Pick higher volume
-                    if (!nextNonSports || (nextSports && nextSports.volume24h >= nextNonSports.volume24h)) {
-                        balanced.push(sports[sportsIdx++]);
-                        sportsCount++;
-                    } else {
-                        balanced.push(nonSports[nonSportsIdx++]);
-                    }
-                } else if (inTop5) {
-                    // Top 5 but sports maxed out - must use non-sports
-                    if (nonSportsIdx < nonSports.length) {
-                        balanced.push(nonSports[nonSportsIdx++]);
-                    } else if (sportsIdx < sports.length) {
-                        balanced.push(sports[sportsIdx++]);
-                    }
+                if (!nextF && !nextS && !nextO) break;
+                
+                // Prioritize remaining finance, then by volume
+                if (nextF && financeCount < 6) {
+                    balanced.push(finance[financeIdx++]);
+                    financeCount++;
+                } else if (nextS && sportsCount < 4) {
+                    balanced.push(sports[sportsIdx++]);
+                    sportsCount++;
+                } else if (nextO) {
+                    balanced.push(nonSports[otherIdx++]);
+                } else if (nextF) {
+                    balanced.push(finance[financeIdx++]);
+                } else if (nextS) {
+                    balanced.push(sports[sportsIdx++]);
                 } else {
-                    // After top 5, just fill by volume
-                    const nextS = sports[sportsIdx];
-                    const nextN = nonSports[nonSportsIdx];
-                    if (nextS && (!nextN || nextS.volume24h >= nextN.volume24h)) {
-                        balanced.push(sports[sportsIdx++]);
-                    } else if (nextN) {
-                        balanced.push(nonSports[nonSportsIdx++]);
-                    }
+                    break;
                 }
             }
             

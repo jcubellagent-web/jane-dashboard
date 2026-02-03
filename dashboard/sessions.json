@@ -1,39 +1,27 @@
 {
-  "lastUpdated": "2026-02-03T13:08:46-05:00",
-  "count": 4,
+  "lastUpdated": "2026-02-03T16:41:44-05:00",
   "sessions": [
     {
       "key": "agent:main:main",
-      "displayName": "+17175759384",
       "channel": "whatsapp",
+      "displayName": "+17175759384",
       "model": "claude-opus-4-5",
-      "totalTokens": 177049,
-      "updatedAt": 1770143356218
+      "totalTokens": 41800
     },
     {
-      "key": "agent:main:cron:73db46f6-393d-45dc-85af-6fc0cc92171c",
+      "key": "agent:main:cron:penguin-monitor",
+      "channel": "webchat",
       "displayName": "PENGUIN Price Monitor",
-      "channel": "cron",
       "model": "claude-opus-4-5",
-      "totalTokens": 18539,
-      "updatedAt": 1770142104935,
-      "lastStatus": "PENGUIN @ $0.03054 (-23.3% from entry)"
+      "totalTokens": 18301,
+      "lastMessage": "PENGUIN: $0.03125 | P&L: -21.5%"
     },
     {
       "key": "agent:main:dashboard:chat",
+      "channel": "dashboard",
       "displayName": "Dashboard Chat",
-      "channel": "webchat",
       "model": "claude-opus-4-5",
-      "totalTokens": 14175,
-      "updatedAt": 1769925181659
-    },
-    {
-      "key": "agent:main:test:webhook",
-      "displayName": "Webhook Test",
-      "channel": "test",
-      "model": "claude-opus-4-5",
-      "totalTokens": 14179,
-      "updatedAt": 1769904229404
+      "totalTokens": 14175
     }
   ]
 }

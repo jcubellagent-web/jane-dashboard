@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0a0f1a">
+    <title>Jane 🦾</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        :root {
+            --bg: #0a0f1a;
+            --card: rgba(255,255,255,0.05);
+            --card-hover: rgba(255,255,255,0.08);
+            --accent: #4ade80;
+            --accent-blue: #60a5fa;
+            --text: #f1f5f9;
+            --text-dim: #64748b;
+            --green: #22c55e;
+            --amber: #f59e0b;
+            --red: #ef4444;
+            --border: rgba(255,255,255,0.08);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+        
+        .container {
+            max-width: 430px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            min-height: 100dvh;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .brand-icon {
+            font-size: 1.75rem;
+        }
+        
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .header-right {
+            text-align: right;
+        }
+        
+        .status-row {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            justify-content: flex-end;
+            margin-bottom: 0.25rem;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .status-text {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .time {
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        /* Tasks Progress */
+        .tasks-section {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .tasks-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .tasks-title {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .tasks-count {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.75rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-blue));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .rag-dots {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .rag-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .rag-dot.green { background: var(--green); box-shadow: 0 0 8px rgba(34,197,94,0.5); }
+        .rag-dot.amber { background: var(--amber); box-shadow: 0 0 8px rgba(245,158,11,0.5); }
+        .rag-dot.red { background: var(--red); box-shadow: 0 0 8px rgba(239,68,68,0.5); animation: pulse-red 1.5s ease-in-out infinite; }
+        
+        @keyframes pulse-red {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        .rag-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-left: auto;
+        }
+        
+        /* Positions */
+        .positions-section {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .section-title {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .position-row {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .position-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .position-icon {
+            font-size: 1.1rem;
+            margin-right: 0.6rem;
+        }
+        
+        .position-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            flex: 1;
+        }
+        
+        .position-pnl {
+            font-weight: 700;
+            font-size: 1rem;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .position-pnl.positive { color: var(--green); }
+        .position-pnl.negative { color: var(--red); }
+        
+        .position-arrow {
+            margin-left: 0.4rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .metric-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1rem;
+        }
+        
+        .metric-icon {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .metric-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Completed */
+        .completed-section {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .completed-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .completed-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            font-size: 0.85rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .completed-item:last-child {
+            border-bottom: none;
+        }
+        
+        .completed-icon {
+            font-size: 0.9rem;
+        }
+        
+        .completed-text {
+            flex: 1;
+            color: var(--text-dim);
+        }
+        
+        .completed-check {
+            color: var(--accent);
+        }
+        
+        /* Chat Button */
+        .chat-btn {
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            color: #000;
+            border: none;
+            border-radius: 16px;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: auto;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .chat-btn:active {
+            transform: scale(0.98);
+        }
+        
+        /* Night Mode */
+        body.night-mode {
+            filter: brightness(0.7) saturate(0.85);
+        }
+        
+        /* Pull to refresh indicator */
+        .refresh-indicator {
+            text-align: center;
+            padding: 0.5rem;
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            display: none;
+        }
+        
+        .refresh-indicator.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="refresh-indicator" id="refresh-indicator">↻ Pull to refresh</div>
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="brand">
+                <img src="icon-192.png" alt="Jane" class="brand-icon" style="width: 36px; height: 36px; border-radius: 8px;">
+                <span class="brand-name">JANE</span>
+            </div>
+            <div class="header-right">
+                <div class="status-row">
+                    <div class="status-dot" id="status-dot"></div>
+                    <span class="status-text" id="status-text">Online</span>
+                </div>
+                <div class="time" id="current-time">--:--</div>
+            </div>
+        </header>
+        
+        <!-- Tasks Progress -->
+        <section class="tasks-section">
+            <div class="tasks-header">
+                <span class="tasks-title">In Progress</span>
+                <span class="tasks-count" id="tasks-count">0 tasks</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="rag-dots" id="rag-dots">
+                <!-- Filled by JS -->
+            </div>
+        </section>
+        
+        <!-- Positions -->
+        <section class="positions-section">
+            <div class="section-title">Positions</div>
+            <div id="positions-list">
+                <!-- Filled by JS -->
+            </div>
+        </section>
+        
+        <!-- Metrics Grid -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon">🎵</div>
+                <div class="metric-value" id="tiktok-followers">--</div>
+                <div class="metric-label">TikTok Followers</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">💰</div>
+                <div class="metric-value" id="sol-balance">--</div>
+                <div class="metric-label">SOL Balance</div>
+            </div>
+        </div>
+        
+        <!-- Completed Today -->
+        <section class="completed-section">
+            <div class="section-title">Completed Today (<span id="completed-count">0</span>)</div>
+            <div class="completed-list" id="completed-list">
+                <!-- Filled by JS -->
+            </div>
+        </section>
+        
+        <!-- Chat Button -->
+        <button class="chat-btn" onclick="openChat()">
+            💬 Chat with Jane
+        </button>
+    </div>
+    
+    <script>
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            }).toLowerCase();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+        
+        // Fetch tasks
+        async function fetchTasks() {
+            try {
+                const res = await fetch('/api/tasks');
+                const data = await res.json();
+                
+                // Update progress
+                const inProgress = data.inProgress || [];
+                const completed = data.completed || [];
+                const total = inProgress.length + completed.length;
+                const pct = total > 0 ? (completed.length / total * 100) : 0;
+                
+                document.getElementById('tasks-count').textContent = `${inProgress.length} task${inProgress.length !== 1 ? 's' : ''}`;
+                document.getElementById('progress-fill').style.width = `${pct}%`;
+                
+                // RAG dots
+                const ragDots = document.getElementById('rag-dots');
+                if (inProgress.length > 0) {
+                    const dots = inProgress.map(t => `<div class="rag-dot ${t.rag || 'green'}" title="${t.task}"></div>`).join('');
+                    const allGreen = inProgress.every(t => t.rag === 'green' || !t.rag);
+                    ragDots.innerHTML = dots + `<span class="rag-label">${allGreen ? 'all green' : 'needs attention'}</span>`;
+                } else {
+                    ragDots.innerHTML = '<span class="rag-label">no active tasks</span>';
+                }
+                
+                // Completed list
+                document.getElementById('completed-count').textContent = completed.length;
+                const completedList = document.getElementById('completed-list');
+                completedList.innerHTML = completed.slice(0, 6).map(t => `
+                    <div class="completed-item">
+                        <span class="completed-icon">${t.icon || '✓'}</span>
+                        <span class="completed-text">${t.task}</span>
+                        <span class="completed-check">✓</span>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Failed to fetch tasks:', err);
+            }
+        }
+        
+        // Fetch positions
+        async function fetchPositions() {
+            try {
+                const res = await fetch('/api/trading');
+                if (!res.ok) return;
+                const data = await res.json();
+                
+                const list = document.getElementById('positions-list');
+                const openPositions = (data.positions || []).filter(p => p.status === 'open' || !p.status);
+                
+                if (openPositions.length === 0) {
+                    // Show realized P&L from summary or realizedTrades
+                    if (data.summary && data.summary.totalRealizedPnL !== undefined) {
+                        const totalRealized = data.summary.totalRealizedPnL;
+                        const totalPercent = data.summary.totalRealizedPercent;
+                        const isPositive = totalRealized >= 0;
+                        list.innerHTML = `
+                            <div style="text-align: center; padding: 0.5rem;">
+                                <div style="color: var(--text-dim); font-size: 0.75rem; margin-bottom: 0.25rem;">All positions closed</div>
+                                <div style="font-size: 1.1rem; font-weight: 700; color: ${isPositive ? 'var(--green)' : 'var(--red)'};">
+                                    ${isPositive ? '+' : ''}$${totalRealized.toFixed(2)} <span style="font-size: 0.8rem; opacity: 0.8;">(${isPositive ? '+' : ''}${totalPercent.toFixed(1)}%)</span>
+                                </div>
+                            </div>
+                        `;
+                    } else if (data.realizedTrades && data.realizedTrades.length > 0) {
+                        const totalRealized = data.realizedTrades.reduce((sum, t) => sum + (t.realizedPnL || 0), 0);
+                        const isPositive = totalRealized >= 0;
+                        list.innerHTML = `
+                            <div style="text-align: center; padding: 0.5rem;">
+                                <div style="color: var(--text-dim); font-size: 0.75rem; margin-bottom: 0.25rem;">All positions closed</div>
+                                <div style="font-size: 1.1rem; font-weight: 700; color: ${isPositive ? 'var(--green)' : 'var(--red)'};">
+                                    ${isPositive ? '+' : ''}$${totalRealized.toFixed(2)} realized
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        list.innerHTML = '<div style="color: var(--text-dim); font-size: 0.85rem; text-align: center;">No open positions</div>';
+                    }
+                    return;
+                }
+                
+                list.innerHTML = openPositions.map(p => {
+                    const pnl = p.pnlPercent || 0;
+                    const isPositive = pnl >= 0;
+                    return `
+                        <div class="position-row">
+                            <span class="position-icon">${p.icon || '📈'}</span>
+                            <span class="position-name">${p.symbol || p.token}</span>
+                            <span class="position-pnl ${isPositive ? 'positive' : 'negative'}">${isPositive ? '+' : ''}${pnl.toFixed(1)}%</span>
+                            <span class="position-arrow">${isPositive ? '↗' : '↘'}</span>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error('Failed to fetch positions:', err);
+            }
+        }
+        
+        // Fetch TikTok
+        async function fetchTikTok() {
+            try {
+                const res = await fetch('/api/tiktok');
+                const data = await res.json();
+                // Handle both data.followers and data.profile.followers
+                const followers = data.followers || data.profile?.followers;
+                if (followers) {
+                    document.getElementById('tiktok-followers').textContent = followers.toLocaleString();
+                }
+            } catch (err) {
+                console.error('Failed to fetch TikTok:', err);
+            }
+        }
+        
+        // Fetch SOL balance from wallet API
+        async function fetchSolBalance() {
+            try {
+                // Try to get actual wallet balance first
+                const walletRes = await fetch('/api/wallet');
+                if (walletRes.ok) {
+                    const walletData = await walletRes.json();
+                    const balance = walletData.jane?.balance || walletData.balance || 0;
+                    const usdValue = walletData.jane?.usd || walletData.usd || 0;
+                    if (usdValue > 0) {
+                        document.getElementById('sol-balance').textContent = '$' + usdValue.toFixed(0);
+                        return;
+                    }
+                }
+                
+                // Fallback: use known balance from positions API
+                const posRes = await fetch('/api/trading');
+                if (posRes.ok) {
+                    const posData = await posRes.json();
+                    if (posData.walletBalance) {
+                        document.getElementById('sol-balance').textContent = posData.walletBalance;
+                        return;
+                    }
+                }
+                
+                // Final fallback: estimate from crypto price
+                const cryptoRes = await fetch('/api/crypto');
+                const cryptoData = await cryptoRes.json();
+                if (cryptoData.solana) {
+                    // Use known balance: 0.584 SOL
+                    const solBalance = 0.584;
+                    document.getElementById('sol-balance').textContent = '$' + (cryptoData.solana.usd * solBalance).toFixed(0);
+                }
+            } catch (err) {
+                document.getElementById('sol-balance').textContent = '--';
+            }
+        }
+        
+        // Open chat
+        function openChat() {
+            window.location.href = '/?chat=open';
+        }
+        
+        // Night mode
+        function checkNightMode() {
+            const saved = localStorage.getItem('jane-dashboard-night-mode');
+            if (saved === 'on') {
+                document.body.classList.add('night-mode');
+            }
+        }
+        checkNightMode();
+        
+        // WebSocket for real-time updates
+        function initWebSocket() {
+            const ws = new WebSocket(`ws://${window.location.host}`);
+            ws.onmessage = (event) => {
+                const msg = JSON.parse(event.data);
+                if (msg.type === 'update') {
+                    if (msg.widget === 'tasks') fetchTasks();
+                    if (msg.widget === 'trading') fetchPositions();
+                    if (msg.widget === 'tiktok') fetchTikTok();
+                }
+            };
+            ws.onclose = () => setTimeout(initWebSocket, 3000);
+        }
+        
+        // Init
+        fetchTasks();
+        fetchPositions();
+        fetchTikTok();
+        fetchSolBalance();
+        initWebSocket();
+        
+        // Refresh intervals
+        setInterval(fetchTasks, 30000);
+        setInterval(fetchPositions, 30000);
+        setInterval(fetchTikTok, 300000);
+        setInterval(fetchSolBalance, 60000);
+    </script>
+</body>
+</html>

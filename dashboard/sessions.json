@@ -1,0 +1,33 @@
+{
+  "lastUpdated": "2026-02-02T19:33:00-05:00",
+  "sessions": [
+    {
+      "key": "main",
+      "label": "Main Session",
+      "status": "active",
+      "lastMessage": "Heartbeat check",
+      "updatedAt": "2026-02-02T19:33:12-05:00"
+    },
+    {
+      "key": "cron:price-monitor",
+      "label": "Price Monitor",
+      "status": "idle",
+      "lastMessage": "HEARTBEAT_OK",
+      "updatedAt": "2026-02-02T19:33:01-05:00"
+    },
+    {
+      "key": "dashboard:chat",
+      "label": "Dashboard Chat",
+      "status": "idle", 
+      "lastMessage": "Cron test received successfully!",
+      "updatedAt": "2026-02-01T07:53:00-05:00"
+    },
+    {
+      "key": "test:webhook",
+      "label": "Webhook Test",
+      "status": "idle",
+      "lastMessage": "Cron webhook test received and working!",
+      "updatedAt": "2026-02-01T02:03:00-05:00"
+    }
+  ]
+}

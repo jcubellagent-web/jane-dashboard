@@ -1,42 +1,34 @@
 {
-  "lastUpdated": "2026-02-01T19:30:00Z",
-  "account": "jcubnft",
-  "game": "NBA",
-  "profile": {
-    "collections": 937,
-    "limitedCards": 802,
-    "rareCards": 5,
-    "balance": "$41",
-    "ethBalance": "0.0003 ETH"
+  "lastUpdated": "2026-02-02T23:40:35Z",
+  "user": {
+    "slug": "jcubnft",
+    "nickname": "jcubnft",
+    "clubName": "jcubnft's club",
+    "blueprintCardsCount": 1
   },
-  "currentLineup": {
-    "competition": "Limited Daily Pickup",
-    "gameWeek": "Feb 1",
-    "rating": 2963,
-    "capUsed": 116,
-    "capLimit": 120,
-    "players": [
-      { "name": "Shai Gilgeous-Alexander", "team": "OKC", "gameTime": "9:30 PM", "opponent": "DEN", "avg": 48, "isMVP": true },
-      { "name": "Jaylen Brown", "team": "BOS", "gameTime": "3:30 PM", "opponent": "MIL", "avg": 46 },
-      { "name": "Payton Pritchard", "team": "BOS", "gameTime": "3:30 PM", "opponent": "MIL", "avg": 31 },
-      { "name": "Deandre Ayton", "team": "LAL", "gameTime": "7:00 PM", "opponent": "NYK", "avg": 23 },
-      { "name": "Gradey Dick", "team": "TOR", "gameTime": "6:00 PM", "opponent": "UTA", "avg": 16 }
-    ]
-  },
-  "todaysGames": [
-    { "time": "3:30 PM", "away": "BOS", "home": "MIL", "myPlayers": ["Jaylen Brown", "Payton Pritchard"] },
-    { "time": "6:00 PM", "away": "TOR", "home": "UTA", "myPlayers": ["Gradey Dick"] },
-    { "time": "6:00 PM", "away": "MIA", "home": "CHI", "myPlayers": [] },
-    { "time": "7:00 PM", "away": "NYK", "home": "LAL", "myPlayers": ["Deandre Ayton"] },
-    { "time": "9:30 PM", "away": "DEN", "home": "OKC", "myPlayers": ["Shai Gilgeous-Alexander"] }
+  "cards": [
+    {
+      "slug": "will-riley-20060210-2025-limited-365",
+      "rarity": "limited",
+      "serial": 365,
+      "season": 2025,
+      "player": "Will Riley",
+      "team": "Washington Wizards",
+      "pictureUrl": "https://assets.sorare.com/card/b308e9cb-4793-4916-84b5-8f446c14f78d/picture/tinified-8d88aaecbbd0ccef0067a53f6314eb15.png"
+    }
   ],
-  "recentResults": [
-    { "date": "Jan 31", "competition": "Limited Daily Pickup", "rank": 156, "score": 245.3 },
-    { "date": "Jan 30", "competition": "Limited Daily Pickup", "rank": 89, "score": 278.1 }
-  ],
-  "upcomingGameWeek": {
-    "name": "GW31",
-    "startsIn": "1d 4h",
-    "dates": "Feb 3-6"
-  }
+  "upcomingFixtures": [
+    {
+      "slug": "nba-7-8-feb-2026",
+      "gameWeek": 87,
+      "startDate": "2026-02-07T00:30:00Z",
+      "endDate": "2026-02-08T21:00:00Z"
+    },
+    {
+      "slug": "nba-10-13-feb-2026",
+      "gameWeek": 88,
+      "startDate": "2026-02-10T00:00:00Z",
+      "endDate": "2026-02-13T04:47:00Z"
+    }
+  ]
 }

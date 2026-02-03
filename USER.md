@@ -34,6 +34,11 @@
 - Panini NFT collector (sports cards)
 - TikTok content creator for pack openings (@degencollector)
 
+### 3D Printing
+- **Printer:** Bambu A1 with AMS (multi-spool feeder)
+- Can do multi-color/material prints
+- Current filaments: gold (Elegoo), black
+
 ## Personality & Style
 
 - Bio: "Early Adopter | Here for fun and to learn | Chain agnostic | NFA, posts are my opinions at that point in time 🫡"
@@ -45,6 +50,11 @@
 
 - **Solana:** `6EYvnXTGFj5HQzLAJMYs4EpYnzQ6A4gUVrG5vncP96h8`
 
+## Communication Preferences
+
+- **During long operations**: Narrate progress (don't go silent)
+- **Heavy tasks** (video editing, long browser sessions): Spawn sub-agents so main chat stays responsive
+
 ## Context
 
 - First day together (January 31, 2026)
@@ -53,4 +63,4 @@
 
 ---
 
-*Updated: January 31, 2026*
+*Updated: February 1, 2026*

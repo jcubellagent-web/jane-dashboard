@@ -1,14 +1,23 @@
 {
   "inProgress": [
-    { "task": "Monitor memecoin positions", "status": "in-progress", "icon": "📈", "detail": "WOJAK, COPPERINU, pippin" },
-    { "task": "TikTok stats monitoring", "status": "in-progress", "icon": "🎵", "detail": "Auto-refresh 2-3x daily" }
+    { "task": "Memecoin position monitor", "icon": "📈", "detail": "WOJAK +22%, COPPER +22%, pippin -3%", "rag": "green" },
+    { "task": "TikTok stats tracking", "icon": "🎵", "detail": "389 followers", "rag": "green" },
+    { "task": "Dashboard real-time updates", "icon": "📡", "detail": "WebSocket push active", "rag": "green" },
+    { "task": "Session monitoring", "icon": "🤖", "detail": "Sub-agents via heartbeat", "rag": "green" }
   ],
   "completed": [
-    { "task": "Mobile dashboard redesign", "status": "done", "icon": "📱", "detail": "Hamburger menu, accessibility, native styling" },
-    { "task": "Remote access setup", "status": "done", "icon": "🌐", "detail": "Cloudflare Tunnel for external access" },
-    { "task": "TikTok EP.6 & EP.7 posted", "status": "done", "icon": "✅", "detail": "Drake Maye Hunt series" },
-    { "task": "Kiosk mode added", "status": "done", "icon": "🖥️", "detail": "?kiosk URL param for dedicated display" },
-    { "task": "Dynamic API endpoints", "status": "done", "icon": "🤖", "detail": "AI News, Mindmap, Tasks now live" }
+    { "task": "App icon designed", "icon": "🎨", "detail": "Cosmic J-bolt with stars & planets" },
+    { "task": "Mobile Command Center", "icon": "📱", "detail": "localhost:3000/mobile.html" },
+    { "task": "Logo updated to 🦾", "icon": "🦾", "detail": "Robot arm everywhere" },
+    { "task": "RAG status indicators", "icon": "🚦", "detail": "Red/Amber/Green on tasks" },
+    { "task": "Night mode toggle", "icon": "🌙", "detail": "Manual control" },
+    { "task": "WebSocket real-time push", "icon": "📡", "detail": "Instant updates" },
+    { "task": "Auto-start on boot", "icon": "🚀", "detail": "LaunchAgents ready" },
+    { "task": "EP.9 video posted", "icon": "🎬", "detail": "Montana + Puka = $165!" },
+    { "task": "EP.8 video posted", "icon": "🎬", "detail": "Ultra Rare + Epic = $24" },
+    { "task": "Sub-agents widget", "icon": "🤖", "detail": "In Jane's Status" },
+    { "task": "Prediction markets", "icon": "🔮", "detail": "Dual odds, Super Bowl" },
+    { "task": "Took profit COPPERINU", "icon": "💰", "detail": "+90% realized" }
   ],
-  "lastUpdated": "2026-02-01T23:59:00Z"
+  "lastUpdated": "2026-02-02T03:19:00Z"
 }

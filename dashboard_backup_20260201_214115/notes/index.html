@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Notes - Jane Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: rgba(30, 41, 59, 0.8);
+            --accent: #4ade80;
+            --accent-blue: #60a5fa;
+            --accent-yellow: #facc15;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border: rgba(255,255,255,0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(250, 204, 21, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(96, 165, 250, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .logo h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .back-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-yellow), var(--accent));
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(250, 204, 21, 0.3);
+        }
+
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .note-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .note-card:hover {
+            border-color: var(--accent-yellow);
+            transform: translateY(-2px);
+        }
+
+        .note-card.pinned {
+            border-color: var(--accent-yellow);
+        }
+
+        .note-card.pinned::before {
+            content: '📌';
+            position: absolute;
+            top: -8px;
+            right: 12px;
+            font-size: 1.25rem;
+        }
+
+        .note-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .note-preview {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .note-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .note-tags {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .tag {
+            background: rgba(255,255,255,0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .tag.personal { background: rgba(167, 139, 250, 0.3); }
+        .tag.work { background: rgba(96, 165, 250, 0.3); }
+        .tag.idea { background: rgba(250, 204, 21, 0.3); }
+        .tag.important { background: rgba(239, 68, 68, 0.3); }
+
+        /* Editor Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .editor {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .editor-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .editor-header input {
+            background: transparent;
+            border: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            width: 100%;
+            outline: none;
+        }
+
+        .editor-body {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            overflow-y: auto;
+        }
+
+        .editor-body textarea {
+            width: 100%;
+            min-height: 200px;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+        }
+
+        .editor-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tag-selector {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .tag-btn {
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .tag-btn:hover, .tag-btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+        }
+
+        .btn-ghost:hover {
+            color: var(--text-primary);
+        }
+
+        .btn-delete {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .btn-delete:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🌿</div>
+            <h1>Jane Dashboard</h1>
+        </a>
+        <a href="/" class="back-link">← Back to Dashboard</a>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>📝 Quick Notes</h2>
+            <button class="btn btn-primary" onclick="createNote()">
+                ➕ New Note
+            </button>
+        </div>
+
+        <div class="notes-grid" id="notes-grid">
+            <!-- Notes will be rendered here -->
+        </div>
+
+        <div class="empty-state" id="empty-state" style="display: none;">
+            <div class="icon">📝</div>
+            <h3>No notes yet</h3>
+            <p>Create your first note to get started!</p>
+        </div>
+    </div>
+
+    <!-- Editor Modal -->
+    <div class="modal" id="editor-modal">
+        <div class="editor">
+            <div class="editor-header">
+                <input type="text" id="note-title" placeholder="Note title...">
+                <button class="btn btn-ghost btn-small" onclick="closeEditor()">✕</button>
+            </div>
+            <div class="editor-body">
+                <textarea id="note-content" placeholder="Start writing..."></textarea>
+            </div>
+            <div class="editor-footer">
+                <div class="tag-selector">
+                    <button class="tag-btn" data-tag="personal" onclick="toggleTag('personal')">Personal</button>
+                    <button class="tag-btn" data-tag="work" onclick="toggleTag('work')">Work</button>
+                    <button class="tag-btn" data-tag="idea" onclick="toggleTag('idea')">💡 Idea</button>
+                    <button class="tag-btn" data-tag="important" onclick="toggleTag('important')">⚠️ Important</button>
+                </div>
+                <div class="editor-actions">
+                    <button class="btn btn-delete btn-small" id="delete-btn" onclick="deleteNote()" style="display: none;">Delete</button>
+                    <button class="btn btn-primary btn-small" onclick="saveNote()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Jane 🌿 · Quick Notes · Stored locally in your browser
+    </footer>
+
+    <script>
+        let notes = [];
+        let currentNoteId = null;
+        let selectedTags = [];
+
+        // Load notes from localStorage
+        function loadNotes() {
+            const saved = localStorage.getItem('jane-notes');
+            if (saved) {
+                notes = JSON.parse(saved);
+            } else {
+                // Default notes
+                notes = [
+                    {
+                        id: Date.now(),
+                        title: "Welcome to Quick Notes!",
+                        content: "Use this space to jot down quick thoughts, ideas, or reminders. Notes are stored locally in your browser.\n\nTip: Pin important notes to keep them at the top!",
+                        tags: ['idea'],
+                        pinned: true,
+                        created: new Date().toISOString(),
+                        updated: new Date().toISOString()
+                    }
+                ];
+                saveNotes();
+            }
+            renderNotes();
+        }
+
+        // Save notes to localStorage
+        function saveNotes() {
+            localStorage.setItem('jane-notes', JSON.stringify(notes));
+        }
+
+        // Render notes
+        function renderNotes() {
+            const grid = document.getElementById('notes-grid');
+            const empty = document.getElementById('empty-state');
+
+            if (notes.length === 0) {
+                grid.style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+
+            grid.style.display = 'grid';
+            empty.style.display = 'none';
+
+            // Sort: pinned first, then by updated date
+            const sorted = [...notes].sort((a, b) => {
+                if (a.pinned && !b.pinned) return -1;
+                if (!a.pinned && b.pinned) return 1;
+                return new Date(b.updated) - new Date(a.updated);
+            });
+
+            grid.innerHTML = sorted.map(note => `
+                <div class="note-card ${note.pinned ? 'pinned' : ''}" onclick="editNote(${note.id})">
+                    <div class="note-title">${escapeHtml(note.title || 'Untitled')}</div>
+                    <div class="note-preview">${escapeHtml(note.content || '')}</div>
+                    <div class="note-meta">
+                        <div class="note-tags">
+                            ${note.tags.map(t => `<span class="tag ${t}">${t}</span>`).join('')}
+                        </div>
+                        <span>${formatDate(note.updated)}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Create new note
+        function createNote() {
+            currentNoteId = null;
+            selectedTags = [];
+            document.getElementById('note-title').value = '';
+            document.getElementById('note-content').value = '';
+            document.getElementById('delete-btn').style.display = 'none';
+            updateTagButtons();
+            document.getElementById('editor-modal').classList.add('active');
+            document.getElementById('note-title').focus();
+        }
+
+        // Edit existing note
+        function editNote(id) {
+            const note = notes.find(n => n.id === id);
+            if (!note) return;
+
+            currentNoteId = id;
+            selectedTags = [...note.tags];
+            document.getElementById('note-title').value = note.title;
+            document.getElementById('note-content').value = note.content;
+            document.getElementById('delete-btn').style.display = 'block';
+            updateTagButtons();
+            document.getElementById('editor-modal').classList.add('active');
+        }
+
+        // Save note
+        function saveNote() {
+            const title = document.getElementById('note-title').value.trim();
+            const content = document.getElementById('note-content').value.trim();
+
+            if (!title && !content) {
+                closeEditor();
+                return;
+            }
+
+            if (currentNoteId) {
+                // Update existing
+                const note = notes.find(n => n.id === currentNoteId);
+                if (note) {
+                    note.title = title;
+                    note.content = content;
+                    note.tags = selectedTags;
+                    note.updated = new Date().toISOString();
+                }
+            } else {
+                // Create new
+                notes.push({
+                    id: Date.now(),
+                    title: title || 'Untitled',
+                    content,
+                    tags: selectedTags,
+                    pinned: false,
+                    created: new Date().toISOString(),
+                    updated: new Date().toISOString()
+                });
+            }
+
+            saveNotes();
+            renderNotes();
+            closeEditor();
+        }
+
+        // Delete note
+        function deleteNote() {
+            if (!currentNoteId) return;
+            if (!confirm('Delete this note?')) return;
+
+            notes = notes.filter(n => n.id !== currentNoteId);
+            saveNotes();
+            renderNotes();
+            closeEditor();
+        }
+
+        // Toggle tag
+        function toggleTag(tag) {
+            const idx = selectedTags.indexOf(tag);
+            if (idx >= 0) {
+                selectedTags.splice(idx, 1);
+            } else {
+                selectedTags.push(tag);
+            }
+            updateTagButtons();
+        }
+
+        // Update tag button states
+        function updateTagButtons() {
+            document.querySelectorAll('.tag-btn').forEach(btn => {
+                const tag = btn.dataset.tag;
+                btn.classList.toggle('active', selectedTags.includes(tag));
+            });
+        }
+
+        // Close editor
+        function closeEditor() {
+            document.getElementById('editor-modal').classList.remove('active');
+            currentNoteId = null;
+        }
+
+        // Helper: escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Helper: format date
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const now = new Date();
+            const diff = now - date;
+
+            if (diff < 60000) return 'Just now';
+            if (diff < 3600000) return Math.floor(diff / 60000) + 'm ago';
+            if (diff < 86400000) return Math.floor(diff / 3600000) + 'h ago';
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+
+        // Close modal on escape
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeEditor();
+        });
+
+        // Close modal on backdrop click
+        document.getElementById('editor-modal').addEventListener('click', e => {
+            if (e.target.id === 'editor-modal') closeEditor();
+        });
+
+        // Initialize
+        loadNotes();
+    </script>
+</body>
+</html>

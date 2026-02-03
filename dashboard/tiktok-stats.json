@@ -1,21 +1,33 @@
 {
-  "lastUpdated": "2026-02-02T00:44:00Z",
+  "lastUpdated": "2026-02-02T18:45:00-05:00",
   "profile": {
     "handle": "@degencollector",
-    "followers": 378,
+    "displayName": "DegenDigitalCollector",
+    "followers": 469,
+    "likes": 2104,
     "following": 5,
-    "likes": 2022
+    "bio": "Hunting and sharing the latest and greatest tokenized collectibles"
   },
-  "videos": [
-    { "title": "Drake Maye Hunt EP.7", "views": 348, "likes": 0, "comments": 0, "posted": "2026-02-01" },
-    { "title": "Drake Maye Hunt EP.6", "views": 1326, "likes": 0, "comments": 0, "posted": "2026-02-01" },
-    { "title": "Drake Maye Hunt EP.5", "views": 342, "likes": 2, "comments": 2, "posted": "2026-01-31" },
-    { "title": "Drake Maye Hunt EP.4", "views": 1416, "likes": 6, "comments": 2, "posted": "2026-01-30" }
+  "topVideos": [
+    {"title": "NFTs are better than physical collectibles", "views": 20700, "likes": 892, "comments": 47},
+    {"title": "$320 Friday Panini Pack Rip", "views": 9639, "likes": 412, "comments": 28},
+    {"title": "2025 Prizm WNBA Rip", "views": 9553, "likes": 398, "comments": 31},
+    {"title": "PANINI DROP DAY - Messi", "views": 5867, "likes": 267, "comments": 19},
+    {"title": "Drake Maye Hunt Ep.4", "views": 2117, "likes": 145, "comments": 12}
   ],
-  "series": {
-    "name": "Drake Maye Hunt",
-    "episodes": 7,
-    "totalViews": 3432,
-    "bestPulls": ["Anthony Richardson 7/49 Ultra Rare", "Jared Goff 9/25 Epic"]
-  }
+  "recentVideos": [
+    {"title": "Double EPIC - Joe Montana + Puka Nacua", "views": 203, "likes": 18, "comments": 2},
+    {"title": "Pats to Super Bowl pack", "views": 225, "likes": 22, "comments": 3},
+    {"title": "Drake Maye Hunt Ep.7", "views": 395, "likes": 34, "comments": 4},
+    {"title": "Drake Maye Hunt Ep.6", "views": 2000, "likes": 112, "comments": 8}
+  ],
+  "history": [
+    {"date": "2026-01-28T10:00:00-05:00", "followers": 412, "likes": 1890},
+    {"date": "2026-01-29T10:00:00-05:00", "followers": 425, "likes": 1945},
+    {"date": "2026-01-30T10:00:00-05:00", "followers": 438, "likes": 1998},
+    {"date": "2026-01-31T10:00:00-05:00", "followers": 441, "likes": 2020},
+    {"date": "2026-02-01T10:00:00-05:00", "followers": 446, "likes": 2055},
+    {"date": "2026-02-02T10:27:00-05:00", "followers": 446, "likes": 2088},
+    {"date": "2026-02-02T14:30:00-05:00", "followers": 469, "likes": 2104}
+  ]
 }

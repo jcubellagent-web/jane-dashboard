@@ -1,0 +1,86 @@
+{
+  "sessions": [
+    {
+      "key": "agent:main:main",
+      "kind": "main",
+      "channel": "webchat",
+      "displayName": "Main Session (Josh)",
+      "updatedAt": 1769999202223,
+      "model": "claude-opus-4-5",
+      "totalTokens": 60136,
+      "messages": [
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "Building sub-agents widget for the dashboard..."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "agent:main:cron:73db46f6-393d-45dc-85af-6fc0cc92171c",
+      "kind": "cron",
+      "channel": "webchat",
+      "displayName": "Memecoin Price Monitor",
+      "updatedAt": 1769998667840,
+      "model": "claude-opus-4-5",
+      "totalTokens": 77575,
+      "messages": [
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "Position Monitor Complete ✅ All 3 positions checked — WOJAK +17%, COPPERINU +18.5%, pippin -2%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "agent:main:dashboard:chat",
+      "kind": "other",
+      "channel": "dashboard",
+      "displayName": "Dashboard Chat",
+      "updatedAt": 1769925181659,
+      "model": "claude-opus-4-5",
+      "totalTokens": 14175,
+      "messages": [
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "Cron test received successfully! ✅"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "agent:main:test:webhook",
+      "kind": "other",
+      "channel": "test",
+      "displayName": "Webhook Test",
+      "updatedAt": 1769904229404,
+      "model": "claude-opus-4-5",
+      "totalTokens": 14179,
+      "messages": [
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "Cron webhook test received and working! 👍"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "lastUpdated": "2026-02-02T02:27:00Z",
+  "note": "Session data updated by Jane during operations"
+}

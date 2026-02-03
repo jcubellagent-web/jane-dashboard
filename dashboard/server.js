@@ -104,6 +104,109 @@ async function fetchAINewsFromFeeds() {
     }
 }
 
+// Get bubble cluster data from Second Brain items
+function getBubbleData() {
+    const bubbles = {
+        lastUpdated: new Date().toISOString(),
+        clusters: [],
+        totalItems: 0
+    };
+    
+    // Category definitions for Second Brain
+    const CATEGORIES = {
+        articles: { name: 'Articles', icon: '📚', color: '#60a5fa', desc: 'Reads & insights' },
+        ideas: { name: 'Ideas', icon: '💡', color: '#facc15', desc: 'Thoughts & concepts' },
+        links: { name: 'Links', icon: '🔗', color: '#a78bfa', desc: 'Sites & resources' },
+        quotes: { name: 'Quotes', icon: '💬', color: '#f472b6', desc: 'Words to remember' },
+        videos: { name: 'Videos', icon: '🎬', color: '#ff0050', desc: 'Content to watch' },
+        people: { name: 'People', icon: '👥', color: '#fb923c', desc: 'Accounts & contacts' },
+        tools: { name: 'Tools', icon: '🛠️', color: '#4ade80', desc: 'Apps & products' },
+        random: { name: 'Random', icon: '🎲', color: '#38bdf8', desc: 'Cool stuff' }
+    };
+    
+    // Helper to format relative time
+    const relativeTime = (dateStr) => {
+        const date = new Date(dateStr);
+        const now = new Date();
+        const diff = now - date;
+        const mins = Math.floor(diff / 60000);
+        const hours = Math.floor(diff / 3600000);
+        const days = Math.floor(diff / 86400000);
+        if (mins < 60) return mins <= 1 ? 'just now' : `${mins}m ago`;
+        if (hours < 24) return `${hours}h ago`;
+        if (days === 1) return 'yesterday';
+        if (days < 7) return `${days}d ago`;
+        if (days < 30) return `${Math.floor(days/7)}w ago`;
+        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    };
+    
+    // Load Second Brain items
+    const itemsFile = path.join(WORKSPACE, 'second-brain', 'items.json');
+    let items = [];
+    
+    if (fs.existsSync(itemsFile)) {
+        try {
+            const data = JSON.parse(fs.readFileSync(itemsFile, 'utf8'));
+            items = data.items || [];
+        } catch (e) {
+            console.error('Error loading second-brain items:', e);
+        }
+    }
+    
+    bubbles.totalItems = items.length;
+    
+    // Group items by category
+    const grouped = {};
+    for (const cat of Object.keys(CATEGORIES)) {
+        grouped[cat] = items.filter(item => item.category === cat);
+    }
+    
+    // Build clusters - only show categories with items OR core categories
+    const coreCats = ['articles', 'ideas', 'links', 'videos', 'random'];
+    
+    for (const [catId, catInfo] of Object.entries(CATEGORIES)) {
+        const catItems = grouped[catId] || [];
+        
+        // Skip empty non-core categories
+        if (catItems.length === 0 && !coreCats.includes(catId)) continue;
+        
+        // Calculate size based on item count (min 50, max 95)
+        const baseSize = 50;
+        const sizePerItem = 8;
+        const size = Math.min(95, baseSize + catItems.length * sizePerItem);
+        
+        // Build artifacts from items (most recent first)
+        const artifacts = catItems
+            .sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt))
+            .slice(0, 5)
+            .map(item => ({
+                title: item.title,
+                detail: item.note || item.tags?.join(', ') || catInfo.desc,
+                time: relativeTime(item.savedAt),
+                id: item.id
+            }));
+        
+        bubbles.clusters.push({
+            id: catId,
+            name: catInfo.name,
+            icon: catInfo.icon,
+            color: catInfo.color,
+            size: size,
+            count: catItems.length,
+            artifacts: artifacts
+        });
+    }
+    
+    // Sort clusters: items with content first, then by count
+    bubbles.clusters.sort((a, b) => {
+        if (a.count > 0 && b.count === 0) return -1;
+        if (b.count > 0 && a.count === 0) return 1;
+        return b.count - a.count;
+    });
+    
+    return bubbles;
+}
+
 // Scan Second Brain folder for mindmap stats
 function getMindmapStats() {
     const stats = { topics: {}, lastUpdated: new Date().toISOString() };
@@ -388,12 +491,36 @@ const server = http.createServer((req, res) => {
         return;
     }
     
+    // API endpoint for active sessions/sub-agents
+    // Returns session data from OpenClaw's sessions list
+    if (req.url === '/api/sessions') {
+        const sessionsFile = path.join(ROOT, 'sessions.json');
+        if (fs.existsSync(sessionsFile)) {
+            const data = JSON.parse(fs.readFileSync(sessionsFile, 'utf8'));
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(data));
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ 
+                sessions: [], 
+                lastUpdated: null,
+                note: 'Session data updated by Jane during heartbeats'
+            }));
+        }
+        return;
+    }
+    
     // API endpoint for TikTok stats (reads from JSON, updated by Jane's heartbeat)
     if (req.url === '/api/tiktok') {
         const statsFile = path.join(ROOT, 'tiktok-stats.json');
         if (fs.existsSync(statsFile)) {
             const stats = JSON.parse(fs.readFileSync(statsFile, 'utf8'));
             stats.note = 'Updated via heartbeat browser scraping (TikTok has no public API)';
+            // Add top-level fields for backwards compatibility
+            if (stats.profile) {
+                stats.followers = stats.profile.followers;
+                stats.likes = stats.profile.likes;
+            }
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(stats));
         } else {
@@ -413,6 +540,63 @@ const server = http.createServer((req, res) => {
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'No Panini collection data available' }));
         }
+        return;
+    }
+    
+    // API endpoint for trading positions (with computed summary)
+    if (req.url === '/api/trading') {
+        const positionsFile = path.join(WORKSPACE, 'trading', 'positions.json');
+        if (fs.existsSync(positionsFile)) {
+            try {
+                const data = JSON.parse(fs.readFileSync(positionsFile, 'utf8'));
+                // Compute summary from realized trades
+                if (data.realizedTrades && data.realizedTrades.length > 0) {
+                    const totalRealized = data.realizedTrades.reduce((sum, t) => sum + (t.realizedPnL || 0), 0);
+                    const totalCost = data.realizedTrades.reduce((sum, t) => sum + (t.costBasis || 0), 0);
+                    data.summary = {
+                        totalRealizedPnL: totalRealized,
+                        totalRealizedPercent: totalCost > 0 ? (totalRealized / totalCost * 100) : 0,
+                        tradeCount: data.realizedTrades.length
+                    };
+                }
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(data));
+            } catch (e) {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(fs.readFileSync(positionsFile));
+            }
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ positions: [], error: 'No positions file' }));
+        }
+        return;
+    }
+    
+    // API endpoint for wallet balances
+    if (req.url === '/api/wallet') {
+        // Return known wallet balances
+        const wallets = {
+            jane: {
+                address: 'ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L',
+                balance: 0.584,
+                label: "Jane's Wallet"
+            },
+            josh: {
+                address: '6EYvnXTGFj5HQzLAJMYs4EpYnzQ6A4gUVrG5vncP96h8',
+                balance: 0.3997,
+                label: "Josh's Wallet"
+            }
+        };
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(wallets));
+        return;
+    }
+    
+    // API endpoint for bubble cluster mindmap with artifacts
+    if (req.url === '/api/bubbles') {
+        const bubbles = getBubbleData();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(bubbles));
         return;
     }
     
@@ -697,10 +881,105 @@ const server = http.createServer((req, res) => {
     });
 });
 
+// ============================================
+// WebSocket Server for Real-Time Push Updates
+// ============================================
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ server });
+
+// Track connected clients
+let clients = new Set();
+
+wss.on('connection', (ws) => {
+    clients.add(ws);
+    console.log(`📡 WebSocket client connected (${clients.size} total)`);
+    
+    // Send initial connection confirmation
+    ws.send(JSON.stringify({ type: 'connected', timestamp: Date.now() }));
+    
+    ws.on('close', () => {
+        clients.delete(ws);
+        console.log(`📡 WebSocket client disconnected (${clients.size} total)`);
+    });
+    
+    ws.on('error', (err) => {
+        console.error('WebSocket error:', err.message);
+        clients.delete(ws);
+    });
+});
+
+// Broadcast to all connected clients
+function broadcast(data) {
+    const message = JSON.stringify(data);
+    clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(message);
+        }
+    });
+}
+
+// File watchers for real-time updates
+const WATCHED_FILES = {
+    'tasks': path.join(WORKSPACE, 'tasks.json'),
+    'sessions': path.join(ROOT, 'sessions.json'),
+    'tiktok': path.join(ROOT, 'tiktok-stats.json'),
+    'trading': path.join(ROOT, 'trading-positions.json'),
+    'sorare': path.join(ROOT, 'sorare-stats.json'),
+    'panini': path.join(ROOT, 'panini-collection.json')
+};
+
+// Debounce file change events
+const fileChangeTimers = {};
+function debounceFileChange(key, callback, delay = 500) {
+    if (fileChangeTimers[key]) clearTimeout(fileChangeTimers[key]);
+    fileChangeTimers[key] = setTimeout(callback, delay);
+}
+
+// Set up file watchers
+Object.entries(WATCHED_FILES).forEach(([key, filePath]) => {
+    if (fs.existsSync(filePath)) {
+        fs.watch(filePath, (eventType) => {
+            if (eventType === 'change') {
+                debounceFileChange(key, () => {
+                    try {
+                        const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+                        console.log(`📤 Broadcasting ${key} update to ${clients.size} clients`);
+                        broadcast({ type: 'update', widget: key, data, timestamp: Date.now() });
+                    } catch (err) {
+                        console.error(`Failed to read ${key}:`, err.message);
+                    }
+                });
+            }
+        });
+        console.log(`👁️  Watching: ${key}`);
+    }
+});
+
+// Also watch workspace tasks.json directory (in case file is created later)
+const tasksDir = WORKSPACE;
+fs.watch(tasksDir, (eventType, filename) => {
+    if (filename === 'tasks.json' && eventType === 'change') {
+        debounceFileChange('tasks', () => {
+            try {
+                const data = JSON.parse(fs.readFileSync(WATCHED_FILES.tasks, 'utf8'));
+                console.log(`📤 Broadcasting tasks update to ${clients.size} clients`);
+                broadcast({ type: 'update', widget: 'tasks', data, timestamp: Date.now() });
+            } catch (err) {
+                // File might not exist yet
+            }
+        });
+    }
+});
+
+// API endpoint for Jane to trigger manual push
+// POST /api/push { widget: 'tasks', data: {...} }
+// This allows Jane to push updates without writing files
+
 server.listen(PORT, '0.0.0.0', () => {
     console.log(`🌿 Jane Dashboard running at:`);
     console.log(`   Local:   http://localhost:${PORT}`);
     console.log(`   Network: http://${getLocalIP()}:${PORT}`);
+    console.log(`   WebSocket: ws://localhost:${PORT}`);
     console.log('');
     console.log('Press Ctrl+C to stop');
 });

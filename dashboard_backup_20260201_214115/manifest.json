@@ -1,0 +1,46 @@
+{
+  "name": "Jane Dashboard",
+  "short_name": "Jane",
+  "description": "Personal AI Assistant Dashboard & Communication Portal",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#4ade80",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Task Board",
+      "short_name": "Tasks",
+      "url": "/kanban/",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Quick Notes",
+      "short_name": "Notes",
+      "url": "/notes/",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Quick Links",
+      "short_name": "Links",
+      "url": "/links/",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "lang": "en-US"
+}

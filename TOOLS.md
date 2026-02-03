@@ -4,6 +4,51 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 
 ---
 
+## Browser Startup Checklist
+
+When opening the `openclaw` Chrome profile:
+1. **Jupiter Wallet** — set to "never lock", should stay unlocked automatically
+   - If ever locked: open `chrome-extension://iledlaeogohbilgbfhmbgkgmpplbfboh/popup.html` and enter password `11111111`
+
+## OpenClaw Browser Relay Extension
+
+- **Extension ID:** `gmdionclnanmnnflmpildiladafkhhmm`
+- **Purpose:** Attach OpenClaw to existing Chrome tabs via local CDP relay
+- **Toggle via:** `chrome://extensions` → find "OpenClaw Browser Relay" → click the toggle button
+- **Turn ON when:** Need to control/view tabs in Josh's regular Chrome browser
+- **Turn OFF when:** Not needed (to avoid interference)
+
+---
+
+## Sorare API
+
+- **Email:** jcubell16@gmail.com (NOT jcubellagent)
+- **User slug:** jcubnft
+- **Token:** `~/.openclaw/workspace/.secrets/sorare_token.txt`
+- **Token expires:** March 4, 2026
+- **Audience:** `jane-dashboard`
+- **API endpoint:** `https://api.sorare.com/graphql`
+- **Headers required:**
+  - `Authorization: Bearer <token>`
+  - `JWT-AUD: jane-dashboard`
+  - `Content-Type: application/json`
+
+### Fetch Script
+- **Location:** `~/.openclaw/workspace/dashboard/fetch-sorare.sh`
+- **Output:** `~/.openclaw/workspace/dashboard/sorare-stats.json`
+- Run manually or add to cron for live updates
+
+### Working Queries
+- Cards: `user(slug: "jcubnft") { blueprintCards { nodes { ... on NBACard { ... } } } }`
+- Fixtures: `so5 { allSo5Fixtures(sport: NBA, eventType: CLASSIC, future: true) { ... } }`
+- Profile: `currentUser { nbaUserProfile { clubName blueprintCardsCount } }`
+
+### Gotchas
+- Use `basketballPlayer` not `player`, `rarityTyped` not `rarity`
+- Introspection disabled - trust error messages over schema file
+
+---
+
 ## Accounts
 
 ### Gmail

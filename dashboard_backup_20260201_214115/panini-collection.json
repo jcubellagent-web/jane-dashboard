@@ -1,0 +1,51 @@
+{
+  "lastUpdated": "2026-02-02T00:50:00Z",
+  "profile": {
+    "username": "jcubnft",
+    "totalCards": 1781,
+    "legendary": 4,
+    "epic": 238,
+    "ultraRare": 190,
+    "rare": 493,
+    "uncommon": 816,
+    "common": 40
+  },
+  "activeListings": {
+    "total": 134,
+    "over10": 32
+  },
+  "valuableCards": [
+    { "name": "Mike Vrabel", "rarity": "Uncommon", "serial": "27/297", "price": 1200.00, "offers": 3, "bestOffer": 1.00 },
+    { "name": "Drake Maye", "rarity": "Epic", "serial": "6/25", "price": 850.00, "offers": 1, "bestOffer": 250.00, "tags": ["rookie"] },
+    { "name": "Shedeur Sanders", "rarity": "Epic", "serial": "7/10", "price": 650.00, "offers": 1, "bestOffer": 40.00, "tags": ["rookie", "debut"] },
+    { "name": "Kyle Williams", "rarity": "Epic", "serial": "2/3", "price": 425.00, "offers": 0, "tags": ["rookie", "debut"] },
+    { "name": "Bucky Irving", "rarity": "Legendary", "serial": "1/1", "price": 240.00, "offers": 0, "tags": ["rookie", "#1", "perfect mint"] },
+    { "name": "Quinn Ewers", "rarity": "Epic", "serial": "10/10", "price": 220.00, "offers": 1, "bestOffer": 10.00, "tags": ["rookie", "perfect mint", "debut"] },
+    { "name": "Will Campbell", "rarity": "Epic", "serial": "1/10", "price": 220.00, "offers": 2, "bestOffer": 15.00, "tags": ["rookie", "#1", "debut"] },
+    { "name": "Jaylin Noel", "rarity": "Epic", "serial": "3/10", "price": 200.00, "offers": 0, "tags": ["rookie", "debut"] },
+    { "name": "Drake Maye", "rarity": "Epic", "serial": "9/10", "price": 180.00, "offers": 0, "tags": ["rookie"] },
+    { "name": "Rhamondre Stevenson", "rarity": "Legendary", "serial": "1/1", "price": 175.00, "offers": 0, "tags": ["rookie", "#1", "perfect mint"] },
+    { "name": "Cam Ward", "rarity": "Epic", "serial": "5/10", "price": 160.00, "offers": 3, "bestOffer": 40.00, "tags": ["rookie", "debut"] },
+    { "name": "Will Campbell", "rarity": "Epic", "serial": "4/10", "price": 140.00, "offers": 2, "bestOffer": 15.00, "tags": ["rookie", "debut"] },
+    { "name": "Cam Skattebo", "rarity": "Ultra Rare", "serial": "1/49", "price": 110.00, "offers": 2, "bestOffer": 1.00, "tags": ["rookie", "#1", "debut"] },
+    { "name": "Vernon Davis", "rarity": "Epic", "serial": "2/5", "price": 110.00, "offers": 0 },
+    { "name": "James Pearce Jr.", "rarity": "Epic", "serial": "5/5", "price": 110.00, "offers": 0, "tags": ["rookie", "perfect mint", "debut"] },
+    { "name": "Rome Odunze", "rarity": "Epic", "serial": "3/10", "price": 110.00, "offers": 0, "tags": ["rookie"] },
+    { "name": "Sophia Wilson", "rarity": "Ultra Rare", "serial": "5/49", "price": 87.00, "offers": 0 },
+    { "name": "Kimani Vidal", "rarity": "Ultra Rare", "serial": "43/49", "price": 75.00, "offers": 1, "bestOffer": 1.00 },
+    { "name": "Bo Nix", "rarity": "Epic", "serial": "16/25", "price": 75.00, "offers": 1, "bestOffer": 10.00, "tags": ["rookie"] },
+    { "name": "Benjamin Henrichs", "rarity": "Epic", "serial": "7/16", "price": 70.00, "offers": 0, "tags": ["debut"] },
+    { "name": "Dak Prescott", "rarity": "Epic", "serial": "5/5", "price": 70.00, "offers": 1, "bestOffer": 44.00, "tags": ["perfect mint"] },
+    { "name": "Bo Nix", "rarity": "Epic", "serial": "19/25", "price": 65.00, "offers": 0, "tags": ["rookie"] },
+    { "name": "Emeka Egbuka", "rarity": "Epic", "serial": "17/25", "price": 65.00, "offers": 4, "bestOffer": 7.00, "tags": ["rookie", "debut"] },
+    { "name": "Chris Godwin", "rarity": "Epic", "serial": "8/25", "price": 60.00, "offers": 2, "bestOffer": 4.00 },
+    { "name": "Bijan Robinson", "rarity": "Epic", "serial": "6/25", "price": 60.00, "offers": 1, "bestOffer": 20.00 },
+    { "name": "Michael Penix Jr.", "rarity": "Epic", "serial": "23/25", "price": 50.00, "offers": 0, "tags": ["rookie"] },
+    { "name": "Antonio Nusa", "rarity": "Epic", "serial": "4/24", "price": 40.00, "offers": 0, "tags": ["debut"] },
+    { "name": "Jayden Daniels", "rarity": "Ultra Rare", "serial": "36/49", "price": 35.00, "offers": 2, "bestOffer": 9.00 },
+    { "name": "Caleb Williams", "rarity": "Ultra Rare", "serial": "40/49", "price": 35.00, "offers": 1, "bestOffer": 12.00 },
+    { "name": "Ju-hyeok Kang", "rarity": "Epic", "serial": "8/10", "price": 35.00, "offers": 0, "tags": ["debut"] }
+  ],
+  "totalListedValue": 6445.00,
+  "topPlayers": ["Drake Maye", "Shedeur Sanders", "Cam Ward", "Will Campbell", "Bo Nix"]
+}

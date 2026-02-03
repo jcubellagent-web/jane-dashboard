@@ -1,0 +1,42 @@
+{
+  "lastUpdated": "2026-02-01T19:30:00Z",
+  "account": "jcubnft",
+  "game": "NBA",
+  "profile": {
+    "collections": 937,
+    "limitedCards": 802,
+    "rareCards": 5,
+    "balance": "$41",
+    "ethBalance": "0.0003 ETH"
+  },
+  "currentLineup": {
+    "competition": "Limited Daily Pickup",
+    "gameWeek": "Feb 1",
+    "rating": 2963,
+    "capUsed": 116,
+    "capLimit": 120,
+    "players": [
+      { "name": "Shai Gilgeous-Alexander", "team": "OKC", "gameTime": "9:30 PM", "opponent": "DEN", "avg": 48, "isMVP": true },
+      { "name": "Jaylen Brown", "team": "BOS", "gameTime": "3:30 PM", "opponent": "MIL", "avg": 46 },
+      { "name": "Payton Pritchard", "team": "BOS", "gameTime": "3:30 PM", "opponent": "MIL", "avg": 31 },
+      { "name": "Deandre Ayton", "team": "LAL", "gameTime": "7:00 PM", "opponent": "NYK", "avg": 23 },
+      { "name": "Gradey Dick", "team": "TOR", "gameTime": "6:00 PM", "opponent": "UTA", "avg": 16 }
+    ]
+  },
+  "todaysGames": [
+    { "time": "3:30 PM", "away": "BOS", "home": "MIL", "myPlayers": ["Jaylen Brown", "Payton Pritchard"] },
+    { "time": "6:00 PM", "away": "TOR", "home": "UTA", "myPlayers": ["Gradey Dick"] },
+    { "time": "6:00 PM", "away": "MIA", "home": "CHI", "myPlayers": [] },
+    { "time": "7:00 PM", "away": "NYK", "home": "LAL", "myPlayers": ["Deandre Ayton"] },
+    { "time": "9:30 PM", "away": "DEN", "home": "OKC", "myPlayers": ["Shai Gilgeous-Alexander"] }
+  ],
+  "recentResults": [
+    { "date": "Jan 31", "competition": "Limited Daily Pickup", "rank": 156, "score": 245.3 },
+    { "date": "Jan 30", "competition": "Limited Daily Pickup", "rank": 89, "score": 278.1 }
+  ],
+  "upcomingGameWeek": {
+    "name": "GW31",
+    "startsIn": "1d 4h",
+    "dates": "Feb 3-6"
+  }
+}

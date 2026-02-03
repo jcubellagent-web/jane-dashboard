@@ -1,0 +1,7 @@
+{
+  "url": "https://lang-arch-pattern-supplemental.trycloudflare.com",
+  "appUrl": "https://lang-arch-pattern-supplemental.trycloudflare.com/app.html",
+  "lastUpdated": "2026-02-02T21:07:14-05:00",
+  "type": "quick-tunnel",
+  "note": "URL changes on restart. Managed by launchd: com.jane.cloudflared"
+}

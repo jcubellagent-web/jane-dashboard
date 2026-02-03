@@ -1,36 +1,22 @@
 {
-  "lastUpdated": "2026-02-02T21:09:08-05:00",
+  "lastUpdated": "2026-02-02T21:41:10-05:00",
   "sessions": [
     {
       "key": "agent:main:main",
       "kind": "main",
       "channel": "webchat",
       "model": "claude-opus-4-5",
-      "totalTokens": 105235,
-      "lastActivity": "2026-02-02T21:09:03-05:00"
+      "totalTokens": 152251,
+      "lastActivity": "2026-02-02T21:07:48-05:00"
     },
     {
       "key": "agent:main:cron:73db46f6-393d-45dc-85af-6fc0cc92171c",
       "kind": "cron",
       "channel": "webchat",
       "model": "claude-opus-4-5",
-      "totalTokens": 17581,
-      "lastActivity": "2026-02-02T20:33:20-05:00",
+      "totalTokens": 17632,
+      "lastActivity": "2026-02-02T21:03:33-05:00",
       "note": "memecoin-price-monitor"
-    },
-    {
-      "key": "agent:main:dashboard:chat",
-      "kind": "dashboard",
-      "channel": "unknown",
-      "model": "claude-opus-4-5",
-      "totalTokens": 14175
-    },
-    {
-      "key": "agent:main:test:webhook",
-      "kind": "test",
-      "channel": "unknown",
-      "model": "claude-opus-4-5",
-      "totalTokens": 14179
     }
   ],
   "summary": {

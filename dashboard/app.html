@@ -9,30 +9,17 @@
     <title>Jane 🦾</title>
     <link rel="apple-touch-icon" href="icon-192.png">
     <script>
-        // Kill all service workers and clear caches
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                for(let registration of registrations) {
-                    registration.unregister();
-                }
-            });
-            caches.keys().then(function(names) {
-                for (let name of names) caches.delete(name);
-            });
+            navigator.serviceWorker.getRegistrations().then(r => r.forEach(reg => reg.unregister()));
+            caches.keys().then(names => names.forEach(n => caches.delete(n)));
         }
     </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         :root {
             --bg: #0a0f1a;
-            --card: rgba(255,255,255,0.05);
-            --card-hover: rgba(255,255,255,0.08);
+            --card: rgba(255,255,255,0.06);
             --accent: #4ade80;
             --accent-blue: #60a5fa;
             --text: #f1f5f9;
@@ -40,7 +27,7 @@
             --green: #22c55e;
             --amber: #f59e0b;
             --red: #ef4444;
-            --border: rgba(255,255,255,0.08);
+            --border: rgba(255,255,255,0.1);
         }
         
         body {
@@ -48,18 +35,13 @@
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
-            min-height: 100dvh;
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) calc(80px + env(safe-area-inset-bottom)) env(safe-area-inset-left);
         }
         
         .container {
             max-width: 430px;
             margin: 0 auto;
             padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            min-height: 100dvh;
         }
         
         /* Header */
@@ -68,1112 +50,559 @@
             justify-content: space-between;
             align-items: center;
             padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
             margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
         }
+        .brand { display: flex; align-items: center; gap: 0.5rem; }
+        .brand img { width: 32px; height: 32px; border-radius: 8px; }
+        .brand-name { font-size: 1.25rem; font-weight: 700; }
+        .header-time { font-size: 1.1rem; font-weight: 600; color: var(--text-dim); }
         
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .brand-icon {
-            font-size: 1.75rem;
-        }
-        
-        .brand-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-        
-        .header-right {
-            text-align: right;
-        }
-        
-        .status-row {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            justify-content: flex-end;
-            margin-bottom: 0.25rem;
-        }
-        
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--accent);
-            animation: pulse 2s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        .status-text {
-            font-size: 0.8rem;
-            color: var(--accent);
-            font-weight: 500;
-        }
-        
-        .time {
-            font-size: 1.1rem;
-            font-weight: 600;
-            font-variant-numeric: tabular-nums;
-        }
-        
-        /* Tasks Progress */
-        .tasks-section {
+        /* Widget Card */
+        .widget {
             background: var(--card);
             border-radius: 16px;
             padding: 1rem;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
         }
-        
-        .tasks-header {
+        .widget-header {
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .widget-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+        .widget-icon.green { background: rgba(34,197,94,0.15); }
+        .widget-icon.blue { background: rgba(96,165,250,0.15); }
+        .widget-icon.purple { background: rgba(168,85,247,0.15); }
+        .widget-icon.amber { background: rgba(245,158,11,0.15); }
+        .widget-icon.pink { background: rgba(236,72,153,0.15); }
+        .widget-title { font-size: 1rem; font-weight: 600; flex: 1; }
+        .widget-badge {
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+        .widget-badge.green { background: rgba(34,197,94,0.2); color: var(--green); }
+        .widget-badge.amber { background: rgba(245,158,11,0.2); color: var(--amber); }
+        .widget-badge.red { background: rgba(239,68,68,0.2); color: var(--red); }
+        
+        /* Progress Bar */
+        .progress-row {
+            display: flex;
             align-items: center;
             margin-bottom: 0.75rem;
         }
-        
-        .tasks-title {
+        .progress-row:last-child { margin-bottom: 0; }
+        .progress-label {
+            width: 70px;
             font-size: 0.75rem;
             color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
-        
-        .tasks-count {
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        
         .progress-bar {
+            flex: 1;
             height: 8px;
             background: rgba(255,255,255,0.1);
             border-radius: 4px;
             overflow: hidden;
-            margin-bottom: 0.75rem;
+            margin: 0 0.75rem;
         }
-        
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent), var(--accent-blue));
             border-radius: 4px;
             transition: width 0.5s ease;
         }
-        
-        .rag-dots {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-        
-        .rag-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-        
-        .rag-dot.green { background: var(--green); box-shadow: 0 0 8px rgba(34,197,94,0.5); }
-        .rag-dot.amber { background: var(--amber); box-shadow: 0 0 8px rgba(245,158,11,0.5); }
-        .rag-dot.red { background: var(--red); box-shadow: 0 0 8px rgba(239,68,68,0.5); animation: pulse-red 1.5s ease-in-out infinite; }
-        
-        @keyframes pulse-red {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-        
-        .rag-label {
-            font-size: 0.7rem;
-            color: var(--text-dim);
-            margin-left: auto;
-        }
-        
-        /* Positions */
-        .positions-section {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .section-title {
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.75rem;
-        }
-        
-        .position-row {
-            display: flex;
-            align-items: center;
-            padding: 0.6rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .position-row:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-        
-        .position-icon {
-            font-size: 1.1rem;
-            margin-right: 0.6rem;
-        }
-        
-        .position-name {
+        .progress-fill.green { background: linear-gradient(90deg, #22c55e, #4ade80); }
+        .progress-fill.amber { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .progress-fill.red { background: linear-gradient(90deg, #ef4444, #f87171); }
+        .progress-value {
+            width: 45px;
+            text-align: right;
+            font-size: 0.8rem;
             font-weight: 600;
-            font-size: 0.95rem;
-            flex: 1;
-        }
-        
-        .position-pnl {
-            font-weight: 700;
-            font-size: 1rem;
             font-variant-numeric: tabular-nums;
         }
         
-        .position-pnl.positive { color: var(--green); }
-        .position-pnl.negative { color: var(--red); }
-        
-        .position-arrow {
-            margin-left: 0.4rem;
-            font-size: 0.9rem;
-        }
-        
-        /* Metrics Grid */
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .metric-card {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 1rem;
-        }
-        
-        .metric-icon {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .metric-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-            font-variant-numeric: tabular-nums;
-        }
-        
-        .metric-label {
-            font-size: 0.7rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        /* Completed */
-        .completed-section {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            flex: 1;
-            min-height: 0;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .completed-list {
-            flex: 1;
-            overflow-y: auto;
-        }
-        
-        .completed-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 0;
-            font-size: 0.85rem;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .completed-item:last-child {
-            border-bottom: none;
-        }
-        
-        .completed-icon {
-            font-size: 0.9rem;
-        }
-        
-        .completed-text {
-            flex: 1;
-            color: var(--text-dim);
-        }
-        
-        .completed-check {
-            color: var(--accent);
-        }
-        
-        /* Floating Chat Button */
-        .chat-fab {
-            position: fixed;
-            bottom: calc(24px + env(safe-area-inset-bottom));
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
-            color: #000;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 20px rgba(74, 222, 128, 0.4);
-            transition: transform 0.2s, box-shadow 0.2s;
-            z-index: 1000;
-        }
-        
-        .chat-fab:active {
-            transform: scale(0.95);
-        }
-        
-        /* Health Status Cards - Mac & Jane */
-        .health-card {
-            background: var(--card);
-            border-radius: 20px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .health-card.healthy {
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), transparent);
-        }
-        
-        .health-card.warning {
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), transparent);
-        }
-        
-        .health-card.critical {
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), transparent);
-        }
-        
-        .health-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .health-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-        
-        .health-card.healthy .health-icon {
-            background: rgba(34, 197, 94, 0.2);
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
-        }
-        
-        .health-card.warning .health-icon {
-            background: rgba(245, 158, 11, 0.2);
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
-        }
-        
-        .health-card.critical .health-icon {
-            background: rgba(239, 68, 68, 0.2);
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
-            animation: pulse-critical 1.5s ease-in-out infinite;
-        }
-        
-        @keyframes pulse-critical {
-            0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
-            50% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.6); }
-        }
-        
-        .health-info {
-            flex: 1;
-        }
-        
-        .health-title {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 0.2rem;
-        }
-        
-        .health-subtitle {
-            font-size: 0.75rem;
-            color: var(--text-dim);
-        }
-        
-        .health-status {
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 0.25rem 0.6rem;
-            border-radius: 12px;
-            text-transform: uppercase;
-        }
-        
-        .health-card.healthy .health-status {
-            background: rgba(34, 197, 94, 0.2);
-            color: var(--green);
-        }
-        
-        .health-card.warning .health-status {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--amber);
-        }
-        
-        .health-card.critical .health-status {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--red);
-        }
-        
-        .health-metrics {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .health-metric {
-            flex: 1;
-            background: rgba(255,255,255,0.03);
-            border-radius: 10px;
-            padding: 0.5rem;
-            text-align: center;
-        }
-        
-        .health-metric-value {
-            font-size: 1.1rem;
-            font-weight: 700;
-            font-variant-numeric: tabular-nums;
-        }
-        
-        .health-metric-label {
-            font-size: 0.6rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-        }
-        
-        .health-metric.good .health-metric-value { color: var(--green); }
-        .health-metric.warn .health-metric-value { color: var(--amber); }
-        .health-metric.bad .health-metric-value { color: var(--red); }
-        
-        /* Regular Status Cards */
-        .status-card {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            position: relative;
-        }
-        
-        .status-card-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .status-card-icon {
-            font-size: 1.1rem;
-        }
-        
-        .status-card-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            flex: 1;
-        }
-        
-        .status-badge {
-            font-size: 0.65rem;
-            font-weight: 600;
-            padding: 0.2rem 0.5rem;
-            border-radius: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .status-badge.online {
-            background: rgba(34, 197, 94, 0.2);
-            color: var(--green);
-        }
-        
-        .status-badge.offline {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--red);
-        }
-        
-        .status-badge.warning {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--amber);
-        }
-        
-        .status-card-details {
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
-        }
-        
-        .detail-row {
+        /* Info Row */
+        .info-row {
             display: flex;
             justify-content: space-between;
-            font-size: 0.8rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.85rem;
         }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: var(--text-dim); }
+        .info-value { font-weight: 500; }
+        .info-value.green { color: var(--green); }
+        .info-value.amber { color: var(--amber); }
         
-        .detail-label {
-            color: var(--text-dim);
-        }
-        
-        .detail-value {
-            font-weight: 500;
-            font-variant-numeric: tabular-nums;
-        }
-        
-        /* Connected Accounts Grid */
-        .accounts-grid {
+        /* Stat Grid */
+        .stat-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 0.5rem;
         }
-        
-        .account-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0.6rem 0.3rem;
+        .stat-item {
             background: rgba(255,255,255,0.03);
             border-radius: 10px;
-            font-size: 0.7rem;
-            gap: 0.3rem;
-            border: 1px solid transparent;
-            transition: border-color 0.2s;
+            padding: 0.75rem 0.5rem;
+            text-align: center;
         }
-        
-        .account-item.online {
-            border-color: rgba(34, 197, 94, 0.3);
-        }
-        
-        .account-item.offline {
-            border-color: rgba(239, 68, 68, 0.3);
-            opacity: 0.6;
-        }
-        
-        .account-icon {
-            font-size: 1.2rem;
-        }
-        
-        .account-name {
-            color: var(--text-dim);
-            font-size: 0.65rem;
-        }
-        
-        /* Prediction Markets */
-        .pm-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        
-        .pm-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.5rem;
-            background: rgba(255,255,255,0.03);
-            border-radius: 8px;
-        }
-        
-        .pm-question {
-            font-size: 0.8rem;
-            flex: 1;
-            margin-right: 0.5rem;
-        }
-        
-        .pm-odds {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--accent);
-            font-variant-numeric: tabular-nums;
-        }
-        
-        .pm-odds.yes { color: var(--green); }
-        .pm-odds.no { color: var(--red); }
-        
-        /* Second Brain */
-        .brain-stats {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 0.75rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .brain-stat {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .brain-stat-value {
+        .stat-value {
             font-size: 1.25rem;
             font-weight: 700;
-            color: var(--accent);
+            margin-bottom: 0.2rem;
         }
-        
-        .brain-stat-label {
+        .stat-value.green { color: var(--green); }
+        .stat-label {
             font-size: 0.65rem;
             color: var(--text-dim);
             text-transform: uppercase;
         }
         
-        .brain-recent {
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
-        }
-        
-        .brain-item {
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            padding: 0.3rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-        
-        .brain-item::before {
-            content: '•';
-            color: var(--accent);
-        }
-        
-        /* Night Mode */
-        body.night-mode {
-            filter: brightness(0.7) saturate(0.85);
-        }
-        
-        /* Expandable Widgets */
-        .expandable {
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .expand-indicator {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            opacity: 0.6;
-            transition: transform 0.3s ease;
-        }
-        
-        .expandable.expanded .expand-indicator {
-            transform: rotate(180deg);
-        }
-        
-        .expand-content {
+        /* Account Grid */
+        .account-grid {
             display: grid;
-            grid-template-rows: 0fr;
-            transition: grid-template-rows 0.3s ease;
-        }
-        
-        .expand-content > .expand-inner {
-            overflow: hidden;
-        }
-        
-        .expandable.expanded .expand-content {
-            grid-template-rows: 1fr;
-        }
-        
-        .expand-inner {
-            padding-top: 0;
-            opacity: 0;
-            transition: opacity 0.3s ease, padding 0.3s ease;
-        }
-        
-        .expandable.expanded .expand-inner {
-            padding-top: 0.75rem;
-            margin-top: 0.75rem;
-            border-top: 1px solid var(--border);
-            opacity: 1;
-        }
-        
-        .expand-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.4rem 0;
-            font-size: 0.8rem;
-        }
-        
-        .expand-row-label {
-            color: var(--text-dim);
-        }
-        
-        .expand-row-value {
-            font-weight: 500;
-            font-variant-numeric: tabular-nums;
-            text-align: right;
-            max-width: 60%;
-            word-break: break-all;
-        }
-        
-        .expand-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 0.5rem;
-            margin-top: 0.5rem;
         }
-        
-        .expand-grid-item {
+        .account-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 0.75rem;
             background: rgba(255,255,255,0.03);
-            border-radius: 8px;
-            padding: 0.5rem;
-            text-align: center;
+            border-radius: 10px;
+            border-left: 3px solid var(--green);
         }
+        .account-item.offline { border-left-color: var(--red); opacity: 0.6; }
+        .account-icon { font-size: 1.1rem; }
+        .account-info { flex: 1; min-width: 0; }
+        .account-name { font-size: 0.75rem; font-weight: 600; }
+        .account-handle { font-size: 0.65rem; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        .expand-grid-value {
-            font-size: 1rem;
+        /* Prediction Item */
+        .prediction-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+        }
+        .prediction-item:last-child { margin-bottom: 0; }
+        .prediction-q { flex: 1; font-size: 0.8rem; line-height: 1.3; margin-right: 0.75rem; }
+        .prediction-odds {
+            font-size: 1.1rem;
             font-weight: 700;
+            padding: 0.25rem 0.6rem;
+            border-radius: 8px;
         }
+        .prediction-odds.yes { background: rgba(34,197,94,0.15); color: var(--green); }
+        .prediction-odds.no { background: rgba(239,68,68,0.15); color: var(--red); }
         
-        .expand-grid-label {
-            font-size: 0.6rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
+        /* Brain Item */
+        .brain-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            font-size: 0.8rem;
+            border-bottom: 1px solid var(--border);
         }
+        .brain-item:last-child { border-bottom: none; }
+        .brain-icon { color: var(--accent); }
+        .brain-text { flex: 1; color: var(--text-dim); }
+        .brain-date { font-size: 0.7rem; color: var(--text-dim); }
         
-        /* Pull to refresh indicator */
-        .refresh-indicator {
-            text-align: center;
-            padding: 0.5rem;
-            color: var(--text-dim);
-            font-size: 0.75rem;
-            display: none;
+        /* Quick Stats Row */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
         }
+        .quick-stat {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .quick-stat-icon { font-size: 1.5rem; }
+        .quick-stat-info { flex: 1; }
+        .quick-stat-value { font-size: 1.4rem; font-weight: 700; }
+        .quick-stat-label { font-size: 0.7rem; color: var(--text-dim); }
         
-        .refresh-indicator.visible {
-            display: block;
+        /* Chat FAB */
+        .chat-fab {
+            position: fixed;
+            bottom: calc(20px + env(safe-area-inset-bottom));
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(74,222,128,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="refresh-indicator" id="refresh-indicator">↻ Pull to refresh</div>
-        
         <!-- Header -->
         <header class="header">
             <div class="brand">
-                <img src="icon-192.png" alt="Jane" class="brand-icon" style="width: 36px; height: 36px; border-radius: 8px;">
+                <img src="icon-192.png" alt="Jane">
                 <span class="brand-name">JANE</span>
             </div>
-            <div class="header-right">
-                <div class="time" id="current-time">--:--</div>
-            </div>
+            <div class="header-time" id="current-time">--:--</div>
         </header>
         
         <!-- 1. Mac Mini Status -->
-        <section class="health-card healthy expandable" id="mac-health-card">
-            <span class="expand-indicator">▼</span>
-            <div class="health-header">
-                <div class="health-icon" id="mac-health-icon">😊</div>
-                <div class="health-info">
-                    <div class="health-title">Mac Mini</div>
-                    <div class="health-subtitle" id="mac-uptime">Uptime: --</div>
-                </div>
-                <span class="health-status" id="mac-status-badge">Healthy</span>
+        <div class="widget" id="mac-widget">
+            <div class="widget-header">
+                <div class="widget-icon green">🖥️</div>
+                <div class="widget-title">Mac Mini</div>
+                <span class="widget-badge green" id="mac-badge">Healthy</span>
             </div>
-            <div class="health-metrics">
-                <div class="health-metric good" id="mac-cpu-metric">
-                    <div class="health-metric-value" id="mac-cpu">--%</div>
-                    <div class="health-metric-label">CPU</div>
-                </div>
-                <div class="health-metric good" id="mac-memory-metric">
-                    <div class="health-metric-value" id="mac-memory">--%</div>
-                    <div class="health-metric-label">Memory</div>
-                </div>
-                <div class="health-metric good" id="mac-disk-metric">
-                    <div class="health-metric-value" id="mac-disk">--%</div>
-                    <div class="health-metric-label">Disk</div>
-                </div>
+            <div class="progress-row">
+                <span class="progress-label">CPU</span>
+                <div class="progress-bar"><div class="progress-fill green" id="cpu-bar" style="width: 0%"></div></div>
+                <span class="progress-value" id="cpu-val">--%</span>
             </div>
-            <div class="expand-content">
-                <div class="expand-inner">
-                    <div class="expand-row">
-                        <span class="expand-row-label">Hostname</span>
-                        <span class="expand-row-value">JC_Agent's Mac mini</span>
-                    </div>
-                    <div class="expand-row">
-                        <span class="expand-row-label">OS</span>
-                        <span class="expand-row-value">macOS 25.2</span>
-                    </div>
-                    <div class="expand-row">
-                        <span class="expand-row-label">Architecture</span>
-                        <span class="expand-row-value">Apple Silicon</span>
-                    </div>
-                    <div class="expand-row">
-                        <span class="expand-row-label">Node.js</span>
-                        <span class="expand-row-value">v25.5.0</span>
-                    </div>
-                    <div class="expand-row">
-                        <span class="expand-row-label">Server</span>
-                        <span class="expand-row-value" style="color: var(--green);">Running</span>
-                    </div>
-                </div>
+            <div class="progress-row">
+                <span class="progress-label">Memory</span>
+                <div class="progress-bar"><div class="progress-fill green" id="mem-bar" style="width: 0%"></div></div>
+                <span class="progress-value" id="mem-val">--%</span>
             </div>
-        </section>
-        
-        <!-- 2. Jane's Status -->
-        <section class="health-card healthy expandable" id="jane-health-card">
-            <span class="expand-indicator">▼</span>
-            <div class="health-header">
-                <div class="health-icon" id="jane-health-icon">🦾</div>
-                <div class="health-info">
-                    <div class="health-title">Jane</div>
-                    <div class="health-subtitle" id="jane-last-active">Last active: Just now</div>
-                </div>
-                <span class="health-status" id="jane-status-badge">Active</span>
+            <div class="progress-row">
+                <span class="progress-label">Disk</span>
+                <div class="progress-bar"><div class="progress-fill green" id="disk-bar" style="width: 0%"></div></div>
+                <span class="progress-value" id="disk-val">--%</span>
             </div>
-            <div class="health-metrics">
-                <div class="health-metric good">
-                    <div class="health-metric-value" id="jane-session">Main</div>
-                    <div class="health-metric-label">Session</div>
-                </div>
-                <div class="health-metric good">
-                    <div class="health-metric-value" id="jane-model">Opus</div>
-                    <div class="health-metric-label">Model</div>
-                </div>
-                <div class="health-metric good" id="jane-tasks-metric">
-                    <div class="health-metric-value" id="jane-tasks-count">0</div>
-                    <div class="health-metric-label">Tasks</div>
-                </div>
-            </div>
-            <div class="expand-content">
-                <div class="expand-inner">
-                    <div class="expand-row">
-                        <span class="expand-row-label">Full Model</span>
-                        <span class="expand-row-value" id="jane-full-model">claude-opus-4-5</span>
-                    </div>
-                    <div class="expand-row">
-                        <span class="expand-row-label">Provider</span>
-                        <span class="expand-row-value">Anthropic</span>
-                    </div>
-                    <div class="expand-row">
-                        <span class="expand-row-label">Channel</span>
-                        <span class="expand-row-value" id="jane-channel">WhatsApp</span>
-                    </div>
-                    <div class="expand-row">
-                        <span class="expand-row-label">Thinking</span>
-                        <span class="expand-row-value" id="jane-thinking">Low</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- 3. Connected Accounts -->
-        <section class="status-card expandable" id="accounts-card">
-            <span class="expand-indicator">▼</span>
-            <div class="status-card-header">
-                <span class="status-card-icon">🔗</span>
-                <span class="status-card-title">Connected Accounts</span>
-            </div>
-            <div class="accounts-grid" id="accounts-grid">
-                <div class="account-item online">
-                    <span class="account-icon">💬</span>
-                    <span class="account-name">WhatsApp</span>
-                </div>
-                <div class="account-item online">
-                    <span class="account-icon">📧</span>
-                    <span class="account-name">Gmail</span>
-                </div>
-                <div class="account-item online">
-                    <span class="account-icon">🎵</span>
-                    <span class="account-name">TikTok</span>
-                </div>
-                <div class="account-item online">
-                    <span class="account-icon">𝕏</span>
-                    <span class="account-name">X</span>
-                </div>
-                <div class="account-item online">
-                    <span class="account-icon">◎</span>
-                    <span class="account-name">Solana</span>
-                </div>
-                <div class="account-item online">
-                    <span class="account-icon">⚽</span>
-                    <span class="account-name">Sorare</span>
-                </div>
-            </div>
-            <div class="expand-content">
-                <div class="expand-inner">
-                    <div class="expand-row">
-                        <span class="expand-row-label">WhatsApp</span>
-                        <span class="expand-row-value" style="color: var(--green);">+1 717-575-9384</span>
-                    </div>
-                    <div class="expand-row">
-                        <span class="expand-row-label">Gmail</span>
-                        <span class="expand-row-value">jcubellagent@gmail.com</span>
-                    </div>
-                    <div class="expand-row">
-                        <span class="expand-row-label">TikTok</span>
-                        <span class="expand-row-value">@degencollector</span>
-                    </div>
-                    <div class="expand-row">
-                        <span class="expand-row-label">X</span>
-                        <span class="expand-row-value">@AgentJc11443</span>
-                    </div>
-                    <div class="expand-row">
-                        <span class="expand-row-label">Solana</span>
-                        <span class="expand-row-value">ExgSre...YK6L</span>
-                    </div>
-                    <div class="expand-row">
-                        <span class="expand-row-label">Sorare</span>
-                        <span class="expand-row-value">jcubnft</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- 4. Prediction Markets -->
-        <section class="status-card expandable" id="pm-card">
-            <span class="expand-indicator">▼</span>
-            <div class="status-card-header">
-                <span class="status-card-icon">📊</span>
-                <span class="status-card-title">Predictions</span>
-            </div>
-            <div id="pm-list" class="pm-list">
-                <div class="pm-item">
-                    <span class="pm-question">Loading...</span>
-                </div>
-            </div>
-            <div class="expand-content">
-                <div class="expand-inner">
-                    <div id="pm-expanded" class="pm-list"></div>
-                    <div style="text-align: center; margin-top: 0.75rem;">
-                        <a href="https://polymarket.com" target="_blank" style="color: var(--accent); font-size: 0.75rem; text-decoration: none;">
-                            View on Polymarket →
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- 5. Second Brain -->
-        <section class="status-card expandable" id="brain-card">
-            <span class="expand-indicator">▼</span>
-            <div class="status-card-header">
-                <span class="status-card-icon">🧠</span>
-                <span class="status-card-title">Second Brain</span>
-            </div>
-            <div class="brain-stats" id="brain-stats">
-                <div class="brain-stat">
-                    <span class="brain-stat-value" id="brain-notes">--</span>
-                    <span class="brain-stat-label">Notes</span>
-                </div>
-                <div class="brain-stat">
-                    <span class="brain-stat-value" id="brain-captures">--</span>
-                    <span class="brain-stat-label">Captures</span>
-                </div>
-                <div class="brain-stat">
-                    <span class="brain-stat-value" id="brain-links">--</span>
-                    <span class="brain-stat-label">Links</span>
-                </div>
-            </div>
-            <div class="expand-content">
-                <div class="expand-inner">
-                    <div class="brain-recent" id="brain-recent">
-                        <div class="brain-item">No recent captures</div>
-                    </div>
-                    <div class="expand-row" style="margin-top: 0.5rem;">
-                        <span class="expand-row-label">Location</span>
-                        <span class="expand-row-value">~/Second Brain</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Tasks Progress -->
-        <section class="tasks-section">
-            <div class="tasks-header">
-                <span class="tasks-title">In Progress</span>
-                <span class="tasks-count" id="tasks-count">0 tasks</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
-            </div>
-            <div class="rag-dots" id="rag-dots">
-                <!-- Filled by JS -->
-            </div>
-        </section>
-        
-        <!-- Positions -->
-        <section class="positions-section">
-            <div class="section-title">Positions</div>
-            <div id="positions-list">
-                <!-- Filled by JS -->
-            </div>
-        </section>
-        
-        <!-- Metrics Grid -->
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-icon">🎵</div>
-                <div class="metric-value" id="tiktok-followers">--</div>
-                <div class="metric-label">TikTok Followers</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-icon">💰</div>
-                <div class="metric-value" id="sol-balance">--</div>
-                <div class="metric-label">SOL Balance</div>
+            <div class="info-row" style="margin-top: 0.75rem;">
+                <span class="info-label">Uptime</span>
+                <span class="info-value" id="mac-uptime">--</span>
             </div>
         </div>
         
-        <!-- Completed Today -->
-        <section class="completed-section">
-            <div class="section-title">Completed Today (<span id="completed-count">0</span>)</div>
-            <div class="completed-list" id="completed-list">
-                <!-- Filled by JS -->
+        <!-- 2. Jane Status -->
+        <div class="widget" id="jane-widget">
+            <div class="widget-header">
+                <div class="widget-icon blue">🦾</div>
+                <div class="widget-title">Jane</div>
+                <span class="widget-badge green" id="jane-badge">Active</span>
             </div>
-        </section>
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="jane-model">Opus</div>
+                    <div class="stat-label">Model</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="jane-session">Main</div>
+                    <div class="stat-label">Session</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value green" id="jane-tasks">0</div>
+                    <div class="stat-label">Tasks</div>
+                </div>
+            </div>
+            <div class="info-row" style="margin-top: 0.75rem;">
+                <span class="info-label">Last Active</span>
+                <span class="info-value green" id="jane-active">Just now</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Channel</span>
+                <span class="info-value" id="jane-channel">WhatsApp</span>
+            </div>
+        </div>
         
+        <!-- 3. Connected Accounts -->
+        <div class="widget">
+            <div class="widget-header">
+                <div class="widget-icon purple">🔗</div>
+                <div class="widget-title">Connected Accounts</div>
+            </div>
+            <div class="account-grid">
+                <div class="account-item">
+                    <span class="account-icon">💬</span>
+                    <div class="account-info">
+                        <div class="account-name">WhatsApp</div>
+                        <div class="account-handle">+1 717-575-9384</div>
+                    </div>
+                </div>
+                <div class="account-item">
+                    <span class="account-icon">📧</span>
+                    <div class="account-info">
+                        <div class="account-name">Gmail</div>
+                        <div class="account-handle">jcubellagent@gmail.com</div>
+                    </div>
+                </div>
+                <div class="account-item">
+                    <span class="account-icon">🎵</span>
+                    <div class="account-info">
+                        <div class="account-name">TikTok</div>
+                        <div class="account-handle">@degencollector</div>
+                    </div>
+                </div>
+                <div class="account-item">
+                    <span class="account-icon">𝕏</span>
+                    <div class="account-info">
+                        <div class="account-name">X / Twitter</div>
+                        <div class="account-handle">@AgentJc11443</div>
+                    </div>
+                </div>
+                <div class="account-item">
+                    <span class="account-icon">◎</span>
+                    <div class="account-info">
+                        <div class="account-name">Solana</div>
+                        <div class="account-handle">ExgSre...YK6L</div>
+                    </div>
+                </div>
+                <div class="account-item">
+                    <span class="account-icon">⚽</span>
+                    <div class="account-info">
+                        <div class="account-name">Sorare</div>
+                        <div class="account-handle">jcubnft</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 4. Prediction Markets -->
+        <div class="widget">
+            <div class="widget-header">
+                <div class="widget-icon amber">📊</div>
+                <div class="widget-title">Prediction Markets</div>
+            </div>
+            <div id="predictions-list">
+                <div class="prediction-item">
+                    <span class="prediction-q">Loading predictions...</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 5. Second Brain -->
+        <div class="widget">
+            <div class="widget-header">
+                <div class="widget-icon pink">🧠</div>
+                <div class="widget-title">Second Brain</div>
+            </div>
+            <div class="stat-grid" style="margin-bottom: 0.75rem;">
+                <div class="stat-item">
+                    <div class="stat-value green" id="brain-notes">--</div>
+                    <div class="stat-label">Notes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value green" id="brain-captures">--</div>
+                    <div class="stat-label">Captures</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value green" id="brain-links">--</div>
+                    <div class="stat-label">Links</div>
+                </div>
+            </div>
+            <div id="brain-recent">
+                <div class="brain-item">
+                    <span class="brain-icon">📝</span>
+                    <span class="brain-text">No recent captures</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="quick-stat">
+                <span class="quick-stat-icon">🎵</span>
+                <div class="quick-stat-info">
+                    <div class="quick-stat-value" id="tiktok-followers">--</div>
+                    <div class="quick-stat-label">TikTok Followers</div>
+                </div>
+            </div>
+            <div class="quick-stat">
+                <span class="quick-stat-icon">💰</span>
+                <div class="quick-stat-info">
+                    <div class="quick-stat-value" id="sol-balance">--</div>
+                    <div class="quick-stat-label">SOL Balance</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Trading -->
+        <div class="widget">
+            <div class="widget-header">
+                <div class="widget-icon green">📈</div>
+                <div class="widget-title">Trading</div>
+            </div>
+            <div id="trading-content">
+                <div class="info-row">
+                    <span class="info-label">Status</span>
+                    <span class="info-value">Loading...</span>
+                </div>
+            </div>
+        </div>
     </div>
     
-    <!-- Floating Chat Button -->
-    <button class="chat-fab" onclick="openChat()" aria-label="Chat with Jane">
-        💬
-    </button>
+    <!-- Chat FAB -->
+    <button class="chat-fab" onclick="window.location.href='/?chat=open'">💬</button>
     
     <script>
         // Update time
         function updateTime() {
             const now = new Date();
             document.getElementById('current-time').textContent = now.toLocaleTimeString('en-US', { 
-                hour: 'numeric', 
-                minute: '2-digit',
-                hour12: true 
+                hour: 'numeric', minute: '2-digit', hour12: true 
             }).toLowerCase();
         }
         updateTime();
         setInterval(updateTime, 1000);
         
-        // Fetch tasks
-        async function fetchTasks() {
+        // Fetch Mac Status
+        async function fetchMac() {
             try {
-                const res = await fetch('/api/tasks');
+                const res = await fetch('/api/system');
                 const data = await res.json();
                 
-                // Update progress
-                const inProgress = data.inProgress || [];
-                const completed = data.completed || [];
-                const total = inProgress.length + completed.length;
-                const pct = total > 0 ? (completed.length / total * 100) : 0;
+                const cpu = data.cpu || 0;
+                const mem = data.memory || 0;
+                const disk = data.disk || 0;
                 
-                document.getElementById('tasks-count').textContent = `${inProgress.length} task${inProgress.length !== 1 ? 's' : ''}`;
-                document.getElementById('progress-fill').style.width = `${pct}%`;
+                document.getElementById('cpu-val').textContent = cpu + '%';
+                document.getElementById('mem-val').textContent = mem + '%';
+                document.getElementById('disk-val').textContent = disk + '%';
+                document.getElementById('cpu-bar').style.width = cpu + '%';
+                document.getElementById('mem-bar').style.width = mem + '%';
+                document.getElementById('disk-bar').style.width = disk + '%';
+                document.getElementById('mac-uptime').textContent = data.uptime || '--';
                 
-                // RAG dots
-                const ragDots = document.getElementById('rag-dots');
-                if (inProgress.length > 0) {
-                    const dots = inProgress.map(t => `<div class="rag-dot ${t.rag || 'green'}" title="${t.task}"></div>`).join('');
-                    const allGreen = inProgress.every(t => t.rag === 'green' || !t.rag);
-                    ragDots.innerHTML = dots + `<span class="rag-label">${allGreen ? 'all green' : 'needs attention'}</span>`;
+                // Color coding
+                const cpuBar = document.getElementById('cpu-bar');
+                const memBar = document.getElementById('mem-bar');
+                const diskBar = document.getElementById('disk-bar');
+                
+                cpuBar.className = 'progress-fill ' + (cpu > 90 ? 'red' : cpu > 70 ? 'amber' : 'green');
+                memBar.className = 'progress-fill ' + (mem > 95 ? 'red' : mem > 85 ? 'amber' : 'green');
+                diskBar.className = 'progress-fill ' + (disk > 90 ? 'red' : disk > 80 ? 'amber' : 'green');
+                
+                // Badge
+                const badge = document.getElementById('mac-badge');
+                if (cpu > 90 || mem > 95 || disk > 90) {
+                    badge.textContent = 'Critical';
+                    badge.className = 'widget-badge red';
+                } else if (cpu > 70 || mem > 85 || disk > 80) {
+                    badge.textContent = 'Elevated';
+                    badge.className = 'widget-badge amber';
                 } else {
-                    ragDots.innerHTML = '<span class="rag-label">no active tasks</span>';
+                    badge.textContent = 'Healthy';
+                    badge.className = 'widget-badge green';
                 }
-                
-                // Completed list
-                document.getElementById('completed-count').textContent = completed.length;
-                const completedList = document.getElementById('completed-list');
-                completedList.innerHTML = completed.slice(0, 6).map(t => `
-                    <div class="completed-item">
-                        <span class="completed-icon">${t.icon || '✓'}</span>
-                        <span class="completed-text">${t.task}</span>
-                        <span class="completed-check">✓</span>
-                    </div>
-                `).join('');
-            } catch (err) {
-                console.error('Failed to fetch tasks:', err);
+            } catch (e) {
+                document.getElementById('mac-badge').textContent = 'Online';
             }
         }
         
-        // Fetch positions
-        async function fetchPositions() {
+        // Fetch Jane Status
+        async function fetchJane() {
             try {
-                const res = await fetch('/api/trading');
+                const [sessRes, taskRes] = await Promise.all([
+                    fetch('/api/sessions'),
+                    fetch('/api/tasks')
+                ]);
+                
+                if (taskRes.ok) {
+                    const tasks = await taskRes.json();
+                    document.getElementById('jane-tasks').textContent = (tasks.inProgress || []).length;
+                }
+                
+                if (sessRes.ok) {
+                    const data = await sessRes.json();
+                    const main = data.sessions?.find(s => s.kind === 'main') || data.sessions?.[0];
+                    
+                    if (main) {
+                        if (main.model) {
+                            const model = main.model.split('/').pop().replace('claude-', '').split('-')[0];
+                            document.getElementById('jane-model').textContent = model.charAt(0).toUpperCase() + model.slice(1);
+                        }
+                        
+                        if (main.lastActivity) {
+                            const mins = Math.floor((Date.now() - new Date(main.lastActivity)) / 60000);
+                            document.getElementById('jane-active').textContent = 
+                                mins < 1 ? 'Just now' : mins < 60 ? mins + 'm ago' : Math.floor(mins/60) + 'h ago';
+                            
+                            const badge = document.getElementById('jane-badge');
+                            if (mins > 60) {
+                                badge.textContent = 'Idle';
+                                badge.className = 'widget-badge amber';
+                            }
+                        }
+                    }
+                }
+            } catch (e) {}
+        }
+        
+        // Fetch Predictions
+        async function fetchPredictions() {
+            try {
+                const res = await fetch('/api/predictions');
                 if (!res.ok) return;
                 const data = await res.json();
                 
-                const list = document.getElementById('positions-list');
-                const openPositions = (data.positions || []).filter(p => p.status === 'open' || !p.status);
+                let markets = [];
+                if (data.featured) markets.push(data.featured);
+                if (data.top) markets = [...markets, ...data.top.slice(0, 4)];
                 
-                if (openPositions.length === 0) {
-                    // Show realized P&L from summary or realizedTrades
-                    if (data.summary && data.summary.totalRealizedPnL !== undefined) {
-                        const totalRealized = data.summary.totalRealizedPnL;
-                        const totalPercent = data.summary.totalRealizedPercent;
-                        const isPositive = totalRealized >= 0;
-                        list.innerHTML = `
-                            <div style="text-align: center; padding: 0.5rem;">
-                                <div style="color: var(--text-dim); font-size: 0.75rem; margin-bottom: 0.25rem;">All positions closed</div>
-                                <div style="font-size: 1.1rem; font-weight: 700; color: ${isPositive ? 'var(--green)' : 'var(--red)'};">
-                                    ${isPositive ? '+' : ''}$${totalRealized.toFixed(2)} <span style="font-size: 0.8rem; opacity: 0.8;">(${isPositive ? '+' : ''}${totalPercent.toFixed(1)}%)</span>
-                                </div>
-                            </div>
-                        `;
-                    } else if (data.realizedTrades && data.realizedTrades.length > 0) {
-                        const totalRealized = data.realizedTrades.reduce((sum, t) => sum + (t.realizedPnL || 0), 0);
-                        const isPositive = totalRealized >= 0;
-                        list.innerHTML = `
-                            <div style="text-align: center; padding: 0.5rem;">
-                                <div style="color: var(--text-dim); font-size: 0.75rem; margin-bottom: 0.25rem;">All positions closed</div>
-                                <div style="font-size: 1.1rem; font-weight: 700; color: ${isPositive ? 'var(--green)' : 'var(--red)'};">
-                                    ${isPositive ? '+' : ''}$${totalRealized.toFixed(2)} realized
-                                </div>
-                            </div>
-                        `;
-                    } else {
-                        list.innerHTML = '<div style="color: var(--text-dim); font-size: 0.85rem; text-align: center;">No open positions</div>';
-                    }
-                    return;
+                if (markets.length > 0) {
+                    document.getElementById('predictions-list').innerHTML = markets.slice(0, 4).map(m => {
+                        const odds = m.yesOdds || 50;
+                        const q = (m.question || '').substring(0, 60);
+                        return `<div class="prediction-item">
+                            <span class="prediction-q">${q}${q.length >= 60 ? '...' : ''}</span>
+                            <span class="prediction-odds ${odds > 50 ? 'yes' : 'no'}">${odds}%</span>
+                        </div>`;
+                    }).join('');
                 }
+            } catch (e) {}
+        }
+        
+        // Fetch Second Brain
+        async function fetchBrain() {
+            try {
+                const res = await fetch('/api/mindmap');
+                if (!res.ok) return;
+                const data = await res.json();
                 
-                list.innerHTML = openPositions.map(p => {
-                    const pnl = p.pnlPercent || 0;
-                    const isPositive = pnl >= 0;
-                    return `
-                        <div class="position-row">
-                            <span class="position-icon">${p.icon || '📈'}</span>
-                            <span class="position-name">${p.symbol || p.token}</span>
-                            <span class="position-pnl ${isPositive ? 'positive' : 'negative'}">${isPositive ? '+' : ''}${pnl.toFixed(1)}%</span>
-                            <span class="position-arrow">${isPositive ? '↗' : '↘'}</span>
+                document.getElementById('brain-notes').textContent = data.total || 0;
+                document.getElementById('brain-captures').textContent = data.recent?.length || 0;
+                document.getElementById('brain-links').textContent = data.links || 0;
+                
+                if (data.recent && data.recent.length > 0) {
+                    document.getElementById('brain-recent').innerHTML = data.recent.slice(0, 3).map(item => `
+                        <div class="brain-item">
+                            <span class="brain-icon">📝</span>
+                            <span class="brain-text">${item.name || item}</span>
                         </div>
-                    `;
-                }).join('');
-            } catch (err) {
-                console.error('Failed to fetch positions:', err);
-            }
+                    `).join('');
+                }
+            } catch (e) {}
         }
         
         // Fetch TikTok
@@ -1181,348 +610,85 @@
             try {
                 const res = await fetch('/api/tiktok');
                 const data = await res.json();
-                // Handle both data.followers and data.profile.followers
                 const followers = data.followers || data.profile?.followers;
                 if (followers) {
                     document.getElementById('tiktok-followers').textContent = followers.toLocaleString();
                 }
-            } catch (err) {
-                console.error('Failed to fetch TikTok:', err);
-            }
+            } catch (e) {}
         }
         
-        // Fetch SOL balance from wallet API
-        async function fetchSolBalance() {
+        // Fetch SOL
+        async function fetchSol() {
             try {
-                // Try to get actual wallet balance first
-                const walletRes = await fetch('/api/wallet');
-                if (walletRes.ok) {
-                    const walletData = await walletRes.json();
-                    const balance = walletData.jane?.balance || walletData.balance || 0;
-                    const usdValue = walletData.jane?.usd || walletData.usd || 0;
-                    if (usdValue > 0) {
-                        document.getElementById('sol-balance').textContent = '$' + usdValue.toFixed(0);
+                const res = await fetch('/api/wallet');
+                if (res.ok) {
+                    const data = await res.json();
+                    const usd = data.jane?.usd || data.usd || 0;
+                    if (usd > 0) {
+                        document.getElementById('sol-balance').textContent = '$' + usd.toFixed(0);
                         return;
                     }
                 }
-                
-                // Fallback: use known balance from positions API
-                const posRes = await fetch('/api/trading');
-                if (posRes.ok) {
-                    const posData = await posRes.json();
-                    if (posData.walletBalance) {
-                        document.getElementById('sol-balance').textContent = posData.walletBalance;
-                        return;
-                    }
-                }
-                
-                // Final fallback: estimate from crypto price
                 const cryptoRes = await fetch('/api/crypto');
-                const cryptoData = await cryptoRes.json();
-                if (cryptoData.solana) {
-                    // Use known balance: 0.584 SOL
-                    const solBalance = 0.584;
-                    document.getElementById('sol-balance').textContent = '$' + (cryptoData.solana.usd * solBalance).toFixed(0);
+                const crypto = await cryptoRes.json();
+                if (crypto.solana) {
+                    document.getElementById('sol-balance').textContent = '$' + (crypto.solana.usd * 0.584).toFixed(0);
                 }
-            } catch (err) {
-                document.getElementById('sol-balance').textContent = '--';
-            }
+            } catch (e) {}
         }
         
-        // Open chat
-        function openChat() {
-            window.location.href = '/?chat=open';
-        }
-        
-        // Night mode
-        function checkNightMode() {
-            const saved = localStorage.getItem('jane-dashboard-night-mode');
-            if (saved === 'on') {
-                document.body.classList.add('night-mode');
-            }
-        }
-        checkNightMode();
-        
-        // WebSocket for real-time updates
-        function initWebSocket() {
-            const ws = new WebSocket(`ws://${window.location.host}`);
-            ws.onmessage = (event) => {
-                const msg = JSON.parse(event.data);
-                if (msg.type === 'update') {
-                    if (msg.widget === 'tasks') fetchTasks();
-                    if (msg.widget === 'trading') fetchPositions();
-                    if (msg.widget === 'tiktok') fetchTikTok();
-                }
-            };
-            ws.onclose = () => setTimeout(initWebSocket, 3000);
-        }
-        
-        // Fetch Mac Mini Status with health visualization
-        async function fetchMacStatus() {
-            const card = document.getElementById('mac-health-card');
-            const icon = document.getElementById('mac-health-icon');
-            const badge = document.getElementById('mac-status-badge');
-            const cpuMetric = document.getElementById('mac-cpu-metric');
-            const memMetric = document.getElementById('mac-memory-metric');
-            const diskMetric = document.getElementById('mac-disk-metric');
-            
+        // Fetch Trading
+        async function fetchTrading() {
             try {
-                const res = await fetch('/api/system');
-                if (!res.ok) throw new Error('No system API');
-                
+                const res = await fetch('/api/trading');
+                if (!res.ok) return;
                 const data = await res.json();
-                const cpu = data.cpu || 0;
-                const memory = data.memory || 0;
-                const disk = data.disk || 0;
                 
-                // Update values
-                document.getElementById('mac-uptime').textContent = 'Uptime: ' + (data.uptime || '--');
-                document.getElementById('mac-cpu').textContent = cpu + '%';
-                document.getElementById('mac-memory').textContent = memory + '%';
-                document.getElementById('mac-disk').textContent = disk + '%';
+                const open = (data.positions || []).filter(p => p.status === 'open' || !p.status);
+                const content = document.getElementById('trading-content');
                 
-                // Determine overall health
-                let health = 'healthy';
-                let healthIcon = '😊';
-                let statusText = 'Healthy';
-                
-                if (cpu > 90 || memory > 95 || disk > 90) {
-                    health = 'critical';
-                    healthIcon = '🔥';
-                    statusText = 'Critical';
-                } else if (cpu > 70 || memory > 85 || disk > 80) {
-                    health = 'warning';
-                    healthIcon = '😐';
-                    statusText = 'Elevated';
-                }
-                
-                // Update card styling
-                card.className = 'health-card ' + health;
-                icon.textContent = healthIcon;
-                badge.textContent = statusText;
-                
-                // Update individual metric colors
-                cpuMetric.className = 'health-metric ' + (cpu > 90 ? 'bad' : cpu > 70 ? 'warn' : 'good');
-                memMetric.className = 'health-metric ' + (memory > 95 ? 'bad' : memory > 85 ? 'warn' : 'good');
-                diskMetric.className = 'health-metric ' + (disk > 90 ? 'bad' : disk > 80 ? 'warn' : 'good');
-                
-            } catch (err) {
-                // Show healthy by default if can't reach API (means server is up)
-                card.className = 'health-card healthy';
-                icon.textContent = '😊';
-                badge.textContent = 'Online';
-                document.getElementById('mac-uptime').textContent = 'Uptime: Running';
-            }
-        }
-        
-        // Fetch Jane's Status with health visualization
-        async function fetchJaneStatus() {
-            const card = document.getElementById('jane-health-card');
-            const icon = document.getElementById('jane-health-icon');
-            const badge = document.getElementById('jane-status-badge');
-            
-            try {
-                const res = await fetch('/api/sessions');
-                const tasksRes = await fetch('/api/tasks');
-                
-                let tasksCount = 0;
-                if (tasksRes.ok) {
-                    const tasksData = await tasksRes.json();
-                    tasksCount = (tasksData.inProgress || []).length;
-                    document.getElementById('jane-tasks-count').textContent = tasksCount;
-                }
-                
-                if (!res.ok) throw new Error('No sessions API');
-                
-                const data = await res.json();
-                const mainSession = data.sessions?.find(s => s.kind === 'main') || data.sessions?.[0];
-                
-                if (mainSession) {
-                    // Update session info
-                    const kind = mainSession.kind || 'Main';
-                    document.getElementById('jane-session').textContent = kind.charAt(0).toUpperCase() + kind.slice(1);
-                    
-                    // Format last active time
-                    let lastActiveText = 'Just now';
-                    let minutesAgo = 0;
-                    
-                    if (mainSession.lastActivity) {
-                        const lastActive = new Date(mainSession.lastActivity);
-                        const now = new Date();
-                        minutesAgo = Math.floor((now - lastActive) / 60000);
-                        
-                        if (minutesAgo < 1) {
-                            lastActiveText = 'Just now';
-                        } else if (minutesAgo < 60) {
-                            lastActiveText = `${minutesAgo}m ago`;
-                        } else {
-                            lastActiveText = `${Math.floor(minutesAgo/60)}h ago`;
-                        }
-                    }
-                    document.getElementById('jane-last-active').textContent = 'Last active: ' + lastActiveText;
-                    
-                    // Show model
-                    if (mainSession.model) {
-                        const modelName = mainSession.model.split('/').pop().replace('claude-', '').split('-')[0];
-                        document.getElementById('jane-model').textContent = modelName.charAt(0).toUpperCase() + modelName.slice(1);
-                    }
-                    
-                    // Determine health based on activity
-                    let health = 'healthy';
-                    let healthIcon = '🦾';
-                    let statusText = 'Active';
-                    
-                    if (minutesAgo > 60) {
-                        health = 'warning';
-                        healthIcon = '😴';
-                        statusText = 'Idle';
-                    }
-                    if (minutesAgo > 240) {
-                        health = 'critical';
-                        healthIcon = '💤';
-                        statusText = 'Sleeping';
-                    }
-                    
-                    card.className = 'health-card ' + health;
-                    icon.textContent = healthIcon;
-                    badge.textContent = statusText;
-                }
-            } catch (err) {
-                // Default to active
-                card.className = 'health-card healthy';
-                icon.textContent = '🦾';
-                badge.textContent = 'Active';
-            }
-        }
-        
-        // Fetch Prediction Markets
-        async function fetchPredictionMarkets() {
-            try {
-                const res = await fetch('/api/predictions');
-                if (!res.ok) {
-                    document.getElementById('pm-list').innerHTML = `
-                        <div class="pm-item">
-                            <span class="pm-question">Polymarket unavailable</span>
+                if (open.length === 0) {
+                    const realized = data.summary?.totalRealizedPnL || 0;
+                    const pct = data.summary?.totalRealizedPercent || 0;
+                    const isPos = realized >= 0;
+                    content.innerHTML = `
+                        <div class="info-row">
+                            <span class="info-label">Open Positions</span>
+                            <span class="info-value">None</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Realized P&L</span>
+                            <span class="info-value ${isPos ? 'green' : ''}">${isPos ? '+' : ''}$${realized.toFixed(2)} (${isPos ? '+' : ''}${pct.toFixed(1)}%)</span>
                         </div>
                     `;
-                    return;
-                }
-                const data = await res.json();
-                
-                // Get top markets or featured
-                let markets = [];
-                if (data.featured) markets.push(data.featured);
-                if (data.top) markets = [...markets, ...data.top.slice(0, 2)];
-                if (data.markets) markets = [...markets, ...data.markets.slice(0, 3)];
-                
-                if (markets.length === 0) {
-                    document.getElementById('pm-list').innerHTML = `
-                        <div class="pm-item">
-                            <span class="pm-question">No active markets</span>
+                } else {
+                    content.innerHTML = open.map(p => `
+                        <div class="info-row">
+                            <span class="info-label">${p.symbol || p.token}</span>
+                            <span class="info-value ${p.pnlPercent >= 0 ? 'green' : ''}">${p.pnlPercent >= 0 ? '+' : ''}${p.pnlPercent?.toFixed(1)}%</span>
                         </div>
-                    `;
-                    return;
-                }
-                
-                document.getElementById('pm-list').innerHTML = markets.slice(0, 3).map(m => {
-                    const odds = m.yesOdds || m.probability || 50;
-                    const question = (m.question || m.title || '').substring(0, 50);
-                    return `
-                        <div class="pm-item">
-                            <span class="pm-question">${question}${question.length >= 50 ? '...' : ''}</span>
-                            <span class="pm-odds ${odds > 50 ? 'yes' : 'no'}">${odds}%</span>
-                        </div>
-                    `;
-                }).join('');
-            } catch (err) {
-                document.getElementById('pm-list').innerHTML = `
-                    <div class="pm-item">
-                        <span class="pm-question">Polymarket unavailable</span>
-                    </div>
-                `;
-            }
-        }
-        
-        // Fetch Second Brain Stats (uses /api/mindmap)
-        async function fetchSecondBrain() {
-            try {
-                const res = await fetch('/api/mindmap');
-                if (!res.ok) {
-                    document.getElementById('brain-notes').textContent = '--';
-                    document.getElementById('brain-captures').textContent = '--';
-                    document.getElementById('brain-links').textContent = '--';
-                    return;
-                }
-                const data = await res.json();
-                
-                // Map mindmap stats to brain display
-                document.getElementById('brain-notes').textContent = data.total || data.notes || 0;
-                document.getElementById('brain-captures').textContent = data.recent?.length || data.captures || 0;
-                document.getElementById('brain-links').textContent = data.links || data.connections || 0;
-                
-                // Show recent items
-                if (data.recent && data.recent.length > 0) {
-                    document.getElementById('brain-recent').innerHTML = data.recent.slice(0, 3).map(item => `
-                        <div class="brain-item">${item.name || item.title || item}</div>
-                    `).join('');
-                } else if (data.recentCaptures && data.recentCaptures.length > 0) {
-                    document.getElementById('brain-recent').innerHTML = data.recentCaptures.slice(0, 3).map(item => `
-                        <div class="brain-item">${item.name || item.title || item}</div>
                     `).join('');
                 }
-            } catch (err) {
-                document.getElementById('brain-notes').textContent = '--';
-                document.getElementById('brain-captures').textContent = '--';
-                document.getElementById('brain-links').textContent = '--';
-            }
-        }
-        
-        // Expandable widgets - tap to expand/collapse
-        function initExpandableWidgets() {
-            const expandables = document.querySelectorAll('.expandable');
-            
-            expandables.forEach(widget => {
-                let lastTap = 0;
-                
-                widget.addEventListener('click', (e) => {
-                    // Don't expand if clicking a link
-                    if (e.target.tagName === 'A') return;
-                    
-                    const now = Date.now();
-                    const DOUBLE_TAP_DELAY = 300;
-                    
-                    // Single tap toggles on mobile (more intuitive)
-                    widget.classList.toggle('expanded');
-                    
-                    // Haptic feedback if available
-                    if (navigator.vibrate) {
-                        navigator.vibrate(10);
-                    }
-                });
-            });
+            } catch (e) {}
         }
         
         // Init
-        initExpandableWidgets();
-        fetchMacStatus();
-        fetchJaneStatus();
-        fetchPredictionMarkets();
-        fetchSecondBrain();
-        fetchTasks();
-        fetchPositions();
+        fetchMac();
+        fetchJane();
+        fetchPredictions();
+        fetchBrain();
         fetchTikTok();
-        fetchSolBalance();
-        initWebSocket();
+        fetchSol();
+        fetchTrading();
         
-        // Refresh intervals
-        setInterval(fetchMacStatus, 60000);
-        setInterval(fetchJaneStatus, 30000);
-        setInterval(fetchPredictionMarkets, 120000);
-        setInterval(fetchSecondBrain, 120000);
-        setInterval(fetchTasks, 30000);
-        setInterval(fetchPositions, 30000);
+        // Refresh
+        setInterval(fetchMac, 60000);
+        setInterval(fetchJane, 30000);
+        setInterval(fetchPredictions, 120000);
+        setInterval(fetchBrain, 120000);
         setInterval(fetchTikTok, 300000);
-        setInterval(fetchSolBalance, 60000);
+        setInterval(fetchSol, 60000);
+        setInterval(fetchTrading, 30000);
     </script>
 </body>
 </html>

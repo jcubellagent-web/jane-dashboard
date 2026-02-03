@@ -334,6 +334,193 @@
             transform: scale(0.98);
         }
         
+        /* Status Cards */
+        .status-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .status-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .status-card-icon {
+            font-size: 1.1rem;
+        }
+        
+        .status-card-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            flex: 1;
+        }
+        
+        .status-badge {
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-badge.online {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--green);
+        }
+        
+        .status-badge.offline {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--red);
+        }
+        
+        .status-badge.warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--amber);
+        }
+        
+        .status-card-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+        }
+        
+        .detail-label {
+            color: var(--text-dim);
+        }
+        
+        .detail-value {
+            font-weight: 500;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        /* Connected Accounts Grid */
+        .accounts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .account-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.6rem 0.3rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            font-size: 0.7rem;
+            gap: 0.3rem;
+            border: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+        
+        .account-item.online {
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+        
+        .account-item.offline {
+            border-color: rgba(239, 68, 68, 0.3);
+            opacity: 0.6;
+        }
+        
+        .account-icon {
+            font-size: 1.2rem;
+        }
+        
+        .account-name {
+            color: var(--text-dim);
+            font-size: 0.65rem;
+        }
+        
+        /* Prediction Markets */
+        .pm-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .pm-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+        }
+        
+        .pm-question {
+            font-size: 0.8rem;
+            flex: 1;
+            margin-right: 0.5rem;
+        }
+        
+        .pm-odds {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .pm-odds.yes { color: var(--green); }
+        .pm-odds.no { color: var(--red); }
+        
+        /* Second Brain */
+        .brain-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .brain-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .brain-stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .brain-stat-label {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+        
+        .brain-recent {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        
+        .brain-item {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            padding: 0.3rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        
+        .brain-item::before {
+            content: '•';
+            color: var(--accent);
+        }
+        
         /* Night Mode */
         body.night-mode {
             filter: brightness(0.7) saturate(0.85);
@@ -364,13 +551,127 @@
                 <span class="brand-name">JANE</span>
             </div>
             <div class="header-right">
-                <div class="status-row">
-                    <div class="status-dot" id="status-dot"></div>
-                    <span class="status-text" id="status-text">Online</span>
-                </div>
                 <div class="time" id="current-time">--:--</div>
             </div>
         </header>
+        
+        <!-- 1. Mac Mini Status -->
+        <section class="status-card">
+            <div class="status-card-header">
+                <span class="status-card-icon">🖥️</span>
+                <span class="status-card-title">Mac Mini</span>
+                <span class="status-badge online" id="mac-status-badge">Online</span>
+            </div>
+            <div class="status-card-details" id="mac-details">
+                <div class="detail-row">
+                    <span class="detail-label">Uptime</span>
+                    <span class="detail-value" id="mac-uptime">--</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">CPU</span>
+                    <span class="detail-value" id="mac-cpu">--%</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Memory</span>
+                    <span class="detail-value" id="mac-memory">--%</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 2. Jane's Status -->
+        <section class="status-card">
+            <div class="status-card-header">
+                <span class="status-card-icon">🦾</span>
+                <span class="status-card-title">Jane</span>
+                <span class="status-badge online" id="jane-status-badge">Active</span>
+            </div>
+            <div class="status-card-details">
+                <div class="detail-row">
+                    <span class="detail-label">Session</span>
+                    <span class="detail-value" id="jane-session">Main</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Last Active</span>
+                    <span class="detail-value" id="jane-last-active">Just now</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Model</span>
+                    <span class="detail-value" id="jane-model">Claude</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 3. Connected Accounts -->
+        <section class="status-card">
+            <div class="status-card-header">
+                <span class="status-card-icon">🔗</span>
+                <span class="status-card-title">Connected Accounts</span>
+            </div>
+            <div class="accounts-grid" id="accounts-grid">
+                <div class="account-item online" title="WhatsApp">
+                    <span class="account-icon">💬</span>
+                    <span class="account-name">WhatsApp</span>
+                </div>
+                <div class="account-item online" title="Gmail">
+                    <span class="account-icon">📧</span>
+                    <span class="account-name">Gmail</span>
+                </div>
+                <div class="account-item online" title="TikTok">
+                    <span class="account-icon">🎵</span>
+                    <span class="account-name">TikTok</span>
+                </div>
+                <div class="account-item online" title="X">
+                    <span class="account-icon">𝕏</span>
+                    <span class="account-name">X</span>
+                </div>
+                <div class="account-item online" title="Solana">
+                    <span class="account-icon">◎</span>
+                    <span class="account-name">Solana</span>
+                </div>
+                <div class="account-item online" title="Sorare">
+                    <span class="account-icon">⚽</span>
+                    <span class="account-name">Sorare</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 4. Prediction Markets -->
+        <section class="status-card">
+            <div class="status-card-header">
+                <span class="status-card-icon">📊</span>
+                <span class="status-card-title">Prediction Markets</span>
+            </div>
+            <div id="pm-list" class="pm-list">
+                <div class="pm-item">
+                    <span class="pm-question">Loading predictions...</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 5. Second Brain -->
+        <section class="status-card">
+            <div class="status-card-header">
+                <span class="status-card-icon">🧠</span>
+                <span class="status-card-title">Second Brain</span>
+            </div>
+            <div class="brain-stats" id="brain-stats">
+                <div class="brain-stat">
+                    <span class="brain-stat-value" id="brain-notes">--</span>
+                    <span class="brain-stat-label">Notes</span>
+                </div>
+                <div class="brain-stat">
+                    <span class="brain-stat-value" id="brain-captures">--</span>
+                    <span class="brain-stat-label">Captures</span>
+                </div>
+                <div class="brain-stat">
+                    <span class="brain-stat-value" id="brain-links">--</span>
+                    <span class="brain-stat-label">Links</span>
+                </div>
+            </div>
+            <div class="brain-recent" id="brain-recent">
+                <div class="brain-item">No recent captures</div>
+            </div>
+        </section>
         
         <!-- Tasks Progress -->
         <section class="tasks-section">
@@ -614,7 +915,160 @@
             ws.onclose = () => setTimeout(initWebSocket, 3000);
         }
         
+        // Fetch Mac Mini Status
+        async function fetchMacStatus() {
+            try {
+                const res = await fetch('/api/system');
+                if (!res.ok) {
+                    // If no system API, show basic online status
+                    document.getElementById('mac-status-badge').textContent = 'Online';
+                    document.getElementById('mac-uptime').textContent = 'Running';
+                    document.getElementById('mac-cpu').textContent = '--';
+                    document.getElementById('mac-memory').textContent = '--';
+                    return;
+                }
+                const data = await res.json();
+                
+                document.getElementById('mac-status-badge').textContent = data.status || 'Online';
+                document.getElementById('mac-uptime').textContent = data.uptime || '--';
+                document.getElementById('mac-cpu').textContent = (data.cpu || '--') + '%';
+                document.getElementById('mac-memory').textContent = (data.memory || '--') + '%';
+            } catch (err) {
+                document.getElementById('mac-status-badge').textContent = 'Online';
+                document.getElementById('mac-uptime').textContent = 'Running';
+            }
+        }
+        
+        // Fetch Jane's Status
+        async function fetchJaneStatus() {
+            try {
+                const res = await fetch('/api/sessions');
+                if (!res.ok) {
+                    document.getElementById('jane-status-badge').textContent = 'Active';
+                    return;
+                }
+                const data = await res.json();
+                
+                // Find main session
+                const mainSession = data.sessions?.find(s => s.kind === 'main') || data.sessions?.[0];
+                if (mainSession) {
+                    document.getElementById('jane-status-badge').textContent = 'Active';
+                    document.getElementById('jane-session').textContent = mainSession.kind || 'Main';
+                    
+                    // Format last active time
+                    if (mainSession.lastActivity) {
+                        const lastActive = new Date(mainSession.lastActivity);
+                        const now = new Date();
+                        const diffMs = now - lastActive;
+                        const diffMins = Math.floor(diffMs / 60000);
+                        
+                        if (diffMins < 1) {
+                            document.getElementById('jane-last-active').textContent = 'Just now';
+                        } else if (diffMins < 60) {
+                            document.getElementById('jane-last-active').textContent = `${diffMins}m ago`;
+                        } else {
+                            document.getElementById('jane-last-active').textContent = `${Math.floor(diffMins/60)}h ago`;
+                        }
+                    }
+                    
+                    // Show model if available
+                    if (mainSession.model) {
+                        const modelName = mainSession.model.split('/').pop().replace('claude-', '').split('-')[0];
+                        document.getElementById('jane-model').textContent = modelName.charAt(0).toUpperCase() + modelName.slice(1);
+                    }
+                }
+            } catch (err) {
+                document.getElementById('jane-status-badge').textContent = 'Active';
+            }
+        }
+        
+        // Fetch Prediction Markets
+        async function fetchPredictionMarkets() {
+            try {
+                const res = await fetch('/api/predictions');
+                if (!res.ok) {
+                    document.getElementById('pm-list').innerHTML = `
+                        <div class="pm-item">
+                            <span class="pm-question">Polymarket unavailable</span>
+                        </div>
+                    `;
+                    return;
+                }
+                const data = await res.json();
+                
+                // Get top markets or featured
+                let markets = [];
+                if (data.featured) markets.push(data.featured);
+                if (data.top) markets = [...markets, ...data.top.slice(0, 2)];
+                if (data.markets) markets = [...markets, ...data.markets.slice(0, 3)];
+                
+                if (markets.length === 0) {
+                    document.getElementById('pm-list').innerHTML = `
+                        <div class="pm-item">
+                            <span class="pm-question">No active markets</span>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                document.getElementById('pm-list').innerHTML = markets.slice(0, 3).map(m => {
+                    const odds = m.yesOdds || m.probability || 50;
+                    const question = (m.question || m.title || '').substring(0, 50);
+                    return `
+                        <div class="pm-item">
+                            <span class="pm-question">${question}${question.length >= 50 ? '...' : ''}</span>
+                            <span class="pm-odds ${odds > 50 ? 'yes' : 'no'}">${odds}%</span>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                document.getElementById('pm-list').innerHTML = `
+                    <div class="pm-item">
+                        <span class="pm-question">Polymarket unavailable</span>
+                    </div>
+                `;
+            }
+        }
+        
+        // Fetch Second Brain Stats (uses /api/mindmap)
+        async function fetchSecondBrain() {
+            try {
+                const res = await fetch('/api/mindmap');
+                if (!res.ok) {
+                    document.getElementById('brain-notes').textContent = '--';
+                    document.getElementById('brain-captures').textContent = '--';
+                    document.getElementById('brain-links').textContent = '--';
+                    return;
+                }
+                const data = await res.json();
+                
+                // Map mindmap stats to brain display
+                document.getElementById('brain-notes').textContent = data.total || data.notes || 0;
+                document.getElementById('brain-captures').textContent = data.recent?.length || data.captures || 0;
+                document.getElementById('brain-links').textContent = data.links || data.connections || 0;
+                
+                // Show recent items
+                if (data.recent && data.recent.length > 0) {
+                    document.getElementById('brain-recent').innerHTML = data.recent.slice(0, 3).map(item => `
+                        <div class="brain-item">${item.name || item.title || item}</div>
+                    `).join('');
+                } else if (data.recentCaptures && data.recentCaptures.length > 0) {
+                    document.getElementById('brain-recent').innerHTML = data.recentCaptures.slice(0, 3).map(item => `
+                        <div class="brain-item">${item.name || item.title || item}</div>
+                    `).join('');
+                }
+            } catch (err) {
+                document.getElementById('brain-notes').textContent = '--';
+                document.getElementById('brain-captures').textContent = '--';
+                document.getElementById('brain-links').textContent = '--';
+            }
+        }
+        
         // Init
+        fetchMacStatus();
+        fetchJaneStatus();
+        fetchPredictionMarkets();
+        fetchSecondBrain();
         fetchTasks();
         fetchPositions();
         fetchTikTok();
@@ -622,6 +1076,10 @@
         initWebSocket();
         
         // Refresh intervals
+        setInterval(fetchMacStatus, 60000);
+        setInterval(fetchJaneStatus, 30000);
+        setInterval(fetchPredictionMarkets, 120000);
+        setInterval(fetchSecondBrain, 120000);
         setInterval(fetchTasks, 30000);
         setInterval(fetchPositions, 30000);
         setInterval(fetchTikTok, 300000);

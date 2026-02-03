@@ -1,26 +1,39 @@
 {
-  "lastUpdated": "2026-02-02T21:41:10-05:00",
+  "lastUpdated": "2026-02-03T07:29:16-05:00",
+  "count": 4,
   "sessions": [
     {
       "key": "agent:main:main",
-      "kind": "main",
-      "channel": "webchat",
+      "displayName": "+17175759384",
+      "channel": "whatsapp",
       "model": "claude-opus-4-5",
-      "totalTokens": 152251,
-      "lastActivity": "2026-02-02T21:07:48-05:00"
+      "totalTokens": 35046,
+      "updatedAt": 1770121756145
     },
     {
       "key": "agent:main:cron:73db46f6-393d-45dc-85af-6fc0cc92171c",
-      "kind": "cron",
+      "displayName": "PENGUIN Price Monitor",
+      "channel": "cron",
+      "model": "claude-opus-4-5",
+      "totalTokens": 17787,
+      "updatedAt": 1770120238248,
+      "lastStatus": "PENGUIN @ $0.03725 (-6.4% from entry)"
+    },
+    {
+      "key": "agent:main:dashboard:chat",
+      "displayName": "Dashboard Chat",
       "channel": "webchat",
       "model": "claude-opus-4-5",
-      "totalTokens": 17632,
-      "lastActivity": "2026-02-02T21:03:33-05:00",
-      "note": "memecoin-price-monitor"
+      "totalTokens": 14175,
+      "updatedAt": 1769925181659
+    },
+    {
+      "key": "agent:main:test:webhook",
+      "displayName": "Webhook Test",
+      "channel": "test",
+      "model": "claude-opus-4-5",
+      "totalTokens": 14179,
+      "updatedAt": 1769904229404
     }
-  ],
-  "summary": {
-    "total": 4,
-    "active": 2
-  }
+  ]
 }

@@ -55,7 +55,7 @@
     }
   ],
   "wallet": "ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L",
-  "lastChecked": "2026-02-03T02:03:33Z",
+  "lastChecked": "2026-02-03T05:34:59Z",
   "lastPrices": {},
   "strategy": {
     "takeProfit": "50% at 2x, rest rides",

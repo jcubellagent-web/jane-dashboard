@@ -1,5 +1,12 @@
 # HEARTBEAT.md
 
+## Mobile Chat Queue
+Check `/dashboard/chat-queue.json` for pending messages from the mobile app.
+If messages exist:
+1. Read and respond to each message
+2. Save response to `/dashboard/chat-history.json`
+3. Clear the queue via DELETE /api/chat/queue
+
 ## Sub-Agents Session Update
 Update `/dashboard/sessions.json` with current session data every heartbeat:
 - Use `sessions_list` tool with `messageLimit: 1`

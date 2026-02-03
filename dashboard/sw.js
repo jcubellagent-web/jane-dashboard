@@ -1,30 +1,18 @@
 /**
  * Jane Dashboard Service Worker
- * Enables offline access and caching
+ * Network-first for HTML, cache static assets only
  */
 
-const CACHE_NAME = 'jane-dashboard-v5.0';
+const CACHE_NAME = 'jane-dashboard-v6.0';
+
+// Only cache truly static assets - NOT HTML files
 const ASSETS_TO_CACHE = [
-    '/',
-    '/index.html',
-    '/mobile.html',
     '/manifest.json',
     '/icon-192.png',
-    '/icon-512.png',
-    '/kanban/',
-    '/kanban/index.html',
-    '/notes/',
-    '/notes/index.html',
-    '/links/',
-    '/links/index.html',
-    '/settings/',
-    '/settings/index.html',
-    '/timer/',
-    '/timer/index.html',
-    '/api.js'
+    '/icon-512.png'
 ];
 
-// Install - cache assets
+// Install - cache only static assets
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
@@ -33,7 +21,7 @@ self.addEventListener('install', (event) => {
     );
 });
 
-// Activate - clean old caches
+// Activate - clean old caches immediately
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
@@ -46,34 +34,42 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Fetch - network first, fall back to cache
+// Fetch - ALWAYS network for HTML, cache for static only
 self.addEventListener('fetch', (event) => {
-    // Skip non-GET requests
     if (event.request.method !== 'GET') return;
 
-    // Skip API calls and JSON files (they should always go to network)
     const url = new URL(event.request.url);
-    if (url.pathname.includes('/hooks/') || 
-        url.pathname.endsWith('.json') ||
-        url.pathname.includes('/api/') ||
-        url.hostname === 'api.coingecko.com' ||
-        url.hostname === 'wttr.in') {
+    
+    // HTML files - ALWAYS go to network, no caching
+    if (url.pathname.endsWith('.html') || 
+        url.pathname === '/' || 
+        url.pathname.endsWith('/')) {
+        event.respondWith(
+            fetch(event.request, { cache: 'no-store' })
+                .catch(() => new Response('Offline - please reconnect', { 
+                    status: 503,
+                    headers: { 'Content-Type': 'text/html' }
+                }))
+        );
         return;
     }
 
+    // API calls - always network
+    if (url.pathname.includes('/api/') || 
+        url.pathname.endsWith('.json') ||
+        url.hostname !== self.location.hostname) {
+        return;
+    }
+
+    // Static assets - network first with cache fallback
     event.respondWith(
         fetch(event.request)
             .then((response) => {
-                // Clone the response for caching
                 const responseClone = response.clone();
                 caches.open(CACHE_NAME)
                     .then((cache) => cache.put(event.request, responseClone));
                 return response;
             })
-            .catch(() => {
-                // Fall back to cache
-                return caches.match(event.request)
-                    .then((response) => response || new Response('Offline', { status: 503 }));
-            })
+            .catch(() => caches.match(event.request))
     );
 });

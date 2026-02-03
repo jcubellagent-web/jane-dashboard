@@ -5021,31 +5021,38 @@
                 </div>
             </div>
 
-            <!-- Wallets -->
-            <div class="card wallet-section" data-widget="wallet" data-gs-w="4" data-gs-h="2">
+            <!-- PENGUIN Tracker -->
+            <div class="card wallet-section" data-widget="wallet" data-gs-w="6" data-gs-h="3">
                 <div class="card-header">
-                    <div class="card-title">👻 Solana Wallets</div>
-                    <button class="refresh-btn" onclick="fetchWalletBalances()" title="Refresh">↻</button>
+                    <div class="card-title">🐧 PENGUIN Tracker</div>
+                    <button class="refresh-btn" onclick="fetchPenguinBalance()" title="Refresh">↻</button>
                 </div>
-                <div style="margin-bottom: 1rem;">
-                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Jane's Wallet</div>
-                    <div class="wallet-balance" style="padding: 0.75rem; margin-bottom: 0.5rem;">
-                        <h3 id="wallet-sol" style="font-size: 1.25rem;">0.5 SOL</h3>
-                        <p id="wallet-usd" style="font-size: 0.8rem;">≈ $50.82 USD</p>
+                <div style="text-align: center; padding: 1.5rem; background: linear-gradient(135deg, rgba(96, 165, 250, 0.15), rgba(167, 139, 250, 0.15)); border-radius: 16px; margin-bottom: 1rem;">
+                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">🐧</div>
+                    <h3 id="penguin-usd" style="font-size: 2.5rem; font-weight: 700; margin-bottom: 0.25rem;">$--</h3>
+                    <p id="penguin-balance" style="font-size: 1rem; color: var(--text-secondary);">Loading...</p>
+                    <div id="penguin-pnl" style="font-size: 1.25rem; font-weight: 600; margin-top: 0.5rem;">--%</div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;">
+                    <div style="background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 0.6rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 0.25rem;">Price</div>
+                        <div id="penguin-price" style="font-size: 0.85rem; font-weight: 600;">$--</div>
                     </div>
-                    <div class="wallet-address" onclick="copyAddress('ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L')" title="Click to copy">
-                        ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L
+                    <div style="background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 0.6rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 0.25rem;">24h</div>
+                        <div id="penguin-change" style="font-size: 0.85rem; font-weight: 600;">--%</div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 0.6rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 0.25rem;">Entry</div>
+                        <div id="penguin-entry" style="font-size: 0.85rem; font-weight: 600;">$0.0398</div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 0.6rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 0.25rem;">Cost</div>
+                        <div id="penguin-cost" style="font-size: 0.85rem; font-weight: 600;">$51.95</div>
                     </div>
                 </div>
-                <div>
-                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Josh's Wallet</div>
-                    <div class="wallet-balance" style="padding: 0.75rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, rgba(96, 165, 250, 0.2), rgba(59, 130, 246, 0.2));">
-                        <h3 id="josh-wallet-sol" style="font-size: 1.25rem;">-- SOL</h3>
-                        <p id="josh-wallet-usd" style="font-size: 0.8rem;">Loading...</p>
-                    </div>
-                    <div class="wallet-address" onclick="copyAddress('6EYvnXTGFj5HQzLAJMYs4EpYnzQ6A4gUVrG5vncP96h8')" title="Click to copy">
-                        6EYvnXTGFj5HQzLAJMYs4EpYnzQ6A4gUVrG5vncP96h8
-                    </div>
+                <div style="margin-top: 0.75rem; font-size: 0.65rem; color: var(--text-secondary); text-align: center;">
+                    Nietzschean Penguin • ALL IN 🚀 • <span id="penguin-updated">--</span>
                 </div>
             </div>
 
@@ -5102,32 +5109,7 @@
             </div>
 
             <!-- Trading Positions -->
-            <div class="card trading-section" data-widget="trading" data-gs-w="12" data-gs-h="3">
-                <div class="card-header">
-                    <div class="card-title">📈 Active Trades</div>
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <span style="font-size: 0.7rem; color: var(--text-secondary);" id="trades-updated">Loading...</span>
-                        <button class="refresh-btn" onclick="fetchTradingPositions()" title="Refresh">↻</button>
-                    </div>
-                </div>
-                <div class="trading-summary" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
-                    <div style="text-align: center; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 12px;">
-                        <div style="font-size: 1.5rem; font-weight: 700;" id="total-invested">$30.82</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">Total Invested</div>
-                    </div>
-                    <div style="text-align: center; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 12px;">
-                        <div style="font-size: 1.5rem; font-weight: 700;" id="total-value">$--</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">Current Value</div>
-                    </div>
-                    <div style="text-align: center; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 12px;">
-                        <div style="font-size: 1.5rem; font-weight: 700;" id="total-pnl">--%</div>
-                        <div style="font-size: 0.75rem; color: var(--text-secondary);">Total P/L</div>
-                    </div>
-                </div>
-                <div class="positions-grid" id="positions-grid" style="display: flex; flex-direction: column; gap: 1rem;">
-                    <!-- Positions will be loaded here -->
-                </div>
-            </div>
+            <!-- Trading section removed - consolidated into PENGUIN Tracker -->
 
             <footer>
                 Jane · Personal Assistant · First boot Jan 31, 2026 · Dashboard v3.1
@@ -5171,8 +5153,8 @@
             <span class="nav-label">Home</span>
         </a>
         <a href="#" class="nav-item" onclick="scrollToTrades(); return false;">
-            <span class="nav-icon">📈</span>
-            <span class="nav-label">Trades</span>
+            <span class="nav-icon">🐧</span>
+            <span class="nav-label">PENGUIN</span>
         </a>
         <button class="nav-item chat-fab" onclick="toggleChat()">
             <span class="nav-icon">💬</span>
@@ -6022,92 +6004,111 @@
             showToast('Address copied!');
         }
 
-        // Fetch wallet balances for both Jane and Josh
-        async function fetchWalletBalances() {
-            const janeWallet = 'ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L';
-            const joshWallet = '6EYvnXTGFj5HQzLAJMYs4EpYnzQ6A4gUVrG5vncP96h8';
+        // Fetch PENGUIN balance and price
+        async function fetchPenguinBalance() {
+            const wallet = 'ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L';
+            const penguinMint = '8Jx8AAHj86wbQgUTjGuj6GTTL5Ps3cqxKRTvpaJApump';
+            
+            // Entry data (from buy transaction)
+            const ENTRY_PRICE = 0.0398;  // USD per PENGUIN at entry (corrected)
+            const COST_BASIS = 51.95;       // Total USD invested
             
             try {
-                // Get SOL price
-                const solPriceEl = document.getElementById('sol-price');
-                const solPriceText = solPriceEl ? solPriceEl.textContent : '$100';
-                const solPrice = parseFloat(solPriceText.replace('$', '').replace(',', '')) || 100;
-
-                // Fetch Jane's SOL balance
-                const janeResponse = await fetch('https://solana-rpc.publicnode.com', {
+                // Fetch PENGUIN token balance
+                const balanceResponse = await fetch('https://solana-rpc.publicnode.com', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         jsonrpc: '2.0',
                         id: 1,
-                        method: 'getBalance',
-                        params: [janeWallet]
+                        method: 'getTokenAccountsByOwner',
+                        params: [
+                            wallet,
+                            { mint: penguinMint },
+                            { encoding: 'jsonParsed' }
+                        ]
                     })
                 });
                 
-                const janeData = await janeResponse.json();
-                let janeSolBalance = 0;
+                const balanceData = await balanceResponse.json();
+                let penguinBalance = 0;
                 
-                if (janeData.result && janeData.result.value !== undefined) {
-                    janeSolBalance = janeData.result.value / 1e9;
+                if (balanceData.result && balanceData.result.value && balanceData.result.value.length > 0) {
+                    const tokenAmount = balanceData.result.value[0].account.data.parsed.info.tokenAmount;
+                    penguinBalance = parseFloat(tokenAmount.uiAmount) || 0;
                 }
                 
-                // Update Jane's wallet display (with null checks)
-                const janeUsd = janeSolBalance * solPrice;
-                const walletSolEl = document.getElementById('wallet-sol');
-                const walletUsdEl = document.getElementById('wallet-usd');
+                // Fetch PENGUIN price from DexScreener
+                const priceResponse = await fetch('https://api.dexscreener.com/latest/dex/tokens/' + penguinMint);
+                const priceData = await priceResponse.json();
+                
+                let penguinPrice = 0;
+                let priceChange24h = 0;
+                
+                if (priceData.pairs && priceData.pairs.length > 0) {
+                    const pair = priceData.pairs[0];
+                    penguinPrice = parseFloat(pair.priceUsd) || 0;
+                    priceChange24h = parseFloat(pair.priceChange?.h24) || 0;
+                }
+                
+                // Calculate USD value and P&L
+                const usdValue = penguinBalance * penguinPrice;
+                const pnlDollar = usdValue - COST_BASIS;
+                const pnlPercent = COST_BASIS > 0 ? ((usdValue - COST_BASIS) / COST_BASIS) * 100 : 0;
+                
+                // Update display
+                const penguinUsdEl = document.getElementById('penguin-usd');
+                const penguinBalanceEl = document.getElementById('penguin-balance');
+                const penguinPriceEl = document.getElementById('penguin-price');
+                const penguinChangeEl = document.getElementById('penguin-change');
+                const penguinPnlEl = document.getElementById('penguin-pnl');
+                const penguinUpdatedEl = document.getElementById('penguin-updated');
+                
+                if (penguinUsdEl) penguinUsdEl.textContent = '$' + usdValue.toFixed(2);
+                if (penguinBalanceEl) penguinBalanceEl.textContent = penguinBalance.toFixed(2) + ' PENGUIN';
+                if (penguinPriceEl) penguinPriceEl.textContent = '$' + penguinPrice.toFixed(6);
+                if (penguinChangeEl) {
+                    penguinChangeEl.textContent = (priceChange24h >= 0 ? '+' : '') + priceChange24h.toFixed(1) + '%';
+                    penguinChangeEl.style.color = priceChange24h >= 0 ? 'var(--accent)' : '#ef4444';
+                }
+                if (penguinPnlEl) {
+                    const pnlSign = pnlDollar >= 0 ? '+' : '';
+                    penguinPnlEl.textContent = pnlSign + '$' + pnlDollar.toFixed(2) + ' (' + pnlSign + pnlPercent.toFixed(1) + '%)';
+                    penguinPnlEl.style.color = pnlDollar >= 0 ? 'var(--accent)' : '#ef4444';
+                }
+                if (penguinUpdatedEl) penguinUpdatedEl.textContent = new Date().toLocaleTimeString();
+                
+                // Update SOL balance stat card if it exists
                 const solBalanceEl = document.getElementById('sol-balance');
-                if (walletSolEl) walletSolEl.textContent = janeSolBalance.toFixed(3) + ' SOL';
-                if (walletUsdEl) walletUsdEl.textContent = '≈ $' + janeUsd.toFixed(2) + ' USD';
-                
-                // Animate SOL balance if changed
                 if (solBalanceEl) {
-                    const roundedBalance = Math.round(janeSolBalance * 100) / 100;
-                    if (previousValues.solBalance !== null && previousValues.solBalance !== roundedBalance) {
-                        animateNumber(solBalanceEl, roundedBalance);
-                        solBalanceEl.textContent = roundedBalance.toFixed(2) + ' SOL';
-                        flashElement(solBalanceEl.closest('.stat-card'));
-                    } else {
-                        solBalanceEl.textContent = roundedBalance.toFixed(2) + ' SOL';
+                    const solResponse = await fetch('https://solana-rpc.publicnode.com', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            jsonrpc: '2.0',
+                            id: 1,
+                            method: 'getBalance',
+                            params: [wallet]
+                        })
+                    });
+                    const solData = await solResponse.json();
+                    if (solData.result && solData.result.value !== undefined) {
+                        const solBalance = solData.result.value / 1e9;
+                        solBalanceEl.textContent = solBalance.toFixed(2) + ' SOL';
                     }
-                    previousValues.solBalance = roundedBalance;
                 }
-
-                // Fetch Josh's SOL balance
-                const joshResponse = await fetch('https://solana-rpc.publicnode.com', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        jsonrpc: '2.0',
-                        id: 1,
-                        method: 'getBalance',
-                        params: [joshWallet]
-                    })
-                });
-                
-                const joshData = await joshResponse.json();
-                let joshSolBalance = 0;
-                let totalUsd = 0;
-                
-                if (joshData.result && joshData.result.value !== undefined) {
-                    joshSolBalance = joshData.result.value / 1e9;
-                    totalUsd += joshSolBalance * solPrice;
-                }
-
-                // Update display (with null checks)
-                const joshSolEl = document.getElementById('josh-wallet-sol');
-                const joshUsdEl = document.getElementById('josh-wallet-usd');
-                if (joshSolEl) joshSolEl.textContent = joshSolBalance.toFixed(4) + ' SOL';
-                if (joshUsdEl) joshUsdEl.textContent = '≈ $' + totalUsd.toFixed(2) + ' USD';
                 
             } catch (error) {
-                console.error('Failed to fetch wallet balance:', error);
-                const joshSolEl = document.getElementById('josh-wallet-sol');
-                const joshUsdEl = document.getElementById('josh-wallet-usd');
-                if (joshSolEl) joshSolEl.textContent = '? SOL';
-                if (joshUsdEl) joshUsdEl.textContent = 'Error loading';
+                console.error('Failed to fetch PENGUIN balance:', error);
+                const penguinUsdEl = document.getElementById('penguin-usd');
+                const penguinBalanceEl = document.getElementById('penguin-balance');
+                if (penguinUsdEl) penguinUsdEl.textContent = 'Error';
+                if (penguinBalanceEl) penguinBalanceEl.textContent = 'Failed to load';
             }
         }
+        
+        // Alias for backwards compatibility
+        const fetchWalletBalances = fetchPenguinBalance;
 
         // Toast notification
         function showToast(message) {
@@ -6387,8 +6388,10 @@
         }
 
         async function fetchTradingPositions() {
+            // Consolidated into PENGUIN tracker - just refresh that
+            await fetchPenguinBalance();
             const grid = document.getElementById('positions-grid');
-            if (!grid) return; // Widget not visible
+            if (!grid) return; // Widget removed - PENGUIN tracker handles everything now
             
             let totalValue = 0;
             const totalInvested = 30.82; // Sum of all cost bases
@@ -7569,9 +7572,9 @@
             }
         });
 
-        // Scroll to trades section
+        // Scroll to PENGUIN tracker
         function scrollToTrades() {
-            document.querySelector('.trading-section')?.scrollIntoView({ behavior: 'smooth' });
+            document.querySelector('.wallet-section')?.scrollIntoView({ behavior: 'smooth' });
         }
 
         // Service Worker Registration for PWA

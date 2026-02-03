@@ -29,6 +29,13 @@ _Distilled wisdom from daily experiences. Updated periodically._
 
 ## Technical Lessons
 
+### Jupiter API Trading (Feb 2026)
+- **Lite API** (`lite-api.jup.ag`) - Free, no auth, use this
+- **Main API** (`api.jup.ag`) - Requires API key from portal.jup.ag
+- Registered with jcubellagent@gmail.com
+- Script: `trading/jupiter-swap.js` - 3-5 sec vs 60-90 sec browser
+- Jupiter wallet key ≠ Phantom seed phrase derivation
+
 ### Browser Automation
 - Pixel-based automation unreliable (window sizes vary)
 - Direct extension URLs work better: `chrome-extension://[id]/popup.html`

@@ -510,6 +510,20 @@ const server = http.createServer((req, res) => {
         return;
     }
     
+    // API endpoint for cron jobs
+    if (req.url === '/api/cron') {
+        const cronFile = path.join(ROOT, 'cron-jobs.json');
+        if (fs.existsSync(cronFile)) {
+            const data = JSON.parse(fs.readFileSync(cronFile, 'utf8'));
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(data));
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ jobs: [], lastUpdated: null }));
+        }
+        return;
+    }
+    
     // API endpoint for TikTok stats (reads from JSON, updated by Jane's heartbeat)
     if (req.url === '/api/tiktok') {
         const statsFile = path.join(ROOT, 'tiktok-stats.json');
@@ -572,23 +586,144 @@ const server = http.createServer((req, res) => {
         return;
     }
     
-    // API endpoint for wallet balances
+    // API endpoint for wallet balances (live from Solana RPC)
     if (req.url === '/api/wallet') {
-        // Return known wallet balances
-        const wallets = {
-            jane: {
-                address: 'ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L',
-                balance: 0.584,
-                label: "Jane's Wallet"
-            },
-            josh: {
-                address: '6EYvnXTGFj5HQzLAJMYs4EpYnzQ6A4gUVrG5vncP96h8',
-                balance: 0.3997,
-                label: "Josh's Wallet"
-            }
+        const walletAddresses = {
+            jane: { address: 'ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L', label: "Jane's Wallet" },
+            josh: { address: '6EYvnXTGFj5HQzLAJMYs4EpYnzQ6A4gUVrG5vncP96h8', label: "Josh's Wallet" }
         };
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(wallets));
+        
+        const fetchBalance = (address) => new Promise((resolve) => {
+            const postData = JSON.stringify({
+                jsonrpc: '2.0', id: 1, method: 'getBalance', params: [address]
+            });
+            const req = https.request({
+                hostname: 'api.mainnet-beta.solana.com',
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            }, (res) => {
+                let data = '';
+                res.on('data', chunk => data += chunk);
+                res.on('end', () => {
+                    try {
+                        const result = JSON.parse(data);
+                        resolve(result.result?.value / 1e9 || 0);
+                    } catch { resolve(0); }
+                });
+            });
+            req.on('error', () => resolve(0));
+            req.write(postData);
+            req.end();
+        });
+        
+        const fetchSolPrice = () => new Promise((resolve) => {
+            https.get('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd', 
+                { headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
+                let data = '';
+                res.on('data', chunk => data += chunk);
+                res.on('end', () => {
+                    try {
+                        const result = JSON.parse(data);
+                        resolve(result.solana?.usd || 200);
+                    } catch { resolve(200); }
+                });
+            }).on('error', () => resolve(200));
+        });
+        
+        Promise.all([
+            fetchBalance(walletAddresses.jane.address),
+            fetchBalance(walletAddresses.josh.address),
+            fetchSolPrice()
+        ]).then(([janeBal, joshBal, solPrice]) => {
+            const wallets = {
+                jane: {
+                    address: walletAddresses.jane.address,
+                    balance: janeBal,
+                    usd: janeBal * solPrice,
+                    label: walletAddresses.jane.label
+                },
+                josh: {
+                    address: walletAddresses.josh.address,
+                    balance: joshBal,
+                    usd: joshBal * solPrice,
+                    label: walletAddresses.josh.label
+                },
+                solPrice,
+                total: {
+                    balance: janeBal + joshBal,
+                    usd: (janeBal + joshBal) * solPrice
+                },
+                lastUpdated: new Date().toISOString()
+            };
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(wallets));
+        }).catch(() => {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Failed to fetch wallet data' }));
+        });
+        return;
+    }
+    
+    // API endpoint for Buttcoin balance in Josh's wallet
+    if (req.url === '/api/buttcoin') {
+        const BUTTCOIN_MINT = 'Cm6fNnMk7NfzStP9CZpsQA2v3jjzbcYGAxdJySmHpump';
+        const JOSH_WALLET = '6EYvnXTGFj5HQzLAJMYs4EpYnzQ6A4gUVrG5vncP96h8';
+        
+        // Fetch token balance from Solana RPC
+        const fetchTokenBalance = () => new Promise((resolve) => {
+            const postData = JSON.stringify({
+                jsonrpc: '2.0', id: 1,
+                method: 'getTokenAccountsByOwner',
+                params: [JOSH_WALLET, { mint: BUTTCOIN_MINT }, { encoding: 'jsonParsed' }]
+            });
+            const req = https.request({
+                hostname: 'api.mainnet-beta.solana.com',
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            }, (res) => {
+                let data = '';
+                res.on('data', chunk => data += chunk);
+                res.on('end', () => {
+                    try {
+                        const result = JSON.parse(data);
+                        const tokenInfo = result.result?.value?.[0]?.account?.data?.parsed?.info;
+                        resolve(tokenInfo?.tokenAmount?.uiAmount || 0);
+                    } catch { resolve(20490.24); } // fallback
+                });
+            });
+            req.on('error', () => resolve(20490.24));
+            req.write(postData);
+            req.end();
+        });
+        
+        // Fetch price from DexScreener
+        const fetchPrice = () => new Promise((resolve) => {
+            https.get('https://api.dexscreener.com/latest/dex/tokens/' + BUTTCOIN_MINT,
+                { headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
+                let data = '';
+                res.on('data', chunk => data += chunk);
+                res.on('end', () => {
+                    try {
+                        const result = JSON.parse(data);
+                        const price = parseFloat(result.pairs?.[0]?.priceUsd || '0.0247');
+                        resolve(price);
+                    } catch { resolve(0.0247); }
+                });
+            }).on('error', () => resolve(0.0247));
+        });
+        
+        Promise.all([fetchTokenBalance(), fetchPrice()]).then(([balance, price]) => {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({
+                token: 'Buttcoin',
+                symbol: 'BUTT',
+                mint: BUTTCOIN_MINT,
+                balance,
+                price,
+                usd: balance * price,
+                lastUpdated: new Date().toISOString()
+            }));
+        });
         return;
     }
     
@@ -793,6 +928,98 @@ const server = http.createServer((req, res) => {
             message: 'Update requested. Jane will refresh TikTok stats shortly.',
             requestedAt: new Date().toISOString()
         }));
+        return;
+    }
+    
+    // ==================== CHAT API ====================
+    // POST /api/chat/send - Queue message for Jane
+    if (req.url.startsWith('/api/chat/send') && req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => body += chunk);
+        req.on('end', () => {
+            try {
+                const data = JSON.parse(body);
+                const message = data.message || data.text;
+                
+                if (!message) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Message required' }));
+                    return;
+                }
+                
+                // Add to chat queue for Jane to process
+                const queueFile = path.join(ROOT, 'chat-queue.json');
+                const queue = fs.existsSync(queueFile) ? JSON.parse(fs.readFileSync(queueFile, 'utf8')) : [];
+                queue.push({ 
+                    message, 
+                    timestamp: Date.now(), 
+                    from: 'mobile-app',
+                    id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
+                });
+                fs.writeFileSync(queueFile, JSON.stringify(queue, null, 2));
+                
+                // Also add to chat history as user message
+                const historyFile = path.join(ROOT, 'chat-history.json');
+                const history = fs.existsSync(historyFile) ? JSON.parse(fs.readFileSync(historyFile, 'utf8')) : { messages: [] };
+                history.messages.push({
+                    role: 'user',
+                    content: message,
+                    timestamp: Date.now()
+                });
+                history.lastUpdated = new Date().toISOString();
+                fs.writeFileSync(historyFile, JSON.stringify(history, null, 2));
+                
+                console.log(`💬 Chat message queued: "${message.substring(0, 50)}..."`);
+                
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ 
+                    success: true, 
+                    message: 'Message sent! Jane will respond shortly.',
+                    sent: message 
+                }));
+                
+            } catch (e) {
+                console.error('Chat send error:', e);
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Invalid request' }));
+            }
+        });
+        return;
+    }
+    
+    // GET /api/chat/history - Get chat history
+    if (req.url === '/api/chat/history' || req.url.startsWith('/api/chat/history?')) {
+        const historyFile = path.join(ROOT, 'chat-history.json');
+        if (fs.existsSync(historyFile)) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(fs.readFileSync(historyFile));
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ messages: [], note: 'No chat history yet' }));
+        }
+        return;
+    }
+    
+    // GET /api/chat/queue - Check pending messages (for Jane)
+    if (req.url.startsWith('/api/chat/queue') && req.method === 'GET') {
+        const queueFile = path.join(ROOT, 'chat-queue.json');
+        if (fs.existsSync(queueFile)) {
+            const queue = JSON.parse(fs.readFileSync(queueFile, 'utf8'));
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ messages: queue, count: queue.length }));
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ messages: [], count: 0 }));
+        }
+        return;
+    }
+    
+    // DELETE /api/chat/queue - Clear message queue (after processing)
+    if (req.url === '/api/chat/queue' && req.method === 'DELETE') {
+        const queueFile = path.join(ROOT, 'chat-queue.json');
+        if (fs.existsSync(queueFile)) fs.unlinkSync(queueFile);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, cleared: true }));
         return;
     }
     

@@ -1,62 +1,28 @@
 {
+  "lastUpdated": "2026-02-03T04:29:30-05:00",
   "profile": {
     "username": "degencollector",
     "displayName": "DegenDigitalCollector",
     "followers": 470,
     "following": 5,
-    "likes": 2105,
+    "totalLikes": 2106,
     "bio": "Hunting and sharing the latest and greatest tokenized collectibles"
   },
-  "followers": 470,
-  "likes": 2105,
-  "videos": [
-    {
-      "id": "7602085781653490999",
-      "title": "DOUBLE EPIC! Joe Montana + Puka Nacua = $165 PROFIT",
-      "views": 236,
-      "url": "https://www.tiktok.com/@degencollector/video/7602085781653490999"
-    },
-    {
-      "id": "7602082172207500558",
-      "title": "Drake Maye Hunt EP.8 - PATS TO THE SUPER BOWL",
-      "views": 268,
-      "url": "https://www.tiktok.com/@degencollector/video/7602082172207500558"
-    },
-    {
-      "id": "7601975241534868750",
-      "title": "Drake Maye Hunt EP.7 - EPIC PURPLE PACK",
-      "views": 400,
-      "url": "https://www.tiktok.com/@degencollector/video/7601975241534868750"
-    },
-    {
-      "id": "7601968732671413559",
-      "title": "Drake Maye Hunt EP.6",
-      "views": 2006,
-      "url": "https://www.tiktok.com/@degencollector/video/7601968732671413559"
-    },
-    {
-      "id": "7601662386331766071",
-      "title": "Drake Maye Hunt EP.5 - ULTRA RARE Demario Davis",
-      "views": 358,
-      "url": "https://www.tiktok.com/@degencollector/video/7601662386331766071"
-    },
-    {
-      "id": "7601655146241707319",
-      "title": "Drake Maye Hunt EP.4 - BEST PACK YET ULTRA RARE + EPIC",
-      "views": 2269,
-      "url": "https://www.tiktok.com/@degencollector/video/7601655146241707319"
-    },
-    {
-      "id": "7534067096330784055",
-      "title": "NFTs are better than physical collectibles",
-      "views": 20700,
-      "url": "https://www.tiktok.com/@degencollector/video/7534067096330784055"
-    }
+  "recentVideos": [
+    {"id": "7602085781653490999", "views": 237},
+    {"id": "7602082172207500558", "views": 268},
+    {"id": "7601975241534868750", "views": 401},
+    {"id": "7601968732671413559", "views": 2006},
+    {"id": "7601662386331766071", "views": 360},
+    {"id": "7601655146241707319", "views": 2361},
+    {"id": "7601653439860428046", "views": 443},
+    {"id": "7601631374386154766", "views": 304},
+    {"id": "7573371761413180686", "views": 9554},
+    {"id": "7537478391562325262", "views": 201}
   ],
-  "history": [
-    { "date": "2026-02-01", "followers": 456, "likes": 1876 },
-    { "date": "2026-02-02", "followers": 469, "likes": 2049 },
-    { "date": "2026-02-02T21:09", "followers": 470, "likes": 2105 }
-  ],
-  "lastUpdated": "2026-02-02T21:09:15-05:00"
+  "topPerformers": [
+    {"id": "7534067096330784055", "views": "20.7K"},
+    {"id": "7536332316327693581", "views": 9639},
+    {"id": "7573371761413180686", "views": 9554}
+  ]
 }

@@ -1,0 +1,15 @@
+{
+  "lastUpdated": "2026-02-03T00:36:00-05:00",
+  "jobs": [
+    {
+      "id": "penguin-price-alert",
+      "name": "🐧 PENGUIN Alerts",
+      "icon": "🐧",
+      "schedule": "Every 30 min",
+      "enabled": true,
+      "lastRun": "2026-02-03T00:34:00-05:00",
+      "nextRun": "2026-02-03T01:04:00-05:00",
+      "status": "ok"
+    }
+  ]
+}

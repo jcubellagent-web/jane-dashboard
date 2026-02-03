@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0a0f1a">
     <title>Jane 🦾</title>
-    <link rel="manifest" href="manifest.json">
+    <!-- PWA disabled for reliable updates -->
     <link rel="apple-touch-icon" href="icon-192.png">
     <style>
         * {
@@ -113,7 +111,7 @@
             font-variant-numeric: tabular-nums;
         }
         
-        /* Tasks Progress */
+        /* Tasks & Agents Section */
         .tasks-section {
             background: var(--card);
             border-radius: 16px;
@@ -125,7 +123,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
         }
         
         .tasks-title {
@@ -138,6 +136,71 @@
         .tasks-count {
             font-size: 0.9rem;
             font-weight: 600;
+        }
+        
+        .section-label {
+            font-size: 0.65rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 0.75rem;
+            margin-bottom: 0.35rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .section-label:first-child {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+        
+        .agent-item, .cron-item, .task-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            margin-bottom: 0.35rem;
+            font-size: 0.8rem;
+        }
+        
+        .agent-icon, .cron-icon, .task-icon {
+            font-size: 1rem;
+        }
+        
+        .agent-info, .cron-info, .task-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .agent-name, .cron-name, .task-name {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .agent-detail, .cron-detail, .task-detail {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+        }
+        
+        .agent-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            flex-shrink: 0;
+        }
+        
+        .agent-status.idle { background: var(--amber); }
+        
+        .cron-next {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            text-align: right;
         }
         
         .progress-bar {
@@ -312,26 +375,146 @@
             color: var(--accent);
         }
         
-        /* Chat Button */
-        .chat-btn {
+        /* Floating Chat Button */
+        .chat-fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
             background: linear-gradient(135deg, var(--accent), var(--accent-blue));
             color: #000;
             border: none;
-            border-radius: 16px;
-            padding: 1rem;
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1.75rem;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: auto;
+            box-shadow: 0 4px 20px rgba(74, 222, 128, 0.4);
+            z-index: 1000;
             transition: transform 0.2s, box-shadow 0.2s;
         }
         
-        .chat-btn:active {
-            transform: scale(0.98);
+        .chat-fab:active {
+            transform: scale(0.95);
+        }
+        
+        /* Full Screen Chat Overlay */
+        .chat-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+        }
+        
+        .chat-overlay.open {
+            display: flex;
+        }
+        
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--card);
+        }
+        
+        .chat-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .chat-close-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--red);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .chat-message {
+            max-width: 85%;
+            padding: 0.75rem 1rem;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
+        .chat-message.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            color: #000;
+        }
+        
+        .chat-message.jane {
+            align-self: flex-start;
+            background: var(--card);
+            color: var(--text);
+        }
+        
+        .chat-message .time {
+            font-size: 0.65rem;
+            opacity: 0.7;
+            margin-top: 0.25rem;
+        }
+        
+        .chat-input-area {
+            padding: 1rem;
+            border-top: 1px solid var(--border);
+            background: var(--card);
+        }
+        
+        .chat-input-row {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 1rem;
+            resize: none;
+            min-height: 48px;
+            max-height: 120px;
+        }
+        
+        .chat-send-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            color: #000;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .chat-send-btn:disabled {
+            opacity: 0.5;
         }
         
         /* Status Cards */
@@ -357,6 +540,44 @@
             font-size: 0.9rem;
             font-weight: 600;
             flex: 1;
+        }
+        
+        .widget-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .widget-timestamp {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+        }
+        
+        .widget-refresh {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            color: var(--text);
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .widget-refresh:active {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .widget-refresh.spinning {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         
         .status-badge {
@@ -446,33 +667,76 @@
         .pm-list {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.25rem;
+            max-height: 400px;
+            overflow-y: auto;
         }
+        
+        .pm-category {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 0.5rem;
+            padding: 0.25rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .pm-category:first-child { margin-top: 0; }
         
         .pm-item {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            flex-direction: column;
             padding: 0.5rem;
             background: rgba(255,255,255,0.03);
             border-radius: 8px;
+            gap: 0.25rem;
         }
         
         .pm-question {
-            font-size: 0.8rem;
-            flex: 1;
-            margin-right: 0.5rem;
+            font-size: 0.75rem;
+            line-height: 1.3;
+            color: var(--text);
+        }
+        
+        .pm-tags {
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+        }
+        
+        .pm-tag {
+            font-size: 0.55rem;
+            padding: 0.1rem 0.35rem;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.1);
+            color: var(--text-dim);
+        }
+        
+        .pm-tag.sports { background: rgba(74, 222, 128, 0.2); color: var(--green); }
+        .pm-tag.politics { background: rgba(239, 68, 68, 0.2); color: var(--red); }
+        .pm-tag.finance { background: rgba(96, 165, 250, 0.2); color: var(--accent-blue); }
+        .pm-tag.crypto { background: rgba(245, 158, 11, 0.2); color: var(--amber); }
+        .pm-tag.tech { background: rgba(167, 139, 250, 0.2); color: #a78bfa; }
+        
+        .pm-odds-row {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.7rem;
         }
         
         .pm-odds {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--accent);
-            font-variant-numeric: tabular-nums;
+            font-weight: 600;
+            padding: 0.15rem 0.35rem;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.08);
         }
         
         .pm-odds.yes { color: var(--green); }
         .pm-odds.no { color: var(--red); }
+        .pm-odds.fav { color: var(--green); }
+        .pm-odds.dog { color: var(--text-dim); }
         
         /* Second Brain */
         .brain-stats {
@@ -483,37 +747,68 @@
             border-bottom: 1px solid var(--border);
         }
         
-        .brain-stat {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        /* Bubble Map */
+        .bubble-map {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
         }
         
-        .brain-stat-value {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--accent);
-        }
-        
-        .brain-stat-label {
-            font-size: 0.65rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-        }
-        
-        .brain-recent {
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
-        }
-        
-        .brain-item {
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            padding: 0.3rem 0;
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            justify-content: center;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            padding: 0.5rem;
+            line-height: 1.1;
+        }
+        
+        .bubble:active {
+            transform: scale(1.1);
+        }
+        
+        .bubble.large { width: 70px; height: 70px; font-size: 0.65rem; }
+        .bubble.medium { width: 55px; height: 55px; font-size: 0.55rem; }
+        .bubble.small { width: 42px; height: 42px; font-size: 0.5rem; }
+        
+        .bubble.work { background: linear-gradient(135deg, rgba(96, 165, 250, 0.3), rgba(59, 130, 246, 0.4)); color: #93c5fd; }
+        .bubble.sports { background: linear-gradient(135deg, rgba(74, 222, 128, 0.3), rgba(34, 197, 94, 0.4)); color: #86efac; }
+        .bubble.crypto { background: linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.4)); color: #fcd34d; }
+        .bubble.content { background: linear-gradient(135deg, rgba(244, 114, 182, 0.3), rgba(236, 72, 153, 0.4)); color: #f9a8d4; }
+        .bubble.tech { background: linear-gradient(135deg, rgba(167, 139, 250, 0.3), rgba(139, 92, 246, 0.4)); color: #c4b5fd; }
+        .bubble.personality { background: linear-gradient(135deg, rgba(45, 212, 191, 0.3), rgba(20, 184, 166, 0.4)); color: #5eead4; }
+        
+        .bubble-tooltip {
+            position: fixed;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.75rem;
+            max-width: 250px;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            display: none;
+        }
+        
+        .bubble-tooltip.show { display: block; }
+        
+        .bubble-tooltip h4 {
+            font-size: 0.85rem;
+            margin-bottom: 0.35rem;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        
+        .bubble-tooltip p {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            line-height: 1.4;
         }
         
         .brain-item::before {
@@ -560,43 +855,88 @@
             <div class="status-card-header">
                 <span class="status-card-icon">🖥️</span>
                 <span class="status-card-title">Mac Mini</span>
-                <span class="status-badge online" id="mac-status-badge">Online</span>
+                <div class="widget-meta">
+                    <span class="widget-timestamp" id="mac-updated">--</span>
+                    <button class="widget-refresh" onclick="refreshWidget('mac')" title="Refresh">↻</button>
+                </div>
             </div>
-            <div class="status-card-details" id="mac-details">
-                <div class="detail-row">
-                    <span class="detail-label">Uptime</span>
-                    <span class="detail-value" id="mac-uptime">--</span>
+            <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: rgba(74, 222, 128, 0.1); border-radius: 8px;">
+                <div style="text-align: center; flex: 1;">
+                    <div style="font-size: 0.6rem; color: var(--text-dim);">Status</div>
+                    <div style="font-size: 0.8rem; font-weight: 600; color: var(--green);" id="mac-status-badge">Online</div>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">CPU</span>
-                    <span class="detail-value" id="mac-cpu">--%</span>
+                <div style="text-align: center; flex: 1;">
+                    <div style="font-size: 0.6rem; color: var(--text-dim);">Uptime</div>
+                    <div style="font-size: 0.8rem; font-weight: 600;" id="mac-uptime">--</div>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Memory</span>
-                    <span class="detail-value" id="mac-memory">--%</span>
+                <div style="text-align: center; flex: 1;">
+                    <div style="font-size: 0.6rem; color: var(--text-dim);">CPU</div>
+                    <div style="font-size: 0.8rem; font-weight: 600;" id="mac-cpu">--%</div>
+                </div>
+                <div style="text-align: center; flex: 1;">
+                    <div style="font-size: 0.6rem; color: var(--text-dim);">RAM</div>
+                    <div style="font-size: 0.8rem; font-weight: 600;" id="mac-memory">--%</div>
                 </div>
             </div>
         </section>
         
-        <!-- 2. Jane's Status -->
+        <!-- 2. Jane + Tasks & Agents (merged) -->
         <section class="status-card">
             <div class="status-card-header">
                 <span class="status-card-icon">🦾</span>
                 <span class="status-card-title">Jane</span>
-                <span class="status-badge online" id="jane-status-badge">Active</span>
+                <div class="widget-meta">
+                    <span class="widget-timestamp" id="jane-updated">--</span>
+                    <button class="widget-refresh" onclick="refreshWidget('jane')" title="Refresh">↻</button>
+                </div>
             </div>
-            <div class="status-card-details">
-                <div class="detail-row">
-                    <span class="detail-label">Session</span>
-                    <span class="detail-value" id="jane-session">Main</span>
+            
+            <!-- Jane Status Summary -->
+            <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: rgba(74, 222, 128, 0.1); border-radius: 8px; margin-bottom: 0.5rem;">
+                <div style="text-align: center; flex: 1;">
+                    <div style="font-size: 0.6rem; color: var(--text-dim);">Model</div>
+                    <div style="font-size: 0.8rem; font-weight: 600;" id="jane-model">Claude</div>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Last Active</span>
-                    <span class="detail-value" id="jane-last-active">Just now</span>
+                <div style="text-align: center; flex: 1;">
+                    <div style="font-size: 0.6rem; color: var(--text-dim);">Session</div>
+                    <div style="font-size: 0.8rem; font-weight: 600;" id="jane-session">Main</div>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Model</span>
-                    <span class="detail-value" id="jane-model">Claude</span>
+                <div style="text-align: center; flex: 1;">
+                    <div style="font-size: 0.6rem; color: var(--text-dim);">Active</div>
+                    <div style="font-size: 0.8rem; font-weight: 600; color: var(--green);" id="jane-last-active">Now</div>
+                </div>
+            </div>
+            
+            <!-- Live Agents -->
+            <div class="section-label">🤖 Live Agents</div>
+            <div id="agents-list">
+                <div class="agent-item">
+                    <span class="agent-icon">⏳</span>
+                    <div class="agent-info">
+                        <div class="agent-name">Loading...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recurring Jobs -->
+            <div class="section-label">🔄 Recurring Jobs</div>
+            <div id="cron-list">
+                <div class="cron-item">
+                    <span class="cron-icon">⏳</span>
+                    <div class="cron-info">
+                        <div class="cron-name">Loading...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Active Tasks -->
+            <div class="section-label">📋 Active Tasks</div>
+            <div id="tasks-list">
+                <div class="task-item">
+                    <span class="task-icon">⏳</span>
+                    <div class="task-info">
+                        <div class="task-name">Loading...</div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -629,7 +969,7 @@
                     <span class="account-name">Solana</span>
                 </div>
                 <div class="account-item online" title="Sorare">
-                    <span class="account-icon">⚽</span>
+                    <span class="account-icon">🏀</span>
                     <span class="account-name">Sorare</span>
                 </div>
             </div>
@@ -640,6 +980,10 @@
             <div class="status-card-header">
                 <span class="status-card-icon">📊</span>
                 <span class="status-card-title">Prediction Markets</span>
+                <div class="widget-meta">
+                    <span class="widget-timestamp" id="pm-updated">--</span>
+                    <button class="widget-refresh" onclick="refreshWidget('predictions')" title="Refresh">↻</button>
+                </div>
             </div>
             <div id="pm-list" class="pm-list">
                 <div class="pm-item">
@@ -648,79 +992,118 @@
             </div>
         </section>
         
-        <!-- 5. Second Brain -->
+        <!-- 5. Second Brain - Bubble Map -->
         <section class="status-card">
             <div class="status-card-header">
                 <span class="status-card-icon">🧠</span>
-                <span class="status-card-title">Second Brain</span>
-            </div>
-            <div class="brain-stats" id="brain-stats">
-                <div class="brain-stat">
-                    <span class="brain-stat-value" id="brain-notes">--</span>
-                    <span class="brain-stat-label">Notes</span>
-                </div>
-                <div class="brain-stat">
-                    <span class="brain-stat-value" id="brain-captures">--</span>
-                    <span class="brain-stat-label">Captures</span>
-                </div>
-                <div class="brain-stat">
-                    <span class="brain-stat-value" id="brain-links">--</span>
-                    <span class="brain-stat-label">Links</span>
+                <span class="status-card-title">What I Know</span>
+                <div class="widget-meta">
+                    <span class="widget-timestamp" id="brain-updated">--</span>
+                    <button class="widget-refresh" onclick="refreshWidget('brain')" title="Refresh">↻</button>
                 </div>
             </div>
-            <div class="brain-recent" id="brain-recent">
-                <div class="brain-item">No recent captures</div>
+            <div class="bubble-map" id="bubble-map">
+                <!-- Work -->
+                <div class="bubble large work" style="top: 10px; left: 5px;" onclick="showBubble(this, 'Nasdaq', 'Your employer - you work in trading technology and market data. Series 66 certified with FINRA licenses.', '💼')">Nasdaq</div>
+                <div class="bubble small work" style="top: 75px; left: 60px;" onclick="showBubble(this, 'Series 66', 'You mentioned your NASAA certification - shows your financial industry expertise.', '📜')">S66</div>
+                
+                <!-- Sports -->
+                <div class="bubble large sports" style="top: 5px; left: 90px;" onclick="showBubble(this, 'Patriots Fan', 'HUGE Patriots fan 🏈 You follow Drake Maye, use #gopats, and get hyped during NFL season.', '🏈')">Patriots</div>
+                <div class="bubble medium sports" style="top: 70px; left: 140px;" onclick="showBubble(this, 'Sports Cards', 'You collect Panini NFT sports cards and create TikTok content about pack openings.', '🃏')">Cards</div>
+                
+                <!-- Crypto -->
+                <div class="bubble large crypto" style="top: 15px; left: 190px;" onclick="showBubble(this, 'Solana', 'Your main crypto chain - we trade memecoins together on Jupiter. Currently ALL IN on PENGUIN 🐧', '◎')">Solana</div>
+                <div class="bubble medium crypto" style="top: 85px; left: 230px;" onclick="showBubble(this, 'Memecoins', 'We made +$13 (+50.8%) on our first trading run! WOJAK, COPPERINU, pippin.', '🎰')">Memes</div>
+                <div class="bubble small crypto" style="top: 55px; left: 280px;" onclick="showBubble(this, 'Chain Agnostic', 'Your bio says it all - not tied to any single blockchain. Early adopter mentality.', '⛓️')">Agnostic</div>
+                
+                <!-- Content -->
+                <div class="bubble large content" style="top: 120px; left: 15px;" onclick="showBubble(this, 'TikTok Creator', '@degencollector - you create pack opening videos. We edit them together with floor prices!', '🎵')">TikTok</div>
+                <div class="bubble small content" style="top: 145px; left: 95px;" onclick="showBubble(this, 'Panini NFTs', 'Digital sports collectibles - you hunt the latest tokenized cards on Panini marketplace.', '🏀')">Panini</div>
+                
+                <!-- Tech -->
+                <div class="bubble medium tech" style="top: 130px; left: 150px;" onclick="showBubble(this, '3D Printing', 'Bambu A1 with AMS multi-spool feeder. Gold and black filaments. Can do multi-color prints!', '🖨️')">3D Print</div>
+                
+                <!-- Personality -->
+                <div class="bubble medium personality" style="top: 140px; left: 230px;" onclick="showBubble(this, 'Early Adopter', 'Here for fun and to learn - you dive into new tech and figure it out. NFA disclaimer always.', '🚀')">Explorer</div>
+                <div class="bubble small personality" style="top: 160px; left: 300px;" onclick="showBubble(this, 'Sorare NBA', 'Fantasy NBA on blockchain - your username is jcubnft. We connected the API!', '🏀')">Sorare</div>
             </div>
-        </section>
-        
-        <!-- Tasks Progress -->
-        <section class="tasks-section">
-            <div class="tasks-header">
-                <span class="tasks-title">In Progress</span>
-                <span class="tasks-count" id="tasks-count">0 tasks</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
-            </div>
-            <div class="rag-dots" id="rag-dots">
-                <!-- Filled by JS -->
-            </div>
-        </section>
-        
-        <!-- Positions -->
-        <section class="positions-section">
-            <div class="section-title">Positions</div>
-            <div id="positions-list">
-                <!-- Filled by JS -->
+            <div class="bubble-tooltip" id="bubble-tooltip">
+                <h4><span id="tooltip-icon"></span> <span id="tooltip-title"></span></h4>
+                <p id="tooltip-text"></p>
             </div>
         </section>
         
         <!-- Metrics Grid -->
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-icon">🎵</div>
-                <div class="metric-value" id="tiktok-followers">--</div>
-                <div class="metric-label">TikTok Followers</div>
+        <section class="status-card">
+            <div class="status-card-header">
+                <span class="status-card-icon">📈</span>
+                <span class="status-card-title">Metrics</span>
+                <div class="widget-meta">
+                    <span class="widget-timestamp" id="metrics-updated">--</span>
+                    <button class="widget-refresh" onclick="refreshWidget('metrics')" title="Refresh">↻</button>
+                </div>
             </div>
-            <div class="metric-card">
-                <div class="metric-icon">💰</div>
-                <div class="metric-value" id="sol-balance">--</div>
-                <div class="metric-label">SOL Balance</div>
+            <div class="metrics-grid" style="margin-top: 0.5rem;">
+                <div class="metric-card">
+                    <div class="metric-icon">🎵</div>
+                    <div class="metric-value" id="tiktok-followers">--</div>
+                    <div class="metric-label">TikTok</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">🐧</div>
+                    <div class="metric-value" id="penguin-value">--</div>
+                    <div class="metric-label">PENGUIN</div>
+                </div>
             </div>
-        </div>
+        </section>
         
         <!-- Completed Today -->
-        <section class="completed-section">
-            <div class="section-title">Completed Today (<span id="completed-count">0</span>)</div>
-            <div class="completed-list" id="completed-list">
+        <section class="status-card">
+            <div class="status-card-header">
+                <span class="status-card-icon">✅</span>
+                <span class="status-card-title">Completed Today</span>
+                <div class="widget-meta">
+                    <span class="widget-timestamp" id="tasks-updated">--</span>
+                    <button class="widget-refresh" onclick="refreshWidget('tasks')" title="Refresh">↻</button>
+                </div>
+            </div>
+            <div class="completed-list" id="completed-list" style="margin-top: 0.5rem;">
                 <!-- Filled by JS -->
             </div>
         </section>
         
-        <!-- Chat Button -->
-        <button class="chat-btn" onclick="openChat()">
-            💬 Chat with Jane
-        </button>
+        <!-- Version & Refresh -->
+        <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
+            <div style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.5rem;">
+                v7.9 • <span id="last-refresh">--</span>
+            </div>
+            <button onclick="forceRefresh()" style="background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.75rem;">
+                🔄 Force Refresh
+            </button>
+        </div>
+    </div>
+    
+    <!-- Floating Chat Button -->
+    <button class="chat-fab" onclick="openChat()" aria-label="Chat with Jane">💬</button>
+    
+    <!-- Full Screen Chat Overlay -->
+    <div class="chat-overlay" id="chat-overlay">
+        <div class="chat-header">
+            <h2>🦾 Jane</h2>
+            <button class="chat-close-btn" onclick="closeChat()" aria-label="Close chat">✕</button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="chat-message jane">
+                Hey Josh! 👋 What's up?
+                <div class="time">Just now</div>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <div class="chat-input-row">
+                <textarea class="chat-input" id="chat-input" placeholder="Type a message..." rows="1"></textarea>
+                <button class="chat-send-btn" onclick="sendMessage()" id="send-btn">➤</button>
+            </div>
+        </div>
     </div>
     
     <script>
@@ -735,6 +1118,42 @@
         }
         updateTime();
         setInterval(updateTime, 1000);
+        
+        // Bubble map tooltip
+        function showBubble(el, title, text, icon) {
+            const tooltip = document.getElementById('bubble-tooltip');
+            document.getElementById('tooltip-title').textContent = title;
+            document.getElementById('tooltip-text').textContent = text;
+            document.getElementById('tooltip-icon').textContent = icon;
+            
+            // Position tooltip near the bubble
+            const rect = el.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
+            
+            // Center horizontally, position above or below
+            let top = rect.bottom + 10;
+            let left = rect.left + (rect.width / 2) - 125;
+            
+            // Keep on screen
+            if (left < 10) left = 10;
+            if (left + 250 > window.innerWidth) left = window.innerWidth - 260;
+            if (top + 150 > window.innerHeight) top = rect.top - 120;
+            
+            tooltip.style.top = top + 'px';
+            tooltip.style.left = left + 'px';
+            tooltip.classList.add('show');
+            
+            // Hide on tap outside
+            setTimeout(() => {
+                document.addEventListener('click', hideBubble, { once: true });
+            }, 10);
+        }
+        
+        function hideBubble(e) {
+            if (!e.target.classList.contains('bubble')) {
+                document.getElementById('bubble-tooltip').classList.remove('show');
+            }
+        }
         
         // Fetch tasks
         async function fetchTasks() {
@@ -849,48 +1268,164 @@
             }
         }
         
-        // Fetch SOL balance from wallet API
-        async function fetchSolBalance() {
+        // Fetch PENGUIN balance and value
+        async function fetchPenguinBalance() {
+            const wallet = 'ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L';
+            const penguinMint = '8Jx8AAHj86wbQgUTjGuj6GTTL5Ps3cqxKRTvpaJApump';
+            
             try {
-                // Try to get actual wallet balance first
-                const walletRes = await fetch('/api/wallet');
-                if (walletRes.ok) {
-                    const walletData = await walletRes.json();
-                    const balance = walletData.jane?.balance || walletData.balance || 0;
-                    const usdValue = walletData.jane?.usd || walletData.usd || 0;
-                    if (usdValue > 0) {
-                        document.getElementById('sol-balance').textContent = '$' + usdValue.toFixed(0);
-                        return;
-                    }
+                // Fetch PENGUIN token balance
+                const balanceResponse = await fetch('https://solana-rpc.publicnode.com', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        jsonrpc: '2.0',
+                        id: 1,
+                        method: 'getTokenAccountsByOwner',
+                        params: [
+                            wallet,
+                            { mint: penguinMint },
+                            { encoding: 'jsonParsed' }
+                        ]
+                    })
+                });
+                
+                const balanceData = await balanceResponse.json();
+                let penguinBalance = 0;
+                
+                if (balanceData.result && balanceData.result.value && balanceData.result.value.length > 0) {
+                    const tokenAmount = balanceData.result.value[0].account.data.parsed.info.tokenAmount;
+                    penguinBalance = parseFloat(tokenAmount.uiAmount) || 0;
                 }
                 
-                // Fallback: use known balance from positions API
-                const posRes = await fetch('/api/trading');
-                if (posRes.ok) {
-                    const posData = await posRes.json();
-                    if (posData.walletBalance) {
-                        document.getElementById('sol-balance').textContent = posData.walletBalance;
-                        return;
-                    }
+                // Fetch PENGUIN price from DexScreener
+                const priceResponse = await fetch('https://api.dexscreener.com/latest/dex/tokens/' + penguinMint);
+                const priceData = await priceResponse.json();
+                
+                let penguinPrice = 0;
+                if (priceData.pairs && priceData.pairs.length > 0) {
+                    penguinPrice = parseFloat(priceData.pairs[0].priceUsd) || 0;
                 }
                 
-                // Final fallback: estimate from crypto price
-                const cryptoRes = await fetch('/api/crypto');
-                const cryptoData = await cryptoRes.json();
-                if (cryptoData.solana) {
-                    // Use known balance: 0.584 SOL
-                    const solBalance = 0.584;
-                    document.getElementById('sol-balance').textContent = '$' + (cryptoData.solana.usd * solBalance).toFixed(0);
-                }
+                // Calculate and display USD value
+                const usdValue = penguinBalance * penguinPrice;
+                document.getElementById('penguin-value').textContent = '$' + usdValue.toFixed(2);
+                
             } catch (err) {
-                document.getElementById('sol-balance').textContent = '--';
+                console.error('Failed to fetch PENGUIN:', err);
+                document.getElementById('penguin-value').textContent = '--';
             }
         }
         
+        // Alias for backwards compatibility
+        const fetchSolBalance = fetchPenguinBalance;
+        
         // Open chat
+        // Chat Functions
         function openChat() {
-            window.location.href = '/?chat=open';
+            document.getElementById('chat-overlay').classList.add('open');
+            loadChatHistory();
+            document.getElementById('chat-input').focus();
         }
+        
+        function closeChat() {
+            document.getElementById('chat-overlay').classList.remove('open');
+        }
+        
+        async function loadChatHistory() {
+            try {
+                const res = await fetch('/api/chat/history');
+                if (!res.ok) return;
+                const data = await res.json();
+                
+                const container = document.getElementById('chat-messages');
+                if (data.messages && data.messages.length > 0) {
+                    container.innerHTML = data.messages.map(m => `
+                        <div class="chat-message ${m.role === 'user' ? 'user' : 'jane'}">
+                            ${m.content}
+                            <div class="time">${new Date(m.timestamp).toLocaleTimeString()}</div>
+                        </div>
+                    `).join('');
+                    container.scrollTop = container.scrollHeight;
+                }
+            } catch (err) {
+                console.error('Failed to load chat history:', err);
+            }
+        }
+        
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            const sendBtn = document.getElementById('send-btn');
+            sendBtn.disabled = true;
+            
+            // Add user message to UI
+            const container = document.getElementById('chat-messages');
+            container.innerHTML += `
+                <div class="chat-message user">
+                    ${message}
+                    <div class="time">${new Date().toLocaleTimeString()}</div>
+                </div>
+            `;
+            container.scrollTop = container.scrollHeight;
+            input.value = '';
+            
+            // Add "typing" indicator
+            container.innerHTML += `
+                <div class="chat-message jane" id="typing-indicator">
+                    <em>Jane is typing...</em>
+                </div>
+            `;
+            container.scrollTop = container.scrollHeight;
+            
+            try {
+                const res = await fetch('/api/chat/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+                
+                // Remove typing indicator
+                document.getElementById('typing-indicator')?.remove();
+                
+                if (res.ok) {
+                    container.innerHTML += `
+                        <div class="chat-message jane">
+                            Message sent! I'll respond shortly via WhatsApp 📱
+                            <div class="time">${new Date().toLocaleTimeString()}</div>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML += `
+                        <div class="chat-message jane">
+                            Failed to send. Try again?
+                            <div class="time">${new Date().toLocaleTimeString()}</div>
+                        </div>
+                    `;
+                }
+                container.scrollTop = container.scrollHeight;
+            } catch (err) {
+                document.getElementById('typing-indicator')?.remove();
+                container.innerHTML += `
+                    <div class="chat-message jane">
+                        Network error. Check your connection.
+                        <div class="time">${new Date().toLocaleTimeString()}</div>
+                    </div>
+                `;
+            }
+            
+            sendBtn.disabled = false;
+        }
+        
+        // Send on Enter (Shift+Enter for newline)
+        document.getElementById('chat-input')?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
         
         // Night mode
         function checkNightMode() {
@@ -996,11 +1531,18 @@
                 }
                 const data = await res.json();
                 
-                // Get top markets or featured
-                let markets = [];
-                if (data.featured) markets.push(data.featured);
-                if (data.top) markets = [...markets, ...data.top.slice(0, 2)];
-                if (data.markets) markets = [...markets, ...data.markets.slice(0, 3)];
+                // Get markets
+                let markets = data.markets || [];
+                if (data.featured) markets.unshift(data.featured);
+                if (data.top) markets = [...markets, ...data.top];
+                
+                // Remove duplicates by slug
+                const seen = new Set();
+                markets = markets.filter(m => {
+                    if (seen.has(m.slug)) return false;
+                    seen.add(m.slug);
+                    return true;
+                }).slice(0, 10);
                 
                 if (markets.length === 0) {
                     document.getElementById('pm-list').innerHTML = `
@@ -1011,17 +1553,126 @@
                     return;
                 }
                 
-                document.getElementById('pm-list').innerHTML = markets.slice(0, 3).map(m => {
-                    const odds = m.yesOdds || m.probability || 50;
-                    const question = (m.question || m.title || '').substring(0, 50);
-                    return `
-                        <div class="pm-item">
-                            <span class="pm-question">${question}${question.length >= 50 ? '...' : ''}</span>
-                            <span class="pm-odds ${odds > 50 ? 'yes' : 'no'}">${odds}%</span>
-                        </div>
-                    `;
-                }).join('');
+                // Categorize markets
+                function categorize(q) {
+                    const ql = q.toLowerCase();
+                    if (ql.includes('super bowl') || ql.includes('nfl') || ql.includes('nba') || 
+                        ql.includes('vs') || ql.includes('win the') || ql.includes('🏈') || 
+                        ql.includes('game') || ql.includes('championship') || ql.includes('playoffs') ||
+                        ql.includes('milan') || ql.includes('serie a') || ql.includes('premier league') ||
+                        ql.includes('la liga') || ql.includes('uefa') || ql.includes('champions league') ||
+                        ql.includes('world cup') || ql.includes('fc ') || ql.includes(' fc') ||
+                        ql.includes('manchester') || ql.includes('liverpool') || ql.includes('barcelona') ||
+                        ql.includes('real madrid') || ql.includes('juventus') || ql.includes('psg') ||
+                        ql.includes('arsenal') || ql.includes('chelsea') || ql.includes('tottenham') ||
+                        ql.includes('bayern') || ql.includes('dortmund') || ql.includes('inter') ||
+                        ql.includes('atletico') || ql.includes('napoli') || ql.includes('roma') ||
+                        ql.includes('lakers') || ql.includes('celtics') || ql.includes('warriors') ||
+                        ql.includes('chiefs') || ql.includes('eagles') || ql.includes('bills') ||
+                        ql.includes('seahawks') || ql.includes('patriots') || ql.includes('cowboys') ||
+                        ql.includes('mlb') || ql.includes('nhl') || ql.includes('mls') ||
+                        ql.includes('tennis') || ql.includes('golf') || ql.includes('f1') ||
+                        ql.includes('boxing') || ql.includes('ufc') || ql.includes('mma')) {
+                        return 'sports';
+                    }
+                    if (ql.includes('trump') || ql.includes('biden') || ql.includes('president') || 
+                        ql.includes('government') || ql.includes('congress') || ql.includes('iran') ||
+                        ql.includes('war') || ql.includes('russia') || ql.includes('china') ||
+                        ql.includes('election') || ql.includes('shutdown')) {
+                        return 'politics';
+                    }
+                    if (ql.includes('bitcoin') || ql.includes('crypto') || ql.includes('btc') || 
+                        ql.includes('eth') || ql.includes('solana') || ql.includes('price of')) {
+                        return 'finance';
+                    }
+                    if (ql.includes('ai') || ql.includes('openai') || ql.includes('google') || 
+                        ql.includes('apple') || ql.includes('acquired') || ql.includes('ipo') ||
+                        ql.includes('stock') || ql.includes('company')) {
+                        return 'finance';
+                    }
+                    return 'other';
+                }
+                
+                function getTags(m, cat) {
+                    const tags = [];
+                    const ql = m.question.toLowerCase();
+                    if (cat === 'sports') tags.push({ label: '🏈 Sports', class: 'sports' });
+                    if (cat === 'politics') tags.push({ label: '🏛️ Politics', class: 'politics' });
+                    if (cat === 'finance') {
+                        if (ql.includes('bitcoin') || ql.includes('crypto') || ql.includes('btc')) {
+                            tags.push({ label: '₿ Crypto', class: 'crypto' });
+                        } else if (ql.includes('ai') || ql.includes('acquired')) {
+                            tags.push({ label: '🤖 Tech', class: 'tech' });
+                        } else {
+                            tags.push({ label: '💰 Finance', class: 'finance' });
+                        }
+                    }
+                    if (cat === 'other') tags.push({ label: '📊 Other', class: '' });
+                    return tags;
+                }
+                
+                // Group by category
+                const groups = { sports: [], politics: [], finance: [], other: [] };
+                markets.forEach(m => {
+                    const cat = categorize(m.question || '');
+                    groups[cat].push({ ...m, category: cat });
+                });
+                
+                // Build HTML
+                let html = '';
+                const categoryLabels = {
+                    sports: '🏈 Sports',
+                    politics: '🏛️ Geopolitics', 
+                    finance: '💰 Business & Finance',
+                    other: '📊 Other'
+                };
+                
+                ['sports', 'politics', 'finance', 'other'].forEach(cat => {
+                    if (groups[cat].length === 0) return;
+                    html += `<div class="pm-category">${categoryLabels[cat]}</div>`;
+                    
+                    groups[cat].forEach(m => {
+                        const tags = getTags(m, cat);
+                        const q = m.question || '';
+                        
+                        // Determine odds display
+                        let oddsHtml = '';
+                        if (m.teams && m.teams.favorite && m.teams.underdog) {
+                            // Sports with favorite/underdog format
+                            oddsHtml = `
+                                <span class="pm-odds fav">${m.teams.favorite.name} ${m.teams.favorite.odds}%</span>
+                                <span class="pm-odds dog">${m.teams.underdog.name} ${m.teams.underdog.odds}%</span>
+                            `;
+                        } else if (m.teams && m.teams.team1 && m.teams.team2) {
+                            // Sports with team1/team2 format
+                            const t1 = m.teams.team1;
+                            const t2 = m.teams.team2;
+                            const t1Class = t1.odds >= t2.odds ? 'fav' : 'dog';
+                            const t2Class = t2.odds >= t1.odds ? 'fav' : 'dog';
+                            oddsHtml = `
+                                <span class="pm-odds ${t1Class}">${t1.name} ${t1.odds}%</span>
+                                <span class="pm-odds ${t2Class}">${t2.name} ${t2.odds}%</span>
+                            `;
+                        } else {
+                            // Yes/No market
+                            oddsHtml = `
+                                <span class="pm-odds yes">Yes ${m.yesOdds || 50}%</span>
+                                <span class="pm-odds no">No ${m.noOdds || 50}%</span>
+                            `;
+                        }
+                        
+                        html += `
+                            <div class="pm-item">
+                                <div class="pm-question">${q}</div>
+                                <div class="pm-odds-row">${oddsHtml}</div>
+                            </div>
+                        `;
+                    });
+                });
+                
+                document.getElementById('pm-list').innerHTML = html;
             } catch (err) {
+                console.error('Predictions error:', err);
                 document.getElementById('pm-list').innerHTML = `
                     <div class="pm-item">
                         <span class="pm-question">Polymarket unavailable</span>
@@ -1032,58 +1683,189 @@
         
         // Fetch Second Brain Stats (uses /api/mindmap)
         async function fetchSecondBrain() {
+            // Bubble map is static - just return success for timestamp update
+            // The bubbles are populated from USER.md knowledge
+            return Promise.resolve();
+        }
+        
+        // Timestamp helper
+        function updateTimestamp(id) {
+            const el = document.getElementById(id);
+            if (el) el.textContent = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        }
+        
+        // Widget refresh dispatcher
+        async function refreshWidget(widget) {
+            const btn = event?.target;
+            if (btn) btn.classList.add('spinning');
+            
             try {
-                const res = await fetch('/api/mindmap');
-                if (!res.ok) {
-                    document.getElementById('brain-notes').textContent = '--';
-                    document.getElementById('brain-captures').textContent = '--';
-                    document.getElementById('brain-links').textContent = '--';
-                    return;
+                switch(widget) {
+                    case 'mac':
+                        await fetchMacStatus();
+                        updateTimestamp('mac-updated');
+                        break;
+                    case 'jane':
+                        await fetchJaneStatus();
+                        await fetchAgentsAndCron();
+                        updateTimestamp('jane-updated');
+                        break;
+                    case 'predictions':
+                        await fetchPredictionMarkets();
+                        updateTimestamp('pm-updated');
+                        break;
+                    case 'brain':
+                        await fetchSecondBrain();
+                        updateTimestamp('brain-updated');
+                        break;
+                    case 'tasks':
+                        await fetchTasks();
+                        updateTimestamp('tasks-updated');
+                        break;
+                    case 'metrics':
+                        await fetchTikTok();
+                        await fetchPenguinBalance();
+                        updateTimestamp('metrics-updated');
+                        break;
+                    case 'agents':
+                        await fetchAgentsAndCron();
+                        updateTimestamp('agents-updated');
+                        break;
                 }
-                const data = await res.json();
+            } finally {
+                if (btn) btn.classList.remove('spinning');
+            }
+        }
+        
+        // Fetch live agents, cron jobs, and tasks
+        async function fetchAgentsAndCron() {
+            try {
+                // Fetch sessions/agents
+                const sessRes = await fetch('/api/sessions');
+                if (sessRes.ok) {
+                    const sessData = await sessRes.json();
+                    let sessions = sessData.sessions || [];
+                    
+                    // Filter to only show recently active sessions (last 2 hours)
+                    const twoHoursAgo = Date.now() - (2 * 60 * 60 * 1000);
+                    sessions = sessions.filter(s => s.updatedAt > twoHoursAgo);
+                    
+                    if (sessions.length > 0) {
+                        document.getElementById('agents-list').innerHTML = sessions.slice(0, 3).map(s => {
+                            const name = s.displayName || s.key.split(':').pop() || 'Agent';
+                            const isMain = s.key.includes(':main:main');
+                            const isCron = s.key.includes(':cron:');
+                            const channel = s.channel || 'unknown';
+                            const tokens = s.totalTokens ? Math.round(s.totalTokens / 1000) + 'k' : '--';
+                            const icon = isMain ? '🦾' : (isCron ? '⏰' : '🤖');
+                            return `
+                                <div class="agent-item">
+                                    <span class="agent-icon">${icon}</span>
+                                    <div class="agent-info">
+                                        <div class="agent-name">${name}</div>
+                                        <div class="agent-detail">${channel} • ${tokens} tokens</div>
+                                    </div>
+                                    <div class="agent-status"></div>
+                                </div>
+                            `;
+                        }).join('');
+                    } else {
+                        document.getElementById('agents-list').innerHTML = '<div class="agent-item"><span class="agent-icon">🦾</span><div class="agent-info"><div class="agent-name">Jane (Main)</div><div class="agent-detail">Active</div></div><div class="agent-status"></div></div>';
+                    }
+                }
                 
-                // Map mindmap stats to brain display
-                document.getElementById('brain-notes').textContent = data.total || data.notes || 0;
-                document.getElementById('brain-captures').textContent = data.recent?.length || data.captures || 0;
-                document.getElementById('brain-links').textContent = data.links || data.connections || 0;
+                // Fetch cron jobs
+                const cronRes = await fetch('/api/cron');
+                if (cronRes.ok) {
+                    const cronData = await cronRes.json();
+                    const jobs = cronData.jobs || [];
+                    
+                    if (jobs.length > 0) {
+                        document.getElementById('cron-list').innerHTML = jobs.map(j => {
+                            const nextRun = j.nextRun ? new Date(j.nextRun).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '--';
+                            return `
+                                <div class="cron-item">
+                                    <span class="cron-icon">${j.icon || '⏰'}</span>
+                                    <div class="cron-info">
+                                        <div class="cron-name">${j.name}</div>
+                                        <div class="cron-detail">${j.schedule}</div>
+                                    </div>
+                                    <div class="cron-next">Next: ${nextRun}</div>
+                                </div>
+                            `;
+                        }).join('');
+                    } else {
+                        document.getElementById('cron-list').innerHTML = '<div class="cron-item"><span class="cron-icon">📭</span><div class="cron-info"><div class="cron-name">No recurring jobs</div></div></div>';
+                    }
+                }
                 
-                // Show recent items
-                if (data.recent && data.recent.length > 0) {
-                    document.getElementById('brain-recent').innerHTML = data.recent.slice(0, 3).map(item => `
-                        <div class="brain-item">${item.name || item.title || item}</div>
-                    `).join('');
-                } else if (data.recentCaptures && data.recentCaptures.length > 0) {
-                    document.getElementById('brain-recent').innerHTML = data.recentCaptures.slice(0, 3).map(item => `
-                        <div class="brain-item">${item.name || item.title || item}</div>
-                    `).join('');
+                // Fetch tasks
+                const tasksRes = await fetch('/api/tasks');
+                if (tasksRes.ok) {
+                    const tasksData = await tasksRes.json();
+                    const tasks = tasksData.inProgress || [];
+                    
+                    if (tasks.length > 0) {
+                        document.getElementById('tasks-list').innerHTML = tasks.slice(0, 4).map(t => `
+                            <div class="task-item">
+                                <span class="task-icon">${t.icon || '📌'}</span>
+                                <div class="task-info">
+                                    <div class="task-name">${t.task}</div>
+                                    <div class="task-detail">${t.detail || ''}</div>
+                                </div>
+                            </div>
+                        `).join('');
+                    } else {
+                        document.getElementById('tasks-list').innerHTML = '<div class="task-item"><span class="task-icon">✨</span><div class="task-info"><div class="task-name">No active tasks</div></div></div>';
+                    }
                 }
             } catch (err) {
-                document.getElementById('brain-notes').textContent = '--';
-                document.getElementById('brain-captures').textContent = '--';
-                document.getElementById('brain-links').textContent = '--';
+                console.error('Failed to fetch agents/cron:', err);
             }
         }
         
         // Init
-        fetchMacStatus();
-        fetchJaneStatus();
-        fetchPredictionMarkets();
-        fetchSecondBrain();
-        fetchTasks();
+        fetchMacStatus().then(() => updateTimestamp('mac-updated'));
+        fetchJaneStatus().then(() => updateTimestamp('jane-updated'));
+        fetchPredictionMarkets().then(() => updateTimestamp('pm-updated'));
+        fetchSecondBrain().then(() => updateTimestamp('brain-updated'));
+        fetchAgentsAndCron(); // Now part of Jane widget
         fetchPositions();
-        fetchTikTok();
+        fetchTikTok().then(() => updateTimestamp('metrics-updated'));
         fetchSolBalance();
         initWebSocket();
         
-        // Refresh intervals
-        setInterval(fetchMacStatus, 60000);
-        setInterval(fetchJaneStatus, 30000);
-        setInterval(fetchPredictionMarkets, 120000);
-        setInterval(fetchSecondBrain, 120000);
-        setInterval(fetchTasks, 30000);
+        // Update last refresh time
+        document.getElementById('last-refresh').textContent = new Date().toLocaleTimeString();
+        
+        // Force refresh - clears cache and reloads
+        async function forceRefresh() {
+            // Unregister service worker
+            if ('serviceWorker' in navigator) {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                for (const registration of registrations) {
+                    await registration.unregister();
+                }
+            }
+            // Clear caches
+            if ('caches' in window) {
+                const names = await caches.keys();
+                for (const name of names) {
+                    await caches.delete(name);
+                }
+            }
+            // Reload with cache bypass
+            window.location.reload(true);
+        }
+        
+        // Refresh intervals with timestamp updates
+        setInterval(() => fetchMacStatus().then(() => updateTimestamp('mac-updated')), 60000);
+        setInterval(() => fetchJaneStatus().then(() => updateTimestamp('jane-updated')), 30000);
+        setInterval(() => fetchPredictionMarkets().then(() => updateTimestamp('pm-updated')), 120000);
+        setInterval(() => fetchSecondBrain().then(() => updateTimestamp('brain-updated')), 120000);
+        setInterval(() => { fetchJaneStatus(); fetchAgentsAndCron(); updateTimestamp('jane-updated'); }, 30000);
         setInterval(fetchPositions, 30000);
-        setInterval(fetchTikTok, 300000);
-        setInterval(fetchSolBalance, 60000);
+        setInterval(() => { fetchTikTok(); fetchSolBalance(); updateTimestamp('metrics-updated'); }, 60000);
     </script>
 </body>
 </html>

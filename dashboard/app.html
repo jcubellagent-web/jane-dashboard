@@ -611,11 +611,11 @@
                 </div>
                 <div class="stat-item">
                     <div class="stat-value green" id="brain-captures">--</div>
-                    <div class="stat-label">Captures</div>
+                    <div class="stat-label">Articles</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value green" id="brain-links">--</div>
-                    <div class="stat-label">Links</div>
+                    <div class="stat-label">Projects</div>
                 </div>
             </div>
             <div id="brain-recent">
@@ -763,21 +763,19 @@
                 if (!res.ok) return;
                 const data = await res.json();
                 
-                let markets = [];
-                if (data.featured) markets.push(data.featured);
-                if (data.top) markets = [...markets, ...data.top.slice(0, 4)];
+                let markets = data.markets || [];
                 
                 if (markets.length > 0) {
                     document.getElementById('predictions-list').innerHTML = markets.slice(0, 4).map(m => {
                         const odds = m.yesOdds || 50;
-                        const q = (m.question || '').substring(0, 60);
+                        const q = (m.question || '').substring(0, 55);
                         return `<div class="prediction-item">
-                            <span class="prediction-q">${q}${q.length >= 60 ? '...' : ''}</span>
+                            <span class="prediction-q">${q}${q.length >= 55 ? '...' : ''}</span>
                             <span class="prediction-odds ${odds > 50 ? 'yes' : 'no'}">${odds}%</span>
                         </div>`;
                     }).join('');
                 }
-            } catch (e) {}
+            } catch (e) { console.error('Predictions error:', e); }
         }
         
         // Fetch Second Brain
@@ -787,19 +785,33 @@
                 if (!res.ok) return;
                 const data = await res.json();
                 
-                document.getElementById('brain-notes').textContent = data.total || 0;
-                document.getElementById('brain-captures').textContent = data.recent?.length || 0;
-                document.getElementById('brain-links').textContent = data.links || 0;
+                // API returns topics with counts
+                const topics = data.topics || {};
+                const notes = topics.notes || 0;
+                const articles = topics.articles || 0;
+                const projects = topics.projects || 0;
+                const total = Object.values(topics).reduce((a, b) => a + b, 0);
                 
-                if (data.recent && data.recent.length > 0) {
-                    document.getElementById('brain-recent').innerHTML = data.recent.slice(0, 3).map(item => `
-                        <div class="brain-item">
-                            <span class="brain-icon">📝</span>
-                            <span class="brain-text">${item.name || item}</span>
-                        </div>
-                    `).join('');
-                }
-            } catch (e) {}
+                document.getElementById('brain-notes').textContent = notes;
+                document.getElementById('brain-captures').textContent = articles;
+                document.getElementById('brain-links').textContent = projects;
+                
+                // Show topic breakdown
+                document.getElementById('brain-recent').innerHTML = `
+                    <div class="brain-item">
+                        <span class="brain-icon">📚</span>
+                        <span class="brain-text">Articles: ${articles}</span>
+                    </div>
+                    <div class="brain-item">
+                        <span class="brain-icon">💡</span>
+                        <span class="brain-text">Ideas: ${topics.ideas || 0}</span>
+                    </div>
+                    <div class="brain-item">
+                        <span class="brain-icon">👥</span>
+                        <span class="brain-text">People: ${topics.people || 0}</span>
+                    </div>
+                `;
+            } catch (e) { console.error('Brain error:', e); }
         }
         
         // Fetch TikTok

@@ -56,7 +56,140 @@
         .brand { display: flex; align-items: center; gap: 0.5rem; }
         .brand img { width: 32px; height: 32px; border-radius: 8px; }
         .brand-name { font-size: 1.25rem; font-weight: 700; }
+        .header-right { display: flex; align-items: center; gap: 1rem; }
         .header-time { font-size: 1.1rem; font-weight: 600; color: var(--text-dim); }
+        
+        /* Hamburger Menu */
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .menu-btn span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .menu-btn.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+        .menu-btn.active span:nth-child(2) { opacity: 0; }
+        .menu-btn.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+        
+        /* Menu Overlay */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 998;
+        }
+        .menu-overlay.open { opacity: 1; visibility: visible; }
+        
+        /* Slide Menu */
+        .slide-menu {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
+            height: 100%;
+            background: var(--bg);
+            border-left: 1px solid var(--border);
+            padding: 1.5rem;
+            padding-top: calc(1.5rem + env(safe-area-inset-top));
+            transition: right 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+        }
+        .slide-menu.open { right: 0; }
+        .menu-header {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .menu-section {
+            margin-bottom: 1.5rem;
+        }
+        .menu-section-title {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 0.25rem;
+        }
+        .menu-item:hover, .menu-item:active { background: rgba(255,255,255,0.08); }
+        .menu-item.active { background: rgba(74,222,128,0.15); color: var(--accent); }
+        .menu-item.danger { color: var(--red); }
+        .menu-item-icon { font-size: 1.1rem; width: 24px; text-align: center; }
+        .menu-item-text { flex: 1; font-size: 0.9rem; }
+        .menu-item-badge {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+            background: var(--accent);
+            color: #000;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        /* Edit Mode */
+        body.edit-mode .widget {
+            border: 2px dashed var(--accent);
+            position: relative;
+        }
+        body.edit-mode .widget::before {
+            content: '⋮⋮';
+            position: absolute;
+            top: 50%;
+            left: -20px;
+            transform: translateY(-50%);
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+        .widget-delete {
+            display: none;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--red);
+            color: white;
+            border: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+        body.edit-mode .widget-delete { display: flex; }
+        body.edit-mode .widget { position: relative; }
+        
+        /* Night Mode */
+        body.night-mode { filter: brightness(0.7) saturate(0.85); }
         
         /* Widget Card */
         .widget {
@@ -274,8 +407,72 @@
                 <img src="icon-192.png" alt="Jane">
                 <span class="brand-name">JANE</span>
             </div>
-            <div class="header-time" id="current-time">--:--</div>
+            <div class="header-right">
+                <div class="header-time" id="current-time">--:--</div>
+                <button class="menu-btn" id="menu-btn" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
         </header>
+        
+        <!-- Menu Overlay -->
+        <div class="menu-overlay" id="menu-overlay" onclick="toggleMenu()"></div>
+        
+        <!-- Slide Menu -->
+        <div class="slide-menu" id="slide-menu">
+            <div class="menu-header">⚙️ Settings</div>
+            
+            <div class="menu-section">
+                <div class="menu-section-title">Layout</div>
+                <div class="menu-item" onclick="toggleEditMode()">
+                    <span class="menu-item-icon">✏️</span>
+                    <span class="menu-item-text">Edit Widgets</span>
+                </div>
+                <div class="menu-item" onclick="resetLayout()">
+                    <span class="menu-item-icon">↩️</span>
+                    <span class="menu-item-text">Reset to Default</span>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <div class="menu-section-title">Actions</div>
+                <div class="menu-item" onclick="refreshAll()">
+                    <span class="menu-item-icon">🔄</span>
+                    <span class="menu-item-text">Refresh Data</span>
+                </div>
+                <div class="menu-item" onclick="requestTikTokUpdate()">
+                    <span class="menu-item-icon">🎵</span>
+                    <span class="menu-item-text">Update TikTok Stats</span>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <div class="menu-section-title">Quick Links</div>
+                <div class="menu-item" onclick="window.open('/', '_self')">
+                    <span class="menu-item-icon">🖥️</span>
+                    <span class="menu-item-text">Desktop Dashboard</span>
+                </div>
+                <div class="menu-item" onclick="window.open('https://polymarket.com', '_blank')">
+                    <span class="menu-item-icon">📊</span>
+                    <span class="menu-item-text">Polymarket</span>
+                </div>
+                <div class="menu-item" onclick="window.open('https://jup.ag', '_blank')">
+                    <span class="menu-item-icon">◎</span>
+                    <span class="menu-item-text">Jupiter Exchange</span>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <div class="menu-section-title">Display</div>
+                <div class="menu-item" onclick="toggleNightMode()">
+                    <span class="menu-item-icon">🌙</span>
+                    <span class="menu-item-text">Night Mode</span>
+                    <span class="menu-item-badge" id="night-badge">OFF</span>
+                </div>
+            </div>
+        </div>
         
         <!-- 1. Mac Mini Status -->
         <div class="widget" id="mac-widget">
@@ -670,6 +867,78 @@
                     `).join('');
                 }
             } catch (e) {}
+        }
+        
+        // Menu Functions
+        function toggleMenu() {
+            document.getElementById('menu-btn').classList.toggle('active');
+            document.getElementById('menu-overlay').classList.toggle('open');
+            document.getElementById('slide-menu').classList.toggle('open');
+        }
+        
+        function toggleEditMode() {
+            document.body.classList.toggle('edit-mode');
+            toggleMenu();
+            if (document.body.classList.contains('edit-mode')) {
+                showToast('Edit mode: Drag to reorder, tap X to hide');
+            } else {
+                showToast('Edit mode off');
+            }
+        }
+        
+        function resetLayout() {
+            localStorage.removeItem('jane-mobile-layout');
+            localStorage.removeItem('jane-mobile-hidden');
+            toggleMenu();
+            showToast('Layout reset! Refreshing...');
+            setTimeout(() => location.reload(), 1000);
+        }
+        
+        function refreshAll() {
+            toggleMenu();
+            showToast('Refreshing all data...');
+            fetchMac();
+            fetchJane();
+            fetchPredictions();
+            fetchBrain();
+            fetchTikTok();
+            fetchSol();
+            fetchTrading();
+            setTimeout(() => showToast('Data refreshed!'), 500);
+        }
+        
+        function requestTikTokUpdate() {
+            toggleMenu();
+            fetch('/api/tiktok-request-update').then(() => {
+                showToast('TikTok update requested! Jane will check on next heartbeat.');
+            }).catch(() => {
+                showToast('Request sent');
+            });
+        }
+        
+        function toggleNightMode() {
+            const isNight = document.body.classList.toggle('night-mode');
+            localStorage.setItem('jane-night-mode', isNight ? 'on' : 'off');
+            document.getElementById('night-badge').textContent = isNight ? 'ON' : 'OFF';
+        }
+        
+        function showToast(msg) {
+            let toast = document.getElementById('toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast';
+                toast.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.9);color:white;padding:0.75rem 1.5rem;border-radius:25px;font-size:0.85rem;z-index:9999;opacity:0;transition:opacity 0.3s;';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            setTimeout(() => toast.style.opacity = '0', 2500);
+        }
+        
+        // Check saved states
+        if (localStorage.getItem('jane-night-mode') === 'on') {
+            document.body.classList.add('night-mode');
+            document.getElementById('night-badge').textContent = 'ON';
         }
         
         // Init

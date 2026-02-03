@@ -486,6 +486,7 @@
             border-radius: 16px;
             padding: 1rem;
             margin-bottom: 0.75rem;
+            position: relative;
         }
         
         .status-card-header {
@@ -676,35 +677,48 @@
         .expandable {
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
         }
         
-        .expandable .expand-hint {
+        .expand-indicator {
             position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            font-size: 0.6rem;
+            top: 1rem;
+            right: 1rem;
+            font-size: 0.8rem;
             color: var(--text-dim);
-            opacity: 0.5;
+            opacity: 0.6;
+            transition: transform 0.3s ease;
         }
         
-        .expandable.expanded .expand-hint {
-            display: none;
+        .expandable.expanded .expand-indicator {
+            transform: rotate(180deg);
         }
         
         .expand-content {
-            max-height: 0;
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease;
+        }
+        
+        .expand-content > .expand-inner {
             overflow: hidden;
-            opacity: 0;
-            transition: max-height 0.3s ease, opacity 0.3s ease, margin 0.3s ease;
-            margin-top: 0;
         }
         
         .expandable.expanded .expand-content {
-            max-height: 500px;
-            opacity: 1;
-            margin-top: 0.75rem;
+            grid-template-rows: 1fr;
+        }
+        
+        .expand-inner {
+            padding-top: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease, padding 0.3s ease;
+        }
+        
+        .expandable.expanded .expand-inner {
             padding-top: 0.75rem;
+            margin-top: 0.75rem;
             border-top: 1px solid var(--border);
+            opacity: 1;
         }
         
         .expand-row {
@@ -722,6 +736,9 @@
         .expand-row-value {
             font-weight: 500;
             font-variant-numeric: tabular-nums;
+            text-align: right;
+            max-width: 60%;
+            word-break: break-all;
         }
         
         .expand-grid {
@@ -780,7 +797,7 @@
         
         <!-- 1. Mac Mini Status -->
         <section class="health-card healthy expandable" id="mac-health-card">
-            <span class="expand-hint">tap for more</span>
+            <span class="expand-indicator">▼</span>
             <div class="health-header">
                 <div class="health-icon" id="mac-health-icon">😊</div>
                 <div class="health-info">
@@ -804,32 +821,34 @@
                 </div>
             </div>
             <div class="expand-content">
-                <div class="expand-row">
-                    <span class="expand-row-label">Hostname</span>
-                    <span class="expand-row-value" id="mac-hostname">JC_Agent's Mac mini</span>
-                </div>
-                <div class="expand-row">
-                    <span class="expand-row-label">OS</span>
-                    <span class="expand-row-value" id="mac-os">macOS 25.2</span>
-                </div>
-                <div class="expand-row">
-                    <span class="expand-row-label">Architecture</span>
-                    <span class="expand-row-value" id="mac-arch">Apple Silicon (arm64)</span>
-                </div>
-                <div class="expand-row">
-                    <span class="expand-row-label">Node.js</span>
-                    <span class="expand-row-value" id="mac-node">v25.5.0</span>
-                </div>
-                <div class="expand-row">
-                    <span class="expand-row-label">Dashboard Server</span>
-                    <span class="expand-row-value" style="color: var(--green);">Running</span>
+                <div class="expand-inner">
+                    <div class="expand-row">
+                        <span class="expand-row-label">Hostname</span>
+                        <span class="expand-row-value">JC_Agent's Mac mini</span>
+                    </div>
+                    <div class="expand-row">
+                        <span class="expand-row-label">OS</span>
+                        <span class="expand-row-value">macOS 25.2</span>
+                    </div>
+                    <div class="expand-row">
+                        <span class="expand-row-label">Architecture</span>
+                        <span class="expand-row-value">Apple Silicon</span>
+                    </div>
+                    <div class="expand-row">
+                        <span class="expand-row-label">Node.js</span>
+                        <span class="expand-row-value">v25.5.0</span>
+                    </div>
+                    <div class="expand-row">
+                        <span class="expand-row-label">Server</span>
+                        <span class="expand-row-value" style="color: var(--green);">Running</span>
+                    </div>
                 </div>
             </div>
         </section>
         
         <!-- 2. Jane's Status -->
         <section class="health-card healthy expandable" id="jane-health-card">
-            <span class="expand-hint">tap for more</span>
+            <span class="expand-indicator">▼</span>
             <div class="health-header">
                 <div class="health-icon" id="jane-health-icon">🦾</div>
                 <div class="health-info">
@@ -853,116 +872,117 @@
                 </div>
             </div>
             <div class="expand-content">
-                <div class="expand-row">
-                    <span class="expand-row-label">Full Model</span>
-                    <span class="expand-row-value" id="jane-full-model">claude-opus-4-5</span>
-                </div>
-                <div class="expand-row">
-                    <span class="expand-row-label">Provider</span>
-                    <span class="expand-row-value">Anthropic</span>
-                </div>
-                <div class="expand-row">
-                    <span class="expand-row-label">Channel</span>
-                    <span class="expand-row-value" id="jane-channel">WhatsApp</span>
-                </div>
-                <div class="expand-row">
-                    <span class="expand-row-label">Thinking</span>
-                    <span class="expand-row-value" id="jane-thinking">Low</span>
-                </div>
-                <div class="expand-grid" id="jane-tasks-expanded">
-                    <!-- Filled by JS with in-progress tasks -->
+                <div class="expand-inner">
+                    <div class="expand-row">
+                        <span class="expand-row-label">Full Model</span>
+                        <span class="expand-row-value" id="jane-full-model">claude-opus-4-5</span>
+                    </div>
+                    <div class="expand-row">
+                        <span class="expand-row-label">Provider</span>
+                        <span class="expand-row-value">Anthropic</span>
+                    </div>
+                    <div class="expand-row">
+                        <span class="expand-row-label">Channel</span>
+                        <span class="expand-row-value" id="jane-channel">WhatsApp</span>
+                    </div>
+                    <div class="expand-row">
+                        <span class="expand-row-label">Thinking</span>
+                        <span class="expand-row-value" id="jane-thinking">Low</span>
+                    </div>
                 </div>
             </div>
         </section>
         
         <!-- 3. Connected Accounts -->
         <section class="status-card expandable" id="accounts-card">
-            <span class="expand-hint">tap for more</span>
+            <span class="expand-indicator">▼</span>
             <div class="status-card-header">
                 <span class="status-card-icon">🔗</span>
                 <span class="status-card-title">Connected Accounts</span>
             </div>
             <div class="accounts-grid" id="accounts-grid">
-                <div class="account-item online" title="WhatsApp">
+                <div class="account-item online">
                     <span class="account-icon">💬</span>
                     <span class="account-name">WhatsApp</span>
                 </div>
-                <div class="account-item online" title="Gmail">
+                <div class="account-item online">
                     <span class="account-icon">📧</span>
                     <span class="account-name">Gmail</span>
                 </div>
-                <div class="account-item online" title="TikTok">
+                <div class="account-item online">
                     <span class="account-icon">🎵</span>
                     <span class="account-name">TikTok</span>
                 </div>
-                <div class="account-item online" title="X">
+                <div class="account-item online">
                     <span class="account-icon">𝕏</span>
                     <span class="account-name">X</span>
                 </div>
-                <div class="account-item online" title="Solana">
+                <div class="account-item online">
                     <span class="account-icon">◎</span>
                     <span class="account-name">Solana</span>
                 </div>
-                <div class="account-item online" title="Sorare">
+                <div class="account-item online">
                     <span class="account-icon">⚽</span>
                     <span class="account-name">Sorare</span>
                 </div>
             </div>
             <div class="expand-content">
-                <div class="expand-row">
-                    <span class="expand-row-label">WhatsApp</span>
-                    <span class="expand-row-value" style="color: var(--green);">+1 (717) 575-9384</span>
-                </div>
-                <div class="expand-row">
-                    <span class="expand-row-label">Gmail</span>
-                    <span class="expand-row-value">jcubellagent@gmail.com</span>
-                </div>
-                <div class="expand-row">
-                    <span class="expand-row-label">TikTok</span>
-                    <span class="expand-row-value">@degencollector</span>
-                </div>
-                <div class="expand-row">
-                    <span class="expand-row-label">X / Twitter</span>
-                    <span class="expand-row-value">@AgentJc11443</span>
-                </div>
-                <div class="expand-row">
-                    <span class="expand-row-label">Solana Wallet</span>
-                    <span class="expand-row-value" style="font-size: 0.65rem;">ExgSre...YK6L</span>
-                </div>
-                <div class="expand-row">
-                    <span class="expand-row-label">Sorare</span>
-                    <span class="expand-row-value">jcubnft</span>
+                <div class="expand-inner">
+                    <div class="expand-row">
+                        <span class="expand-row-label">WhatsApp</span>
+                        <span class="expand-row-value" style="color: var(--green);">+1 717-575-9384</span>
+                    </div>
+                    <div class="expand-row">
+                        <span class="expand-row-label">Gmail</span>
+                        <span class="expand-row-value">jcubellagent@gmail.com</span>
+                    </div>
+                    <div class="expand-row">
+                        <span class="expand-row-label">TikTok</span>
+                        <span class="expand-row-value">@degencollector</span>
+                    </div>
+                    <div class="expand-row">
+                        <span class="expand-row-label">X</span>
+                        <span class="expand-row-value">@AgentJc11443</span>
+                    </div>
+                    <div class="expand-row">
+                        <span class="expand-row-label">Solana</span>
+                        <span class="expand-row-value">ExgSre...YK6L</span>
+                    </div>
+                    <div class="expand-row">
+                        <span class="expand-row-label">Sorare</span>
+                        <span class="expand-row-value">jcubnft</span>
+                    </div>
                 </div>
             </div>
         </section>
         
         <!-- 4. Prediction Markets -->
         <section class="status-card expandable" id="pm-card">
-            <span class="expand-hint">tap for more</span>
+            <span class="expand-indicator">▼</span>
             <div class="status-card-header">
                 <span class="status-card-icon">📊</span>
-                <span class="status-card-title">Prediction Markets</span>
+                <span class="status-card-title">Predictions</span>
             </div>
             <div id="pm-list" class="pm-list">
                 <div class="pm-item">
-                    <span class="pm-question">Loading predictions...</span>
+                    <span class="pm-question">Loading...</span>
                 </div>
             </div>
             <div class="expand-content">
-                <div id="pm-expanded" class="pm-list">
-                    <!-- Additional markets loaded on expand -->
-                </div>
-                <div style="text-align: center; margin-top: 0.5rem;">
-                    <a href="https://polymarket.com" target="_blank" style="color: var(--accent); font-size: 0.75rem; text-decoration: none;">
-                        View on Polymarket →
-                    </a>
+                <div class="expand-inner">
+                    <div id="pm-expanded" class="pm-list"></div>
+                    <div style="text-align: center; margin-top: 0.75rem;">
+                        <a href="https://polymarket.com" target="_blank" style="color: var(--accent); font-size: 0.75rem; text-decoration: none;">
+                            View on Polymarket →
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
         
         <!-- 5. Second Brain -->
         <section class="status-card expandable" id="brain-card">
-            <span class="expand-hint">tap for more</span>
+            <span class="expand-indicator">▼</span>
             <div class="status-card-header">
                 <span class="status-card-icon">🧠</span>
                 <span class="status-card-title">Second Brain</span>
@@ -982,12 +1002,14 @@
                 </div>
             </div>
             <div class="expand-content">
-                <div class="brain-recent" id="brain-recent">
-                    <div class="brain-item">No recent captures</div>
-                </div>
-                <div class="expand-row" style="margin-top: 0.5rem;">
-                    <span class="expand-row-label">Location</span>
-                    <span class="expand-row-value">~/Desktop/Second Brain</span>
+                <div class="expand-inner">
+                    <div class="brain-recent" id="brain-recent">
+                        <div class="brain-item">No recent captures</div>
+                    </div>
+                    <div class="expand-row" style="margin-top: 0.5rem;">
+                        <span class="expand-row-label">Location</span>
+                        <span class="expand-row-value">~/Second Brain</span>
+                    </div>
                 </div>
             </div>
         </section>

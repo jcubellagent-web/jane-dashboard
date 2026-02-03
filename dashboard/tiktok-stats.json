@@ -1,33 +1,62 @@
 {
-  "lastUpdated": "2026-02-02T18:45:00-05:00",
   "profile": {
-    "handle": "@degencollector",
+    "username": "degencollector",
     "displayName": "DegenDigitalCollector",
-    "followers": 469,
-    "likes": 2104,
+    "followers": 470,
     "following": 5,
+    "likes": 2105,
     "bio": "Hunting and sharing the latest and greatest tokenized collectibles"
   },
-  "topVideos": [
-    {"title": "NFTs are better than physical collectibles", "views": 20700, "likes": 892, "comments": 47},
-    {"title": "$320 Friday Panini Pack Rip", "views": 9639, "likes": 412, "comments": 28},
-    {"title": "2025 Prizm WNBA Rip", "views": 9553, "likes": 398, "comments": 31},
-    {"title": "PANINI DROP DAY - Messi", "views": 5867, "likes": 267, "comments": 19},
-    {"title": "Drake Maye Hunt Ep.4", "views": 2117, "likes": 145, "comments": 12}
-  ],
-  "recentVideos": [
-    {"title": "Double EPIC - Joe Montana + Puka Nacua", "views": 203, "likes": 18, "comments": 2},
-    {"title": "Pats to Super Bowl pack", "views": 225, "likes": 22, "comments": 3},
-    {"title": "Drake Maye Hunt Ep.7", "views": 395, "likes": 34, "comments": 4},
-    {"title": "Drake Maye Hunt Ep.6", "views": 2000, "likes": 112, "comments": 8}
+  "followers": 470,
+  "likes": 2105,
+  "videos": [
+    {
+      "id": "7602085781653490999",
+      "title": "DOUBLE EPIC! Joe Montana + Puka Nacua = $165 PROFIT",
+      "views": 236,
+      "url": "https://www.tiktok.com/@degencollector/video/7602085781653490999"
+    },
+    {
+      "id": "7602082172207500558",
+      "title": "Drake Maye Hunt EP.8 - PATS TO THE SUPER BOWL",
+      "views": 268,
+      "url": "https://www.tiktok.com/@degencollector/video/7602082172207500558"
+    },
+    {
+      "id": "7601975241534868750",
+      "title": "Drake Maye Hunt EP.7 - EPIC PURPLE PACK",
+      "views": 400,
+      "url": "https://www.tiktok.com/@degencollector/video/7601975241534868750"
+    },
+    {
+      "id": "7601968732671413559",
+      "title": "Drake Maye Hunt EP.6",
+      "views": 2006,
+      "url": "https://www.tiktok.com/@degencollector/video/7601968732671413559"
+    },
+    {
+      "id": "7601662386331766071",
+      "title": "Drake Maye Hunt EP.5 - ULTRA RARE Demario Davis",
+      "views": 358,
+      "url": "https://www.tiktok.com/@degencollector/video/7601662386331766071"
+    },
+    {
+      "id": "7601655146241707319",
+      "title": "Drake Maye Hunt EP.4 - BEST PACK YET ULTRA RARE + EPIC",
+      "views": 2269,
+      "url": "https://www.tiktok.com/@degencollector/video/7601655146241707319"
+    },
+    {
+      "id": "7534067096330784055",
+      "title": "NFTs are better than physical collectibles",
+      "views": 20700,
+      "url": "https://www.tiktok.com/@degencollector/video/7534067096330784055"
+    }
   ],
   "history": [
-    {"date": "2026-01-28T10:00:00-05:00", "followers": 412, "likes": 1890},
-    {"date": "2026-01-29T10:00:00-05:00", "followers": 425, "likes": 1945},
-    {"date": "2026-01-30T10:00:00-05:00", "followers": 438, "likes": 1998},
-    {"date": "2026-01-31T10:00:00-05:00", "followers": 441, "likes": 2020},
-    {"date": "2026-02-01T10:00:00-05:00", "followers": 446, "likes": 2055},
-    {"date": "2026-02-02T10:27:00-05:00", "followers": 446, "likes": 2088},
-    {"date": "2026-02-02T14:30:00-05:00", "followers": 469, "likes": 2104}
-  ]
+    { "date": "2026-02-01", "followers": 456, "likes": 1876 },
+    { "date": "2026-02-02", "followers": 469, "likes": 2049 },
+    { "date": "2026-02-02T21:09", "followers": 470, "likes": 2105 }
+  ],
+  "lastUpdated": "2026-02-02T21:09:15-05:00"
 }

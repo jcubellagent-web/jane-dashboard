@@ -2719,12 +2719,18 @@
                     
                     if (sessions.length > 0) {
                         document.getElementById('agents-list').innerHTML = sessions.slice(0, 3).map(s => {
-                            const name = escapeHtml(s.displayName || s.key?.split(':').pop() || 'Agent');
                             const isMain = s.key?.includes(':main:main');
                             const isCron = s.key?.includes(':cron:');
+                            // For cron sessions, show "Cron Job" instead of raw UUID
+                            let name;
+                            if (isCron) {
+                                name = 'Price Monitor';  // Our main cron job
+                            } else {
+                                name = escapeHtml(s.displayName || s.key?.split(':').pop() || 'Agent');
+                            }
                             const channel = escapeHtml(s.channel || 'unknown');
                             const tokens = s.totalTokens ? Math.round(s.totalTokens / 1000) + 'k' : '--';
-                            const icon = isMain ? '<img src="/icon-192.png" alt="Jane" class="jane-logo-small">' : (isCron ? '⏰' : '🤖');
+                            const icon = isMain ? '<img src="/icon-192.png" alt="Jane" class="jane-logo-small">' : (isCron ? '📊' : '🤖');
                             return `
                                 <div class="agent-item">
                                     <span class="agent-icon">${icon}</span>

@@ -1187,7 +1187,7 @@
         <!-- Version & Refresh -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
             <div style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.5rem;">
-                v9.4 • <span id="last-refresh">--</span>
+                v9.5 • <span id="last-refresh">--</span>
             </div>
             <button onclick="forceRefresh()" style="background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.75rem;">
                 🔄 Force Refresh
@@ -1747,7 +1747,7 @@
                     if (seen.has(m.slug)) return false;
                     seen.add(m.slug);
                     return true;
-                }).slice(0, 10);
+                });
                 
                 if (markets.length === 0) {
                     document.getElementById('pm-list').innerHTML = `
@@ -1878,7 +1878,7 @@
                     if (isHockeyGame(q)) return false; // Filter out hockey
                     if (isBasketballGame(q) && !isCelticsGame(q)) return false;
                     return true;
-                });
+                }).slice(0, 15); // Top 15 by volume
                 
                 // Group by category
                 const groups = { sports: [], politics: [], finance: [], other: [] };

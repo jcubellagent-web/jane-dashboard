@@ -953,7 +953,7 @@
             <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: rgba(74, 222, 128, 0.1); border-radius: 8px; margin-bottom: 0.5rem;">
                 <div style="text-align: center; flex: 1;">
                     <div style="font-size: 0.6rem; color: var(--text-dim);">Model</div>
-                    <div style="font-size: 0.8rem; font-weight: 600;" id="jane-model">Loading...</div>
+                    <div style="font-size: 0.65rem; font-weight: 600; white-space: nowrap;" id="jane-model">Loading...</div>
                 </div>
                 <div style="text-align: center; flex: 1;">
                     <div style="font-size: 0.6rem; color: var(--text-dim);">Status</div>
@@ -1178,7 +1178,7 @@
         <!-- Version & Refresh -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
             <div style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.5rem;">
-                v8.9 • <span id="last-refresh">--</span>
+                v9.0 • <span id="last-refresh">--</span>
             </div>
             <button onclick="forceRefresh()" style="background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.75rem;">
                 🔄 Force Refresh
@@ -1660,9 +1660,7 @@
             try {
                 const res = await fetch('/api/system');
                 if (!res.ok) {
-                    // If no system API, show basic online status
                     document.getElementById('mac-status-badge').textContent = 'Online';
-                    document.getElementById('mac-uptime').textContent = 'Running';
                     document.getElementById('mac-cpu').textContent = '--';
                     document.getElementById('mac-memory').textContent = '--';
                     return;
@@ -1670,12 +1668,10 @@
                 const data = await res.json();
                 
                 document.getElementById('mac-status-badge').textContent = data.status || 'Online';
-                document.getElementById('mac-uptime').textContent = data.uptime || '--';
                 document.getElementById('mac-cpu').textContent = (data.cpu || '--') + '%';
                 document.getElementById('mac-memory').textContent = (data.memory || '--') + '%';
             } catch (err) {
                 document.getElementById('mac-status-badge').textContent = 'Online';
-                document.getElementById('mac-uptime').textContent = 'Running';
             }
         }
         

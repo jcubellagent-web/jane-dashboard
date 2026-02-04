@@ -247,6 +247,14 @@
         
         .agent-status.idle { background: var(--amber); }
         
+        .agent-empty {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-align: center;
+            padding: 0.5rem;
+            font-style: italic;
+        }
+        
         .cron-next {
             font-size: 0.6rem;
             color: var(--text-dim);
@@ -2713,28 +2721,22 @@
                 if (sessData?.sessions) {
                     let sessions = sessData.sessions;
                     
-                    // Filter to only show recently active sessions (last 2 hours)
-                    // Also exclude cron sessions - they're automated tasks, not live agents
+                    // Filter to only show sub-agents (spawn sessions) - not main, not cron
                     const twoHoursAgo = Date.now() - (2 * 60 * 60 * 1000);
-                    sessions = sessions.filter(s => s.updatedAt > twoHoursAgo && !s.key?.includes(':cron:'));
+                    const subAgents = sessions.filter(s => 
+                        s.updatedAt > twoHoursAgo && 
+                        !s.key?.includes(':cron:') && 
+                        !s.key?.endsWith(':main')
+                    );
                     
-                    if (sessions.length > 0) {
-                        document.getElementById('agents-list').innerHTML = sessions.slice(0, 3).map(s => {
-                            const isMain = s.key?.includes(':main:main');
-                            const isCron = s.key?.includes(':cron:');
-                            // For cron sessions, show "Cron Job" instead of raw UUID
-                            let name;
-                            if (isCron) {
-                                name = 'Price Monitor';  // Our main cron job
-                            } else {
-                                name = escapeHtml(s.displayName || s.key?.split(':').pop() || 'Agent');
-                            }
+                    if (subAgents.length > 0) {
+                        document.getElementById('agents-list').innerHTML = subAgents.slice(0, 3).map(s => {
+                            const name = escapeHtml(s.displayName || s.key?.split(':').pop() || 'Sub-Agent');
                             const channel = escapeHtml(s.channel || 'unknown');
                             const tokens = s.totalTokens ? Math.round(s.totalTokens / 1000) + 'k' : '--';
-                            const icon = isMain ? '<img src="/icon-192.png" alt="Jane" class="jane-logo-small">' : (isCron ? '📊' : '🤖');
                             return `
                                 <div class="agent-item">
-                                    <span class="agent-icon">${icon}</span>
+                                    <span class="agent-icon">🚀</span>
                                     <div class="agent-info">
                                         <div class="agent-name">${name}</div>
                                         <div class="agent-detail">${channel} • ${tokens} tokens</div>
@@ -2744,7 +2746,7 @@
                             `;
                         }).join('');
                     } else {
-                        document.getElementById('agents-list').innerHTML = '<div class="agent-item"><span class="agent-icon"><img src="/icon-192.png" alt="Jane" class="jane-logo-small"></span><div class="agent-info"><div class="agent-name">Jane (Main)</div><div class="agent-detail">Active</div></div><div class="agent-status"></div></div>';
+                        document.getElementById('agents-list').innerHTML = '<div class="agent-empty">No active sub-agents</div>';
                     }
                 }
                 

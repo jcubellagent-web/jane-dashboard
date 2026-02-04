@@ -2290,8 +2290,19 @@
                 // Categorize markets
                 function categorize(q) {
                     const ql = q.toLowerCase();
+                    // Check politics FIRST (before sports) to catch primaries, elections, etc.
+                    if (ql.includes('trump') || ql.includes('biden') || ql.includes('president') || 
+                        ql.includes('government') || ql.includes('congress') || ql.includes('iran') ||
+                        ql.includes('war') || ql.includes('russia') || ql.includes('china') ||
+                        ql.includes('election') || ql.includes('shutdown') || ql.includes('primary') ||
+                        ql.includes('governor') || ql.includes('senator') || ql.includes('attorney general') ||
+                        ql.includes('paxton') || ql.includes('democrat') || ql.includes('republican') ||
+                        ql.includes('gop') || ql.includes('dnc') || ql.includes('rnc') ||
+                        ql.includes('vote') || ql.includes('ballot') || ql.includes('nominee')) {
+                        return 'politics';
+                    }
                     if (ql.includes('super bowl') || ql.includes('nfl') || ql.includes('nba') || 
-                        ql.includes('vs') || ql.includes('win the') || ql.includes('🏈') || 
+                        ql.includes('vs') || ql.includes('🏈') || 
                         ql.includes('game') || ql.includes('championship') || ql.includes('playoffs') ||
                         ql.includes('milan') || ql.includes('serie a') || ql.includes('premier league') ||
                         ql.includes('la liga') || ql.includes('uefa') || ql.includes('champions league') ||
@@ -2308,12 +2319,6 @@
                         ql.includes('tennis') || ql.includes('golf') || ql.includes('f1') ||
                         ql.includes('boxing') || ql.includes('ufc') || ql.includes('mma')) {
                         return 'sports';
-                    }
-                    if (ql.includes('trump') || ql.includes('biden') || ql.includes('president') || 
-                        ql.includes('government') || ql.includes('congress') || ql.includes('iran') ||
-                        ql.includes('war') || ql.includes('russia') || ql.includes('china') ||
-                        ql.includes('election') || ql.includes('shutdown')) {
-                        return 'politics';
                     }
                     // M&A - Mergers & Acquisitions
                     if (ql.includes('acquire') || ql.includes('acquisition') || ql.includes('merger') ||

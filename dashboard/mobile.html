@@ -1006,27 +1006,10 @@
                 </div>
             </div>
             
-            <!-- Recurring Jobs -->
-            <div class="section-label">🔄 Recurring Jobs</div>
-            <div id="cron-list">
-                <div class="cron-item">
-                    <span class="cron-icon">⏳</span>
-                    <div class="cron-info">
-                        <div class="cron-name">Loading...</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Active Tasks -->
-            <div class="section-label">📋 Active Tasks</div>
-            <div id="tasks-list">
-                <div class="task-item">
-                    <span class="task-icon">⏳</span>
-                    <div class="task-info">
-                        <div class="task-name">Loading...</div>
-                    </div>
-                </div>
-            </div>
+            <!-- Jobs & Tasks (merged) -->
+            <div class="section-label">📋 Jobs & Tasks</div>
+            <div id="cron-list"></div>
+            <div id="tasks-list"></div>
         </section>
         
         <!-- 3. Connected Accounts -->
@@ -1212,7 +1195,7 @@
         <!-- Version & Refresh -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
             <div style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.5rem;">
-                v8.6 • <span id="last-refresh">--</span>
+                v8.7 • <span id="last-refresh">--</span>
             </div>
             <button onclick="forceRefresh()" style="background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.75rem;">
                 🔄 Force Refresh

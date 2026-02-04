@@ -757,6 +757,8 @@ const server = http.createServer((req, res) => {
         const businessUrl = 'https://gamma-api.polymarket.com/markets?closed=false&order=volume24hr&ascending=false&limit=30&tag=business';
         const economyUrl = 'https://gamma-api.polymarket.com/markets?closed=false&order=volume24hr&ascending=false&limit=30&tag=economy';
         const techUrl = 'https://gamma-api.polymarket.com/markets?closed=false&order=volume24hr&ascending=false&limit=30&tag=tech';
+        // Kalshi markets (events with nested markets)
+        const kalshiUrl = 'https://api.elections.kalshi.com/trade-api/v2/events?limit=50&status=open&with_nested_markets=true';
         
         const fetchUrl = (url) => new Promise((resolve, reject) => {
             https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
@@ -775,10 +777,33 @@ const server = http.createServer((req, res) => {
             fetchUrl(cryptoUrl),
             fetchUrl(businessUrl),
             fetchUrl(economyUrl),
-            fetchUrl(techUrl)
-        ]).then(([mainMarkets, nflMarkets, cryptoMarkets, businessMarkets, economyMarkets, techMarkets]) => {
+            fetchUrl(techUrl),
+            fetchUrl(kalshiUrl)
+        ]).then(([mainMarkets, nflMarkets, cryptoMarkets, businessMarkets, economyMarkets, techMarkets, kalshiData]) => {
             // Combine all finance/business markets
             const financeMarkets = [...cryptoMarkets, ...businessMarkets, ...economyMarkets, ...techMarkets];
+            
+            // Parse Kalshi markets from events
+            const kalshiMarkets = [];
+            const kalshiEvents = kalshiData.events || [];
+            kalshiEvents.forEach(event => {
+                const markets = event.markets || [];
+                markets.forEach(m => {
+                    if (m.volume_24h > 50 && m.title && !m.title.includes(',') && m.yes_bid > 0) {
+                        kalshiMarkets.push({
+                            question: m.title,
+                            yesOdds: Math.round(m.yes_bid || 50),
+                            noOdds: Math.round(100 - (m.yes_bid || 50)),
+                            volume24h: m.volume_24h || 0,
+                            totalVolume: m.volume || 0,
+                            slug: m.ticker,
+                            endDate: m.close_time,
+                            source: 'Kalshi'
+                        });
+                    }
+                });
+            });
+            
             const parseMarket = m => {
                 const prices = JSON.parse(m.outcomePrices || '["0.5","0.5"]');
                 const yesPrice = parseFloat(prices[0]) * 100;
@@ -841,7 +866,7 @@ const server = http.createServer((req, res) => {
             }
             
             // Combine all markets, removing duplicates by slug
-            const allMarketsRaw = [...simplified, ...financeSimplified];
+            const allMarketsRaw = [...simplified, ...financeSimplified, ...kalshiMarkets];
             const seenSlugs = new Set();
             const allMarketsDeduped = allMarketsRaw.filter(m => {
                 if (seenSlugs.has(m.slug)) return false;

@@ -1212,7 +1212,7 @@
         <!-- Version & Refresh -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
             <div style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.5rem;">
-                v8.2 • <span id="last-refresh">--</span>
+                v8.3 • <span id="last-refresh">--</span>
             </div>
             <button onclick="forceRefresh()" style="background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.75rem;">
                 🔄 Force Refresh
@@ -1745,17 +1745,16 @@
                         }
                     }
                     
-                    // Show model if available
+                    // Show model if available - format dynamically
                     if (mainSession.model) {
-                        const rawModel = mainSession.model.split('/').pop(); // e.g. "claude-opus-4-5"
-                        let modelName = 'Claude';
-                        if (rawModel.includes('opus-4')) modelName = 'Claude Opus 4.5';
-                        else if (rawModel.includes('sonnet-4')) modelName = 'Claude Sonnet 4';
-                        else if (rawModel.includes('sonnet-3-5')) modelName = 'Claude Sonnet 3.5';
-                        else if (rawModel.includes('haiku')) modelName = 'Claude Haiku';
-                        else if (rawModel.includes('opus')) modelName = 'Claude Opus';
-                        else if (rawModel.includes('sonnet')) modelName = 'Claude Sonnet';
-                        document.getElementById('jane-model').textContent = modelName;
+                        // e.g. "anthropic/claude-opus-4-5" -> "Claude Opus 4.5"
+                        const rawModel = mainSession.model.split('/').pop(); // "claude-opus-4-5"
+                        const formatted = rawModel
+                            .replace('claude-', 'Claude ')
+                            .replace(/-/g, ' ')
+                            .replace(/(\d) (\d)/g, '$1.$2') // "4 5" -> "4.5"
+                            .replace(/\b\w/g, c => c.toUpperCase()); // Title case
+                        document.getElementById('jane-model').textContent = formatted;
                     }
                 }
             } catch (err) {

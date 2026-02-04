@@ -1,26 +1,28 @@
 {
-  "lastUpdated": "2026-02-03T16:41:44-05:00",
+  "lastUpdated": "2026-02-03T22:34:30-05:00",
   "sessions": [
     {
       "key": "agent:main:main",
+      "kind": "main",
       "channel": "whatsapp",
       "displayName": "+17175759384",
-      "model": "claude-opus-4-5",
-      "totalTokens": 41800
+      "model": "anthropic/claude-opus-4-5",
+      "totalTokens": 37000
     },
     {
-      "key": "agent:main:cron:penguin-monitor",
+      "key": "agent:main:cron:73db46f6-393d-45dc-85af-6fc0cc92171c",
+      "kind": "cron",
       "channel": "webchat",
-      "displayName": "PENGUIN Price Monitor",
-      "model": "claude-opus-4-5",
-      "totalTokens": 18301,
-      "lastMessage": "PENGUIN: $0.03125 | P&L: -21.5%"
+      "displayName": "PENGUIN Monitor",
+      "model": "anthropic/claude-opus-4-5",
+      "totalTokens": 18574,
+      "lastMessage": "PENGUIN @ $0.02913 | -26.8% from entry"
     },
     {
       "key": "agent:main:dashboard:chat",
-      "channel": "dashboard",
+      "kind": "other",
       "displayName": "Dashboard Chat",
-      "model": "claude-opus-4-5",
+      "model": "anthropic/claude-opus-4-5",
       "totalTokens": 14175
     }
   ]

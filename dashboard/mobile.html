@@ -1187,7 +1187,7 @@
         <!-- Version & Refresh -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
             <div style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.5rem;">
-                v9.3 • <span id="last-refresh">--</span>
+                v9.4 • <span id="last-refresh">--</span>
             </div>
             <button onclick="forceRefresh()" style="background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.75rem;">
                 🔄 Force Refresh
@@ -1830,7 +1830,17 @@
                 }
                 function isHockeyGame(q) {
                     const ql = q.toLowerCase();
-                    return ql.includes('nhl') || ql.includes('hockey') || ql.includes('stanley cup');
+                    return ql.includes('nhl') || ql.includes('hockey') || ql.includes('stanley cup') ||
+                           ql.includes('kraken') || ql.includes('ducks') || ql.includes('bruins') ||
+                           ql.includes('penguins') || ql.includes('maple leafs') || ql.includes('canadiens') ||
+                           ql.includes('rangers') || ql.includes('islanders') || ql.includes('devils') ||
+                           ql.includes('flyers') || ql.includes('capitals') || ql.includes('hurricanes') ||
+                           ql.includes('panthers') || ql.includes('lightning') || ql.includes('red wings') ||
+                           ql.includes('blackhawks') || ql.includes('blues') || ql.includes('predators') ||
+                           ql.includes('avalanche') || ql.includes('wild') || ql.includes('jets') ||
+                           ql.includes('flames') || ql.includes('oilers') || ql.includes('canucks') ||
+                           ql.includes('sharks') || ql.includes('golden knights') || ql.includes('coyotes') ||
+                           ql.includes('senators') || ql.includes('sabres') || ql.includes('blue jackets');
                 }
                 function isBasketballGame(q) {
                     const ql = q.toLowerCase();

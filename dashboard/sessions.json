@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-03T22:52:30-05:00",
+  "lastUpdated": "2026-02-03T23:29:00-05:00",
   "sessions": [
     {
       "key": "agent:main:main",
@@ -7,8 +7,8 @@
       "channel": "whatsapp",
       "displayName": "Jane (Main)",
       "model": "anthropic/claude-opus-4-5",
-      "totalTokens": 59109,
-      "updatedAt": 1770177150000
+      "totalTokens": 164744,
+      "updatedAt": 1770179356307
     }
   ]
 }

@@ -874,9 +874,10 @@ const server = http.createServer((req, res) => {
                 return true;
             });
             
-            // Filter for competitive markets (odds between 15% and 85%)
+            // Filter for competitive markets (odds between 15% and 85%, min $50k volume)
             const competitive = allMarketsDeduped.filter(m => {
                 if (m.question && m.question.toLowerCase().includes('super bowl')) return false;
+                if ((m.volume24h || 0) < 50000) return false; // Min $50k 24hr volume
                 return m.yesOdds >= 15 && m.yesOdds <= 85;
             });
             
@@ -921,7 +922,7 @@ const server = http.createServer((req, res) => {
             
             // Build balanced list with M&A priority
             const sports = competitive.filter(isSportsMarket);
-            const manda = competitive.filter(m => isMandAMarket(m) && (m.volume24h || 0) >= 100000);
+            const manda = competitive.filter(m => isMandAMarket(m)); // Already filtered to >$50k
             const finance = competitive.filter(m => !isSportsMarket(m) && !isMandAMarket(m) && isFinanceMarket(m));
             const others = competitive.filter(m => !isSportsMarket(m) && !isMandAMarket(m) && !isFinanceMarket(m));
             

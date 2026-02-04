@@ -1254,7 +1254,7 @@
         <!-- Version -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
             <div style="font-size: 0.65rem; color: var(--text-dim);">
-                v10.4 • <span id="last-refresh">--</span> • Pull down to refresh
+                v10.5 • <span id="last-refresh">--</span> • Pull down to refresh
             </div>
         </div>
     </div>
@@ -2068,7 +2068,7 @@
                                        vol >= 1000 ? '$' + (vol/1000).toFixed(0) + 'K' : 
                                        vol > 0 ? '$' + vol : '';
                         const source = m.source || 'Polymarket';
-                        const sourceIcon = source === 'Kalshi' ? '🔷' : '🟣';
+                        const sourceIcon = source === 'Kalshi' ? '🟢' : '🟣';
                         const metaHtml = `<span class="pm-meta">${sourceIcon} ${source}${volStr ? ' • ' + volStr : ''}</span>`;
                         
                         html += `

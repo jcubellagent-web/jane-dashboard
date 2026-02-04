@@ -938,37 +938,7 @@
             </div>
         </header>
         
-        <!-- 1. Mac Mini Status -->
-        <section class="status-card">
-            <div class="status-card-header">
-                <span class="status-card-icon">🖥️</span>
-                <span class="status-card-title">Mac Mini</span>
-                <div class="widget-meta">
-                    <span class="widget-timestamp" id="mac-updated">--</span>
-                    <button class="widget-refresh" onclick="refreshWidget('mac')" title="Refresh">↻</button>
-                </div>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: rgba(74, 222, 128, 0.1); border-radius: 8px;">
-                <div style="text-align: center; flex: 1;">
-                    <div style="font-size: 0.6rem; color: var(--text-dim);">Status</div>
-                    <div style="font-size: 0.8rem; font-weight: 600; color: var(--green);" id="mac-status-badge">Online</div>
-                </div>
-                <div style="text-align: center; flex: 1;">
-                    <div style="font-size: 0.6rem; color: var(--text-dim);">Uptime</div>
-                    <div style="font-size: 0.8rem; font-weight: 600;" id="mac-uptime">--</div>
-                </div>
-                <div style="text-align: center; flex: 1;">
-                    <div style="font-size: 0.6rem; color: var(--text-dim);">CPU</div>
-                    <div style="font-size: 0.8rem; font-weight: 600;" id="mac-cpu">--%</div>
-                </div>
-                <div style="text-align: center; flex: 1;">
-                    <div style="font-size: 0.6rem; color: var(--text-dim);">RAM</div>
-                    <div style="font-size: 0.8rem; font-weight: 600;" id="mac-memory">--%</div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- 2. Jane + Tasks & Agents (merged) -->
+        <!-- 1. Jane (combined with Mac Mini) -->
         <section class="status-card">
             <div class="status-card-header">
                 <span class="status-card-icon">🦾</span>
@@ -979,19 +949,23 @@
                 </div>
             </div>
             
-            <!-- Jane Status Summary -->
+            <!-- Status Row -->
             <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: rgba(74, 222, 128, 0.1); border-radius: 8px; margin-bottom: 0.5rem;">
                 <div style="text-align: center; flex: 1;">
                     <div style="font-size: 0.6rem; color: var(--text-dim);">Model</div>
                     <div style="font-size: 0.8rem; font-weight: 600;" id="jane-model">Loading...</div>
                 </div>
                 <div style="text-align: center; flex: 1;">
-                    <div style="font-size: 0.6rem; color: var(--text-dim);">Session</div>
-                    <div style="font-size: 0.8rem; font-weight: 600;" id="jane-session">Main</div>
+                    <div style="font-size: 0.6rem; color: var(--text-dim);">Status</div>
+                    <div style="font-size: 0.8rem; font-weight: 600; color: var(--green);" id="mac-status-badge">Online</div>
                 </div>
                 <div style="text-align: center; flex: 1;">
-                    <div style="font-size: 0.6rem; color: var(--text-dim);">Active</div>
-                    <div style="font-size: 0.8rem; font-weight: 600; color: var(--green);" id="jane-last-active">Now</div>
+                    <div style="font-size: 0.6rem; color: var(--text-dim);">CPU</div>
+                    <div style="font-size: 0.8rem; font-weight: 600;" id="mac-cpu">--%</div>
+                </div>
+                <div style="text-align: center; flex: 1;">
+                    <div style="font-size: 0.6rem; color: var(--text-dim);">RAM</div>
+                    <div style="font-size: 0.8rem; font-weight: 600;" id="mac-memory">--%</div>
                 </div>
             </div>
             
@@ -1005,11 +979,6 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Jobs & Tasks (merged) -->
-            <div class="section-label">📋 Jobs & Tasks</div>
-            <div id="cron-list"></div>
-            <div id="tasks-list"></div>
         </section>
         
         <!-- 3. Connected Accounts -->
@@ -1192,10 +1161,24 @@
             </div>
         </section>
         
+        <!-- Jobs & Tasks -->
+        <section class="status-card">
+            <div class="status-card-header">
+                <span class="status-card-icon">📋</span>
+                <span class="status-card-title">Jobs & Tasks</span>
+                <div class="widget-meta">
+                    <span class="widget-timestamp" id="jobs-updated">--</span>
+                    <button class="widget-refresh" onclick="refreshWidget('jobs')" title="Refresh">↻</button>
+                </div>
+            </div>
+            <div id="cron-list"></div>
+            <div id="tasks-list"></div>
+        </section>
+        
         <!-- Version & Refresh -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
             <div style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.5rem;">
-                v8.7 • <span id="last-refresh">--</span>
+                v8.8 • <span id="last-refresh">--</span>
             </div>
             <button onclick="forceRefresh()" style="background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.75rem;">
                 🔄 Force Refresh
@@ -1974,6 +1957,11 @@
                     case 'agents':
                         await fetchAgentsAndCron();
                         updateTimestamp('agents-updated');
+                        break;
+                    case 'jobs':
+                        await fetchAgentsAndCron();
+                        await fetchTasks();
+                        updateTimestamp('jobs-updated');
                         break;
                 }
             } finally {

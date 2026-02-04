@@ -867,14 +867,24 @@ const server = http.createServer((req, res) => {
                        s.startsWith('ncaa-') || s.startsWith('ufc-');
             };
             
-            // Detect finance/business markets
+            // Detect M&A (Mergers & Acquisitions) markets
+            const isMandAMarket = (m) => {
+                const q = (m.question || '').toLowerCase();
+                return q.includes('acquire') || q.includes('acquisition') || q.includes('merger') ||
+                       q.includes('merge') || q.includes('buyout') || q.includes('buy out') ||
+                       q.includes('takeover') || q.includes('take over') || q.includes('purchased by') ||
+                       q.includes('will buy') || q.includes('buying') || q.includes('deal to buy');
+            };
+            
+            // Detect finance/business markets (excluding M&A which has its own category)
             const isFinanceMarket = (m) => {
+                if (isMandAMarket(m)) return false;
                 const q = (m.question || '').toLowerCase();
                 return q.includes('bitcoin') || q.includes('crypto') || q.includes('btc') ||
                        q.includes('eth') || q.includes('solana') || q.includes('price') ||
                        q.includes('stock') || q.includes('market') || q.includes('fed') ||
                        q.includes('recession') || q.includes('rate') || q.includes('inflation') ||
-                       q.includes('gdp') || q.includes('ipo') || q.includes('acquisition') ||
+                       q.includes('gdp') || q.includes('ipo') ||
                        q.includes('company') || q.includes('ceo') || q.includes('layoff') ||
                        q.includes('apple') || q.includes('google') || q.includes('meta') ||
                        q.includes('amazon') || q.includes('microsoft') || q.includes('nvidia') ||
@@ -883,52 +893,50 @@ const server = http.createServer((req, res) => {
                        q.includes('dow') || q.includes('nasdaq');
             };
             
-            // Build balanced list: ensure finance gets representation
+            // Build balanced list with M&A priority
             const sports = competitive.filter(isSportsMarket);
-            const finance = competitive.filter(m => !isSportsMarket(m) && isFinanceMarket(m));
-            const nonSports = competitive.filter(m => !isSportsMarket(m) && !isFinanceMarket(m));
+            const manda = competitive.filter(m => isMandAMarket(m) && (m.volume24h || 0) >= 100000);
+            const finance = competitive.filter(m => !isSportsMarket(m) && !isMandAMarket(m) && isFinanceMarket(m));
+            const others = competitive.filter(m => !isSportsMarket(m) && !isMandAMarket(m) && !isFinanceMarket(m));
             
             let balanced = [];
             let sportsCount = 0;
             let financeCount = 0;
-            let sportsIdx = 0;
-            let financeIdx = 0;
-            let otherIdx = 0;
+            let mandaCount = 0;
             
-            // Ensure at least 4 finance markets get included, max 3 sports
-            // First, add top finance markets
-            while (financeIdx < finance.length && financeCount < 4) {
-                balanced.push(finance[financeIdx++]);
+            // First, add up to 3 M&A markets with >100k volume
+            for (let i = 0; i < manda.length && mandaCount < 3; i++) {
+                balanced.push(manda[i]);
+                mandaCount++;
+            }
+            
+            // Then add top finance markets (4 minimum)
+            for (let i = 0; i < finance.length && financeCount < 4; i++) {
+                balanced.push(finance[i]);
                 financeCount++;
             }
             
             // Then add up to 3 sports
-            while (sportsIdx < sports.length && sportsCount < 3 && balanced.length < 20) {
-                balanced.push(sports[sportsIdx++]);
+            for (let i = 0; i < sports.length && sportsCount < 3 && balanced.length < 20; i++) {
+                balanced.push(sports[i]);
                 sportsCount++;
             }
             
-            // Fill rest with remaining finance, then others by volume
+            // Fill rest with remaining finance, then others
+            let financeIdx = 4, otherIdx = 0;
             while (balanced.length < 20) {
                 const nextF = finance[financeIdx];
-                const nextS = sports[sportsIdx];
-                const nextO = nonSports[otherIdx];
+                const nextO = others[otherIdx];
                 
-                if (!nextF && !nextS && !nextO) break;
+                if (!nextF && !nextO) break;
                 
-                // Prioritize remaining finance, then by volume
-                if (nextF && financeCount < 6) {
+                if (nextF && financeCount < 8) {
                     balanced.push(finance[financeIdx++]);
                     financeCount++;
-                } else if (nextS && sportsCount < 4) {
-                    balanced.push(sports[sportsIdx++]);
-                    sportsCount++;
                 } else if (nextO) {
-                    balanced.push(nonSports[otherIdx++]);
+                    balanced.push(others[otherIdx++]);
                 } else if (nextF) {
                     balanced.push(finance[financeIdx++]);
-                } else if (nextS) {
-                    balanced.push(sports[sportsIdx++]);
                 } else {
                     break;
                 }

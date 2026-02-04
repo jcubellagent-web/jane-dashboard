@@ -283,8 +283,8 @@ function getJaneTasks() {
             }
         }
         
-        // Also check for a dedicated tasks file
-        const tasksFile = path.join(WORKSPACE, 'tasks.json');
+        // Also check for a dedicated tasks file (in dashboard folder)
+        const tasksFile = path.join(ROOT, 'tasks.json');
         if (fs.existsSync(tasksFile)) {
             const taskData = JSON.parse(fs.readFileSync(tasksFile, 'utf8'));
             if (taskData.inProgress) tasks.inProgress = taskData.inProgress;

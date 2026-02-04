@@ -881,6 +881,7 @@
         
         .pm-tag.sports { background: rgba(74, 222, 128, 0.2); color: var(--green); }
         .pm-tag.politics { background: rgba(239, 68, 68, 0.2); color: var(--red); }
+        .pm-tag.manda { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
         .pm-tag.finance { background: rgba(96, 165, 250, 0.2); color: var(--accent-blue); }
         .pm-tag.crypto { background: rgba(245, 158, 11, 0.2); color: var(--amber); }
         .pm-tag.tech { background: rgba(167, 139, 250, 0.2); color: #a78bfa; }
@@ -1253,7 +1254,7 @@
         <!-- Version -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
             <div style="font-size: 0.65rem; color: var(--text-dim);">
-                v10.0 • <span id="last-refresh">--</span> • Pull down to refresh
+                v10.1 • <span id="last-refresh">--</span> • Pull down to refresh
             </div>
         </div>
     </div>
@@ -1908,13 +1909,20 @@
                         ql.includes('election') || ql.includes('shutdown')) {
                         return 'politics';
                     }
+                    // M&A - Mergers & Acquisitions
+                    if (ql.includes('acquire') || ql.includes('acquisition') || ql.includes('merger') ||
+                        ql.includes('merge') || ql.includes('buy out') || ql.includes('buyout') ||
+                        ql.includes('take over') || ql.includes('takeover') || ql.includes('purchased by') ||
+                        ql.includes('will buy') || ql.includes('buying') || ql.includes('deal to buy')) {
+                        return 'manda';
+                    }
                     if (ql.includes('bitcoin') || ql.includes('crypto') || ql.includes('btc') || 
                         ql.includes('eth') || ql.includes('solana') || ql.includes('price of') ||
                         ql.includes('price above') || ql.includes('price below')) {
                         return 'finance';
                     }
                     if (ql.includes('ai') || ql.includes('openai') || ql.includes('google') || 
-                        ql.includes('apple') || ql.includes('acquired') || ql.includes('ipo') ||
+                        ql.includes('apple') || ql.includes('ipo') ||
                         ql.includes('stock') || ql.includes('company') || ql.includes('market cap') ||
                         ql.includes('fed') || ql.includes('rate cut') || ql.includes('rate hike') ||
                         ql.includes('recession') || ql.includes('inflation') || ql.includes('gdp') ||
@@ -1933,10 +1941,11 @@
                     const ql = m.question.toLowerCase();
                     if (cat === 'sports') tags.push({ label: '🏈 Sports', class: 'sports' });
                     if (cat === 'politics') tags.push({ label: '🏛️ Politics', class: 'politics' });
+                    if (cat === 'manda') tags.push({ label: '🤝 M&A', class: 'manda' });
                     if (cat === 'finance') {
                         if (ql.includes('bitcoin') || ql.includes('crypto') || ql.includes('btc')) {
                             tags.push({ label: '₿ Crypto', class: 'crypto' });
-                        } else if (ql.includes('ai') || ql.includes('acquired')) {
+                        } else if (ql.includes('ai')) {
                             tags.push({ label: '🤖 Tech', class: 'tech' });
                         } else {
                             tags.push({ label: '💰 Finance', class: 'finance' });
@@ -2003,7 +2012,7 @@
                 }).slice(0, 15); // Top 15 by volume
                 
                 // Group by category
-                const groups = { sports: [], politics: [], finance: [], other: [] };
+                const groups = { sports: [], politics: [], manda: [], finance: [], other: [] };
                 markets.forEach(m => {
                     const cat = categorize(m.question || '');
                     groups[cat].push({ ...m, category: cat });
@@ -2013,12 +2022,13 @@
                 let html = '';
                 const categoryLabels = {
                     sports: '🏈 Sports',
-                    politics: '🏛️ Geopolitics', 
+                    politics: '🏛️ Geopolitics',
+                    manda: '🤝 M&A',
                     finance: '💰 Business & Finance',
                     other: '📊 Other'
                 };
                 
-                ['sports', 'politics', 'finance', 'other'].forEach(cat => {
+                ['sports', 'manda', 'politics', 'finance', 'other'].forEach(cat => {
                     if (groups[cat].length === 0) return;
                     html += `<div class="pm-category">${categoryLabels[cat]}</div>`;
                     

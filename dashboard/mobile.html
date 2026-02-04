@@ -44,28 +44,44 @@
             top: 0;
             left: 50%;
             transform: translateX(-50%) translateY(-100%);
-            background: linear-gradient(135deg, var(--card) 0%, rgba(74,222,128,0.1) 100%);
+            background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 0 0 16px 16px;
-            padding: 0.75rem 1.5rem;
-            font-size: 0.75rem;
+            border-radius: 0 0 20px 20px;
+            padding: 1rem 2rem;
+            font-size: 0.85rem;
             color: var(--text-dim);
             z-index: 1000;
-            transition: transform 0.2s ease;
+            transition: all 0.2s ease;
             backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
         }
         .pull-indicator.visible {
             transform: translateX(-50%) translateY(0);
         }
+        .pull-indicator.ready {
+            background: linear-gradient(135deg, rgba(34,197,94,0.2) 0%, rgba(74,222,128,0.3) 100%);
+            border-color: var(--green);
+            color: var(--green);
+            box-shadow: 0 4px 20px rgba(34,197,94,0.3);
+        }
         .pull-indicator.refreshing {
             transform: translateX(-50%) translateY(0);
+            background: linear-gradient(135deg, rgba(96,165,250,0.2) 0%, rgba(96,165,250,0.3) 100%);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+        .pull-icon {
+            font-size: 1.2rem;
+            transition: transform 0.2s ease;
+        }
+        .pull-indicator.ready .pull-icon {
+            transform: rotate(180deg);
         }
         .pull-indicator .spinner {
             display: inline-block;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
         @keyframes spin {
             from { transform: rotate(0deg); }
@@ -985,7 +1001,7 @@
 <body>
     <!-- Pull to refresh indicator -->
     <div class="pull-indicator" id="pull-indicator">
-        <span id="pull-icon">↓</span>
+        <span class="pull-icon" id="pull-icon">↓</span>
         <span id="pull-text">Pull to refresh</span>
     </div>
     
@@ -1243,7 +1259,7 @@
         <!-- Version -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
             <div style="font-size: 0.65rem; color: var(--text-dim);">
-                v9.6 • <span id="last-refresh">--</span> • Pull down to refresh
+                v9.7 • <span id="last-refresh">--</span> • Pull down to refresh
             </div>
         </div>
     </div>
@@ -1277,14 +1293,15 @@
             const indicator = document.getElementById('pull-indicator');
             const pullIcon = document.getElementById('pull-icon');
             const pullText = document.getElementById('pull-text');
-            const container = document.getElementById('main-container');
             let startY = 0;
             let pulling = false;
+            let ready = false;
             
             document.addEventListener('touchstart', (e) => {
                 if (window.scrollY === 0) {
                     startY = e.touches[0].clientY;
                     pulling = true;
+                    ready = false;
                 }
             }, { passive: true });
             
@@ -1293,15 +1310,26 @@
                 const currentY = e.touches[0].clientY;
                 const diff = currentY - startY;
                 
-                if (diff > 50 && window.scrollY === 0) {
+                if (diff > 40 && window.scrollY === 0) {
                     indicator.classList.add('visible');
-                    if (diff > 100) {
-                        pullText.textContent = 'Release to refresh';
-                        pullIcon.textContent = '↑';
+                    
+                    if (diff > 90) {
+                        // Ready to refresh - green state
+                        if (!ready) {
+                            ready = true;
+                            indicator.classList.add('ready');
+                            pullText.textContent = '✓ Release to refresh!';
+                            pullIcon.textContent = '↓';
+                        }
                     } else {
-                        pullText.textContent = 'Pull to refresh';
+                        // Still pulling - neutral state
+                        ready = false;
+                        indicator.classList.remove('ready');
+                        pullText.textContent = 'Pull down...';
                         pullIcon.textContent = '↓';
                     }
+                } else {
+                    indicator.classList.remove('visible', 'ready');
                 }
             }, { passive: true });
             
@@ -1309,20 +1337,20 @@
                 if (!pulling) return;
                 pulling = false;
                 
-                if (indicator.classList.contains('visible') && pullIcon.textContent === '↑') {
+                if (ready) {
                     // Trigger refresh
+                    indicator.classList.remove('ready');
+                    indicator.classList.add('refreshing');
                     pullIcon.innerHTML = '<span class="spinner">⟳</span>';
                     pullText.textContent = 'Refreshing...';
-                    indicator.classList.add('refreshing');
                     
                     await forceRefresh();
-                }
-                
-                setTimeout(() => {
-                    indicator.classList.remove('visible', 'refreshing');
+                } else {
+                    // Cancelled
+                    indicator.classList.remove('visible', 'ready');
                     pullIcon.textContent = '↓';
                     pullText.textContent = 'Pull to refresh';
-                }, 500);
+                }
             }, { passive: true });
         })();
         

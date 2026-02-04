@@ -938,11 +938,11 @@
             </div>
         </header>
         
-        <!-- 1. Jane (combined with Mac Mini) -->
+        <!-- 1. Mac Mini Health & Jane Status -->
         <section class="status-card">
             <div class="status-card-header">
                 <span class="status-card-icon">🦾</span>
-                <span class="status-card-title">Jane</span>
+                <span class="status-card-title">Mac Mini Health & Jane Status</span>
                 <div class="widget-meta">
                     <span class="widget-timestamp" id="jane-updated">--</span>
                     <button class="widget-refresh" onclick="refreshWidget('jane')" title="Refresh">↻</button>
@@ -1178,7 +1178,7 @@
         <!-- Version & Refresh -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
             <div style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.5rem;">
-                v8.8 • <span id="last-refresh">--</span>
+                v8.9 • <span id="last-refresh">--</span>
             </div>
             <button onclick="forceRefresh()" style="background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.75rem;">
                 🔄 Force Refresh
@@ -1693,24 +1693,6 @@
                 // Find main session
                 const mainSession = data.sessions?.find(s => s.kind === 'main') || data.sessions?.[0];
                 if (mainSession) {
-                    document.getElementById('jane-session').textContent = mainSession.kind || 'Main';
-                    
-                    // Format last active time
-                    if (mainSession.lastActivity) {
-                        const lastActive = new Date(mainSession.lastActivity);
-                        const now = new Date();
-                        const diffMs = now - lastActive;
-                        const diffMins = Math.floor(diffMs / 60000);
-                        
-                        if (diffMins < 1) {
-                            document.getElementById('jane-last-active').textContent = 'Just now';
-                        } else if (diffMins < 60) {
-                            document.getElementById('jane-last-active').textContent = `${diffMins}m ago`;
-                        } else {
-                            document.getElementById('jane-last-active').textContent = `${Math.floor(diffMins/60)}h ago`;
-                        }
-                    }
-                    
                     // Show model if available - format dynamically
                     if (mainSession.model) {
                         // e.g. "anthropic/claude-opus-4-5" -> "Claude Opus 4.5"

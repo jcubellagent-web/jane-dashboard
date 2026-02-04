@@ -856,13 +856,13 @@
             color: var(--text);
             flex: 1;
         }
-        .pm-volume {
+        .pm-meta-row {
+            margin-top: 0.25rem;
+        }
+        .pm-meta {
             font-size: 0.6rem;
             color: var(--text-dim);
             white-space: nowrap;
-            padding: 0.1rem 0.3rem;
-            background: rgba(255,255,255,0.05);
-            border-radius: 4px;
         }
         
         .pm-tags {
@@ -1254,7 +1254,7 @@
         <!-- Version -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
             <div style="font-size: 0.65rem; color: var(--text-dim);">
-                v10.2 • <span id="last-refresh">--</span> • Pull down to refresh
+                v10.3 • <span id="last-refresh">--</span> • Pull down to refresh
             </div>
         </div>
     </div>
@@ -2062,20 +2062,22 @@
                             `;
                         }
                         
-                        // Format volume
+                        // Format volume and source
                         const vol = m.volume24h || m.volume || 0;
-                        const volStr = vol >= 1000000 ? (vol/1000000).toFixed(1) + 'M' : 
-                                       vol >= 1000 ? (vol/1000).toFixed(1) + 'K' : 
+                        const volStr = vol >= 1000000 ? '$' + (vol/1000000).toFixed(1) + 'M' : 
+                                       vol >= 1000 ? '$' + (vol/1000).toFixed(0) + 'K' : 
                                        vol > 0 ? '$' + vol : '';
-                        const volHtml = volStr ? `<span class="pm-volume">${volStr}</span>` : '';
+                        const source = m.source || 'Polymarket';
+                        const sourceIcon = source === 'Kalshi' ? '🔷' : '🟣';
+                        const metaHtml = `<span class="pm-meta">${sourceIcon} ${source}${volStr ? ' • ' + volStr : ''}</span>`;
                         
                         html += `
                             <div class="pm-item">
                                 <div class="pm-question-row">
                                     <div class="pm-question">${q}</div>
-                                    ${volHtml}
                                 </div>
                                 <div class="pm-odds-row">${oddsHtml}</div>
+                                <div class="pm-meta-row">${metaHtml}</div>
                             </div>
                         `;
                     });

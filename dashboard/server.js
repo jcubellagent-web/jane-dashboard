@@ -792,7 +792,8 @@ const server = http.createServer((req, res) => {
                     totalVolume: m.volumeNum || 0,
                     slug: m.slug,
                     image: m.icon || m.image,
-                    endDate: m.endDate
+                    endDate: m.endDate,
+                    source: 'Polymarket'
                 };
                 
                 // Parse team names for sports matchups (e.g., "Bruins vs. Lightning")

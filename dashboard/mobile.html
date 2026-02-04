@@ -38,6 +38,40 @@
             padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
         
+        /* Pull to refresh */
+        .pull-indicator {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100%);
+            background: linear-gradient(135deg, var(--card) 0%, rgba(74,222,128,0.1) 100%);
+            border: 1px solid var(--border);
+            border-radius: 0 0 16px 16px;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            z-index: 1000;
+            transition: transform 0.2s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .pull-indicator.visible {
+            transform: translateX(-50%) translateY(0);
+        }
+        .pull-indicator.refreshing {
+            transform: translateX(-50%) translateY(0);
+        }
+        .pull-indicator .spinner {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
         .container {
             max-width: 430px;
             margin: 0 auto;
@@ -791,10 +825,26 @@
             gap: 0.25rem;
         }
         
+        .pm-question-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
         .pm-question {
             font-size: 0.75rem;
             line-height: 1.3;
             color: var(--text);
+            flex: 1;
+        }
+        .pm-volume {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            white-space: nowrap;
+            padding: 0.1rem 0.3rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
         }
         
         .pm-tags {
@@ -933,7 +983,13 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Pull to refresh indicator -->
+    <div class="pull-indicator" id="pull-indicator">
+        <span id="pull-icon">↓</span>
+        <span id="pull-text">Pull to refresh</span>
+    </div>
+    
+    <div class="container" id="main-container">
         <div class="refresh-indicator" id="refresh-indicator">↻ Pull to refresh</div>
         
         <!-- Header -->
@@ -1184,14 +1240,11 @@
             <div id="tasks-list"></div>
         </section>
         
-        <!-- Version & Refresh -->
+        <!-- Version -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
-            <div style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.5rem;">
-                v9.5 • <span id="last-refresh">--</span>
+            <div style="font-size: 0.65rem; color: var(--text-dim);">
+                v9.6 • <span id="last-refresh">--</span> • Pull down to refresh
             </div>
-            <button onclick="forceRefresh()" style="background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.75rem;">
-                🔄 Force Refresh
-            </button>
         </div>
     </div>
     
@@ -1219,6 +1272,60 @@
     </div>
     
     <script>
+        // Pull to refresh
+        (function() {
+            const indicator = document.getElementById('pull-indicator');
+            const pullIcon = document.getElementById('pull-icon');
+            const pullText = document.getElementById('pull-text');
+            const container = document.getElementById('main-container');
+            let startY = 0;
+            let pulling = false;
+            
+            document.addEventListener('touchstart', (e) => {
+                if (window.scrollY === 0) {
+                    startY = e.touches[0].clientY;
+                    pulling = true;
+                }
+            }, { passive: true });
+            
+            document.addEventListener('touchmove', (e) => {
+                if (!pulling) return;
+                const currentY = e.touches[0].clientY;
+                const diff = currentY - startY;
+                
+                if (diff > 50 && window.scrollY === 0) {
+                    indicator.classList.add('visible');
+                    if (diff > 100) {
+                        pullText.textContent = 'Release to refresh';
+                        pullIcon.textContent = '↑';
+                    } else {
+                        pullText.textContent = 'Pull to refresh';
+                        pullIcon.textContent = '↓';
+                    }
+                }
+            }, { passive: true });
+            
+            document.addEventListener('touchend', async (e) => {
+                if (!pulling) return;
+                pulling = false;
+                
+                if (indicator.classList.contains('visible') && pullIcon.textContent === '↑') {
+                    // Trigger refresh
+                    pullIcon.innerHTML = '<span class="spinner">⟳</span>';
+                    pullText.textContent = 'Refreshing...';
+                    indicator.classList.add('refreshing');
+                    
+                    await forceRefresh();
+                }
+                
+                setTimeout(() => {
+                    indicator.classList.remove('visible', 'refreshing');
+                    pullIcon.textContent = '↓';
+                    pullText.textContent = 'Pull to refresh';
+                }, 500);
+            }, { passive: true });
+        })();
+        
         // Update time
         function updateTime() {
             const now = new Date();
@@ -1930,9 +2037,19 @@
                             `;
                         }
                         
+                        // Format volume
+                        const vol = m.volume24h || m.volume || 0;
+                        const volStr = vol >= 1000000 ? (vol/1000000).toFixed(1) + 'M' : 
+                                       vol >= 1000 ? (vol/1000).toFixed(1) + 'K' : 
+                                       vol > 0 ? '$' + vol : '';
+                        const volHtml = volStr ? `<span class="pm-volume">${volStr}</span>` : '';
+                        
                         html += `
                             <div class="pm-item">
-                                <div class="pm-question">${q}</div>
+                                <div class="pm-question-row">
+                                    <div class="pm-question">${q}</div>
+                                    ${volHtml}
+                                </div>
                                 <div class="pm-odds-row">${oddsHtml}</div>
                             </div>
                         `;

@@ -2714,8 +2714,9 @@
                     let sessions = sessData.sessions;
                     
                     // Filter to only show recently active sessions (last 2 hours)
+                    // Also exclude cron sessions - they're automated tasks, not live agents
                     const twoHoursAgo = Date.now() - (2 * 60 * 60 * 1000);
-                    sessions = sessions.filter(s => s.updatedAt > twoHoursAgo);
+                    sessions = sessions.filter(s => s.updatedAt > twoHoursAgo && !s.key?.includes(':cron:'));
                     
                     if (sessions.length > 0) {
                         document.getElementById('agents-list').innerHTML = sessions.slice(0, 3).map(s => {

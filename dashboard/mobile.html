@@ -1193,14 +1193,6 @@
                 </div>
             </div>
             
-            <!-- Recent Videos -->
-            <div class="tiktok-section-label">📹 Recent Videos</div>
-            <div class="tiktok-videos-list" id="tiktok-videos-list">
-                <div class="tiktok-video-item">
-                    <span>Loading...</span>
-                    <span class="tiktok-video-views">--</span>
-                </div>
-            </div>
         </section>
         
         <!-- PENGUIN Position -->
@@ -1259,7 +1251,7 @@
         <!-- Version -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
             <div style="font-size: 0.65rem; color: var(--text-dim);">
-                v9.8 • <span id="last-refresh">--</span> • Pull down to refresh
+                v9.9 • <span id="last-refresh">--</span> • Pull down to refresh
             </div>
         </div>
     </div>
@@ -1521,7 +1513,6 @@
                 const followers = profile.followers || 0;
                 const likes = profile.totalLikes || 0;
                 const following = profile.following || 0;
-                const recentVideos = data.recentVideos || [];
                 const changes24h = data.changes24h || {};
                 
                 // Update main display
@@ -1571,22 +1562,6 @@
                     following,
                     timestamp: Date.now()
                 }));
-                
-                // Render recent videos
-                const videosList = document.getElementById('tiktok-videos-list');
-                if (recentVideos.length > 0) {
-                    videosList.innerHTML = recentVideos.slice(0, 5).map((video, i) => {
-                        const views = typeof video.views === 'string' ? video.views : video.views.toLocaleString();
-                        return `
-                            <div class="tiktok-video-item">
-                                <span>Video ${i + 1}</span>
-                                <span class="tiktok-video-views">👁 ${views}</span>
-                            </div>
-                        `;
-                    }).join('');
-                } else {
-                    videosList.innerHTML = '<div class="tiktok-video-item"><span>No recent videos</span></div>';
-                }
                 
                 // Update timestamp
                 const updated = data.lastUpdated ? new Date(data.lastUpdated) : new Date();

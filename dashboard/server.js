@@ -903,13 +903,13 @@ const server = http.createServer((req, res) => {
             }
             
             // Then add up to 3 sports
-            while (sportsIdx < sports.length && sportsCount < 3 && balanced.length < 12) {
+            while (sportsIdx < sports.length && sportsCount < 3 && balanced.length < 20) {
                 balanced.push(sports[sportsIdx++]);
                 sportsCount++;
             }
             
             // Fill rest with remaining finance, then others by volume
-            while (balanced.length < 12) {
+            while (balanced.length < 20) {
                 const nextF = finance[financeIdx];
                 const nextS = sports[sportsIdx];
                 const nextO = nonSports[otherIdx];
@@ -935,8 +935,8 @@ const server = http.createServer((req, res) => {
             }
             
             const finalMarkets = pinnedMarket 
-                ? [pinnedMarket, ...balanced.slice(0, 9)]
-                : balanced.slice(0, 10);
+                ? [pinnedMarket, ...balanced.slice(0, 19)]
+                : balanced.slice(0, 20);
             
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ 

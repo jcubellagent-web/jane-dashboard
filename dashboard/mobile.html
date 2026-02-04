@@ -1187,7 +1187,7 @@
         <!-- Version & Refresh -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
             <div style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.5rem;">
-                v9.1 • <span id="last-refresh">--</span>
+                v9.2 • <span id="last-refresh">--</span>
             </div>
             <button onclick="forceRefresh()" style="background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.75rem;">
                 🔄 Force Refresh
@@ -1823,6 +1823,32 @@
                     if (cat === 'other') tags.push({ label: '📊 Other', class: '' });
                     return tags;
                 }
+                
+                // Filter out non-Celtics basketball games
+                function isBasketballGame(q) {
+                    const ql = q.toLowerCase();
+                    return (ql.includes('nba') || ql.includes('basketball') ||
+                            ql.includes('lakers') || ql.includes('warriors') || ql.includes('celtics') ||
+                            ql.includes('76ers') || ql.includes('bucks') || ql.includes('heat') ||
+                            ql.includes('knicks') || ql.includes('nets') || ql.includes('suns') ||
+                            ql.includes('nuggets') || ql.includes('clippers') || ql.includes('mavericks') ||
+                            ql.includes('grizzlies') || ql.includes('timberwolves') || ql.includes('cavaliers') ||
+                            ql.includes('pacers') || ql.includes('thunder') || ql.includes('rockets') ||
+                            ql.includes('spurs') || ql.includes('kings') || ql.includes('pelicans') ||
+                            ql.includes('raptors') || ql.includes('bulls') || ql.includes('pistons') ||
+                            ql.includes('hawks') || ql.includes('magic') || ql.includes('hornets') ||
+                            ql.includes('wizards') || ql.includes('blazers') || ql.includes('jazz')) &&
+                           !ql.includes('championship') && !ql.includes('playoffs') && !ql.includes('finals');
+                }
+                function isCelticsGame(q) {
+                    const ql = q.toLowerCase();
+                    return ql.includes('celtics') || ql.includes('boston');
+                }
+                markets = markets.filter(m => {
+                    const q = m.question || '';
+                    if (isBasketballGame(q) && !isCelticsGame(q)) return false;
+                    return true;
+                });
                 
                 // Group by category
                 const groups = { sports: [], politics: [], finance: [], other: [] };

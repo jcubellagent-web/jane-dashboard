@@ -1254,7 +1254,7 @@
         <!-- Version -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
             <div style="font-size: 0.65rem; color: var(--text-dim);">
-                v10.5 • <span id="last-refresh">--</span> • Pull down to refresh
+                v10.6 • <span id="last-refresh">--</span> • Pull down to refresh
             </div>
         </div>
     </div>
@@ -1413,35 +1413,23 @@
                 const res = await fetch('/api/tasks');
                 const data = await res.json();
                 
-                // Update progress
-                const inProgress = data.inProgress || [];
                 const completed = data.completed || [];
-                const total = inProgress.length + completed.length;
-                const pct = total > 0 ? (completed.length / total * 100) : 0;
-                
-                document.getElementById('tasks-count').textContent = `${inProgress.length} task${inProgress.length !== 1 ? 's' : ''}`;
-                document.getElementById('progress-fill').style.width = `${pct}%`;
-                
-                // RAG dots
-                const ragDots = document.getElementById('rag-dots');
-                if (inProgress.length > 0) {
-                    const dots = inProgress.map(t => `<div class="rag-dot ${t.rag || 'green'}" title="${t.task}"></div>`).join('');
-                    const allGreen = inProgress.every(t => t.rag === 'green' || !t.rag);
-                    ragDots.innerHTML = dots + `<span class="rag-label">${allGreen ? 'all green' : 'needs attention'}</span>`;
-                } else {
-                    ragDots.innerHTML = '<span class="rag-label">no active tasks</span>';
-                }
                 
                 // Completed list
-                document.getElementById('completed-count').textContent = completed.length;
                 const completedList = document.getElementById('completed-list');
-                completedList.innerHTML = completed.slice(0, 6).map(t => `
-                    <div class="completed-item">
-                        <span class="completed-icon">${t.icon || '✓'}</span>
-                        <span class="completed-text">${t.task}</span>
-                        <span class="completed-check">✓</span>
-                    </div>
-                `).join('');
+                if (completedList) {
+                    if (completed.length > 0) {
+                        completedList.innerHTML = completed.slice(0, 6).map(t => `
+                            <div class="completed-item">
+                                <span class="completed-icon">${t.icon || '✓'}</span>
+                                <span class="completed-text">${t.task}</span>
+                                <span class="completed-check">✓</span>
+                            </div>
+                        `).join('');
+                    } else {
+                        completedList.innerHTML = '<div class="completed-item"><span class="completed-text" style="color: var(--text-dim);">Nothing completed yet today</span></div>';
+                    }
+                }
             } catch (err) {
                 console.error('Failed to fetch tasks:', err);
             }

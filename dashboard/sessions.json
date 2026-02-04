@@ -1,14 +1,37 @@
 {
-  "lastUpdated": "2026-02-03T23:29:00-05:00",
+  "lastUpdated": "2026-02-04T00:00:00-05:00",
   "sessions": [
     {
       "key": "agent:main:main",
-      "kind": "main",
+      "displayName": "Main (WhatsApp)",
       "channel": "whatsapp",
-      "displayName": "Jane (Main)",
-      "model": "anthropic/claude-opus-4-5",
-      "totalTokens": 164744,
-      "updatedAt": 1770179356307
+      "model": "claude-opus-4-5",
+      "totalTokens": 171953,
+      "active": true
+    },
+    {
+      "key": "agent:main:cron:73db46f6-393d-45dc-85af-6fc0cc92171c",
+      "displayName": "PENGUIN Monitor",
+      "channel": "cron",
+      "model": "claude-opus-4-5",
+      "totalTokens": 18901,
+      "active": true
+    },
+    {
+      "key": "agent:main:dashboard:chat",
+      "displayName": "Dashboard Chat",
+      "channel": "webchat",
+      "model": "claude-opus-4-5",
+      "totalTokens": 14175,
+      "active": false
+    },
+    {
+      "key": "agent:main:test:webhook",
+      "displayName": "Test Webhook",
+      "channel": "webhook",
+      "model": "claude-opus-4-5",
+      "totalTokens": 14179,
+      "active": false
     }
   ]
 }

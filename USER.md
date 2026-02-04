@@ -5,17 +5,18 @@
 - **Pronouns:** *(not specified yet)*
 - **Timezone:** Eastern (America/New_York)
 - **Location:** New York
-- **X/Twitter:** @jcubnft (verified, 1,054 followers, joined March 2021)
+- **X/Twitter:** @jcubnft (verified ✓, 2,272 posts, 1,055 followers, 2,730 following, joined March 2021)
 - **TikTok:** @degencollector
 
-## Work
+## Work & Education
 
-- **Company:** Nasdaq
+- **Company:** Nasdaq (follows Private Market news, Sales Kick-Off 2026, Volos acquisition)
 - **LinkedIn:** linkedin.com/in/joshua-cubell
-- **Certifications:** Series 66 (NASAA), FINRA licenses
-- **Education:** Gettysburg College (Dean's List)
-- **Interests:** Digital assets, private markets, trading technology, market data
-- **Notable:** Won "Best Stock Pitch" at Emerald Asset Management (PYPL analysis)
+- **Education:** Gettysburg College — **Dean's List** (Feb 2018, 3.6+ GPA)
+- **Internship:** Emerald Asset Management (2017) — won **Best Stock Pitch** for PYPL analysis
+- **Interests:** Digital assets, private markets, trading technology, market data, options strategy
+- **Engaged with:** Nasdaq Private Market, Galaxy Digital Assets, Bloomberg terminals
+- **Certifications:** Series 66, FINRA licenses (historical - not a focus)
 
 ## Interests & Passions
 

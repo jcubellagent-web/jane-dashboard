@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#0a0f1a">
-    <title>Jane 🦾</title>
+    <title>Jane</title>
     <!-- PWA disabled for reliable updates -->
     <link rel="apple-touch-icon" href="icon-192.png">
     <style>
@@ -91,7 +91,7 @@
         .container {
             max-width: 430px;
             margin: 0 auto;
-            padding: 1rem;
+            padding: 1rem 1.75rem 1rem 1rem; /* Extra right padding for thumb scrolling */
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -674,6 +674,29 @@
             font-size: 1.1rem;
         }
         
+        .jane-logo-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            vertical-align: middle;
+            margin-right: 0.25rem;
+        }
+        
+        .jane-logo-chat {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            vertical-align: middle;
+            margin-right: 0.3rem;
+        }
+        
+        .jane-logo-small {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            vertical-align: middle;
+        }
+        
         .status-card-title {
             font-size: 0.9rem;
             font-weight: 600;
@@ -904,23 +927,138 @@
         .pm-odds.fav { color: var(--green); }
         .pm-odds.dog { color: var(--text-dim); }
         
-        /* Second Brain */
-        .brain-stats {
+        /* AI News Widget */
+        .ainews-tabs {
             display: flex;
-            justify-content: space-around;
+            gap: 0.5rem;
             margin-bottom: 0.75rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border);
         }
         
-        /* Bubble Map */
-        .bubble-map {
+        .ainews-tab {
+            flex: 1;
+            padding: 0.5rem 0.75rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .ainews-tab.active {
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.3), rgba(139, 92, 246, 0.3));
+            color: var(--text);
+            box-shadow: 0 2px 8px rgba(96, 165, 250, 0.2);
+        }
+        
+        .ainews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            max-height: 280px;
+            overflow-y: auto;
+        }
+        
+        .ainews-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding: 0.6rem 0.75rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            border-left: 3px solid rgba(96, 165, 250, 0.5);
+            transition: all 0.2s ease;
+        }
+        
+        .ainews-item:active {
+            background: rgba(255,255,255,0.06);
+        }
+        
+        .ainews-item.enterprise {
+            border-left-color: rgba(139, 92, 246, 0.6);
+        }
+        
+        .ainews-item.retail {
+            border-left-color: rgba(34, 197, 94, 0.6);
+        }
+        
+        .ainews-headline {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--text);
+            line-height: 1.35;
+        }
+        
+        .ainews-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.65rem;
+            color: var(--text-dim);
+        }
+        
+        .ainews-source {
+            font-weight: 500;
+        }
+        
+        .ainews-tag {
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .ainews-tag.enterprise {
+            background: rgba(139, 92, 246, 0.2);
+            color: #c4b5fd;
+        }
+        
+        .ainews-tag.retail {
+            background: rgba(34, 197, 94, 0.2);
+            color: #86efac;
+        }
+        
+        /* Neural Network Visualization */
+        .neural-network {
             position: relative;
-            height: 200px;
-            overflow: hidden;
+            height: 280px;
+            overflow: visible;
+            background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.12) 0%, rgba(59, 130, 246, 0.04) 40%, transparent 70%);
+            border-radius: 16px;
+            margin: 0.5rem 0;
         }
         
-        .bubble {
+        .neural-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .neural-line {
+            stroke: rgba(139, 92, 246, 0.25);
+            stroke-width: 1.5;
+            fill: none;
+            stroke-linecap: round;
+        }
+        
+        .neural-line.active {
+            stroke: rgba(139, 92, 246, 0.5);
+            stroke-width: 2;
+            animation: pulse-line 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-line {
+            0%, 100% { stroke-opacity: 0.4; stroke-width: 1.5; }
+            50% { stroke-opacity: 0.8; stroke-width: 2.5; }
+        }
+        
+        .neural-node {
             position: absolute;
             border-radius: 50%;
             display: flex;
@@ -929,58 +1067,130 @@
             text-align: center;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             padding: 0.5rem;
-            line-height: 1.1;
+            line-height: 1.15;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+            animation: float-node 4s ease-in-out infinite;
+            backdrop-filter: blur(4px);
         }
         
-        .bubble:active {
-            transform: scale(1.1);
+        @keyframes float-node {
+            0%, 100% { transform: translateY(0); box-shadow: 0 0 15px rgba(139, 92, 246, 0.25); }
+            50% { transform: translateY(-3px); box-shadow: 0 0 25px rgba(139, 92, 246, 0.4); }
         }
         
-        .bubble.large { width: 70px; height: 70px; font-size: 0.65rem; }
-        .bubble.medium { width: 55px; height: 55px; font-size: 0.55rem; }
-        .bubble.small { width: 42px; height: 42px; font-size: 0.5rem; }
+        .neural-node:active {
+            transform: scale(1.1) !important;
+            box-shadow: 0 0 30px currentColor, inset 0 1px 0 rgba(255,255,255,0.2);
+        }
         
-        .bubble.work { background: linear-gradient(135deg, rgba(96, 165, 250, 0.3), rgba(59, 130, 246, 0.4)); color: #93c5fd; }
-        .bubble.sports { background: linear-gradient(135deg, rgba(74, 222, 128, 0.3), rgba(34, 197, 94, 0.4)); color: #86efac; }
-        .bubble.crypto { background: linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.4)); color: #fcd34d; }
-        .bubble.content { background: linear-gradient(135deg, rgba(244, 114, 182, 0.3), rgba(236, 72, 153, 0.4)); color: #f9a8d4; }
-        .bubble.tech { background: linear-gradient(135deg, rgba(167, 139, 250, 0.3), rgba(139, 92, 246, 0.4)); color: #c4b5fd; }
-        .bubble.personality { background: linear-gradient(135deg, rgba(45, 212, 191, 0.3), rgba(20, 184, 166, 0.4)); color: #5eead4; }
+        .neural-node.core {
+            width: 72px;
+            height: 72px;
+            font-size: 0.7rem;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.5), rgba(168, 85, 247, 0.6));
+            color: #f3e8ff;
+            border: 2.5px solid rgba(168, 85, 247, 0.7);
+            z-index: 3;
+            animation-delay: 0s;
+        }
         
-        .bubble-tooltip {
+        .neural-node.primary {
+            width: 58px;
+            height: 58px;
+            font-size: 0.6rem;
+            z-index: 2;
+        }
+        
+        .neural-node.secondary {
+            width: 46px;
+            height: 46px;
+            font-size: 0.55rem;
+            z-index: 1;
+        }
+        
+        .neural-node.work { background: linear-gradient(135deg, rgba(59, 130, 246, 0.5), rgba(37, 99, 235, 0.6)); color: #bfdbfe; border: 2px solid rgba(59, 130, 246, 0.6); animation-delay: 0.5s; }
+        .neural-node.sports { background: linear-gradient(135deg, rgba(34, 197, 94, 0.5), rgba(22, 163, 74, 0.6)); color: #bbf7d0; border: 2px solid rgba(34, 197, 94, 0.6); animation-delay: 1s; }
+        .neural-node.crypto { background: linear-gradient(135deg, rgba(245, 158, 11, 0.5), rgba(217, 119, 6, 0.6)); color: #fef3c7; border: 2px solid rgba(245, 158, 11, 0.6); animation-delay: 0.75s; }
+        .neural-node.content { background: linear-gradient(135deg, rgba(236, 72, 153, 0.5), rgba(219, 39, 119, 0.6)); color: #fbcfe8; border: 2px solid rgba(236, 72, 153, 0.6); animation-delay: 1.25s; }
+        .neural-node.personal { background: linear-gradient(135deg, rgba(20, 184, 166, 0.5), rgba(13, 148, 136, 0.6)); color: #99f6e4; border: 2px solid rgba(20, 184, 166, 0.6); animation-delay: 1.5s; }
+        
+        .neural-tooltip {
             position: fixed;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 0.75rem;
-            max-width: 250px;
+            background: linear-gradient(145deg, rgba(30, 30, 45, 0.98), rgba(20, 20, 35, 0.98));
+            border: 1px solid rgba(139, 92, 246, 0.5);
+            border-radius: 14px;
+            padding: 0.85rem 1rem;
+            max-width: 260px;
             z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.35), 0 0 0 1px rgba(255,255,255,0.05);
             display: none;
+            backdrop-filter: blur(12px);
+            animation: tooltip-pop 0.2s ease-out;
         }
         
-        .bubble-tooltip.show { display: block; }
+        @keyframes tooltip-pop {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
         
-        .bubble-tooltip h4 {
-            font-size: 0.85rem;
-            margin-bottom: 0.35rem;
+        .neural-tooltip.show { display: block; }
+        
+        .neural-tooltip h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: #f3e8ff;
+            font-weight: 600;
+        }
+        
+        .neural-tooltip p {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+        
+        .neural-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+            padding: 0.6rem 0.75rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+            justify-content: center;
+        }
+        
+        .legend-item {
             display: flex;
             align-items: center;
             gap: 0.35rem;
-        }
-        
-        .bubble-tooltip p {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             color: var(--text-dim);
-            line-height: 1.4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
         }
         
-        .brain-item::before {
-            content: '•';
-            color: var(--accent);
+        .legend-item:active {
+            background: rgba(255,255,255,0.05);
         }
+        
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            box-shadow: 0 0 6px currentColor;
+        }
+        
+        .legend-dot.work { background: #3b82f6; color: #3b82f6; }
+        .legend-dot.sports { background: #22c55e; color: #22c55e; }
+        .legend-dot.crypto { background: #f59e0b; color: #f59e0b; }
+        .legend-dot.content { background: #ec4899; color: #ec4899; }
+        .legend-dot.personal { background: #14b8a6; color: #14b8a6; }
         
         /* Night Mode */
         body.night-mode {
@@ -1025,7 +1235,7 @@
         <!-- 1. Mac Mini Health & Jane Status -->
         <section class="status-card">
             <div class="status-card-header">
-                <span class="status-card-icon">🦾</span>
+                <img src="/icon-192.png" alt="Jane" class="jane-logo-icon">
                 <span class="status-card-title">Mac Mini Health & Jane Status</span>
                 <div class="widget-meta">
                     <span class="widget-timestamp" id="jane-updated">--</span>
@@ -1116,7 +1326,29 @@
             </div>
         </section>
         
-        <!-- 5. Second Brain - Bubble Map -->
+        <!-- 5. AI News -->
+        <section class="status-card">
+            <div class="status-card-header">
+                <span class="status-card-icon">🤖</span>
+                <span class="status-card-title">AI News</span>
+                <div class="widget-meta">
+                    <span class="widget-timestamp" id="ainews-updated">--</span>
+                    <button class="widget-refresh" onclick="refreshWidget('ainews')" title="Refresh">↻</button>
+                </div>
+            </div>
+            <div class="ainews-tabs">
+                <button class="ainews-tab active" data-tab="enterprise" onclick="switchAINewsTab('enterprise')">🏢 Enterprise</button>
+                <button class="ainews-tab" data-tab="retail" onclick="switchAINewsTab('retail')">🛒 Retail</button>
+            </div>
+            <div class="ainews-list" id="ainews-enterprise">
+                <div class="ainews-item">Loading enterprise AI news...</div>
+            </div>
+            <div class="ainews-list" id="ainews-retail" style="display: none;">
+                <div class="ainews-item">Loading retail AI news...</div>
+            </div>
+        </section>
+        
+        <!-- 6. Neural Network - What I Know -->
         <section class="status-card">
             <div class="status-card-header">
                 <span class="status-card-icon">🧠</span>
@@ -1126,34 +1358,51 @@
                     <button class="widget-refresh" onclick="refreshWidget('brain')" title="Refresh">↻</button>
                 </div>
             </div>
-            <div class="bubble-map" id="bubble-map">
-                <!-- Work -->
-                <div class="bubble large work" style="top: 10px; left: 5px;" onclick="showBubble(this, 'Nasdaq', 'Your employer - you work in trading technology and market data. Series 66 certified with FINRA licenses.', '💼')">Nasdaq</div>
-                <div class="bubble small work" style="top: 75px; left: 60px;" onclick="showBubble(this, 'Series 66', 'You mentioned your NASAA certification - shows your financial industry expertise.', '📜')">S66</div>
+            <div class="neural-network" id="neural-network">
+                <!-- SVG for connection lines -->
+                <svg class="neural-svg" viewBox="0 0 340 280" preserveAspectRatio="xMidYMid meet">
+                    <!-- Primary connections from center -->
+                    <line class="neural-line active" x1="170" y1="140" x2="60" y2="60" />
+                    <line class="neural-line active" x1="170" y1="140" x2="280" y2="60" />
+                    <line class="neural-line active" x1="170" y1="140" x2="60" y2="220" />
+                    <line class="neural-line active" x1="170" y1="140" x2="280" y2="220" />
+                    <!-- Secondary connections -->
+                    <line class="neural-line" x1="60" y1="60" x2="135" y2="30" />
+                    <line class="neural-line" x1="280" y1="60" x2="205" y2="30" />
+                    <line class="neural-line" x1="60" y1="220" x2="135" y2="250" />
+                    <line class="neural-line" x1="280" y1="220" x2="205" y2="250" />
+                    <!-- Tertiary connections to center -->
+                    <line class="neural-line" x1="170" y1="140" x2="135" y2="30" />
+                    <line class="neural-line" x1="170" y1="140" x2="205" y2="30" />
+                    <line class="neural-line" x1="170" y1="140" x2="135" y2="250" />
+                    <line class="neural-line" x1="170" y1="140" x2="205" y2="250" />
+                </svg>
                 
-                <!-- Sports -->
-                <div class="bubble large sports" style="top: 5px; left: 90px;" onclick="showBubble(this, 'Patriots Fan', 'HUGE Patriots fan 🏈 You follow Drake Maye, use #gopats, and get hyped during NFL season.', '🏈')">Patriots</div>
-                <div class="bubble medium sports" style="top: 70px; left: 140px;" onclick="showBubble(this, 'Sports Cards', 'You collect Panini NFT sports cards and create TikTok content about pack openings.', '🃏')">Cards</div>
+                <!-- Center node - Josh -->
+                <div class="neural-node core" style="top: 104px; left: 50%; transform: translateX(-50%);" onclick="showNeural(this, 'Josh', 'NYC • @jcubnft (verified ✓) • Gettysburg College Dean\'s List • Early adopter exploring Web3', '👤')">Josh</div>
                 
-                <!-- Crypto -->
-                <div class="bubble large crypto" style="top: 15px; left: 190px;" onclick="showBubble(this, 'Solana', 'Your main crypto chain - we trade memecoins together on Jupiter. Currently ALL IN on PENGUIN 🐧', '◎')">Solana</div>
-                <div class="bubble medium crypto" style="top: 85px; left: 230px;" onclick="showBubble(this, 'Memecoins', 'We made +$13 (+50.8%) on our first trading run! WOJAK, COPPERINU, pippin.', '🎰')">Memes</div>
-                <div class="bubble small crypto" style="top: 55px; left: 280px;" onclick="showBubble(this, 'Chain Agnostic', 'Your bio says it all - not tied to any single blockchain. Early adopter mentality.', '⛓️')">Agnostic</div>
+                <!-- Primary nodes - Main categories -->
+                <div class="neural-node primary work" style="top: 30px; left: 18px;" onclick="showNeural(this, 'Nasdaq', 'Private markets • Trading tech • Options strategy • Volos acquisition', '💼')">Nasdaq</div>
+                <div class="neural-node primary crypto" style="top: 30px; right: 18px;" onclick="showNeural(this, 'Crypto', 'Solana • Jupiter • Chain agnostic • Galaxy Digital follower', '◎')">Crypto</div>
+                <div class="neural-node primary content" style="bottom: 30px; left: 18px;" onclick="showNeural(this, 'Creator', 'TikTok @degencollector • Pack opening videos • Floor price edits', '🎵')">Creator</div>
+                <div class="neural-node primary personal" style="bottom: 30px; right: 18px;" onclick="showNeural(this, 'Lifestyle', 'Bambu A1 3D printer • Explorer mindset • \"Here for fun\"', '🚀')">Life</div>
                 
-                <!-- Content -->
-                <div class="bubble large content" style="top: 120px; left: 15px;" onclick="showBubble(this, 'TikTok Creator', '@degencollector - you create pack opening videos. We edit them together with floor prices!', '🎵')">TikTok</div>
-                <div class="bubble small content" style="top: 145px; left: 95px;" onclick="showBubble(this, 'Panini NFTs', 'Digital sports collectibles - you hunt the latest tokenized cards on Panini marketplace.', '🏀')">Panini</div>
-                
-                <!-- Tech -->
-                <div class="bubble medium tech" style="top: 130px; left: 150px;" onclick="showBubble(this, '3D Printing', 'Bambu A1 with AMS multi-spool feeder. Gold and black filaments. Can do multi-color prints!', '🖨️')">3D Print</div>
-                
-                <!-- Personality -->
-                <div class="bubble medium personality" style="top: 140px; left: 230px;" onclick="showBubble(this, 'Early Adopter', 'Here for fun and to learn - you dive into new tech and figure it out. NFA disclaimer always.', '🚀')">Explorer</div>
-                <div class="bubble small personality" style="top: 160px; left: 300px;" onclick="showBubble(this, 'Sorare NBA', 'Fantasy NBA on blockchain - your username is jcubnft. We connected the API!', '🏀')">Sorare</div>
+                <!-- Secondary nodes - Details -->
+                <div class="neural-node secondary sports" style="top: 5px; left: calc(50% - 65px); transform: translateX(-50%);" onclick="showNeural(this, 'Patriots', 'HUGE fan 🏈 Drake Maye • Super Bowl dreams • #gopats', '🏈')">Pats</div>
+                <div class="neural-node secondary crypto" style="top: 5px; left: calc(50% + 65px); transform: translateX(-50%);" onclick="showNeural(this, 'Trading', 'Best Stock Pitch 2017 (PYPL) • Memecoin explorer', '📈')">Trade</div>
+                <div class="neural-node secondary content" style="bottom: 5px; left: calc(50% - 65px); transform: translateX(-50%);" onclick="showNeural(this, 'Panini', 'NFT sports cards • Pack rips • Marketplace tracker', '🃏')">Panini</div>
+                <div class="neural-node secondary personal" style="bottom: 5px; left: calc(50% + 65px); transform: translateX(-50%);" onclick="showNeural(this, 'Sorare', 'NBA fantasy on-chain • jcubnft • API connected', '🏀')">Sorare</div>
             </div>
-            <div class="bubble-tooltip" id="bubble-tooltip">
-                <h4><span id="tooltip-icon"></span> <span id="tooltip-title"></span></h4>
-                <p id="tooltip-text"></p>
+            <div class="neural-legend">
+                <div class="legend-item"><span class="legend-dot work"></span>Work</div>
+                <div class="legend-item"><span class="legend-dot sports"></span>Sports</div>
+                <div class="legend-item"><span class="legend-dot crypto"></span>Crypto</div>
+                <div class="legend-item"><span class="legend-dot content"></span>Content</div>
+                <div class="legend-item"><span class="legend-dot personal"></span>Personal</div>
+            </div>
+            <div class="neural-tooltip" id="neural-tooltip">
+                <h4><span id="neural-icon"></span> <span id="neural-title"></span></h4>
+                <p id="neural-text"></p>
             </div>
         </section>
         
@@ -1254,7 +1503,7 @@
         <!-- Version -->
         <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
             <div style="font-size: 0.65rem; color: var(--text-dim);">
-                v10.6 • <span id="last-refresh">--</span> • Pull down to refresh
+                v11.1 • <span id="last-refresh">--</span> • Pull down to refresh
             </div>
         </div>
     </div>
@@ -1265,7 +1514,7 @@
     <!-- Full Screen Chat Overlay -->
     <div class="chat-overlay" id="chat-overlay">
         <div class="chat-header">
-            <h2>🦾 Jane</h2>
+            <h2><img src="/icon-192.png" alt="Jane" class="jane-logo-chat"> Jane</h2>
             <button class="chat-close-btn" onclick="closeChat()" aria-label="Close chat">✕</button>
         </div>
         <div class="chat-messages" id="chat-messages">
@@ -1371,25 +1620,24 @@
         updateTime();
         setInterval(updateTime, 1000);
         
-        // Bubble map tooltip
-        function showBubble(el, title, text, icon) {
-            const tooltip = document.getElementById('bubble-tooltip');
-            document.getElementById('tooltip-title').textContent = title;
-            document.getElementById('tooltip-text').textContent = text;
-            document.getElementById('tooltip-icon').textContent = icon;
+        // Neural network tooltip
+        function showNeural(el, title, text, icon) {
+            const tooltip = document.getElementById('neural-tooltip');
+            document.getElementById('neural-title').textContent = title;
+            document.getElementById('neural-text').textContent = text;
+            document.getElementById('neural-icon').textContent = icon;
             
-            // Position tooltip near the bubble
+            // Position tooltip near the node
             const rect = el.getBoundingClientRect();
-            const tooltipRect = tooltip.getBoundingClientRect();
             
             // Center horizontally, position above or below
             let top = rect.bottom + 10;
-            let left = rect.left + (rect.width / 2) - 125;
+            let left = rect.left + (rect.width / 2) - 120;
             
             // Keep on screen
             if (left < 10) left = 10;
-            if (left + 250 > window.innerWidth) left = window.innerWidth - 260;
-            if (top + 150 > window.innerHeight) top = rect.top - 120;
+            if (left + 240 > window.innerWidth) left = window.innerWidth - 250;
+            if (top + 120 > window.innerHeight) top = rect.top - 100;
             
             tooltip.style.top = top + 'px';
             tooltip.style.left = left + 'px';
@@ -1397,8 +1645,19 @@
             
             // Hide on tap outside
             setTimeout(() => {
-                document.addEventListener('click', hideBubble, { once: true });
+                document.addEventListener('click', hideNeural, { once: true });
             }, 10);
+        }
+        
+        function hideNeural(e) {
+            if (!e.target.classList.contains('neural-node')) {
+                document.getElementById('neural-tooltip').classList.remove('show');
+            }
+        }
+        
+        // Legacy bubble map tooltip (kept for compatibility)
+        function showBubble(el, title, text, icon) {
+            showNeural(el, title, text, icon);
         }
         
         function hideBubble(e) {
@@ -1407,12 +1666,119 @@
             }
         }
         
+        // ==========================================
+        // ARCHITECTURE: Core Utilities & Resilience
+        // ==========================================
+        
+        // Offline detection
+        let isOnline = navigator.onLine;
+        const offlineBanner = document.createElement('div');
+        offlineBanner.id = 'offline-banner';
+        offlineBanner.innerHTML = '📡 Offline - showing cached data';
+        offlineBanner.style.cssText = 'position:fixed;top:0;left:0;right:0;padding:0.5rem;background:var(--amber);color:#000;text-align:center;font-size:0.75rem;font-weight:600;z-index:9999;display:none;';
+        document.body.prepend(offlineBanner);
+        
+        window.addEventListener('online', () => {
+            isOnline = true;
+            offlineBanner.style.display = 'none';
+            console.log('[Network] Back online - refreshing data');
+            refreshAllWidgets();
+        });
+        window.addEventListener('offline', () => {
+            isOnline = false;
+            offlineBanner.style.display = 'block';
+            console.log('[Network] Offline detected');
+        });
+        
+        // Request cache for offline fallback
+        const dataCache = {};
+        
+        // Fetch with timeout, retry, and caching
+        async function fetchWithRetry(url, options = {}, retries = 2, timeoutMs = 10000) {
+            const cacheKey = url + JSON.stringify(options);
+            
+            for (let attempt = 0; attempt <= retries; attempt++) {
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+                    
+                    const response = await fetch(url, {
+                        ...options,
+                        signal: controller.signal
+                    });
+                    clearTimeout(timeoutId);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    // Cache successful responses
+                    dataCache[cacheKey] = { data, timestamp: Date.now() };
+                    return data;
+                    
+                } catch (err) {
+                    const isLastAttempt = attempt === retries;
+                    const isAbort = err.name === 'AbortError';
+                    
+                    console.warn(`[Fetch] ${url} attempt ${attempt + 1}/${retries + 1} failed:`, isAbort ? 'timeout' : err.message);
+                    
+                    if (isLastAttempt) {
+                        // Return cached data if available
+                        if (dataCache[cacheKey]) {
+                            console.log(`[Fetch] Using cached data for ${url}`);
+                            return dataCache[cacheKey].data;
+                        }
+                        throw err;
+                    }
+                    
+                    // Wait before retry (exponential backoff)
+                    await new Promise(r => setTimeout(r, 500 * Math.pow(2, attempt)));
+                }
+            }
+        }
+        
+        // Safe text escaping to prevent XSS
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Refresh all widgets (used after coming back online)
+        async function refreshAllWidgets() {
+            const refreshes = [
+                fetchMacStatus().then(() => updateTimestamp('mac-updated')),
+                fetchJaneStatus().then(() => updateTimestamp('jane-updated')),
+                fetchPredictionMarkets().then(() => updateTimestamp('pm-updated')),
+                fetchAINews().then(() => updateTimestamp('ainews-updated')),
+                fetchAgentsAndCron(),
+                fetchTasks(),
+                fetchPositions(),
+                fetchTikTok().then(() => updateTimestamp('metrics-updated')),
+                fetchSolBalance()
+            ];
+            await Promise.allSettled(refreshes);
+            document.getElementById('last-refresh').textContent = new Date().toLocaleTimeString();
+        }
+        
+        // Show widget error state
+        function showWidgetError(elementId, message = 'Failed to load') {
+            const el = document.getElementById(elementId);
+            if (el) {
+                el.innerHTML = `<div style="color:var(--text-dim);font-size:0.8rem;text-align:center;padding:0.5rem;">⚠️ ${escapeHtml(message)}</div>`;
+            }
+        }
+        
+        // ==========================================
+        // Data Fetching Functions
+        // ==========================================
+        
         // Fetch tasks
         async function fetchTasks() {
             try {
-                const res = await fetch('/api/tasks');
-                const data = await res.json();
-                
+                const data = await fetchWithRetry('/api/tasks', {}, 1, 8000);
                 const completed = data.completed || [];
                 
                 // Completed list
@@ -1421,8 +1787,8 @@
                     if (completed.length > 0) {
                         completedList.innerHTML = completed.slice(0, 6).map(t => `
                             <div class="completed-item">
-                                <span class="completed-icon">${t.icon || '✓'}</span>
-                                <span class="completed-text">${t.task}</span>
+                                <span class="completed-icon">${escapeHtml(t.icon) || '✓'}</span>
+                                <span class="completed-text">${escapeHtml(t.task)}</span>
                                 <span class="completed-check">✓</span>
                             </div>
                         `).join('');
@@ -1432,15 +1798,14 @@
                 }
             } catch (err) {
                 console.error('Failed to fetch tasks:', err);
+                showWidgetError('completed-list', 'Tasks unavailable');
             }
         }
         
         // Fetch positions
         async function fetchPositions() {
             try {
-                const res = await fetch('/api/trading');
-                if (!res.ok) return;
-                const data = await res.json();
+                const data = await fetchWithRetry('/api/trading', {}, 1, 8000);
                 
                 const list = document.getElementById('positions-list');
                 const openPositions = (data.positions || []).filter(p => p.status === 'open' || !p.status);
@@ -1496,8 +1861,7 @@
         // Fetch TikTok with 24h change tracking
         async function fetchTikTok() {
             try {
-                const res = await fetch('/api/tiktok');
-                const data = await res.json();
+                const data = await fetchWithRetry('/api/tiktok', {}, 1, 8000);
                 
                 // Get current values
                 const profile = data.profile || data;
@@ -1567,38 +1931,62 @@
         }
         
         // Fetch PENGUIN balance and value
+        // Solana RPC endpoints with fallback
+        const SOLANA_RPCS = [
+            'https://solana-rpc.publicnode.com',
+            'https://api.mainnet-beta.solana.com'
+        ];
+        
         async function fetchPenguinBalance() {
             const wallet = 'ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L';
             const penguinMint = '8Jx8AAHj86wbQgUTjGuj6GTTL5Ps3cqxKRTvpaJApump';
             const costBasis = 51.95; // Entry cost
             
             try {
-                // Fetch PENGUIN token balance
-                const balanceResponse = await fetch('https://solana-rpc.publicnode.com', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        jsonrpc: '2.0',
-                        id: 1,
-                        method: 'getTokenAccountsByOwner',
-                        params: [
-                            wallet,
-                            { mint: penguinMint },
-                            { encoding: 'jsonParsed' }
-                        ]
-                    })
-                });
+                // Fetch PENGUIN token balance with RPC fallback
+                let balanceData = null;
+                for (const rpc of SOLANA_RPCS) {
+                    try {
+                        const controller = new AbortController();
+                        const timeoutId = setTimeout(() => controller.abort(), 8000);
+                        const balanceResponse = await fetch(rpc, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                jsonrpc: '2.0',
+                                id: 1,
+                                method: 'getTokenAccountsByOwner',
+                                params: [wallet, { mint: penguinMint }, { encoding: 'jsonParsed' }]
+                            }),
+                            signal: controller.signal
+                        });
+                        clearTimeout(timeoutId);
+                        if (balanceResponse.ok) {
+                            balanceData = await balanceResponse.json();
+                            break;
+                        }
+                    } catch (rpcErr) {
+                        console.warn('[PENGUIN] RPC failed:', rpc, rpcErr.message);
+                    }
+                }
                 
-                const balanceData = await balanceResponse.json();
+                if (!balanceData) {
+                    throw new Error('All Solana RPCs failed');
+                }
+                
                 let penguinBalance = 0;
-                
-                if (balanceData.result && balanceData.result.value && balanceData.result.value.length > 0) {
+                if (balanceData.result?.value?.[0]?.account?.data?.parsed?.info?.tokenAmount) {
                     const tokenAmount = balanceData.result.value[0].account.data.parsed.info.tokenAmount;
                     penguinBalance = parseFloat(tokenAmount.uiAmount) || 0;
                 }
                 
-                // Fetch PENGUIN price from DexScreener
-                const priceResponse = await fetch('https://api.dexscreener.com/latest/dex/tokens/' + penguinMint);
+                // Fetch PENGUIN price from DexScreener with timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 8000);
+                const priceResponse = await fetch('https://api.dexscreener.com/latest/dex/tokens/' + penguinMint, {
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
                 const priceData = await priceResponse.json();
                 
                 let penguinPrice = 0;
@@ -1762,36 +2150,68 @@
         checkNightMode();
         
         // WebSocket for real-time updates
+        // WebSocket with reconnection backoff
+        let wsReconnectAttempts = 0;
+        let wsInstance = null;
+        
         function initWebSocket() {
-            const ws = new WebSocket(`ws://${window.location.host}`);
-            ws.onmessage = (event) => {
-                const msg = JSON.parse(event.data);
-                if (msg.type === 'update') {
-                    if (msg.widget === 'tasks') fetchTasks();
-                    if (msg.widget === 'trading') fetchPositions();
-                    if (msg.widget === 'tiktok') fetchTikTok();
-                }
-            };
-            ws.onclose = () => setTimeout(initWebSocket, 3000);
+            // Prevent duplicate connections
+            if (wsInstance && wsInstance.readyState === WebSocket.OPEN) {
+                return;
+            }
+            
+            try {
+                wsInstance = new WebSocket(`ws://${window.location.host}`);
+                
+                wsInstance.onopen = () => {
+                    console.log('[WebSocket] Connected');
+                    wsReconnectAttempts = 0; // Reset on successful connection
+                };
+                
+                wsInstance.onmessage = (event) => {
+                    try {
+                        const msg = JSON.parse(event.data);
+                        if (msg.type === 'update') {
+                            if (msg.widget === 'tasks') fetchTasks();
+                            if (msg.widget === 'trading') fetchPositions();
+                            if (msg.widget === 'tiktok') fetchTikTok();
+                            if (msg.widget === 'predictions') fetchPredictionMarkets();
+                        }
+                    } catch (err) {
+                        console.warn('[WebSocket] Invalid message:', err);
+                    }
+                };
+                
+                wsInstance.onclose = () => {
+                    console.log('[WebSocket] Disconnected');
+                    wsInstance = null;
+                    // Exponential backoff: 3s, 6s, 12s, 24s, max 60s
+                    const delay = Math.min(3000 * Math.pow(2, wsReconnectAttempts), 60000);
+                    wsReconnectAttempts++;
+                    setTimeout(initWebSocket, delay);
+                };
+                
+                wsInstance.onerror = (err) => {
+                    console.warn('[WebSocket] Error:', err);
+                };
+            } catch (err) {
+                console.error('[WebSocket] Failed to create:', err);
+                setTimeout(initWebSocket, 5000);
+            }
         }
         
         // Fetch Mac Mini Status
         async function fetchMacStatus() {
             try {
-                const res = await fetch('/api/system');
-                if (!res.ok) {
-                    document.getElementById('mac-status-badge').textContent = 'Online';
-                    document.getElementById('mac-cpu').textContent = '--';
-                    document.getElementById('mac-memory').textContent = '--';
-                    return;
-                }
-                const data = await res.json();
-                
+                const data = await fetchWithRetry('/api/system', {}, 1, 5000);
                 document.getElementById('mac-status-badge').textContent = data.status || 'Online';
                 document.getElementById('mac-cpu').textContent = (data.cpu || '--') + '%';
                 document.getElementById('mac-memory').textContent = (data.memory || '--') + '%';
             } catch (err) {
+                // Graceful degradation - show online since server responded
                 document.getElementById('mac-status-badge').textContent = 'Online';
+                document.getElementById('mac-cpu').textContent = '--';
+                document.getElementById('mac-memory').textContent = '--';
             }
         }
         
@@ -1799,15 +2219,14 @@
         async function fetchJaneStatus() {
             const modelEl = document.getElementById('jane-model');
             try {
-                const res = await fetch('/api/sessions');
-                if (!res.ok) {
-                    modelEl.textContent = 'API Error ' + res.status;
+                const data = await fetchWithRetry('/api/sessions', {}, 1, 5000);
+                if (!data || !data.sessions) {
+                    modelEl.textContent = 'No data';
                     return;
                 }
-                const data = await res.json();
                 
                 // Find main session
-                const mainSession = data.sessions?.find(s => s.kind === 'main') || data.sessions?.[0];
+                const mainSession = data.sessions.find(s => s.kind === 'main') || data.sessions[0];
                 if (mainSession) {
                     // Show model if available - format dynamically
                     if (mainSession.model) {
@@ -1836,16 +2255,7 @@
         // Fetch Prediction Markets
         async function fetchPredictionMarkets() {
             try {
-                const res = await fetch('/api/predictions');
-                if (!res.ok) {
-                    document.getElementById('pm-list').innerHTML = `
-                        <div class="pm-item">
-                            <span class="pm-question">Polymarket unavailable</span>
-                        </div>
-                    `;
-                    return;
-                }
-                const data = await res.json();
+                const data = await fetchWithRetry('/api/predictions', {}, 2, 12000);
                 
                 // Get markets
                 let markets = data.markets || [];
@@ -2089,6 +2499,153 @@
             return Promise.resolve();
         }
         
+        // AI News Widget
+        let aiNewsCache = { enterprise: [], retail: [], lastFetch: 0 };
+        const AI_NEWS_PROXIES = [
+            'https://api.allorigins.win/raw?url=',
+            'https://corsproxy.io/?'  // Fallback proxy
+        ];
+        
+        async function fetchAINews() {
+            try {
+                // Use Google News RSS via a CORS proxy
+                const rssUrl = 'https://news.google.com/rss/search?q=artificial+intelligence+OR+AI+company+OR+OpenAI+OR+Anthropic+OR+Google+AI&hl=en-US&gl=US&ceid=US:en';
+                
+                // Try proxies in order with timeout
+                let xmlText = null;
+                for (const proxy of AI_NEWS_PROXIES) {
+                    try {
+                        const controller = new AbortController();
+                        const timeoutId = setTimeout(() => controller.abort(), 8000);
+                        const proxyUrl = proxy + encodeURIComponent(rssUrl);
+                        const response = await fetch(proxyUrl, { signal: controller.signal });
+                        clearTimeout(timeoutId);
+                        if (response.ok) {
+                            xmlText = await response.text();
+                            break;
+                        }
+                    } catch (proxyErr) {
+                        console.warn('[AI News] Proxy failed:', proxy, proxyErr.message);
+                    }
+                }
+                
+                if (!xmlText) {
+                    throw new Error('All proxies failed');
+                }
+                
+                // Parse RSS
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(xmlText, 'text/xml');
+                const items = xml.querySelectorAll('item');
+                
+                const enterprise = [];
+                const retail = [];
+                
+                // Keywords for categorization
+                const enterpriseKeywords = ['enterprise', 'business', 'corporate', 'B2B', 'salesforce', 'microsoft', 'google cloud', 'aws', 'azure', 'nvidia', 'data center', 'infrastructure', 'API', 'platform', 'workflow', 'automation', 'copilot', 'agent', 'partnership', 'deal', 'billion', 'million', 'investment', 'funding', 'acquisition', 'IPO', 'earnings', 'revenue', 'CEO', 'announces', 'launches', 'OpenAI', 'Anthropic', 'Meta AI', 'Google AI', 'DeepMind'];
+                const retailKeywords = ['app', 'iPhone', 'Android', 'consumer', 'user', 'chatbot', 'assistant', 'free', 'subscription', 'ChatGPT', 'Gemini', 'Claude', 'Siri', 'Alexa', 'personal', 'home', 'photo', 'video', 'music', 'creative', 'art', 'image', 'generator', 'Midjourney', 'DALL-E', 'Stable Diffusion', 'TikTok', 'Instagram', 'social'];
+                
+                items.forEach((item, idx) => {
+                    if (idx >= 12) return; // Limit items
+                    
+                    const title = item.querySelector('title')?.textContent || '';
+                    const link = item.querySelector('link')?.textContent || '';
+                    const pubDate = item.querySelector('pubDate')?.textContent || '';
+                    const source = item.querySelector('source')?.textContent || 'Google News';
+                    
+                    // Score for categorization
+                    const titleLower = title.toLowerCase();
+                    let enterpriseScore = 0;
+                    let retailScore = 0;
+                    
+                    enterpriseKeywords.forEach(kw => {
+                        if (titleLower.includes(kw.toLowerCase())) enterpriseScore++;
+                    });
+                    retailKeywords.forEach(kw => {
+                        if (titleLower.includes(kw.toLowerCase())) retailScore++;
+                    });
+                    
+                    const newsItem = {
+                        title: title.replace(/ - .*$/, ''), // Remove source suffix
+                        link,
+                        source,
+                        time: formatNewsTime(pubDate)
+                    };
+                    
+                    // Categorize based on score, default to enterprise for B2B-focused news
+                    if (retailScore > enterpriseScore) {
+                        retail.push(newsItem);
+                    } else {
+                        enterprise.push(newsItem);
+                    }
+                });
+                
+                // Ensure at least some items in each category
+                if (enterprise.length === 0 && retail.length > 2) {
+                    enterprise.push(retail.pop());
+                }
+                if (retail.length === 0 && enterprise.length > 2) {
+                    retail.push(enterprise.pop());
+                }
+                
+                aiNewsCache = { enterprise, retail, lastFetch: Date.now() };
+                renderAINews();
+                
+            } catch (err) {
+                console.error('AI News fetch error:', err);
+                document.getElementById('ainews-enterprise').innerHTML = '<div class="ainews-item">Failed to load news</div>';
+            }
+        }
+        
+        function formatNewsTime(dateStr) {
+            if (!dateStr) return '';
+            const date = new Date(dateStr);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
+            
+            if (diffHrs < 1) return 'Just now';
+            if (diffHrs < 24) return `${diffHrs}h ago`;
+            return `${Math.floor(diffHrs / 24)}d ago`;
+        }
+        
+        function renderAINews() {
+            const enterpriseEl = document.getElementById('ainews-enterprise');
+            const retailEl = document.getElementById('ainews-retail');
+            
+            if (aiNewsCache.enterprise.length > 0) {
+                enterpriseEl.innerHTML = aiNewsCache.enterprise.slice(0, 6).map(item => `
+                    <a href="${item.link}" target="_blank" class="ainews-item enterprise" style="text-decoration: none;">
+                        <div class="ainews-headline">${item.title}</div>
+                        <div class="ainews-meta">
+                            <span class="ainews-source">${item.source}</span>
+                            <span>${item.time}</span>
+                        </div>
+                    </a>
+                `).join('');
+            }
+            
+            if (aiNewsCache.retail.length > 0) {
+                retailEl.innerHTML = aiNewsCache.retail.slice(0, 6).map(item => `
+                    <a href="${item.link}" target="_blank" class="ainews-item retail" style="text-decoration: none;">
+                        <div class="ainews-headline">${item.title}</div>
+                        <div class="ainews-meta">
+                            <span class="ainews-source">${item.source}</span>
+                            <span>${item.time}</span>
+                        </div>
+                    </a>
+                `).join('');
+            }
+        }
+        
+        function switchAINewsTab(tab) {
+            document.querySelectorAll('.ainews-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.ainews-tab[data-tab="${tab}"]`).classList.add('active');
+            
+            document.getElementById('ainews-enterprise').style.display = tab === 'enterprise' ? 'flex' : 'none';
+            document.getElementById('ainews-retail').style.display = tab === 'retail' ? 'flex' : 'none';
+        }
+        
         // Timestamp helper
         function updateTimestamp(id) {
             const el = document.getElementById(id);
@@ -2114,6 +2671,10 @@
                     case 'predictions':
                         await fetchPredictionMarkets();
                         updateTimestamp('pm-updated');
+                        break;
+                    case 'ainews':
+                        await fetchAINews();
+                        updateTimestamp('ainews-updated');
                         break;
                     case 'brain':
                         await fetchSecondBrain();
@@ -2147,11 +2708,10 @@
         // Fetch live agents, cron jobs, and tasks
         async function fetchAgentsAndCron() {
             try {
-                // Fetch sessions/agents
-                const sessRes = await fetch('/api/sessions');
-                if (sessRes.ok) {
-                    const sessData = await sessRes.json();
-                    let sessions = sessData.sessions || [];
+                // Fetch sessions/agents (non-blocking - use cached data on failure)
+                const sessData = await fetchWithRetry('/api/sessions', {}, 1, 5000).catch(() => null);
+                if (sessData?.sessions) {
+                    let sessions = sessData.sessions;
                     
                     // Filter to only show recently active sessions (last 2 hours)
                     const twoHoursAgo = Date.now() - (2 * 60 * 60 * 1000);
@@ -2159,12 +2719,12 @@
                     
                     if (sessions.length > 0) {
                         document.getElementById('agents-list').innerHTML = sessions.slice(0, 3).map(s => {
-                            const name = s.displayName || s.key.split(':').pop() || 'Agent';
-                            const isMain = s.key.includes(':main:main');
-                            const isCron = s.key.includes(':cron:');
-                            const channel = s.channel || 'unknown';
+                            const name = escapeHtml(s.displayName || s.key?.split(':').pop() || 'Agent');
+                            const isMain = s.key?.includes(':main:main');
+                            const isCron = s.key?.includes(':cron:');
+                            const channel = escapeHtml(s.channel || 'unknown');
                             const tokens = s.totalTokens ? Math.round(s.totalTokens / 1000) + 'k' : '--';
-                            const icon = isMain ? '🦾' : (isCron ? '⏰' : '🤖');
+                            const icon = isMain ? '<img src="/icon-192.png" alt="Jane" class="jane-logo-small">' : (isCron ? '⏰' : '🤖');
                             return `
                                 <div class="agent-item">
                                     <span class="agent-icon">${icon}</span>
@@ -2177,7 +2737,7 @@
                             `;
                         }).join('');
                     } else {
-                        document.getElementById('agents-list').innerHTML = '<div class="agent-item"><span class="agent-icon">🦾</span><div class="agent-info"><div class="agent-name">Jane (Main)</div><div class="agent-detail">Active</div></div><div class="agent-status"></div></div>';
+                        document.getElementById('agents-list').innerHTML = '<div class="agent-item"><span class="agent-icon"><img src="/icon-192.png" alt="Jane" class="jane-logo-small"></span><div class="agent-info"><div class="agent-name">Jane (Main)</div><div class="agent-detail">Active</div></div><div class="agent-status"></div></div>';
                     }
                 }
                 
@@ -2235,8 +2795,10 @@
         fetchMacStatus().then(() => updateTimestamp('mac-updated'));
         fetchJaneStatus().then(() => updateTimestamp('jane-updated'));
         fetchPredictionMarkets().then(() => updateTimestamp('pm-updated'));
+        fetchAINews().then(() => updateTimestamp('ainews-updated'));
         fetchSecondBrain().then(() => updateTimestamp('brain-updated'));
         fetchAgentsAndCron(); // Now part of Jane widget
+        fetchTasks(); // Completed Today widget
         fetchPositions();
         fetchTikTok().then(() => updateTimestamp('metrics-updated'));
         fetchSolBalance();
@@ -2265,14 +2827,35 @@
             window.location.reload(true);
         }
         
-        // Refresh intervals with timestamp updates
+        // Refresh intervals - consolidated to prevent duplicate fetches
+        // Mac status: every 60s
         setInterval(() => fetchMacStatus().then(() => updateTimestamp('mac-updated')), 60000);
-        setInterval(() => fetchJaneStatus().then(() => updateTimestamp('jane-updated')), 30000);
-        setInterval(() => fetchPredictionMarkets().then(() => updateTimestamp('pm-updated')), 120000);
-        setInterval(() => fetchSecondBrain().then(() => updateTimestamp('brain-updated')), 120000);
-        setInterval(() => { fetchJaneStatus(); fetchAgentsAndCron(); updateTimestamp('jane-updated'); }, 30000);
+        
+        // Jane status + agents + tasks: every 30s (combined to reduce API calls)
+        setInterval(() => {
+            Promise.all([fetchJaneStatus(), fetchAgentsAndCron(), fetchTasks()])
+                .then(() => updateTimestamp('jane-updated'))
+                .catch(console.error);
+        }, 30000);
+        
+        // Trading positions: every 30s
         setInterval(fetchPositions, 30000);
-        setInterval(() => { fetchTikTok(); fetchSolBalance(); updateTimestamp('metrics-updated'); }, 60000);
+        
+        // Prediction markets: every 2 min
+        setInterval(() => fetchPredictionMarkets().then(() => updateTimestamp('pm-updated')), 120000);
+        
+        // AI News: every 5 min (external API - less frequent)
+        setInterval(() => fetchAINews().then(() => updateTimestamp('ainews-updated')), 300000);
+        
+        // TikTok + SOL balance: every 60s
+        setInterval(() => {
+            Promise.all([fetchTikTok(), fetchSolBalance()])
+                .then(() => updateTimestamp('metrics-updated'))
+                .catch(console.error);
+        }, 60000);
+        
+        // Second brain: every 2 min (static content, just timestamp update)
+        setInterval(() => fetchSecondBrain().then(() => updateTimestamp('brain-updated')), 120000);
     </script>
 </body>
 </html>

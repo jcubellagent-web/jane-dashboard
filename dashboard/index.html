@@ -352,18 +352,22 @@
         }
         
         .refresh-btn {
-            background: none;
-            border: none;
-            color: var(--text-dim);
+            background: rgba(74, 222, 128, 0.15);
+            border: 1px solid var(--accent);
+            color: var(--accent);
             cursor: pointer;
-            padding: 0.25rem;
-            border-radius: 4px;
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
             transition: all 0.2s;
+            font-size: 1rem;
+            font-weight: bold;
+            box-shadow: 0 0 8px rgba(74, 222, 128, 0.3);
         }
         
         .refresh-btn:hover {
-            color: var(--accent);
-            background: var(--accent-dim);
+            color: #000;
+            background: var(--accent);
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.6);
         }
         
         .refresh-btn.spinning {

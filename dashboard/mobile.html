@@ -106,6 +106,7 @@
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--border);
             margin-bottom: 1rem;
+            position: relative;
         }
         
         .brand {
@@ -122,6 +123,17 @@
             font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: -0.5px;
+        }
+        
+        .hello-greeting {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.5px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
         
         .header-right {
@@ -513,14 +525,18 @@
             width: 64px;
             height: 64px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
-            color: #000;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
             border: none;
             font-size: 1.75rem;
             cursor: pointer;
-            box-shadow: 0 4px 20px rgba(74, 222, 128, 0.4);
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
             z-index: 1000;
             transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
         }
         
         .chat-fab:active {
@@ -1233,8 +1249,8 @@
         <header class="header">
             <div class="brand">
                 <img src="icon-192.png" alt="Jane" class="brand-icon" style="width: 36px; height: 36px; border-radius: 8px;">
-                <span class="brand-name">JANE</span>
             </div>
+            <span class="hello-greeting">hi Josh</span>
             <div class="header-right">
                 <div class="time" id="current-time">--:--</div>
             </div>
@@ -1260,6 +1276,10 @@
                 <div style="text-align: center; flex: 1;">
                     <div style="font-size: 0.6rem; color: var(--text-dim);">Status</div>
                     <div style="font-size: 0.8rem; font-weight: 600; color: var(--green);" id="mac-status-badge">Online</div>
+                </div>
+                <div style="text-align: center; flex: 1;">
+                    <div style="font-size: 0.6rem; color: var(--text-dim);">Age</div>
+                    <div style="font-size: 0.8rem; font-weight: 600;" id="jane-age">--</div>
                 </div>
                 <div style="text-align: center; flex: 1;">
                     <div style="font-size: 0.6rem; color: var(--text-dim);">CPU</div>
@@ -1427,19 +1447,20 @@
             
             <!-- 24h Changes Banner -->
             <div class="tiktok-24h-banner" id="tiktok-24h-banner" style="background: linear-gradient(135deg, rgba(74,222,128,0.1), rgba(96,165,250,0.1)); border-radius: 10px; padding: 0.6rem; margin-bottom: 0.75rem; text-align: center;">
-                <div style="font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 0.25rem;">Last 24 Hours</div>
-                <div style="display: flex; justify-content: center; gap: 1.5rem; font-size: 0.85rem;">
-                    <span id="tiktok-24h-followers" style="color: var(--green);">+0 followers</span>
+                <div style="font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 0.25rem;">Since Midnight (EST)</div>
+                <div style="display: flex; justify-content: center; gap: 1rem; font-size: 0.85rem;">
+                    <span id="tiktok-24h-views" style="color: var(--green);">+0 views</span>
                     <span id="tiktok-24h-likes" style="color: var(--green);">+0 likes</span>
+                    <span id="tiktok-24h-followers" style="color: var(--green);">+0 followers</span>
                 </div>
             </div>
             
             <!-- Main Stats -->
             <div class="tiktok-stats-grid">
                 <div class="tiktok-stat">
-                    <div class="tiktok-stat-value" id="tiktok-followers">--</div>
-                    <div class="tiktok-stat-label">Total Followers</div>
-                    <div class="tiktok-stat-change neutral" id="tiktok-followers-change">--</div>
+                    <div class="tiktok-stat-value" id="tiktok-views">--</div>
+                    <div class="tiktok-stat-label">Total Views</div>
+                    <div class="tiktok-stat-change neutral" id="tiktok-views-change">--</div>
                 </div>
                 <div class="tiktok-stat">
                     <div class="tiktok-stat-value" id="tiktok-likes">--</div>
@@ -1447,9 +1468,9 @@
                     <div class="tiktok-stat-change neutral" id="tiktok-likes-change">--</div>
                 </div>
                 <div class="tiktok-stat">
-                    <div class="tiktok-stat-value" id="tiktok-following">--</div>
-                    <div class="tiktok-stat-label">Following</div>
-                    <div class="tiktok-stat-change neutral" id="tiktok-following-change">&nbsp;</div>
+                    <div class="tiktok-stat-value" id="tiktok-followers">--</div>
+                    <div class="tiktok-stat-label">Total Followers</div>
+                    <div class="tiktok-stat-change neutral" id="tiktok-followers-change">--</div>
                 </div>
             </div>
             
@@ -1517,7 +1538,11 @@
     </div>
     
     <!-- Floating Chat Button -->
-    <button class="chat-fab" onclick="openChat()" aria-label="Chat with Jane">💬</button>
+    <a href="https://wa.me/17175759384" class="chat-fab" aria-label="Chat with Jane on WhatsApp">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="white">
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2z"/>
+        </svg>
+    </a>
     
     <!-- Full Screen Chat Overlay -->
     <div class="chat-overlay" id="chat-overlay">
@@ -1874,24 +1899,29 @@
                 // Get current values
                 const profile = data.profile || data;
                 const followers = profile.followers || 0;
-                const likes = profile.totalLikes || 0;
-                const following = profile.following || 0;
+                const likes = profile.likes || profile.totalLikes || 0;
+                const views = data.totalViews || 0;
                 const changes24h = data.changes24h || {};
                 
                 // Update main display
                 document.getElementById('tiktok-followers').textContent = followers.toLocaleString();
                 document.getElementById('tiktok-likes').textContent = likes.toLocaleString();
-                document.getElementById('tiktok-following').textContent = following;
+                const viewsEl = document.getElementById('tiktok-views');
+                if (viewsEl) viewsEl.textContent = views.toLocaleString();
                 
                 // Update 24h banner
                 const followers24h = changes24h.followers || 0;
                 const likes24h = changes24h.likes || 0;
+                const views24h = changes24h.views || 0;
                 document.getElementById('tiktok-24h-followers').textContent = `+${followers24h} followers`;
                 document.getElementById('tiktok-24h-likes').textContent = `+${likes24h} likes`;
+                const views24hEl = document.getElementById('tiktok-24h-views');
+                if (views24hEl) views24hEl.textContent = `+${views24h} views`;
                 
                 // Style based on positive/zero
                 document.getElementById('tiktok-24h-followers').style.color = followers24h > 0 ? 'var(--green)' : 'var(--text-dim)';
                 document.getElementById('tiktok-24h-likes').style.color = likes24h > 0 ? 'var(--green)' : 'var(--text-dim)';
+                if (views24hEl) views24hEl.style.color = views24h > 0 ? 'var(--green)' : 'var(--text-dim)';
                 
                 // Get previous values from localStorage for "since last check" display
                 const prev = JSON.parse(localStorage.getItem('tiktok_prev') || '{}');
@@ -1918,11 +1948,24 @@
                     likesChange.className = 'tiktok-stat-change neutral';
                 }
                 
+                // Views change
+                const viewsChange = document.getElementById('tiktok-views-change');
+                if (viewsChange) {
+                    if (prev.views !== undefined && prev.views !== views) {
+                        const diff = views - prev.views;
+                        viewsChange.textContent = diff > 0 ? `+${diff} since last` : `${diff} since last`;
+                        viewsChange.className = 'tiktok-stat-change ' + (diff > 0 ? 'positive' : 'neutral');
+                    } else {
+                        viewsChange.textContent = 'since last check';
+                        viewsChange.className = 'tiktok-stat-change neutral';
+                    }
+                }
+                
                 // Store current values for next comparison
                 localStorage.setItem('tiktok_prev', JSON.stringify({
                     followers,
                     likes,
-                    following,
+                    views,
                     timestamp: Date.now()
                 }));
                 
@@ -2255,6 +2298,14 @@
                 } else {
                     modelEl.textContent = 'No session';
                 }
+                
+                // Calculate Jane's age (born Jan 31, 2026)
+                const birthDate = new Date('2026-01-31');
+                const today = new Date();
+                const ageMs = today - birthDate;
+                const ageDays = Math.floor(ageMs / (1000 * 60 * 60 * 24));
+                document.getElementById('jane-age').textContent = ageDays + 'd old';
+                
             } catch (err) {
                 modelEl.textContent = 'Error: ' + err.message;
             }
@@ -2521,84 +2572,32 @@
         
         async function fetchAINews() {
             try {
-                // Use Google News RSS via a CORS proxy
-                const rssUrl = 'https://news.google.com/rss/search?q=artificial+intelligence+OR+AI+company+OR+OpenAI+OR+Anthropic+OR+Google+AI&hl=en-US&gl=US&ceid=US:en';
+                const data = await fetchWithRetry('/api/ai-news', {}, 2, 10000);
                 
-                // Try proxies in order with timeout
-                let xmlText = null;
-                for (const proxy of AI_NEWS_PROXIES) {
-                    try {
-                        const controller = new AbortController();
-                        const timeoutId = setTimeout(() => controller.abort(), 8000);
-                        const proxyUrl = proxy + encodeURIComponent(rssUrl);
-                        const response = await fetch(proxyUrl, { signal: controller.signal });
-                        clearTimeout(timeoutId);
-                        if (response.ok) {
-                            xmlText = await response.text();
-                            break;
-                        }
-                    } catch (proxyErr) {
-                        console.warn('[AI News] Proxy failed:', proxy, proxyErr.message);
-                    }
-                }
+                // Map server response to display format
+                const enterprise = (data.agenticEnterprise || []).map(item => ({
+                    title: item.title,
+                    link: item.link,
+                    source: item.source,
+                    time: item.date || ''
+                }));
                 
-                if (!xmlText) {
-                    throw new Error('All proxies failed');
-                }
+                const retail = (data.agenticRetail || []).map(item => ({
+                    title: item.title,
+                    link: item.link,
+                    source: item.source,
+                    time: item.date || ''
+                }));
                 
-                // Parse RSS
-                const parser = new DOMParser();
-                const xml = parser.parseFromString(xmlText, 'text/xml');
-                const items = xml.querySelectorAll('item');
-                
-                const enterprise = [];
-                const retail = [];
-                
-                // Keywords for categorization
-                const enterpriseKeywords = ['enterprise', 'business', 'corporate', 'B2B', 'salesforce', 'microsoft', 'google cloud', 'aws', 'azure', 'nvidia', 'data center', 'infrastructure', 'API', 'platform', 'workflow', 'automation', 'copilot', 'agent', 'partnership', 'deal', 'billion', 'million', 'investment', 'funding', 'acquisition', 'IPO', 'earnings', 'revenue', 'CEO', 'announces', 'launches', 'OpenAI', 'Anthropic', 'Meta AI', 'Google AI', 'DeepMind'];
-                const retailKeywords = ['app', 'iPhone', 'Android', 'consumer', 'user', 'chatbot', 'assistant', 'free', 'subscription', 'ChatGPT', 'Gemini', 'Claude', 'Siri', 'Alexa', 'personal', 'home', 'photo', 'video', 'music', 'creative', 'art', 'image', 'generator', 'Midjourney', 'DALL-E', 'Stable Diffusion', 'TikTok', 'Instagram', 'social'];
-                
-                items.forEach((item, idx) => {
-                    if (idx >= 12) return; // Limit items
-                    
-                    const title = item.querySelector('title')?.textContent || '';
-                    const link = item.querySelector('link')?.textContent || '';
-                    const pubDate = item.querySelector('pubDate')?.textContent || '';
-                    const source = item.querySelector('source')?.textContent || 'Google News';
-                    
-                    // Score for categorization
-                    const titleLower = title.toLowerCase();
-                    let enterpriseScore = 0;
-                    let retailScore = 0;
-                    
-                    enterpriseKeywords.forEach(kw => {
-                        if (titleLower.includes(kw.toLowerCase())) enterpriseScore++;
+                // Add featured item to enterprise if exists
+                if (data.featured) {
+                    enterprise.unshift({
+                        title: data.featured.title,
+                        link: data.featured.link,
+                        source: data.featured.source,
+                        time: data.featured.date || '',
+                        featured: true
                     });
-                    retailKeywords.forEach(kw => {
-                        if (titleLower.includes(kw.toLowerCase())) retailScore++;
-                    });
-                    
-                    const newsItem = {
-                        title: title.replace(/ - .*$/, ''), // Remove source suffix
-                        link,
-                        source,
-                        time: formatNewsTime(pubDate)
-                    };
-                    
-                    // Categorize based on score, default to enterprise for B2B-focused news
-                    if (retailScore > enterpriseScore) {
-                        retail.push(newsItem);
-                    } else {
-                        enterprise.push(newsItem);
-                    }
-                });
-                
-                // Ensure at least some items in each category
-                if (enterprise.length === 0 && retail.length > 2) {
-                    enterprise.push(retail.pop());
-                }
-                if (retail.length === 0 && enterprise.length > 2) {
-                    retail.push(enterprise.pop());
                 }
                 
                 aiNewsCache = { enterprise, retail, lastFetch: Date.now() };

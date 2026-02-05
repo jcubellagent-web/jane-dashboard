@@ -1,30 +1,10 @@
-{
-  "messages": [
-    {
-      "role": "assistant",
-      "content": "Hey! 👋 Mobile chat is now working. Send me a message and I'll respond!",
-      "timestamp": 1738545600000
-    },
-    {
-      "role": "user",
-      "content": "Test test",
-      "timestamp": 1770086006800
-    },
-    {
-      "role": "user",
-      "content": "Hellooo",
-      "timestamp": 1770086029172
-    },
-    {
-      "role": "assistant",
-      "content": "Hey Josh! 👋 I see your messages! The mobile chat is working perfectly now. You can message me here anytime - I check the queue during heartbeats (every hour) or you can also ping me on WhatsApp for faster responses. What's up?",
-      "timestamp": 1770086100000
-    },
-    {
-      "role": "user",
-      "content": "Sweet",
-      "timestamp": 1770086091810
-    }
-  ],
-  "lastUpdated": "2026-02-03T02:34:51.810Z"
-}
+[
+  {
+    "id": "ml8wyz2pvdtfw",
+    "message": "Testing 123",
+    "timestamp": 1770263148049,
+    "from": "mobile-app",
+    "response": "Test received! 👍 Dashboard chat is working.",
+    "responseTimestamp": 1770264540000
+  }
+]

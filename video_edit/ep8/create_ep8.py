@@ -1,178 +1,297 @@
 #!/usr/bin/env python3
 """
-Drake Maye Hunt EP.8 - Video Creator
-Ultra Rare + Epic Pack!
+Drake Maye Super Bowl Hunt - THE FINALE!
+He finally found Drake Maye! 9/10 EPIC!!!
 """
 
 import subprocess
 import os
 from PIL import Image, ImageDraw, ImageFont
+import glob
 
-# Paths
-SOURCE = "/Users/jc_agent/.openclaw/media/inbound/f5e305d5-c927-4160-a023-094872847b54.mp4"
 WORK_DIR = "/Users/jc_agent/.openclaw/workspace/video_edit/ep8"
-OUTPUT = os.path.join(WORK_DIR, "drake_maye_hunt_ep8.mp4")
+INPUT = "/Users/jc_agent/.openclaw/media/inbound/9e9fdcf1-a657-40e6-8eae-9f769b4d618b.mp4"
+FRAMES_DIR = f"{WORK_DIR}/frames"
+OUTPUT_DIR = f"{WORK_DIR}/output_frames"
+FINAL = f"{WORK_DIR}/EP8_DRAKE_MAYE_FOUND.mp4"
 
-# Video specs
-ORIGINAL_DURATION = 38.4  # seconds
-TARGET_DURATION = 30  # seconds
-SPEED_FACTOR = ORIGINAL_DURATION / TARGET_DURATION  # 1.28x
-PTS_FACTOR = 1 / SPEED_FACTOR  # 0.78
+# Video is 241s, speed up 4x to get ~60s final
+SPEED = 4.0
 
-# Card reveals in ORIGINAL timing
-# Format: (original_reveal_time, player, serial, rarity, floor_price)
-CARDS = [
-    (10, "Howie Long", "185/397", "UNCOMMON", 1),
-    (14, "Dre Greenlaw", "13/49", "ULTRA RARE", 7),
-    (22, "Tip Reiman", "210/218", "UNCOMMON", 1),
-    (34, "Marquise Brown", "3/10", "EPIC", 15),
+# Pack timing (in ORIGINAL video seconds) and card data
+PACKS = [
+    {
+        "reveal_start": 30,
+        "reveal_end": 40,
+        "highlight": "Andy Reid",
+        "cards": [
+            {"name": "A.J. Brown", "serial": "147/397", "rarity": "UNCOMMON", "floor": "$1"},
+            {"name": "Caleb Williams", "serial": "85/199", "rarity": "RARE", "floor": "$3"},
+            {"name": "Kyle Pitts", "serial": "189/218", "rarity": "UNCOMMON", "floor": "$1"},
+            {"name": "Andy Reid", "serial": "37/49", "rarity": "ULTRA RARE", "floor": "$5"},
+        ],
+        "pack_value": "$10"
+    },
+    {
+        "reveal_start": 55,
+        "reveal_end": 75,
+        "highlight": "Michael Penix Jr.",
+        "is_mega": True,
+        "cards": [
+            {"name": "Rome Odunze", "serial": "21/25", "rarity": "EPIC", "floor": "$15"},
+            {"name": "Michael Penix Jr.", "serial": "2/10", "rarity": "EPIC", "floor": "$30"},
+            {"name": "DeMarvion Overshown", "serial": "200/397", "rarity": "UNCOMMON", "floor": "$1"},
+            {"name": "Grover Stewart", "serial": "11/25", "rarity": "EPIC", "floor": "$10"},
+        ],
+        "pack_value": "$56"
+    },
+    {
+        "reveal_start": 85,
+        "reveal_end": 95,
+        "highlight": "Brock Bowers",
+        "cards": [
+            {"name": "Chris Jones", "serial": "185/397", "rarity": "UNCOMMON", "floor": "$1"},
+            {"name": "Jared Goff", "serial": "152/199", "rarity": "RARE", "floor": "$2"},
+            {"name": "Kendrick Bourne", "serial": "210/218", "rarity": "UNCOMMON", "floor": "$1"},
+            {"name": "Brock Bowers", "serial": "3/25", "rarity": "EPIC", "floor": "$20"},
+        ],
+        "pack_value": "$24"
+    },
+    {
+        "reveal_start": 120,
+        "reveal_end": 130,
+        "highlight": "Dre Greenlaw",
+        "cards": [
+            {"name": "Dre Greenlaw", "serial": "34/49", "rarity": "ULTRA RARE", "floor": "$4"},
+            {"name": "Jameis Winston", "serial": "397/397", "rarity": "UNCOMMON", "floor": "$1"},
+            {"name": "Jordan Davis", "serial": "9/199", "rarity": "RARE", "floor": "$2"},
+            {"name": "Alex Anzalone", "serial": "53/218", "rarity": "UNCOMMON", "floor": "$1"},
+        ],
+        "pack_value": "$8"
+    },
+    {
+        "reveal_start": 190,
+        "reveal_end": 200,
+        "highlight": "Drake Maye",
+        "is_drake": True,
+        "cards": [
+            {"name": "Joe Andreessen", "serial": "27/49", "rarity": "ULTRA RARE", "floor": "$4"},
+            {"name": "Bucky Irving", "serial": "4/99", "rarity": "RARE", "floor": "$3"},
+            {"name": "Deebo Samuel", "serial": "59/99", "rarity": "RARE", "floor": "$3"},
+            {"name": "Drake Maye", "serial": "28/49", "rarity": "ULTRA RARE", "floor": "$15"},
+        ],
+        "pack_value": "$25"
+    },
+    {
+        "reveal_start": 230,
+        "reveal_end": 241,
+        "highlight": "DRAKE MAYE",
+        "is_finale": True,
+        "cards": [
+            {"name": "Malik Nabers", "serial": "198/397", "rarity": "UNCOMMON", "floor": "$1"},
+            {"name": "Blake Corum", "serial": "119/199", "rarity": "RARE", "floor": "$2"},
+            {"name": "Brock Purdy", "serial": "43/99", "rarity": "RARE", "floor": "$4"},
+            {"name": "DRAKE MAYE", "serial": "9/10", "rarity": "EPIC", "floor": "$100+"},
+        ],
+        "pack_value": "$107+"
+    },
 ]
 
-PACK_COST = 60
-PACK_VALUE = sum(c[4] for c in CARDS)  # $24
+def get_font(size):
+    fonts = [
+        "/System/Library/Fonts/SFNSText.ttf",
+        "/System/Library/Fonts/Helvetica.ttc",
+        "/Library/Fonts/Arial Bold.ttf",
+    ]
+    for f in fonts:
+        if os.path.exists(f):
+            try:
+                return ImageFont.truetype(f, size)
+            except:
+                pass
+    return ImageFont.load_default()
 
-def orig_to_sped(t):
-    """Convert original timestamp to sped-up timestamp"""
-    return t / SPEED_FACTOR
+def get_text_width(draw, text, font):
+    bbox = draw.textbbox((0, 0), text, font=font)
+    return bbox[2] - bbox[0]
 
-# Text overlays: (start, end, text, y_pos, font_size, color)
-# Text appears 1 second AFTER reveal in sped-up time
-TEXT_OVERLAYS = [
-    # Title (first 5 seconds)
-    (0, 5, "DRAKE MAYE HUNT EP.8", 50, 36, (255,255,255)),
-    (0, 5, "🏈 PATS TO THE SUPER BOWL", 100, 24, (255,215,0)),
-    
-    # Card 1: Howie Long - reveals ~8s sped up, text at 9s
-    (9, 12, "Howie Long 185/397", 380, 28, (255,255,255)),
-    (9, 12, "UNCOMMON - FLOOR: $1", 420, 22, (100,255,100)),
-    
-    # Card 2: Dre Greenlaw ULTRA RARE - reveals ~11s, text at 12s
-    (12, 16, "Dre Greenlaw 13/49", 360, 32, (255,140,0)),
-    (12, 16, "🔥 ULTRA RARE - FLOOR: $7", 410, 26, (255,0,0)),
-    
-    # Card 3: Tip Reiman - reveals ~17s, text at 18s
-    (18, 21, "Tip Reiman 210/218", 380, 28, (255,255,255)),
-    (18, 21, "UNCOMMON - FLOOR: $1", 420, 22, (100,255,100)),
-    
-    # Card 4: Marquise Brown EPIC - reveals ~27s, text at 28s
-    (27, 30, "Marquise Brown 3/10", 340, 34, (160,32,240)),
-    (27, 30, "🔥🔥 EPIC - FLOOR: $15", 395, 28, (160,32,240)),
-    
-    # Pack total at end
-    (28, 30, f"PACK VALUE: ${PACK_VALUE}", 460, 26, (100,255,100)),
-    (28, 30, "NO DRAKE MAYE... THE HUNT CONTINUES!", 510, 20, (255,255,255)),
-]
+def add_centered_text(draw, y, text, font, fill, width, outline_color=(0,0,0), outline_width=3):
+    text_width = get_text_width(draw, text, font)
+    x = (width - text_width) // 2
+    for dx in range(-outline_width, outline_width+1):
+        for dy in range(-outline_width, outline_width+1):
+            if dx != 0 or dy != 0:
+                draw.text((x+dx, y+dy), text, font=font, fill=outline_color)
+    draw.text((x, y), text, font=font, fill=fill)
 
-def create_text_overlay(text, font_size, color, width=1080, height=100):
-    """Create a transparent PNG with text"""
-    img = Image.new('RGBA', (width, height), (0, 0, 0, 0))
+def add_glow_centered(draw, y, text, font, fill, glow_color, width, glow_radius=5):
+    text_width = get_text_width(draw, text, font)
+    x = (width - text_width) // 2
+    for r in range(glow_radius, 0, -1):
+        for dx in range(-r, r+1):
+            for dy in range(-r, r+1):
+                if dx*dx + dy*dy <= r*r:
+                    draw.text((x+dx, y+dy), text, font=font, fill=glow_color)
+    draw.text((x, y), text, font=font, fill=fill)
+
+def process_frame(frame_path, output_path, frame_num, fps, width, height):
+    img = Image.open(frame_path).convert("RGBA")
     draw = ImageDraw.Draw(img)
     
-    # Try to load a bold font
-    try:
-        font = ImageFont.truetype("/System/Library/Fonts/Helvetica.ttc", font_size)
-    except:
-        font = ImageFont.load_default()
+    # Calculate original video time from frame number (accounting for speed)
+    original_time = frame_num / fps
     
-    # Get text size and center it
-    bbox = draw.textbbox((0, 0), text, font=font)
-    text_width = bbox[2] - bbox[0]
-    x = (width - text_width) // 2
+    # Fonts
+    title_font = get_font(48)
+    subtitle_font = get_font(32)
+    card_font = get_font(28)
+    epic_font = get_font(42)
+    value_font = get_font(36)
     
-    # Draw text with shadow for visibility
-    shadow_color = (0, 0, 0, 200)
-    draw.text((x+2, 12), text, font=font, fill=shadow_color)
-    draw.text((x, 10), text, font=font, fill=(*color, 255))
+    # Colors
+    WHITE = (255, 255, 255)
+    GOLD = (255, 215, 0)
+    PURPLE = (180, 100, 255)
+    GREEN = (100, 255, 100)
+    RED = (255, 50, 50)
+    CYAN = (50, 200, 255)
+    EPIC_GLOW = (200, 100, 255)
     
-    return img
+    # INTRO: 0-8 seconds (original 0-32s)
+    if original_time < 8:
+        add_centered_text(draw, 40, "DRAKE MAYE HUNT", title_font, GOLD, width, outline_width=4)
+        add_centered_text(draw, 100, "SUPER BOWL EDITION", subtitle_font, WHITE, width, outline_width=3)
+        add_centered_text(draw, 150, "8 PACKS - $320", subtitle_font, GREEN, width, outline_width=3)
+    
+    # Find which pack we're in
+    for i, pack in enumerate(PACKS):
+        reveal_start = pack["reveal_start"] / SPEED
+        reveal_end = pack["reveal_end"] / SPEED
+        
+        if reveal_start <= original_time < reveal_end:
+            center_y = height // 2 - 100
+            
+            # FINALE - Drake Maye 9/10 EPIC
+            if pack.get("is_finale"):
+                add_glow_centered(draw, center_y - 80, "THE HUNT IS OVER!", epic_font, GOLD, (255, 200, 0), width, glow_radius=6)
+                add_glow_centered(draw, center_y - 20, "DRAKE MAYE", epic_font, PURPLE, EPIC_GLOW, width, glow_radius=5)
+                add_centered_text(draw, center_y + 40, "9/10 EPIC", card_font, PURPLE, width, outline_width=3)
+                add_centered_text(draw, center_y + 80, "FLOOR: $100+", value_font, GREEN, width, outline_width=4)
+                add_centered_text(draw, center_y + 130, "PACK VALUE: $107+", value_font, WHITE, width, outline_width=3)
+            
+            # First Drake Maye (Ultra Rare)
+            elif pack.get("is_drake"):
+                add_glow_centered(draw, center_y - 60, "DRAKE MAYE!", epic_font, CYAN, (50, 150, 200), width, glow_radius=4)
+                add_centered_text(draw, center_y, "28/49 ULTRA RARE", card_font, CYAN, width, outline_width=3)
+                add_centered_text(draw, center_y + 45, "FLOOR: $15", value_font, GREEN, width, outline_width=3)
+                add_centered_text(draw, center_y + 95, f"PACK {i+1}: ~{pack['pack_value']}", subtitle_font, WHITE, width, outline_width=3)
+            
+            # Triple EPIC pack
+            elif pack.get("is_mega"):
+                add_glow_centered(draw, center_y - 60, "TRIPLE EPIC!", epic_font, PURPLE, EPIC_GLOW, width, glow_radius=4)
+                add_centered_text(draw, center_y, "Penix Jr. 2/10", card_font, PURPLE, width, outline_width=3)
+                add_centered_text(draw, center_y + 40, "Rome Odunze 21/25", card_font, PURPLE, width, outline_width=3)
+                add_centered_text(draw, center_y + 85, "FLOOR: $56", value_font, GREEN, width, outline_width=3)
+                add_centered_text(draw, center_y + 130, f"PACK {i+1}: ~{pack['pack_value']}", subtitle_font, WHITE, width, outline_width=3)
+            
+            # Regular packs with highlights
+            else:
+                highlight = pack.get("highlight", "")
+                highlight_card = next((c for c in pack["cards"] if c["name"] == highlight), None)
+                
+                if highlight_card:
+                    rarity = highlight_card["rarity"]
+                    color = PURPLE if rarity == "EPIC" else CYAN if rarity == "ULTRA RARE" else WHITE
+                    
+                    add_centered_text(draw, center_y - 30, highlight, card_font, color, width, outline_width=3)
+                    add_centered_text(draw, center_y + 15, highlight_card["serial"], card_font, WHITE, width, outline_width=3)
+                    add_centered_text(draw, center_y + 55, f"FLOOR: {highlight_card['floor']}", value_font, GREEN, width, outline_width=3)
+                    add_centered_text(draw, center_y + 100, f"PACK {i+1}: ~{pack['pack_value']}", subtitle_font, WHITE, width, outline_width=3)
+            break
+    
+    # OUTRO: last 3 seconds
+    if original_time >= 57:
+        center_y = height // 2 + 50
+        add_centered_text(draw, center_y - 50, "TOTAL VALUE: $240+", value_font, GREEN, width, outline_width=4)
+        add_centered_text(draw, center_y, "COST: $320", subtitle_font, WHITE, width, outline_width=3)
+        add_centered_text(draw, center_y + 45, "DRAKE MAYE 9/10 FOUND!", subtitle_font, GOLD, width, outline_width=3)
+    
+    img.convert("RGB").save(output_path, quality=95)
 
 def main():
     os.chdir(WORK_DIR)
+    os.makedirs(FRAMES_DIR, exist_ok=True)
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
     
-    print("🎬 Creating Drake Maye Hunt EP.8...")
-    print(f"   Pack contents: Ultra Rare + Epic!")
-    print(f"   Pack value: ${PACK_VALUE} vs ${PACK_COST} cost")
-    
-    # Step 1: Speed up video (single pass for smoothness)
-    print("\n1️⃣ Speeding up video...")
-    sped_up = os.path.join(WORK_DIR, "sped_up.mp4")
+    # Extract frames from original video
+    print("Step 1: Extracting frames...")
     subprocess.run([
-        'ffmpeg', '-y', '-i', SOURCE,
-        '-filter_complex',
-        f'[0:v]setpts={PTS_FACTOR}*PTS[v];[0:a]atempo={SPEED_FACTOR}[a]',
-        '-map', '[v]', '-map', '[a]',
-        '-c:v', 'libx264', '-preset', 'slow', '-crf', '18',
-        '-t', '30',
-        sped_up
+        "ffmpeg", "-y", "-i", INPUT, "-q:v", "2", f"{FRAMES_DIR}/frame_%05d.jpg"
     ], capture_output=True)
     
-    # Step 2: Create text overlay PNGs
-    print("2️⃣ Creating text overlays...")
-    overlay_files = []
-    for i, (start, end, text, y_pos, font_size, color) in enumerate(TEXT_OVERLAYS):
-        img = create_text_overlay(text, font_size, color)
-        png_path = os.path.join(WORK_DIR, f"overlay_{i:02d}.png")
-        img.save(png_path)
-        overlay_files.append((start, end, png_path, y_pos))
+    frames = sorted(glob.glob(f"{FRAMES_DIR}/frame_*.jpg"))
+    total_frames = len(frames)
+    print(f"Extracted {total_frames} frames")
     
-    # Step 3: Build FFmpeg filter for overlays
-    print("3️⃣ Applying overlays...")
+    # Get dimensions
+    first_frame = Image.open(frames[0])
+    width, height = first_frame.size
+    print(f"Video dimensions: {width}x{height}")
     
-    # Build complex filter
-    inputs = ['-i', sped_up]
-    for _, _, png, _ in overlay_files:
-        inputs.extend(['-i', png])
+    # Calculate target frame count for sped-up video
+    original_fps = total_frames / 241.0  # 241 second video
+    target_fps = original_fps  # Keep same fps, just use fewer frames
     
-    filter_parts = []
-    current = "[0:v]"
+    # Select every Nth frame for speedup
+    frame_step = int(SPEED)
+    selected_frames = frames[::frame_step]
+    output_fps = original_fps
     
-    for i, (start, end, _, y_pos) in enumerate(overlay_files):
-        next_label = f"[v{i}]"
-        # Center horizontally, position at y_pos
-        filter_parts.append(
-            f"{current}[{i+1}:v]overlay=(W-w)/2:{y_pos}:enable='between(t,{start},{end})'{next_label}"
-        )
-        current = next_label
+    print(f"Original FPS: {original_fps:.1f}, selecting every {frame_step}th frame")
+    print(f"Output will have {len(selected_frames)} frames at {output_fps:.1f} fps = {len(selected_frames)/output_fps:.1f}s")
     
-    filter_complex = ";".join(filter_parts)
+    print("Step 2: Adding overlays...")
+    for i, frame_path in enumerate(selected_frames):
+        if i % 100 == 0:
+            print(f"  Processing frame {i}/{len(selected_frames)}")
+        output_path = f"{OUTPUT_DIR}/frame_{i:05d}.jpg"
+        process_frame(frame_path, output_path, i, output_fps, width, height)
     
-    # Final encode
-    cmd = ['ffmpeg', '-y'] + inputs + [
-        '-filter_complex', filter_complex,
-        '-map', current[1:-1],  # Remove brackets
-        '-map', '0:a',
-        '-c:v', 'libx264', '-preset', 'slow', '-crf', '18',
-        '-c:a', 'aac', '-b:a', '128k',
-        '-t', '30',
-        OUTPUT
-    ]
+    print("Step 3: Encoding final video...")
     
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    # Try to use background music if available
+    MUSIC = "/Users/jc_agent/.openclaw/workspace/video_edit/background_music.mp3"
     
-    if result.returncode != 0:
-        print(f"❌ FFmpeg error: {result.stderr[:500]}")
-        # Fallback: just output sped up version
-        print("   Using sped-up version without overlays...")
-        import shutil
-        shutil.copy(sped_up, OUTPUT)
+    if os.path.exists(MUSIC):
+        subprocess.run([
+            "ffmpeg", "-y",
+            "-framerate", str(output_fps),
+            "-i", f"{OUTPUT_DIR}/frame_%05d.jpg",
+            "-i", MUSIC,
+            "-filter_complex", f"[1:a]volume=0.2,afade=t=out:st=57:d=3[music]",
+            "-map", "0:v",
+            "-map", "[music]",
+            "-c:v", "libx264", "-preset", "medium", "-crf", "18",
+            "-c:a", "aac", "-b:a", "128k",
+            "-t", "60",
+            "-shortest",
+            FINAL
+        ])
+    else:
+        subprocess.run([
+            "ffmpeg", "-y",
+            "-framerate", str(output_fps),
+            "-i", f"{OUTPUT_DIR}/frame_%05d.jpg",
+            "-c:v", "libx264", "-preset", "medium", "-crf", "18",
+            "-t", "60",
+            FINAL
+        ])
     
-    print(f"\n✅ Video created: {OUTPUT}")
-    print(f"   Duration: 30 seconds")
-    print(f"   Cards: Ultra Rare Dre Greenlaw + Epic Marquise Brown")
+    print(f"Done! Created: {FINAL}")
     
     # Cleanup
-    print("\n🧹 Cleaning up temp files...")
-    for f in overlay_files:
-        try:
-            os.remove(f[2])
-        except:
-            pass
-    try:
-        os.remove(sped_up)
-    except:
-        pass
-    
-    return OUTPUT
+    print("Cleaning up temp files...")
+    subprocess.run(["rm", "-rf", FRAMES_DIR, OUTPUT_DIR])
 
 if __name__ == "__main__":
     main()

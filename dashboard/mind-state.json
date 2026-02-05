@@ -1,0 +1,10 @@
+{
+  "task": "EP.7 v2 complete - no emojis, with music",
+  "steps": [
+    { "text": "Removed all emojis from overlays", "status": "done" },
+    { "text": "Added background_music.mp3 at 25% volume", "status": "done" },
+    { "text": "Added fade out at end", "status": "done" },
+    { "text": "Waiting for next request", "status": "active" }
+  ],
+  "thought": "Fixed version with no emojis and background music added!"
+}

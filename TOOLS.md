@@ -51,6 +51,14 @@ When opening the `openclaw` Chrome profile:
 
 ## Accounts
 
+### Sorare
+- **Email:** jcubell16@gmail.com
+- **Password:** JCAgent123!!!
+- **User slug:** jcubnft
+- **Wallet password:** JCAgent123!!! (same as account password)
+- **Wallet address:** `0x2890B67B3724108848E9E6b8c74525821A8EEDB6`
+- **Note:** Wallet unlock popup appears during checkout - enter password to confirm transactions
+
 ### Gmail
 - **Email:** jcubellagent@gmail.com
 - **Password:** `~/.openclaw/workspace/.secrets/gmail.txt`

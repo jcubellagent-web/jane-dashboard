@@ -445,6 +445,42 @@ const server = http.createServer((req, res) => {
         return;
     }
     
+    // API endpoint for Jane's Mind state (reasoning/task tracking)
+    const mindStateFile = path.join(ROOT, 'mind-state.json');
+    if (req.url === '/api/mind' && req.method === 'GET') {
+        try {
+            if (fs.existsSync(mindStateFile)) {
+                const data = fs.readFileSync(mindStateFile, 'utf8');
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(data);
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ task: null, steps: [], thought: 'Ready for your next request.' }));
+            }
+        } catch (err) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: err.message }));
+        }
+        return;
+    }
+    
+    if (req.url === '/api/mind' && req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => body += chunk);
+        req.on('end', () => {
+            try {
+                const data = JSON.parse(body);
+                fs.writeFileSync(mindStateFile, JSON.stringify(data, null, 2));
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true }));
+            } catch (err) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: err.message }));
+            }
+        });
+        return;
+    }
+    
     // API endpoint for AI news (fetches from RSS feeds)
     if (req.url === '/api/ai-news') {
         // Cache for 10 minutes
@@ -527,14 +563,65 @@ const server = http.createServer((req, res) => {
     // API endpoint for TikTok stats (reads from JSON, updated by Jane's heartbeat)
     if (req.url === '/api/tiktok') {
         const statsFile = path.join(ROOT, 'tiktok-stats.json');
+        const midnightFile = path.join(ROOT, 'tiktok-midnight.json');
+        
         if (fs.existsSync(statsFile)) {
             const stats = JSON.parse(fs.readFileSync(statsFile, 'utf8'));
             stats.note = 'Updated via heartbeat browser scraping (TikTok has no public API)';
+            
             // Add top-level fields for backwards compatibility
             if (stats.profile) {
                 stats.followers = stats.profile.followers;
                 stats.likes = stats.profile.likes;
             }
+            
+            // Calculate total views from all videos
+            let totalViews = 0;
+            if (stats.recentVideos) {
+                totalViews += stats.recentVideos.reduce((sum, v) => sum + (typeof v.views === 'number' ? v.views : parseInt(v.views) || 0), 0);
+            }
+            if (stats.topVideos) {
+                stats.topVideos.forEach(v => {
+                    const views = typeof v.views === 'string' ? parseFloat(v.views.replace('K', '')) * (v.views.includes('K') ? 1000 : 1) : v.views;
+                    totalViews += views || 0;
+                });
+            }
+            stats.totalViews = Math.round(totalViews);
+            
+            // Calculate "since midnight" changes
+            const now = new Date();
+            const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString().split('T')[0];
+            
+            let midnight = {};
+            if (fs.existsSync(midnightFile)) {
+                midnight = JSON.parse(fs.readFileSync(midnightFile, 'utf8'));
+            }
+            
+            // If we don't have today's midnight baseline, or it's a new day, save current as baseline
+            if (!midnight.date || midnight.date !== todayMidnight) {
+                midnight = {
+                    date: todayMidnight,
+                    followers: stats.profile?.followers || stats.followers || 0,
+                    likes: stats.profile?.likes || stats.likes || 0,
+                    views: stats.totalViews || 0,
+                    savedAt: now.toISOString()
+                };
+                fs.writeFileSync(midnightFile, JSON.stringify(midnight, null, 2));
+            }
+            
+            // Calculate changes since midnight
+            const currentFollowers = stats.profile?.followers || stats.followers || 0;
+            const currentLikes = stats.profile?.likes || stats.likes || 0;
+            const currentViews = stats.totalViews || 0;
+            
+            stats.changes24h = {
+                followers: currentFollowers - (midnight.followers || currentFollowers),
+                likes: currentLikes - (midnight.likes || currentLikes),
+                views: currentViews - (midnight.views || currentViews),
+                since: midnight.date,
+                note: 'Changes since midnight EST'
+            };
+            
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(stats));
         } else {
@@ -759,6 +846,10 @@ const server = http.createServer((req, res) => {
         const techUrl = 'https://gamma-api.polymarket.com/markets?closed=false&order=volume24hr&ascending=false&limit=30&tag=tech';
         // Kalshi markets (events with nested markets)
         const kalshiUrl = 'https://api.elections.kalshi.com/trade-api/v2/events?limit=50&status=open&with_nested_markets=true';
+        // Manifold Markets - high liquidity markets
+        const manifoldUrl = 'https://api.manifold.markets/v0/search-markets?sort=liquidity&limit=50&filter=open';
+        // Metaculus - top questions
+        const metaculusUrl = 'https://www.metaculus.com/api2/questions/?status=open&type=forecast&order_by=-activity&limit=30';
         
         const fetchUrl = (url) => new Promise((resolve, reject) => {
             https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
@@ -778,8 +869,10 @@ const server = http.createServer((req, res) => {
             fetchUrl(businessUrl),
             fetchUrl(economyUrl),
             fetchUrl(techUrl),
-            fetchUrl(kalshiUrl)
-        ]).then(([mainMarkets, nflMarkets, cryptoMarkets, businessMarkets, economyMarkets, techMarkets, kalshiData]) => {
+            fetchUrl(kalshiUrl),
+            fetchUrl(manifoldUrl),
+            fetchUrl(metaculusUrl)
+        ]).then(([mainMarkets, nflMarkets, cryptoMarkets, businessMarkets, economyMarkets, techMarkets, kalshiData, manifoldData, metaculusData]) => {
             // Combine all finance/business markets
             const financeMarkets = [...cryptoMarkets, ...businessMarkets, ...economyMarkets, ...techMarkets];
             
@@ -802,6 +895,43 @@ const server = http.createServer((req, res) => {
                         });
                     }
                 });
+            });
+            
+            // Parse Manifold Markets
+            const manifoldMarkets = [];
+            const manifoldList = Array.isArray(manifoldData) ? manifoldData : [];
+            manifoldList.forEach(m => {
+                if (m.probability && m.totalLiquidity > 100) {
+                    manifoldMarkets.push({
+                        question: m.question,
+                        yesOdds: Math.round((m.probability || 0.5) * 100),
+                        noOdds: Math.round((1 - (m.probability || 0.5)) * 100),
+                        volume24h: m.volume24Hours || 0,
+                        totalVolume: m.totalLiquidity || 0,
+                        slug: m.slug || m.id,
+                        endDate: m.closeTime,
+                        source: 'Manifold'
+                    });
+                }
+            });
+            
+            // Parse Metaculus questions
+            const metaculusMarkets = [];
+            const metaculusResults = metaculusData?.results || [];
+            metaculusResults.forEach(q => {
+                if (q.community_prediction && q.community_prediction.full) {
+                    const prob = q.community_prediction.full.q2 || 0.5;
+                    metaculusMarkets.push({
+                        question: q.title,
+                        yesOdds: Math.round(prob * 100),
+                        noOdds: Math.round((1 - prob) * 100),
+                        volume24h: q.activity || 1000, // Metaculus uses activity instead of volume
+                        totalVolume: q.number_of_forecasters || 0,
+                        slug: `metaculus-${q.id}`,
+                        endDate: q.resolve_time,
+                        source: 'Metaculus'
+                    });
+                }
             });
             
             const parseMarket = m => {
@@ -851,12 +981,13 @@ const server = http.createServer((req, res) => {
                 
                 if (seahawks && patriots) {
                     pinnedMarket = {
-                        question: '🏈 Super Bowl LX: Seahawks vs Patriots',
+                        question: 'Super Bowl LX: Seahawks vs Patriots',
                         yesOdds: seahawks.yesOdds,
                         noOdds: patriots.yesOdds,
                         volume24h: (seahawks.volume24h || 0) + (patriots.volume24h || 0),
                         slug: 'will-the-seattle-seahawks-win-super-bowl-2026',
                         isPinned: true,
+                        source: 'Polymarket',
                         teams: {
                             favorite: { name: 'Seahawks', odds: seahawks.yesOdds },
                             underdog: { name: 'Patriots', odds: patriots.yesOdds }
@@ -866,7 +997,7 @@ const server = http.createServer((req, res) => {
             }
             
             // Combine all markets, removing duplicates by slug
-            const allMarketsRaw = [...simplified, ...financeSimplified, ...kalshiMarkets];
+            const allMarketsRaw = [...simplified, ...financeSimplified, ...kalshiMarkets, ...manifoldMarkets, ...metaculusMarkets];
             const seenSlugs = new Set();
             const allMarketsDeduped = allMarketsRaw.filter(m => {
                 if (seenSlugs.has(m.slug)) return false;
@@ -874,11 +1005,15 @@ const server = http.createServer((req, res) => {
                 return true;
             });
             
-            // Filter for competitive markets (odds between 15% and 85%, min $50k volume)
+            // Filter for competitive markets (odds between 10% and 90%, min volume by source)
             const competitive = allMarketsDeduped.filter(m => {
                 if (m.question && m.question.toLowerCase().includes('super bowl')) return false;
-                if ((m.volume24h || 0) < 50000) return false; // Min $50k 24hr volume
-                return m.yesOdds >= 15 && m.yesOdds <= 85;
+                // Different volume thresholds per source (Kalshi uses contracts, not $)
+                const minVolume = m.source === 'Kalshi' ? 50 : 
+                                  m.source === 'Manifold' ? 100 : 
+                                  m.source === 'Metaculus' ? 0 : 10000;
+                if ((m.volume24h || 0) < minVolume) return false;
+                return m.yesOdds >= 10 && m.yesOdds <= 90;
             });
             
             competitive.sort((a, b) => b.volume24h - a.volume24h);
@@ -931,33 +1066,29 @@ const server = http.createServer((req, res) => {
             let financeCount = 0;
             let mandaCount = 0;
             
-            // First, add up to 3 M&A markets with >100k volume
-            for (let i = 0; i < manda.length && mandaCount < 3; i++) {
+            // First, add up to 5 M&A markets (priority)
+            for (let i = 0; i < manda.length && mandaCount < 5; i++) {
                 balanced.push(manda[i]);
                 mandaCount++;
             }
             
-            // Then add top finance markets (4 minimum)
-            for (let i = 0; i < finance.length && financeCount < 4; i++) {
+            // Then add top finance markets (6 minimum)
+            for (let i = 0; i < finance.length && financeCount < 6; i++) {
                 balanced.push(finance[i]);
                 financeCount++;
             }
             
-            // Then add up to 3 sports
-            for (let i = 0; i < sports.length && sportsCount < 3 && balanced.length < 20; i++) {
-                balanced.push(sports[i]);
-                sportsCount++;
-            }
+            // Skip sports entirely - filter them all out on frontend anyway
             
-            // Fill rest with remaining finance, then others
-            let financeIdx = 4, otherIdx = 0;
-            while (balanced.length < 20) {
+            // Fill rest with remaining finance, then others up to 30
+            let financeIdx = 6, otherIdx = 0;
+            while (balanced.length < 30) {
                 const nextF = finance[financeIdx];
                 const nextO = others[otherIdx];
                 
                 if (!nextF && !nextO) break;
                 
-                if (nextF && financeCount < 8) {
+                if (nextF && financeCount < 12) {
                     balanced.push(finance[financeIdx++]);
                     financeCount++;
                 } else if (nextO) {
@@ -970,8 +1101,8 @@ const server = http.createServer((req, res) => {
             }
             
             const finalMarkets = pinnedMarket 
-                ? [pinnedMarket, ...balanced.slice(0, 19)]
-                : balanced.slice(0, 20);
+                ? [pinnedMarket, ...balanced.slice(0, 29)]
+                : balanced.slice(0, 30);
             
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ 
@@ -1149,7 +1280,17 @@ const server = http.createServer((req, res) => {
 
     // Parse URL and strip query string
     const urlPath = new URL(req.url, `http://${req.headers.host}`).pathname;
-    let filePath = path.join(ROOT, urlPath === '/' ? 'index.html' : urlPath);
+    
+    // Auto-detect mobile devices and serve mobile.html
+    const userAgent = req.headers['user-agent'] || '';
+    const isMobile = /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    
+    let filePath;
+    if (urlPath === '/' && isMobile) {
+        filePath = path.join(ROOT, 'mobile.html');
+    } else {
+        filePath = path.join(ROOT, urlPath === '/' ? 'index.html' : urlPath);
+    }
     
     // Security: prevent directory traversal
     if (!filePath.startsWith(ROOT)) {

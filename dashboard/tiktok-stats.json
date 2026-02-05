@@ -1,39 +1,25 @@
 {
-  "lastUpdated": "2026-02-03T22:29:30-05:00",
+  "lastUpdated": "2026-02-05T01:29:00-05:00",
   "profile": {
-    "username": "degencollector",
+    "handle": "@degencollector",
     "displayName": "DegenDigitalCollector",
-    "followers": 470,
+    "followers": 469,
     "following": 5,
-    "totalLikes": 2108,
-    "bio": "Hunting and sharing the latest and greatest tokenized collectibles"
-  },
-  "snapshot24hAgo": {
-    "timestamp": "2026-02-02T18:12:00-05:00",
-    "followers": 465,
-    "totalLikes": 2050,
-    "comments": 0
-  },
-  "changes24h": {
-    "followers": 5,
-    "likes": 58,
-    "comments": 0
+    "likes": 2116
   },
   "recentVideos": [
-    {"id": "7602085781653490999", "views": 238, "title": "Double EPIC - Joe Montana + Puka Nacua"},
-    {"id": "7602082172207500558", "views": 268, "title": "PATS TO THE SUPER BOWL"},
-    {"id": "7601975241534868750", "views": 405, "title": "Drake Maye Hunt EP.7"},
-    {"id": "7601968732671413559", "views": 2012, "title": "Drake Maye Hunt EP.6"},
-    {"id": "7601662386331766071", "views": 363, "title": "Drake Maye Hunt EP.5"},
-    {"id": "7601655146241707319", "views": 2535, "title": "Drake Maye Hunt EP.4 - BEST PACK"},
-    {"id": "7601653439860428046", "views": 445, "title": "Drake Maye Hunt EP.3"},
-    {"id": "7601631374386154766", "views": 305, "title": "Drake Maye Hunt EP.2"},
-    {"id": "7573371761413180686", "views": 9555, "title": "Prizm WNBA Rip"},
-    {"id": "7537478391562325262", "views": 201, "title": "$20k Messi NFT"}
+    {"title": "Drake Maye Hunt EP.7 (NEW)", "views": 1, "likes": 0},
+    {"title": "Double Epic - Joe Montana + Puka Nacua", "views": 244, "likes": 2},
+    {"title": "Pats Super Bowl pack", "views": 274, "likes": 4},
+    {"title": "Drake Maye Hunt Ep.7 (old)", "views": 428, "likes": 8},
+    {"title": "Drake Maye Hunt Ep.6", "views": 2036, "likes": 100},
+    {"title": "Drake Maye Hunt Ep.5", "views": 407, "likes": 4},
+    {"title": "Drake Maye Hunt Ep.4", "views": 2658, "likes": 33}
   ],
-  "topPerformers": [
-    {"id": "7534067096330784055", "views": "20.7K", "title": "NFTs better than physical"},
-    {"id": "7536332316327693581", "views": 9639, "title": "$320 Friday Pack Rip"},
-    {"id": "7573371761413180686", "views": 9555, "title": "Prizm WNBA Rip"}
-  ]
+  "topVideos": [
+    {"title": "NFTs better than physical", "views": "20.7K"},
+    {"title": "$320 Friday pack", "views": 9639},
+    {"title": "WNBA Prizm Rip", "views": 9555}
+  ],
+  "notifications": 11
 }

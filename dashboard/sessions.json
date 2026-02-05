@@ -1,37 +1,38 @@
 {
-  "lastUpdated": "2026-02-04T00:00:00-05:00",
+  "lastUpdated": "2026-02-05T08:27:11-05:00",
+  "count": 4,
   "sessions": [
     {
       "key": "agent:main:main",
-      "displayName": "Main (WhatsApp)",
-      "channel": "whatsapp",
+      "displayName": "+17175759384",
+      "channel": "unknown",
       "model": "claude-opus-4-5",
-      "totalTokens": 171953,
-      "active": true
+      "totalTokens": 33032,
+      "updatedAt": 1770298031675
     },
     {
       "key": "agent:main:cron:73db46f6-393d-45dc-85af-6fc0cc92171c",
-      "displayName": "PENGUIN Monitor",
-      "channel": "cron",
+      "displayName": "memecoin-price-monitor",
+      "channel": "webchat",
       "model": "claude-opus-4-5",
-      "totalTokens": 18901,
-      "active": true
+      "totalTokens": 19236,
+      "updatedAt": 1770205951664
     },
     {
       "key": "agent:main:dashboard:chat",
       "displayName": "Dashboard Chat",
-      "channel": "webchat",
+      "channel": "unknown",
       "model": "claude-opus-4-5",
       "totalTokens": 14175,
-      "active": false
+      "updatedAt": 1769925181659
     },
     {
       "key": "agent:main:test:webhook",
       "displayName": "Test Webhook",
-      "channel": "webhook",
+      "channel": "unknown",
       "model": "claude-opus-4-5",
       "totalTokens": 14179,
-      "active": false
+      "updatedAt": 1769904229404
     }
   ]
 }

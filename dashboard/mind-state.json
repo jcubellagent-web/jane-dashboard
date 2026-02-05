@@ -1,10 +1,12 @@
 {
-  "task": "EP.7 v2 complete - no emojis, with music",
+  "task": "Dashboard improvements",
   "steps": [
-    { "text": "Removed all emojis from overlays", "status": "done" },
-    { "text": "Added background_music.mp3 at 25% volume", "status": "done" },
-    { "text": "Added fade out at end", "status": "done" },
-    { "text": "Waiting for next request", "status": "active" }
+    { "text": "Fixed TikTok widget - removed Following stat", "status": "done" },
+    { "text": "Added delta indicators for growth tracking", "status": "done" },
+    { "text": "Added total views stat", "status": "done" },
+    { "text": "Reordered stats: Views → Likes → Followers", "status": "done" },
+    { "text": "Fixing Jane's Mind real-time updates", "status": "active" }
   ],
-  "thought": "Fixed version with no emojis and background music added!"
+  "thought": "Working on ensuring Mind widget stays updated during active work sessions.",
+  "lastUpdated": "2026-02-05T08:57:00-05:00"
 }

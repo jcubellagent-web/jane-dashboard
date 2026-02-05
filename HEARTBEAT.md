@@ -1,5 +1,14 @@
 # HEARTBEAT.md
 
+## Mind State Update
+If actively working on a task for Josh, update `/dashboard/mind-state.json` with:
+- Current task description
+- Steps (with status: pending/active/done)
+- Current thought/status
+- lastUpdated timestamp
+
+If idle for 5+ minutes, the widget auto-shows "Idle" state.
+
 ## Mobile Chat Queue
 Check `/dashboard/chat-queue.json` for pending messages from the mobile app.
 If messages exist:

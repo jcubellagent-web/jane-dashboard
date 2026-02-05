@@ -1981,7 +1981,22 @@
             try {
                 const data = await fetchWithTimeout('/api/mind', 5000);
                 if (data) {
-                    updateMind(data.task, data.steps, data.thought);
+                    // Check if mind state is stale (older than 5 minutes)
+                    const lastUpdated = data.lastUpdated ? new Date(data.lastUpdated) : null;
+                    const now = new Date();
+                    const staleMs = 5 * 60 * 1000; // 5 minutes
+                    
+                    if (lastUpdated && (now - lastUpdated) > staleMs) {
+                        // State is stale - show idle
+                        updateMind(null, [], 'Monitoring... waiting for next task.');
+                        document.getElementById('mind-status').textContent = '○ Idle';
+                        document.getElementById('mind-status').style.color = 'var(--text-dim)';
+                    } else {
+                        // State is fresh - show it
+                        updateMind(data.task, data.steps, data.thought);
+                        document.getElementById('mind-status').textContent = data.task ? '● Active' : '○ Idle';
+                        document.getElementById('mind-status').style.color = data.task ? 'var(--accent)' : 'var(--text-dim)';
+                    }
                 }
             } catch (err) {
                 // Silent fail - mind state is optional

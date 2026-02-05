@@ -1,14 +1,14 @@
 {
-  "lastUpdated": "2026-02-05T08:27:11-05:00",
+  "lastUpdated": "2026-02-05T08:49:00-05:00",
   "count": 4,
   "sessions": [
     {
       "key": "agent:main:main",
       "displayName": "+17175759384",
-      "channel": "unknown",
+      "channel": "whatsapp",
       "model": "claude-opus-4-5",
-      "totalTokens": 33032,
-      "updatedAt": 1770298031675
+      "totalTokens": 91372,
+      "updatedAt": 1770299340891
     },
     {
       "key": "agent:main:cron:73db46f6-393d-45dc-85af-6fc0cc92171c",

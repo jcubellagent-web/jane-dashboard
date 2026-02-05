@@ -1295,7 +1295,7 @@
                     </div>
                 </div>
                 <div class="tiktok-handle">@degencollector</div>
-                <div class="tiktok-stats-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="tiktok-stats-grid" style="grid-template-columns: repeat(3, 1fr);">
                     <div class="tiktok-stat">
                         <div class="tiktok-stat-value" id="tiktok-followers">--</div>
                         <div class="tiktok-stat-delta" id="tiktok-followers-delta"></div>
@@ -1305,6 +1305,11 @@
                         <div class="tiktok-stat-value" id="tiktok-likes">--</div>
                         <div class="tiktok-stat-delta" id="tiktok-likes-delta"></div>
                         <div class="tiktok-stat-label">Likes</div>
+                    </div>
+                    <div class="tiktok-stat">
+                        <div class="tiktok-stat-value" id="tiktok-views">--</div>
+                        <div class="tiktok-stat-delta" id="tiktok-views-delta"></div>
+                        <div class="tiktok-stat-label">Views</div>
                     </div>
                 </div>
                 <div class="tiktok-videos-title">Recent Videos</div>
@@ -1800,13 +1805,24 @@
                     
                     const followersEl = document.getElementById('tiktok-followers');
                     const likesEl = document.getElementById('tiktok-likes');
+                    const viewsEl = document.getElementById('tiktok-views');
                     const followersDeltaEl = document.getElementById('tiktok-followers-delta');
                     const likesDeltaEl = document.getElementById('tiktok-likes-delta');
+                    const viewsDeltaEl = document.getElementById('tiktok-views-delta');
                     const videosEl = document.getElementById('tiktok-videos');
+                    
+                    // Format large numbers (e.g., 45900 -> 45.9K)
+                    const formatNum = (n) => {
+                        if (!n) return '0';
+                        if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+                        if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+                        return n.toLocaleString();
+                    };
                     
                     // Update main values
                     if (followersEl) followersEl.textContent = (profile.followers || 0).toLocaleString();
                     if (likesEl) likesEl.textContent = (profile.likes || profile.totalLikes || 0).toLocaleString();
+                    if (viewsEl) viewsEl.textContent = formatNum(data.totalViews || 0);
                     
                     // Update delta values (changes since midnight)
                     const formatDelta = (val) => {
@@ -1827,6 +1843,11 @@
                         const d = formatDelta(changes.likes);
                         likesDeltaEl.textContent = d.text;
                         likesDeltaEl.className = `tiktok-stat-delta ${d.class}`;
+                    }
+                    if (viewsDeltaEl) {
+                        const d = formatDelta(changes.views);
+                        viewsDeltaEl.textContent = d.text;
+                        viewsDeltaEl.className = `tiktok-stat-delta ${d.class}`;
                     }
                     
                     const videos = data.recentVideos || [];

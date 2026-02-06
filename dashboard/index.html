@@ -2402,9 +2402,21 @@
                     
                     const sessionTags = data.sessions.map(s => {
                         const isActive = s.status === 'active';
-                        const name = s.displayName || s.key.split(':').pop() || 'Unknown';
+                        // Generate friendly name from session key
+                        let name = s.displayName;
+                        if (!name) {
+                            const parts = s.key.split(':');
+                            // Handle different session types
+                            if (parts.includes('cron')) name = 'Cron Job';
+                            else if (parts.includes('dashboard')) name = 'Dashboard';
+                            else if (parts.includes('test')) name = 'Test';
+                            else if (parts.includes('spawn')) name = 'Sub-Agent';
+                            else name = parts[parts.length - 1];
+                            // Don't show UUIDs
+                            if (name.match(/^[0-9a-f]{8}-/i)) name = 'Background';
+                        }
                         const shortName = name.length > 15 ? name.substring(0, 15) + '...' : name;
-                        return `<div class="ops-session-tag ${isActive ? 'active' : 'idle'}" title="${name} (${s.contextUsed || '--'})">
+                        return `<div class="ops-session-tag ${isActive ? 'active' : 'idle'}" title="${s.key} (${s.contextUsed || '--'})">
                             <span class="ops-session-dot"></span>
                             <span>${shortName}</span>
                         </div>`;

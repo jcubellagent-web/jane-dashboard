@@ -1904,6 +1904,7 @@
                 <div class="header-date" id="current-date">---</div>
             </div>
             <button class="night-mode-btn" onclick="toggleNightMode()">NIGHT<br>MODE</button>
+            <button class="night-mode-btn" onclick="refreshAll()" title="Refresh all widgets">↻<br>ALL</button>
         </div>
         
         <div class="header-center">
@@ -3135,6 +3136,22 @@
             } catch (err) {
                 // Silent fail - mind state is optional
             }
+        }
+        
+        // Refresh All Widgets
+        function refreshAll() {
+            addThought('Refreshing all widgets...');
+            refreshSystem();
+            refreshAgents();
+            refreshTicker();
+            refreshPredictions();
+            refreshNews();
+            refreshTikTok();
+            refreshSorare();
+            refreshTasks();
+            refreshCron();
+            refreshMind();
+            setTimeout(() => addThought('All widgets refreshed ✓'), 1500);
         }
         
         // ===== DASHBOARD OPERATIONS (Automated logs) =====

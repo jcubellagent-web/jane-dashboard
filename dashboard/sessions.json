@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-06T10:08:00-05:00",
+  "lastUpdated": "2026-02-06T16:09:00-05:00",
   "count": 4,
   "sessions": [
     {
@@ -8,7 +8,7 @@
       "channel": "whatsapp",
       "displayName": "+17175759384",
       "model": "claude-opus-4-5",
-      "totalTokens": 108219
+      "totalTokens": 155546
     },
     {
       "key": "agent:main:cron:73db46f6-393d-45dc-85af-6fc0cc92171c",

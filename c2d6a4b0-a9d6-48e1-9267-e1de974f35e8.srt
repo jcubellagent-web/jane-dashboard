@@ -1,0 +1,12 @@
+1
+00:00:00,000 --> 00:00:05,000
+Actually, can you just revert the mouse back to the normal way it came in?
+
+2
+00:00:05,000 --> 00:00:09,000
+I think I just was able to change how the mouse looks from the actual max settings.
+
+3
+00:00:09,000 --> 00:00:13,000
+So I'd like to just have it how I just made it for the rest of my computer.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,000 --> 00:00:04,640
+Please go ahead and do all three of those, regarding opus.
+
+2
+00:00:04,640 --> 00:00:11,280
+Please keep opus as the default model, but use sun it as much as you can for basic tasks, thanks.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,000 --> 00:00:12,000
+The other just look at the dashboard I currently have on my desktop and just suggest some ways to enhance it, either visually or from a performance perspective, what are some things you would suggest.
+

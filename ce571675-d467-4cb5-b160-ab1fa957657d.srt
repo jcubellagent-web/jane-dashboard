@@ -1,0 +1,8 @@
+1
+00:00:00,000 --> 00:00:08,560
+Can you also add Ibit, which is the BlackRock Bitcoin ETF price and percent increase
+
+2
+00:00:08,560 --> 00:00:11,560
+or decrease underneath Bitcoin in that widget?
+

@@ -1,0 +1,7 @@
+start	end	text
+0	4000	Now, that sounds awesome, and I'm going to take a look.
+4000	8900	Also, this regarding the crypto web socket, according to dashboard ops, it just keeps
+8900	10620	trying to reconnect.
+10620	16740	It specifically says just over and over again, crypto web socket reconnecting dot dot dot.
+16740	20460	So, I can just double check that that is up and running appropriately.
+20460	20960	Thanks.

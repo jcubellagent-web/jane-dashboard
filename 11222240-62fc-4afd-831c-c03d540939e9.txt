@@ -1,0 +1,2 @@
+All right, can you once again check what a tick-tock stats widget does not seem to be updating?
+I've gained followers and I still don't see it updating.

@@ -32,6 +32,7 @@ const https = require('https');
 // Caches (to avoid rate limits)
 let cryptoCache = { data: null, timestamp: 0 };
 let aiNewsCache = { data: null, timestamp: 0 };
+let tickerCache = { data: null, timestamp: 0 };
 
 // Paths for dynamic data
 const WORKSPACE = path.join(os.homedir(), '.openclaw', 'workspace');
@@ -61,7 +62,7 @@ async function fetchAINewsFromFeeds() {
         const items = [];
         const itemRegex = /<item>([\s\S]*?)<\/item>/gi;
         let match;
-        while ((match = itemRegex.exec(xml)) !== null && items.length < 5) {
+        while ((match = itemRegex.exec(xml)) !== null && items.length < 8) {
             const item = match[1];
             const title = item.match(/<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/title>/)?.[1] || '';
             const desc = item.match(/<description>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/description>/)?.[1] || '';
@@ -94,9 +95,9 @@ async function fetchAINewsFromFeeds() {
         return {
             lastUpdated: new Date().toISOString(),
             featured: { tag: '🔥 Breaking', ...featured },
-            agenticRetail: allItems.slice(1, 5),
-            agenticEnterprise: allItems.slice(5, 9),
-            general: allItems.slice(9, 12).map(item => ({ tag: '📰 News', ...item }))
+            agenticRetail: allItems.slice(1, 6),
+            agenticEnterprise: allItems.slice(6, 11),
+            general: allItems.slice(11, 14).map(item => ({ tag: '📰 News', ...item }))
         };
     } catch (error) {
         console.error('AI News fetch error:', error.message);
@@ -822,6 +823,154 @@ const server = http.createServer((req, res) => {
         return;
     }
     
+    // API endpoint for meme coin tracker - LIVE Solana memecoins via GeckoTerminal
+    if (req.url === '/api/memecoins') {
+        const MIN_MCAP = 100000;    // $100K minimum
+        const MAX_MCAP = 100000000; // $100M maximum
+        
+        // Fetch trending pools from GeckoTerminal (no search terms needed!)
+        const fetchPage = (page) => new Promise((resolve) => {
+            const url = `https://api.geckoterminal.com/api/v2/networks/solana/trending_pools?page=${page}`;
+            https.get(url, { headers: { 'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0' }, timeout: 10000 }, (res) => {
+                let data = '';
+                res.on('data', chunk => data += chunk);
+                res.on('end', () => {
+                    try {
+                        const result = JSON.parse(data);
+                        resolve(result.data || []);
+                    } catch { resolve([]); }
+                });
+            }).on('error', () => resolve([]));
+        });
+        
+        // Fetch multiple pages to get more results
+        Promise.all([fetchPage(1), fetchPage(2), fetchPage(3)]).then((pages) => {
+            const allPools = pages.flat();
+            
+            // Filter by market cap and deduplicate
+            const seen = new Set();
+            const filtered = allPools.filter(pool => {
+                if (!pool || !pool.attributes) return false;
+                
+                const attrs = pool.attributes;
+                const mcap = parseFloat(attrs.fdv_usd || 0);
+                const vol = parseFloat(attrs.volume_usd?.h24 || 0);
+                
+                // Check market cap range
+                if (mcap < MIN_MCAP || mcap > MAX_MCAP) return false;
+                
+                // Must have meaningful volume
+                if (vol < 10000) return false;
+                
+                // Get token name (first part of pair name)
+                const name = (attrs.name || '').split(' / ')[0];
+                if (!name || seen.has(name)) return false;
+                
+                // Skip stablecoins and major tokens
+                const skipTokens = ['SOL', 'USDC', 'USDT', 'WETH', 'USD1', 'WSOL'];
+                if (skipTokens.includes(name.toUpperCase())) return false;
+                
+                seen.add(name);
+                return true;
+            });
+            
+            // Sort by 24h volume descending
+            filtered.sort((a, b) => {
+                const volA = parseFloat(a.attributes.volume_usd?.h24 || 0);
+                const volB = parseFloat(b.attributes.volume_usd?.h24 || 0);
+                return volB - volA;
+            });
+            
+            // Format response - top 12
+            const top12 = filtered.slice(0, 12);
+            
+            // Fetch age from DEX Screener for each coin (parallel)
+            // Fetch age and image from DEX Screener (single call for both)
+            const fetchTokenDetails = (tokenName) => new Promise((resolve) => {
+                const searchUrl = `https://api.dexscreener.com/latest/dex/search?q=${encodeURIComponent(tokenName)}`;
+                https.get(searchUrl, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 5000 }, (res) => {
+                    let data = '';
+                    res.on('data', chunk => data += chunk);
+                    res.on('end', () => {
+                        try {
+                            const result = JSON.parse(data);
+                            const solanaPair = (result.pairs || []).find(p => p.chainId === 'solana');
+                            resolve({
+                                createdAt: solanaPair?.pairCreatedAt || null,
+                                imageUrl: solanaPair?.info?.imageUrl || null
+                            });
+                        } catch { resolve({ createdAt: null, imageUrl: null }); }
+                    });
+                }).on('error', () => resolve({ createdAt: null, imageUrl: null }));
+            });
+            
+            // Helper to format age
+            const formatAge = (createdAt) => {
+                if (!createdAt) return null;
+                const now = Date.now();
+                const created = typeof createdAt === 'number' ? createdAt : new Date(createdAt).getTime();
+                const diffMs = now - created;
+                const diffMins = Math.floor(diffMs / 60000);
+                const diffHours = Math.floor(diffMs / 3600000);
+                const diffDays = Math.floor(diffMs / 86400000);
+                
+                if (diffMins < 60) return `${diffMins}m`;
+                if (diffHours < 24) return `${diffHours}h`;
+                if (diffDays < 30) return `${diffDays}d`;
+                if (diffDays < 365) return `${Math.floor(diffDays / 30)}mo`;
+                return `${Math.floor(diffDays / 365)}y`;
+            };
+            
+            // Get token details (age + image) for all tokens
+            const tokenNames = top12.map(pool => (pool.attributes.name || '').split(' / ')[0]);
+            const tokenAddresses = top12.map(pool => {
+                const tokenId = pool.relationships?.base_token?.data?.id || '';
+                return tokenId.replace('solana_', '');
+            });
+            
+            Promise.all(tokenNames.map(fetchTokenDetails)).then((tokenDetails) => {
+                const memecoins = top12.map((pool, i) => {
+                    const attrs = pool.attributes;
+                    const name = (attrs.name || '').split(' / ')[0];
+                    const priceChange = parseFloat(attrs.price_change_percentage?.h24 || 0);
+                    const details = tokenDetails[i] || {};
+                    
+                    return {
+                        name: name,
+                        symbol: name,
+                        chain: 'solana',
+                        chainIcon: '◎',
+                        price: parseFloat(attrs.base_token_price_usd || 0),
+                        priceChange24h: priceChange,
+                        volume24h: parseFloat(attrs.volume_usd?.h24 || 0),
+                        marketCap: parseFloat(attrs.fdv_usd || 0),
+                        liquidity: parseFloat(attrs.reserve_in_usd || 0),
+                        dexUrl: `https://www.geckoterminal.com/solana/pools/${pool.id?.split('_')[1] || ''}`,
+                        poolAddress: pool.id?.split('_')[1] || '',
+                        tokenAddress: tokenAddresses[i] || '',
+                        imageUrl: details.imageUrl || null,
+                        age: formatAge(details.createdAt),
+                        createdAt: details.createdAt
+                    };
+                });
+                
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                    memecoins,
+                    lastUpdated: new Date().toISOString(),
+                    source: 'GeckoTerminal',
+                    filters: { minMcap: MIN_MCAP, maxMcap: MAX_MCAP }
+                }));
+            });
+        }).catch(err => {
+            console.error('Memecoin fetch error:', err);
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Failed to fetch memecoins' }));
+        });
+        
+        return;
+    }
+    
     // API endpoint for Sorare lineup (reads from JSON, can be updated via Sorare GraphQL API)
     if (req.url === '/api/sorare') {
         const statsFile = path.join(ROOT, 'sorare-stats.json');
@@ -1131,15 +1280,16 @@ const server = http.createServer((req, res) => {
     }
     
     // API endpoint to request TikTok stats refresh
-    // Creates a flag file that Jane checks during heartbeats
+    // Creates a flag file that a cron job checks every 5 minutes
     if (req.url === '/api/tiktok-request-update') {
         const flagFile = path.join(ROOT, '.tiktok-refresh-requested');
         fs.writeFileSync(flagFile, new Date().toISOString());
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ 
             success: true, 
-            message: 'Update requested. Jane will refresh TikTok stats shortly.',
-            requestedAt: new Date().toISOString()
+            message: 'Refresh requested! Stats will update within 5 minutes.',
+            requestedAt: new Date().toISOString(),
+            estimatedUpdate: new Date(Date.now() + 5 * 60 * 1000).toISOString()
         }));
         return;
     }
@@ -1233,6 +1383,88 @@ const server = http.createServer((req, res) => {
         if (fs.existsSync(queueFile)) fs.unlinkSync(queueFile);
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, cleared: true }));
+        return;
+    }
+    
+    // API endpoint for market ticker (crypto, metals, indices)
+    if (req.url === '/api/ticker') {
+        const https = require('https');
+        const now = Date.now();
+        
+        // Cache for 60 seconds
+        if (tickerCache && tickerCache.data && (now - tickerCache.timestamp) < 60000) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(tickerCache.data));
+            return;
+        }
+        
+        const fetchJson = (url) => new Promise((resolve) => {
+            https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 8000 }, (r) => {
+                let data = '';
+                r.on('data', c => data += c);
+                r.on('end', () => {
+                    try { resolve(JSON.parse(data)); } 
+                    catch { resolve(null); }
+                });
+            }).on('error', () => resolve(null)).on('timeout', function() { this.destroy(); resolve(null); });
+        });
+        
+        // Fetch crypto from CoinGecko
+        const cryptoUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true';
+        
+        // Fetch IBIT (BlackRock Bitcoin ETF) from Yahoo Finance
+        const ibitUrl = 'https://query1.finance.yahoo.com/v8/finance/chart/IBIT?interval=1d&range=2d';
+        
+        // Fetch NDAQ (Nasdaq Inc. stock) from Yahoo Finance
+        const nasdaqUrl = 'https://query1.finance.yahoo.com/v8/finance/chart/NDAQ?interval=1d&range=2d';
+        
+        Promise.all([
+            fetchJson(cryptoUrl),
+            fetchJson(ibitUrl),
+            fetchJson(nasdaqUrl)
+        ]).then(([crypto, ibitData, nasdaqData]) => {
+            const ticker = {};
+            
+            // Crypto
+            if (crypto) {
+                if (crypto.bitcoin) ticker.btc = { price: crypto.bitcoin.usd, change24h: crypto.bitcoin.usd_24h_change };
+                if (crypto.ethereum) ticker.eth = { price: crypto.ethereum.usd, change24h: crypto.ethereum.usd_24h_change };
+                if (crypto.solana) ticker.sol = { price: crypto.solana.usd, change24h: crypto.solana.usd_24h_change };
+            }
+            
+            // NASDAQ Composite from Yahoo Finance
+            if (nasdaqData && nasdaqData.chart && nasdaqData.chart.result && nasdaqData.chart.result[0]) {
+                const result = nasdaqData.chart.result[0];
+                const meta = result.meta;
+                const price = meta.regularMarketPrice;
+                const prevClose = meta.chartPreviousClose || meta.previousClose;
+                const change = prevClose ? ((price - prevClose) / prevClose) * 100 : null;
+                ticker.nasdaq = { price: price, change24h: change };
+            } else {
+                ticker.nasdaq = { price: null, change24h: null };
+            }
+            
+            // IBIT (BlackRock Bitcoin ETF) from Yahoo Finance
+            if (ibitData && ibitData.chart && ibitData.chart.result && ibitData.chart.result[0]) {
+                const result = ibitData.chart.result[0];
+                const meta = result.meta;
+                const price = meta.regularMarketPrice;
+                const prevClose = meta.chartPreviousClose || meta.previousClose;
+                const change = prevClose ? ((price - prevClose) / prevClose) * 100 : null;
+                ticker.ibit = { price: price, change24h: change };
+            } else {
+                // Fallback
+                ticker.ibit = { price: 52.50, change24h: null };
+            }
+            
+            tickerCache = { data: ticker, timestamp: now };
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(ticker));
+        }).catch(() => {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Failed to fetch ticker data' }));
+        });
+        
         return;
     }
     

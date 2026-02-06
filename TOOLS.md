@@ -138,4 +138,36 @@ If the Jupiter Extension is missing from the OpenClaw browser, here's how to rei
 
 ---
 
+## Model Usage Policy
+
+- **Default:** Opus (main conversations, complex tasks)
+- **Use Sonnet for:** Sub-agents, routine lookups, simple queries, background tasks
+- **Goal:** Balance performance with Max plan rate limits
+- **Set:** Feb 5, 2026
+
+### Rate Limit Avoidance (IMPORTANT!)
+
+**Why rate limits happen:**
+- Claude Max has token caps per hour/day
+- Opus is expensive (burns allocation fast)
+- Heavy tasks: browser automation, file editing, voice transcription, screenshots
+
+**Prevention strategies:**
+1. **Spawn sub-agents with Sonnet** for heavy/routine work
+2. **Batch operations** - combine multiple small requests
+3. **Use Sonnet for:** cron jobs, heartbeats, simple lookups, background monitoring
+4. **Reserve Opus for:** complex reasoning, creative work, direct conversations
+5. **Minimize screenshots** - use snapshots (text) when possible
+6. **Cache API results** - don't re-fetch data unnecessarily
+
+**If rate limited (HTTP 429):**
+- Wait ~1 hour for rolling window reset
+- Message will show: "This request would exceed your account's rate limit"
+- OpenClaw will keep trying but fail until reset
+
+**Incident log:**
+- Feb 5, 2026 10:24 PM - Hit limit during heavy dashboard + Sorare work
+
+---
+
 Add whatever helps you do your job. This is your cheat sheet.

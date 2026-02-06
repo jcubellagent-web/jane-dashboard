@@ -1,0 +1,8 @@
+1
+00:00:00,000 --> 00:00:07,960
+Can you make the width of the Bitcoin Ethereum Solano widget a lot smaller and just stack
+
+2
+00:00:07,960 --> 00:00:13,560
+Bitcoin on top of Ethereum on top of Solano and then you know make the Jane status a little bit wider as well?
+

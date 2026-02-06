@@ -1,0 +1,8 @@
+1
+00:00:00,000 --> 00:00:05,000
+Can you double check that my TikTok stats widget is updating followers appropriately?
+
+2
+00:00:05,000 --> 00:00:09,000
+I think I have more than 18, but maybe you're right, I'm not sure.
+

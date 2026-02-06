@@ -1,0 +1,1 @@
+{"text": " How much is 11 labs cost?", "segments": [{"id": 0, "seek": 0, "start": 0.0, "end": 2.0, "text": " How much is 11 labs cost?", "tokens": [50364, 1012, 709, 307, 2975, 20339, 2063, 30, 50464], "temperature": 0.0, "avg_logprob": -0.6558363914489747, "compression_ratio": 0.7575757575757576, "no_speech_prob": 0.01888328604400158}], "language": "en"}

@@ -1,0 +1,28 @@
+1
+00:00:00,000 --> 00:00:06,000
+You can remove cold silver and NDX, so just show Bitcoin Ethereum and so on.
+
+2
+00:00:06,000 --> 00:00:09,000
+Please make it a little bit more visually appealing.
+
+3
+00:00:09,000 --> 00:00:14,000
+So put the Bitcoin logo in front of the Bitcoin sign, put the Ethereum logo in there,
+
+4
+00:00:14,000 --> 00:00:16,000
+but the Aslan logo in there.
+
+5
+00:00:16,000 --> 00:00:21,000
+And then tighten up the widget as small as you can make it
+
+6
+00:00:21,000 --> 00:00:28,000
+to the right of Jane status widget and then move the prediction markets widget back on your youth on the right side.
+
+7
+00:00:28,000 --> 00:00:29,000
+Thanks.
+

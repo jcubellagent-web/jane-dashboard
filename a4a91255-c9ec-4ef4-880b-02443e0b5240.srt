@@ -1,0 +1,4 @@
+1
+00:00:00,000 --> 00:00:09,000
+Okay, that looks pretty messy. I do not want the NASDAQ composite. I want ticker symbol and DAQ.
+

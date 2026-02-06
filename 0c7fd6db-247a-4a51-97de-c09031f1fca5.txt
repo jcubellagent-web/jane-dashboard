@@ -1,0 +1,4 @@
+Um, I actually really like what you did there, but can you just make the Bitcoin
+Ethereum so on a widget even smaller and just make the Jane status widget a little bit bigger?
+And also just double check if the age in Jane status is dynamically updating every day.
+Um, I feel like you're more than five days old. Thanks.

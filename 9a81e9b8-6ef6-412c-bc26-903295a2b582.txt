@@ -1,0 +1,2 @@
+Please go ahead and do all three of those, regarding opus.
+Please keep opus as the default model, but use sun it as much as you can for basic tasks, thanks.

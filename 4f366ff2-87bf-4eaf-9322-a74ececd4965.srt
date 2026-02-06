@@ -1,0 +1,40 @@
+1
+00:00:00,000 --> 00:00:05,600
+All right. That looks sick. All right. Now I really want you to like spend some time
+
+2
+00:00:05,600 --> 00:00:10,640
+going through this so rare application. Again, remember that I like to focus on playing
+
+3
+00:00:10,640 --> 00:00:17,680
+in the limited series championship matches, specifically the by weekly ones I believe.
+
+4
+00:00:17,680 --> 00:00:23,200
+So I usually play what say two to three teams and I'm going to have you set those teams
+
+5
+00:00:23,200 --> 00:00:29,600
+going forward. So if you can kind of just display to me, what you think the key information
+
+6
+00:00:29,680 --> 00:00:36,080
+is that I can consume it to understand, you know, when matches are ending, when new matches
+
+7
+00:00:36,080 --> 00:00:42,960
+are starting and what the scores are and what place I'm in for the matches that are getting close
+
+8
+00:00:42,960 --> 00:00:50,000
+to ending, that would be fantastic. So give that a shot. Let's see what you can do. Again, spend some
+
+9
+00:00:50,000 --> 00:00:57,280
+time like really thinking hard about what this should look like. I really wanted to be like a
+
+10
+00:00:57,280 --> 00:00:59,280
+premium part of this dashboard. Thanks.
+

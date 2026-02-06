@@ -1,0 +1,6 @@
+Now, that sounds awesome, and I'm going to take a look.
+Also, this regarding the crypto web socket, according to dashboard ops, it just keeps
+trying to reconnect.
+It specifically says just over and over again, crypto web socket reconnecting dot dot dot.
+So, I can just double check that that is up and running appropriately.
+Thanks.

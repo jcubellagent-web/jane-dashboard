@@ -1,0 +1,8 @@
+So, I was thinking instead of showing like the agents where currently says the agents
+and identified and identified and identified with the James status widget, can we take
+those out of the James status widget and move them in some clean way to the dashboard
+ops.
+So that dashboard ops shows everything currently shows, but then also shows mismanformation
+on any active agents that are running around the sub agents or Crohn's or anything
+like that that might be, you know, being spun up or actively doing a job or something
+like that.

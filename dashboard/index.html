@@ -448,6 +448,37 @@
             transform: scale(1.2);
         }
         
+        .refresh-all-btn {
+            background: none;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            cursor: pointer;
+            padding: 0.5rem 0.7rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-size: 1.3rem;
+            font-weight: 300;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 0.5rem;
+        }
+        
+        .refresh-all-btn:hover {
+            color: #fff;
+            border-color: #fff;
+            text-shadow: 0 0 10px var(--accent);
+            transform: scale(1.05);
+        }
+        
+        .refresh-all-btn.spinning {
+            animation: spin 0.5s linear infinite;
+            color: #fff;
+            border-color: #fff;
+            text-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent);
+        }
+        
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
@@ -1904,7 +1935,7 @@
                 <div class="header-date" id="current-date">---</div>
             </div>
             <button class="night-mode-btn" onclick="toggleNightMode()">NIGHT<br>MODE</button>
-            <button class="night-mode-btn" onclick="refreshAll()" title="Refresh all widgets">↻<br>ALL</button>
+            <button class="refresh-all-btn" id="refresh-all-btn" onclick="refreshAll()" title="Refresh all widgets">↻</button>
         </div>
         
         <div class="header-center">
@@ -3140,6 +3171,13 @@
         
         // Refresh All Widgets
         function refreshAll() {
+            // Spin the main refresh all button
+            const mainBtn = document.getElementById('refresh-all-btn');
+            if (mainBtn) mainBtn.classList.add('spinning');
+            
+            // Spin all individual refresh buttons
+            document.querySelectorAll('.refresh-btn').forEach(btn => btn.classList.add('spinning'));
+            
             addThought('Refreshing all widgets...');
             refreshSystem();
             refreshAgents();
@@ -3151,7 +3189,13 @@
             refreshTasks();
             refreshCron();
             refreshMind();
-            setTimeout(() => addThought('All widgets refreshed ✓'), 1500);
+            
+            // Stop spinning after 1.5 seconds
+            setTimeout(() => {
+                if (mainBtn) mainBtn.classList.remove('spinning');
+                document.querySelectorAll('.refresh-btn').forEach(btn => btn.classList.remove('spinning'));
+                addThought('All widgets refreshed ✓');
+            }, 1500);
         }
         
         // ===== DASHBOARD OPERATIONS (Automated logs) =====

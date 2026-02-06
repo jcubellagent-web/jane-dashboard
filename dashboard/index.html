@@ -2173,28 +2173,8 @@
             </div>
         </div>
         
-        <!-- RIGHT COLUMN - Memecoins + Predictions -->
+        <!-- RIGHT COLUMN - Predictions -->
         <div class="right-column">
-            <!-- Solana Meme Coins -->
-            <div class="card card-memecoins">
-                <div class="card-header">
-                    <div class="card-title">
-                        <img src="https://assets.coingecko.com/coins/images/4128/small/solana.png" alt="SOL" class="solana-icon">
-                        Solana Meme Coins
-                        <span class="last-refresh" id="memecoins-refresh">--</span>
-                    </div>
-                    <div class="card-meta">
-                        <span class="mcap-filter">$100K-$100M</span>
-                        <button class="refresh-btn" onclick="refreshMemecoins(this)">↻</button>
-                    </div>
-                </div>
-                <div class="memecoins-list" id="memecoins-list">
-                    <div class="memecoin-item loading">
-                        <span>Loading top memecoins...</span>
-                    </div>
-                </div>
-            </div>
-            
             <!-- Prediction Markets -->
             <div class="card card-predictions-full">
                 <div class="card-header">
@@ -3213,7 +3193,6 @@
         refreshCron();
         refreshMind();
         refreshSorare();
-        refreshMemecoins();
         
         // Auto-refresh intervals
         setInterval(refreshSystem, 30000);
@@ -3225,7 +3204,6 @@
         setInterval(refreshTasks, 60000);
         setInterval(refreshCron, 60000);
         setInterval(refreshSorare, 300000);  // Refresh Sorare every 5 minutes
-        setInterval(refreshMemecoins, 180000);  // Refresh memecoins every 3 minutes
         
         // Night Mode
         let bouncingAnimation = null;

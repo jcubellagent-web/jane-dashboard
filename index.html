@@ -1900,15 +1900,23 @@
             font-size: 0.7rem;
         }
         
-        .mind-thought {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.4rem;
+        .mind-goal {
             padding-top: 0.5rem;
             border-top: 1px solid rgba(74, 222, 128, 0.15);
+        }
+        .mind-goal-label {
+            font-size: 0.6rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            opacity: 0.7;
+        }
+        .mind-goal-text {
             font-size: 0.75rem;
-            color: var(--text-dim);
-            font-style: italic;
+            color: var(--text-secondary);
+            line-height: 1.4;
         }
         
         .thought-prefix {
@@ -2208,9 +2216,9 @@
                     <div class="mind-steps" id="mind-steps">
                         <!-- Steps will be populated here -->
                     </div>
-                    <div class="mind-thought" id="mind-thought">
-                        <span class="thought-prefix"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg></span>
-                        <span id="mind-thought-text">Ready for your next request.</span>
+                    <div class="mind-goal" id="mind-thought">
+                        <div class="mind-goal-label">Goal / Objective</div>
+                        <div class="mind-goal-text" id="mind-thought-text">Ready for your next request.</div>
                     </div>
                 </div>
                 <!-- Mind Map (right side) -->
@@ -3435,14 +3443,14 @@
                     
                     if (lastUpdated && (now - lastUpdated) > staleMs) {
                         // State is stale - keep last task/steps visible but mark as idle
-                        updateMind(data.task, data.steps || [], data.thought || 'Monitoring... waiting for next task.');
+                        updateMind(data.task, data.steps || [], data.goal || data.thought || 'Monitoring... waiting for next task.');
                         document.getElementById('mind-status').textContent = '○ Idle';
                         document.getElementById('mind-status').style.color = 'var(--text-dim)';
                         const neuralElStale = document.getElementById('mind-neural');
                         if (neuralElStale) { neuralElStale.className = 'mind-map idle'; }
                     } else {
                         // State is fresh - show it (preserve steps even if task is null)
-                        updateMind(data.task, data.steps || [], data.thought || 'Ready for your next request.');
+                        updateMind(data.task, data.steps || [], data.goal || data.thought || 'Ready for your next request.');
                         const hasActiveStep = (data.steps || []).some(s => s.status === 'active');
                         const allDone = (data.steps || []).length > 0 && (data.steps || []).every(s => s.status === 'done');
                         const isActive = hasActiveStep || (data.task && !allDone);

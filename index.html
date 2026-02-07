@@ -1,0 +1,3415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Jane Dashboard v2</title>
+    <link rel="icon" href="icon-192.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg: #000000;
+            --bg-secondary: #0a0a0a;
+            --card: rgba(20, 20, 20, 0.8);
+            --card-hover: rgba(30, 30, 30, 0.9);
+            --accent: #4ade80;
+            --accent-dim: rgba(74, 222, 128, 0.2);
+            --accent-blue: #4ade80;
+            --accent-purple: #4ade80;
+            --text: #f1f5f9;
+            --text-dim: #64748b;
+            --text-muted: #475569;
+            --green: #4ade80;
+            --amber: #4ade80;
+            --red: #ef4444;
+            --border: rgba(74, 222, 128, 0.15);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Header - Optimized for 24" */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2.5rem;
+            border-bottom: 1px solid rgba(74, 222, 128, 0.2);
+            position: sticky;
+            top: 0;
+            /* Futuristic gradient background */
+            background: 
+                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(74, 222, 128, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 60%, rgba(74, 222, 128, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 30% at 50% 80%, rgba(74, 222, 128, 0.03) 0%, transparent 50%),
+                linear-gradient(180deg, rgba(15, 20, 25, 0.98) 0%, rgba(10, 15, 20, 0.99) 100%);
+            backdrop-filter: blur(20px);
+            box-shadow: 
+                inset 0 -1px 0 rgba(74, 222, 128, 0.1),
+                0 4px 20px rgba(0, 0, 0, 0.4);
+            z-index: 100;
+            height: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                /* Horizontal scan lines */
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(74, 222, 128, 0.02) 2px,
+                    rgba(74, 222, 128, 0.02) 4px
+                ),
+                /* Circuit traces */
+                linear-gradient(90deg, transparent 49.5%, rgba(74, 222, 128, 0.05) 49.5%, rgba(74, 222, 128, 0.05) 50.5%, transparent 50.5%),
+                linear-gradient(0deg, transparent 49.5%, rgba(74, 222, 128, 0.03) 49.5%, rgba(74, 222, 128, 0.03) 50.5%, transparent 50.5%);
+            background-size: 100% 100%, 120px 100%, 100% 80px;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(74, 222, 128, 0.08) 20%,
+                rgba(74, 222, 128, 0.2) 50%,
+                rgba(74, 222, 128, 0.08) 80%,
+                transparent 100%
+            );
+            filter: blur(12px);
+            animation: headerSweep 6s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+        
+        /* Keep header content on top */
+        .header-left, .header-center, .header-right {
+            position: relative;
+            z-index: 2;
+        }
+        
+        @keyframes headerSweep {
+            0% { transform: translateX(-20%); }
+            100% { transform: translateX(180%); }
+        }
+        
+        .header-left {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .header-left-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+        
+        .night-mode-btn {
+            width: 50px;
+            height: 50px;
+            padding: 0;
+            font-size: 0.5rem;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--accent);
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.1) 0%, rgba(74, 222, 128, 0.05) 100%);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+        }
+        
+        .night-mode-btn:hover {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.2) 0%, rgba(74, 222, 128, 0.1) 100%);
+            border-color: rgba(74, 222, 128, 0.5);
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.2);
+        }
+        
+        /* Night Mode Overlay - E-ink style */
+        .night-mode-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000000;
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .night-mode-overlay.active {
+            display: flex;
+        }
+        
+        .night-mode-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+        }
+        
+        .eink-time {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 22rem;
+            font-weight: 600;
+            color: #2a6e4a;
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+        
+        .eink-ampm {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 3rem;
+            font-weight: 600;
+            color: #1e5438;
+            letter-spacing: 0.1em;
+            margin-top: 0.5rem;
+        }
+        
+        .eink-date {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #3a5a4a;
+            letter-spacing: 0.05em;
+            margin-top: 1.5rem;
+            text-transform: uppercase;
+        }
+        
+        .eink-hint {
+            position: absolute;
+            bottom: 2rem;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.7rem;
+            color: #222;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* DVD-style bouncing logo */
+        .bouncing-logo {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+        
+        .bouncing-logo img {
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+        }
+        
+        .bouncing-logo:hover {
+            opacity: 0.85;
+        }
+        
+        .logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+        }
+        
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .brand-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .brand-tagline {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+        
+        .header-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .hello-greeting {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .header-time {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--accent);
+            font-variant-numeric: tabular-nums;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .header-date {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+        
+        /* Icon SVGs for category labels */
+        .cat-icon {
+            width: 14px;
+            height: 14px;
+            fill: var(--accent);
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--accent-dim);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+        
+        /* Main Layout - Optimized for 24" monitor */
+        .main-container {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr;
+            grid-auto-rows: min-content;
+            gap: 1.25rem;
+            padding: 1.5rem 2.5rem;
+            max-width: 100%;
+            margin: 0 auto;
+            align-items: stretch;
+            height: calc(100vh - 80px);
+        }
+        
+        /* First row alignment */
+        .left-column, .center-column, .card:first-of-type {
+            align-self: stretch;
+        }
+        
+        /* Cards - Floating effect with green border */
+        .card {
+            background: var(--card);
+            border: 1px solid rgba(74, 222, 128, 0.25);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 8px rgba(74, 222, 128, 0.08);
+        }
+        
+        .card:hover {
+            background: var(--card-hover);
+            border-color: rgba(74, 222, 128, 0.4);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 15px rgba(74, 222, 128, 0.15);
+        }
+        
+        /* Last refresh timestamp */
+        .last-refresh {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            opacity: 0.7;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .card-icon {
+            font-size: 1.3rem;
+        }
+        
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .card-timestamp {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+        
+        .refresh-btn {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            padding: 0.3rem;
+            border-radius: 50%;
+            transition: all 0.2s;
+            font-size: 1.1rem;
+            font-weight: 300;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .refresh-btn:hover {
+            color: #fff;
+            text-shadow: 0 0 10px var(--accent);
+            transform: scale(1.1);
+        }
+        
+        .refresh-btn.spinning {
+            animation: spin 0.5s linear infinite;
+            color: #fff;
+            text-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent);
+            transform: scale(1.2);
+        }
+        
+        .refresh-all-btn {
+            background: none;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            cursor: pointer;
+            padding: 0.5rem 0.7rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-size: 1.3rem;
+            font-weight: 300;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 0.5rem;
+        }
+        
+        .refresh-all-btn:hover {
+            color: #fff;
+            border-color: #fff;
+            text-shadow: 0 0 10px var(--accent);
+            transform: scale(1.05);
+        }
+        
+        .refresh-all-btn.spinning {
+            animation: spin 0.5s linear infinite;
+            color: #fff;
+            border-color: #fff;
+            text-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent);
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Span columns */
+        .card-wide {
+            grid-column: span 2;
+        }
+        
+        .card-full {
+            grid-column: span 3;
+        }
+        
+        /* Card Compact (for status card) */
+        .card-compact {
+            padding: 1rem;
+        }
+        
+        .card-compact .card-header {
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+        }
+        
+        .card-compact .card-title {
+            font-size: 0.95rem;
+            gap: 0.5rem;
+        }
+        
+        /* Market Ticker Widget - Compact */
+        .card-ticker {
+            padding: 0.4rem 0.6rem !important;
+            min-height: auto !important;
+        }
+        
+        .card-ticker .card-header.ticker-header {
+            display: flex;
+            padding: 0.4rem 0;
+            margin-bottom: 0.4rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .ticker-header .card-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .ticker-logo-text {
+            font-size: 0.55rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.12);
+            padding: 2px 5px;
+            border-radius: 3px;
+            min-width: 14px;
+            text-align: center;
+        }
+        
+        .market-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .market-dot.crypto-market {
+            background: #4ade80;
+            box-shadow: 0 0 4px #4ade80;
+        }
+        
+        .market-dot.stock-market.open {
+            background: #4ade80;
+            box-shadow: 0 0 4px #4ade80;
+        }
+        
+        .market-dot.stock-market.closed {
+            background: #ef4444;
+            box-shadow: 0 0 4px #ef4444;
+        }
+        
+        .ticker-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            align-items: stretch;
+        }
+        
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        
+        .ticker-logo {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+        
+        .ticker-info {
+            display: flex;
+            align-items: baseline;
+            gap: 0.3rem;
+            flex: 1;
+            white-space: nowrap;
+        }
+        
+        .ticker-price {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .ticker-change {
+            font-size: 0.6rem;
+            font-weight: 500;
+        }
+        
+        .ticker-change.positive { color: #4ade80; }
+        .ticker-change.negative { color: #ef4444; }
+        .ticker-change.neutral { color: var(--text-dim); }
+        
+        /* Solana Meme Coins Widget */
+        .card-memecoins {
+            margin-bottom: 0.75rem;
+        }
+        
+        .solana-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+        
+        .card-memecoins .card-header {
+            padding-bottom: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .chain-filters {
+            display: inline-flex;
+            gap: 0.4rem;
+            margin-left: 0.5rem;
+        }
+        
+        .chain-badge {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+        
+        .mcap-filter {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            background: rgba(74, 222, 128, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid rgba(74, 222, 128, 0.2);
+        }
+        
+        .memecoins-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .memecoin-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto auto;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.5rem 0.6rem;
+            background: rgba(30, 30, 30, 0.5);
+            border-radius: 8px;
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .memecoin-item:hover {
+            background: rgba(74, 222, 128, 0.1);
+            border-color: rgba(74, 222, 128, 0.3);
+            transform: translateX(2px);
+        }
+        
+        .memecoin-item.loading {
+            display: flex;
+            justify-content: center;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+        
+        .memecoin-rank {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            width: 1.5rem;
+            text-align: center;
+        }
+        
+        .memecoin-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+            min-width: 0;
+        }
+        
+        .memecoin-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        
+        .memecoin-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .memecoin-icon-placeholder {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9945FF 0%, #14F195 100%);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .memecoin-symbol {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+        
+        .memecoin-chain {
+            font-size: 0.6rem;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .memecoin-chain.solana { color: #9945FF; }
+        .memecoin-chain.base { color: #0052FF; }
+        .memecoin-chain.ethereum { color: #627EEA; }
+        
+        .memecoin-price {
+            text-align: right;
+        }
+        
+        .memecoin-price-value {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .memecoin-price-change {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+        
+        .memecoin-price-change.positive { color: #4ade80; }
+        .memecoin-price-change.negative { color: #ef4444; }
+        
+        .memecoin-volume {
+            text-align: right;
+            min-width: 70px;
+        }
+        
+        .memecoin-volume-label {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+        }
+        
+        .memecoin-volume-value {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        .memecoin-mcap {
+            text-align: right;
+            min-width: 60px;
+        }
+        
+        .memecoin-mcap-label {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+        }
+        
+        .memecoin-mcap-value {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .memecoin-mcap-change {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+        
+        .memecoin-mcap-change.positive { color: #4ade80; }
+        .memecoin-mcap-change.negative { color: #ef4444; }
+        
+        .memecoin-age {
+            text-align: center;
+            min-width: 32px;
+        }
+        
+        .memecoin-age-value {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            background: rgba(74, 222, 128, 0.1);
+            padding: 0.15rem 0.35rem;
+            border-radius: 4px;
+        }
+        
+        .ticker-item.ticker-sub {
+            padding-left: 0.5rem;
+            opacity: 0.85;
+            font-size: 0.9em;
+        }
+        
+        .ticker-sub .ticker-logo {
+            width: 14px;
+            height: 14px;
+        }
+        
+        .ticker-sub .ticker-price {
+            font-size: 0.7rem;
+        }
+        
+        .ticker-sub .ticker-change {
+            font-size: 0.55rem;
+        }
+        
+        .status-ticker-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .status-ticker-row .card-status {
+            flex: 1 1 auto;
+            margin-bottom: 0;
+        }
+        
+        .status-ticker-row .card-ticker {
+            flex: 0 0 auto;
+            width: 155px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            margin-bottom: 0;
+            padding: 0.5rem 0.6rem !important;
+            overflow: hidden;
+        }
+        
+        /* Right Column Container */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            height: 100%;
+        }
+        
+        .right-column .card-memecoins {
+            flex: 0 0 auto;
+            max-height: 280px;
+        }
+        
+        .right-column .card-memecoins .memecoins-list {
+            max-height: 200px;
+        }
+        
+        /* Prediction Markets - Full height right column */
+        .card-predictions-full {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+        }
+        
+        .market-logos {
+            display: inline-flex;
+            gap: 0.5rem;
+            margin-left: 0.75rem;
+        }
+        
+        .market-logo {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            filter: brightness(0) invert(1);
+            opacity: 0.9;
+        }
+        
+        .predictions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .prediction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0.75rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .prediction-item:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--accent);
+        }
+        
+        .prediction-main {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            margin-right: 0.75rem;
+            min-width: 0;
+        }
+        
+        .prediction-question {
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+        
+        .prediction-source {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            margin-top: 0.2rem;
+        }
+        
+        .prediction-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+        
+        .prediction-volume {
+            font-size: 0.75rem;
+            color: #ffffff;
+            opacity: 0.9;
+        }
+        
+        .prediction-source-logo {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            opacity: 0.85;
+            flex-shrink: 0;
+        }
+        
+        .prediction-source-logo.logo-invert {
+            filter: brightness(0) invert(1);
+        }
+        
+        .prediction-source-logo.logo-white {
+            /* Already white, no filter needed */
+        }
+        
+        .prediction-odds {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .odds-badge {
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .odds-yes {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--green);
+        }
+        
+        .odds-no {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--red);
+        }
+        
+        .prediction-category {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            padding: 0.5rem 0 0.25rem 0;
+            margin-top: 0.5rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .prediction-category:first-child {
+            margin-top: 0;
+            border-top: none;
+            padding-top: 0;
+        }
+        
+        /* AI News */
+        .news-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .news-column-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .news-item {
+            padding: 0.75rem 1rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .news-item:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .news-headline {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        
+        .news-meta {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+        
+        /* TikTok Stats */
+        .tiktok-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+        
+        .tiktok-handle {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .tiktok-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+        
+        .tiktok-stat {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+        }
+        
+        .tiktok-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .tiktok-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-top: 0.25rem;
+        }
+        
+        .tiktok-stat-delta {
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 0.15rem;
+            min-height: 1em;
+        }
+        
+        .tiktok-stat-delta.positive {
+            color: var(--green);
+        }
+        
+        .tiktok-stat-delta.negative {
+            color: var(--red);
+        }
+        
+        .tiktok-stat-delta.neutral {
+            color: var(--text-dim);
+        }
+        
+        .tiktok-videos {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .tiktok-video {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0.75rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+        
+        .tiktok-video-views {
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+        
+        /* Tasks */
+        .tasks-section {
+            margin-bottom: 1.25rem;
+        }
+        
+        .tasks-section-title {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0.75rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+        
+        .task-icon {
+            font-size: 1rem;
+        }
+        
+        .task-completed {
+            opacity: 0.6;
+        }
+        
+        .task-completed .task-name {
+            text-decoration: line-through;
+        }
+        
+        /* Connected Accounts - Tight Pills */
+        .card-accounts {
+            padding: 0.75rem;
+            height: fit-content;
+        }
+        
+        .card-accounts .card-header {
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.35rem;
+        }
+        
+        .card-accounts .card-title {
+            font-size: 0.9rem;
+        }
+        
+        .accounts-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+        
+        .account-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(255,255,255,0.04);
+            border-radius: 16px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            border: 1px solid var(--border);
+        }
+        
+        .pill-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--green);
+        }
+        
+        /* Status Card - Sleek Right Side */
+        /* (old status-row styles removed) */
+        
+        /* WhatsApp FAB */
+        .whatsapp-fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            border-radius: 50%;
+            display: none; /* Hidden on desktop by default */
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            z-index: 1000;
+        }
+        
+        /* Show chat fab only on mobile */
+        @media (max-width: 768px) {
+            .whatsapp-fab {
+                display: flex;
+            }
+        }
+        
+        .whatsapp-fab:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 30px rgba(37, 211, 102, 0.5);
+        }
+        
+        .whatsapp-fab:active {
+            transform: scale(0.95);
+        }
+        
+        /* Left Column - Stacked widgets (sets the row height) */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        /* Center Column - Stacked widgets (stretches to match left) */
+        .center-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        /* Right column card stretches */
+        .main-container > .card {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .main-container > .card .predictions-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        /* AI News - fills remaining height in center column */
+        .card-news-fill {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        
+        .card-news-fill .news-two-columns {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            overflow-y: auto;
+            min-height: 0;
+        }
+        
+        .news-col-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.35rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .card-news-fill .news-list {
+            max-height: none;
+        }
+        
+        /* Jane Status - Prominent card */
+        .card-status {
+            padding: 1rem 1.25rem;
+        }
+        
+        .card-status .card-header {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+        }
+        
+        .status-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            padding: 0.75rem 0.5rem;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.08) 0%, rgba(74, 222, 128, 0.02) 100%);
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+        
+        .status-box:hover {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.12) 0%, rgba(74, 222, 128, 0.04) 100%);
+            border-color: rgba(74, 222, 128, 0.2);
+        }
+        
+        .status-box-label {
+            display: block;
+            font-size: 0.6rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.35rem;
+            text-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
+        }
+        
+        .status-box-value {
+            display: block;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .status-box-value.blue { color: #ffffff; }
+        
+        .agents-row {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        /* Connected Accounts - Prominent */
+        .card-connected {
+            padding: 1rem;
+        }
+        
+        .card-connected .card-header {
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+        }
+        
+        .card-connected .accounts-pills {
+            gap: 0.5rem;
+        }
+        
+        .card-connected .account-pill {
+            padding: 0.4rem 0.7rem;
+            font-size: 0.8rem;
+        }
+        
+        /* TikTok Full (fills remaining left column) */
+        .card-tiktok-full {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+        }
+        
+        .card-tiktok-full .tiktok-handle {
+            font-size: 1.1rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .card-tiktok-full .tiktok-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card-tiktok-full .tiktok-stat {
+            text-align: center;
+            padding: 0.75rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+        }
+        
+        .card-tiktok-full .tiktok-stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .card-tiktok-full .tiktok-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-top: 0.25rem;
+        }
+        
+        .tiktok-videos-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.35rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .card-tiktok-full .tiktok-videos {
+            max-height: 180px;
+            overflow-y: auto;
+        }
+        
+        /* Sorare Widget - Premium */
+        .card-sorare {
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(255,215,0,0.03) 0%, transparent 50%);
+        }
+        
+        .sorare-logo {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            filter: brightness(0) invert(1);
+        }
+        
+        /* Fixture Status Bar */
+        .sorare-status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            background: rgba(255,215,0,0.08);
+            border: 1px solid rgba(255,215,0,0.2);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .sorare-gw {
+            font-weight: 700;
+            color: #ffd700;
+            font-size: 0.9rem;
+        }
+        
+        .sorare-countdown {
+            font-size: 0.75rem;
+            color: var(--text);
+        }
+        
+        .sorare-countdown.live {
+            color: #4ade80;
+        }
+        
+        .sorare-countdown.ending {
+            color: #f97316;
+        }
+        
+        .sorare-status-badge {
+            font-size: 0.6rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        .sorare-status-badge.scheduled { background: rgba(100,100,100,0.3); color: #888; }
+        .sorare-status-badge.live { background: rgba(74,222,128,0.2); color: #4ade80; }
+        .sorare-status-badge.ending { background: rgba(249,115,22,0.2); color: #f97316; }
+        .sorare-status-badge.final { background: rgba(255,215,0,0.2); color: #ffd700; }
+        
+        /* Lineup Cards */
+        .sorare-lineups {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .sorare-lineup-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.5rem 0.6rem;
+        }
+        
+        .sorare-lineup-card.live {
+            border-color: rgba(74,222,128,0.3);
+        }
+        
+        .sorare-lineup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.35rem;
+        }
+        
+        .sorare-lineup-num {
+            font-weight: 700;
+            color: #ffd700;
+            font-size: 0.8rem;
+        }
+        
+        .sorare-lineup-rank {
+            font-size: 0.7rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .sorare-lineup-score {
+            font-size: 0.75rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+        
+        .sorare-lineup-players {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            font-size: 0.6rem;
+            color: var(--text-dim);
+        }
+        
+        .sorare-player {
+            background: rgba(255,255,255,0.05);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+        }
+        
+        .sorare-player.playing {
+            background: rgba(74,222,128,0.15);
+            color: #4ade80;
+        }
+        
+        .sorare-player.final {
+            color: var(--text);
+        }
+        
+        /* Summary Row */
+        .sorare-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 0.5rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 6px;
+            font-size: 0.7rem;
+        }
+        
+        .sorare-summary-item {
+            text-align: center;
+        }
+        
+        .sorare-summary-value {
+            font-weight: 700;
+            color: #ffd700;
+        }
+        
+        .sorare-summary-label {
+            font-size: 0.55rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+        
+        .tiktok-video {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0.5rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 6px;
+            margin-bottom: 0.4rem;
+            font-size: 0.8rem;
+        }
+        
+        .tiktok-video-views {
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+        
+        /* Thinking Widget (base) */
+        .thinking-widget {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 16px;
+            padding: 1rem 1.25rem;
+            box-shadow: 0 4px 30px rgba(74, 222, 128, 0.1), inset 0 0 60px rgba(74, 222, 128, 0.03);
+        }
+        
+        /* Jane's Mind - Real reasoning widget (prominent) */
+        .mind-widget {
+            border-color: rgba(74, 222, 128, 0.4);
+            border-width: 2px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(74, 222, 128, 0.1), inset 0 0 80px rgba(74, 222, 128, 0.03);
+            padding: 1.25rem 1.5rem;
+        }
+        
+        .mind-logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+        }
+        
+        .mind-widget .thinking-header {
+            border-bottom-color: rgba(74, 222, 128, 0.3);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .mind-widget .thinking-title {
+            color: var(--accent);
+            font-size: 1rem;
+            letter-spacing: 1.5px;
+        }
+        
+        .mind-widget .thinking-status {
+            color: var(--accent);
+            font-size: 0.75rem;
+        }
+        
+        .mind-content {
+            font-size: 0.85rem;
+            max-height: 280px;
+            overflow-y: auto;
+        }
+        
+        .mind-task {
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(74, 222, 128, 0.2);
+        }
+        
+        .mind-task-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.35rem;
+        }
+        
+        .mind-task-text {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .mind-steps {
+            margin-bottom: 0.75rem;
+        }
+        
+        .mind-step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0;
+            font-size: 0.8rem;
+        }
+        
+        .mind-step.pending {
+            color: var(--text-dim);
+        }
+        
+        .mind-step.active {
+            color: var(--accent);
+        }
+        
+        .mind-step.done {
+            color: var(--green);
+        }
+        
+        .step-icon {
+            font-size: 0.7rem;
+        }
+        
+        .mind-thought {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.4rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(74, 222, 128, 0.15);
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            font-style: italic;
+        }
+        
+        .thought-prefix {
+            flex-shrink: 0;
+        }
+        
+        .waiting-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+        
+        /* Dashboard Operations widget */
+        .ops-widget .thinking-title {
+            color: var(--accent);
+        }
+        
+        .thinking-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(74, 222, 128, 0.2);
+        }
+        
+        .thinking-icon {
+            font-size: 1rem;
+        }
+        
+        .thinking-title {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .thinking-status {
+            margin-left: auto;
+            font-size: 0.65rem;
+            color: var(--green);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .thinking-content {
+            font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+            font-size: 0.75rem;
+            line-height: 1.5;
+            color: var(--accent);
+            height: 90px;
+            max-height: 90px;
+            overflow: hidden;
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+        }
+        
+        .ops-sessions {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid rgba(74, 222, 128, 0.15);
+            margin-bottom: 0.5rem;
+        }
+        
+        .ops-sessions-header {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .ops-sessions-header .cat-icon {
+            width: 12px;
+            height: 12px;
+            fill: var(--accent);
+        }
+        
+        .ops-sessions-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+        
+        .ops-session-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.2rem 0.5rem;
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            border-radius: 4px;
+            font-size: 0.65rem;
+            color: var(--text);
+        }
+        
+        .ops-session-tag.active {
+            background: rgba(74, 222, 128, 0.2);
+            border-color: rgba(74, 222, 128, 0.4);
+        }
+        
+        .ops-session-tag.idle {
+            opacity: 0.6;
+        }
+        
+        .ops-session-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+        
+        .ops-session-tag.idle .ops-session-dot {
+            background: var(--text-dim);
+        }
+        
+        .thinking-line {
+            margin-bottom: 0.35rem;
+            padding-left: 0.9rem;
+            position: relative;
+            opacity: 0;
+            animation: typeIn 0.3s ease forwards;
+        }
+        
+        .thinking-line::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: rgba(74, 222, 128, 0.5);
+        }
+        
+        .thinking-line.old {
+            opacity: 0.5;
+            color: rgba(74, 222, 128, 0.6);
+            text-shadow: none;
+        }
+        
+        .thinking-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background: var(--accent);
+            margin-left: 2px;
+            animation: blink 1s step-end infinite;
+        }
+        
+        @keyframes typeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        /* Value change flash animations */
+        @keyframes flashGreen {
+            0% { background: rgba(0, 255, 100, 0.3); }
+            100% { background: transparent; }
+        }
+        @keyframes flashRed {
+            0% { background: rgba(255, 100, 100, 0.3); }
+            100% { background: transparent; }
+        }
+        .flash-up {
+            animation: flashGreen 0.5s ease-out;
+        }
+        .flash-down {
+            animation: flashRed 0.5s ease-out;
+        }
+        
+        /* Smooth value transitions */
+        .ticker-price, .ticker-change {
+            transition: color 0.3s ease;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-dim);
+        }
+        
+        /* Cron Jobs */
+        .cron-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .cron-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0.75rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+        
+        .cron-name {
+            font-weight: 500;
+        }
+        
+        .cron-schedule {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            font-family: 'SF Mono', monospace;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="header-left-text">
+                <div class="header-time" id="current-time">--:--</div>
+                <div class="header-date" id="current-date">---</div>
+            </div>
+            <button class="night-mode-btn" onclick="toggleNightMode()">NIGHT<br>MODE</button>
+            <button class="refresh-all-btn" id="refresh-all-btn" onclick="refreshAll()" title="Refresh all widgets">↻</button>
+        </div>
+        
+        <div class="header-center">
+            <span class="hello-greeting">hi Josh</span>
+        </div>
+        
+        <div class="header-right">
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span id="system-status">Online</span>
+            </div>
+            <img src="icon-192.png" alt="Jane" class="logo">
+            <div class="brand-text">
+                <span class="brand-name">JANE</span>
+                <span class="brand-tagline">Personal AI</span>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Grid -->
+    <main class="main-container">
+        <!-- Row 1 -->
+        
+        <!-- LEFT COLUMN: Jane's Mind + Dashboard Operations stacked -->
+        <div class="left-column">
+            <!-- Jane's Mind - Real reasoning/task tracking -->
+            <div class="thinking-widget mind-widget">
+                <div class="thinking-header">
+                    <img src="icon-192.png" alt="Jane" class="mind-logo">
+                    <span class="thinking-title">Jane's Mind</span>
+                    <span class="thinking-status" id="mind-status">● Active</span>
+                </div>
+                <div class="mind-content" id="mind-content">
+                    <div class="mind-task">
+                        <div class="mind-task-label">Current Task</div>
+                        <div class="mind-task-text" id="mind-current-task">Awaiting instructions...</div>
+                    </div>
+                    <div class="mind-steps" id="mind-steps">
+                        <!-- Steps will be populated here -->
+                    </div>
+                    <div class="mind-thought" id="mind-thought">
+                        <span class="thought-prefix"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg></span>
+                        <span id="mind-thought-text">Ready for your next request.</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dashboard Operations - Automated monitoring logs -->
+            <div class="thinking-widget ops-widget">
+                <div class="thinking-header">
+                    <span class="thinking-icon"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></span>
+                    <span class="thinking-title">Dashboard Ops</span>
+                    <span class="thinking-status" id="thinking-status">● Active</span>
+                </div>
+                <div class="ops-sessions" id="ops-sessions">
+                    <div class="ops-sessions-header">
+                        <svg class="cat-icon" viewBox="0 0 24 24"><path d="M20 9V7c0-1.1-.9-2-2-2h-3c0-1.66-1.34-3-3-3S9 3.34 9 5H6c-1.1 0-2 .9-2 2v2c-1.66 0-3 1.34-3 3s1.34 3 3 3v4c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4c1.66 0 3-1.34 3-3s-1.34-3-3-3zm-2 10H6V7h12v12z"/></svg>
+                        <span>Active Sessions</span>
+                    </div>
+                    <div class="ops-sessions-list" id="ops-sessions-list">Loading...</div>
+                </div>
+                <div class="thinking-content" id="thinking-content">
+                    <div class="thinking-line">Initializing dashboard...</div>
+                </div>
+            </div>
+            
+            <!-- Sorare Widget - Premium Limited Champion -->
+            <div class="card card-sorare">
+                <div class="card-header" style="margin-bottom: 0.5rem; padding-bottom: 0.5rem;">
+                    <div class="card-title" style="font-size: 0.95rem;">
+                        <img src="https://sorare.com/favicon.ico" alt="Sorare" class="sorare-logo">
+                        Limited Champion
+                        <span class="last-refresh" id="sorare-refresh">--</span>
+                    </div>
+                    <button class="refresh-btn" onclick="refreshSorare(this)">↻</button>
+                </div>
+                
+                <!-- Status Bar -->
+                <div class="sorare-status-bar" id="sorare-status-bar">
+                    <div>
+                        <span class="sorare-gw" id="sorare-gw">GW--</span>
+                        <span class="sorare-countdown" id="sorare-countdown">Loading...</span>
+                    </div>
+                    <span class="sorare-status-badge scheduled" id="sorare-status">--</span>
+                </div>
+                
+                <!-- Lineups -->
+                <div class="sorare-lineups" id="sorare-lineups">
+                    <div class="sorare-lineup-card">
+                        <div style="text-align:center; color:var(--text-dim); font-size:0.7rem;">Loading lineups...</div>
+                    </div>
+                </div>
+                
+                <!-- Summary Row -->
+                <div class="sorare-summary">
+                    <div class="sorare-summary-item">
+                        <div class="sorare-summary-value" id="sorare-limited-count">--</div>
+                        <div class="sorare-summary-label">Limited Cards</div>
+                    </div>
+                    <div class="sorare-summary-item">
+                        <div class="sorare-summary-value" id="sorare-last-best">--</div>
+                        <div class="sorare-summary-label">Last Best</div>
+                    </div>
+                    <div class="sorare-summary-item">
+                        <div class="sorare-summary-value" id="sorare-field-size">--</div>
+                        <div class="sorare-summary-label">Field Size</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- TikTok Stats - Expanded -->
+            <div class="card card-tiktok-full">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="card-icon"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></span>
+                        TikTok Stats
+                        <span class="last-refresh" id="tiktok-refresh">--</span>
+                        <span class="tiktok-pending" id="tiktok-pending" style="display:none; color:#f0b90b; font-size:0.7em; margin-left:8px;">⏳ Updating...</span>
+                    </div>
+                    <div class="card-meta">
+                        <button class="refresh-btn" onclick="requestTikTokUpdate(this)" title="Request live TikTok scrape">↻</button>
+                    </div>
+                </div>
+                <div class="tiktok-handle">@degencollector</div>
+                <div class="tiktok-stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="tiktok-stat">
+                        <div class="tiktok-stat-value" id="tiktok-views">--</div>
+                        <div class="tiktok-stat-delta" id="tiktok-views-delta"></div>
+                        <div class="tiktok-stat-label">Views</div>
+                    </div>
+                    <div class="tiktok-stat">
+                        <div class="tiktok-stat-value" id="tiktok-likes">--</div>
+                        <div class="tiktok-stat-delta" id="tiktok-likes-delta"></div>
+                        <div class="tiktok-stat-label">Likes</div>
+                    </div>
+                    <div class="tiktok-stat">
+                        <div class="tiktok-stat-value" id="tiktok-followers">--</div>
+                        <div class="tiktok-stat-delta" id="tiktok-followers-delta"></div>
+                        <div class="tiktok-stat-label">Followers</div>
+                    </div>
+                </div>
+                <div class="tiktok-videos-title">Recent Videos</div>
+                <div class="tiktok-videos" id="tiktok-videos"></div>
+            </div>
+        </div>
+        
+        <!-- CENTER COLUMN: Jane Status + Connected stacked -->
+        <div class="center-column">
+            <!-- Top row: Jane Status + Crypto Ticker -->
+            <div class="status-ticker-row">
+                <!-- Jane Status - More Prominent -->
+                <div class="card card-status" style="flex: 1;">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <img src="icon-192.png" alt="Jane" style="width: 20px; height: 20px; border-radius: 4px;">
+                            Jane Status
+                            <span class="last-refresh" id="status-refresh">--</span>
+                        </div>
+                        <button class="refresh-btn" onclick="refreshSystem(this)">↻</button>
+                    </div>
+                <div class="status-grid">
+                    <div class="status-box">
+                        <span class="status-box-label">Model</span>
+                        <span class="status-box-value blue" id="jane-model">--</span>
+                    </div>
+                    <div class="status-box">
+                        <span class="status-box-label">Age</span>
+                        <span class="status-box-value" id="jane-age">--</span>
+                    </div>
+                    <div class="status-box">
+                        <span class="status-box-label">CPU</span>
+                        <span class="status-box-value" id="cpu-usage">--%</span>
+                    </div>
+                    <div class="status-box">
+                        <span class="status-box-label">RAM</span>
+                        <span class="status-box-value" id="ram-usage">--%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Watch List - Compact -->
+            <div class="card card-ticker">
+                <div class="card-header ticker-header">
+                    <div class="card-title">Watch List</div>
+                    <button class="refresh-btn" onclick="refreshTicker(this)">↻</button>
+                </div>
+                <div class="ticker-row">
+                    <div class="ticker-item">
+                        <span class="market-dot stock-market" id="ndaq-market-dot" title="Stock Market Hours"></span>
+                        <img src="https://www.nasdaq.com/sites/acquia.prod/files/2020/09/24/nasdaq.jpg" alt="NDAQ" class="ticker-logo" style="width:20px; height:20px; border-radius:4px; object-fit:cover;">
+                        <div class="ticker-info">
+                            <span class="ticker-price" id="ticker-nasdaq">--</span>
+                            <span class="ticker-change neutral" id="ticker-nasdaq-change">--</span>
+                        </div>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="market-dot crypto-market" title="24/7 Market"></span>
+                        <img src="https://assets.coingecko.com/coins/images/1/small/bitcoin.png" alt="BTC" class="ticker-logo">
+                        <div class="ticker-info">
+                            <span class="ticker-price" id="ticker-btc">--</span>
+                            <span class="ticker-change neutral" id="ticker-btc-change">--</span>
+                        </div>
+                    </div>
+                    <div class="ticker-item ticker-sub">
+                        <span class="market-dot stock-market" id="ibit-market-dot" title="Stock Market"></span>
+                        <span class="ticker-logo-text">IBIT</span>
+                        <div class="ticker-info">
+                            <span class="ticker-price" id="ticker-ibit">--</span>
+                            <span class="ticker-change neutral" id="ticker-ibit-change">--</span>
+                        </div>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="market-dot crypto-market" title="24/7 Market"></span>
+                        <img src="https://assets.coingecko.com/coins/images/279/small/ethereum.png" alt="ETH" class="ticker-logo">
+                        <div class="ticker-info">
+                            <span class="ticker-price" id="ticker-eth">--</span>
+                            <span class="ticker-change neutral" id="ticker-eth-change">--</span>
+                        </div>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="market-dot crypto-market" title="24/7 Market"></span>
+                        <img src="https://assets.coingecko.com/coins/images/4128/small/solana.png" alt="SOL" class="ticker-logo">
+                        <div class="ticker-info">
+                            <span class="ticker-price" id="ticker-sol">--</span>
+                            <span class="ticker-change neutral" id="ticker-sol-change">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div><!-- end status-ticker-row -->
+            
+            <!-- Connected Accounts - More Prominent -->
+            <div class="card card-connected">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="card-icon"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></span>
+                        Connected Accounts
+                        <span class="last-refresh">static</span>
+                    </div>
+                </div>
+                <div class="accounts-pills">
+                    <div class="account-pill"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg> WhatsApp <span class="pill-dot"></span></div>
+                    <div class="account-pill"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg> Gmail <span class="pill-dot"></span></div>
+                    <div class="account-pill"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg> TikTok <span class="pill-dot"></span></div>
+                    <div class="account-pill"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.94-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2-15.86c3.94.49 7 3.85 7 7.93s-3.06 7.44-7 7.93V4.07z"/></svg> Sorare <span class="pill-dot"></span></div>
+                    <div class="account-pill"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> X <span class="pill-dot"></span></div>
+                    <div class="account-pill"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg> Phantom <span class="pill-dot"></span></div>
+                </div>
+            </div>
+            
+            <!-- AI News - fills remaining height -->
+            <div class="card card-news-fill">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="card-icon"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M21 11.18V9l-9-5-9 5v2.18l9 5 9-5zM12 14.68l-6-3.33V9l6 3.33L18 9v2.35l-6 3.33zm0 2.18l-6-3.33v2.35l6 3.33 6-3.33v-2.35l-6 3.33z"/></svg></span>
+                        AI News
+                        <span class="last-refresh" id="news-refresh">--</span>
+                    </div>
+                    <div class="card-meta">
+                        <button class="refresh-btn" onclick="refreshNews(this)">↻</button>
+                    </div>
+                </div>
+                <div class="news-two-columns">
+                    <div class="news-col">
+                        <div class="news-col-title"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg> Enterprise</div>
+                        <div class="news-list" id="news-enterprise"></div>
+                    </div>
+                    <div class="news-col">
+                        <div class="news-col-title"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg> Retail</div>
+                        <div class="news-list" id="news-retail"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- RIGHT COLUMN - Predictions -->
+        <div class="right-column">
+            <!-- Prediction Markets -->
+            <div class="card card-predictions-full">
+                <div class="card-header">
+                    <div class="card-title">
+                        Prediction Markets
+                    <span class="market-logos">
+                        <img src="https://polymarket.com/favicon.ico" alt="Polymarket" class="market-logo" title="Polymarket">
+                        <img src="https://kalshi.com/favicon.ico" alt="Kalshi" class="market-logo" title="Kalshi">
+                        <img src="https://manifold.markets/favicon.ico" alt="Manifold" class="market-logo" title="Manifold">
+                        <img src="https://www.metaculus.com/favicon.ico" alt="Metaculus" class="market-logo" title="Metaculus">
+                    </span>
+                    <span class="last-refresh" id="predictions-refresh">--</span>
+                </div>
+                <div class="card-meta">
+                    <button class="refresh-btn" onclick="refreshPredictions(this)">↻</button>
+                </div>
+            </div>
+            <div class="predictions-list" id="predictions-list">
+                <div class="prediction-item">
+                    <span class="prediction-question">Loading...</span>
+                </div>
+            </div>
+            </div>
+        </div><!-- end right-column -->
+        
+    </main>
+    
+    <!-- WhatsApp FAB -->
+    <a href="https://wa.me/17175759384" class="whatsapp-fab" aria-label="Chat on WhatsApp">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="white">
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2z"/>
+        </svg>
+    </a>
+    
+    <script>
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', { 
+                weekday: 'long',
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+        
+        // Calculate Jane's age
+        function updateJaneAge() {
+            const birthDate = new Date('2026-01-31');
+            const today = new Date();
+            const ageDays = Math.floor((today - birthDate) / (1000 * 60 * 60 * 24));
+            document.getElementById('jane-age').textContent = ageDays + 'd';
+        }
+        updateJaneAge();
+        
+        // Fetch with timeout
+        async function fetchWithTimeout(url, timeout = 8000) {
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), timeout);
+            try {
+                const response = await fetch(url, { signal: controller.signal });
+                clearTimeout(id);
+                return await response.json();
+            } catch (err) {
+                clearTimeout(id);
+                throw err;
+            }
+        }
+        
+        // Helper to spin refresh button
+        function spinButton(btn, promise) {
+            btn.classList.add('spinning');
+            // Ensure minimum spin time of 600ms for visibility
+            const minSpinTime = new Promise(resolve => setTimeout(resolve, 600));
+            return Promise.all([promise, minSpinTime]).finally(() => btn.classList.remove('spinning'));
+        }
+        
+        // Check if US stock market is open (9:30 AM - 4:00 PM ET, Mon-Fri)
+        function isStockMarketOpen() {
+            const now = new Date();
+            const etOptions = { timeZone: 'America/New_York' };
+            const etTime = new Date(now.toLocaleString('en-US', etOptions));
+            const day = etTime.getDay(); // 0=Sun, 6=Sat
+            const hours = etTime.getHours();
+            const minutes = etTime.getMinutes();
+            const timeInMinutes = hours * 60 + minutes;
+            
+            // Market open: 9:30 AM (570 min) to 4:00 PM (960 min), Mon-Fri
+            const isWeekday = day >= 1 && day <= 5;
+            const isDuringHours = timeInMinutes >= 570 && timeInMinutes < 960;
+            
+            return isWeekday && isDuringHours;
+        }
+        
+        function updateMarketStatus() {
+            const isOpen = isStockMarketOpen();
+            // Update IBIT dot
+            const ibitDot = document.getElementById('ibit-market-dot');
+            if (ibitDot) {
+                ibitDot.classList.remove('open', 'closed');
+                ibitDot.classList.add(isOpen ? 'open' : 'closed');
+                ibitDot.title = isOpen ? 'Stock Market Open' : 'Stock Market Closed';
+            }
+            // Update NDAQ dot
+            const ndaqDot = document.getElementById('ndaq-market-dot');
+            if (ndaqDot) {
+                ndaqDot.classList.remove('open', 'closed');
+                ndaqDot.classList.add(isOpen ? 'open' : 'closed');
+                ndaqDot.title = isOpen ? 'Stock Market Open' : 'Stock Market Closed';
+            }
+        }
+        
+        // Market Ticker
+        async function refreshTicker(btn) {
+            const doRefresh = async () => {
+                try {
+                    const data = await fetchWithTimeout('/api/ticker', 10000);
+                    if (data && !data.error) {
+                        const formatPrice = (p, decimals = 2) => {
+                            if (!p) return '--';
+                            if (p >= 10000) return '$' + Math.round(p).toLocaleString();
+                            if (p >= 100) return '$' + p.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                            return '$' + p.toFixed(decimals);
+                        };
+                        
+                        const formatChange = (c) => {
+                            if (c === null || c === undefined) return { text: '--', class: 'neutral' };
+                            const sign = c >= 0 ? '+' : '';
+                            return { 
+                                text: sign + c.toFixed(2) + '%', 
+                                class: c > 0 ? 'positive' : c < 0 ? 'negative' : 'neutral' 
+                            };
+                        };
+                        
+                        const updateTicker = (id, price, change) => {
+                            const priceEl = document.getElementById('ticker-' + id);
+                            const changeEl = document.getElementById('ticker-' + id + '-change');
+                            if (priceEl) priceEl.textContent = price;
+                            if (changeEl) {
+                                const c = formatChange(change);
+                                changeEl.textContent = c.text;
+                                changeEl.className = 'ticker-change ' + c.class;
+                            }
+                        };
+                        
+                        if (data.nasdaq) updateTicker('nasdaq', formatPrice(data.nasdaq.price, 2), data.nasdaq.change24h);
+                        if (data.btc) updateTicker('btc', formatPrice(data.btc.price, 0), data.btc.change24h);
+                        if (data.ibit) updateTicker('ibit', formatPrice(data.ibit.price), data.ibit.change24h);
+                        if (data.eth) updateTicker('eth', formatPrice(data.eth.price, 0), data.eth.change24h);
+                        if (data.sol) updateTicker('sol', formatPrice(data.sol.price), data.sol.change24h);
+                        
+                        // Update market status dots
+                        updateMarketStatus();
+                    }
+                } catch (err) {
+                    console.error('Ticker error:', err);
+                }
+            };
+            if (btn) return spinButton(btn, doRefresh());
+            return doRefresh();
+        }
+        
+        // System Stats
+        async function refreshSystem(btn) {
+            const doRefresh = async () => {
+                try {
+                    // Fetch with longer timeout for system stats
+                    const [sessions, system] = await Promise.all([
+                        fetchWithTimeout('/api/sessions', 10000),
+                        fetchWithTimeout('/api/system', 10000)
+                    ]);
+                    
+                    // Model
+                    if (sessions?.sessions?.length) {
+                        const main = sessions.sessions.find(s => s.kind === 'main') || sessions.sessions[0];
+                        if (main?.model) {
+                            const formatted = main.model.split('/').pop()
+                                .replace('claude-', '')
+                                .replace(/-/g, ' ')
+                                .replace('4 5', '4.5')
+                                .replace('4 6', '4.6');
+                            document.getElementById('jane-model').textContent = formatted;
+                        }
+                    }
+                    
+                    // System health
+                    if (system) {
+                        document.getElementById('cpu-usage').textContent = (system.cpu || 0) + '%';
+                        document.getElementById('ram-usage').textContent = (system.memory || 0) + '%';
+                    }
+                    
+                    addThought("System metrics updated.");
+                    const el = document.getElementById('status-refresh');
+                    if (el) el.textContent = new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
+                } catch (err) {
+                    console.error('System refresh error:', err);
+                }
+            };
+            if (btn) spinButton(btn, doRefresh());
+            else doRefresh();
+        }
+        
+        // Sessions (Dashboard Ops)
+        async function refreshAgents(btn) {
+            const doRefresh = async () => {
+                try {
+                    const data = await fetchWithTimeout('/api/sessions');
+                    const container = document.getElementById('ops-sessions-list');
+                    
+                    if (!data?.sessions?.length) {
+                        container.innerHTML = '<span style="opacity:0.5;font-size:0.65rem;">No active sessions</span>';
+                        return;
+                    }
+                    
+                    const sessionTags = data.sessions.map(s => {
+                        const isActive = s.status === 'active';
+                        // Generate friendly name from session key
+                        let name = s.displayName;
+                        if (!name) {
+                            const parts = s.key.split(':');
+                            // Handle different session types
+                            if (parts.includes('cron')) name = 'Cron Job';
+                            else if (parts.includes('dashboard')) name = 'Dashboard';
+                            else if (parts.includes('test')) name = 'Test';
+                            else if (parts.includes('spawn')) name = 'Sub-Agent';
+                            else name = parts[parts.length - 1];
+                            // Don't show UUIDs
+                            if (name.match(/^[0-9a-f]{8}-/i)) name = 'Background';
+                        }
+                        const shortName = name.length > 15 ? name.substring(0, 15) + '...' : name;
+                        return `<div class="ops-session-tag ${isActive ? 'active' : 'idle'}" title="${s.key} (${s.contextUsed || '--'})">
+                            <span class="ops-session-dot"></span>
+                            <span>${shortName}</span>
+                        </div>`;
+                    }).join('');
+                    
+                    container.innerHTML = sessionTags;
+                } catch (err) {
+                    console.error('Sessions refresh error:', err);
+                    const container = document.getElementById('ops-sessions-list');
+                    if (container) container.innerHTML = '<span style="opacity:0.5;font-size:0.65rem;">Error loading sessions</span>';
+                }
+            };
+            if (btn) spinButton(btn, doRefresh());
+            else doRefresh();
+        }
+        
+        // Categorize predictions (from mobile)
+        function categorizePrediction(q) {
+            const ql = q.toLowerCase();
+            // Politics FIRST
+            if (ql.includes('trump') || ql.includes('biden') || ql.includes('president') || 
+                ql.includes('government') || ql.includes('congress') || ql.includes('iran') ||
+                ql.includes('war') || ql.includes('russia') || ql.includes('china') ||
+                ql.includes('election') || ql.includes('shutdown') || ql.includes('primary') ||
+                ql.includes('governor') || ql.includes('senator') || ql.includes('attorney general') ||
+                ql.includes('paxton') || ql.includes('democrat') || ql.includes('republican') ||
+                ql.includes('vote') || ql.includes('ballot') || ql.includes('nominee')) {
+                return 'politics';
+            }
+            // Sports
+            if (ql.includes('super bowl') || ql.includes('nfl') || ql.includes('nba') || 
+                ql.includes('vs') || ql.includes('🏈') || ql.includes('nhl') ||
+                ql.includes('game') || ql.includes('championship') || ql.includes('playoffs')) {
+                return 'sports';
+            }
+            // M&A
+            if (ql.includes('acquire') || ql.includes('acquisition') || ql.includes('merger') ||
+                ql.includes('buyout') || ql.includes('takeover')) {
+                return 'manda';
+            }
+            // Finance/Crypto
+            if (ql.includes('bitcoin') || ql.includes('crypto') || ql.includes('btc') || 
+                ql.includes('eth') || ql.includes('solana') || ql.includes('price')) {
+                return 'crypto';
+            }
+            if (ql.includes('ai') || ql.includes('openai') || ql.includes('google') || 
+                ql.includes('apple') || ql.includes('ipo') || ql.includes('stock') ||
+                ql.includes('fed') || ql.includes('rate') || ql.includes('recession') ||
+                ql.includes('earnings') || ql.includes('ceo') || ql.includes('microsoft') ||
+                ql.includes('nvidia') || ql.includes('tesla') || ql.includes('tariff')) {
+                return 'finance';
+            }
+            return 'other';
+        }
+        
+        function getPredictionTag(cat) {
+            // SVG icons for each category (green, minimal)
+            const icons = {
+                politics: `<svg class="cat-icon" viewBox="0 0 24 24"><path d="M12 2L2 7v2h20V7L12 2zm0 2.5L18 7H6l6-2.5zM4 10v10h2v-8h2v8h2v-8h2v8h2v-8h2v8h2V10H4zm-2 12h20v2H2v-2z"/></svg>`,
+                sports: `<svg class="cat-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.94-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2-15.86c3.94.49 7 3.85 7 7.93s-3.06 7.44-7 7.93V4.07z"/></svg>`,
+                manda: `<svg class="cat-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>`,
+                crypto: `<svg class="cat-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09v1.04h-1.18v-1.04c-1.83-.11-2.92-1.12-2.92-2.25h1.49c0 .5.42 1.14 1.8 1.14 1.12 0 1.8-.44 1.8-1.17 0-.74-.54-.9-1.89-1.24-1.92-.45-2.84-1.08-2.84-2.4 0-1.25 1.04-2.08 2.56-2.24V8.87h1.18v1.07c1.63.21 2.45 1.19 2.5 2.19h-1.49c-.05-.65-.54-1.04-1.36-1.04-1.06 0-1.56.49-1.56 1.06 0 .66.45.89 1.81 1.17 2.09.45 2.92 1.16 2.92 2.48 0 1.33-1.02 2.14-2.82 2.29z"/></svg>`,
+                finance: `<svg class="cat-icon" viewBox="0 0 24 24"><path d="M5 9.2h3V19H5V9.2zM10.6 5h2.8v14h-2.8V5zm5.6 8H19v6h-2.8v-6z"/></svg>`,
+                other: `<svg class="cat-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>`
+            };
+            const labels = {
+                politics: 'Politics',
+                sports: 'Sports',
+                manda: 'M&A',
+                crypto: 'Crypto',
+                finance: 'Finance',
+                other: 'Other'
+            };
+            return { 
+                label: `${icons[cat] || icons.other}${labels[cat] || 'Other'}`, 
+                class: cat 
+            };
+        }
+        
+        // Filter out sports games (keep Super Bowl)
+        function shouldShowPrediction(q) {
+            const ql = q.toLowerCase();
+            // Always show Super Bowl
+            if (ql.includes('super bowl')) return true;
+            
+            // Basketball teams to filter
+            const nbaTeams = ['cavaliers', 'clippers', 'grizzlies', 'kings', 'spurs', 'lakers', 
+                'celtics', 'heat', 'warriors', 'nets', 'knicks', 'bulls', 'mavericks', 'nuggets',
+                'rockets', 'thunder', 'suns', 'jazz', 'pelicans', 'hawks', 'hornets', 'pistons',
+                'pacers', 'bucks', 'timberwolves', 'blazers', 'raptors', 'wizards', 'magic', '76ers'];
+            
+            // Soccer teams/leagues to filter
+            const soccerTerms = ['premier league', 'la liga', 'bundesliga', 'serie a', 'ligue 1',
+                'champions league', 'europa league', 'manchester', 'liverpool', 'chelsea', 'arsenal',
+                'tottenham', 'barcelona', 'real madrid', 'bayern', 'juventus', 'psg', 'inter milan',
+                'ac milan', 'man city', 'man united', 'mls', 'soccer', 'football club', 'fc '];
+            
+            // NHL teams
+            const nhlTeams = ['wild', 'predators', 'bruins', 'rangers', 'penguins', 'capitals',
+                'blackhawks', 'red wings', 'maple leafs', 'canadiens', 'oilers', 'flames', 'canucks'];
+            
+            // Filter out sports matches
+            if (ql.includes('vs.') || ql.includes('vs ') || ql.includes('spread') || ql.includes('moneyline')) {
+                return false;
+            }
+            
+            // Filter by team names
+            for (const team of [...nbaTeams, ...soccerTerms, ...nhlTeams]) {
+                if (ql.includes(team)) return false;
+            }
+            
+            return true;
+        }
+        
+        // Predictions
+        async function refreshPredictions(btn) {
+            const doRefresh = async () => {
+                try {
+                    const data = await fetchWithTimeout('/api/predictions', 12000);
+                    const container = document.getElementById('predictions-list');
+                    
+                    if (!data?.markets?.length) {
+                        container.innerHTML = '<div class="prediction-item"><span class="prediction-question">No markets available</span></div>';
+                        return;
+                    }
+                    
+                    // Filter and categorize
+                    const filtered = data.markets.filter(m => shouldShowPrediction(m.question));
+                    
+                    // Find Super Bowl predictions first (pinned to top)
+                    const superBowl = filtered.filter(m => m.question.toLowerCase().includes('super bowl'));
+                    const nonSuperBowl = filtered.filter(m => !m.question.toLowerCase().includes('super bowl'));
+                    
+                    // Group non-Super Bowl by category
+                    const groups = { politics: [], crypto: [], finance: [], manda: [], other: [] };
+                    nonSuperBowl.forEach(m => {
+                        const cat = categorizePrediction(m.question);
+                        if (cat !== 'sports' && groups[cat]) {
+                            groups[cat].push({ ...m, category: cat });
+                        }
+                    });
+                    
+                    // Source logos and URLs - all use favicon.ico with invert filter (same as header)
+                    const sourceInfo = {
+                        'Polymarket': { logo: 'https://polymarket.com/favicon.ico', url: slug => `https://polymarket.com/event/${slug}` },
+                        'Manifold': { logo: 'https://manifold.markets/favicon.ico', url: slug => `https://manifold.markets/${slug}` },
+                        'Kalshi': { logo: 'https://kalshi.com/favicon.ico', url: slug => `https://kalshi.com/markets/${slug}` },
+                        'Metaculus': { logo: 'https://www.metaculus.com/favicon.ico', url: slug => `https://www.metaculus.com/questions/${slug?.replace('metaculus-','')}` }
+                    };
+                    
+                    // Helper to format volume (e.g., 1500000 -> $1.5M)
+                    const formatVolume = (vol) => {
+                        if (!vol || vol < 1000) return vol ? `$${vol}` : '';
+                        if (vol >= 1000000) return `$${(vol / 1000000).toFixed(1)}M`;
+                        if (vol >= 1000) return `$${(vol / 1000).toFixed(0)}K`;
+                        return `$${vol}`;
+                    };
+                    
+                    // Helper to render a prediction item with source logo
+                    const renderPrediction = (m) => {
+                        const source = m.source || 'Polymarket';
+                        const info = sourceInfo[source] || sourceInfo['Polymarket'];
+                        const url = info.url(m.slug);
+                        const volume = m.volume24h ? formatVolume(m.volume24h) : '';
+                        const logoClass = 'prediction-source-logo logo-invert';
+                        return `
+                            <div class="prediction-item" onclick="window.open('${url}', '_blank')">
+                                <div class="prediction-main">
+                                    <span class="prediction-question">${m.question}</span>
+                                    <div class="prediction-meta">
+                                        ${volume ? `<span class="prediction-volume">${volume}</span>` : ''}
+                                        <img src="${info.logo}" alt="${source}" class="${logoClass}" title="${source}">
+                                    </div>
+                                </div>
+                                <div class="prediction-odds">
+                                    <span class="odds-badge odds-yes">${m.yesOdds}%</span>
+                                    <span class="odds-badge odds-no">${m.noOdds}%</span>
+                                </div>
+                            </div>
+                        `;
+                    };
+                    
+                    // Render - Super Bowl first
+                    let html = '';
+                    const footballIcon = `<svg class="cat-icon" viewBox="0 0 24 24"><path d="M2.5 12c0-5.25 4.25-9.5 9.5-9.5s9.5 4.25 9.5 9.5-4.25 9.5-9.5 9.5-9.5-4.25-9.5-9.5zm4.3 4.5l2.35-2.35c-.3-.75-.5-1.55-.5-2.15 0-1.1.4-2 1.15-2.75L7.45 7C5.7 8.35 4.5 10.05 4.5 12c0 1.75.9 3.4 2.3 4.5zm10.4-9L14.85 9.85c.3.75.5 1.55.5 2.15 0 1.1-.4 2-1.15 2.75l2.35 2.35c1.75-1.35 2.95-3.05 2.95-5.1 0-1.75-.9-3.4-2.3-4.5zm-5.2.65c-.55 0-1 .45-1 1v.7l-.35.35-.35-.35v-.7c0-.55-.45-1-1-1s-1 .45-1 1v2.1l1.7 1.7v2.1c0 .55.45 1 1 1s1-.45 1-1v-2.1l1.7-1.7v-2.1c0-.55-.45-1-1-1z"/></svg>`;
+                    if (superBowl.length) {
+                        html += `<div class="prediction-category">${footballIcon}Super Bowl</div>`;
+                        superBowl.slice(0, 3).forEach(m => { html += renderPrediction(m); });
+                    }
+                    
+                    // Then other categories - M&A prioritized
+                    const order = ['manda', 'politics', 'finance', 'crypto', 'other'];
+                    order.forEach(cat => {
+                        if (groups[cat]?.length) {
+                            const tag = getPredictionTag(cat);
+                            html += `<div class="prediction-category">${tag.label}</div>`;
+                            // Show more items for M&A
+                            const limit = cat === 'manda' ? 5 : 4;
+                            groups[cat].slice(0, limit).forEach(m => { html += renderPrediction(m); });
+                        }
+                    });
+                    
+                    container.innerHTML = html || '<div class="prediction-item">No markets available</div>';
+                    const el = document.getElementById('predictions-refresh');
+                    const timeStr = new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
+                    if (el) el.textContent = timeStr;
+                    // Log to Dashboard Ops
+                    addThought(`Predictions updated @ ${timeStr} (${filtered.length} markets)`);
+                } catch (err) {
+                    console.error('Predictions refresh error:', err);
+                    addThought(`Predictions error: ${err.message}`);
+                }
+            };
+            if (btn) spinButton(btn, doRefresh());
+            else doRefresh();
+        }
+        
+        // AI News
+        let newsCache = { enterprise: [], retail: [] };
+        
+        async function refreshNews(btn) {
+            const doRefresh = async () => {
+                try {
+                    const data = await fetchWithTimeout('/api/ai-news', 10000);
+                    
+                    newsCache.enterprise = (data.agenticEnterprise || []).map(item => ({
+                        title: item.title,
+                        source: item.source,
+                        date: item.date,
+                        link: item.link
+                    }));
+                    
+                    newsCache.retail = (data.agenticRetail || []).map(item => ({
+                        title: item.title,
+                        source: item.source,
+                        date: item.date,
+                        link: item.link
+                    }));
+                    
+                    if (data.featured) {
+                        newsCache.enterprise.unshift({
+                            title: data.featured.title,
+                            source: data.featured.source,
+                            date: data.featured.date,
+                            link: data.featured.link,
+                            featured: true
+                        });
+                    }
+                    
+                    renderNews();
+                    const el = document.getElementById('news-refresh');
+                    const timeStr = new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
+                    if (el) el.textContent = timeStr;
+                    // Log to Dashboard Ops
+                    const totalNews = (newsCache.enterprise?.length || 0) + (newsCache.retail?.length || 0);
+                    addThought(`AI News updated @ ${timeStr} (${totalNews} articles)`);
+                } catch (err) {
+                    console.error('News refresh error:', err);
+                    addThought(`AI News error: ${err.message}`);
+                }
+            };
+            if (btn) spinButton(btn, doRefresh());
+            else doRefresh();
+        }
+        
+        function renderNews() {
+            // Render both columns
+            ['enterprise', 'retail'].forEach(tab => {
+                const items = newsCache[tab] || [];
+                const container = document.getElementById(`news-${tab}`);
+                if (!container) return;
+                
+                container.innerHTML = items.slice(0, 5).map(item => `
+                    <div class="news-item" onclick="window.open('${item.link}', '_blank')">
+                        <div class="news-headline">${item.title}</div>
+                        <div class="news-meta">${item.source} • ${item.date}</div>
+                    </div>
+                `).join('') || '<div class="news-item">No news available</div>';
+            });
+        }
+        
+        // TikTok
+        // Request a fresh TikTok scrape (triggers cron job within 5 min)
+        async function requestTikTokUpdate(btn) {
+            const pendingEl = document.getElementById('tiktok-pending');
+            try {
+                // Show pending state
+                if (pendingEl) pendingEl.style.display = 'inline';
+                
+                // Request the update
+                const response = await fetch('/api/tiktok-request-update');
+                const data = await response.json();
+                
+                // Also refresh current data
+                await refreshTikTok();
+                
+                // Keep pending visible for a bit, then start polling
+                setTimeout(() => {
+                    if (pendingEl) pendingEl.style.display = 'none';
+                }, 5 * 60 * 1000); // Hide after 5 minutes
+                
+                // Poll for updates every 30 seconds for 5 minutes
+                let pollCount = 0;
+                const pollInterval = setInterval(async () => {
+                    pollCount++;
+                    await refreshTikTok();
+                    if (pollCount >= 10) { // Stop after 10 polls (5 min)
+                        clearInterval(pollInterval);
+                        if (pendingEl) pendingEl.style.display = 'none';
+                    }
+                }, 30000);
+                
+            } catch (err) {
+                console.error('TikTok update request error:', err);
+                if (pendingEl) pendingEl.style.display = 'none';
+            }
+            if (btn) btn.classList.remove('spinning');
+        }
+        
+        async function refreshTikTok(btn) {
+            const doRefresh = async () => {
+                try {
+                    const data = await fetchWithTimeout('/api/tiktok');
+                    const profile = data.profile || data;
+                    const changes = data.changes24h || {};
+                    
+                    const followersEl = document.getElementById('tiktok-followers');
+                    const likesEl = document.getElementById('tiktok-likes');
+                    const viewsEl = document.getElementById('tiktok-views');
+                    const followersDeltaEl = document.getElementById('tiktok-followers-delta');
+                    const likesDeltaEl = document.getElementById('tiktok-likes-delta');
+                    const viewsDeltaEl = document.getElementById('tiktok-views-delta');
+                    const videosEl = document.getElementById('tiktok-videos');
+                    
+                    // Format large numbers (e.g., 45900 -> 45.9K)
+                    const formatNum = (n) => {
+                        if (!n) return '0';
+                        if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+                        if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+                        return n.toLocaleString();
+                    };
+                    
+                    // Update main values
+                    if (followersEl) followersEl.textContent = (profile.followers || 0).toLocaleString();
+                    if (likesEl) likesEl.textContent = (profile.likes || profile.totalLikes || 0).toLocaleString();
+                    if (viewsEl) viewsEl.textContent = formatNum(data.totalViews || 0);
+                    
+                    // Update delta values (changes since midnight)
+                    const formatDelta = (val) => {
+                        if (!val || val === 0) return { text: '—', class: 'neutral' };
+                        const sign = val > 0 ? '+' : '';
+                        return { 
+                            text: `${sign}${val.toLocaleString()} today`, 
+                            class: val > 0 ? 'positive' : 'negative' 
+                        };
+                    };
+                    
+                    if (followersDeltaEl) {
+                        const d = formatDelta(changes.followers);
+                        followersDeltaEl.textContent = d.text;
+                        followersDeltaEl.className = `tiktok-stat-delta ${d.class}`;
+                    }
+                    if (likesDeltaEl) {
+                        const d = formatDelta(changes.likes);
+                        likesDeltaEl.textContent = d.text;
+                        likesDeltaEl.className = `tiktok-stat-delta ${d.class}`;
+                    }
+                    if (viewsDeltaEl) {
+                        const d = formatDelta(changes.views);
+                        viewsDeltaEl.textContent = d.text;
+                        viewsDeltaEl.className = `tiktok-stat-delta ${d.class}`;
+                    }
+                    
+                    const videos = data.recentVideos || [];
+                    if (videosEl) {
+                        videosEl.innerHTML = videos.slice(0, 6).map(v => `
+                            <div class="tiktok-video">
+                                <span>${v.title || 'Video'}</span>
+                                <span class="tiktok-video-views">${typeof v.views === 'number' ? v.views.toLocaleString() : v.views}</span>
+                            </div>
+                        `).join('') || '<div class="tiktok-video">No videos yet</div>';
+                    }
+                    const el = document.getElementById('tiktok-refresh');
+                    if (el) el.textContent = new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
+                } catch (err) {
+                    console.error('TikTok refresh error:', err);
+                }
+            };
+            if (btn) spinButton(btn, doRefresh());
+            else doRefresh();
+        }
+        
+        // Sorare
+        async function refreshSorare(btn) {
+            const doRefresh = async () => {
+                try {
+                    const data = await fetchWithTimeout('/api/sorare');
+                    
+                    // Limited cards count
+                    document.getElementById('sorare-limited-count').textContent = data.limitedCards || 0;
+                    
+                    // Current fixture status
+                    const current = data.currentFixture || {};
+                    const leaderboard = current.leaderboard || {};
+                    
+                    document.getElementById('sorare-gw').textContent = current.gameWeek ? `GW${current.gameWeek}` : 'GW--';
+                    document.getElementById('sorare-field-size').textContent = leaderboard.totalLineups?.toLocaleString() || '--';
+                    
+                    // Calculate countdown and status
+                    const now = new Date();
+                    const start = current.startDate ? new Date(current.startDate) : null;
+                    const end = current.endDate ? new Date(current.endDate) : null;
+                    
+                    let status = 'scheduled';
+                    let countdown = '';
+                    
+                    if (start && end) {
+                        if (now < start) {
+                            const diff = start - now;
+                            const hours = Math.floor(diff / 3600000);
+                            const mins = Math.floor((diff % 3600000) / 60000);
+                            countdown = `Starts in ${hours}h ${mins}m`;
+                            status = 'scheduled';
+                        } else if (now >= start && now < end) {
+                            const diff = end - now;
+                            const hours = Math.floor(diff / 3600000);
+                            const mins = Math.floor((diff % 3600000) / 60000);
+                            countdown = `${hours}h ${mins}m left`;
+                            status = hours < 6 ? 'ending' : 'live';
+                        } else {
+                            countdown = 'Completed';
+                            status = 'final';
+                        }
+                    }
+                    
+                    document.getElementById('sorare-countdown').textContent = countdown;
+                    document.getElementById('sorare-countdown').className = `sorare-countdown ${status}`;
+                    
+                    const statusEl = document.getElementById('sorare-status');
+                    statusEl.textContent = status.toUpperCase();
+                    statusEl.className = `sorare-status-badge ${status}`;
+                    
+                    // Render lineups
+                    const lineupsEl = document.getElementById('sorare-lineups');
+                    const lineups = leaderboard.myLineups || [];
+                    
+                    if (lineups.length > 0) {
+                        lineupsEl.innerHTML = lineups.map(l => {
+                            const players = l.players || [];
+                            const isLive = players.some(p => p.status === 'playing');
+                            const cardClass = isLive ? 'sorare-lineup-card live' : 'sorare-lineup-card';
+                            
+                            const rankDisplay = l.ranking ? `#${l.ranking}` : '--';
+                            const scoreDisplay = l.score > 0 ? `${l.score.toFixed(1)} pts` : 'Scheduled';
+                            
+                            const playerTags = players.map(p => {
+                                const lastName = p.name?.split(' ').pop() || '?';
+                                const playerClass = p.status === 'playing' ? 'sorare-player playing' : 
+                                                   p.status === 'final' ? 'sorare-player final' : 'sorare-player';
+                                const scoreTag = p.score > 0 ? ` (${p.score.toFixed(0)})` : '';
+                                return `<span class="${playerClass}">${lastName}${scoreTag}</span>`;
+                            }).join('');
+                            
+                            return `
+                                <div class="${cardClass}">
+                                    <div class="sorare-lineup-header">
+                                        <span class="sorare-lineup-num">Lineup ${l.number}</span>
+                                        <span class="sorare-lineup-rank">${rankDisplay}</span>
+                                        <span class="sorare-lineup-score">${scoreDisplay}</span>
+                                    </div>
+                                    <div class="sorare-lineup-players">${playerTags}</div>
+                                </div>
+                            `;
+                        }).join('');
+                    } else {
+                        lineupsEl.innerHTML = '<div class="sorare-lineup-card"><div style="text-align:center; color:var(--text-dim); font-size:0.7rem; padding:0.5rem;">No lineups registered</div></div>';
+                    }
+                    
+                    // Last completed best rank
+                    const completed = data.completedFixture || {};
+                    document.getElementById('sorare-last-best').textContent = completed.bestRank ? `#${completed.bestRank}` : '--';
+                    
+                    const el = document.getElementById('sorare-refresh');
+                    if (el) el.textContent = new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
+                } catch (err) {
+                    console.error('Sorare refresh error:', err);
+                }
+            };
+            if (btn) spinButton(btn, doRefresh());
+            else doRefresh();
+        }
+        
+        // Tasks
+        async function refreshTasks(btn) {
+            const doRefresh = async () => {
+                try {
+                    const data = await fetchWithTimeout('/api/tasks');
+                    
+                    const inProgress = data.inProgress || [];
+                    const completed = data.completed || [];
+                    
+                    const pinIcon = `<svg class="cat-icon" viewBox="0 0 24 24"><path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2l-2-2z"/></svg>`;
+                    const sparkIcon = `<svg class="cat-icon" viewBox="0 0 24 24"><path d="M12 3L9 9H3l5 4-2 7 6-4 6 4-2-7 5-4h-6z"/></svg>`;
+                    const checkIcon = `<svg class="cat-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`;
+                    const noteIcon = `<svg class="cat-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>`;
+                    
+                    document.getElementById('tasks-inprogress').innerHTML = inProgress.map(t => `
+                        <div class="task-item">
+                            <span class="task-icon">${t.icon ? t.icon.replace(/[\u{1F300}-\u{1F9FF}]/gu, pinIcon) : pinIcon}</span>
+                            <span class="task-name">${t.task}</span>
+                        </div>
+                    `).join('') || `<div class="task-item"><span class="task-icon">${sparkIcon}</span><span class="task-name">No tasks in progress</span></div>`;
+                    
+                    document.getElementById('tasks-completed').innerHTML = completed.slice(0, 5).map(t => `
+                        <div class="task-item task-completed">
+                            <span class="task-icon">${t.icon ? t.icon.replace(/[\u{1F300}-\u{1F9FF}]/gu, checkIcon) : checkIcon}</span>
+                            <span class="task-name">${t.task}</span>
+                        </div>
+                    `).join('') || `<div class="task-item"><span class="task-icon">${noteIcon}</span><span class="task-name">No completed tasks</span></div>`;
+                } catch (err) {
+                    console.error('Tasks refresh error:', err);
+                }
+            };
+            if (btn) spinButton(btn, doRefresh());
+            else doRefresh();
+        }
+        
+        // Cron Jobs
+        async function refreshCron(btn) {
+            const doRefresh = async () => {
+                try {
+                    const data = await fetchWithTimeout('/api/cron');
+                    const container = document.getElementById('cron-list');
+                    
+                    if (!data?.jobs?.length) {
+                        container.innerHTML = '<div class="cron-item"><span class="cron-name">No scheduled jobs</span></div>';
+                        return;
+                    }
+                    
+                    container.innerHTML = data.jobs.slice(0, 6).map(job => `
+                        <div class="cron-item">
+                            <span class="cron-name">${job.name || job.id}</span>
+                            <span class="cron-schedule">${job.schedule?.expr || job.schedule?.kind || '--'}</span>
+                        </div>
+                    `).join('');
+                } catch (err) {
+                    console.error('Cron refresh error:', err);
+                }
+            };
+            if (btn) spinButton(btn, doRefresh());
+            else doRefresh();
+        }
+        
+        // ===== MEME COIN TRACKER =====
+        async function refreshMemecoins(btn) {
+            const doRefresh = async () => {
+                try {
+                    const data = await fetchWithTimeout('/api/memecoins', 15000);
+                    const container = document.getElementById('memecoins-list');
+                    const refreshEl = document.getElementById('memecoins-refresh');
+                    
+                    if (!data?.memecoins?.length) {
+                        container.innerHTML = '<div class="memecoin-item loading"><span>No memecoins found matching criteria</span></div>';
+                        return;
+                    }
+                    
+                    // Format helpers
+                    const formatPrice = (p) => {
+                        if (p < 0.0001) return '$' + p.toExponential(2);
+                        if (p < 0.01) return '$' + p.toFixed(6);
+                        if (p < 1) return '$' + p.toFixed(4);
+                        return '$' + p.toFixed(2);
+                    };
+                    
+                    const formatVolume = (v) => {
+                        if (v >= 1000000) return '$' + (v/1000000).toFixed(1) + 'M';
+                        if (v >= 1000) return '$' + (v/1000).toFixed(0) + 'K';
+                        return '$' + v.toFixed(0);
+                    };
+                    
+                    const formatMcap = (m) => {
+                        if (m >= 1000000) return '$' + (m/1000000).toFixed(1) + 'M';
+                        if (m >= 1000) return '$' + (m/1000).toFixed(0) + 'K';
+                        return '$' + m.toFixed(0);
+                    };
+                    
+                    container.innerHTML = data.memecoins.map((coin, i) => {
+                        const changeClass = coin.priceChange24h >= 0 ? 'positive' : 'negative';
+                        const changeSign = coin.priceChange24h >= 0 ? '+' : '';
+                        const chainIcon = coin.chain === 'solana' ? '◎' : coin.chain === 'base' ? '🔵' : '⟠';
+                        const iconHtml = coin.imageUrl 
+                            ? `<img src="${coin.imageUrl}" alt="${coin.symbol}" class="memecoin-icon" onerror="this.outerHTML='<span class=\\'memecoin-icon-placeholder\\'>${coin.symbol.charAt(0)}</span>'">`
+                            : `<span class="memecoin-icon-placeholder">${coin.symbol.charAt(0)}</span>`;
+                        
+                        return `
+                            <a href="${coin.dexUrl}" target="_blank" class="memecoin-item" title="View on DEX Screener">
+                                <span class="memecoin-rank">#${i + 1}</span>
+                                ${iconHtml}
+                                <div class="memecoin-info">
+                                    <span class="memecoin-name">${coin.symbol}</span>
+                                    <span class="memecoin-symbol">${coin.name.substring(0, 18)}</span>
+                                </div>
+                                <div class="memecoin-age">
+                                    <div class="memecoin-age-value">${coin.age || '?'}</div>
+                                </div>
+                                <div class="memecoin-volume">
+                                    <div class="memecoin-volume-label">Vol</div>
+                                    <div class="memecoin-volume-value">${formatVolume(coin.volume24h)}</div>
+                                </div>
+                                <div class="memecoin-mcap">
+                                    <div class="memecoin-mcap-value">${formatMcap(coin.marketCap)}</div>
+                                    <div class="memecoin-mcap-change ${changeClass}">${changeSign}${coin.priceChange24h.toFixed(1)}%</div>
+                                </div>
+                            </a>
+                        `;
+                    }).join('');
+                    
+                    if (refreshEl && data.lastUpdated) {
+                        const time = new Date(data.lastUpdated).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                        refreshEl.textContent = time;
+                    }
+                } catch (err) {
+                    console.error('Memecoins refresh error:', err);
+                    const container = document.getElementById('memecoins-list');
+                    container.innerHTML = '<div class="memecoin-item loading"><span>Failed to load memecoins</span></div>';
+                }
+            };
+            if (btn) spinButton(btn, doRefresh());
+            else doRefresh();
+        }
+        
+        // ===== JANE'S MIND (Real Reasoning) =====
+        let mindState = {
+            task: null,
+            steps: [],
+            thought: 'Ready for your next request.'
+        };
+        
+        function updateMind(task, steps, thought) {
+            if (task !== undefined) {
+                // Only update task if we have a new one, or preserve the old one
+                if (task) {
+                    mindState.task = task;
+                }
+                document.getElementById('mind-current-task').textContent = mindState.task || 'Awaiting instructions...';
+            }
+            
+            if (steps !== undefined && steps.length > 0) {
+                // Only update steps if we have new ones
+                mindState.steps = steps;
+            }
+            if (mindState.steps && mindState.steps.length > 0) {
+                const container = document.getElementById('mind-steps');
+                const stepIcons = {
+                    done: `<svg class="cat-icon" style="width:10px;height:10px" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`,
+                    active: `<svg class="cat-icon" style="width:10px;height:10px" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`,
+                    pending: `<svg class="cat-icon" style="width:10px;height:10px;opacity:0.4" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>`
+                };
+                const stepsHtml = mindState.steps.map((step, i) => {
+                    const status = step.status || 'pending';
+                    const icon = stepIcons[status] || stepIcons.pending;
+                    const stepText = step.text || step.label || '';
+                    const isWaiting = status === 'active' && stepText.toLowerCase().includes('waiting');
+                    const dotsClass = isWaiting ? ' waiting-dots' : '';
+                    return `<div class="mind-step ${status}"><span class="step-icon">${icon}</span> <span class="${dotsClass}">${stepText}</span></div>`;
+                }).join('');
+                
+                // Check if all steps are done - add waiting line
+                const allDone = mindState.steps.length > 0 && mindState.steps.every(s => s.status === 'done');
+                const hasActiveStep = mindState.steps.some(s => s.status === 'active');
+                const waitingLine = (allDone && !hasActiveStep) 
+                    ? `<div class="mind-step active" style="margin-top:8px;opacity:0.7"><span class="step-icon">${stepIcons.active}</span> <span class="waiting-dots">Waiting for further instruction</span></div>`
+                    : '';
+                
+                container.innerHTML = stepsHtml + waitingLine;
+            }
+            
+            if (thought !== undefined) {
+                mindState.thought = thought;
+                const thoughtEl = document.getElementById('mind-thought-text');
+                thoughtEl.textContent = thought;
+                thoughtEl.classList.remove('waiting-dots'); // No dots on thought box
+            }
+        }
+        
+        function setMindStep(index, status) {
+            if (mindState.steps[index]) {
+                mindState.steps[index].status = status;
+                updateMind(undefined, mindState.steps, undefined);
+            }
+        }
+        
+        // Fetch mind state from API
+        async function refreshMind() {
+            try {
+                const data = await fetchWithTimeout('/api/mind', 5000);
+                if (data) {
+                    // Check if mind state is stale (older than 30 minutes)
+                    const lastUpdated = data.lastUpdated ? new Date(data.lastUpdated) : null;
+                    const now = new Date();
+                    const staleMs = 30 * 60 * 1000; // 30 minutes
+                    
+                    if (lastUpdated && (now - lastUpdated) > staleMs) {
+                        // State is stale - keep last task/steps visible but mark as idle
+                        updateMind(data.task, data.steps || [], data.thought || 'Monitoring... waiting for next task.');
+                        document.getElementById('mind-status').textContent = '○ Idle';
+                        document.getElementById('mind-status').style.color = 'var(--text-dim)';
+                    } else {
+                        // State is fresh - show it (preserve steps even if task is null)
+                        updateMind(data.task, data.steps || [], data.thought || 'Ready for your next request.');
+                        const hasActiveStep = (data.steps || []).some(s => s.status === 'active');
+                        const isActive = data.task || hasActiveStep;
+                        document.getElementById('mind-status').textContent = isActive ? '● Active' : '○ Idle';
+                        document.getElementById('mind-status').style.color = isActive ? 'var(--accent)' : 'var(--text-dim)';
+                    }
+                }
+            } catch (err) {
+                // Silent fail - mind state is optional
+            }
+        }
+        
+        // Refresh All Widgets
+        function refreshAll() {
+            // Spin the main refresh all button
+            const mainBtn = document.getElementById('refresh-all-btn');
+            if (mainBtn) mainBtn.classList.add('spinning');
+            
+            // Spin all individual refresh buttons
+            document.querySelectorAll('.refresh-btn').forEach(btn => btn.classList.add('spinning'));
+            
+            addThought('Refreshing all widgets...');
+            refreshSystem();
+            refreshAgents();
+            refreshTicker();
+            refreshPredictions();
+            refreshNews();
+            refreshTikTok();
+            refreshSorare();
+            refreshTasks();
+            refreshCron();
+            refreshMind();
+            
+            // Stop spinning after 1.5 seconds
+            setTimeout(() => {
+                if (mainBtn) mainBtn.classList.remove('spinning');
+                document.querySelectorAll('.refresh-btn').forEach(btn => btn.classList.remove('spinning'));
+                addThought('All widgets refreshed ✓');
+            }, 1500);
+        }
+        
+        // ===== DASHBOARD OPERATIONS (Automated logs) =====
+        const maxThinkingLines = 4;
+        
+        function addThought(text) {
+            const container = document.getElementById('thinking-content');
+            
+            // Mark old lines
+            container.querySelectorAll('.thinking-line').forEach(el => el.classList.add('old'));
+            
+            // Add new thought
+            const line = document.createElement('div');
+            line.className = 'thinking-line';
+            line.innerHTML = text + '<span class="thinking-cursor"></span>';
+            container.appendChild(line);
+            
+            // Remove cursor from previous lines
+            setTimeout(() => {
+                container.querySelectorAll('.thinking-line').forEach((el, i, arr) => {
+                    if (i < arr.length - 1) {
+                        const cursor = el.querySelector('.thinking-cursor');
+                        if (cursor) cursor.remove();
+                    }
+                });
+            }, 100);
+            
+            // Limit lines
+            const lines = container.querySelectorAll('.thinking-line');
+            if (lines.length > maxThinkingLines) {
+                lines[0].remove();
+            }
+            
+            // Auto-scroll
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        // Dashboard operational logs
+        function logOps() {
+            const ops = [
+                "Refreshing system metrics...",
+                "Syncing prediction data...",
+                "Updating TikTok stats...",
+                "Checking scheduled jobs...",
+                "Polling session status...",
+                "Auto-refresh complete.",
+                "Monitoring active...",
+                "All systems nominal."
+            ];
+            addThought(ops[Math.floor(Math.random() * ops.length)]);
+        }
+        
+        // Initial ops logs
+        setTimeout(() => addThought("Dashboard initialized."), 500);
+        setTimeout(() => addThought("Connected to OpenClaw."), 1500);
+        setTimeout(() => addThought("Auto-refresh enabled."), 2500);
+        
+        // Periodic ops logs
+        setInterval(logOps, 20000);
+        
+        // Refresh mind state periodically
+        setInterval(refreshMind, 5000);
+        
+        // Crypto WebSocket disabled - using API polling instead
+        
+        // Initial load
+        refreshSystem();
+        refreshAgents();
+        refreshTicker();  // Still fetch initial data and NDAQ/IBIT from API
+        refreshPredictions();
+        refreshNews();
+        refreshTikTok();
+        refreshTasks();
+        refreshCron();
+        refreshMind();
+        refreshSorare();
+        refreshMemecoins();  // Was missing from init!
+        
+        // Auto-refresh intervals
+        setInterval(refreshSystem, 30000);
+        setInterval(refreshAgents, 30000);
+        
+        // Adaptive ticker: 10s when market open, 60s when closed (crypto still updates)
+        let tickerInterval = null;
+        function setAdaptiveTicker() {
+            if (tickerInterval) clearInterval(tickerInterval);
+            const ms = isStockMarketOpen() ? 10000 : 60000;
+            tickerInterval = setInterval(refreshTicker, ms);
+        }
+        setAdaptiveTicker();
+        setInterval(setAdaptiveTicker, 60000);  // Re-check market status every minute
+        
+        setInterval(refreshPredictions, 300000);  // Predictions every 5 minutes
+        setInterval(refreshNews, 300000);
+        setInterval(refreshTikTok, 300000);
+        setInterval(refreshTasks, 60000);
+        setInterval(refreshCron, 60000);
+        setInterval(refreshSorare, 300000);  // Refresh Sorare every 5 minutes
+        setInterval(refreshMemecoins, 30000);  // Memecoins every 30s (DexScreener data)
+        
+        // Night Mode
+        let bouncingAnimation = null;
+        let bounceX = 50, bounceY = 50;
+        let bounceVX = 1.5, bounceVY = 1;
+        
+        function toggleNightMode() {
+            const overlay = document.getElementById('night-mode-overlay');
+            overlay.classList.add('active');
+            updateNightModeClock();
+            startBouncingLogo();
+        }
+        
+        function exitNightMode() {
+            const overlay = document.getElementById('night-mode-overlay');
+            overlay.classList.remove('active');
+            if (bouncingAnimation) {
+                cancelAnimationFrame(bouncingAnimation);
+                bouncingAnimation = null;
+            }
+        }
+        
+        function startBouncingLogo() {
+            const logo = document.getElementById('bouncing-logo');
+            const overlay = document.getElementById('night-mode-overlay');
+            
+            function animate() {
+                if (!overlay.classList.contains('active')) return;
+                
+                const maxX = window.innerWidth - 120;
+                const maxY = window.innerHeight - 120;
+                
+                bounceX += bounceVX;
+                bounceY += bounceVY;
+                
+                // Bounce off edges
+                if (bounceX <= 0 || bounceX >= maxX) {
+                    bounceVX = -bounceVX;
+                    bounceX = Math.max(0, Math.min(bounceX, maxX));
+                }
+                if (bounceY <= 0 || bounceY >= maxY) {
+                    bounceVY = -bounceVY;
+                    bounceY = Math.max(0, Math.min(bounceY, maxY));
+                }
+                
+                logo.style.left = bounceX + 'px';
+                logo.style.top = bounceY + 'px';
+                
+                bouncingAnimation = requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+        
+        function updateNightModeClock() {
+            const overlay = document.getElementById('night-mode-overlay');
+            if (!overlay.classList.contains('active')) return;
+            
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const displayHours = hours % 12 || 12;
+            
+            document.getElementById('eink-time').textContent = `${displayHours}:${minutes}`;
+            document.getElementById('eink-ampm').textContent = ampm;
+            document.getElementById('eink-date').textContent = now.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            setTimeout(updateNightModeClock, 1000);
+        }
+        
+        // Auto-hide cursor after 1 minute of inactivity
+        let cursorTimeout;
+        const CURSOR_HIDE_DELAY = 60000; // 1 minute
+        
+        function hideCursor() {
+            document.body.style.cursor = 'none';
+            document.querySelectorAll('*').forEach(el => el.style.cursor = 'none');
+        }
+        
+        function showCursor() {
+            document.body.style.cursor = '';
+            document.querySelectorAll('*').forEach(el => el.style.cursor = '');
+        }
+        
+        function resetCursorTimer() {
+            showCursor();
+            clearTimeout(cursorTimeout);
+            cursorTimeout = setTimeout(hideCursor, CURSOR_HIDE_DELAY);
+        }
+        
+        // Listen for mouse movement
+        document.addEventListener('mousemove', resetCursorTimer);
+        document.addEventListener('mousedown', resetCursorTimer);
+        document.addEventListener('keydown', resetCursorTimer);
+        
+        // Start the timer
+        resetCursorTimer();
+    </script>
+    
+    <!-- Night Mode Overlay -->
+    <div id="night-mode-overlay" class="night-mode-overlay" onclick="exitNightMode()">
+        <div class="eink-time" id="eink-time">12:00</div>
+        <div class="eink-ampm" id="eink-ampm">AM</div>
+        <div class="eink-date" id="eink-date">Wednesday, February 5</div>
+        <div class="eink-hint">tap anywhere to exit</div>
+        <div class="bouncing-logo" id="bouncing-logo">
+            <img src="icon-192.png" alt="Jane">
+        </div>
+    </div>
+</body>
+</html>

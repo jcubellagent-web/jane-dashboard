@@ -1,0 +1,78 @@
+{
+  "lastUpdated": "2026-02-01T23:55:00Z",
+  "featured": {
+    "tag": "🔥 Breaking",
+    "title": "NYC killing AI chatbot that told businesses to break the law",
+    "desc": "Mamdani plans to shut down Eric Adams' chatbot that advised illegal wage theft and cash refusals",
+    "source": "The Verge",
+    "date": "Feb 1"
+  },
+  "agenticRetail": [
+    {
+      "title": "Rabbit announces 'Project Cyberdeck'",
+      "desc": "New portable device specifically designed for vibe-coding, plus r1 gets agentic computer control",
+      "source": "Rabbit",
+      "date": "Jan 30"
+    },
+    {
+      "title": "Gemini as personal tour guide in Maps",
+      "desc": "Ask about neighborhoods, get restaurant recs while walking - rolling out iOS/Android",
+      "source": "Google",
+      "date": "Jan 29"
+    },
+    {
+      "title": "Claude Code sets up Home Assistant",
+      "desc": "User reports AI agent configured smart home in one afternoon after years of trying",
+      "source": "The Verge",
+      "date": "Jan 28"
+    },
+    {
+      "title": "OpenClaw (Moltbot) goes viral",
+      "desc": "Open-source local AI agent trending; creator deals with rebrand and crypto scammers",
+      "source": "The Verge",
+      "date": "Jan 28"
+    }
+  ],
+  "agenticEnterprise": [
+    {
+      "title": "Google Project Genie 3 world model",
+      "desc": "AI creates playable game worlds from prompts - users building Nintendo-style knockoffs",
+      "source": "The Verge",
+      "date": "Jan 30"
+    },
+    {
+      "title": "Anthropic Cowork plugins launch",
+      "desc": "Domain expert AI for sales, legal, finance, marketing, data analysis, customer support",
+      "source": "Anthropic",
+      "date": "Jan 30"
+    },
+    {
+      "title": "Tesla deploys $2B for physical-world AI",
+      "desc": "xAI investment targets AI products and services deployment at scale via Optimus",
+      "source": "Tesla",
+      "date": "Jan 28"
+    },
+    {
+      "title": "DOT using Gemini for regulations",
+      "desc": "Transportation Dept. writing rules with AI; officials say 'don't need perfect rules'",
+      "source": "ProPublica",
+      "date": "Jan 27"
+    }
+  ],
+  "general": [
+    {
+      "tag": "⚠️ Retiring",
+      "title": "GPT-4o being retired February 13th",
+      "desc": "Only 0.1% still using it daily after GPT-5 launch",
+      "source": "OpenAI",
+      "date": "Jan 30"
+    },
+    {
+      "tag": "💰 Deal",
+      "title": "Nvidia's $100B OpenAI deal \"on ice\"",
+      "desc": "Partnership rethought; discussing tens of billions equity instead",
+      "source": "WSJ",
+      "date": "Jan 31"
+    }
+  ]
+}

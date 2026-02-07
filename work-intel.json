@@ -1,0 +1,47 @@
+{
+  "lastUpdated": "2026-02-01T06:30:00Z",
+  "profile": {
+    "company": "Nasdaq",
+    "industry": "Financial Services / Fintech",
+    "interests": ["Digital Assets", "Private Markets", "Trading Technology", "Market Data"]
+  },
+  "marketData": {
+    "nasdaqStock": { "symbol": "NDAQ", "price": 0, "change": 0, "changePercent": 0 },
+    "indices": {
+      "nasdaq100": { "symbol": "NDX", "price": 0, "change": 0 },
+      "sp500": { "symbol": "SPX", "price": 0, "change": 0 },
+      "dow": { "symbol": "DJI", "price": 0, "change": 0 }
+    }
+  },
+  "news": [
+    {
+      "title": "Nasdaq acquires Volos Portfolio Solutions",
+      "source": "Nasdaq",
+      "category": "Company News",
+      "date": "2026-01-28",
+      "summary": "Systematic options strategy development software acquisition"
+    },
+    {
+      "title": "Nasdaq Private Market closes Series C round",
+      "source": "LinkedIn",
+      "category": "Private Markets",
+      "date": "2026-01-27",
+      "summary": "Significant progress in NPM's evolution to complete business model"
+    }
+  ],
+  "watchlist": [
+    { "topic": "Digital Asset Regulation", "icon": "⚖️" },
+    { "topic": "Nasdaq Acquisitions", "icon": "🏢" },
+    { "topic": "Private Market Trends", "icon": "📊" },
+    { "topic": "Trading Tech Innovation", "icon": "💻" }
+  ],
+  "personalInterests": {
+    "twitter": "@jcubnft",
+    "topics": [
+      { "name": "Patriots / Drake Maye", "icon": "🏈", "tags": ["#gopats", "Drake Maye"] },
+      { "name": "Institutional Crypto", "icon": "🏦", "tags": ["Fidelity", "Vanguard", "BlackRock", "stablecoin"] },
+      { "name": "Panini NFTs", "icon": "🎴", "tags": ["#PaniniNFT", "@PaniniAmerica"] },
+      { "name": "DeFi / Web3", "icon": "🔗", "tags": ["DeFi", "staking", "blockchain"] }
+    ]
+  }
+}

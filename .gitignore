@@ -1,0 +1,23 @@
+# Secrets & credentials
+.secrets/
+*.key
+*.pem
+
+# Runtime state (changes frequently, not worth versioning)
+mind-state.json
+sessions.json
+chat-queue.json
+chat-history.json
+sorare-stats.json
+tiktok-stats.json
+.tiktok-refresh-requested
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

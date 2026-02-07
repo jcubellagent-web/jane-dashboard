@@ -1262,21 +1262,18 @@
             overflow-y: auto;
         }
         
-        /* AI News - fills remaining height in center column */
+        /* AI News - compact with scroll */
         .card-news-fill {
-            flex: 1;
             display: flex;
             flex-direction: column;
-            min-height: 0;
         }
         
         .card-news-fill .news-two-columns {
-            flex: 1;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 0.5rem;
+            max-height: 180px;
             overflow-y: auto;
-            min-height: 0;
         }
         
         .news-col-title {

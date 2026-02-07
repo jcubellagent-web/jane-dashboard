@@ -1955,8 +1955,10 @@
         .mind-steps {
             margin-bottom: 0.5rem;
             flex: 1;
-            overflow: hidden;
+            overflow-y: auto;
+            scrollbar-width: none;
         }
+        .mind-steps::-webkit-scrollbar { display: none; }
         
         .mind-step {
             display: flex;
@@ -3567,6 +3569,9 @@
                     : '';
                 
                 container.innerHTML = stepsHtml + waitingLine;
+                // Auto-scroll to latest active or last done step
+                const activeStep = container.querySelector('.mind-step.active') || container.lastElementChild;
+                if (activeStep) activeStep.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
             }
             
             if (thought !== undefined) {

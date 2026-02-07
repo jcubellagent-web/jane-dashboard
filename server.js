@@ -457,6 +457,7 @@ const server = http.createServer((req, res) => {
             coingecko: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238BC53F'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Ccircle cx='9' cy='10' r='2' fill='white'/%3E%3Ccircle cx='9' cy='10' r='1' fill='black'/%3E%3C/svg%3E",
             yahoo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%237B1FA2'%3E%3Cpath d='M2 4l5.5 8.5V20h3v-7.5L16 4h-3.5L9.25 9.5 6 4H2zm14 0l3 8h3l-3-8h-3zm2 10a2 2 0 100 4 2 2 0 000-4z'/%3E%3C/svg%3E",
             dexscreener: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300E676'%3E%3Cpath d='M3 17l6-6 4 4 8-8v3h2V3h-7v2h3l-6 6-4-4-8 8z'/%3E%3C/svg%3E",
+            brave: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FB542B'%3E%3Cpath d='M12 2L4 5.5v5c0 5.25 3.4 10.15 8 11.5 4.6-1.35 8-6.25 8-11.5v-5L12 2zm0 2.18l6 2.63v4.19c0 4.35-2.76 8.43-6 9.68-3.24-1.25-6-5.33-6-9.68V6.81l6-2.63z'/%3E%3Cpath d='M12 6l-4 1.8v3.2c0 3.13 1.7 6.08 4 7.2 2.3-1.12 4-4.07 4-7.2V7.8L12 6z'/%3E%3C/svg%3E",
         };
         const connections = {
             accounts: [
@@ -478,7 +479,8 @@ const server = http.createServer((req, res) => {
                 { name: 'Yahoo Finance', detail: 'stock prices', icon: icons.yahoo, active: true },
                 { name: 'DexScreener', detail: 'memecoin data', icon: icons.dexscreener, active: true },
                 { name: 'Sorare GraphQL', detail: 'fantasy sports', icon: icons.sorare, active: true },
-                { name: 'GitHub API', detail: 'code repos', icon: icons.github, active: true }
+                { name: 'GitHub API', detail: 'code repos', icon: icons.github, active: true },
+                { name: 'Brave Search', detail: 'web search', icon: icons.brave, active: true }
             ]
         };
         res.writeHead(200, { 'Content-Type': 'application/json' });

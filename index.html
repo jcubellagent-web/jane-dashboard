@@ -1405,15 +1405,25 @@
         .ops-redesigned {
             gap: 0;
         }
-        .ops-conn-section {
-            padding: 0.4rem 0.6rem;
+        .ops-conn-row {
+            display: flex;
+            gap: 0.3rem;
             margin: 0.3rem 0.4rem;
+        }
+        .ops-conn-section {
+            flex: 1;
+            padding: 0.3rem 0.5rem;
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.06);
             border-radius: 8px;
+            min-width: 0;
         }
-        .ops-conn-section:last-child {
-            margin-bottom: 0.4rem;
+        .ops-conn-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+            max-height: 100px;
+            overflow-y: auto;
         }
         .ops-conn-header {
             display: flex;
@@ -1443,8 +1453,8 @@
         }
         .ops-conn-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.2rem 0.5rem;
+            grid-template-columns: 1fr;
+            gap: 0.1rem;
         }
         .conn-item {
             display: flex;
@@ -2265,24 +2275,24 @@
                     <div class="ops-sessions-list" id="ops-sessions-list">Loading...</div>
                 </div>
 
-                <!-- My Accounts Section -->
-                <div class="ops-conn-section">
-                    <div class="ops-conn-header">
-                        <svg class="cat-icon" viewBox="0 0 24 24" style="width:14px;height:14px;fill:var(--accent);"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                        <span>My Accounts</span>
-                        <span class="ops-conn-count" id="conn-accounts-count">0</span>
+                <!-- Accounts & Data side by side -->
+                <div class="ops-conn-row">
+                    <div class="ops-conn-section">
+                        <div class="ops-conn-header">
+                            <svg class="cat-icon" viewBox="0 0 24 24" style="width:14px;height:14px;fill:var(--accent);"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            <span>My Accounts</span>
+                            <span class="ops-conn-count" id="conn-accounts-count">0</span>
+                        </div>
+                        <div class="ops-conn-list" id="conn-accounts"></div>
                     </div>
-                    <div class="ops-conn-grid" id="conn-accounts"></div>
-                </div>
-
-                <!-- Data Connections Section -->
-                <div class="ops-conn-section">
-                    <div class="ops-conn-header">
-                        <svg class="cat-icon" viewBox="0 0 24 24" style="width:14px;height:14px;fill:#60a5fa;"><path d="M12 2C6.48 2 2 4.69 2 8v8c0 3.31 4.48 6 10 6s10-2.69 10-6V8c0-3.31-4.48-6-10-6zm0 2c4.42 0 8 1.79 8 4s-3.58 4-8 4-8-1.79-8-4 3.58-4 8-4z"/></svg>
-                        <span>Data Connections</span>
-                        <span class="ops-conn-count ops-conn-count-blue" id="conn-data-count">0</span>
+                    <div class="ops-conn-section">
+                        <div class="ops-conn-header">
+                            <svg class="cat-icon" viewBox="0 0 24 24" style="width:14px;height:14px;fill:#60a5fa;"><path d="M12 2C6.48 2 2 4.69 2 8v8c0 3.31 4.48 6 10 6s10-2.69 10-6V8c0-3.31-4.48-6-10-6zm0 2c4.42 0 8 1.79 8 4s-3.58 4-8 4-8-1.79-8-4 3.58-4 8-4z"/></svg>
+                            <span>Data Connections</span>
+                            <span class="ops-conn-count ops-conn-count-blue" id="conn-data-count">0</span>
+                        </div>
+                        <div class="ops-conn-list" id="conn-datasources"></div>
                     </div>
-                    <div class="ops-conn-grid" id="conn-datasources"></div>
                 </div>
 
                 <!-- Ops Log -->

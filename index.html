@@ -1864,6 +1864,11 @@
             max-height: 90px;
             overflow: hidden;
             text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+            margin: 0.3rem 0.4rem 0.4rem;
+            padding: 0.4rem 0.5rem;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(74,222,128,0.1);
+            border-radius: 8px;
         }
         
         .ops-sessions {
@@ -2553,20 +2558,17 @@
                     
                     const sessionTags = data.sessions.map(s => {
                         const isActive = s.status === 'active';
-                        // Generate friendly name from session key
-                        let name = s.displayName;
-                        if (!name) {
-                            const parts = s.key.split(':');
-                            // Handle different session types
-                            if (parts.includes('cron')) name = 'Cron Job';
-                            else if (parts.includes('dashboard')) name = 'Dashboard';
-                            else if (parts.includes('test')) name = 'Test';
-                            else if (parts.includes('spawn')) name = 'Sub-Agent';
-                            else name = parts[parts.length - 1];
-                            // Don't show UUIDs
-                            if (name.match(/^[0-9a-f]{8}-/i)) name = 'Background';
-                        }
-                        const shortName = name.length > 15 ? name.substring(0, 15) + '...' : name;
+                        // Generate plain English names
+                        let name = '';
+                        const key = s.key || '';
+                        if (key.includes('main:main')) name = 'Main Chat (WhatsApp)';
+                        else if (key.includes('subagent') || key.includes('spawn')) name = s.label ? `Task: ${s.label.replace(/-/g,' ')}` : 'Background Task';
+                        else if (key.includes('cron')) name = 'Scheduled Job';
+                        else if (key.includes('dashboard:chat')) name = 'Dashboard Chat';
+                        else if (key.includes('test')) name = 'System Test';
+                        else name = s.displayName || key.split(':').pop();
+                        if (name.match(/^[0-9a-f]{8}-/i)) name = 'Background Task';
+                        const shortName = name.length > 22 ? name.substring(0, 22) + '...' : name;
                         return `<div class="ops-session-tag ${isActive ? 'active' : 'idle'}" title="${s.key} (${s.contextUsed || '--'})">
                             <span class="ops-session-dot"></span>
                             <span>${shortName}</span>

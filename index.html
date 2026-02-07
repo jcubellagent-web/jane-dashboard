@@ -3533,6 +3533,26 @@
         setInterval(refreshConnections, 300000);  // Connections every 5 minutes
         setInterval(refreshMemecoins, 30000);  // Memecoins every 30s (DexScreener data)
         
+        // WebSocket for real-time updates (instant mind state sync)
+        (function connectWS() {
+            try {
+                const ws = new WebSocket(`ws://${location.host}`);
+                ws.onmessage = (e) => {
+                    try {
+                        const msg = JSON.parse(e.data);
+                        if (msg.type === 'update') {
+                            if (msg.widget === 'mind') refreshMind();
+                            if (msg.widget === 'sessions') refreshAgents();
+                            if (msg.widget === 'sorare') refreshSorare();
+                            if (msg.widget === 'tasks') { refreshTasks(); refreshCron(); }
+                        }
+                    } catch(err) {}
+                };
+                ws.onclose = () => setTimeout(connectWS, 3000);
+                ws.onerror = () => {};
+            } catch(err) { setTimeout(connectWS, 5000); }
+        })();
+        
         // Night Mode
         let bouncingAnimation = null;
         let bounceX = 50, bounceY = 50;

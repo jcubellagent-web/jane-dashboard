@@ -1666,7 +1666,8 @@ const WATCHED_FILES = {
     'tiktok': path.join(ROOT, 'tiktok-stats.json'),
     'trading': path.join(ROOT, 'trading-positions.json'),
     'sorare': path.join(ROOT, 'sorare-stats.json'),
-    'panini': path.join(ROOT, 'panini-collection.json')
+    'panini': path.join(ROOT, 'panini-collection.json'),
+    'mind': path.join(ROOT, 'mind-state.json')
 };
 
 // Debounce file change events

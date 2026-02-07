@@ -438,6 +438,36 @@ const server = http.createServer((req, res) => {
         return;
     }
 
+    // API endpoint for connected accounts & data sources
+    if (req.url === '/api/connections') {
+        const connections = {
+            accounts: [
+                { name: 'WhatsApp', detail: 'communication channel', icon: 'https://web.whatsapp.com/favicon-64x64.ico', active: true },
+                { name: 'Gmail', detail: 'jcubellagent@gmail.com', icon: 'https://mail.google.com/favicon.ico', active: true },
+                { name: 'X / Twitter', detail: '@AgentJc11443', icon: 'https://abs.twimg.com/favicons/twitter.3.ico', active: true },
+                { name: 'TikTok', detail: '@degencollector', icon: 'https://www.tiktok.com/favicon.ico', active: true },
+                { name: 'Reddit', detail: 'u/JaneAgentAI', icon: 'https://www.reddit.com/favicon.ico', active: true },
+                { name: 'GitHub', detail: 'jcubellagent-web', icon: 'https://github.com/favicon.ico', active: true, invert: true },
+                { name: 'Sorare', detail: 'jcubnft', icon: 'https://sorare.com/favicon.ico', active: true },
+                { name: 'Phantom Wallet', detail: 'Solana', icon: 'https://phantom.app/favicon.ico', active: true }
+            ],
+            dataSources: [
+                { name: 'Polymarket API', detail: 'prediction markets', icon: 'https://polymarket.com/favicon.ico', active: true },
+                { name: 'Kalshi API', detail: 'prediction markets', icon: 'https://kalshi.com/favicon.ico', active: true },
+                { name: 'Manifold Markets API', detail: 'prediction markets', icon: 'https://manifold.markets/favicon.ico', active: true },
+                { name: 'Metaculus API', detail: 'prediction markets', icon: 'https://www.metaculus.com/favicon.ico', active: true },
+                { name: 'CoinGecko API', detail: 'crypto prices', icon: 'https://www.coingecko.com/favicon.ico', active: true },
+                { name: 'Yahoo Finance API', detail: 'stock prices', icon: 'https://finance.yahoo.com/favicon.ico', active: true },
+                { name: 'DexScreener API', detail: 'memecoin data', icon: 'https://dexscreener.com/favicon.ico', active: true },
+                { name: 'Sorare GraphQL API', detail: 'fantasy sports', icon: 'https://sorare.com/favicon.ico', active: true },
+                { name: 'GitHub API', detail: 'code repos', icon: 'https://github.com/favicon.ico', active: true, invert: true }
+            ]
+        };
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(connections));
+        return;
+    }
+
     // API endpoint for system stats
     if (req.url === '/api/system') {
         const stats = getSystemStats();

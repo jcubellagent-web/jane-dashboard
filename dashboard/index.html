@@ -1372,6 +1372,49 @@
             font-size: 0.8rem;
         }
         
+        .conn-section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-dim);
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+        }
+        .conn-divider {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            margin: 0.5rem 0;
+        }
+        .conn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.25rem 0.75rem;
+        }
+        .conn-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.2rem 0;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        .conn-item img {
+            width: 16px;
+            height: 16px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        .conn-item img.logo-invert {
+            filter: invert(1);
+        }
+        .conn-item .conn-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+            margin-left: auto;
+        }
+        
         /* TikTok Full (fills remaining left column) */
         .card-tiktok-full {
             flex: 1;
@@ -2167,22 +2210,28 @@
             </div>
             </div><!-- end status-ticker-row -->
             
-            <!-- Connected Accounts - More Prominent -->
+            <!-- Connected Accounts - Dynamic -->
             <div class="card card-connected">
                 <div class="card-header">
                     <div class="card-title">
                         <span class="card-icon"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></span>
                         Connected Accounts
-                        <span class="last-refresh">static</span>
+                        <span class="last-refresh" id="connections-refresh">--</span>
+                    </div>
+                    <div class="card-meta">
+                        <button class="refresh-btn" onclick="refreshConnections(this)">↻</button>
                     </div>
                 </div>
-                <div class="accounts-pills">
-                    <div class="account-pill"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg> WhatsApp <span class="pill-dot"></span></div>
-                    <div class="account-pill"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg> Gmail <span class="pill-dot"></span></div>
-                    <div class="account-pill"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg> TikTok <span class="pill-dot"></span></div>
-                    <div class="account-pill"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.94-.49-7-3.85-7-7.93s3.05-7.44 7-7.93v15.86zm2-15.86c3.94.49 7 3.85 7 7.93s-3.06 7.44-7 7.93V4.07z"/></svg> Sorare <span class="pill-dot"></span></div>
-                    <div class="account-pill"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> X <span class="pill-dot"></span></div>
-                    <div class="account-pill"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg> Phantom <span class="pill-dot"></span></div>
+                <div id="connections-container">
+                    <div class="conn-section">
+                        <div class="conn-section-title">My Accounts</div>
+                        <div class="conn-grid" id="conn-accounts"></div>
+                    </div>
+                    <div class="conn-divider"></div>
+                    <div class="conn-section">
+                        <div class="conn-section-title">Data Connections</div>
+                        <div class="conn-grid" id="conn-datasources"></div>
+                    </div>
                 </div>
             </div>
             
@@ -2381,6 +2430,27 @@
             return doRefresh();
         }
         
+        // Connected Accounts
+        async function refreshConnections(btn) {
+            try {
+                const res = await fetch('/api/connections');
+                const data = await res.json();
+                const render = (items, containerId) => {
+                    const el = document.getElementById(containerId);
+                    el.innerHTML = items.map(i => `
+                        <div class="conn-item">
+                            <img src="${i.icon}" alt="" class="${i.invert ? 'logo-invert' : ''}" onerror="this.style.display='none'">
+                            <span title="${i.detail || ''}">${i.name}</span>
+                            ${i.active ? '<span class="conn-dot"></span>' : ''}
+                        </div>
+                    `).join('');
+                };
+                render(data.accounts, 'conn-accounts');
+                render(data.dataSources, 'conn-datasources');
+                document.getElementById('connections-refresh').textContent = new Date().toLocaleTimeString();
+            } catch(e) { console.error('connections', e); }
+        }
+
         // System Stats
         async function refreshSystem(btn) {
             const doRefresh = async () => {
@@ -2398,7 +2468,8 @@
                             const formatted = main.model.split('/').pop()
                                 .replace('claude-', '')
                                 .replace(/-/g, ' ')
-                                .replace('4 5', '4.5');
+                                .replace('4 5', '4.5')
+                                .replace('4 6', '4.6');
                             document.getElementById('jane-model').textContent = formatted;
                         }
                     }
@@ -3110,9 +3181,10 @@
                 const stepsHtml = mindState.steps.map((step, i) => {
                     const status = step.status || 'pending';
                     const icon = stepIcons[status] || stepIcons.pending;
-                    const isWaiting = status === 'active' && step.text.toLowerCase().includes('waiting');
+                    const stepText = step.text || step.label || '';
+                    const isWaiting = status === 'active' && stepText.toLowerCase().includes('waiting');
                     const dotsClass = isWaiting ? ' waiting-dots' : '';
-                    return `<div class="mind-step ${status}"><span class="step-icon">${icon}</span> <span class="${dotsClass}">${step.text}</span></div>`;
+                    return `<div class="mind-step ${status}"><span class="step-icon">${icon}</span> <span class="${dotsClass}">${stepText}</span></div>`;
                 }).join('');
                 
                 // Check if all steps are done - add waiting line
@@ -3184,6 +3256,7 @@
             refreshTicker();
             refreshPredictions();
             refreshNews();
+            refreshConnections();
             refreshTikTok();
             refreshSorare();
             refreshTasks();
@@ -3272,17 +3345,31 @@
         refreshCron();
         refreshMind();
         refreshSorare();
+        refreshMemecoins();  // Was missing from init!
+        refreshConnections();
         
         // Auto-refresh intervals
         setInterval(refreshSystem, 30000);
         setInterval(refreshAgents, 30000);
-        setInterval(refreshTicker, 30000);  // Refresh ticker every 30 seconds
-        setInterval(refreshPredictions, 300000);  // Predictions every 5 minutes (reduced from 2)
+        
+        // Adaptive ticker: 10s when market open, 60s when closed (crypto still updates)
+        let tickerInterval = null;
+        function setAdaptiveTicker() {
+            if (tickerInterval) clearInterval(tickerInterval);
+            const ms = isStockMarketOpen() ? 10000 : 60000;
+            tickerInterval = setInterval(refreshTicker, ms);
+        }
+        setAdaptiveTicker();
+        setInterval(setAdaptiveTicker, 60000);  // Re-check market status every minute
+        
+        setInterval(refreshPredictions, 300000);  // Predictions every 5 minutes
         setInterval(refreshNews, 300000);
         setInterval(refreshTikTok, 300000);
         setInterval(refreshTasks, 60000);
         setInterval(refreshCron, 60000);
         setInterval(refreshSorare, 300000);  // Refresh Sorare every 5 minutes
+        setInterval(refreshConnections, 300000);  // Connections every 5 minutes
+        setInterval(refreshMemecoins, 30000);  // Memecoins every 30s (DexScreener data)
         
         // Night Mode
         let bouncingAnimation = null;

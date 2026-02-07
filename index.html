@@ -1755,7 +1755,7 @@
         /* Mind map side panel */
         .mind-body {
             display: flex;
-            gap: 0.5rem;
+            gap: 1rem;
             flex: 1;
             min-height: 0;
         }
@@ -1767,22 +1767,35 @@
             flex-direction: column;
         }
         .mind-map {
-            flex: 0 0 120px;
+            flex: 0 0 180px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-left: 0.75rem;
+            perspective: 600px;
         }
         .mind-map-svg {
             width: 100%;
             height: 100%;
+            transform: rotateX(12deg) rotateY(-8deg);
+            transform-style: preserve-3d;
         }
-        /* Mind map styles */
+        /* Mind map 3D styles */
+        .mm-orbit {
+            fill: none;
+            stroke: rgba(74,222,128,0.06);
+            stroke-width: 0.5;
+            stroke-dasharray: 3 2;
+            transition: all 0.8s;
+        }
+        .mm-orbit-2 { stroke-dasharray: 2 3; }
+        .mm-orbit-3 { stroke-dasharray: 4 1; stroke: rgba(74,222,128,0.04); }
         .mm-core {
-            fill: rgba(74,222,128,0.2);
-            stroke: rgba(74,222,128,0.4);
+            stroke: rgba(74,222,128,0.5);
             stroke-width: 1;
             transition: all 0.5s;
         }
+        .mm-core-halo { transition: all 0.5s; }
         .mm-node.mm-region {
             fill: rgba(74,222,128,0.15);
             stroke: rgba(74,222,128,0.3);
@@ -1794,14 +1807,20 @@
             stroke: none;
             transition: all 0.5s;
         }
-        .mm-conn {
-            stroke: rgba(74,222,128,0.12);
+        .mm-conn-deep {
+            stroke: rgba(74,222,128,0.1);
             stroke-width: 0.8;
+            transition: all 0.5s;
+        }
+        .mm-conn-cross {
+            stroke: rgba(74,222,128,0.05);
+            stroke-width: 0.4;
+            stroke-dasharray: 2 2;
             transition: all 0.5s;
         }
         .mm-conn-sub {
             stroke: rgba(74,222,128,0.06);
-            stroke-width: 0.5;
+            stroke-width: 0.4;
             transition: all 0.5s;
         }
         .mm-pulse {
@@ -1809,51 +1828,58 @@
             opacity: 0;
             transition: opacity 0.5s;
         }
-        /* Thinking - lit up mind map */
+        .mm-pulse-orbit { opacity: 0; }
+        /* Thinking - lit up */
         .mind-map.thinking .mm-core {
-            fill: var(--accent);
-            filter: drop-shadow(0 0 6px rgba(74,222,128,0.8));
+            filter: url(#glowStrong);
             animation: coreGlow 1.5s ease-in-out infinite alternate;
+        }
+        .mind-map.thinking .mm-core-halo {
+            opacity: 0.7;
+            animation: haloBreath 2s ease-in-out infinite alternate;
         }
         .mind-map.thinking .mm-region {
             fill: rgba(74,222,128,0.4);
-            filter: drop-shadow(0 0 3px rgba(74,222,128,0.5));
+            filter: url(#glow);
             animation: regionPulse 2s ease-in-out infinite alternate;
         }
-        .mind-map.thinking .mm-sub {
-            fill: rgba(74,222,128,0.25);
-        }
-        .mind-map.thinking .mm-conn {
-            stroke: rgba(74,222,128,0.3);
-        }
-        .mind-map.thinking .mm-conn-sub {
-            stroke: rgba(74,222,128,0.15);
-        }
-        .mind-map.thinking .mm-pulse {
-            opacity: 0.8;
-            filter: drop-shadow(0 0 2px rgba(74,222,128,0.6));
-        }
+        .mind-map.thinking .mm-sub { fill: rgba(74,222,128,0.2); }
+        .mind-map.thinking .mm-conn-deep { stroke: rgba(74,222,128,0.25); }
+        .mind-map.thinking .mm-conn-cross { stroke: rgba(74,222,128,0.12); }
+        .mind-map.thinking .mm-conn-sub { stroke: rgba(74,222,128,0.15); }
+        .mind-map.thinking .mm-orbit { stroke: rgba(74,222,128,0.15); animation: orbitSpin 8s linear infinite; }
+        .mind-map.thinking .mm-orbit-2 { animation-duration: 12s; animation-direction: reverse; }
+        .mind-map.thinking .mm-orbit-3 { stroke: rgba(74,222,128,0.1); animation-duration: 10s; }
+        .mind-map.thinking .mm-pulse { opacity: 0.85; filter: url(#glow); }
+        .mind-map.thinking .mm-pulse-orbit { opacity: 0.6; }
         @keyframes coreGlow {
-            0% { filter: drop-shadow(0 0 3px rgba(74,222,128,0.4)); }
-            100% { filter: drop-shadow(0 0 8px rgba(74,222,128,0.9)); }
+            0% { filter: drop-shadow(0 0 4px rgba(74,222,128,0.5)); }
+            100% { filter: drop-shadow(0 0 12px rgba(74,222,128,1)); }
+        }
+        @keyframes haloBreath {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
         }
         @keyframes regionPulse {
             0% { fill: rgba(74,222,128,0.25); }
             100% { fill: rgba(74,222,128,0.5); }
         }
-        /* Idle - dim everything */
-        .mind-map.idle .mm-core {
-            fill: rgba(74,222,128,0.08);
-            stroke: rgba(74,222,128,0.15);
+        @keyframes orbitSpin {
+            /* subtle dash offset animation */
+            0% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: 50; }
         }
-        .mind-map.idle .mm-region {
-            fill: rgba(74,222,128,0.05);
-            stroke: rgba(74,222,128,0.1);
-        }
-        .mind-map.idle .mm-sub { fill: rgba(74,222,128,0.03); }
-        .mind-map.idle .mm-conn { stroke: rgba(74,222,128,0.04); }
+        /* Idle - dim */
+        .mind-map.idle .mm-core { fill: rgba(74,222,128,0.06); stroke: rgba(74,222,128,0.1); filter: none; }
+        .mind-map.idle .mm-core-halo { opacity: 0.1; }
+        .mind-map.idle .mm-region { fill: rgba(74,222,128,0.04); stroke: rgba(74,222,128,0.08); filter: none; }
+        .mind-map.idle .mm-sub { fill: rgba(74,222,128,0.02); }
+        .mind-map.idle .mm-conn-deep { stroke: rgba(74,222,128,0.03); }
+        .mind-map.idle .mm-conn-cross { stroke: rgba(74,222,128,0.02); }
         .mind-map.idle .mm-conn-sub { stroke: rgba(74,222,128,0.02); }
+        .mind-map.idle .mm-orbit { stroke: rgba(74,222,128,0.03); }
         .mind-map.idle .mm-pulse { opacity: 0; }
+        .mind-map.idle .mm-pulse-orbit { opacity: 0; }
 
         .mind-content {
             font-size: 0.85rem;
@@ -2233,44 +2259,106 @@
                 </div>
                 <!-- Mind Map (right side) -->
                 <div class="mind-map" id="mind-neural">
-                    <svg class="mind-map-svg" viewBox="0 0 100 140">
-                        <!-- Central hub -->
-                        <circle class="mm-node mm-core" cx="50" cy="70" r="6"/>
-                        <!-- Regions: Language (top), Reasoning (right), Memory (bottom), Code (left), Vision (top-right), Output (bottom-right) -->
-                        <!-- Language -->
-                        <circle class="mm-node mm-region" id="mm-language" cx="50" cy="18" r="4"/>
-                        <line class="mm-conn" x1="50" y1="64" x2="50" y2="22"/>
-                        <circle class="mm-sub" cx="35" cy="10" r="2"/><line class="mm-conn-sub" x1="46" y1="16" x2="37" y2="11"/>
-                        <circle class="mm-sub" cx="65" cy="10" r="2"/><line class="mm-conn-sub" x1="54" y1="16" x2="63" y2="11"/>
-                        <!-- Reasoning -->
-                        <circle class="mm-node mm-region" id="mm-reasoning" cx="88" cy="45" r="4"/>
-                        <line class="mm-conn" x1="55" y1="66" x2="84" y2="47"/>
-                        <circle class="mm-sub" cx="96" cy="32" r="2"/><line class="mm-conn-sub" x1="90" y1="42" x2="95" y2="34"/>
-                        <circle class="mm-sub" cx="96" cy="58" r="2"/><line class="mm-conn-sub" x1="91" y1="48" x2="95" y2="56"/>
-                        <!-- Memory -->
-                        <circle class="mm-node mm-region" id="mm-memory" cx="50" cy="122" r="4"/>
-                        <line class="mm-conn" x1="50" y1="76" x2="50" y2="118"/>
-                        <circle class="mm-sub" cx="35" cy="130" r="2"/><line class="mm-conn-sub" x1="46" y1="124" x2="37" y2="129"/>
-                        <circle class="mm-sub" cx="65" cy="130" r="2"/><line class="mm-conn-sub" x1="54" y1="124" x2="63" y2="129"/>
-                        <!-- Code / Tools -->
-                        <circle class="mm-node mm-region" id="mm-code" cx="12" cy="45" r="4"/>
-                        <line class="mm-conn" x1="45" y1="66" x2="16" y2="47"/>
-                        <circle class="mm-sub" cx="4" cy="32" r="2"/><line class="mm-conn-sub" x1="10" y1="42" x2="5" y2="34"/>
-                        <!-- Vision / Perception -->
-                        <circle class="mm-node mm-region" id="mm-vision" cx="88" cy="95" r="4"/>
-                        <line class="mm-conn" x1="55" y1="74" x2="84" y2="93"/>
-                        <circle class="mm-sub" cx="96" cy="108" r="2"/><line class="mm-conn-sub" x1="90" y1="98" x2="95" y2="106"/>
-                        <!-- Output -->
-                        <circle class="mm-node mm-region" id="mm-output" cx="12" cy="95" r="4"/>
-                        <line class="mm-conn" x1="45" y1="74" x2="16" y2="93"/>
-                        <circle class="mm-sub" cx="4" cy="108" r="2"/><line class="mm-conn-sub" x1="10" y1="98" x2="5" y2="106"/>
-                        <!-- Pulses -->
-                        <circle class="mm-pulse" r="1.5"><animateMotion dur="1.5s" repeatCount="indefinite" path="M50,64 L50,22"/></circle>
-                        <circle class="mm-pulse" r="1.5"><animateMotion dur="1.8s" repeatCount="indefinite" path="M55,66 L84,47"/></circle>
-                        <circle class="mm-pulse" r="1.5"><animateMotion dur="2s" repeatCount="indefinite" path="M50,76 L50,118"/></circle>
-                        <circle class="mm-pulse" r="1.5"><animateMotion dur="1.6s" repeatCount="indefinite" path="M45,66 L16,47"/></circle>
-                        <circle class="mm-pulse" r="1.5"><animateMotion dur="1.7s" repeatCount="indefinite" path="M55,74 L84,93"/></circle>
-                        <circle class="mm-pulse" r="1.5"><animateMotion dur="1.4s" repeatCount="indefinite" path="M45,74 L16,93"/></circle>
+                    <svg class="mind-map-svg" viewBox="0 0 140 180">
+                        <defs>
+                            <radialGradient id="coreGrad" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="rgba(74,222,128,0.6)"/>
+                                <stop offset="100%" stop-color="rgba(74,222,128,0.05)"/>
+                            </radialGradient>
+                            <radialGradient id="regionGrad" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="rgba(74,222,128,0.35)"/>
+                                <stop offset="100%" stop-color="rgba(74,222,128,0.02)"/>
+                            </radialGradient>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="2" result="blur"/>
+                                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                            </filter>
+                            <filter id="glowStrong">
+                                <feGaussianBlur stdDeviation="4" result="blur"/>
+                                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                            </filter>
+                        </defs>
+                        <!-- Orbital rings (3D depth) -->
+                        <ellipse class="mm-orbit" cx="70" cy="90" rx="55" ry="18" transform="rotate(-15,70,90)"/>
+                        <ellipse class="mm-orbit mm-orbit-2" cx="70" cy="90" rx="45" ry="38" transform="rotate(25,70,90)"/>
+                        <ellipse class="mm-orbit mm-orbit-3" cx="70" cy="90" rx="60" ry="28" transform="rotate(-50,70,90)"/>
+                        <!-- Deep layer connections (back) -->
+                        <line class="mm-conn-deep" x1="70" y1="90" x2="25" y2="30"/>
+                        <line class="mm-conn-deep" x1="70" y1="90" x2="115" y2="30"/>
+                        <line class="mm-conn-deep" x1="70" y1="90" x2="20" y2="90"/>
+                        <line class="mm-conn-deep" x1="70" y1="90" x2="120" y2="90"/>
+                        <line class="mm-conn-deep" x1="70" y1="90" x2="25" y2="150"/>
+                        <line class="mm-conn-deep" x1="70" y1="90" x2="115" y2="150"/>
+                        <line class="mm-conn-deep" x1="70" y1="90" x2="70" y2="22"/>
+                        <line class="mm-conn-deep" x1="70" y1="90" x2="70" y2="158"/>
+                        <!-- Cross-region connections -->
+                        <line class="mm-conn-cross" x1="25" y1="30" x2="115" y2="30"/>
+                        <line class="mm-conn-cross" x1="20" y1="90" x2="25" y2="30"/>
+                        <line class="mm-conn-cross" x1="120" y1="90" x2="115" y2="30"/>
+                        <line class="mm-conn-cross" x1="20" y1="90" x2="25" y2="150"/>
+                        <line class="mm-conn-cross" x1="120" y1="90" x2="115" y2="150"/>
+                        <line class="mm-conn-cross" x1="25" y1="150" x2="115" y2="150"/>
+                        <line class="mm-conn-cross" x1="70" y1="22" x2="25" y2="30"/>
+                        <line class="mm-conn-cross" x1="70" y1="22" x2="115" y2="30"/>
+                        <line class="mm-conn-cross" x1="70" y1="158" x2="25" y2="150"/>
+                        <line class="mm-conn-cross" x1="70" y1="158" x2="115" y2="150"/>
+                        <!-- Sub-node connections -->
+                        <line class="mm-conn-sub" x1="25" y1="30" x2="10" y2="15"/>
+                        <line class="mm-conn-sub" x1="25" y1="30" x2="42" y2="18"/>
+                        <line class="mm-conn-sub" x1="115" y1="30" x2="130" y2="15"/>
+                        <line class="mm-conn-sub" x1="115" y1="30" x2="98" y2="18"/>
+                        <line class="mm-conn-sub" x1="20" y1="90" x2="6" y2="75"/>
+                        <line class="mm-conn-sub" x1="20" y1="90" x2="6" y2="105"/>
+                        <line class="mm-conn-sub" x1="120" y1="90" x2="134" y2="75"/>
+                        <line class="mm-conn-sub" x1="120" y1="90" x2="134" y2="105"/>
+                        <line class="mm-conn-sub" x1="25" y1="150" x2="10" y2="165"/>
+                        <line class="mm-conn-sub" x1="115" y1="150" x2="130" y2="165"/>
+                        <line class="mm-conn-sub" x1="70" y1="22" x2="55" y2="8"/>
+                        <line class="mm-conn-sub" x1="70" y1="22" x2="85" y2="8"/>
+                        <line class="mm-conn-sub" x1="70" y1="158" x2="55" y2="172"/>
+                        <line class="mm-conn-sub" x1="70" y1="158" x2="85" y2="172"/>
+                        <!-- Sub-nodes (outer layer — depth) -->
+                        <circle class="mm-sub" cx="10" cy="15" r="1.5"/>
+                        <circle class="mm-sub" cx="42" cy="18" r="1.2"/>
+                        <circle class="mm-sub" cx="130" cy="15" r="1.5"/>
+                        <circle class="mm-sub" cx="98" cy="18" r="1.2"/>
+                        <circle class="mm-sub" cx="6" cy="75" r="1.3"/>
+                        <circle class="mm-sub" cx="6" cy="105" r="1.3"/>
+                        <circle class="mm-sub" cx="134" cy="75" r="1.3"/>
+                        <circle class="mm-sub" cx="134" cy="105" r="1.3"/>
+                        <circle class="mm-sub" cx="10" cy="165" r="1.5"/>
+                        <circle class="mm-sub" cx="130" cy="165" r="1.5"/>
+                        <circle class="mm-sub" cx="55" cy="8" r="1.2"/>
+                        <circle class="mm-sub" cx="85" cy="8" r="1.2"/>
+                        <circle class="mm-sub" cx="55" cy="172" r="1.2"/>
+                        <circle class="mm-sub" cx="85" cy="172" r="1.2"/>
+                        <!-- Region nodes (mid layer) -->
+                        <circle class="mm-node mm-region" id="mm-language" cx="70" cy="22" r="4.5" filter="url(#glow)"/>
+                        <circle class="mm-node mm-region" id="mm-reasoning" cx="115" cy="30" r="4" filter="url(#glow)"/>
+                        <circle class="mm-node mm-region" id="mm-code" cx="25" cy="30" r="4" filter="url(#glow)"/>
+                        <circle class="mm-node mm-region" id="mm-vision" cx="120" cy="90" r="3.5" filter="url(#glow)"/>
+                        <circle class="mm-node mm-region" id="mm-output" cx="20" cy="90" r="3.5" filter="url(#glow)"/>
+                        <circle class="mm-node mm-region" id="mm-memory" cx="70" cy="158" r="4.5" filter="url(#glow)"/>
+                        <circle class="mm-node mm-region" cx="25" cy="150" r="3.5" filter="url(#glow)"/>
+                        <circle class="mm-node mm-region" cx="115" cy="150" r="3.5" filter="url(#glow)"/>
+                        <!-- Core (center) -->
+                        <circle class="mm-core-halo" cx="70" cy="90" r="14" fill="url(#coreGrad)" opacity="0.4"/>
+                        <circle class="mm-node mm-core" cx="70" cy="90" r="7" fill="url(#coreGrad)" filter="url(#glowStrong)"/>
+                        <!-- Traveling pulses -->
+                        <circle class="mm-pulse" r="1.8"><animateMotion dur="1.2s" repeatCount="indefinite" path="M70,83 L70,26"/></circle>
+                        <circle class="mm-pulse" r="1.8"><animateMotion dur="1.5s" repeatCount="indefinite" path="M75,86 L112,33"/></circle>
+                        <circle class="mm-pulse" r="1.6"><animateMotion dur="1.8s" repeatCount="indefinite" path="M65,86 L28,33"/></circle>
+                        <circle class="mm-pulse" r="1.6"><animateMotion dur="1.4s" repeatCount="indefinite" path="M77,90 L117,90"/></circle>
+                        <circle class="mm-pulse" r="1.6"><animateMotion dur="1.6s" repeatCount="indefinite" path="M63,90 L23,90"/></circle>
+                        <circle class="mm-pulse" r="1.8"><animateMotion dur="2.0s" repeatCount="indefinite" path="M70,97 L70,154"/></circle>
+                        <circle class="mm-pulse" r="1.5"><animateMotion dur="1.7s" repeatCount="indefinite" path="M75,94 L112,147"/></circle>
+                        <circle class="mm-pulse" r="1.5"><animateMotion dur="1.9s" repeatCount="indefinite" path="M65,94 L28,147"/></circle>
+                        <!-- Orbital pulse dots -->
+                        <circle class="mm-pulse mm-pulse-orbit" r="1.2"><animateMotion dur="4s" repeatCount="indefinite"><mpath href="#orbit-path-1"/></animateMotion></circle>
+                        <circle class="mm-pulse mm-pulse-orbit" r="1.0"><animateMotion dur="5s" repeatCount="indefinite"><mpath href="#orbit-path-2"/></animateMotion></circle>
+                        <!-- Orbit paths for animateMotion -->
+                        <ellipse id="orbit-path-1" cx="70" cy="90" rx="55" ry="18" transform="rotate(-15,70,90)" fill="none"/>
+                        <ellipse id="orbit-path-2" cx="70" cy="90" rx="45" ry="38" transform="rotate(25,70,90)" fill="none"/>
                     </svg>
                 </div>
                 </div><!-- end mind-body -->

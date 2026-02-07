@@ -1403,44 +1403,63 @@
             border-top: 1px solid var(--border);
         }
         
-        /* Connected Accounts & Data - Compact */
-        .card-connected {
-            padding: 0.6rem 0.75rem;
+        /* Ops Widget - Redesigned Connections */
+        .ops-redesigned {
+            gap: 0;
         }
-        
-        .card-connected .card-header {
+        .ops-conn-section {
+            padding: 0.4rem 0.6rem;
+            margin: 0.3rem 0.4rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px;
+        }
+        .ops-conn-section:last-child {
             margin-bottom: 0.4rem;
-            padding-bottom: 0.3rem;
         }
-        
-        .card-connected .card-title {
-            font-size: 0.8rem;
-        }
-        
-        .conn-section-title {
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-dim);
-            margin-bottom: 0.25rem;
+        .ops-conn-header {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.65rem;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-dim);
+            margin-bottom: 0.3rem;
+            padding-bottom: 0.25rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .conn-divider {
-            border-top: 1px solid rgba(255,255,255,0.06);
-            margin: 0.35rem 0;
+        .ops-conn-count {
+            margin-left: auto;
+            font-size: 0.55rem;
+            background: rgba(74,222,128,0.15);
+            color: var(--accent);
+            padding: 0.1rem 0.35rem;
+            border-radius: 8px;
+            font-weight: 700;
         }
-        .conn-grid {
+        .ops-conn-count-blue {
+            background: rgba(96,165,250,0.15);
+            color: #60a5fa;
+        }
+        .ops-conn-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.15rem 0.6rem;
+            gap: 0.2rem 0.5rem;
         }
         .conn-item {
             display: flex;
             align-items: center;
             gap: 0.3rem;
-            padding: 0.1rem 0;
+            padding: 0.15rem 0.25rem;
             font-size: 0.65rem;
             color: var(--text-secondary);
+            border-radius: 4px;
+            transition: background 0.15s;
+        }
+        .conn-item:hover {
+            background: rgba(255,255,255,0.04);
         }
         .conn-item img {
             width: 14px;
@@ -1455,6 +1474,10 @@
             background: var(--accent);
             flex-shrink: 0;
             margin-left: 0.15rem;
+        }
+        .conn-divider {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            margin: 0.35rem 0;
         }
         
         /* TikTok Full (fills remaining left column) */
@@ -2081,12 +2104,14 @@
             </div>
             
             <!-- Dashboard Operations - Automated monitoring logs -->
-            <div class="thinking-widget ops-widget">
+            <div class="thinking-widget ops-widget ops-redesigned">
                 <div class="thinking-header">
                     <span class="thinking-icon"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></span>
                     <span class="thinking-title">Dashboard Ops</span>
                     <span class="thinking-status" id="thinking-status">● Active</span>
                 </div>
+
+                <!-- Sessions Row -->
                 <div class="ops-sessions" id="ops-sessions">
                     <div class="ops-sessions-header">
                         <svg class="cat-icon" viewBox="0 0 24 24"><path d="M20 9V7c0-1.1-.9-2-2-2h-3c0-1.66-1.34-3-3-3S9 3.34 9 5H6c-1.1 0-2 .9-2 2v2c-1.66 0-3 1.34-3 3s1.34 3 3 3v4c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4c1.66 0 3-1.34 3-3s-1.34-3-3-3zm-2 10H6V7h12v12z"/></svg>
@@ -2094,18 +2119,30 @@
                     </div>
                     <div class="ops-sessions-list" id="ops-sessions-list">Loading...</div>
                 </div>
+
+                <!-- Ops Log -->
                 <div class="thinking-content" id="thinking-content">
                     <div class="thinking-line">Initializing dashboard...</div>
                 </div>
-                <div class="conn-divider"></div>
-                <div style="padding: 0.25rem 0.5rem;">
-                    <div class="conn-section-title" style="display:flex; align-items:center; gap:0.3rem;">
-                        <svg class="cat-icon" viewBox="0 0 24 24" style="width:12px;height:12px;"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-                        Connected Accounts & Data
+
+                <!-- My Accounts Section -->
+                <div class="ops-conn-section">
+                    <div class="ops-conn-header">
+                        <svg class="cat-icon" viewBox="0 0 24 24" style="width:14px;height:14px;fill:var(--accent);"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        <span>My Accounts</span>
+                        <span class="ops-conn-count" id="conn-accounts-count">0</span>
                     </div>
-                    <div class="conn-grid" id="conn-accounts" style="margin-top:0.2rem;"></div>
-                    <div class="conn-divider" style="margin:0.2rem 0;"></div>
-                    <div class="conn-grid" id="conn-datasources"></div>
+                    <div class="ops-conn-grid" id="conn-accounts"></div>
+                </div>
+
+                <!-- Data Connections Section -->
+                <div class="ops-conn-section">
+                    <div class="ops-conn-header">
+                        <svg class="cat-icon" viewBox="0 0 24 24" style="width:14px;height:14px;fill:#60a5fa;"><path d="M12 2C6.48 2 2 4.69 2 8v8c0 3.31 4.48 6 10 6s10-2.69 10-6V8c0-3.31-4.48-6-10-6zm0 2c4.42 0 8 1.79 8 4s-3.58 4-8 4-8-1.79-8-4 3.58-4 8-4z"/></svg>
+                        <span>Data Connections</span>
+                        <span class="ops-conn-count ops-conn-count-blue" id="conn-data-count">0</span>
+                    </div>
+                    <div class="ops-conn-grid" id="conn-datasources"></div>
                 </div>
             </div>
             
@@ -2448,7 +2485,12 @@
                 };
                 render(data.accounts, 'conn-accounts');
                 render(data.dataSources, 'conn-datasources');
-                document.getElementById('connections-refresh').textContent = new Date().toLocaleTimeString();
+                const acctCount = document.getElementById('conn-accounts-count');
+                if (acctCount) acctCount.textContent = data.accounts?.length || 0;
+                const dataCount = document.getElementById('conn-data-count');
+                if (dataCount) dataCount.textContent = data.dataSources?.length || 0;
+                const crEl = document.getElementById('connections-refresh');
+                if (crEl) crEl.textContent = new Date().toLocaleTimeString();
             } catch(e) { console.error('connections', e); }
         }
 

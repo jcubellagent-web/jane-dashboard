@@ -438,6 +438,54 @@ const server = http.createServer((req, res) => {
         return;
     }
 
+    // API endpoint for connected accounts & data sources
+    if (req.url === '/api/connections') {
+        // White/light SVG icons for dark background
+        const icons = {
+            whatsapp: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2325D366'%3E%3Cpath d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z'/%3E%3C/svg%3E",
+            gmail: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23EA4335'%3E%3Cpath d='M20 18h-2V9.25L12 13 6 9.25V18H4V6h1.2l6.8 4.25L18.8 6H20m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2z'/%3E%3C/svg%3E",
+            twitter: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z'/%3E%3C/svg%3E",
+            tiktok: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.72a8.19 8.19 0 004.76 1.52V6.79a4.85 4.85 0 01-1-.1z'/%3E%3C/svg%3E",
+            reddit: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF4500'%3E%3Cpath d='M12 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 01-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 01.042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 014.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 01.14-.197.35.35 0 01.238-.042l2.906.617a1.214 1.214 0 011.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 00-.231.094.33.33 0 000 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 00.029-.463.33.33 0 00-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 00-.232-.095z'/%3E%3C/svg%3E",
+            github: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/%3E%3C/svg%3E",
+            sorare: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300DC96'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='black' font-size='12' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E",
+            phantom: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23AB9FF2'%3E%3Crect width='24' height='24' rx='6'/%3E%3Ccircle cx='9' cy='12' r='2' fill='white'/%3E%3Ccircle cx='15' cy='12' r='2' fill='white'/%3E%3C/svg%3E",
+            polymarket: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/%3E%3C/svg%3E",
+            kalshi: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234A90D9'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='14' font-weight='bold'%3EK%3C/text%3E%3C/svg%3E",
+            manifold: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234337c9'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='14' font-weight='bold'%3EM%3C/text%3E%3C/svg%3E",
+            metaculus: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23006C67'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3EMC%3C/text%3E%3C/svg%3E",
+            coingecko: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238BC53F'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Ccircle cx='9' cy='10' r='2' fill='white'/%3E%3Ccircle cx='9' cy='10' r='1' fill='black'/%3E%3C/svg%3E",
+            yahoo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%237B1FA2'%3E%3Cpath d='M2 4l5.5 8.5V20h3v-7.5L16 4h-3.5L9.25 9.5 6 4H2zm14 0l3 8h3l-3-8h-3zm2 10a2 2 0 100 4 2 2 0 000-4z'/%3E%3C/svg%3E",
+            dexscreener: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300E676'%3E%3Cpath d='M3 17l6-6 4 4 8-8v3h2V3h-7v2h3l-6 6-4-4-8 8z'/%3E%3C/svg%3E",
+        };
+        const connections = {
+            accounts: [
+                { name: 'WhatsApp', detail: 'communication channel', icon: icons.whatsapp, active: true },
+                { name: 'Gmail', detail: 'jcubellagent@gmail.com', icon: icons.gmail, active: true },
+                { name: 'X / Twitter', detail: '@AgentJc11443', icon: icons.twitter, active: true },
+                { name: 'TikTok', detail: '@degencollector', icon: icons.tiktok, active: true },
+                { name: 'Reddit', detail: 'u/JaneAgentAI', icon: icons.reddit, active: true },
+                { name: 'GitHub', detail: 'jcubellagent-web', icon: icons.github, active: true },
+                { name: 'Sorare', detail: 'jcubnft', icon: icons.sorare, active: true },
+                { name: 'Phantom Wallet', detail: 'Solana', icon: icons.phantom, active: true }
+            ],
+            dataSources: [
+                { name: 'Polymarket', detail: 'prediction markets', icon: icons.polymarket, active: true },
+                { name: 'Kalshi', detail: 'prediction markets', icon: icons.kalshi, active: true },
+                { name: 'Manifold', detail: 'prediction markets', icon: icons.manifold, active: true },
+                { name: 'Metaculus', detail: 'prediction markets', icon: icons.metaculus, active: true },
+                { name: 'CoinGecko', detail: 'crypto prices', icon: icons.coingecko, active: true },
+                { name: 'Yahoo Finance', detail: 'stock prices', icon: icons.yahoo, active: true },
+                { name: 'DexScreener', detail: 'memecoin data', icon: icons.dexscreener, active: true },
+                { name: 'Sorare GraphQL', detail: 'fantasy sports', icon: icons.sorare, active: true },
+                { name: 'GitHub API', detail: 'code repos', icon: icons.github, active: true }
+            ]
+        };
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(connections));
+        return;
+    }
+
     // API endpoint for system stats
     if (req.url === '/api/system') {
         const stats = getSystemStats();
@@ -971,10 +1019,21 @@ const server = http.createServer((req, res) => {
         return;
     }
     
-    // API endpoint for Sorare lineup (reads from JSON, can be updated via Sorare GraphQL API)
+    // API endpoint for Sorare lineup (reads from JSON, triggers background refresh if stale)
     if (req.url === '/api/sorare') {
         const statsFile = path.join(ROOT, 'sorare-stats.json');
+        // Trigger background refresh if file is >5 min old
         if (fs.existsSync(statsFile)) {
+            const age = Date.now() - fs.statSync(statsFile).mtimeMs;
+            if (age > 5 * 60 * 1000 && !global._sorareRefreshing) {
+                global._sorareRefreshing = true;
+                const { exec: execChild } = require('child_process');
+                execChild(`bash "${path.join(ROOT, 'fetch-sorare.sh')}"`, { timeout: 60000 }, (err) => {
+                    global._sorareRefreshing = false;
+                    if (err) console.error('Sorare refresh error:', err.message);
+                    else console.log('Sorare data refreshed');
+                });
+            }
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(fs.readFileSync(statsFile));
         } else {

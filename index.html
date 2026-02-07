@@ -1762,7 +1762,7 @@
         .mind-content {
             flex: 1;
             min-width: 0;
-            overflow-y: auto;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
         }
@@ -1883,8 +1883,7 @@
 
         .mind-content {
             font-size: 0.85rem;
-            max-height: 280px;
-            overflow-y: auto;
+            overflow: hidden;
         }
         
         .mind-task {
@@ -1910,6 +1909,7 @@
         .mind-steps {
             margin-bottom: 0.5rem;
             flex: 1;
+            overflow: hidden;
         }
         
         .mind-step {
@@ -3481,7 +3481,9 @@
                 if (task) {
                     mindState.task = task;
                 }
-                document.getElementById('mind-current-task').textContent = mindState.task || 'Awaiting instructions...';
+                const taskEl = document.getElementById('mind-current-task');
+                taskEl.textContent = mindState.task || 'Awaiting instructions...';
+                taskEl.style.fontSize = '';  // reset before auto-fit
             }
             
             if (steps !== undefined && steps.length > 0) {
@@ -3518,8 +3520,19 @@
                 mindState.thought = thought;
                 const thoughtEl = document.getElementById('mind-thought-text');
                 thoughtEl.textContent = thought;
-                thoughtEl.classList.remove('waiting-dots'); // No dots on thought box
+                thoughtEl.classList.remove('waiting-dots');
             }
+            // Auto-fit: shrink task text if content overflows mind-content
+            requestAnimationFrame(() => {
+                const mc = document.getElementById('mind-content');
+                const taskEl = document.getElementById('mind-current-task');
+                if (!mc || !taskEl) return;
+                let fontSize = 0.85;
+                while (mc.scrollHeight > mc.clientHeight && fontSize > 0.5) {
+                    fontSize -= 0.05;
+                    taskEl.style.fontSize = fontSize + 'rem';
+                }
+            });
         }
         
         function setMindStep(index, status) {

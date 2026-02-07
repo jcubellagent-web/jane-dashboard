@@ -1291,7 +1291,57 @@
             max-height: none;
         }
         
-        /* Jane Status - Prominent card */
+        /* Jane Status - Compact bar (left column) */
+        .card-status-compact {
+            padding: 0.4rem 0.6rem !important;
+        }
+        .status-compact-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .status-compact-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-compact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.15rem 0.4rem;
+            background: rgba(74,222,128,0.06);
+            border: 1px solid rgba(74,222,128,0.1);
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+        .sclabel {
+            font-size: 0.5rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .scvalue {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        /* Watch List - Full width in center column */
+        .card-ticker-full {
+            width: 100%;
+            padding: 0.6rem 0.75rem !important;
+            margin-bottom: 0.5rem;
+        }
+        .card-ticker-full .ticker-row {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: space-between;
+        }
+
+        /* Jane Status - Prominent card (legacy) */
         .card-status {
             padding: 1rem 1.25rem;
         }
@@ -1994,8 +2044,20 @@
     <main class="main-container">
         <!-- Row 1 -->
         
-        <!-- LEFT COLUMN: Jane's Mind + Dashboard Operations stacked -->
+        <!-- LEFT COLUMN: Jane Status (compact) + Jane's Mind + Dashboard Operations stacked -->
         <div class="left-column">
+            <!-- Jane Status - Compact inline bar -->
+            <div class="card card-status card-status-compact">
+                <div class="status-compact-row">
+                    <img src="icon-192.png" alt="Jane" style="width: 18px; height: 18px; border-radius: 4px;">
+                    <span class="status-compact-label">Jane</span>
+                    <div class="status-compact-item"><span class="sclabel">Model</span><span class="scvalue" id="jane-model-compact">--</span></div>
+                    <div class="status-compact-item"><span class="sclabel">Age</span><span class="scvalue" id="jane-age-compact">--</span></div>
+                    <div class="status-compact-item"><span class="sclabel">CPU</span><span class="scvalue" id="cpu-usage-compact">--%</span></div>
+                    <div class="status-compact-item"><span class="sclabel">RAM</span><span class="scvalue" id="ram-usage-compact">--%</span></div>
+                    <button class="refresh-btn" onclick="refreshSystem(this)" style="margin-left:auto;">↻</button>
+                </div>
+            </div>
             <!-- Jane's Mind - Real reasoning/task tracking -->
             <div class="thinking-widget mind-widget">
                 <div class="thinking-header">
@@ -2119,40 +2181,8 @@
         
         <!-- CENTER COLUMN: Jane Status + Connected stacked -->
         <div class="center-column">
-            <!-- Top row: Jane Status + Crypto Ticker -->
-            <div class="status-ticker-row">
-                <!-- Jane Status - More Prominent -->
-                <div class="card card-status" style="flex: 1;">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <img src="icon-192.png" alt="Jane" style="width: 20px; height: 20px; border-radius: 4px;">
-                            Jane Status
-                            <span class="last-refresh" id="status-refresh">--</span>
-                        </div>
-                        <button class="refresh-btn" onclick="refreshSystem(this)">↻</button>
-                    </div>
-                <div class="status-grid">
-                    <div class="status-box">
-                        <span class="status-box-label">Model</span>
-                        <span class="status-box-value blue" id="jane-model">--</span>
-                    </div>
-                    <div class="status-box">
-                        <span class="status-box-label">Age</span>
-                        <span class="status-box-value" id="jane-age">--</span>
-                    </div>
-                    <div class="status-box">
-                        <span class="status-box-label">CPU</span>
-                        <span class="status-box-value" id="cpu-usage">--%</span>
-                    </div>
-                    <div class="status-box">
-                        <span class="status-box-label">RAM</span>
-                        <span class="status-box-value" id="ram-usage">--%</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Watch List - Compact -->
-            <div class="card card-ticker">
+            <!-- Watch List - Full Width -->
+            <div class="card card-ticker card-ticker-full">
                 <div class="card-header ticker-header">
                     <div class="card-title">Watch List</div>
                     <button class="refresh-btn" onclick="refreshTicker(this)">↻</button>
@@ -2200,7 +2230,7 @@
                     </div>
                 </div>
             </div>
-            </div><!-- end status-ticker-row -->
+            <!-- Watch List ends here -->
             
             <!-- Connected Accounts - Dynamic -->
             <div class="card card-connected">
@@ -2311,7 +2341,7 @@
             const birthDate = new Date('2026-01-31');
             const today = new Date();
             const ageDays = Math.floor((today - birthDate) / (1000 * 60 * 60 * 24));
-            document.getElementById('jane-age').textContent = ageDays + 'd';
+            ['jane-age', 'jane-age-compact'].forEach(id => { const e = document.getElementById(id); if (e) e.textContent = ageDays + 'd'; });
         }
         updateJaneAge();
         
@@ -2462,14 +2492,19 @@
                                 .replace(/-/g, ' ')
                                 .replace('4 5', '4.5')
                                 .replace('4 6', '4.6');
-                            document.getElementById('jane-model').textContent = formatted;
+                            const modelEl = document.getElementById('jane-model');
+                            if (modelEl) modelEl.textContent = formatted;
+                            const modelElC = document.getElementById('jane-model-compact');
+                            if (modelElC) modelElC.textContent = formatted;
                         }
                     }
                     
                     // System health
                     if (system) {
-                        document.getElementById('cpu-usage').textContent = (system.cpu || 0) + '%';
-                        document.getElementById('ram-usage').textContent = (system.memory || 0) + '%';
+                        const cpuVal = (system.cpu || 0) + '%';
+                        const ramVal = (system.memory || 0) + '%';
+                        ['cpu-usage', 'cpu-usage-compact'].forEach(id => { const e = document.getElementById(id); if (e) e.textContent = cpuVal; });
+                        ['ram-usage', 'ram-usage-compact'].forEach(id => { const e = document.getElementById(id); if (e) e.textContent = ramVal; });
                     }
                     
                     addThought("System metrics updated.");

@@ -1740,6 +1740,53 @@
             font-size: 0.75rem;
         }
         
+        /* Neural activity animation */
+        .mind-neural {
+            display: flex;
+            gap: 3px;
+            padding: 0.3rem 0.75rem;
+            align-items: flex-end;
+            height: 20px;
+        }
+        .neural-bar {
+            flex: 1;
+            height: 100%;
+            background: rgba(74,222,128,0.08);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+        .neural-pulse {
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            position: absolute;
+            bottom: 0;
+            box-shadow: 0 0 6px rgba(74,222,128,0.6);
+            transition: height 0.3s ease;
+        }
+        /* Thinking state - animated pulse waves */
+        .mind-neural.thinking .neural-bar:nth-child(1) .neural-pulse { animation: neuralPulse 1.2s ease-in-out infinite 0s; }
+        .mind-neural.thinking .neural-bar:nth-child(2) .neural-pulse { animation: neuralPulse 1.2s ease-in-out infinite 0.15s; }
+        .mind-neural.thinking .neural-bar:nth-child(3) .neural-pulse { animation: neuralPulse 1.2s ease-in-out infinite 0.3s; }
+        .mind-neural.thinking .neural-bar:nth-child(4) .neural-pulse { animation: neuralPulse 1.2s ease-in-out infinite 0.45s; }
+        .mind-neural.thinking .neural-bar:nth-child(5) .neural-pulse { animation: neuralPulse 1.2s ease-in-out infinite 0.6s; }
+        @keyframes neuralPulse {
+            0%, 100% { height: 3px; opacity: 0.4; }
+            50% { height: 100%; opacity: 1; }
+        }
+        /* Idle state - calm low pulse */
+        .mind-neural.idle .neural-pulse {
+            height: 2px;
+            opacity: 0.2;
+            animation: neuralIdle 3s ease-in-out infinite;
+        }
+        @keyframes neuralIdle {
+            0%, 100% { opacity: 0.15; }
+            50% { opacity: 0.3; }
+        }
+
         .mind-content {
             font-size: 0.85rem;
             max-height: 280px;
@@ -2092,6 +2139,14 @@
                     <img src="icon-192.png" alt="Jane" class="mind-logo">
                     <span class="thinking-title">Jane's Mind</span>
                     <span class="thinking-status" id="mind-status">● Active</span>
+                </div>
+                <!-- Neural activity indicator -->
+                <div class="mind-neural" id="mind-neural">
+                    <div class="neural-bar"><div class="neural-pulse"></div></div>
+                    <div class="neural-bar"><div class="neural-pulse"></div></div>
+                    <div class="neural-bar"><div class="neural-pulse"></div></div>
+                    <div class="neural-bar"><div class="neural-pulse"></div></div>
+                    <div class="neural-bar"><div class="neural-pulse"></div></div>
                 </div>
                 <div class="mind-content" id="mind-content">
                     <div class="mind-task">
@@ -3288,13 +3343,18 @@
                         updateMind(data.task, data.steps || [], data.thought || 'Monitoring... waiting for next task.');
                         document.getElementById('mind-status').textContent = '○ Idle';
                         document.getElementById('mind-status').style.color = 'var(--text-dim)';
+                        const neuralElStale = document.getElementById('mind-neural');
+                        if (neuralElStale) { neuralElStale.className = 'mind-neural idle'; }
                     } else {
                         // State is fresh - show it (preserve steps even if task is null)
                         updateMind(data.task, data.steps || [], data.thought || 'Ready for your next request.');
                         const hasActiveStep = (data.steps || []).some(s => s.status === 'active');
-                        const isActive = data.task || hasActiveStep;
+                        const allDone = (data.steps || []).length > 0 && (data.steps || []).every(s => s.status === 'done');
+                        const isActive = hasActiveStep || (data.task && !allDone);
                         document.getElementById('mind-status').textContent = isActive ? '● Active' : '○ Idle';
                         document.getElementById('mind-status').style.color = isActive ? 'var(--accent)' : 'var(--text-dim)';
+                        const neuralEl = document.getElementById('mind-neural');
+                        if (neuralEl) { neuralEl.className = isActive ? 'mind-neural thinking' : 'mind-neural idle'; }
                     }
                 }
             } catch (err) {

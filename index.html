@@ -1823,6 +1823,14 @@
             stroke-width: 0.4;
             transition: all 0.5s;
         }
+        .mm-label {
+            font-size: 3.5px;
+            fill: rgba(74,222,128,0.12);
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            letter-spacing: 0.8px;
+            font-weight: 500;
+            transition: all 0.5s;
+        }
         .mm-pulse {
             fill: var(--accent);
             opacity: 0;
@@ -1850,6 +1858,7 @@
         .mind-map.thinking .mm-orbit { stroke: rgba(74,222,128,0.15); animation: orbitSpin 8s linear infinite; }
         .mind-map.thinking .mm-orbit-2 { animation-duration: 12s; animation-direction: reverse; }
         .mind-map.thinking .mm-orbit-3 { stroke: rgba(74,222,128,0.1); animation-duration: 10s; }
+        .mind-map.thinking .mm-label { fill: rgba(74,222,128,0.4); }
         .mind-map.thinking .mm-pulse { opacity: 0.85; filter: url(#glow); }
         .mind-map.thinking .mm-pulse-orbit { opacity: 0.6; }
         @keyframes coreGlow {
@@ -1894,6 +1903,7 @@
             stroke: rgba(74,222,128,0.03);
             animation: idleOrbit 6s ease-in-out infinite;
         }
+        .mind-map.idle .mm-label { fill: rgba(74,222,128,0.06); }
         .mind-map.idle .mm-pulse { opacity: 0; }
         .mind-map.idle .mm-pulse-orbit { opacity: 0; }
         @keyframes idleBreath {
@@ -2377,6 +2387,13 @@
                         <circle class="mm-node mm-region" id="mm-memory" cx="70" cy="158" r="4.5" filter="url(#glow)"/>
                         <circle class="mm-node mm-region" cx="25" cy="150" r="3.5" filter="url(#glow)"/>
                         <circle class="mm-node mm-region" cx="115" cy="150" r="3.5" filter="url(#glow)"/>
+                        <!-- Region labels -->
+                        <text class="mm-label" x="70" y="12" text-anchor="middle">LANGUAGE</text>
+                        <text class="mm-label" x="125" y="28" text-anchor="start">REASONING</text>
+                        <text class="mm-label" x="15" y="28" text-anchor="end">CODE</text>
+                        <text class="mm-label" x="131" y="93" text-anchor="start">VISION</text>
+                        <text class="mm-label" x="9" y="93" text-anchor="end">OUTPUT</text>
+                        <text class="mm-label" x="70" y="170" text-anchor="middle">MEMORY</text>
                         <!-- Core (center) -->
                         <circle class="mm-core-halo" cx="70" cy="90" r="14" fill="url(#coreGrad)" opacity="0.4"/>
                         <circle class="mm-node mm-core" cx="70" cy="90" r="7" fill="url(#coreGrad)" filter="url(#glowStrong)"/>

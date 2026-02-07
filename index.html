@@ -1870,16 +1870,52 @@
             100% { stroke-dashoffset: 50; }
         }
         /* Idle - dim */
-        .mind-map.idle .mm-core { fill: rgba(74,222,128,0.06); stroke: rgba(74,222,128,0.1); filter: none; }
-        .mind-map.idle .mm-core-halo { opacity: 0.1; }
-        .mind-map.idle .mm-region { fill: rgba(74,222,128,0.04); stroke: rgba(74,222,128,0.08); filter: none; }
+        .mind-map.idle .mm-core {
+            fill: rgba(74,222,128,0.06); stroke: rgba(74,222,128,0.1);
+            filter: none;
+            animation: idleBreath 4s ease-in-out infinite;
+        }
+        .mind-map.idle .mm-core-halo {
+            opacity: 0.05;
+            animation: idleHalo 4s ease-in-out infinite;
+        }
+        .mind-map.idle .mm-region {
+            fill: rgba(74,222,128,0.04); stroke: rgba(74,222,128,0.08); filter: none;
+            animation: idleRegion 5s ease-in-out infinite;
+        }
         .mind-map.idle .mm-sub { fill: rgba(74,222,128,0.02); }
-        .mind-map.idle .mm-conn-deep { stroke: rgba(74,222,128,0.03); }
+        .mind-map.idle .mm-conn-deep {
+            stroke: rgba(74,222,128,0.03);
+            animation: idleConn 4s ease-in-out infinite;
+        }
         .mind-map.idle .mm-conn-cross { stroke: rgba(74,222,128,0.02); }
         .mind-map.idle .mm-conn-sub { stroke: rgba(74,222,128,0.02); }
-        .mind-map.idle .mm-orbit { stroke: rgba(74,222,128,0.03); }
+        .mind-map.idle .mm-orbit {
+            stroke: rgba(74,222,128,0.03);
+            animation: idleOrbit 6s ease-in-out infinite;
+        }
         .mind-map.idle .mm-pulse { opacity: 0; }
         .mind-map.idle .mm-pulse-orbit { opacity: 0; }
+        @keyframes idleBreath {
+            0%, 100% { fill: rgba(74,222,128,0.06); stroke: rgba(74,222,128,0.1); }
+            50% { fill: rgba(74,222,128,0.12); stroke: rgba(74,222,128,0.2); filter: drop-shadow(0 0 3px rgba(74,222,128,0.15)); }
+        }
+        @keyframes idleHalo {
+            0%, 100% { opacity: 0.05; }
+            50% { opacity: 0.15; }
+        }
+        @keyframes idleRegion {
+            0%, 100% { fill: rgba(74,222,128,0.04); stroke: rgba(74,222,128,0.08); }
+            50% { fill: rgba(74,222,128,0.07); stroke: rgba(74,222,128,0.12); }
+        }
+        @keyframes idleConn {
+            0%, 100% { stroke: rgba(74,222,128,0.03); }
+            50% { stroke: rgba(74,222,128,0.06); }
+        }
+        @keyframes idleOrbit {
+            0%, 100% { stroke: rgba(74,222,128,0.03); stroke-dashoffset: 0; }
+            50% { stroke: rgba(74,222,128,0.06); stroke-dashoffset: 10; }
+        }
 
         .mind-content {
             font-size: 0.85rem;

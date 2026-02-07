@@ -3715,7 +3715,16 @@
                     try {
                         const msg = JSON.parse(e.data);
                         if (msg.type === 'update') {
-                            if (msg.widget === 'mind') refreshMind();
+                            if (msg.widget === 'mind') {
+                                if (msg.data) {
+                                    updateMind(msg.data.task, msg.data.steps || [], msg.data.thought);
+                                    // Update neural animation state
+                                    const neuralEl = document.getElementById('mind-neural');
+                                    const isStale = msg.data.lastUpdated && (Date.now() - new Date(msg.data.lastUpdated).getTime() > 5*60*1000);
+                                    const isActive = !isStale && msg.data.steps && msg.data.steps.some(s => s.status === 'active');
+                                    if (neuralEl) neuralEl.className = isActive ? 'mind-map thinking' : 'mind-map idle';
+                                } else { refreshMind(); }
+                            }
                             if (msg.widget === 'sessions') refreshAgents();
                             if (msg.widget === 'sorare') refreshSorare();
                             if (msg.widget === 'tasks') { refreshTasks(); refreshCron(); }

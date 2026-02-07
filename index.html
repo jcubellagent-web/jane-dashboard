@@ -3281,7 +3281,7 @@
                     // Check if mind state is stale (older than 30 minutes)
                     const lastUpdated = data.lastUpdated ? new Date(data.lastUpdated) : null;
                     const now = new Date();
-                    const staleMs = 30 * 60 * 1000; // 30 minutes
+                    const staleMs = 5 * 60 * 1000; // 5 minutes - show idle quickly when not working
                     
                     if (lastUpdated && (now - lastUpdated) > staleMs) {
                         // State is stale - keep last task/steps visible but mark as idle

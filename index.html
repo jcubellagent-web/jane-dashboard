@@ -3443,14 +3443,16 @@
                     
                     if (lastUpdated && (now - lastUpdated) > staleMs) {
                         // State is stale - keep last task/steps visible but mark as idle
-                        updateMind(data.task, data.steps || [], data.goal || data.thought || 'Monitoring... waiting for next task.');
+                        updateMind(data.task, data.steps || [], 'Awaiting next goal / objective.');
                         document.getElementById('mind-status').textContent = '○ Idle';
                         document.getElementById('mind-status').style.color = 'var(--text-dim)';
                         const neuralElStale = document.getElementById('mind-neural');
                         if (neuralElStale) { neuralElStale.className = 'mind-map idle'; }
                     } else {
                         // State is fresh - show it (preserve steps even if task is null)
-                        updateMind(data.task, data.steps || [], data.goal || data.thought || 'Ready for your next request.');
+                        const allStepsDone = (data.steps || []).length > 0 && (data.steps || []).every(s => s.status === 'done');
+                        const goalText = (allStepsDone && !hasActiveStep) ? 'Awaiting next goal / objective.' : (data.goal || data.thought || 'Awaiting next goal / objective.');
+                        updateMind(data.task, data.steps || [], goalText);
                         const hasActiveStep = (data.steps || []).some(s => s.status === 'active');
                         const allDone = (data.steps || []).length > 0 && (data.steps || []).every(s => s.status === 'done');
                         const isActive = hasActiveStep || (data.task && !allDone);

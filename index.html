@@ -1738,57 +1738,68 @@
             font-size: 0.75rem;
         }
         
-        /* Neural wave animation */
+        /* Neural network animation */
         .mind-neural {
-            padding: 0.15rem 0.75rem;
-            height: 16px;
+            padding: 0.2rem 0.5rem;
+            height: 28px;
             overflow: hidden;
         }
-        .neural-wave {
+        .neural-net {
             width: 100%;
             height: 100%;
         }
-        .wave-line {
-            stroke: var(--accent);
-            stroke-linecap: round;
+        .nn-conn {
+            stroke: rgba(74,222,128,0.15);
+            stroke-width: 1;
+            transition: stroke 0.5s, stroke-opacity 0.5s;
+        }
+        .nn-node {
+            fill: rgba(74,222,128,0.3);
+            stroke: rgba(74,222,128,0.5);
+            stroke-width: 1;
+            transition: all 0.5s;
+        }
+        .nn-pulse {
+            fill: var(--accent);
+            opacity: 0;
             transition: opacity 0.5s;
         }
-        /* Thinking - animated flowing waves */
-        .mind-neural.thinking .wave-1 {
-            opacity: 0.8;
-            animation: waveFlow1 2s ease-in-out infinite;
-            filter: drop-shadow(0 0 3px rgba(74,222,128,0.5));
+        /* Thinking - lit up network with traveling pulses */
+        .mind-neural.thinking .nn-conn {
+            stroke: rgba(74,222,128,0.3);
+            animation: connFlicker 2s ease-in-out infinite alternate;
         }
-        .mind-neural.thinking .wave-2 {
-            opacity: 0.3;
-            animation: waveFlow2 2.5s ease-in-out infinite;
+        .mind-neural.thinking .nn-node {
+            fill: var(--accent);
+            filter: drop-shadow(0 0 4px rgba(74,222,128,0.7));
+            animation: nodeGlow 1.5s ease-in-out infinite alternate;
         }
-        @keyframes waveFlow1 {
-            0%   { d: path("M0,10 Q25,2 50,10 T100,10 T150,10 T200,10"); }
-            25%  { d: path("M0,10 Q25,4 50,10 T100,6 T150,14 T200,10"); }
-            50%  { d: path("M0,10 Q25,16 50,10 T100,10 T150,10 T200,10"); }
-            75%  { d: path("M0,10 Q25,12 50,10 T100,14 T150,6 T200,10"); }
-            100% { d: path("M0,10 Q25,2 50,10 T100,10 T150,10 T200,10"); }
+        .mind-neural.thinking .nn-input { animation-delay: 0s; }
+        .mind-neural.thinking .nn-hidden { animation-delay: 0.3s; }
+        .mind-neural.thinking .nn-output { animation-delay: 0.6s; }
+        .mind-neural.thinking .nn-pulse {
+            opacity: 0.9;
+            filter: drop-shadow(0 0 3px rgba(74,222,128,0.8));
         }
-        @keyframes waveFlow2 {
-            0%   { d: path("M0,10 Q25,18 50,10 T100,10 T150,10 T200,10"); }
-            25%  { d: path("M0,10 Q25,14 50,10 T100,15 T150,5 T200,10"); }
-            50%  { d: path("M0,10 Q25,4 50,10 T100,10 T150,10 T200,10"); }
-            75%  { d: path("M0,10 Q25,8 50,10 T100,5 T150,15 T200,10"); }
-            100% { d: path("M0,10 Q25,18 50,10 T100,10 T150,10 T200,10"); }
+        @keyframes nodeGlow {
+            0% { fill: rgba(74,222,128,0.5); filter: drop-shadow(0 0 2px rgba(74,222,128,0.3)); }
+            100% { fill: var(--accent); filter: drop-shadow(0 0 6px rgba(74,222,128,0.8)); }
         }
-        /* Idle - nearly flat with subtle breathing */
-        .mind-neural.idle .wave-1 {
-            opacity: 0.2;
-            animation: waveIdle 4s ease-in-out infinite;
+        @keyframes connFlicker {
+            0% { stroke: rgba(74,222,128,0.2); }
+            100% { stroke: rgba(74,222,128,0.45); }
         }
-        .mind-neural.idle .wave-2 {
-            opacity: 0.08;
-            animation: waveIdle 5s ease-in-out infinite;
+        /* Idle - dim network, no pulses */
+        .mind-neural.idle .nn-conn {
+            stroke: rgba(74,222,128,0.06);
         }
-        @keyframes waveIdle {
-            0%, 100% { opacity: 0.12; }
-            50% { opacity: 0.25; }
+        .mind-neural.idle .nn-node {
+            fill: rgba(74,222,128,0.12);
+            stroke: rgba(74,222,128,0.15);
+            filter: none;
+        }
+        .mind-neural.idle .nn-pulse {
+            opacity: 0;
         }
 
         .mind-content {
@@ -2144,11 +2155,38 @@
                     <span class="thinking-title">Jane's Mind</span>
                     <span class="thinking-status" id="mind-status">● Active</span>
                 </div>
-                <!-- Neural activity indicator -->
+                <!-- Neural network activity indicator -->
                 <div class="mind-neural" id="mind-neural">
-                    <svg class="neural-wave" viewBox="0 0 200 20" preserveAspectRatio="none">
-                        <path class="wave-line wave-1" d="M0,10 Q25,2 50,10 T100,10 T150,10 T200,10" fill="none" stroke-width="1.5"/>
-                        <path class="wave-line wave-2" d="M0,10 Q25,18 50,10 T100,10 T150,10 T200,10" fill="none" stroke-width="1"/>
+                    <svg class="neural-net" viewBox="0 0 300 28">
+                        <!-- Connections -->
+                        <line class="nn-conn" x1="20" y1="14" x2="75" y2="6"/>
+                        <line class="nn-conn" x1="20" y1="14" x2="75" y2="22"/>
+                        <line class="nn-conn" x1="75" y1="6" x2="140" y2="10"/>
+                        <line class="nn-conn" x1="75" y1="6" x2="140" y2="20"/>
+                        <line class="nn-conn" x1="75" y1="22" x2="140" y2="10"/>
+                        <line class="nn-conn" x1="75" y1="22" x2="140" y2="20"/>
+                        <line class="nn-conn" x1="140" y1="10" x2="200" y2="7"/>
+                        <line class="nn-conn" x1="140" y1="10" x2="200" y2="21"/>
+                        <line class="nn-conn" x1="140" y1="20" x2="200" y2="7"/>
+                        <line class="nn-conn" x1="140" y1="20" x2="200" y2="21"/>
+                        <line class="nn-conn" x1="200" y1="7" x2="270" y2="14"/>
+                        <line class="nn-conn" x1="200" y1="21" x2="270" y2="14"/>
+                        <!-- Pulse dots traveling along connections -->
+                        <circle class="nn-pulse" r="2"><animateMotion dur="1.5s" repeatCount="indefinite" path="M20,14 L75,6"/></circle>
+                        <circle class="nn-pulse" r="2"><animateMotion dur="1.8s" repeatCount="indefinite" path="M75,22 L140,10"/></circle>
+                        <circle class="nn-pulse" r="2"><animateMotion dur="1.3s" repeatCount="indefinite" path="M140,10 L200,7"/></circle>
+                        <circle class="nn-pulse" r="2"><animateMotion dur="2s" repeatCount="indefinite" path="M200,21 L270,14"/></circle>
+                        <circle class="nn-pulse" r="2"><animateMotion dur="1.6s" repeatCount="indefinite" path="M75,6 L140,20"/></circle>
+                        <circle class="nn-pulse" r="2"><animateMotion dur="1.4s" repeatCount="indefinite" path="M140,20 L200,21"/></circle>
+                        <!-- Nodes -->
+                        <circle class="nn-node nn-input" cx="20" cy="14" r="4"/>
+                        <circle class="nn-node nn-hidden" cx="75" cy="6" r="3.5"/>
+                        <circle class="nn-node nn-hidden" cx="75" cy="22" r="3.5"/>
+                        <circle class="nn-node nn-hidden" cx="140" cy="10" r="3.5"/>
+                        <circle class="nn-node nn-hidden" cx="140" cy="20" r="3.5"/>
+                        <circle class="nn-node nn-hidden" cx="200" cy="7" r="3.5"/>
+                        <circle class="nn-node nn-hidden" cx="200" cy="21" r="3.5"/>
+                        <circle class="nn-node nn-output" cx="270" cy="14" r="4"/>
                     </svg>
                 </div>
                 <div class="mind-content" id="mind-content">

@@ -1419,10 +1419,10 @@
             min-width: 0;
         }
         .ops-conn-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.1rem;
-            max-height: 100px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.1rem 0.3rem;
+            max-height: 120px;
             overflow-y: auto;
         }
         .ops-conn-header {
@@ -1453,8 +1453,8 @@
         }
         .ops-conn-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.1rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.1rem 0.3rem;
         }
         .conn-item {
             display: flex;

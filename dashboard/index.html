@@ -2804,6 +2804,16 @@
     </a>
     
     <script>
+        // Global error handler — prevent any single error from killing the dashboard
+        window.onerror = function(msg, url, line, col, error) {
+            console.warn('Dashboard error caught:', msg, 'at line', line);
+            return true; // Suppress error
+        };
+        window.addEventListener('unhandledrejection', function(e) {
+            console.warn('Unhandled rejection:', e.reason?.message || e.reason);
+            e.preventDefault();
+        });
+        
         // Update time
         function updateTime() {
             const now = new Date();

@@ -3794,7 +3794,7 @@
         
         // Brain map configuration — diamond layout (tall vertical)
         // Positions defined as offsets from center (100, 190) in viewBox 200x380
-        const brainRegions = [
+        var brainRegions = [
             { name: 'Language',  dx: 0,   dy: -155 },  // top point
             { name: 'Reasoning', dx: 55,  dy: -110 },  // upper right
             { name: 'Research',  dx: 80,  dy: -40 },   // mid right upper
@@ -3804,7 +3804,7 @@
             { name: 'Execution', dx: -80, dy: -40 },    // mid left upper
             { name: 'Memory',    dx: -55, dy: -110 }    // upper left
         ];
-        const brainToolColors = {
+        var brainToolColors = {
             'opus': '#4ade80', 'claude': '#4ade80',
             'sonnet': '#8b5cf6',
             'whisper': '#facc15',
@@ -3812,7 +3812,7 @@
             'stable-diffusion': '#ec4899', 'sd': '#ec4899', 'image': '#ec4899',
             'default': 'rgba(74,222,128,0.3)'
         };
-        const brainToolToRegion = {
+        var brainToolToRegion = {
             'opus': 'Reasoning', 'claude': 'Reasoning', 'sonnet': 'Reasoning',
             'whisper': 'Language', 'ollama': 'Reasoning',
             'stable-diffusion': 'Vision', 'sd': 'Vision', 'image': 'Vision',
@@ -3822,7 +3822,7 @@
             'trading': 'Market', 'kalshi': 'Market', 'sorare': 'Market',
             'cron': 'Planning', 'sessions_spawn': 'Planning'
         };
-        let activeRegions = new Set();
+        var activeRegions = new Set();
 
         function initBrainMap() {
             const cx = 100, cy = 190;

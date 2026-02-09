@@ -1810,6 +1810,9 @@
             width: 220px;
             height: 220px;
             position: relative;
+            align-self: center;
+            margin-top: auto;
+            margin-bottom: auto;
         }
         
         .brain-map-container svg {
@@ -1848,8 +1851,45 @@
         }
         
         @keyframes brainPulseIdle {
-            0%, 100% { r: 18; opacity: 0.3; }
-            50% { r: 20; opacity: 0.4; }
+            0%, 100% { r: 18; opacity: 0.15; }
+            25% { r: 20; opacity: 0.25; }
+            50% { r: 19; opacity: 0.2; }
+            75% { r: 21; opacity: 0.3; }
+        }
+        
+        @keyframes brainIdleRing {
+            0% { stroke-dashoffset: 0; opacity: 0.15; }
+            50% { opacity: 0.35; }
+            100% { stroke-dashoffset: -251; opacity: 0.15; }
+        }
+        
+        @keyframes brainIdleGlow {
+            0%, 100% { opacity: 0.05; }
+            50% { opacity: 0.15; }
+        }
+        
+        #brain-idle-ring {
+            display: none;
+            stroke-dasharray: 40 30;
+            animation: brainIdleRing 6s linear infinite;
+        }
+        
+        #brain-idle-glow {
+            display: none;
+            animation: brainIdleGlow 4s ease-in-out infinite;
+        }
+        
+        .brain-idle #brain-idle-ring,
+        .brain-idle #brain-idle-glow {
+            display: block;
+        }
+        
+        .brain-idle #brain-hub animate {
+            /* Paused when idle */
+        }
+        
+        .brain-active #brain-hub {
+            filter: drop-shadow(0 0 8px rgba(74, 222, 128, 0.5));
         }
         
         @keyframes pulseDot {
@@ -2233,6 +2273,10 @@
                             </defs>
                             <!-- Glow backdrop -->
                             <circle cx="110" cy="110" r="50" fill="url(#hubGlow)" opacity="0.3" id="brain-glow"/>
+                            <!-- Idle futuristic ring -->
+                            <circle cx="110" cy="110" r="40" fill="none" stroke="rgba(74,222,128,0.3)" stroke-width="1" id="brain-idle-ring"/>
+                            <!-- Idle outer glow -->
+                            <circle cx="110" cy="110" r="55" fill="none" stroke="rgba(74,222,128,0.1)" stroke-width="0.5" id="brain-idle-glow"/>
                             <!-- Connection lines (drawn by JS) -->
                             <g id="brain-lines"></g>
                             <!-- Pulse dots (drawn by JS) -->
@@ -2240,10 +2284,7 @@
                             <!-- Satellite nodes (drawn by JS) -->
                             <g id="brain-nodes"></g>
                             <!-- Center hub -->
-                            <circle cx="110" cy="110" r="18" fill="rgba(74,222,128,0.25)" stroke="rgba(74,222,128,0.6)" stroke-width="2" id="brain-hub" class="brain-hub">
-                                <animate attributeName="r" values="18;22;18" dur="3s" repeatCount="indefinite"/>
-                                <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3s" repeatCount="indefinite"/>
-                            </circle>
+                            <circle cx="110" cy="110" r="18" fill="rgba(74,222,128,0.25)" stroke="rgba(74,222,128,0.6)" stroke-width="2" id="brain-hub" class="brain-hub"/>
                             <text x="110" y="113" text-anchor="middle" fill="rgba(74,222,128,0.7)" font-size="8" font-weight="600">JANE</text>
                         </svg>
                     </div>
@@ -3451,7 +3492,7 @@
         const brainToolColors = {
             'opus': '#3b82f6', 'claude': '#3b82f6',
             'sonnet': '#8b5cf6',
-            'whisper': '#a855f7',
+            'whisper': '#facc15',
             'ollama': '#f97316',
             'stable-diffusion': '#ec4899', 'sd': '#ec4899', 'image': '#ec4899',
             'default': 'rgba(74,222,128,0.3)'
@@ -3607,12 +3648,17 @@
             resetBrainRegions();
             const hasActive = mindState.steps && mindState.steps.some(s => s.status === 'active');
             const hub = document.getElementById('brain-hub');
+            const brainSvg = document.getElementById('brain-map');
             if (hasActive || mindState.task) {
                 hub.setAttribute('fill', 'rgba(74,222,128,0.4)');
                 hub.setAttribute('stroke', 'rgba(74,222,128,0.8)');
+                brainSvg.classList.remove('brain-idle');
+                brainSvg.classList.add('brain-active');
             } else {
-                hub.setAttribute('fill', 'rgba(74,222,128,0.15)');
-                hub.setAttribute('stroke', 'rgba(74,222,128,0.3)');
+                hub.setAttribute('fill', 'rgba(74,222,128,0.1)');
+                hub.setAttribute('stroke', 'rgba(74,222,128,0.2)');
+                brainSvg.classList.remove('brain-active');
+                brainSvg.classList.add('brain-idle');
             }
 
             if (mindState.steps && mindState.steps.length > 0) {

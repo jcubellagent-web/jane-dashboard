@@ -48,11 +48,16 @@
             height: 16px;
             border-radius: 3px;
         }
+        .status-subtitle {
+            font-size: 0.55rem;
+            color: var(--text-dim);
+            font-weight: 400;
+        }
         .status-pills {
             display: flex;
             align-items: center;
-            gap: 0.35rem;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            flex-wrap: nowrap;
         }
         .status-label {
             font-weight: 700;
@@ -88,17 +93,14 @@
             <div class="status-top">
                 <img src="icon-192.png" alt="Jane">
                 <span class="status-label">Jane</span>
+                <span class="status-subtitle">Personal Assistant</span>
             </div>
             <div class="status-pills">
                 <span class="status-pill" id="model-pill">Model: --</span>
-                <span class="status-pill green" id="plan-pill">Plan: Max</span>
-                <span class="status-divider">·</span>
+                <span class="status-pill green" id="plan-pill">Max</span>
                 <span class="status-pill dim" id="age-pill">Age: --</span>
-                <span class="status-divider">·</span>
                 <span class="status-pill" id="cpu-pill">CPU: --%</span>
-                <span class="status-divider">·</span>
                 <span class="status-pill" id="ram-pill">RAM: --%</span>
-                <span class="status-divider">·</span>
                 <span class="status-pill" id="mini2-pill">Mini2: --</span>
             </div>
         </div>

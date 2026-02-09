@@ -1818,14 +1818,128 @@
         .brain-map-container svg {
             width: 100%;
             height: 100%;
+            transition: filter 0.8s ease;
+        }
+        
+        /* ===== IDLE STATE — Deep breathing ===== */
+        .brain-idle svg {
+            filter: drop-shadow(0 0 6px rgba(74, 222, 128, 0.15));
+        }
+        
+        @keyframes idleBreathe {
+            0%, 100% { transform: scale(1); opacity: 0.2; }
+            50% { transform: scale(1.08); opacity: 0.4; }
+        }
+        
+        @keyframes idleBreatheHub {
+            0%, 100% { r: 16; opacity: 0.2; fill-opacity: 0.15; }
+            50% { r: 20; opacity: 0.4; fill-opacity: 0.25; }
+        }
+        
+        @keyframes idleRingSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes idleRingSpinReverse {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
+        
+        @keyframes idleNodeBreathe {
+            0%, 100% { r: 8; stroke-opacity: 0.15; fill-opacity: 0.05; }
+            50% { r: 10; stroke-opacity: 0.3; fill-opacity: 0.1; }
+        }
+        
+        @keyframes idleLineBreathe {
+            0%, 100% { stroke-opacity: 0.08; }
+            50% { stroke-opacity: 0.2; }
+        }
+        
+        @keyframes idleLabelBreathe {
+            0%, 100% { fill-opacity: 0.3; }
+            50% { fill-opacity: 0.5; }
+        }
+        
+        /* Idle ring elements */
+        .brain-idle .idle-ring { display: block; }
+        .brain-active .idle-ring { display: none; }
+        
+        .idle-ring-outer {
+            transform-origin: 110px 110px;
+            animation: idleRingSpin 12s linear infinite;
+            stroke-dasharray: 30 20 10 25;
+        }
+        .idle-ring-inner {
+            transform-origin: 110px 110px;
+            animation: idleRingSpinReverse 8s linear infinite;
+            stroke-dasharray: 15 25 40 15;
+        }
+        .idle-ring-mid {
+            transform-origin: 110px 110px;
+            animation: idleRingSpin 20s linear infinite;
+            stroke-dasharray: 8 40;
+        }
+        
+        /* Idle glow backdrop */
+        .brain-idle #brain-glow {
+            animation: idleBreathe 4s ease-in-out infinite;
+        }
+        
+        /* Idle hub breathing */  
+        .brain-idle #brain-hub {
+            animation: idleBreatheHub 4s ease-in-out infinite;
+        }
+        
+        /* Idle nodes breathing (staggered) */
+        .brain-idle .brain-node-circle {
+            animation: idleNodeBreathe 4s ease-in-out infinite;
+        }
+        .brain-idle #brain-node-0 { animation-delay: 0s; }
+        .brain-idle #brain-node-1 { animation-delay: 0.5s; }
+        .brain-idle #brain-node-2 { animation-delay: 1s; }
+        .brain-idle #brain-node-3 { animation-delay: 1.5s; }
+        .brain-idle #brain-node-4 { animation-delay: 2s; }
+        .brain-idle #brain-node-5 { animation-delay: 2.5s; }
+        .brain-idle #brain-node-6 { animation-delay: 3s; }
+        .brain-idle #brain-node-7 { animation-delay: 3.5s; }
+        
+        /* Idle lines breathing */
+        .brain-idle .brain-line {
+            animation: idleLineBreathe 4s ease-in-out infinite;
+        }
+        .brain-idle #brain-line-0 { animation-delay: 0s; }
+        .brain-idle #brain-line-1 { animation-delay: 0.5s; }
+        .brain-idle #brain-line-2 { animation-delay: 1s; }
+        .brain-idle #brain-line-3 { animation-delay: 1.5s; }
+        .brain-idle #brain-line-4 { animation-delay: 2s; }
+        .brain-idle #brain-line-5 { animation-delay: 2.5s; }
+        .brain-idle #brain-line-6 { animation-delay: 3s; }
+        .brain-idle #brain-line-7 { animation-delay: 3.5s; }
+        
+        /* Idle labels breathing */
+        .brain-idle .brain-node-label {
+            animation: idleLabelBreathe 4s ease-in-out infinite;
+        }
+        
+        /* ===== ACTIVE STATE — Spring to life ===== */
+        .brain-active svg {
+            filter: drop-shadow(0 0 20px rgba(74, 222, 128, 0.4));
+        }
+        
+        .brain-active #brain-hub {
+            fill-opacity: 0.5 !important;
+            stroke-opacity: 1 !important;
+            filter: drop-shadow(0 0 12px rgba(74, 222, 128, 0.7));
+        }
+        
+        .brain-active #brain-glow {
+            opacity: 0.5;
+            transition: opacity 0.5s ease;
         }
         
         .brain-hub {
             transition: all 0.5s ease;
-        }
-        
-        .brain-hub.active {
-            filter: drop-shadow(0 0 12px rgba(74, 222, 128, 0.6));
         }
         
         .brain-node-circle {
@@ -1843,53 +1957,6 @@
         
         .brain-line {
             transition: stroke 0.4s ease, opacity 0.4s ease;
-        }
-        
-        @keyframes brainPulse {
-            0%, 100% { r: 18; opacity: 0.8; }
-            50% { r: 22; opacity: 1; }
-        }
-        
-        @keyframes brainPulseIdle {
-            0%, 100% { r: 18; opacity: 0.15; }
-            25% { r: 20; opacity: 0.25; }
-            50% { r: 19; opacity: 0.2; }
-            75% { r: 21; opacity: 0.3; }
-        }
-        
-        @keyframes brainIdleRing {
-            0% { stroke-dashoffset: 0; opacity: 0.15; }
-            50% { opacity: 0.35; }
-            100% { stroke-dashoffset: -251; opacity: 0.15; }
-        }
-        
-        @keyframes brainIdleGlow {
-            0%, 100% { opacity: 0.05; }
-            50% { opacity: 0.15; }
-        }
-        
-        #brain-idle-ring {
-            display: none;
-            stroke-dasharray: 40 30;
-            animation: brainIdleRing 6s linear infinite;
-        }
-        
-        #brain-idle-glow {
-            display: none;
-            animation: brainIdleGlow 4s ease-in-out infinite;
-        }
-        
-        .brain-idle #brain-idle-ring,
-        .brain-idle #brain-idle-glow {
-            display: block;
-        }
-        
-        .brain-idle #brain-hub animate {
-            /* Paused when idle */
-        }
-        
-        .brain-active #brain-hub {
-            filter: drop-shadow(0 0 8px rgba(74, 222, 128, 0.5));
         }
         
         @keyframes pulseDot {
@@ -2273,10 +2340,10 @@
                             </defs>
                             <!-- Glow backdrop -->
                             <circle cx="110" cy="110" r="50" fill="url(#hubGlow)" opacity="0.3" id="brain-glow"/>
-                            <!-- Idle futuristic ring -->
-                            <circle cx="110" cy="110" r="40" fill="none" stroke="rgba(74,222,128,0.3)" stroke-width="1" id="brain-idle-ring"/>
-                            <!-- Idle outer glow -->
-                            <circle cx="110" cy="110" r="55" fill="none" stroke="rgba(74,222,128,0.1)" stroke-width="0.5" id="brain-idle-glow"/>
+                            <!-- Idle rotating rings -->
+                            <circle class="idle-ring idle-ring-outer" cx="110" cy="110" r="55" fill="none" stroke="rgba(74,222,128,0.2)" stroke-width="0.8" style="display:none"/>
+                            <circle class="idle-ring idle-ring-inner" cx="110" cy="110" r="40" fill="none" stroke="rgba(74,222,128,0.15)" stroke-width="0.6" style="display:none"/>
+                            <circle class="idle-ring idle-ring-mid" cx="110" cy="110" r="48" fill="none" stroke="rgba(74,222,128,0.1)" stroke-width="0.4" style="display:none"/>
                             <!-- Connection lines (drawn by JS) -->
                             <g id="brain-lines"></g>
                             <!-- Pulse dots (drawn by JS) -->

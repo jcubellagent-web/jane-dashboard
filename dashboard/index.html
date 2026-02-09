@@ -1427,12 +1427,11 @@
             overflow-y: auto;
         }
         
-        /* AI News - fills remaining height in center column */
+        /* AI News - compact in center column */
         .card-news-fill {
-            flex: 1;
+            flex: 0 1 auto;
             display: flex;
             flex-direction: column;
-            min-height: 0;
         }
         
         .card-news-fill .news-two-columns {
@@ -2703,6 +2702,35 @@
                     </div>
                 </div>
             </div>
+            <!-- X Growth Widget -->
+            <div class="card card-xgrowth">
+                <div class="card-header">
+                    <div class="card-title" style="display:flex;align-items:center;gap:8px;">
+                        <img id="x-profile-pic" src="https://abs.twimg.com/favicons/twitter.3.ico" alt="@AgentJc11443" style="width:24px;height:24px;border-radius:50%;border:2px solid var(--accent);background:#000;">
+                        <span>X Growth</span>
+                        <span class="last-refresh" id="x-refresh">--</span>
+                    </div>
+                    <div class="card-meta">
+                        <button class="refresh-btn" onclick="refreshXStats(this)">↻</button>
+                    </div>
+                </div>
+                <div class="x-stats-grid">
+                    <div class="x-stat-item"><div class="x-stat-value" id="x-followers">--</div><div class="x-stat-label">Followers</div></div>
+                    <div class="x-stat-item"><div class="x-stat-value" id="x-following">--</div><div class="x-stat-label">Following</div></div>
+                    <div class="x-stat-item"><div class="x-stat-value" id="x-posts">--</div><div class="x-stat-label">Posts</div></div>
+                    <div class="x-stat-item"><div class="x-stat-value" id="x-impressions">--</div><div class="x-stat-label">Impressions</div></div>
+                    <div class="x-stat-item"><div class="x-stat-value" id="x-engagements">--</div><div class="x-stat-label">Engagements</div></div>
+                    <div class="x-stat-item"><div class="x-stat-value" id="x-eng-rate">--</div><div class="x-stat-label">Eng. Rate</div></div>
+                </div>
+                <div class="x-roadmap">
+                    <div class="x-roadmap-title">Growth Roadmap</div>
+                    <div class="x-roadmap-items" id="x-roadmap-items">
+                        <div class="x-roadmap-item"><span class="x-roadmap-pct">70%</span><span class="x-roadmap-text">Quality replies to high-follower accounts</span></div>
+                        <div class="x-roadmap-item"><span class="x-roadmap-pct">20%</span><span class="x-roadmap-text">Original AI × Crypto content</span></div>
+                        <div class="x-roadmap-item"><span class="x-roadmap-pct">10%</span><span class="x-roadmap-text">Strategic follows & engagement</span></div>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <!-- RIGHT COLUMN - Predictions -->
@@ -2746,64 +2774,6 @@
                     <span class="prediction-question">Loading...</span>
                 </div>
             </div>
-            </div>
-            <!-- X Growth Widget -->
-            <div class="card card-xgrowth">
-                <div class="card-header">
-                    <div class="card-title" style="display:flex;align-items:center;gap:8px;">
-                        <img id="x-profile-pic" src="https://abs.twimg.com/favicons/twitter.3.ico" alt="@AgentJc11443" style="width:24px;height:24px;border-radius:50%;border:2px solid var(--accent);background:#000;">
-                        <span>X Growth</span>
-                        <span class="last-refresh" id="x-refresh">--</span>
-                    </div>
-                    <div class="card-meta">
-                        <button class="refresh-btn" onclick="refreshXStats(this)">↻</button>
-                    </div>
-                </div>
-                <!-- Stats Grid -->
-                <div class="x-stats-grid">
-                    <div class="x-stat-item">
-                        <div class="x-stat-value" id="x-followers">--</div>
-                        <div class="x-stat-label">Followers</div>
-                    </div>
-                    <div class="x-stat-item">
-                        <div class="x-stat-value" id="x-following">--</div>
-                        <div class="x-stat-label">Following</div>
-                    </div>
-                    <div class="x-stat-item">
-                        <div class="x-stat-value" id="x-posts">--</div>
-                        <div class="x-stat-label">Posts</div>
-                    </div>
-                    <div class="x-stat-item">
-                        <div class="x-stat-value" id="x-impressions">--</div>
-                        <div class="x-stat-label">Impressions</div>
-                    </div>
-                    <div class="x-stat-item">
-                        <div class="x-stat-value" id="x-engagements">--</div>
-                        <div class="x-stat-label">Engagements</div>
-                    </div>
-                    <div class="x-stat-item">
-                        <div class="x-stat-value" id="x-eng-rate">--</div>
-                        <div class="x-stat-label">Eng. Rate</div>
-                    </div>
-                </div>
-                <!-- Growth Roadmap -->
-                <div class="x-roadmap">
-                    <div class="x-roadmap-title">Growth Roadmap</div>
-                    <div class="x-roadmap-items" id="x-roadmap-items">
-                        <div class="x-roadmap-item">
-                            <span class="x-roadmap-pct">70%</span>
-                            <span class="x-roadmap-text">Quality replies to high-follower accounts</span>
-                        </div>
-                        <div class="x-roadmap-item">
-                            <span class="x-roadmap-pct">20%</span>
-                            <span class="x-roadmap-text">Original AI × Crypto content</span>
-                        </div>
-                        <div class="x-roadmap-item">
-                            <span class="x-roadmap-pct">10%</span>
-                            <span class="x-roadmap-text">Strategic follows & engagement</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div><!-- end right-column -->
         

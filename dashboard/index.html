@@ -1936,7 +1936,7 @@
         }
         
         .mind-thought-text {
-            color: rgba(255,255,255,0.6);
+            color: var(--accent);
             font-size: 0.8rem;
             font-style: italic;
             line-height: 1.3;
@@ -3637,7 +3637,14 @@
         function updateMind(task, steps, thought) {
             if (task !== undefined) {
                 if (task) mindState.task = task;
-                document.getElementById('mind-current-task').textContent = mindState.task || 'Awaiting instructions...';
+                const taskEl = document.getElementById('mind-current-task');
+                if (mindState.task) {
+                    taskEl.textContent = mindState.task;
+                    taskEl.classList.remove('waiting-dots');
+                } else {
+                    taskEl.textContent = 'Awaiting instructions';
+                    taskEl.classList.add('waiting-dots');
+                }
             }
             
             if (steps !== undefined && steps.length > 0) {

@@ -1911,28 +1911,28 @@
         }
         
         @keyframes sciPulse {
-            0%, 100% { opacity: 0.05; transform: scale(0.95); }
-            50% { opacity: 0.25; transform: scale(1.1); }
+            0%, 100% { opacity: 0.15; transform: scale(0.97); }
+            50% { opacity: 0.35; transform: scale(1.08); }
         }
         
         @keyframes sciHubPulse {
-            0%, 100% { r: 3; fill-opacity: 0.2; filter: drop-shadow(0 0 2px rgba(74,222,128,0.05)); }
+            0%, 100% { r: 4; fill-opacity: 0.45; filter: drop-shadow(0 0 4px rgba(74,222,128,0.2)); }
             50% { r: 6; fill-opacity: 0.9; filter: drop-shadow(0 0 12px rgba(74,222,128,0.6)); }
         }
         
         @keyframes sciNodePulse {
-            0%, 100% { fill-opacity: 0.1; r: 1.5; }
-            50% { fill-opacity: 0.7; r: 4; }
+            0%, 100% { fill-opacity: 0.3; r: 2.5; }
+            50% { fill-opacity: 0.75; r: 4; }
         }
         
         @keyframes sciLinePulse {
-            0%, 100% { stroke-opacity: 0.03; }
-            50% { stroke-opacity: 0.25; }
+            0%, 100% { stroke-opacity: 0.1; }
+            50% { stroke-opacity: 0.3; }
         }
         
         @keyframes sciLabelPulse {
-            0%, 100% { fill-opacity: 0.1; }
-            50% { fill-opacity: 0.65; }
+            0%, 100% { fill-opacity: 0.3; }
+            50% { fill-opacity: 0.7; }
         }
         
         @keyframes sciRingScan {
@@ -1941,14 +1941,14 @@
         }
         
         @keyframes sciGridPulse {
-            0%, 100% { stroke-opacity: 0.03; }
-            50% { stroke-opacity: 0.12; }
+            0%, 100% { stroke-opacity: 0.08; }
+            50% { stroke-opacity: 0.18; }
         }
         
         /* Concentric reference rings */
         .sci-ring {
             fill: none;
-            stroke: rgba(74,222,128,0.06);
+            stroke: rgba(74,222,128,0.1);
             stroke-width: 0.5;
         }
         .brain-idle .sci-ring {
@@ -2017,8 +2017,8 @@
         
         /* Hub label breathing */
         @keyframes sciHubLabelPulse {
-            0%, 100% { fill-opacity: 0.3; }
-            50% { fill-opacity: 0.8; }
+            0%, 100% { fill-opacity: 0.5; }
+            50% { fill-opacity: 0.9; }
         }
         .brain-idle #brain-hub-label {
             animation: sciHubLabelPulse 3.5s ease-in-out infinite;
@@ -2479,7 +2479,7 @@
                             <g id="brain-nodes"></g>
                             <!-- Center hub — small precise dot -->
                             <circle cx="100" cy="190" r="3" fill="rgba(74,222,128,0.5)" stroke="rgba(74,222,128,0.8)" stroke-width="1" id="brain-hub" class="brain-hub"/>
-                            <text x="100" y="201" text-anchor="middle" fill="rgba(74,222,128,0.5)" font-size="7" font-family="'SF Mono','Menlo',monospace" letter-spacing="3" font-weight="500" id="brain-hub-label">JANE</text>
+                            <text x="100" y="201" text-anchor="middle" fill="rgba(74,222,128,0.65)" font-size="7" font-family="'SF Mono','Menlo',monospace" letter-spacing="3" font-weight="500" id="brain-hub-label">JANE</text>
                         </svg>
                     </div>
                     <!-- Info Panel -->

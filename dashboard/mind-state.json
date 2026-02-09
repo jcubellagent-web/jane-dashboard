@@ -1,23 +1,23 @@
 {
-  "task": "Debugging dashboard — all widgets showing '--' or 'Loading...'",
+  "task": "Removing dead widget JS code causing null reference errors",
   "steps": [
     {
-      "label": "Browser automation",
+      "label": "Editing dashboard UI",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Browser automation",
+      "label": "Editing dashboard UI",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Browser automation",
+      "label": "Editing dashboard UI",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Running shell command",
+      "label": "Editing dashboard UI",
       "status": "done",
       "tool": "opus"
     },
@@ -32,7 +32,7 @@
       "tool": "opus"
     }
   ],
-  "thought": "The service worker should be network-first for HTML, but it might still be caching the old index.html. Let me just renam",
+  "thought": "That looks fine — `newsCache` is initialized at line 3299 before use. Now commit:",
   "model": "opus",
-  "lastUpdated": 1770600795272
+  "lastUpdated": 1770606175487
 }

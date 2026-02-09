@@ -2,18 +2,18 @@
   "sessions": [
     {
       "key": "agent:main:main",
-      "channel": "whatsapp",
+      "label": "Main (WhatsApp)",
       "model": "claude-opus-4-6",
-      "updatedAt": 1739058600000
+      "tokens": 181063,
+      "status": "active"
     },
     {
-      "key": "agent:main:subagent:52bb5196",
-      "label": "mobile-rebuild",
+      "key": "agent:main:cron:1923f8f4",
+      "label": "X Engagement Feedback Loop",
       "model": "claude-opus-4-6",
-      "totalTokens": 0,
-      "updatedAt": 1739058600000,
-      "status": "running"
+      "tokens": 106340,
+      "status": "idle"
     }
   ],
-  "lastUpdated": 1739058600000
+  "lastUpdated": 1770609214000
 }

@@ -3571,143 +3571,9 @@
         }
         
         // Tasks
-        async function refreshTasks(btn) {
-            const doRefresh = async () => {
-                try {
-                    const data = await fetchWithTimeout('/api/tasks');
-                    
-                    const inProgress = data.inProgress || [];
-                    const completed = data.completed || [];
-                    
-                    const pinIcon = `<svg class="cat-icon" viewBox="0 0 24 24"><path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2l-2-2z"/></svg>`;
-                    const sparkIcon = `<svg class="cat-icon" viewBox="0 0 24 24"><path d="M12 3L9 9H3l5 4-2 7 6-4 6 4-2-7 5-4h-6z"/></svg>`;
-                    const checkIcon = `<svg class="cat-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`;
-                    const noteIcon = `<svg class="cat-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>`;
-                    
-                    document.getElementById('tasks-inprogress').innerHTML = inProgress.map(t => `
-                        <div class="task-item">
-                            <span class="task-icon">${t.icon ? t.icon.replace(/[\u{1F300}-\u{1F9FF}]/gu, pinIcon) : pinIcon}</span>
-                            <span class="task-name">${t.task}</span>
-                        </div>
-                    `).join('') || `<div class="task-item"><span class="task-icon">${sparkIcon}</span><span class="task-name">No tasks in progress</span></div>`;
-                    
-                    document.getElementById('tasks-completed').innerHTML = completed.slice(0, 5).map(t => `
-                        <div class="task-item task-completed">
-                            <span class="task-icon">${t.icon ? t.icon.replace(/[\u{1F300}-\u{1F9FF}]/gu, checkIcon) : checkIcon}</span>
-                            <span class="task-name">${t.task}</span>
-                        </div>
-                    `).join('') || `<div class="task-item"><span class="task-icon">${noteIcon}</span><span class="task-name">No completed tasks</span></div>`;
-                } catch (err) {
-                    console.error('Tasks refresh error:', err);
-                }
-            };
-            if (btn) spinButton(btn, doRefresh());
-            else doRefresh();
-        }
+        // Tasks and Cron widgets removed — no DOM elements exist
         
-        // Cron Jobs
-        async function refreshCron(btn) {
-            const doRefresh = async () => {
-                try {
-                    const data = await fetchWithTimeout('/api/cron');
-                    const container = document.getElementById('cron-list');
-                    
-                    if (!data?.jobs?.length) {
-                        container.innerHTML = '<div class="cron-item"><span class="cron-name">No scheduled jobs</span></div>';
-                        return;
-                    }
-                    
-                    container.innerHTML = data.jobs.slice(0, 6).map(job => `
-                        <div class="cron-item">
-                            <span class="cron-name">${job.name || job.id}</span>
-                            <span class="cron-schedule">${job.schedule?.expr || job.schedule?.kind || '--'}</span>
-                        </div>
-                    `).join('');
-                } catch (err) {
-                    console.error('Cron refresh error:', err);
-                }
-            };
-            if (btn) spinButton(btn, doRefresh());
-            else doRefresh();
-        }
-        
-        // ===== MEME COIN TRACKER =====
-        async function refreshMemecoins(btn) {
-            const doRefresh = async () => {
-                try {
-                    const data = await fetchWithTimeout('/api/memecoins', 15000);
-                    const container = document.getElementById('memecoins-list');
-                    const refreshEl = document.getElementById('memecoins-refresh');
-                    
-                    if (!data?.memecoins?.length) {
-                        container.innerHTML = '<div class="memecoin-item loading"><span>No memecoins found matching criteria</span></div>';
-                        return;
-                    }
-                    
-                    // Format helpers
-                    const formatPrice = (p) => {
-                        if (p < 0.0001) return '$' + p.toExponential(2);
-                        if (p < 0.01) return '$' + p.toFixed(6);
-                        if (p < 1) return '$' + p.toFixed(4);
-                        return '$' + p.toFixed(2);
-                    };
-                    
-                    const formatVolume = (v) => {
-                        if (v >= 1000000) return '$' + (v/1000000).toFixed(1) + 'M';
-                        if (v >= 1000) return '$' + (v/1000).toFixed(0) + 'K';
-                        return '$' + v.toFixed(0);
-                    };
-                    
-                    const formatMcap = (m) => {
-                        if (m >= 1000000) return '$' + (m/1000000).toFixed(1) + 'M';
-                        if (m >= 1000) return '$' + (m/1000).toFixed(0) + 'K';
-                        return '$' + m.toFixed(0);
-                    };
-                    
-                    container.innerHTML = data.memecoins.map((coin, i) => {
-                        const changeClass = coin.priceChange24h >= 0 ? 'positive' : 'negative';
-                        const changeSign = coin.priceChange24h >= 0 ? '+' : '';
-                        const chainIcon = coin.chain === 'solana' ? '◎' : coin.chain === 'base' ? '🔵' : '⟠';
-                        const iconHtml = coin.imageUrl 
-                            ? `<img src="${coin.imageUrl}" alt="${coin.symbol}" class="memecoin-icon" onerror="this.outerHTML='<span class=\\'memecoin-icon-placeholder\\'>${coin.symbol.charAt(0)}</span>'">`
-                            : `<span class="memecoin-icon-placeholder">${coin.symbol.charAt(0)}</span>`;
-                        
-                        return `
-                            <a href="${coin.dexUrl}" target="_blank" class="memecoin-item" title="View on DEX Screener">
-                                <span class="memecoin-rank">#${i + 1}</span>
-                                ${iconHtml}
-                                <div class="memecoin-info">
-                                    <span class="memecoin-name">${coin.symbol}</span>
-                                    <span class="memecoin-symbol">${coin.name.substring(0, 18)}</span>
-                                </div>
-                                <div class="memecoin-age">
-                                    <div class="memecoin-age-value">${coin.age || '?'}</div>
-                                </div>
-                                <div class="memecoin-volume">
-                                    <div class="memecoin-volume-label">Vol</div>
-                                    <div class="memecoin-volume-value">${formatVolume(coin.volume24h)}</div>
-                                </div>
-                                <div class="memecoin-mcap">
-                                    <div class="memecoin-mcap-value">${formatMcap(coin.marketCap)}</div>
-                                    <div class="memecoin-mcap-change ${changeClass}">${changeSign}${coin.priceChange24h.toFixed(1)}%</div>
-                                </div>
-                            </a>
-                        `;
-                    }).join('');
-                    
-                    if (refreshEl && data.lastUpdated) {
-                        const time = new Date(data.lastUpdated).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-                        refreshEl.textContent = time;
-                    }
-                } catch (err) {
-                    console.error('Memecoins refresh error:', err);
-                    const container = document.getElementById('memecoins-list');
-                    container.innerHTML = '<div class="memecoin-item loading"><span>Failed to load memecoins</span></div>';
-                }
-            };
-            if (btn) spinButton(btn, doRefresh());
-            else doRefresh();
-        }
+        // Memecoins widget removed — no DOM elements exist
         
         // ===== KALSHI POSITIONS =====
         function toggleSettledPopup(e) {
@@ -4098,8 +3964,7 @@
             refreshConnections();
             refreshSorare();
             refreshXStats();
-            refreshTasks();
-            refreshCron();
+            // Tasks/Cron widgets removed
             refreshMind();
             
             // Stop spinning after 1.5 seconds
@@ -4146,20 +4011,7 @@
             container.scrollTop = container.scrollHeight;
         }
         
-        // Dashboard operational logs
-        function logOps() {
-            const ops = [
-                "Refreshing system metrics...",
-                "Syncing prediction data...",
-                "Updating TikTok stats...",
-                "Checking scheduled jobs...",
-                "Polling session status...",
-                "Auto-refresh complete.",
-                "Monitoring active...",
-                "All systems nominal."
-            ];
-            addThought(ops[Math.floor(Math.random() * ops.length)]);
-        }
+        // logOps removed — Dashboard Ops widget deleted
         
         // Refresh mind state periodically
         setInterval(refreshMind, 5000);
@@ -4174,11 +4026,10 @@
         try { refreshPredictions(); } catch(e) {}
         try { refreshNews(); } catch(e) {}
         try { refreshSorare(); } catch(e) {}
-        try { refreshMemecoins(); } catch(e) {}
+        // Memecoins widget removed
         try { refreshConnections(); } catch(e) {}
         try { refreshAgents(); } catch(e) {}
-        try { refreshTasks(); } catch(e) {}
-        try { refreshCron(); } catch(e) {}
+        // Tasks/Cron widgets removed
         
         // Auto-refresh intervals
         setInterval(refreshSystem, 30000);
@@ -4197,11 +4048,10 @@
         setInterval(refreshKalshi, 60000);  // Kalshi every 60 seconds
         setInterval(refreshPredictions, 300000);  // Predictions every 5 minutes
         setInterval(refreshNews, 300000);
-        setInterval(refreshTasks, 60000);
-        setInterval(refreshCron, 60000);
+        // Tasks/Cron intervals removed
         setInterval(refreshSorare, 300000);  // Refresh Sorare every 5 minutes
         setInterval(refreshConnections, 300000);  // Connections every 5 minutes
-        setInterval(refreshMemecoins, 30000);  // Memecoins every 30s (DexScreener data)
+        // Memecoins interval removed
         
         // Night Mode
         let bouncingAnimation = null;

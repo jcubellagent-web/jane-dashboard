@@ -2836,7 +2836,10 @@
             const birthDate = new Date('2026-01-31');
             const today = new Date();
             const ageDays = Math.floor((today - birthDate) / (1000 * 60 * 60 * 24));
-            document.getElementById('jane-age').textContent = ageDays + 'd';
+            const el = document.getElementById('jane-age');
+            if (el) el.textContent = ageDays + 'd';
+            const slimEl = document.getElementById('jane-age-slim');
+            if (slimEl) slimEl.textContent = ageDays + 'd';
         }
         updateJaneAge();
         
@@ -4162,15 +4165,8 @@
         setInterval(refreshMind, 5000);
         
         // Initial load
-        console.log('INIT START');
         try { initBrainMap(); } catch(e) { console.warn('Brain init error:', e.message); }
         try { refreshMind(); } catch(e) { console.warn('Mind init error:', e.message); }
-        console.log('INIT: setting timeouts');
-        window.setTimeout(function() { console.log('TIMEOUT 1 fired'); refreshSystem(); refreshTicker(); refreshXStats(); }, 200);
-        window.setTimeout(function() { console.log('TIMEOUT 2 fired'); refreshKalshi(); refreshPredictions(); }, 800);
-        window.setTimeout(function() { console.log('TIMEOUT 3 fired'); refreshNews(); refreshSorare(); refreshMemecoins(); refreshConnections(); }, 1500);
-        window.setTimeout(function() { console.log('TIMEOUT 4 fired'); refreshAgents(); refreshTasks(); refreshCron(); }, 2500);
-        console.log('INIT COMPLETE');
         
         // Auto-refresh intervals
         setInterval(refreshSystem, 30000);

@@ -4162,15 +4162,12 @@
         setInterval(refreshMind, 5000);
         
         // Initial load
-        (function initDashboard() {
-            try { initBrainMap(); } catch(e) { console.warn('Brain init error:', e.message); }
-            try { refreshMind(); } catch(e) { console.warn('Mind init error:', e.message); }
-            setTimeout(function() { try { refreshSystem(); } catch(e){} try { refreshTicker(); } catch(e){} try { refreshXStats(); } catch(e){} }, 500);
-            setTimeout(function() { try { refreshKalshi(); } catch(e){} try { refreshPredictions(); } catch(e){} try { refreshNews(); } catch(e){} }, 1500);
-            setTimeout(function() { try { refreshSorare(); } catch(e){} try { refreshMemecoins(); } catch(e){} try { refreshConnections(); } catch(e){} }, 2500);
-            setTimeout(function() { try { refreshAgents(); } catch(e){} try { refreshTasks(); } catch(e){} try { refreshCron(); } catch(e){} }, 3500);
-            setTimeout(function() { try { refreshSystem(); } catch(e){} try { refreshTicker(); } catch(e){} try { refreshXStats(); } catch(e){} try { refreshKalshi(); } catch(e){} try { refreshPredictions(); } catch(e){} try { refreshNews(); } catch(e){} try { refreshMind(); } catch(e){} }, 10000);
-        })();
+        try { initBrainMap(); } catch(e) { console.warn('Brain init error:', e.message); }
+        try { refreshMind(); } catch(e) { console.warn('Mind init error:', e.message); }
+        window.setTimeout(function() { refreshSystem(); refreshTicker(); refreshXStats(); }, 200);
+        window.setTimeout(function() { refreshKalshi(); refreshPredictions(); }, 800);
+        window.setTimeout(function() { refreshNews(); refreshSorare(); refreshMemecoins(); refreshConnections(); }, 1500);
+        window.setTimeout(function() { refreshAgents(); refreshTasks(); refreshCron(); }, 2500);
         
         // Auto-refresh intervals
         setInterval(refreshSystem, 30000);

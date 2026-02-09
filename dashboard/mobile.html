@@ -35,18 +35,28 @@
         /* Status Bar */
         .status-bar {
             display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .status-top {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .status-top img {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+        .status-pills {
+            display: flex;
             align-items: center;
             gap: 0.35rem;
             flex-wrap: wrap;
         }
-        .status-bar img {
-            width: 14px;
-            height: 14px;
-            border-radius: 3px;
-        }
         .status-label {
             font-weight: 700;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: var(--accent);
         }
         .status-pill {
@@ -75,18 +85,22 @@
     <!-- Jane Status Bar -->
     <div class="card">
         <div class="status-bar">
-            <img src="icon-192.png" alt="Jane">
-            <span class="status-label">Jane</span>
-            <span class="status-pill" id="model-pill">Model: --</span>
-            <span class="status-pill green" id="plan-pill">Plan: Max</span>
-            <span class="status-divider">·</span>
-            <span class="status-pill dim" id="age-pill">Age: --</span>
-            <span class="status-divider">·</span>
-            <span class="status-pill" id="cpu-pill">CPU: --%</span>
-            <span class="status-divider">·</span>
-            <span class="status-pill" id="ram-pill">RAM: --%</span>
-            <span class="status-divider">·</span>
-            <span class="status-pill" id="mini2-pill">Mini2: --</span>
+            <div class="status-top">
+                <img src="icon-192.png" alt="Jane">
+                <span class="status-label">Jane</span>
+            </div>
+            <div class="status-pills">
+                <span class="status-pill" id="model-pill">Model: --</span>
+                <span class="status-pill green" id="plan-pill">Plan: Max</span>
+                <span class="status-divider">·</span>
+                <span class="status-pill dim" id="age-pill">Age: --</span>
+                <span class="status-divider">·</span>
+                <span class="status-pill" id="cpu-pill">CPU: --%</span>
+                <span class="status-divider">·</span>
+                <span class="status-pill" id="ram-pill">RAM: --%</span>
+                <span class="status-divider">·</span>
+                <span class="status-pill" id="mini2-pill">Mini2: --</span>
+            </div>
         </div>
     </div>
 

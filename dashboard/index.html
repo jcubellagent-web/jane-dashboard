@@ -1903,166 +1903,130 @@
             transition: filter 0.8s ease;
         }
         
-        /* ===== IDLE STATE — Deep breathing ===== */
+        /* ===== SCIENTIFIC MINIMALIST BRAIN ===== */
+        
+        /* Idle state — subtle pulse */
         .brain-idle svg {
-            filter: drop-shadow(0 0 6px rgba(74, 222, 128, 0.15));
+            filter: drop-shadow(0 0 4px rgba(74, 222, 128, 0.1));
         }
         
-        @keyframes idleBreathe {
-            0%, 100% { transform: scale(1); opacity: 0.2; }
-            50% { transform: scale(1.08); opacity: 0.4; }
+        @keyframes sciPulse {
+            0%, 100% { opacity: 0.03; }
+            50% { opacity: 0.08; }
         }
         
-        @keyframes idleBreatheHub {
-            0%, 100% { r: 16; opacity: 0.2; fill-opacity: 0.15; }
-            50% { r: 20; opacity: 0.4; fill-opacity: 0.25; }
+        @keyframes sciHubPulse {
+            0%, 100% { r: 3; fill-opacity: 0.4; }
+            50% { r: 4; fill-opacity: 0.7; }
         }
         
-        @keyframes idleRingSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        @keyframes idleRingSpinReverse {
-            0% { transform: rotate(360deg); }
-            100% { transform: rotate(0deg); }
-        }
-        
-        @keyframes idleNodeBreathe {
-            0%, 100% { r: 4; fill-opacity: 0.2; }
-            50% { r: 6; fill-opacity: 0.4; }
-        }
-        
-        @keyframes idleLineBreathe {
-            0%, 100% { stroke-opacity: 0.08; }
-            50% { stroke-opacity: 0.2; }
-        }
-        
-        @keyframes idleLabelBreathe {
-            0%, 100% { fill-opacity: 0.3; }
+        @keyframes sciNodePulse {
+            0%, 100% { fill-opacity: 0.25; }
             50% { fill-opacity: 0.5; }
         }
         
-        /* Idle ring elements */
-        .brain-idle .idle-ring { display: block; }
-        .brain-active .idle-ring { display: none; }
-        
-        .idle-ring-outer {
-            transform-origin: 100px 190px;
-            animation: idleRingSpin 12s linear infinite;
-            stroke-dasharray: 30 20 10 25;
-        }
-        .idle-ring-inner {
-            transform-origin: 100px 190px;
-            animation: idleRingSpinReverse 8s linear infinite;
-            stroke-dasharray: 15 25 40 15;
-        }
-        .idle-ring-mid {
-            transform-origin: 100px 190px;
-            animation: idleRingSpin 20s linear infinite;
-            stroke-dasharray: 8 40;
+        @keyframes sciLinePulse {
+            0%, 100% { stroke-opacity: 0.06; }
+            50% { stroke-opacity: 0.12; }
         }
         
-        /* Idle glow backdrop */
+        @keyframes sciLabelPulse {
+            0%, 100% { fill-opacity: 0.25; }
+            50% { fill-opacity: 0.4; }
+        }
+        
+        @keyframes sciRingScan {
+            0% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: -628; }
+        }
+        
+        @keyframes sciGridPulse {
+            0%, 100% { stroke-opacity: 0.04; }
+            50% { stroke-opacity: 0.08; }
+        }
+        
+        /* Concentric reference rings */
+        .sci-ring {
+            fill: none;
+            stroke: rgba(74,222,128,0.06);
+            stroke-width: 0.5;
+        }
+        .brain-idle .sci-ring {
+            animation: sciGridPulse 6s ease-in-out infinite;
+        }
+        .brain-idle .sci-ring:nth-child(2) { animation-delay: 1s; }
+        .brain-idle .sci-ring:nth-child(3) { animation-delay: 2s; }
+        
+        /* Scanning ring (idle only) */
+        .sci-scan-ring {
+            fill: none;
+            stroke: rgba(74,222,128,0.15);
+            stroke-width: 0.8;
+            stroke-dasharray: 20 608;
+            transform-origin: 100px 190px;
+        }
+        .brain-idle .sci-scan-ring {
+            animation: sciRingScan 8s linear infinite;
+        }
+        .brain-active .sci-scan-ring {
+            animation: sciRingScan 3s linear infinite;
+            stroke: rgba(74,222,128,0.3);
+        }
+        
+        /* Glow backdrop */
         .brain-idle #brain-glow {
-            animation: idleBreathe 4s ease-in-out infinite;
+            animation: sciPulse 5s ease-in-out infinite;
         }
         
-        /* Idle hub breathing */  
+        /* Hub */
         .brain-idle #brain-hub {
-            animation: idleBreatheHub 4s ease-in-out infinite;
+            animation: sciHubPulse 5s ease-in-out infinite;
         }
         
-        /* Idle nodes breathing (staggered) */
+        /* Nodes */
         .brain-idle .brain-node-circle {
-            animation: idleNodeBreathe 4s ease-in-out infinite;
+            animation: sciNodePulse 5s ease-in-out infinite;
         }
         .brain-idle #brain-node-0 { animation-delay: 0s; }
-        .brain-idle #brain-node-1 { animation-delay: 0.5s; }
-        .brain-idle #brain-node-2 { animation-delay: 1s; }
-        .brain-idle #brain-node-3 { animation-delay: 1.5s; }
-        .brain-idle #brain-node-4 { animation-delay: 2s; }
-        .brain-idle #brain-node-5 { animation-delay: 2.5s; }
-        .brain-idle #brain-node-6 { animation-delay: 3s; }
-        .brain-idle #brain-node-7 { animation-delay: 3.5s; }
+        .brain-idle #brain-node-1 { animation-delay: 0.6s; }
+        .brain-idle #brain-node-2 { animation-delay: 1.2s; }
+        .brain-idle #brain-node-3 { animation-delay: 1.8s; }
+        .brain-idle #brain-node-4 { animation-delay: 2.4s; }
+        .brain-idle #brain-node-5 { animation-delay: 3.0s; }
+        .brain-idle #brain-node-6 { animation-delay: 3.6s; }
+        .brain-idle #brain-node-7 { animation-delay: 4.2s; }
         
-        /* Idle lines breathing */
+        /* Lines */
         .brain-idle .brain-line {
-            animation: idleLineBreathe 4s ease-in-out infinite;
+            animation: sciLinePulse 5s ease-in-out infinite;
         }
         .brain-idle #brain-line-0 { animation-delay: 0s; }
-        .brain-idle #brain-line-1 { animation-delay: 0.5s; }
-        .brain-idle #brain-line-2 { animation-delay: 1s; }
-        .brain-idle #brain-line-3 { animation-delay: 1.5s; }
-        .brain-idle #brain-line-4 { animation-delay: 2s; }
-        .brain-idle #brain-line-5 { animation-delay: 2.5s; }
-        .brain-idle #brain-line-6 { animation-delay: 3s; }
-        .brain-idle #brain-line-7 { animation-delay: 3.5s; }
+        .brain-idle #brain-line-1 { animation-delay: 0.6s; }
+        .brain-idle #brain-line-2 { animation-delay: 1.2s; }
+        .brain-idle #brain-line-3 { animation-delay: 1.8s; }
+        .brain-idle #brain-line-4 { animation-delay: 2.4s; }
+        .brain-idle #brain-line-5 { animation-delay: 3.0s; }
+        .brain-idle #brain-line-6 { animation-delay: 3.6s; }
+        .brain-idle #brain-line-7 { animation-delay: 4.2s; }
         
-        /* Idle labels breathing */
+        /* Labels */
         .brain-idle .brain-node-label {
-            animation: idleLabelBreathe 4s ease-in-out infinite;
+            animation: sciLabelPulse 5s ease-in-out infinite;
         }
         
-        /* ===== NEURAL WEB ===== */
-        .neural-layer-1 {
-            transform-origin: 100px 190px;
-            animation: neuralSpin1 30s linear infinite;
-        }
-        .neural-layer-2 {
-            transform-origin: 100px 190px;
-            animation: neuralSpin2 22s linear infinite;
-        }
-        
-        @keyframes neuralSpin1 {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        @keyframes neuralSpin2 {
-            0% { transform: rotate(360deg); }
-            100% { transform: rotate(0deg); }
-        }
-        
-        /* Idle: slow spin, dim */
-        .brain-idle .neural-web {
-            opacity: 1;
-            animation: neuralBreathe 4s ease-in-out infinite;
-        }
-        @keyframes neuralBreathe {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 0.9; }
-        }
-        
-        /* Active: bright, faster */
-        .brain-active .neural-web {
-            opacity: 1;
-        }
-        .brain-active .neural-layer-1 {
-            animation-duration: 12s;
-        }
-        .brain-active .neural-layer-2 {
-            animation-duration: 8s;
-        }
-        .brain-active .neural-web line {
-            stroke-opacity: 0.2 !important;
-        }
-        .brain-active .neural-web circle {
-            fill-opacity: 0.3 !important;
-        }
-        
-        /* ===== ACTIVE STATE — Spring to life ===== */
+        /* ===== ACTIVE STATE ===== */
         .brain-active svg {
-            filter: drop-shadow(0 0 20px rgba(74, 222, 128, 0.4));
+            filter: drop-shadow(0 0 12px rgba(74, 222, 128, 0.3));
         }
         
         .brain-active #brain-hub {
-            fill-opacity: 0.5 !important;
+            fill-opacity: 0.7 !important;
             stroke-opacity: 1 !important;
-            filter: drop-shadow(0 0 12px rgba(74, 222, 128, 0.7));
+            filter: drop-shadow(0 0 8px rgba(74, 222, 128, 0.5));
         }
         
         .brain-active #brain-glow {
-            opacity: 0.5;
+            opacity: 0.25;
             transition: opacity 0.5s ease;
         }
         
@@ -2076,8 +2040,11 @@
         }
         
         .brain-node-label {
-            font-size: 7px;
-            fill: rgba(255,255,255,0.5);
+            font-size: 5px;
+            font-family: 'SF Mono', 'Menlo', monospace;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            fill: rgba(74,222,128,0.3);
             text-anchor: middle;
             pointer-events: none;
             transition: fill 0.4s ease;
@@ -2475,78 +2442,30 @@
                         <svg id="brain-map" viewBox="0 0 200 380" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
-                                    <stop offset="0%" stop-color="rgba(74,222,128,0.4)"/>
+                                    <stop offset="0%" stop-color="rgba(74,222,128,0.15)"/>
                                     <stop offset="100%" stop-color="rgba(74,222,128,0)"/>
                                 </radialGradient>
-                                <filter id="glow">
-                                    <feGaussianBlur stdDeviation="3" result="blur"/>
-                                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                                </filter>
                             </defs>
-                            <!-- Glow backdrop -->
-                            <circle cx="100" cy="190" r="50" fill="url(#hubGlow)" opacity="0.3" id="brain-glow"/>
-                            <!-- Neural network web (behind everything) -->
-                            <g id="neural-web" class="neural-web">
-                                <!-- Outer rotating layer -->
-                                <g class="neural-layer neural-layer-1">
-                                    <!-- Tight outer web around hub -->
-                                    <line x1="100" y1="110" x2="55" y2="145" stroke="rgba(74,222,128,0.15)" stroke-width="0.7"/>
-                                    <line x1="100" y1="110" x2="145" y2="145" stroke="rgba(74,222,128,0.15)" stroke-width="0.7"/>
-                                    <line x1="55" y1="145" x2="40" y2="190" stroke="rgba(74,222,128,0.12)" stroke-width="0.7"/>
-                                    <line x1="145" y1="145" x2="160" y2="190" stroke="rgba(74,222,128,0.12)" stroke-width="0.7"/>
-                                    <line x1="40" y1="190" x2="55" y2="235" stroke="rgba(74,222,128,0.12)" stroke-width="0.7"/>
-                                    <line x1="160" y1="190" x2="145" y2="235" stroke="rgba(74,222,128,0.12)" stroke-width="0.7"/>
-                                    <line x1="55" y1="235" x2="100" y2="270" stroke="rgba(74,222,128,0.15)" stroke-width="0.7"/>
-                                    <line x1="145" y1="235" x2="100" y2="270" stroke="rgba(74,222,128,0.15)" stroke-width="0.7"/>
-                                    <!-- Cross connections -->
-                                    <line x1="55" y1="145" x2="145" y2="145" stroke="rgba(74,222,128,0.08)" stroke-width="0.5"/>
-                                    <line x1="40" y1="190" x2="160" y2="190" stroke="rgba(74,222,128,0.08)" stroke-width="0.5"/>
-                                    <line x1="55" y1="235" x2="145" y2="235" stroke="rgba(74,222,128,0.08)" stroke-width="0.5"/>
-                                    <line x1="55" y1="145" x2="145" y2="235" stroke="rgba(74,222,128,0.05)" stroke-width="0.4"/>
-                                    <line x1="145" y1="145" x2="55" y2="235" stroke="rgba(74,222,128,0.05)" stroke-width="0.4"/>
-                                    <!-- Web nodes -->
-                                    <circle cx="100" cy="110" r="2" fill="rgba(74,222,128,0.2)"/>
-                                    <circle cx="55" cy="145" r="1.5" fill="rgba(74,222,128,0.18)"/>
-                                    <circle cx="145" cy="145" r="1.5" fill="rgba(74,222,128,0.18)"/>
-                                    <circle cx="40" cy="190" r="1.5" fill="rgba(74,222,128,0.15)"/>
-                                    <circle cx="160" cy="190" r="1.5" fill="rgba(74,222,128,0.15)"/>
-                                    <circle cx="55" cy="235" r="1.5" fill="rgba(74,222,128,0.18)"/>
-                                    <circle cx="145" cy="235" r="1.5" fill="rgba(74,222,128,0.18)"/>
-                                    <circle cx="100" cy="270" r="2" fill="rgba(74,222,128,0.2)"/>
-                                </g>
-                                <!-- Inner tight layer (counter-spin) -->
-                                <g class="neural-layer neural-layer-2">
-                                    <line x1="78" y1="130" x2="122" y2="130" stroke="rgba(74,222,128,0.1)" stroke-width="0.5"/>
-                                    <line x1="78" y1="130" x2="60" y2="170" stroke="rgba(74,222,128,0.1)" stroke-width="0.5"/>
-                                    <line x1="122" y1="130" x2="140" y2="170" stroke="rgba(74,222,128,0.1)" stroke-width="0.5"/>
-                                    <line x1="60" y1="170" x2="60" y2="210" stroke="rgba(74,222,128,0.08)" stroke-width="0.5"/>
-                                    <line x1="140" y1="170" x2="140" y2="210" stroke="rgba(74,222,128,0.08)" stroke-width="0.5"/>
-                                    <line x1="60" y1="210" x2="100" y2="250" stroke="rgba(74,222,128,0.1)" stroke-width="0.5"/>
-                                    <line x1="140" y1="210" x2="100" y2="250" stroke="rgba(74,222,128,0.1)" stroke-width="0.5"/>
-                                    <line x1="78" y1="130" x2="140" y2="210" stroke="rgba(74,222,128,0.04)" stroke-width="0.3"/>
-                                    <line x1="122" y1="130" x2="60" y2="210" stroke="rgba(74,222,128,0.04)" stroke-width="0.3"/>
-                                    <circle cx="78" cy="130" r="1.2" fill="rgba(74,222,128,0.15)"/>
-                                    <circle cx="122" cy="130" r="1.2" fill="rgba(74,222,128,0.15)"/>
-                                    <circle cx="60" cy="170" r="1.2" fill="rgba(74,222,128,0.12)"/>
-                                    <circle cx="140" cy="170" r="1.2" fill="rgba(74,222,128,0.12)"/>
-                                    <circle cx="60" cy="210" r="1.2" fill="rgba(74,222,128,0.12)"/>
-                                    <circle cx="140" cy="210" r="1.2" fill="rgba(74,222,128,0.12)"/>
-                                    <circle cx="100" cy="250" r="1.2" fill="rgba(74,222,128,0.15)"/>
-                                </g>
-                            </g>
-                            <!-- Idle rotating rings -->
-                            <circle class="idle-ring idle-ring-outer" cx="100" cy="190" r="55" fill="none" stroke="rgba(74,222,128,0.2)" stroke-width="0.8" style="display:none"/>
-                            <circle class="idle-ring idle-ring-inner" cx="100" cy="190" r="40" fill="none" stroke="rgba(74,222,128,0.15)" stroke-width="0.6" style="display:none"/>
-                            <circle class="idle-ring idle-ring-mid" cx="100" cy="190" r="48" fill="none" stroke="rgba(74,222,128,0.1)" stroke-width="0.4" style="display:none"/>
+                            <!-- Subtle glow -->
+                            <circle cx="100" cy="190" r="40" fill="url(#hubGlow)" opacity="0.15" id="brain-glow"/>
+                            <!-- Concentric reference rings (scientific grid) -->
+                            <circle cx="100" cy="190" r="40" class="sci-ring"/>
+                            <circle cx="100" cy="190" r="80" class="sci-ring"/>
+                            <circle cx="100" cy="190" r="120" class="sci-ring"/>
+                            <!-- Crosshair lines -->
+                            <line x1="100" y1="60" x2="100" y2="320" stroke="rgba(74,222,128,0.03)" stroke-width="0.5"/>
+                            <line x1="10" y1="190" x2="190" y2="190" stroke="rgba(74,222,128,0.03)" stroke-width="0.5"/>
+                            <!-- Scanning ring -->
+                            <circle cx="100" cy="190" r="100" class="sci-scan-ring"/>
                             <!-- Connection lines (drawn by JS) -->
                             <g id="brain-lines"></g>
                             <!-- Pulse dots (drawn by JS) -->
                             <g id="brain-pulses"></g>
                             <!-- Satellite nodes (drawn by JS) -->
                             <g id="brain-nodes"></g>
-                            <!-- Center hub -->
-                            <circle cx="100" cy="190" r="18" fill="rgba(74,222,128,0.25)" stroke="rgba(74,222,128,0.6)" stroke-width="2" id="brain-hub" class="brain-hub"/>
-                            <text x="100" y="193" text-anchor="middle" fill="rgba(74,222,128,0.7)" font-size="8" font-weight="600">JANE</text>
+                            <!-- Center hub — small precise dot -->
+                            <circle cx="100" cy="190" r="3" fill="rgba(74,222,128,0.5)" stroke="rgba(74,222,128,0.8)" stroke-width="1" id="brain-hub" class="brain-hub"/>
+                            <text x="100" y="200" text-anchor="middle" fill="rgba(74,222,128,0.35)" font-size="5" font-family="monospace" letter-spacing="2" font-weight="400">JANE</text>
                         </svg>
                     </div>
                     <!-- Info Panel -->
@@ -3857,31 +3776,43 @@
                 const y = cy + region.dy;
                 region.x = x; region.y = y;
 
-                // Line
+                // Line — thin, precise
                 const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                 line.setAttribute('x1', cx); line.setAttribute('y1', cy);
                 line.setAttribute('x2', x); line.setAttribute('y2', y);
-                line.setAttribute('stroke', 'rgba(74,222,128,0.15)');
-                line.setAttribute('stroke-width', '1');
+                line.setAttribute('stroke', 'rgba(74,222,128,0.08)');
+                line.setAttribute('stroke-width', '0.5');
+                line.setAttribute('stroke-dasharray', '2 3');
                 line.setAttribute('id', `brain-line-${i}`);
                 line.classList.add('brain-line');
                 linesG.appendChild(line);
 
-                // Node circle
+                // Small endpoint tick mark at the node
+                const tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                const angle = Math.atan2(region.dy, region.dx);
+                const perpX = Math.cos(angle + Math.PI/2) * 4;
+                const perpY = Math.sin(angle + Math.PI/2) * 4;
+                tick.setAttribute('x1', x - perpX); tick.setAttribute('y1', y - perpY);
+                tick.setAttribute('x2', x + perpX); tick.setAttribute('y2', y + perpY);
+                tick.setAttribute('stroke', 'rgba(74,222,128,0.12)');
+                tick.setAttribute('stroke-width', '0.5');
+                linesG.appendChild(tick);
+
+                // Node — small precise dot
                 const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 circle.setAttribute('cx', x); circle.setAttribute('cy', y);
-                circle.setAttribute('r', '5');
+                circle.setAttribute('r', '2.5');
                 circle.setAttribute('fill', 'rgba(74,222,128,0.3)');
-                circle.setAttribute('stroke', 'none');
-                circle.setAttribute('stroke-width', '0');
+                circle.setAttribute('stroke', 'rgba(74,222,128,0.15)');
+                circle.setAttribute('stroke-width', '0.5');
                 circle.setAttribute('id', `brain-node-${i}`);
                 circle.classList.add('brain-node-circle');
                 nodesG.appendChild(circle);
 
-                // Label
+                // Label — monospace, offset
                 const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 label.setAttribute('x', x);
-                label.setAttribute('y', y + (y < cy ? -15 : 18));
+                label.setAttribute('y', y + (y < cy ? -10 : 14));
                 label.textContent = region.name;
                 label.classList.add('brain-node-label');
                 label.setAttribute('id', `brain-label-${i}`);
@@ -3900,9 +3831,9 @@
                 // Simpler: just set fill and stroke
                 node.setAttribute('fill', color); node.setAttribute('fill-opacity', '0.6');
                 node.setAttribute('stroke', 'none');
-                node.setAttribute('r', '7');
+                node.setAttribute('r', '4');
             }
-            if (line) { line.setAttribute('stroke', color); line.setAttribute('stroke-opacity', '0.6'); line.setAttribute('stroke-width', '2'); }
+            if (line) { line.setAttribute('stroke', color); line.setAttribute('stroke-opacity', '0.6'); line.setAttribute('stroke-width', '0.5'); }
             if (label) { label.setAttribute('fill', 'rgba(255,255,255,0.9)'); }
             activeRegions.add(regionName);
             // Spawn a pulse dot
@@ -3914,8 +3845,8 @@
                 const node = document.getElementById(`brain-node-${i}`);
                 const line = document.getElementById(`brain-line-${i}`);
                 const label = document.getElementById(`brain-label-${i}`);
-                if (node) { node.setAttribute('fill', 'rgba(74,222,128,0.3)'); node.setAttribute('fill-opacity', '1'); node.setAttribute('stroke', 'none'); node.setAttribute('r', '5'); }
-                if (line) { line.setAttribute('stroke', 'rgba(74,222,128,0.15)'); line.setAttribute('stroke-opacity', '1'); line.setAttribute('stroke-width', '1'); }
+                if (node) { node.setAttribute('fill', 'rgba(74,222,128,0.3)'); node.setAttribute('fill-opacity', '1'); node.setAttribute('stroke', 'none'); node.setAttribute('r', '2.5'); }
+                if (line) { line.setAttribute('stroke', 'rgba(74,222,128,0.08)'); line.setAttribute('stroke-opacity', '1'); line.setAttribute('stroke-width', '0.5'); }
                 if (label) { label.setAttribute('fill', 'rgba(255,255,255,0.5)'); }
             });
             activeRegions.clear();
@@ -3928,9 +3859,9 @@
             const cx = 100, cy = 190;
             // Create animated circle along line
             const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            dot.setAttribute('r', '3');
+            dot.setAttribute('r', '1.5');
             dot.setAttribute('fill', color);
-            dot.setAttribute('opacity', '0.9');
+            dot.setAttribute('opacity', '0.8');
             // Animate from center to node
             const animX = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
             animX.setAttribute('attributeName', 'cx');
@@ -3989,13 +3920,13 @@
             const hub = document.getElementById('brain-hub');
             const brainSvg = document.getElementById('brain-map');
             if (hasActive || mindState.task) {
-                hub.setAttribute('fill', 'rgba(74,222,128,0.4)');
-                hub.setAttribute('stroke', 'rgba(74,222,128,0.8)');
+                hub.setAttribute('fill', 'rgba(74,222,128,0.6)');
+                hub.setAttribute('stroke', 'rgba(74,222,128,0.9)');
                 brainSvg.classList.remove('brain-idle');
                 brainSvg.classList.add('brain-active');
             } else {
-                hub.setAttribute('fill', 'rgba(74,222,128,0.1)');
-                hub.setAttribute('stroke', 'rgba(74,222,128,0.2)');
+                hub.setAttribute('fill', 'rgba(74,222,128,0.2)');
+                hub.setAttribute('stroke', 'rgba(74,222,128,0.3)');
                 brainSvg.classList.remove('brain-active');
                 brainSvg.classList.add('brain-idle');
             }

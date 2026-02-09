@@ -22,6 +22,33 @@
             min-height: 100dvh;
             padding: 0.5rem;
             -webkit-font-smoothing: antialiased;
+            overscroll-behavior-y: contain;
+        }
+
+        /* Pull to refresh */
+        .ptr-indicator {
+            position: fixed;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 28px;
+            height: 28px;
+            border: 2px solid rgba(255,255,255,0.15);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            transition: top 0.2s ease, opacity 0.2s ease;
+            opacity: 0;
+            z-index: 100;
+        }
+        .ptr-indicator.visible {
+            top: 12px;
+            opacity: 1;
+        }
+        .ptr-indicator.spinning {
+            animation: ptrSpin 0.6s linear infinite;
+        }
+        @keyframes ptrSpin {
+            to { transform: translateX(-50%) rotate(360deg); }
         }
 
         .card {
@@ -87,6 +114,7 @@
     </style>
 </head>
 <body>
+    <div class="ptr-indicator" id="ptr"></div>
     <!-- Jane Status Bar -->
     <div class="card">
         <div class="status-bar">
@@ -159,6 +187,40 @@
 
         refreshStatus();
         setInterval(refreshStatus, 30000);
+
+        // Pull to refresh
+        let ptrStart = 0, ptrActive = false;
+        const ptr = document.getElementById('ptr');
+
+        document.addEventListener('touchstart', e => {
+            if (window.scrollY === 0) {
+                ptrStart = e.touches[0].clientY;
+                ptrActive = true;
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchmove', e => {
+            if (!ptrActive) return;
+            const dy = e.touches[0].clientY - ptrStart;
+            if (dy > 30 && dy < 120) {
+                ptr.classList.add('visible');
+                ptr.style.top = Math.min(dy - 30, 20) + 'px';
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchend', () => {
+            if (!ptrActive) return;
+            ptrActive = false;
+            if (ptr.classList.contains('visible')) {
+                ptr.classList.add('spinning');
+                refreshStatus().then(() => {
+                    setTimeout(() => {
+                        ptr.classList.remove('visible', 'spinning');
+                        ptr.style.top = '';
+                    }, 400);
+                });
+            }
+        });
     </script>
 </body>
 </html>

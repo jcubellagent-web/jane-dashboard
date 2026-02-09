@@ -1,19 +1,23 @@
 {
+  "lastUpdated": 1770627191962,
   "sessions": [
     {
       "key": "agent:main:main",
-      "label": "Main (WhatsApp)",
+      "displayName": "+17175759384",
       "model": "claude-opus-4-6",
-      "tokens": 181063,
-      "status": "active"
+      "updatedAt": 1770628391792
     },
     {
       "key": "agent:main:cron:1923f8f4",
-      "label": "X Engagement Feedback Loop",
+      "displayName": "Cron: X Engagement Feedback Loop",
       "model": "claude-opus-4-6",
-      "tokens": 106340,
-      "status": "idle"
+      "updatedAt": 1770618905167
+    },
+    {
+      "key": "agent:main:cron:19dd811e",
+      "displayName": "Cron: sorare-injury-monitor",
+      "model": "claude-opus-4-6",
+      "updatedAt": 1770611330520
     }
-  ],
-  "lastUpdated": 1770609214000
+  ]
 }

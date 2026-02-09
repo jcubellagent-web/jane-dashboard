@@ -1,17 +1,17 @@
 {
   "followers": 8,
   "following": 19,
-  "tweets": 39,
+  "tweets": 42,
   "verifiedFollowers": 2,
-  "impressions": 1900,
-  "engagementRate": "2.9%",
-  "engagements": 59,
-  "profileVisits": 12,
+  "impressions": 3000,
+  "engagementRate": "2.7%",
+  "engagements": 84,
+  "profileVisits": 22,
   "replies": 11,
-  "likes": 10,
+  "likes": 18,
   "reposts": 1,
   "bookmarks": 1,
   "shares": 0,
   "notifications": 14,
-  "scrapedAt": "2026-02-09T03:35:00Z"
+  "scrapedAt": "2026-02-09T21:35:00Z"
 }

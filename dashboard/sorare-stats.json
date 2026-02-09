@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-09T04:48:46Z",
+  "lastUpdated": "2026-02-09T22:47:40Z",
   "user": {
     "slug": "jcubnft",
     "nickname": "jcubnft",
@@ -38,6 +38,18 @@
       "gameWeek": 88,
       "startDate": "2026-02-10T00:00:00Z",
       "endDate": "2026-02-13T04:47:00Z"
+    },
+    {
+      "slug": "nba-20-20-feb-2026",
+      "gameWeek": 89,
+      "startDate": "2026-02-20T00:00:00Z",
+      "endDate": "2026-02-20T04:00:00Z"
+    },
+    {
+      "slug": "nba-21-23-feb-2026",
+      "gameWeek": 90,
+      "startDate": "2026-02-20T00:00:00Z",
+      "endDate": "2026-02-23T04:01:30Z"
     }
   ],
   "currentFixture": {
@@ -165,134 +177,17 @@
     ]
   },
   "upcomingFixture": {
+    "slug": "nba-20-20-feb-2026",
+    "gameWeek": 89,
+    "startDate": "2026-02-20T00:00:00Z",
+    "endDate": "2026-02-20T04:00:00Z",
+    "lineups": []
+  },
+  "completedFixture": {
     "slug": "none",
     "gameWeek": 0,
     "startDate": null,
     "endDate": null,
     "lineups": []
-  },
-  "completedFixture": {
-    "slug": "nba-7-8-feb-2026",
-    "gameWeek": 87,
-    "startDate": "2026-02-07T00:30:00Z",
-    "endDate": "2026-02-08T21:00:00Z",
-    "lineups": [
-      {
-        "leaderboard": "Limited Champion",
-        "entries": [
-          {
-            "id": "So5Lineup:5f1a5a1f-3f79-470d-b314-e7e21647019a",
-            "ranking": 6658,
-            "score": 142.09,
-            "players": [
-              {
-                "name": "Anthony Edwards",
-                "team": "Minnesota Timberwolves",
-                "score": 58.8,
-                "rarity": "limited"
-              },
-              {
-                "name": "Cooper Flagg",
-                "team": "Dallas Mavericks",
-                "score": 25.08,
-                "rarity": "limited"
-              },
-              {
-                "name": "Payton Pritchard",
-                "team": "Boston Celtics",
-                "score": 32.373,
-                "rarity": "limited"
-              },
-              {
-                "name": "Corey Kispert",
-                "team": "Washington Wizards",
-                "score": 7.918,
-                "rarity": "limited"
-              },
-              {
-                "name": "Sion James",
-                "team": "Charlotte Hornets",
-                "score": 17.928,
-                "rarity": "limited"
-              }
-            ]
-          },
-          {
-            "id": "So5Lineup:dd235446-3e1a-42df-8c53-e0f6752ef06e",
-            "ranking": 2828,
-            "score": 204.93,
-            "players": [
-              {
-                "name": "Nikola Jokić",
-                "team": "Denver Nuggets",
-                "score": 85.03,
-                "rarity": "limited"
-              },
-              {
-                "name": "Payton Pritchard",
-                "team": "Boston Celtics",
-                "score": 32.67,
-                "rarity": "limited"
-              },
-              {
-                "name": "Derrick White",
-                "team": "Boston Celtics",
-                "score": 55.699,
-                "rarity": "limited"
-              },
-              {
-                "name": "Deandre Ayton",
-                "team": "Los Angeles Lakers",
-                "score": 0.0,
-                "rarity": "limited"
-              },
-              {
-                "name": "Klay Thompson",
-                "team": "Dallas Mavericks",
-                "score": 31.536,
-                "rarity": "limited"
-              }
-            ]
-          },
-          {
-            "id": "So5Lineup:b91c7a7b-19f3-4c7d-a5f2-6255c7999b86",
-            "ranking": 3387,
-            "score": 197.52,
-            "players": [
-              {
-                "name": "Cooper Flagg",
-                "team": "Dallas Mavericks",
-                "score": 25.308,
-                "rarity": "limited"
-              },
-              {
-                "name": "Zion Williamson",
-                "team": "New Orleans Pelicans",
-                "score": 31.644,
-                "rarity": "limited"
-              },
-              {
-                "name": "Derrick White",
-                "team": "Boston Celtics",
-                "score": 56.721,
-                "rarity": "limited"
-              },
-              {
-                "name": "Brandon Miller",
-                "team": "Charlotte Hornets",
-                "score": 32.918,
-                "rarity": "limited"
-              },
-              {
-                "name": "Will Riley",
-                "team": "Washington Wizards",
-                "score": 50.932,
-                "rarity": "limited"
-              }
-            ]
-          }
-        ]
-      }
-    ]
   }
 }

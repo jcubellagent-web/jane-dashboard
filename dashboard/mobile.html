@@ -111,18 +111,391 @@
             color: rgba(255,255,255,0.2);
             font-size: 0.45rem;
         }
+
+        /* Mind Widget */
+        .mind-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .mind-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .mind-card.active::before {
+            opacity: 1;
+            animation: mindPulse 2s ease-in-out infinite;
+        }
+        @keyframes mindPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        .mind-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.4rem;
+        }
+        .mind-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .mind-status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-dim);
+        }
+        .mind-status-dot.active {
+            background: var(--accent);
+            box-shadow: 0 0 6px var(--accent);
+            animation: dotPulse 1.5s ease-in-out infinite;
+        }
+        @keyframes dotPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        .mind-section {
+            padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .mind-section:last-child { border-bottom: none; }
+        .mind-section-label {
+            font-size: 0.55rem;
+            font-weight: 700;
+            color: var(--text-dim);
+            letter-spacing: 0.05em;
+            margin-bottom: 0.2rem;
+        }
+        .mind-task-text {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.3;
+        }
+        .mind-thought-text {
+            color: var(--accent);
+            font-size: 0.7rem;
+            font-style: italic;
+            line-height: 1.3;
+        }
+        .mind-goal {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.35rem;
+            line-height: 1.3;
+        }
+        .mind-thought {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.6);
+            font-style: italic;
+            margin-bottom: 0.4rem;
+            line-height: 1.3;
+        }
+        .mind-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .mind-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.35rem;
+            font-size: 0.65rem;
+            line-height: 1.3;
+        }
+        .mind-step-icon {
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .mind-step.done {
+            color: rgba(255,255,255,0.35);
+        }
+        .mind-step.done .mind-step-icon {
+            color: var(--accent);
+        }
+        .mind-step.active {
+            color: var(--text);
+            font-weight: 500;
+        }
+        .mind-step.active .mind-step-icon {
+            color: #facc15;
+        }
+        .mind-step.pending {
+            color: var(--text-dim);
+        }
+        .mind-idle {
+            font-size: 0.7rem;
+            color: var(--accent);
+            text-align: left;
+            padding: 0.5rem 0;
+        }
+        .mind-idle-dots::after {
+            content: '';
+            animation: idleDots 1.5s steps(4, end) infinite;
+        }
+        @keyframes idleDots {
+            0% { content: ''; }
+            25% { content: '.'; }
+            50% { content: '..'; }
+            75% { content: '...'; }
+        }
+        /* Mind Map Widget */
+        .mindmap-card {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 0.5rem 0.5rem;
+            min-height: 210px;
+        }
+        .mindmap-header {
+            position: absolute;
+            top: 0.4rem;
+            left: 0.75rem;
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: var(--text-dim);
+            letter-spacing: 0.05em;
+        }
+        .mindmap-svg {
+            width: 280px;
+            height: 160px;
+        }
+        .mindmap-ring {
+            fill: none;
+            stroke: rgba(74,222,128,0.06);
+            stroke-width: 0.5;
+        }
+        .mindmap-orbit {
+            stroke: rgba(74,222,128,0.15);
+            stroke-width: 0.8;
+            stroke-linecap: round;
+            transform-origin: 80px 45px;
+        }
+        .mm-orbit-1 { stroke-dasharray: 15 160; }
+        .mm-orbit-2 { stroke-dasharray: 12 100; }
+        .mm-orbit-3 { stroke-dasharray: 8 80; }
+        .mm-orbit-4 { stroke-dasharray: 20 230; }
+        .mm-orbit-5 { stroke-dasharray: 10 120; }
+
+        @keyframes mmScanCW { 0% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -314; } }
+        @keyframes mmScanCCW { 0% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 314; } }
+
+        .mindmap-idle .mm-orbit-1 { animation: mmScanCW 8s linear infinite; }
+        .mindmap-idle .mm-orbit-2 { animation: mmScanCCW 6s linear infinite; }
+        .mindmap-idle .mm-orbit-3 { animation: mmScanCW 5s linear infinite; }
+        .mindmap-idle .mm-orbit-4 { animation: mmScanCCW 10s linear infinite; }
+        .mindmap-idle .mm-orbit-5 { animation: mmScanCW 7s linear infinite; }
+
+        .mindmap-active .mm-orbit-1 { animation: mmScanCW 3s linear infinite; stroke: rgba(74,222,128,0.35); }
+        .mindmap-active .mm-orbit-2 { animation: mmScanCCW 2.5s linear infinite; stroke: rgba(74,222,128,0.35); }
+        .mindmap-active .mm-orbit-3 { animation: mmScanCW 2s linear infinite; stroke: rgba(74,222,128,0.4); }
+        .mindmap-active .mm-orbit-4 { animation: mmScanCCW 4s linear infinite; stroke: rgba(74,222,128,0.3); }
+        .mindmap-active .mm-orbit-5 { animation: mmScanCW 2.8s linear infinite; stroke: rgba(74,222,128,0.35); }
+
+        .mindmap-node {
+            fill: rgba(74,222,128,0.15);
+            stroke: rgba(74,222,128,0.4);
+            stroke-width: 0.8;
+            transition: fill 0.5s, stroke 0.5s, r 0.3s;
+        }
+        .mindmap-idle .mindmap-node {
+            animation: mmNodeBreathe 4s ease-in-out infinite;
+        }
+        .mindmap-idle .mindmap-node:nth-child(2) { animation-delay: 0.5s; }
+        .mindmap-idle .mindmap-node:nth-child(3) { animation-delay: 1s; }
+        .mindmap-idle .mindmap-node:nth-child(4) { animation-delay: 1.5s; }
+        .mindmap-idle .mindmap-node:nth-child(5) { animation-delay: 2s; }
+        .mindmap-idle .mindmap-node:nth-child(6) { animation-delay: 2.5s; }
+        .mindmap-idle .mindmap-node:nth-child(7) { animation-delay: 3s; }
+        @keyframes mmNodeBreathe {
+            0%, 100% { fill: rgba(74,222,128,0.08); stroke: rgba(74,222,128,0.2); }
+            50% { fill: rgba(74,222,128,0.2); stroke: rgba(74,222,128,0.5); }
+        }
+        .mindmap-active .mindmap-node {
+            fill: rgba(74,222,128,0.3);
+            stroke: rgba(74,222,128,0.7);
+        }
+        .mindmap-active .mindmap-node.lit {
+            fill: rgba(74,222,128,0.6);
+            stroke: #4ade80;
+            filter: drop-shadow(0 0 4px rgba(74,222,128,0.5));
+        }
+        .mindmap-active .mindmap-node.lit-sonnet {
+            fill: rgba(139,92,246,0.6);
+            stroke: #8b5cf6;
+            filter: drop-shadow(0 0 4px rgba(139,92,246,0.5));
+        }
+        .mindmap-active .mindmap-node.lit-whisper {
+            fill: rgba(250,204,21,0.6);
+            stroke: #facc15;
+            filter: drop-shadow(0 0 4px rgba(250,204,21,0.5));
+        }
+        .mindmap-active .mindmap-node.lit-ollama {
+            fill: rgba(249,115,22,0.6);
+            stroke: #f97316;
+            filter: drop-shadow(0 0 4px rgba(249,115,22,0.5));
+        }
+        .mindmap-active .mindmap-node.lit-sd {
+            fill: rgba(236,72,153,0.6);
+            stroke: #ec4899;
+            filter: drop-shadow(0 0 4px rgba(236,72,153,0.5));
+        }
+        .mindmap-line {
+            stroke: rgba(74,222,128,0.06);
+            stroke-width: 0.5;
+            transition: stroke 0.5s;
+        }
+        .mindmap-idle .mindmap-line {
+            animation: mmLineBreathe 4s ease-in-out infinite;
+        }
+        .mindmap-active .mindmap-line {
+            stroke: rgba(74,222,128,0.15);
+        }
+        @keyframes mmLineBreathe {
+            0%, 100% { stroke: rgba(74,222,128,0.04); }
+            50% { stroke: rgba(74,222,128,0.1); }
+        }
+        .mindmap-active .mindmap-line.lit {
+            stroke: rgba(74,222,128,0.35);
+            stroke-width: 0.8;
+        }
+        .mindmap-hub {
+            fill: #0a0a0a;
+            stroke: rgba(74,222,128,0.3);
+            stroke-width: 1;
+            transition: stroke 0.5s;
+        }
+        .mindmap-active .mindmap-hub {
+            stroke: rgba(74,222,128,0.6);
+        }
+        .mindmap-hub-ring {
+            fill: none;
+            stroke: rgba(74,222,128,0.15);
+            stroke-width: 0.5;
+            stroke-dasharray: 3 3;
+            transition: stroke 0.5s;
+        }
+        .mindmap-orb {
+            fill: none;
+            stroke-width: 0;
+        }
+        .mindmap-orb-outer {
+            fill: rgba(74,222,128,0.03);
+            animation: mmOrbBreathe 3.5s ease-in-out infinite;
+        }
+        .mindmap-orb-mid {
+            fill: rgba(74,222,128,0.05);
+            animation: mmOrbBreathe 3.5s ease-in-out infinite 0.5s;
+        }
+        .mindmap-active .mindmap-orb-outer {
+            fill: rgba(74,222,128,0.08);
+            animation: mmOrbActive 1.8s ease-in-out infinite;
+        }
+        .mindmap-active .mindmap-orb-mid {
+            fill: rgba(74,222,128,0.12);
+            animation: mmOrbActive 1.8s ease-in-out infinite 0.3s;
+        }
+        @keyframes mmOrbBreathe {
+            0%, 100% { fill: rgba(74,222,128,0.02); }
+            50% { fill: rgba(74,222,128,0.1); }
+        }
+        @keyframes mmOrbActive {
+            0%, 100% { fill: rgba(74,222,128,0.06); }
+            50% { fill: rgba(74,222,128,0.2); }
+        }
+        .mindmap-idle .mindmap-hub-ring {
+            animation: mmHubBreathe 4s ease-in-out infinite;
+        }
+        .mindmap-active .mindmap-hub-ring {
+            stroke: rgba(74,222,128,0.4);
+            animation: hubSpin 3s linear infinite;
+        }
+        @keyframes hubSpin { to { stroke-dashoffset: -24; } }
+        @keyframes mmHubBreathe {
+            0%, 100% { stroke: rgba(74,222,128,0.1); }
+            50% { stroke: rgba(74,222,128,0.25); }
+        }
+        .mindmap-glow {
+            transition: opacity 0.5s;
+        }
+        .mindmap-idle .mindmap-glow {
+            opacity: 0.08;
+            animation: mmGlowBreathe 4s ease-in-out infinite;
+        }
+        .mindmap-active .mindmap-glow {
+            opacity: 0.3;
+            animation: mmGlowActive 1.5s ease-in-out infinite;
+        }
+        @keyframes mmGlowBreathe {
+            0%, 100% { opacity: 0.08; }
+            50% { opacity: 0.3; }
+        }
+        @keyframes mmGlowActive {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.4; }
+        }
+
+        .mindmap-pulse {
+            fill: #4ade80;
+            opacity: 0;
+        }
+        .mindmap-active .mindmap-pulse {
+            animation: mmPulse 2s ease-in-out infinite;
+        }
+        @keyframes mmPulse {
+            0% { opacity: 0; r: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0; r: 3; }
+        }
+        .mindmap-label {
+            font-size: 3.5px;
+            fill: rgba(255,255,255,0.9);
+            font-weight: bold;
+            text-anchor: middle;
+            transition: fill 0.5s;
+        }
+        .mindmap-active .mindmap-label.lit {
+            fill: #4ade80;
+        }
     </style>
 </head>
 <body>
     <div class="ptr-indicator" id="ptr"></div>
+    <!-- Page Header -->
+    <div style="padding: 0.6rem 0.25rem 0.3rem; display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:0.4rem;">
+            <img src="icon-192.png" alt="Jane" style="width:20px;height:20px;border-radius:5px;">
+            <span style="font-size:0.85rem;font-weight:700;color:var(--accent);">Jane</span>
+            <span style="font-size:0.6rem;color:var(--text-dim);font-weight:400;">Josh's Personal Assistant</span>
+        </div>
+        <span id="greeting" style="font-size:0.7rem;font-weight:600;color:var(--accent);"></span>
+    </div>
+    <script>
+        function updateGreeting() {
+            const h = new Date().getHours();
+            let g;
+            if (h < 12) g = 'Good morning, Josh';
+            else if (h < 17) g = 'Good afternoon, Josh';
+            else g = 'Good evening, Josh';
+            document.getElementById('greeting').textContent = g;
+        }
+        updateGreeting();
+        setInterval(updateGreeting, 60000);
+    </script>
     <!-- Jane Status Bar -->
     <div class="card">
         <div class="status-bar">
-            <div class="status-top">
-                <img src="icon-192.png" alt="Jane">
-                <span class="status-label">Jane</span>
-                <span class="status-subtitle">Personal Assistant</span>
-            </div>
             <div class="status-pills">
                 <span class="status-pill" id="model-pill">Model: --</span>
                 <span class="status-pill green" id="plan-pill">Max</span>
@@ -132,6 +505,101 @@
                 <span class="status-pill" id="mini2-pill">Mini2: --</span>
             </div>
         </div>
+    </div>
+
+    <!-- Jane's Mind -->
+    <div class="card mind-card" id="mind-card">
+        <div class="mind-header">
+            <span class="mind-title">🧠 Jane's Mind</span>
+            <span class="mind-status-dot" id="mind-dot"></span>
+        </div>
+        <div id="mind-content">
+            <div class="mind-idle">Idle — waiting for Josh<span class="mind-idle-dots"></span></div>
+        </div>
+        <div id="mind-sections" style="display:none;">
+            <div class="mind-section">
+                <div class="mind-section-label">GOAL / OBJECTIVE</div>
+                <div class="mind-task-text" id="mind-task-text">Awaiting instructions...</div>
+            </div>
+            <div class="mind-section">
+                <div class="mind-section-label">THINKING &amp; DECISIONS</div>
+                <div class="mind-thought-text" id="mind-thought-text">Ready for your next request.</div>
+            </div>
+            <div class="mind-section" id="mind-actions-section" style="display:none;">
+                <div class="mind-section-label">ACTIONS &amp; TOOLS</div>
+                <div class="mind-steps" id="mind-steps"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mind Map -->
+    <div class="card mindmap-card mindmap-idle" id="mindmap-card">
+        <span class="mindmap-header">MIND MAP</span>
+        <div style="position:absolute;top:0.4rem;right:0.75rem;display:flex;gap:0.4rem;align-items:center;">
+            <span class="mm-legend-dot" id="mm-dot-opus" style="color:#4ade80;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Opus</span></span>
+            <span class="mm-legend-dot" id="mm-dot-sonnet" style="color:#8b5cf6;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Sonnet</span></span>
+            <span class="mm-legend-dot" id="mm-dot-whisper" style="color:#facc15;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Whisper</span></span>
+            <span class="mm-legend-dot" id="mm-dot-ollama" style="color:#f97316;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Ollama</span></span>
+            <span class="mm-legend-dot" id="mm-dot-sd" style="color:#ec4899;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">SD</span></span>
+        </div>
+        <svg class="mindmap-svg" viewBox="0 -8 160 98" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <radialGradient id="mmGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="rgba(74,222,128,0.2)"/>
+                    <stop offset="100%" stop-color="rgba(74,222,128,0)"/>
+                </radialGradient>
+            </defs>
+            <circle cx="80" cy="45" r="18" fill="url(#mmGlow)" class="mindmap-glow"/>
+            <circle cx="80" cy="45" r="18" class="mindmap-ring"/>
+            <circle cx="80" cy="45" r="34" class="mindmap-ring"/>
+            <circle cx="80" cy="45" r="38" class="mindmap-orbit mm-orbit-1" fill="none"/>
+            <circle cx="80" cy="45" r="22" class="mindmap-orbit mm-orbit-2" fill="none"/>
+            <circle cx="80" cy="45" r="16" class="mindmap-orbit mm-orbit-3" fill="none"/>
+            <circle cx="80" cy="45" r="45" class="mindmap-orbit mm-orbit-4" fill="none"/>
+            <circle cx="80" cy="45" r="30" class="mindmap-orbit mm-orbit-5" fill="none"/>
+            <g id="mm-lines">
+                <line x1="80" y1="45" x2="80" y2="7" class="mindmap-line" data-node="0"/>
+                <line x1="80" y1="45" x2="125" y2="14" class="mindmap-line" data-node="1"/>
+                <line x1="80" y1="45" x2="145" y2="45" class="mindmap-line" data-node="2"/>
+                <line x1="80" y1="45" x2="125" y2="76" class="mindmap-line" data-node="3"/>
+                <line x1="80" y1="45" x2="35" y2="76" class="mindmap-line" data-node="4"/>
+                <line x1="80" y1="45" x2="15" y2="45" class="mindmap-line" data-node="5"/>
+                <line x1="80" y1="45" x2="35" y2="14" class="mindmap-line" data-node="6"/>
+            </g>
+            <g id="mm-nodes">
+                <circle cx="80" cy="7" r="4" class="mindmap-node" data-node="0"/>
+                <circle cx="125" cy="14" r="3.5" class="mindmap-node" data-node="1"/>
+                <circle cx="145" cy="45" r="3.5" class="mindmap-node" data-node="2"/>
+                <circle cx="125" cy="76" r="3" class="mindmap-node" data-node="3"/>
+                <circle cx="35" cy="76" r="3" class="mindmap-node" data-node="4"/>
+                <circle cx="15" cy="45" r="3.5" class="mindmap-node" data-node="5"/>
+                <circle cx="35" cy="14" r="3.5" class="mindmap-node" data-node="6"/>
+            </g>
+            <g id="mm-labels">
+                <text x="80" y="-1" class="mindmap-label" data-node="0">REASON</text>
+                <text x="125" y="7" class="mindmap-label" data-node="1">SEARCH</text>
+                <text x="145" y="39" class="mindmap-label" data-node="2">CODE</text>
+                <text x="125" y="84" class="mindmap-label" data-node="3">WRITE</text>
+                <text x="35" y="84" class="mindmap-label" data-node="4">READ</text>
+                <text x="15" y="39" class="mindmap-label" data-node="5">TOOLS</text>
+                <text x="35" y="7" class="mindmap-label" data-node="6">MEMORY</text>
+            </g>
+            <g id="mm-pulses">
+                <circle cx="80" cy="26" r="1.5" class="mindmap-pulse" data-node="0" style="animation-delay:0s"/>
+                <circle cx="102" cy="29" r="1.5" class="mindmap-pulse" data-node="1" style="animation-delay:0.3s"/>
+                <circle cx="112" cy="45" r="1.5" class="mindmap-pulse" data-node="2" style="animation-delay:0.6s"/>
+                <circle cx="102" cy="60" r="1.5" class="mindmap-pulse" data-node="3" style="animation-delay:0.9s"/>
+                <circle cx="57" cy="60" r="1.5" class="mindmap-pulse" data-node="4" style="animation-delay:1.2s"/>
+                <circle cx="47" cy="45" r="1.5" class="mindmap-pulse" data-node="5" style="animation-delay:1.5s"/>
+                <circle cx="57" cy="29" r="1.5" class="mindmap-pulse" data-node="6" style="animation-delay:1.8s"/>
+            </g>
+            <!-- Breathing glow orb around hub -->
+            <circle cx="80" cy="45" r="18" class="mindmap-orb mindmap-orb-outer"/>
+            <circle cx="80" cy="45" r="14" class="mindmap-orb mindmap-orb-mid"/>
+            <circle cx="80" cy="45" r="12" class="mindmap-hub-ring"/>
+            <circle cx="80" cy="45" r="9" class="mindmap-hub"/>
+            <image href="icon-192.png" x="73" y="38" width="14" height="14" opacity="0.7"/>
+        </svg>
     </div>
 
     <script>
@@ -185,8 +653,95 @@
             }
         }
 
+        async function refreshMind() {
+            const data = await fetchJSON('/mind-state.json');
+            if (!data) return;
+
+            const card = document.getElementById('mind-card');
+            const dot = document.getElementById('mind-dot');
+            const content = document.getElementById('mind-content');
+            const sections = document.getElementById('mind-sections');
+            const isActive = data.task != null;
+
+            card.classList.toggle('active', isActive);
+            dot.classList.toggle('active', isActive);
+            window._mmModel = data.model || 'opus';
+            refreshMindMap(isActive);
+
+            if (!isActive) {
+                content.style.display = '';
+                content.innerHTML = '<div class="mind-idle">Idle — waiting for Josh<span class="mind-idle-dots"></span></div>';
+                sections.style.display = 'none';
+                return;
+            }
+
+            // Hide idle, show sections
+            content.style.display = 'none';
+            sections.style.display = '';
+
+            // Goal / Objective
+            document.getElementById('mind-task-text').textContent = data.task || 'Awaiting instructions...';
+
+            // Thinking & Decisions
+            document.getElementById('mind-thought-text').textContent = data.thought || 'Ready for your next request.';
+
+            // Actions & Tools (steps)
+            const stepsEl = document.getElementById('mind-steps');
+            if (data.steps && data.steps.length) {
+                const indicators = { done: '✓', active: '●', pending: '○' };
+                stepsEl.innerHTML = data.steps.map(step => {
+                    const s = step.status || 'pending';
+                    return `<div class="mind-step ${s}"><span class="mind-step-icon">${indicators[s]}</span><span>${esc(step.label)}</span></div>`;
+                }).join('');
+            } else {
+                stepsEl.innerHTML = '';
+            }
+        }
+
+        function esc(str) {
+            const d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
+
+        function refreshMindMap(isActive) {
+            const card = document.getElementById('mindmap-card');
+            card.classList.toggle('mindmap-active', isActive);
+            card.classList.toggle('mindmap-idle', !isActive);
+
+            // Update model legend
+            const modelMap = {opus:'mm-dot-opus', sonnet:'mm-dot-sonnet', whisper:'mm-dot-whisper', ollama:'mm-dot-ollama', sd:'mm-dot-sd'};
+            document.querySelectorAll('.mm-legend-dot').forEach(d => d.style.opacity = '0.35');
+            if (isActive && window._mmModel) {
+                const el = document.getElementById(modelMap[window._mmModel]);
+                if (el) el.style.opacity = '1';
+            }
+
+            if (isActive) {
+                // Randomly light up 2-3 nodes each refresh
+                const nodes = card.querySelectorAll('.mindmap-node');
+                const lines = card.querySelectorAll('.mindmap-line');
+                const labels = card.querySelectorAll('.mindmap-label');
+                const count = 2 + Math.floor(Math.random() * 2);
+                const indices = [];
+                while (indices.length < count) {
+                    const i = Math.floor(Math.random() * 7);
+                    if (!indices.includes(i)) indices.push(i);
+                }
+                const modelClass = {sonnet:'lit-sonnet',whisper:'lit-whisper',ollama:'lit-ollama',sd:'lit-sd'}[window._mmModel] || 'lit';
+                nodes.forEach((n, i) => {
+                    n.classList.remove('lit','lit-sonnet','lit-whisper','lit-ollama','lit-sd');
+                    if (indices.includes(i)) n.classList.add(modelClass);
+                });
+                lines.forEach((l, i) => l.classList.toggle('lit', indices.includes(i)));
+                labels.forEach((l, i) => l.classList.toggle('lit', indices.includes(i)));
+            }
+        }
+
         refreshStatus();
+        refreshMind();
         setInterval(refreshStatus, 30000);
+        setInterval(refreshMind, 5000);
 
         // Pull to refresh
         let ptrStart = 0, ptrActive = false;

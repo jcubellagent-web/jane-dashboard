@@ -1952,8 +1952,8 @@
         }
         
         @keyframes sciLabelPulse {
-            0%, 100% { fill-opacity: 0.3; }
-            50% { fill-opacity: 0.7; }
+            0%, 100% { fill-opacity: 0.4; }
+            50% { fill-opacity: 0.8; }
         }
         
         @keyframes sciRingScan {
@@ -2091,11 +2091,11 @@
         }
         
         .brain-node-label {
-            font-size: 5px;
+            font-size: 8px;
             font-family: 'SF Mono', 'Menlo', monospace;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             text-transform: uppercase;
-            fill: rgba(74,222,128,0.3);
+            fill: rgba(74,222,128,0.5);
             text-anchor: middle;
             pointer-events: none;
             transition: fill 0.4s ease;
@@ -3871,7 +3871,7 @@
                 // Label — monospace, offset
                 const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 label.setAttribute('x', x);
-                label.setAttribute('y', y + (y < cy ? -10 : 14));
+                label.setAttribute('y', y + (y < cy ? -12 : 16));
                 label.textContent = region.name;
                 label.classList.add('brain-node-label');
                 label.setAttribute('id', `brain-label-${i}`);

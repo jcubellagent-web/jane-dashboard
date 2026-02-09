@@ -2443,18 +2443,16 @@
                 <div class="status-slim-row">
                     <img src="icon-192.png" alt="Jane" style="width:16px;height:16px;border-radius:3px;">
                     <span class="status-slim-label">Jane</span>
-                    <span class="status-slim-pill" id="jane-model-slim">--</span>
-                    <span class="status-slim-pill green" id="plan-slim">Max</span>
+                    <span class="status-slim-pill" id="jane-model-slim">Model: --</span>
+                    <span class="status-slim-pill green" id="plan-slim">Plan: Max</span>
                     <span class="status-slim-divider">·</span>
-                    <span class="status-slim-pill dim" id="jane-age-slim">--</span>
+                    <span class="status-slim-pill dim" id="jane-age-slim">Age: --</span>
                     <span class="status-slim-divider">·</span>
-                    <span class="status-slim-pill" id="cpu-slim">CPU --%</span>
+                    <span class="status-slim-pill" id="cpu-slim">CPU: --%</span>
                     <span class="status-slim-divider">·</span>
-                    <span class="status-slim-pill" id="ram-slim">RAM --%</span>
+                    <span class="status-slim-pill" id="ram-slim">RAM: --%</span>
                     <span class="status-slim-divider">·</span>
-                    <span class="status-slim-pill" id="uptime-slim">--</span>
-                    <span class="status-slim-divider">·</span>
-                    <span class="status-slim-pill" id="mini2-slim" title="Mac Mini #2 (compute node)">Mini2 --</span>
+                    <span class="status-slim-pill" id="mini2-slim" title="Mac Mini #2 (compute node)">Mini2: --</span>
                 </div>
             </div>
             <!-- Jane's Mind - Real reasoning/task tracking -->
@@ -2840,7 +2838,7 @@
             const el = document.getElementById('jane-age');
             if (el) el.textContent = ageDays + 'd';
             const slimEl = document.getElementById('jane-age-slim');
-            if (slimEl) slimEl.textContent = ageDays + 'd';
+            if (slimEl) slimEl.textContent = 'Age: ' + ageDays + 'd';
         }
         updateJaneAge();
         
@@ -3015,19 +3013,17 @@
                             const modelEl = document.getElementById('jane-model');
                             if (modelEl) modelEl.textContent = formatted;
                             const modelSlim = document.getElementById('jane-model-slim');
-                            if (modelSlim) modelSlim.textContent = formatted;
+                            if (modelSlim) modelSlim.textContent = 'Model: ' + formatted;
                         }
                         // Uptime
                         if (main?.startedAt) {
                             const mins = Math.floor((Date.now() - new Date(main.startedAt).getTime()) / 60000);
                             const hrs = Math.floor(mins / 60);
                             const uptimeStr = hrs > 0 ? `${hrs}h ${mins % 60}m` : `${mins}m`;
-                            const uptimeSlim = document.getElementById('uptime-slim');
-                            if (uptimeSlim) uptimeSlim.textContent = uptimeStr;
                             const ageEl = document.getElementById('jane-age');
                             if (ageEl) ageEl.textContent = uptimeStr;
                             const ageSlim = document.getElementById('jane-age-slim');
-                            if (ageSlim) ageSlim.textContent = uptimeStr;
+                            if (ageSlim) ageSlim.textContent = 'Age: ' + uptimeStr;
                         }
                     }
                     
@@ -3040,30 +3036,28 @@
                         const ramEl = document.getElementById('ram-usage');
                         if (ramEl) ramEl.textContent = ramVal;
                         const cpuSlim = document.getElementById('cpu-slim');
-                        if (cpuSlim) cpuSlim.textContent = 'CPU ' + cpuVal;
+                        if (cpuSlim) cpuSlim.textContent = 'CPU: ' + cpuVal;
                         const ramSlim = document.getElementById('ram-slim');
-                        if (ramSlim) ramSlim.textContent = 'RAM ' + ramVal;
+                        if (ramSlim) ramSlim.textContent = 'RAM: ' + ramVal;
                         // Mini #2 status
                         const mini2Slim = document.getElementById('mini2-slim');
                         if (mini2Slim && system.mini2) {
                             if (system.mini2.online) {
-                                mini2Slim.textContent = 'Mini2 ✓';
+                                mini2Slim.textContent = 'Mini2: ✓';
                                 mini2Slim.className = 'status-slim-pill green';
                                 mini2Slim.title = `Mini #2: CPU ${system.mini2.cpu}% · RAM ${system.mini2.memory}% · Ollama: ${(system.mini2.ollamaModels||[]).join(', ')}`;
                             } else {
-                                mini2Slim.textContent = 'Mini2 ✗';
+                                mini2Slim.textContent = 'Mini2: ✗';
                                 mini2Slim.className = 'status-slim-pill red';
                                 mini2Slim.title = 'Mini #2: Offline';
                             }
                         }
                         // Uptime from system API
                         if (system.uptime) {
-                            const uptimeSlim = document.getElementById('uptime-slim');
-                            if (uptimeSlim) uptimeSlim.textContent = system.uptime;
                             const ageEl = document.getElementById('jane-age');
                             if (ageEl) ageEl.textContent = system.uptime;
                             const ageSlim = document.getElementById('jane-age-slim');
-                            if (ageSlim) ageSlim.textContent = system.uptime;
+                            if (ageSlim) ageSlim.textContent = 'Age: ' + system.uptime;
                         }
                     }
                     

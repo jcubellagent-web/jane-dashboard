@@ -1,35 +1,19 @@
 {
-  "lastUpdated": "2026-02-06T16:09:00-05:00",
-  "count": 4,
   "sessions": [
     {
       "key": "agent:main:main",
-      "kind": "other",
       "channel": "whatsapp",
-      "displayName": "+17175759384",
-      "model": "claude-opus-4-5",
-      "totalTokens": 155546
+      "model": "claude-opus-4-6",
+      "updatedAt": 1739058600000
     },
     {
-      "key": "agent:main:cron:73db46f6-393d-45dc-85af-6fc0cc92171c",
-      "kind": "other",
-      "channel": "webchat",
-      "model": "claude-opus-4-5",
-      "totalTokens": 19236
-    },
-    {
-      "key": "agent:main:dashboard:chat",
-      "kind": "other",
-      "channel": "unknown",
-      "model": "claude-opus-4-5",
-      "totalTokens": 14175
-    },
-    {
-      "key": "agent:main:test:webhook",
-      "kind": "other",
-      "channel": "unknown",
-      "model": "claude-opus-4-5",
-      "totalTokens": 14179
+      "key": "agent:main:subagent:52bb5196",
+      "label": "mobile-rebuild",
+      "model": "claude-opus-4-6",
+      "totalTokens": 0,
+      "updatedAt": 1739058600000,
+      "status": "running"
     }
-  ]
+  ],
+  "lastUpdated": 1739058600000
 }

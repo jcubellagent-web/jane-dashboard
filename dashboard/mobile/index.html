@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#00ff88">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.svg">
+<title>Jane Dashboard</title>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --card: #12121a;
+  --border: #1e1e2e;
+  --text: #e0e0e0;
+  --dim: #666;
+  --green: #00ff88;
+  --red: #ff4444;
+  --blue: #4488ff;
+  --yellow: #ffaa00;
+  --radius: 14px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px;
+  padding-top: calc(12px + env(safe-area-inset-top));
+  background: rgba(10,10,15,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.header-left { display:flex; align-items:center; gap:10px; }
+.header h1 { font-size:22px; font-weight:700; }
+.status-dot { width:8px; height:8px; border-radius:50%; background:var(--green); box-shadow:0 0 6px var(--green); }
+.status-dot.idle { background:var(--yellow); box-shadow:0 0 6px var(--yellow); }
+.status-dot.offline { background:var(--red); box-shadow:none; }
+.bell { font-size:20px; padding:8px; cursor:pointer; }
+
+/* Cards */
+.container { padding:12px; display:flex; flex-direction:column; gap:12px; padding-bottom:90px; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.card-title {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--dim); margin-bottom: 10px;
+}
+
+/* Mind State */
+.mind-state { border-left: 3px solid var(--green); }
+.mind-state.idle { border-left-color: var(--yellow); }
+.mind-task { font-size:16px; font-weight:600; margin-bottom:4px; }
+.mind-thought { font-size:13px; color:var(--dim); line-height:1.4; }
+.mind-indicator { display:flex; align-items:center; gap:6px; margin-top:8px; font-size:12px; color:var(--green); }
+.mind-indicator.idle { color:var(--yellow); }
+
+/* Quick Stats */
+.stats-row { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:8px; }
+.stat-item { text-align:center; }
+.stat-value { font-size:18px; font-weight:700; font-variant-numeric:tabular-nums; }
+.stat-label { font-size:10px; color:var(--dim); margin-top:2px; }
+.stat-value.warn { color:var(--yellow); }
+.stat-value.crit { color:var(--red); }
+
+/* Briefing */
+.briefing-item {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.briefing-item:last-child { border-bottom:none; }
+.briefing-headline { font-size:14px; font-weight:500; line-height:1.3; }
+.briefing-source { font-size:11px; color:var(--dim); margin-top:3px; }
+.briefing-desc { font-size:12px; color:var(--dim); line-height:1.3; margin-top:4px; display:none; }
+.briefing-item.open .briefing-desc { display:block; }
+
+/* Social Stats */
+.social-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.social-num { font-size:20px; font-weight:700; }
+.social-label { font-size:11px; color:var(--dim); }
+.progress-bar { height:4px; background:var(--border); border-radius:2px; margin-top:8px; overflow:hidden; }
+.progress-fill { height:100%; background:var(--green); border-radius:2px; transition:width .3s; }
+
+/* Watchlist */
+.ticker-row {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 0; border-bottom:1px solid var(--border);
+}
+.ticker-row:last-child { border-bottom:none; }
+.ticker-sym { font-weight:600; font-size:14px; }
+.ticker-name { font-size:11px; color:var(--dim); }
+.ticker-price { font-size:14px; font-weight:600; text-align:right; }
+.ticker-change { font-size:12px; text-align:right; }
+.ticker-change.up { color:var(--green); }
+.ticker-change.down { color:var(--red); }
+
+/* Chat */
+.chat-box {
+  position:fixed; bottom:0; left:0; right:0; z-index:100;
+  padding:10px 12px;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom));
+  background:rgba(10,10,15,0.95);
+  backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+}
+.chat-form { display:flex; gap:8px; }
+.chat-input {
+  flex:1; padding:12px 16px;
+  background:var(--card); border:1px solid var(--border); border-radius:24px;
+  color:var(--text); font-size:16px; outline:none;
+  -webkit-appearance:none;
+}
+.chat-input:focus { border-color:var(--green); }
+.chat-send {
+  width:44px; height:44px; border-radius:50%;
+  background:var(--green); border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; flex-shrink:0;
+}
+.chat-send:active { opacity:0.7; }
+.chat-status { font-size:11px; color:var(--dim); text-align:center; margin-top:4px; }
+
+/* Loading shimmer */
+@keyframes shimmer { 0%{opacity:0.3} 50%{opacity:0.6} 100%{opacity:0.3} }
+.loading { animation: shimmer 1.5s infinite; }
+
+/* Pull to refresh */
+.ptr-indicator { text-align:center; padding:8px; font-size:12px; color:var(--dim); display:none; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Jane</h1>
+    <div class="status-dot" id="statusDot"></div>
+  </div>
+  <div class="bell" id="bellIcon">🔔</div>
+</div>
+
+<div class="container">
+  <!-- Mind State -->
+  <div class="card mind-state" id="mindCard">
+    <div class="card-title">🧠 Mind State</div>
+    <div class="mind-task" id="mindTask">Loading...</div>
+    <div class="mind-thought" id="mindThought"></div>
+    <div class="mind-indicator" id="mindIndicator">● Active</div>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="card">
+    <div class="card-title">⚡ System</div>
+    <div class="stats-row">
+      <div class="stat-item"><div class="stat-value" id="cpu1">--</div><div class="stat-label">CPU₁</div></div>
+      <div class="stat-item"><div class="stat-value" id="ram1">--</div><div class="stat-label">RAM₁</div></div>
+      <div class="stat-item"><div class="stat-value" id="cpu2">--</div><div class="stat-label">CPU₂</div></div>
+      <div class="stat-item"><div class="stat-value" id="ram2">--</div><div class="stat-label">RAM₂</div></div>
+    </div>
+  </div>
+
+  <!-- Daily Briefing -->
+  <div class="card" id="briefingCard">
+    <div class="card-title">📰 Daily Briefing</div>
+    <div id="briefingList"><div class="loading">Loading headlines...</div></div>
+  </div>
+
+  <!-- X Growth -->
+  <div class="card" id="xCard">
+    <div class="card-title">𝕏 Growth</div>
+    <div class="social-grid">
+      <div><div class="social-num" id="xFollowers">--</div><div class="social-label">Followers</div></div>
+      <div><div class="social-num" id="xImpressions">--</div><div class="social-label">Impressions</div></div>
+    </div>
+    <div style="margin-top:12px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+        <span>Today's Progress</span><span id="xProgress">0/0</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="xProgressBar" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- TikTok -->
+  <div class="card" id="tiktokCard">
+    <div class="card-title">🎵 TikTok</div>
+    <div class="social-grid">
+      <div><div class="social-num" id="ttFollowers">--</div><div class="social-label">Followers</div></div>
+      <div><div class="social-num" id="ttLikes">--</div><div class="social-label">Likes</div></div>
+    </div>
+    <div id="ttRecent" style="margin-top:10px;font-size:12px;color:var(--dim)"></div>
+  </div>
+
+  <!-- Watch List -->
+  <div class="card" id="watchCard">
+    <div class="card-title">📈 Watch List</div>
+    <div id="tickerList"><div class="loading">Loading markets...</div></div>
+  </div>
+</div>
+
+<!-- Chat Input -->
+<div class="chat-box">
+  <form class="chat-form" id="chatForm">
+    <input class="chat-input" id="chatInput" type="text" placeholder="Message Jane..." autocomplete="off">
+    <button class="chat-send" type="submit">↑</button>
+  </form>
+  <div class="chat-status" id="chatStatus"></div>
+</div>
+
+<script>
+// ---- Config ----
+const BASE = location.origin;
+const WS_URL = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}`;
+
+// ---- Helpers ----
+const $ = id => document.getElementById(id);
+const fmt = n => n == null ? '--' : typeof n === 'number' ? (n >= 1000 ? (n/1000).toFixed(1)+'k' : n.toString()) : n;
+
+async function api(path) {
+  try { const r = await fetch(BASE + path); return r.ok ? r.json() : null; }
+  catch { return null; }
+}
+
+// ---- WebSocket ----
+let ws;
+function connectWS() {
+  ws = new WebSocket(WS_URL);
+  ws.onmessage = e => {
+    try {
+      const msg = JSON.parse(e.data);
+      if (msg.type === 'mind-update' || msg.type === 'mind') updateMind(msg.data || msg);
+      if (msg.type === 'system-update' || msg.type === 'system') updateSystem(msg.data || msg);
+    } catch {}
+  };
+  ws.onclose = () => setTimeout(connectWS, 3000);
+  ws.onerror = () => ws.close();
+}
+connectWS();
+
+// ---- Mind State ----
+function updateMind(d) {
+  if (!d) return;
+  const task = d.currentTask || d.task || d.status || 'Idle';
+  const thought = d.lastThought || d.thought || '';
+  const active = d.status === 'active' || d.active || (task !== 'Idle' && task !== 'Sleeping');
+  
+  $('mindTask').textContent = task;
+  $('mindThought').textContent = thought;
+  $('mindIndicator').textContent = active ? '● Active' : '○ Idle';
+  $('mindIndicator').className = 'mind-indicator' + (active ? '' : ' idle');
+  $('mindCard').className = 'card mind-state' + (active ? '' : ' idle');
+  $('statusDot').className = 'status-dot' + (active ? '' : ' idle');
+}
+
+// ---- System Stats ----
+function updateSystem(d) {
+  if (!d) return;
+  const set = (id, val) => {
+    const el = $(id);
+    el.textContent = val + '%';
+    el.className = 'stat-value' + (val > 85 ? ' crit' : val > 65 ? ' warn' : '');
+  };
+  if (d.mini1 || d.cpu) {
+    set('cpu1', d.mini1?.cpu ?? d.cpu ?? '--');
+    set('ram1', d.mini1?.memory ?? d.memory ?? '--');
+  }
+  if (d.mini2) {
+    set('cpu2', d.mini2.cpu ?? '--');
+    set('ram2', d.mini2.memory ?? '--');
+  }
+}
+
+// ---- Briefing ----
+async function loadBriefing() {
+  const d = await api('/api/briefing');
+  if (!d || d.error) {
+    // Fallback to ai-news
+    const fallback = await api('/api/ai-news');
+    if (!fallback) return;
+    const items = [];
+    if (fallback.featured) items.push(fallback.featured);
+    if (fallback.agenticRetail) items.push(...fallback.agenticRetail.slice(0, 2));
+    if (items.length === 0 && fallback.general) items.push(...fallback.general.slice(0, 3));
+    $('briefingList').innerHTML = items.slice(0, 5).map(i => `
+      <div class="briefing-item" onclick="this.classList.toggle('open')">
+        <div class="briefing-headline">${esc(i.title)}</div>
+        <div class="briefing-source">${esc(i.source || '')} · ${esc(i.date || '')}</div>
+        <div class="briefing-desc">${esc(i.desc || '')}</div>
+      </div>
+    `).join('') || '<div style="color:var(--dim);font-size:13px">No headlines available</div>';
+    return;
+  }
+  // Breaking news
+  let html = '';
+  if (d.breakingNews && d.breakingNews.length) {
+    html += d.breakingNews.map(b => `<div class="briefing-item" style="border-left:3px solid #ef4444; background:rgba(239,68,68,0.08);" onclick="window.open('${b.url}','_blank')">
+      <div class="briefing-headline" style="color:#ef4444;">🚨 ${esc(b.headline)}</div>
+    </div>`).join('');
+  }
+  // Summary
+  if (d.summary) {
+    html += `<div style="font-size:12px; color:var(--dim); padding:8px 0; line-height:1.4;">${esc(d.summary)}</div>`;
+  }
+  // Sections
+  (d.sections || []).forEach(sec => {
+    html += `<div style="font-size:11px; font-weight:600; color:var(--text); padding:6px 0 4px; text-transform:uppercase; letter-spacing:0.5px;">${esc(sec.category)}</div>`;
+    html += (sec.items || []).map(item => {
+      const dot = item.importance === 'high' ? '🔴' : item.importance === 'low' ? '🟢' : '🟡';
+      return `<div class="briefing-item" onclick="this.classList.toggle('open')">
+        <div class="briefing-headline">${dot} ${esc(item.headline)}</div>
+        <div class="briefing-source">${esc(item.source || '')}</div>
+        <div class="briefing-desc">${esc(item.snippet || '')}</div>
+      </div>`;
+    }).join('');
+  });
+  $('briefingList').innerHTML = html || '<div style="color:var(--dim);font-size:13px">No headlines available</div>';
+}
+
+// ---- X Stats ----
+async function loadX() {
+  const [stats, queue, plan] = await Promise.all([api('/api/x-stats'), api('/api/x-queue'), api('/api/x-plan')]);
+  if (stats) {
+    $('xFollowers').textContent = fmt(stats.followers);
+    $('xImpressions').textContent = fmt(stats.impressions);
+  }
+  const done = (plan?.tasks || []).filter(t => t.done || t.completed).length;
+  const total = (plan?.tasks || []).length || 0;
+  const pending = (queue?.pending || []).length;
+  $('xProgress').textContent = `${done}/${total}` + (pending ? ` (${pending} queued)` : '');
+  $('xProgressBar').style.width = total ? (done/total*100)+'%' : '0%';
+}
+
+// ---- TikTok ----
+async function loadTikTok() {
+  const d = await api('/api/tiktok');
+  if (!d) return;
+  $('ttFollowers').textContent = fmt(d.followers ?? d.followerCount);
+  $('ttLikes').textContent = fmt(d.likes ?? d.heartCount);
+  if (d.recentVideos?.length) {
+    $('ttRecent').textContent = `Latest: ${d.recentVideos[0].views || 0} views`;
+  }
+}
+
+// ---- Watch List ----
+async function loadTickers() {
+  const d = await api('/api/market');
+  if (!d) { $('tickerList').innerHTML = '<div style="color:var(--dim);font-size:13px">No data</div>'; return; }
+  const tickers = d.tickers || d.stocks || d.watchlist || (Array.isArray(d) ? d : []);
+  if (tickers.length === 0) {
+    // Try crypto + ticker endpoints
+    const [crypto, ticker] = await Promise.all([api('/api/crypto'), api('/api/ticker')]);
+    renderTickers([...(crypto?.data || []), ...(ticker?.data || [])]);
+    return;
+  }
+  renderTickers(tickers);
+}
+
+function renderTickers(list) {
+  if (!list?.length) { $('tickerList').innerHTML = '<div style="color:var(--dim);font-size:13px">No market data</div>'; return; }
+  $('tickerList').innerHTML = list.slice(0, 8).map(t => {
+    const sym = t.symbol || t.ticker || t.name || '?';
+    const price = t.price != null ? '$' + Number(t.price).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '--';
+    const chg = t.changePercent ?? t.change_percent ?? t.change ?? 0;
+    const up = chg >= 0;
+    return `<div class="ticker-row">
+      <div><div class="ticker-sym">${esc(sym)}</div></div>
+      <div style="text-align:right"><div class="ticker-price">${price}</div>
+      <div class="ticker-change ${up?'up':'down'}">${up?'+':''}${Number(chg).toFixed(2)}%</div></div>
+    </div>`;
+  }).join('');
+}
+
+// ---- Chat ----
+$('chatForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const msg = $('chatInput').value.trim();
+  if (!msg) return;
+  $('chatInput').value = '';
+  $('chatStatus').textContent = 'Sending...';
+  try {
+    const r = await fetch(BASE + '/api/chat/send', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ message: msg, from: 'mobile-pwa' })
+    });
+    $('chatStatus').textContent = r.ok ? '✓ Sent' : 'Failed to send';
+  } catch { $('chatStatus').textContent = 'Network error'; }
+  setTimeout(() => $('chatStatus').textContent = '', 3000);
+});
+
+// ---- Escape HTML ----
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+// ---- Init + Polling ----
+async function loadAll() {
+  const [mind, sys] = await Promise.all([api('/api/mind'), api('/api/system')]);
+  updateMind(mind);
+  updateSystem(sys);
+  loadBriefing();
+  loadX();
+  loadTikTok();
+  loadTickers();
+}
+
+loadAll();
+setInterval(loadAll, 10000);
+
+// ---- PWA Registration ----
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
+</body>
+</html>

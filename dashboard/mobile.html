@@ -2,2891 +2,439 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0a0f1a">
-    <title>Jane</title>
-    <!-- PWA disabled for reliable updates -->
-    <link rel="apple-touch-icon" href="icon-192.png">
+    <title>Jane — Mobile</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --bg: #0a0f1a;
-            --card: rgba(255,255,255,0.05);
-            --card-hover: rgba(255,255,255,0.08);
+            --card: rgba(16, 24, 40, 0.85);
+            --border: rgba(74, 222, 128, 0.15);
             --accent: #4ade80;
-            --accent-blue: #60a5fa;
             --text: #f1f5f9;
-            --text-dim: #64748b;
-            --green: #22c55e;
-            --amber: #f59e0b;
+            --dim: #64748b;
             --red: #ef4444;
-            --border: rgba(255,255,255,0.08);
         }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+        html, body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
-            min-height: 100dvh;
             padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
-        
-        /* Pull to refresh */
-        .pull-indicator {
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100%);
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 0 0 20px 20px;
-            padding: 1rem 2rem;
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            z-index: 1000;
-            transition: all 0.2s ease;
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .pull-indicator.visible {
-            transform: translateX(-50%) translateY(0);
-        }
-        .pull-indicator.ready {
-            background: linear-gradient(135deg, rgba(34,197,94,0.2) 0%, rgba(74,222,128,0.3) 100%);
-            border-color: var(--green);
-            color: var(--green);
-            box-shadow: 0 4px 20px rgba(34,197,94,0.3);
-        }
-        .pull-indicator.refreshing {
-            transform: translateX(-50%) translateY(0);
-            background: linear-gradient(135deg, rgba(96,165,250,0.2) 0%, rgba(96,165,250,0.3) 100%);
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
-        }
-        .pull-icon {
-            font-size: 1.2rem;
-            transition: transform 0.2s ease;
-        }
-        .pull-indicator.ready .pull-icon {
-            transform: rotate(180deg);
-        }
-        .pull-indicator .spinner {
-            display: inline-block;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .container {
-            max-width: 430px;
-            margin: 0 auto;
-            padding: 1rem 1.75rem 1rem 1rem; /* Extra right padding for thumb scrolling */
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            min-height: 100dvh;
-        }
-        
+
         /* Header */
         .header {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
-            padding-bottom: 1rem;
+            padding: 14px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 15, 26, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
-            margin-bottom: 1rem;
-            position: relative;
         }
-        
-        .brand {
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 10px;
         }
-        
-        .brand-icon {
-            font-size: 1.75rem;
-        }
-        
-        .brand-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-        
-        .hello-greeting {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--accent);
-            letter-spacing: 0.5px;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .header-right {
-            text-align: right;
-        }
-        
-        .status-row {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            justify-content: flex-end;
-            margin-bottom: 0.25rem;
-        }
-        
-        .status-dot {
+        .ws-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
             background: var(--accent);
-            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 8px var(--accent);
+            transition: all 0.3s;
         }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        .status-text {
-            font-size: 0.8rem;
-            color: var(--accent);
-            font-weight: 500;
-        }
-        
-        .time {
-            font-size: 1.1rem;
-            font-weight: 600;
-            font-variant-numeric: tabular-nums;
-        }
-        
-        /* Tasks & Agents Section */
-        .tasks-section {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .tasks-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-        
-        .tasks-title {
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .tasks-count {
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        
-        .section-label {
-            font-size: 0.65rem;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 0.75rem;
-            margin-bottom: 0.35rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid var(--border);
-        }
-        
-        .section-label:first-child {
-            margin-top: 0;
-            padding-top: 0;
-            border-top: none;
-        }
-        
-        .agent-item, .cron-item, .task-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem;
-            background: rgba(255,255,255,0.03);
-            border-radius: 8px;
-            margin-bottom: 0.35rem;
-            font-size: 0.8rem;
-        }
-        
-        .agent-icon, .cron-icon, .task-icon {
-            font-size: 1rem;
-        }
-        
-        .agent-info, .cron-info, .task-info {
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .agent-name, .cron-name, .task-name {
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .agent-detail, .cron-detail, .task-detail {
-            font-size: 0.65rem;
-            color: var(--text-dim);
-        }
-        
-        .agent-status {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--green);
-            flex-shrink: 0;
-        }
-        
-        .agent-status.idle { background: var(--amber); }
-        
-        .agent-empty {
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            text-align: center;
-            padding: 0.5rem;
-            font-style: italic;
-        }
-        
-        .cron-next {
-            font-size: 0.6rem;
-            color: var(--text-dim);
-            text-align: right;
-        }
-        
-        .progress-bar {
-            height: 8px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 0.75rem;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent), var(--accent-blue));
-            border-radius: 4px;
-            transition: width 0.5s ease;
-        }
-        
-        .rag-dots {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-        
-        .rag-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-        
-        .rag-dot.green { background: var(--green); box-shadow: 0 0 8px rgba(34,197,94,0.5); }
-        .rag-dot.amber { background: var(--amber); box-shadow: 0 0 8px rgba(245,158,11,0.5); }
-        .rag-dot.red { background: var(--red); box-shadow: 0 0 8px rgba(239,68,68,0.5); animation: pulse-red 1.5s ease-in-out infinite; }
-        
-        @keyframes pulse-red {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-        
-        .rag-label {
-            font-size: 0.7rem;
-            color: var(--text-dim);
-            margin-left: auto;
-        }
-        
-        /* Positions */
-        .positions-section {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .section-title {
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.75rem;
-        }
-        
-        .position-row {
-            display: flex;
-            align-items: center;
-            padding: 0.6rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .position-row:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-        
-        .position-icon {
-            font-size: 1.1rem;
-            margin-right: 0.6rem;
-        }
-        
-        .position-name {
-            font-weight: 600;
-            font-size: 0.95rem;
-            flex: 1;
-        }
-        
-        .position-pnl {
-            font-weight: 700;
-            font-size: 1rem;
-            font-variant-numeric: tabular-nums;
-        }
-        
-        .position-pnl.positive { color: var(--green); }
-        .position-pnl.negative { color: var(--red); }
-        
-        .position-arrow {
-            margin-left: 0.4rem;
-            font-size: 0.9rem;
-        }
-        
-        /* Metrics Grid */
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .metric-card {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 1rem;
-        }
-        
-        .metric-icon {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .metric-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-            font-variant-numeric: tabular-nums;
-        }
-        
-        .metric-label {
-            font-size: 0.7rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        /* TikTok Widget */
-        .tiktok-stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .tiktok-stat {
-            background: rgba(255,255,255,0.03);
-            border-radius: 12px;
-            padding: 0.75rem 0.5rem;
-            text-align: center;
-        }
-        
-        .tiktok-stat-value {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text);
-            font-variant-numeric: tabular-nums;
-        }
-        
-        .tiktok-stat-label {
-            font-size: 0.65rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            margin-top: 0.25rem;
-        }
-        
-        .tiktok-stat-change {
-            font-size: 0.65rem;
-            margin-top: 0.25rem;
-        }
-        
-        .tiktok-stat-change.positive {
-            color: var(--green);
-        }
-        
-        .tiktok-stat-change.neutral {
-            color: var(--text-dim);
-        }
-        
-        .tiktok-videos-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        
-        .tiktok-video-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 0.75rem;
-            background: rgba(255,255,255,0.03);
-            border-radius: 8px;
-            font-size: 0.8rem;
-        }
-        
-        .tiktok-video-views {
-            font-weight: 600;
-            color: var(--accent);
-            font-variant-numeric: tabular-nums;
-        }
-        
-        .tiktok-section-label {
-            font-size: 0.7rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 0.75rem 0 0.5rem 0;
-        }
-        
-        /* Completed */
-        .completed-section {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            flex: 1;
-            min-height: 0;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .completed-list {
-            flex: 1;
-            overflow-y: auto;
-        }
-        
-        .completed-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 0;
-            font-size: 0.85rem;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .completed-item:last-child {
-            border-bottom: none;
-        }
-        
-        .completed-icon {
-            font-size: 0.9rem;
-        }
-        
-        .completed-text {
-            flex: 1;
-            color: var(--text-dim);
-        }
-        
-        .completed-check {
-            color: var(--accent);
-        }
-        
-        /* Floating Chat Button */
-        .chat-fab {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-            color: white;
-            border: none;
-            font-size: 1.75rem;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
-            z-index: 1000;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-        }
-        
-        .chat-fab:active {
-            transform: scale(0.95);
-        }
-        
-        /* Full Screen Chat Overlay */
-        .chat-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg);
-            z-index: 2000;
-            display: none;
-            flex-direction: column;
-            overscroll-behavior: contain;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        .chat-overlay::before {
-            content: '';
-            position: absolute;
-            top: -100px;
-            left: 0;
-            right: 0;
-            bottom: -100px;
-            background: var(--bg);
-            z-index: -1;
-        }
-        
-        .chat-overlay.open {
-            display: flex;
-        }
-        
-        .chat-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-            background: var(--card);
-        }
-        
-        .chat-header h2 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .chat-close-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+        .ws-dot.offline {
             background: var(--red);
-            color: white;
-            border: none;
-            font-size: 1.5rem;
-            font-weight: bold;
-            cursor: pointer;
+            box-shadow: 0 0 8px var(--red);
         }
-        
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem;
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .clock {
+            font-size: 13px;
+            color: var(--dim);
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Container */
+        .container {
+            padding: 14px;
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
-            overscroll-behavior: contain;
-            -webkit-overflow-scrolling: touch;
-            background: var(--bg);
+            gap: 14px;
         }
-        
-        .chat-message {
-            max-width: 85%;
-            padding: 0.75rem 1rem;
-            border-radius: 16px;
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
-        
-        .chat-message.user {
-            align-self: flex-end;
-            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
-            color: #000;
-        }
-        
-        .chat-message.jane {
-            align-self: flex-start;
+
+        /* Card Base */
+        .card {
             background: var(--card);
-            color: var(--text);
-        }
-        
-        .chat-message .time {
-            font-size: 0.65rem;
-            opacity: 0.7;
-            margin-top: 0.25rem;
-        }
-        
-        .chat-input-area {
-            padding: 1rem;
-            border-top: 1px solid var(--border);
-            background: var(--card);
-        }
-        
-        .chat-input-row {
-            display: flex;
-            gap: 0.75rem;
-        }
-        
-        .chat-input {
-            flex: 1;
-            padding: 1rem;
-            border-radius: 16px;
             border: 1px solid var(--border);
-            background: var(--bg);
-            color: var(--text);
-            font-size: 1rem;
-            resize: none;
-            min-height: 48px;
-            max-height: 120px;
-        }
-        
-        .chat-send-btn {
-            width: 56px;
-            height: 56px;
             border-radius: 16px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
-            color: #000;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
+            padding: 16px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
-        
-        .chat-send-btn:disabled {
-            opacity: 0.5;
-        }
-        
-        /* Status Cards */
-        .status-card {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .status-card-header {
+        .card-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--dim);
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
+            gap: 8px;
         }
-        
-        .status-card-icon {
-            font-size: 1.1rem;
+
+        /* Model Badge */
+        .model-badge {
+            display: inline-flex;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 3px 10px;
+            border-radius: 8px;
+            background: rgba(74, 222, 128, 0.12);
+            color: var(--accent);
+            border: 1px solid rgba(74, 222, 128, 0.25);
         }
-        
-        .jane-logo-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 6px;
-            vertical-align: middle;
-            margin-right: 0.25rem;
+
+        /* Mind: Section Labels */
+        .mind-section-label {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: rgba(74, 222, 128, 0.5);
+            margin-bottom: 6px;
         }
-        
-        .jane-logo-chat {
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
-            vertical-align: middle;
-            margin-right: 0.3rem;
+
+        /* Mind: Goal */
+        .mind-goal {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.4;
+            margin-bottom: 8px;
         }
-        
-        .jane-logo-small {
+        .mind-goal.idle {
+            color: var(--dim);
+        }
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+        .mind-goal.idle::after {
+            content: '';
+            animation: dots 1.5s steps(1) infinite;
+        }
+
+        /* Mind: Thought */
+        .mind-thought {
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+        .mind-thought:empty { display: none; }
+        .mind-thought:empty + .mind-section-label { margin-top: 14px; }
+
+        /* Mind: Steps */
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--dim);
+            min-height: 32px;
+            padding: 4px 0;
+        }
+        .step-icon {
             width: 20px;
             height: 20px;
-            border-radius: 4px;
-            vertical-align: middle;
-        }
-        
-        .status-card-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            flex: 1;
-        }
-        
-        .widget-meta {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .widget-timestamp {
-            font-size: 0.6rem;
-            color: var(--text-dim);
-        }
-        
-        .widget-refresh {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            border: none;
-            background: rgba(255,255,255,0.1);
-            color: var(--text);
-            font-size: 0.9rem;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        
-        .widget-refresh:active {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .widget-refresh.spinning {
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .status-badge {
-            font-size: 0.65rem;
-            font-weight: 600;
-            padding: 0.2rem 0.5rem;
-            border-radius: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .status-badge.online {
-            background: rgba(34, 197, 94, 0.2);
-            color: var(--green);
-        }
-        
-        .status-badge.offline {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--red);
-        }
-        
-        .status-badge.warning {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--amber);
-        }
-        
-        .status-card-details {
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
-        }
-        
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-        }
-        
-        .detail-label {
-            color: var(--text-dim);
-        }
-        
-        .detail-value {
-            font-weight: 500;
-            font-variant-numeric: tabular-nums;
-        }
-        
-        /* Connected Accounts - Horizontal scroll */
-        .accounts-grid {
-            display: flex;
-            flex-direction: row;
-            gap: 0.5rem;
-            overflow-x: auto;
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            padding-bottom: 0.25rem;
-        }
-        .accounts-grid::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .account-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0.5rem 0.75rem;
-            background: rgba(255,255,255,0.03);
-            border-radius: 10px;
-            font-size: 0.7rem;
-            gap: 0.2rem;
-            border: 1px solid transparent;
-            transition: border-color 0.2s;
             flex-shrink: 0;
+            font-size: 13px;
         }
-        
-        .account-item.online {
-            border-color: rgba(34, 197, 94, 0.3);
+        .step.done .step-icon { color: var(--accent); }
+        .step.done .step-text { color: rgba(148, 163, 184, 0.6); text-decoration: line-through; text-decoration-color: rgba(148,163,184,0.3); }
+        .step.active { color: var(--text); }
+        .step.active .step-icon { color: var(--accent); }
+        .step.pending .step-icon { color: rgba(100, 116, 139, 0.5); }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(100, 116, 139, 0.3);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
         }
-        
-        .account-item.offline {
-            border-color: rgba(239, 68, 68, 0.3);
-            opacity: 0.6;
-        }
-        
-        .account-icon {
-            font-size: 1.2rem;
-        }
-        
-        .account-name {
-            color: var(--text-dim);
-            font-size: 0.65rem;
-        }
-        
-        /* Prediction Markets */
-        .pm-list {
+
+        /* Status Row */
+        .status-row {
             display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-            max-height: 350px;
-            overflow-y: scroll;
-            -webkit-overflow-scrolling: touch;
-            padding-right: 4px;
+            gap: 6px;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(74, 222, 128, 0.08);
+            flex-wrap: wrap;
         }
-        
-        .pm-category {
-            font-size: 0.65rem;
+        .status-pill {
+            flex: 1 0 0;
+            min-width: 0;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            border-radius: 10px;
+            padding: 8px 10px;
+        }
+        .pill-label {
+            font-size: 9px;
             font-weight: 600;
-            color: var(--accent);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-top: 0.5rem;
-            padding: 0.25rem 0;
-            border-bottom: 1px solid var(--border);
+            color: rgba(100, 116, 139, 0.8);
         }
-        
-        .pm-category:first-child { margin-top: 0; }
-        
-        .pm-item {
-            display: flex;
-            flex-direction: column;
-            padding: 0.5rem;
-            background: rgba(255,255,255,0.03);
-            border-radius: 8px;
-            gap: 0.25rem;
-        }
-        
-        .pm-question-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 0.5rem;
-            margin-bottom: 0.25rem;
-        }
-        .pm-question {
-            font-size: 0.75rem;
-            line-height: 1.3;
+        .pill-value {
+            font-size: 13px;
+            font-weight: 600;
             color: var(--text);
-            flex: 1;
-        }
-        .pm-meta-row {
-            margin-top: 0.25rem;
-        }
-        .pm-meta {
-            font-size: 0.6rem;
-            color: var(--text-dim);
+            margin-top: 2px;
+            font-variant-numeric: tabular-nums;
+            overflow: hidden;
+            text-overflow: ellipsis;
             white-space: nowrap;
-        }
-        
-        .pm-tags {
-            display: flex;
-            gap: 0.25rem;
-            flex-wrap: wrap;
-        }
-        
-        .pm-tag {
-            font-size: 0.55rem;
-            padding: 0.1rem 0.35rem;
-            border-radius: 4px;
-            background: rgba(255,255,255,0.1);
-            color: var(--text-dim);
-        }
-        
-        .pm-tag.sports { background: rgba(74, 222, 128, 0.2); color: var(--green); }
-        .pm-tag.politics { background: rgba(239, 68, 68, 0.2); color: var(--red); }
-        .pm-tag.manda { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
-        .pm-tag.finance { background: rgba(96, 165, 250, 0.2); color: var(--accent-blue); }
-        .pm-tag.crypto { background: rgba(245, 158, 11, 0.2); color: var(--amber); }
-        .pm-tag.tech { background: rgba(167, 139, 250, 0.2); color: #a78bfa; }
-        
-        .pm-odds-row {
-            display: flex;
-            gap: 0.5rem;
-            font-size: 0.7rem;
-        }
-        
-        .pm-odds {
-            font-weight: 600;
-            padding: 0.15rem 0.35rem;
-            border-radius: 4px;
-            background: rgba(255,255,255,0.08);
-        }
-        
-        .pm-odds.yes { color: var(--green); }
-        .pm-odds.no { color: var(--red); }
-        .pm-odds.fav { color: var(--green); }
-        .pm-odds.dog { color: var(--text-dim); }
-        
-        /* AI News Widget */
-        .ainews-tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .ainews-tab {
-            flex: 1;
-            padding: 0.5rem 0.75rem;
-            border: none;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.05);
-            color: var(--text-dim);
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .ainews-tab.active {
-            background: linear-gradient(135deg, rgba(96, 165, 250, 0.3), rgba(139, 92, 246, 0.3));
-            color: var(--text);
-            box-shadow: 0 2px 8px rgba(96, 165, 250, 0.2);
-        }
-        
-        .ainews-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-            max-height: 280px;
-            overflow-y: auto;
-        }
-        
-        .ainews-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-            padding: 0.6rem 0.75rem;
-            background: rgba(255,255,255,0.03);
-            border-radius: 8px;
-            border-left: 3px solid rgba(96, 165, 250, 0.5);
-            transition: all 0.2s ease;
-        }
-        
-        .ainews-item:active {
-            background: rgba(255,255,255,0.06);
-        }
-        
-        .ainews-item.enterprise {
-            border-left-color: rgba(139, 92, 246, 0.6);
-        }
-        
-        .ainews-item.retail {
-            border-left-color: rgba(34, 197, 94, 0.6);
-        }
-        
-        .ainews-headline {
-            font-size: 0.78rem;
-            font-weight: 500;
-            color: var(--text);
-            line-height: 1.35;
-        }
-        
-        .ainews-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.65rem;
-            color: var(--text-dim);
-        }
-        
-        .ainews-source {
-            font-weight: 500;
-        }
-        
-        .ainews-tag {
-            padding: 0.15rem 0.4rem;
-            border-radius: 4px;
-            font-size: 0.6rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .ainews-tag.enterprise {
-            background: rgba(139, 92, 246, 0.2);
-            color: #c4b5fd;
-        }
-        
-        .ainews-tag.retail {
-            background: rgba(34, 197, 94, 0.2);
-            color: #86efac;
-        }
-        
-        /* Neural Network Visualization */
-        .neural-network {
-            position: relative;
-            height: 280px;
-            overflow: visible;
-            background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.12) 0%, rgba(59, 130, 246, 0.04) 40%, transparent 70%);
-            border-radius: 16px;
-            margin: 0.5rem 0;
-        }
-        
-        .neural-svg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-        
-        .neural-line {
-            stroke: rgba(139, 92, 246, 0.25);
-            stroke-width: 1.5;
-            fill: none;
-            stroke-linecap: round;
-        }
-        
-        .neural-line.active {
-            stroke: rgba(139, 92, 246, 0.5);
-            stroke-width: 2;
-            animation: pulse-line 3s ease-in-out infinite;
-        }
-        
-        @keyframes pulse-line {
-            0%, 100% { stroke-opacity: 0.4; stroke-width: 1.5; }
-            50% { stroke-opacity: 0.8; stroke-width: 2.5; }
-        }
-        
-        .neural-node {
-            position: absolute;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 0.5rem;
-            line-height: 1.15;
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.25), inset 0 1px 0 rgba(255,255,255,0.1);
-            animation: float-node 4s ease-in-out infinite;
-            backdrop-filter: blur(4px);
-        }
-        
-        @keyframes float-node {
-            0%, 100% { transform: translateY(0); box-shadow: 0 0 15px rgba(139, 92, 246, 0.25); }
-            50% { transform: translateY(-3px); box-shadow: 0 0 25px rgba(139, 92, 246, 0.4); }
-        }
-        
-        .neural-node:active {
-            transform: scale(1.1) !important;
-            box-shadow: 0 0 30px currentColor, inset 0 1px 0 rgba(255,255,255,0.2);
-        }
-        
-        .neural-node.core {
-            width: 72px;
-            height: 72px;
-            font-size: 0.7rem;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.5), rgba(168, 85, 247, 0.6));
-            color: #f3e8ff;
-            border: 2.5px solid rgba(168, 85, 247, 0.7);
-            z-index: 3;
-            animation-delay: 0s;
-        }
-        
-        .neural-node.primary {
-            width: 58px;
-            height: 58px;
-            font-size: 0.6rem;
-            z-index: 2;
-        }
-        
-        .neural-node.secondary {
-            width: 46px;
-            height: 46px;
-            font-size: 0.55rem;
-            z-index: 1;
-        }
-        
-        .neural-node.work { background: linear-gradient(135deg, rgba(59, 130, 246, 0.5), rgba(37, 99, 235, 0.6)); color: #bfdbfe; border: 2px solid rgba(59, 130, 246, 0.6); animation-delay: 0.5s; }
-        .neural-node.sports { background: linear-gradient(135deg, rgba(34, 197, 94, 0.5), rgba(22, 163, 74, 0.6)); color: #bbf7d0; border: 2px solid rgba(34, 197, 94, 0.6); animation-delay: 1s; }
-        .neural-node.crypto { background: linear-gradient(135deg, rgba(245, 158, 11, 0.5), rgba(217, 119, 6, 0.6)); color: #fef3c7; border: 2px solid rgba(245, 158, 11, 0.6); animation-delay: 0.75s; }
-        .neural-node.content { background: linear-gradient(135deg, rgba(236, 72, 153, 0.5), rgba(219, 39, 119, 0.6)); color: #fbcfe8; border: 2px solid rgba(236, 72, 153, 0.6); animation-delay: 1.25s; }
-        .neural-node.personal { background: linear-gradient(135deg, rgba(20, 184, 166, 0.5), rgba(13, 148, 136, 0.6)); color: #99f6e4; border: 2px solid rgba(20, 184, 166, 0.6); animation-delay: 1.5s; }
-        
-        .neural-tooltip {
-            position: fixed;
-            background: linear-gradient(145deg, rgba(30, 30, 45, 0.98), rgba(20, 20, 35, 0.98));
-            border: 1px solid rgba(139, 92, 246, 0.5);
-            border-radius: 14px;
-            padding: 0.85rem 1rem;
-            max-width: 260px;
-            z-index: 100;
-            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.35), 0 0 0 1px rgba(255,255,255,0.05);
-            display: none;
-            backdrop-filter: blur(12px);
-            animation: tooltip-pop 0.2s ease-out;
-        }
-        
-        @keyframes tooltip-pop {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        
-        .neural-tooltip.show { display: block; }
-        
-        .neural-tooltip h4 {
-            font-size: 0.9rem;
-            margin-bottom: 0.4rem;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            color: #f3e8ff;
-            font-weight: 600;
-        }
-        
-        .neural-tooltip p {
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            line-height: 1.5;
-        }
-        
-        .neural-legend {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-top: 0.5rem;
-            padding: 0.6rem 0.75rem;
-            background: rgba(255,255,255,0.02);
-            border-radius: 10px;
-            justify-content: center;
-        }
-        
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
-            font-size: 0.65rem;
-            color: var(--text-dim);
-            padding: 0.2rem 0.4rem;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-        }
-        
-        .legend-item:active {
-            background: rgba(255,255,255,0.05);
-        }
-        
-        .legend-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            box-shadow: 0 0 6px currentColor;
-        }
-        
-        .legend-dot.work { background: #3b82f6; color: #3b82f6; }
-        .legend-dot.sports { background: #22c55e; color: #22c55e; }
-        .legend-dot.crypto { background: #f59e0b; color: #f59e0b; }
-        .legend-dot.content { background: #ec4899; color: #ec4899; }
-        .legend-dot.personal { background: #14b8a6; color: #14b8a6; }
-        
-        /* Night Mode */
-        body.night-mode {
-            filter: brightness(0.7) saturate(0.85);
-        }
-        
-        /* Pull to refresh indicator */
-        .refresh-indicator {
-            text-align: center;
-            padding: 0.5rem;
-            color: var(--text-dim);
-            font-size: 0.75rem;
-            display: none;
-        }
-        
-        .refresh-indicator.visible {
-            display: block;
         }
     </style>
 </head>
 <body>
-    <!-- Pull to refresh indicator -->
-    <div class="pull-indicator" id="pull-indicator">
-        <span class="pull-icon" id="pull-icon">↓</span>
-        <span id="pull-text">Pull to refresh</span>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <div class="ws-dot" id="wsDot"></div>
+            <div class="logo">Jane</div>
+        </div>
+        <div class="clock" id="clock">--:--</div>
     </div>
-    
-    <div class="container" id="main-container">
-        <div class="refresh-indicator" id="refresh-indicator">↻ Pull to refresh</div>
-        
-        <!-- Header -->
-        <header class="header">
-            <div class="brand">
-                <img src="icon-192.png" alt="Jane" class="brand-icon" style="width: 36px; height: 36px; border-radius: 8px;">
+
+    <!-- Pull to Refresh -->
+    <div id="pullIndicator" style="position:fixed;top:0;left:0;right:0;height:0;background:var(--accent);z-index:9999;transition:height 0.2s;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+        <span style="font-size:12px;color:#0a0f1a;font-weight:600;">Release to refresh</span>
+    </div>
+
+    <div class="container">
+        <!-- Debug row (shows data load status) -->
+        <div id="debugRow" style="font-size:10px;color:var(--dim);padding:4px 0;display:none;"></div>
+
+        <!-- Jane's Mind -->
+        <div class="card">
+            <div class="card-label">
+                <span>🧠</span>
+                <span>Jane's Mind</span>
+                <span class="model-badge" id="modelBadge">--</span>
             </div>
-            <span class="hello-greeting">hi Josh</span>
-            <div class="header-right">
-                <div class="time" id="current-time">--:--</div>
-            </div>
-        </header>
-        
-        <!-- 1. Mac Mini Health & Jane Status -->
-        <section class="status-card">
-            <div class="status-card-header">
-                <img src="/icon-192.png" alt="Jane" class="jane-logo-icon">
-                <span class="status-card-title">Mac Mini Health & Jane Status</span>
-                <div class="widget-meta">
-                    <span class="widget-timestamp" id="jane-updated">--</span>
-                    <button class="widget-refresh" onclick="refreshWidget('jane')" title="Refresh">↻</button>
-                </div>
-            </div>
-            
-            <!-- Status Row -->
-            <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: rgba(74, 222, 128, 0.1); border-radius: 8px; margin-bottom: 0.5rem;">
-                <div style="text-align: center; flex: 1;">
-                    <div style="font-size: 0.6rem; color: var(--text-dim);">Model</div>
-                    <div style="font-size: 0.65rem; font-weight: 600; white-space: nowrap;" id="jane-model">Loading...</div>
-                </div>
-                <div style="text-align: center; flex: 1;">
-                    <div style="font-size: 0.6rem; color: var(--text-dim);">Status</div>
-                    <div style="font-size: 0.8rem; font-weight: 600; color: var(--green);" id="mac-status-badge">Online</div>
-                </div>
-                <div style="text-align: center; flex: 1;">
-                    <div style="font-size: 0.6rem; color: var(--text-dim);">Age</div>
-                    <div style="font-size: 0.8rem; font-weight: 600;" id="jane-age">--</div>
-                </div>
-                <div style="text-align: center; flex: 1;">
-                    <div style="font-size: 0.6rem; color: var(--text-dim);">CPU</div>
-                    <div style="font-size: 0.8rem; font-weight: 600;" id="mac-cpu">--%</div>
-                </div>
-                <div style="text-align: center; flex: 1;">
-                    <div style="font-size: 0.6rem; color: var(--text-dim);">RAM</div>
-                    <div style="font-size: 0.8rem; font-weight: 600;" id="mac-memory">--%</div>
-                </div>
-            </div>
-            
-            <!-- Live Agents -->
-            <div class="section-label">🤖 Live Agents</div>
-            <div id="agents-list">
-                <div class="agent-item">
-                    <span class="agent-icon">⏳</span>
-                    <div class="agent-info">
-                        <div class="agent-name">Loading...</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- 3. Connected Accounts -->
-        <section class="status-card">
-            <div class="status-card-header">
-                <span class="status-card-icon">🔗</span>
-                <span class="status-card-title">Connected Accounts</span>
-            </div>
-            <div class="accounts-grid" id="accounts-grid">
-                <div class="account-item online" title="WhatsApp">
-                    <span class="account-icon">💬</span>
-                    <span class="account-name">WhatsApp</span>
-                </div>
-                <div class="account-item online" title="TikTok">
-                    <span class="account-icon">🎵</span>
-                    <span class="account-name">TikTok</span>
-                </div>
-                <div class="account-item online" title="Solana">
-                    <span class="account-icon">◎</span>
-                    <span class="account-name">Solana</span>
-                </div>
-                <div class="account-item online" title="Gmail">
-                    <span class="account-icon">📧</span>
-                    <span class="account-name">Gmail</span>
-                </div>
-                <div class="account-item online" title="X">
-                    <span class="account-icon">𝕏</span>
-                    <span class="account-name">X</span>
-                </div>
-                <div class="account-item online" title="Sorare">
-                    <span class="account-icon">🏀</span>
-                    <span class="account-name">Sorare</span>
-                </div>
-            </div>
-        </section>
-        
-        <!-- 4. Prediction Markets -->
-        <section class="status-card">
-            <div class="status-card-header">
-                <span class="status-card-icon">📊</span>
-                <span class="status-card-title">Prediction Markets</span>
-                <div class="widget-meta">
-                    <span class="widget-timestamp" id="pm-updated">--</span>
-                    <button class="widget-refresh" onclick="refreshWidget('predictions')" title="Refresh">↻</button>
-                </div>
-            </div>
-            <div id="pm-list" class="pm-list">
-                <div class="pm-item">
-                    <span class="pm-question">Loading predictions...</span>
-                </div>
-            </div>
-        </section>
-        
-        <!-- 5. AI News -->
-        <section class="status-card">
-            <div class="status-card-header">
-                <span class="status-card-icon">🤖</span>
-                <span class="status-card-title">AI News</span>
-                <div class="widget-meta">
-                    <span class="widget-timestamp" id="ainews-updated">--</span>
-                    <button class="widget-refresh" onclick="refreshWidget('ainews')" title="Refresh">↻</button>
-                </div>
-            </div>
-            <div class="ainews-tabs">
-                <button class="ainews-tab active" data-tab="enterprise" onclick="switchAINewsTab('enterprise')">🏢 Enterprise</button>
-                <button class="ainews-tab" data-tab="retail" onclick="switchAINewsTab('retail')">🛒 Retail</button>
-            </div>
-            <div class="ainews-list" id="ainews-enterprise">
-                <div class="ainews-item">Loading enterprise AI news...</div>
-            </div>
-            <div class="ainews-list" id="ainews-retail" style="display: none;">
-                <div class="ainews-item">Loading retail AI news...</div>
-            </div>
-        </section>
-        
-        <!-- 6. Neural Network - What I Know -->
-        <section class="status-card">
-            <div class="status-card-header">
-                <span class="status-card-icon">🧠</span>
-                <span class="status-card-title">What I Know</span>
-                <div class="widget-meta">
-                    <span class="widget-timestamp" id="brain-updated">--</span>
-                    <button class="widget-refresh" onclick="refreshWidget('brain')" title="Refresh">↻</button>
-                </div>
-            </div>
-            <div class="neural-network" id="neural-network">
-                <!-- SVG for connection lines -->
-                <svg class="neural-svg" viewBox="0 0 340 280" preserveAspectRatio="xMidYMid meet">
-                    <!-- Primary connections from center -->
-                    <line class="neural-line active" x1="170" y1="140" x2="60" y2="60" />
-                    <line class="neural-line active" x1="170" y1="140" x2="280" y2="60" />
-                    <line class="neural-line active" x1="170" y1="140" x2="60" y2="220" />
-                    <line class="neural-line active" x1="170" y1="140" x2="280" y2="220" />
-                    <!-- Secondary connections -->
-                    <line class="neural-line" x1="60" y1="60" x2="135" y2="30" />
-                    <line class="neural-line" x1="280" y1="60" x2="205" y2="30" />
-                    <line class="neural-line" x1="60" y1="220" x2="135" y2="250" />
-                    <line class="neural-line" x1="280" y1="220" x2="205" y2="250" />
-                    <!-- Tertiary connections to center -->
-                    <line class="neural-line" x1="170" y1="140" x2="135" y2="30" />
-                    <line class="neural-line" x1="170" y1="140" x2="205" y2="30" />
-                    <line class="neural-line" x1="170" y1="140" x2="135" y2="250" />
-                    <line class="neural-line" x1="170" y1="140" x2="205" y2="250" />
-                </svg>
-                
-                <!-- Center node - Josh -->
-                <div class="neural-node core" style="top: 104px; left: 50%; transform: translateX(-50%);" onclick="showNeural(this, 'Josh', 'NYC • @jcubnft (verified ✓) • Gettysburg College Dean\'s List • Early adopter exploring Web3', '👤')">Josh</div>
-                
-                <!-- Primary nodes - Main categories -->
-                <div class="neural-node primary work" style="top: 30px; left: 18px;" onclick="showNeural(this, 'Nasdaq', 'Private markets • Trading tech • Options strategy • Volos acquisition', '💼')">Nasdaq</div>
-                <div class="neural-node primary crypto" style="top: 30px; right: 18px;" onclick="showNeural(this, 'Crypto', 'Solana • Jupiter • Chain agnostic • Galaxy Digital follower', '◎')">Crypto</div>
-                <div class="neural-node primary content" style="bottom: 30px; left: 18px;" onclick="showNeural(this, 'Creator', 'TikTok @degencollector • Pack opening videos • Floor price edits', '🎵')">Creator</div>
-                <div class="neural-node primary personal" style="bottom: 30px; right: 18px;" onclick="showNeural(this, 'Lifestyle', 'Bambu A1 3D printer • Explorer mindset • \"Here for fun\"', '🚀')">Life</div>
-                
-                <!-- Secondary nodes - Details -->
-                <div class="neural-node secondary sports" style="top: 5px; left: calc(50% - 65px); transform: translateX(-50%);" onclick="showNeural(this, 'Patriots', 'HUGE fan 🏈 Drake Maye • Super Bowl dreams • #gopats', '🏈')">Pats</div>
-                <div class="neural-node secondary crypto" style="top: 5px; left: calc(50% + 65px); transform: translateX(-50%);" onclick="showNeural(this, 'Trading', 'Best Stock Pitch 2017 (PYPL) • Memecoin explorer', '📈')">Trade</div>
-                <div class="neural-node secondary content" style="bottom: 5px; left: calc(50% - 65px); transform: translateX(-50%);" onclick="showNeural(this, 'Panini', 'NFT sports cards • Pack rips • Marketplace tracker', '🃏')">Panini</div>
-                <div class="neural-node secondary personal" style="bottom: 5px; left: calc(50% + 65px); transform: translateX(-50%);" onclick="showNeural(this, 'Sorare', 'NBA fantasy on-chain • jcubnft • API connected', '🏀')">Sorare</div>
-            </div>
-            <div class="neural-legend">
-                <div class="legend-item"><span class="legend-dot work"></span>Work</div>
-                <div class="legend-item"><span class="legend-dot sports"></span>Sports</div>
-                <div class="legend-item"><span class="legend-dot crypto"></span>Crypto</div>
-                <div class="legend-item"><span class="legend-dot content"></span>Content</div>
-                <div class="legend-item"><span class="legend-dot personal"></span>Personal</div>
-            </div>
-            <div class="neural-tooltip" id="neural-tooltip">
-                <h4><span id="neural-icon"></span> <span id="neural-title"></span></h4>
-                <p id="neural-text"></p>
-            </div>
-        </section>
-        
-        <!-- TikTok Stats -->
-        <section class="status-card">
-            <div class="status-card-header">
-                <span class="status-card-icon">🎵</span>
-                <span class="status-card-title">TikTok @degencollector</span>
-                <div class="widget-meta">
-                    <span class="widget-timestamp" id="tiktok-updated">--</span>
-                    <button class="widget-refresh" onclick="refreshWidget('tiktok')" title="Refresh">↻</button>
-                </div>
-            </div>
-            
-            <!-- 24h Changes Banner -->
-            <div class="tiktok-24h-banner" id="tiktok-24h-banner" style="background: linear-gradient(135deg, rgba(74,222,128,0.1), rgba(96,165,250,0.1)); border-radius: 10px; padding: 0.6rem; margin-bottom: 0.75rem; text-align: center;">
-                <div style="font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 0.25rem;">Since Midnight (EST)</div>
-                <div style="display: flex; justify-content: center; gap: 1rem; font-size: 0.85rem;">
-                    <span id="tiktok-24h-views" style="color: var(--green);">+0 views</span>
-                    <span id="tiktok-24h-likes" style="color: var(--green);">+0 likes</span>
-                    <span id="tiktok-24h-followers" style="color: var(--green);">+0 followers</span>
-                </div>
-            </div>
-            
-            <!-- Main Stats -->
-            <div class="tiktok-stats-grid">
-                <div class="tiktok-stat">
-                    <div class="tiktok-stat-value" id="tiktok-views">--</div>
-                    <div class="tiktok-stat-label">Total Views</div>
-                    <div class="tiktok-stat-change neutral" id="tiktok-views-change">--</div>
-                </div>
-                <div class="tiktok-stat">
-                    <div class="tiktok-stat-value" id="tiktok-likes">--</div>
-                    <div class="tiktok-stat-label">Total Likes</div>
-                    <div class="tiktok-stat-change neutral" id="tiktok-likes-change">--</div>
-                </div>
-                <div class="tiktok-stat">
-                    <div class="tiktok-stat-value" id="tiktok-followers">--</div>
-                    <div class="tiktok-stat-label">Total Followers</div>
-                    <div class="tiktok-stat-change neutral" id="tiktok-followers-change">--</div>
-                </div>
-            </div>
-            
-        </section>
-        
-        <!-- PENGUIN Position -->
-        <section class="status-card">
-            <div class="status-card-header">
-                <span class="status-card-icon">🐧</span>
-                <span class="status-card-title">PENGUIN Position</span>
-                <div class="widget-meta">
-                    <span class="widget-timestamp" id="metrics-updated">--</span>
-                    <button class="widget-refresh" onclick="refreshWidget('metrics')" title="Refresh">↻</button>
-                </div>
-            </div>
-            <div class="metrics-grid" style="margin-top: 0.5rem;">
-                <div class="metric-card">
-                    <div class="metric-icon">💰</div>
-                    <div class="metric-value" id="penguin-value">--</div>
-                    <div class="metric-label">Value</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-icon">📊</div>
-                    <div class="metric-value" id="penguin-pnl">--</div>
-                    <div class="metric-label">P&L</div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Completed Today -->
-        <section class="status-card">
-            <div class="status-card-header">
-                <span class="status-card-icon">✅</span>
-                <span class="status-card-title">Completed Today</span>
-                <div class="widget-meta">
-                    <span class="widget-timestamp" id="tasks-updated">--</span>
-                    <button class="widget-refresh" onclick="refreshWidget('tasks')" title="Refresh">↻</button>
-                </div>
-            </div>
-            <div class="completed-list" id="completed-list" style="margin-top: 0.5rem;">
-                <!-- Filled by JS -->
-            </div>
-        </section>
-        
-        <!-- Jobs & Tasks -->
-        <section class="status-card">
-            <div class="status-card-header">
-                <span class="status-card-icon">📋</span>
-                <span class="status-card-title">Jobs & Tasks</span>
-                <div class="widget-meta">
-                    <span class="widget-timestamp" id="jobs-updated">--</span>
-                    <button class="widget-refresh" onclick="refreshWidget('jobs')" title="Refresh">↻</button>
-                </div>
-            </div>
-            <div id="cron-list"></div>
-            <div id="tasks-list"></div>
-        </section>
-        
-        <!-- Version -->
-        <div style="text-align: center; margin-top: 1rem; padding-bottom: 5rem;">
-            <div style="font-size: 0.65rem; color: var(--text-dim);">
-                v11.1 • <span id="last-refresh">--</span> • Pull down to refresh
+
+            <!-- Section 1: Goal / Objective -->
+            <div class="mind-section-label">GOAL / OBJECTIVE</div>
+            <div class="mind-goal" id="mindGoal">Loading...</div>
+
+            <!-- Section 2: Thinking & Decisions -->
+            <div class="mind-section-label" style="margin-top:14px;">THINKING &amp; DECISIONS</div>
+            <div class="mind-thought" id="mindThought"></div>
+
+            <!-- Section 3: Actions & Tools -->
+            <div class="mind-section-label" style="margin-top:14px;">ACTIONS &amp; TOOLS</div>
+            <div class="steps" id="mindSteps"></div>
+
+            <div class="status-row">
+                <div class="status-pill"><div class="pill-label">Model</div><div class="pill-value" id="pillModel">--</div></div>
+                <div class="status-pill"><div class="pill-label">CPU</div><div class="pill-value" id="pillCpu">--</div></div>
+                <div class="status-pill"><div class="pill-label">RAM</div><div class="pill-value" id="pillRam">--</div></div>
             </div>
         </div>
     </div>
-    
-    <!-- Floating Chat Button -->
-    <a href="https://wa.me/17175759384" class="chat-fab" aria-label="Chat with Jane on WhatsApp">
-        <svg viewBox="0 0 24 24" width="34" height="34" fill="white">
-            <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2z"/>
-        </svg>
-    </a>
-    
-    <!-- Full Screen Chat Overlay -->
-    <div class="chat-overlay" id="chat-overlay">
-        <div class="chat-header">
-            <h2><img src="/icon-192.png" alt="Jane" class="jane-logo-chat"> Jane</h2>
-            <button class="chat-close-btn" onclick="closeChat()" aria-label="Close chat">✕</button>
-        </div>
-        <div class="chat-messages" id="chat-messages">
-            <div class="chat-message jane">
-                Hey Josh! 👋 What's up?
-                <div class="time">Just now</div>
-            </div>
-        </div>
-        <div class="chat-input-area">
-            <div class="chat-input-row">
-                <textarea class="chat-input" id="chat-input" placeholder="Type a message..." rows="1"></textarea>
-                <button class="chat-send-btn" onclick="sendMessage()" id="send-btn">➤</button>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        // Pull to refresh (iOS-optimized)
-        (function() {
-            const indicator = document.getElementById('pull-indicator');
-            const pullIcon = document.getElementById('pull-icon');
-            const pullText = document.getElementById('pull-text');
-            let startY = 0;
-            let currentY = 0;
-            let pulling = false;
-            let ready = false;
-            
-            function isAtTop() {
-                return window.scrollY <= 0 || document.documentElement.scrollTop <= 0;
-            }
-            
-            document.addEventListener('touchstart', (e) => {
-                if (isAtTop()) {
-                    startY = e.touches[0].pageY;
-                    pulling = true;
-                    ready = false;
-                }
-            }, { passive: true });
-            
-            document.addEventListener('touchmove', (e) => {
-                if (!pulling) return;
-                
-                currentY = e.touches[0].pageY;
-                const diff = currentY - startY;
-                
-                // Only activate if at top and pulling down
-                if (diff > 20 && isAtTop()) {
-                    indicator.classList.add('visible');
-                    
-                    if (diff > 70) {
-                        // Ready to refresh - green state
-                        if (!ready) {
-                            ready = true;
-                            indicator.classList.add('ready');
-                            pullText.textContent = '✓ Release now!';
-                        }
-                    } else {
-                        // Still pulling - neutral state
-                        if (ready) {
-                            ready = false;
-                            indicator.classList.remove('ready');
-                        }
-                        pullText.textContent = 'Pull more...';
-                    }
-                } else if (diff <= 0) {
-                    // Scrolling up or not at top
-                    indicator.classList.remove('visible', 'ready');
-                    ready = false;
-                }
-            }, { passive: true });
-            
-            document.addEventListener('touchend', async () => {
-                if (!pulling) return;
-                pulling = false;
-                
-                if (ready) {
-                    // Trigger refresh
-                    indicator.classList.remove('ready');
-                    indicator.classList.add('refreshing');
-                    pullIcon.innerHTML = '<span class="spinner">⟳</span>';
-                    pullText.textContent = 'Refreshing...';
-                    
-                    // Small delay for visual feedback
-                    setTimeout(() => forceRefresh(), 300);
-                } else {
-                    // Cancelled - hide indicator
-                    indicator.classList.remove('visible', 'ready');
-                    pullIcon.textContent = '↓';
-                    pullText.textContent = 'Pull to refresh';
-                }
-            }, { passive: true });
-        })();
-        
-        // Update time
-        function updateTime() {
-            const now = new Date();
-            document.getElementById('current-time').textContent = now.toLocaleTimeString('en-US', { 
-                hour: 'numeric', 
-                minute: '2-digit',
-                hour12: true 
-            }).toLowerCase();
-        }
-        updateTime();
-        setInterval(updateTime, 1000);
-        
-        // Neural network tooltip
-        function showNeural(el, title, text, icon) {
-            const tooltip = document.getElementById('neural-tooltip');
-            document.getElementById('neural-title').textContent = title;
-            document.getElementById('neural-text').textContent = text;
-            document.getElementById('neural-icon').textContent = icon;
-            
-            // Position tooltip near the node
-            const rect = el.getBoundingClientRect();
-            
-            // Center horizontally, position above or below
-            let top = rect.bottom + 10;
-            let left = rect.left + (rect.width / 2) - 120;
-            
-            // Keep on screen
-            if (left < 10) left = 10;
-            if (left + 240 > window.innerWidth) left = window.innerWidth - 250;
-            if (top + 120 > window.innerHeight) top = rect.top - 100;
-            
-            tooltip.style.top = top + 'px';
-            tooltip.style.left = left + 'px';
-            tooltip.classList.add('show');
-            
-            // Hide on tap outside
-            setTimeout(() => {
-                document.addEventListener('click', hideNeural, { once: true });
-            }, 10);
-        }
-        
-        function hideNeural(e) {
-            if (!e.target.classList.contains('neural-node')) {
-                document.getElementById('neural-tooltip').classList.remove('show');
-            }
-        }
-        
-        // Legacy bubble map tooltip (kept for compatibility)
-        function showBubble(el, title, text, icon) {
-            showNeural(el, title, text, icon);
-        }
-        
-        function hideBubble(e) {
-            if (!e.target.classList.contains('bubble')) {
-                document.getElementById('bubble-tooltip').classList.remove('show');
-            }
-        }
-        
-        // ==========================================
-        // ARCHITECTURE: Core Utilities & Resilience
-        // ==========================================
-        
-        // Offline detection
-        let isOnline = navigator.onLine;
-        const offlineBanner = document.createElement('div');
-        offlineBanner.id = 'offline-banner';
-        offlineBanner.innerHTML = '📡 Offline - showing cached data';
-        offlineBanner.style.cssText = 'position:fixed;top:0;left:0;right:0;padding:0.5rem;background:var(--amber);color:#000;text-align:center;font-size:0.75rem;font-weight:600;z-index:9999;display:none;';
-        document.body.prepend(offlineBanner);
-        
-        window.addEventListener('online', () => {
-            isOnline = true;
-            offlineBanner.style.display = 'none';
-            console.log('[Network] Back online - refreshing data');
-            refreshAllWidgets();
+
+<script>
+const $ = id => document.getElementById(id);
+
+// Clock
+function updateClock() {
+    $('clock').textContent = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+}
+updateClock();
+setInterval(updateClock, 10000);
+
+// Fetch helper with cache busting and 10s timeout
+async function fetchJSON(url) {
+    try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000);
+        const r = await fetch(url + (url.includes('?') ? '&' : '?') + '_t=' + Date.now(), { 
+            cache: 'no-store',
+            signal: controller.signal 
         });
-        window.addEventListener('offline', () => {
-            isOnline = false;
-            offlineBanner.style.display = 'block';
-            console.log('[Network] Offline detected');
+        clearTimeout(timeout);
+        if (!r.ok) { console.warn('Fetch failed:', url, r.status); return null; }
+        return await r.json();
+    } catch (e) { console.warn('Fetch error:', url, e.message); return null; }
+}
+
+// Render mind
+function renderMind(d) {
+    if (!d) return;
+    
+    const goalEl = $('mindGoal');
+    if (d.task) {
+        goalEl.textContent = d.task;
+        goalEl.classList.remove('idle');
+    } else {
+        goalEl.textContent = 'Awaiting instructions';
+        goalEl.classList.add('idle');
+    }
+    
+    const thoughtEl = $('mindThought');
+    thoughtEl.textContent = d.thought || '';
+    // Hide the Thinking section label if no thought
+    const thinkingLabel = thoughtEl.previousElementSibling;
+    if (!d.thought) {
+        thoughtEl.style.display = 'none';
+        if (thinkingLabel) thinkingLabel.style.display = 'none';
+    } else {
+        thoughtEl.style.display = 'block';
+        if (thinkingLabel) thinkingLabel.style.display = 'block';
+    }
+    $('modelBadge').textContent = (d.model || '--').toUpperCase();
+    
+    const stepsEl = $('mindSteps');
+    if (d.steps && d.steps.length) {
+        stepsEl.innerHTML = d.steps.map(s => {
+            const st = s.status || 'pending';
+            let icon = '○';
+            if (st === 'done') icon = '✓';
+            else if (st === 'active') icon = '<span class="spinner"></span>';
+            return `<div class="step ${st}"><div class="step-icon">${icon}</div><span class="step-text">${s.label || ''}</span></div>`;
+        }).join('');
+    } else {
+        stepsEl.innerHTML = '';
+    }
+}
+
+// Load all data
+async function loadAll() {
+    const debug = $('debugRow');
+    
+    // Load mind first (fast, static file)
+    const mind = await fetchJSON('/mind-state.json');
+    renderMind(mind);
+    if (mind) $('pillModel').textContent = mind.model || '--';
+
+    // Load from static JSON files (API routes fail from external IPs)
+    const usage = await fetchJSON('/usage-today.json');
+    if (usage) {
+        $('pillTokens').textContent = usage.tokensToday || '--';
+        $('pillMsgs').textContent = usage.messagesToday != null ? String(usage.messagesToday) : '--';
+    }
+    
+    const system = await fetchJSON('/system-status.json');
+    if (system) {
+        $('pillCpu').textContent = system.cpu != null ? system.cpu + '%' : '--';
+        $('pillRam').textContent = system.memory != null ? system.memory + '%' : '--';
+    }
+    
+    // Debug
+    const fails = [];
+    if (!mind) fails.push('mind');
+    if (!system) fails.push('system');
+    if (!usage) fails.push('usage');
+    if (fails.length > 0) {
+        debug.style.display = 'block';
+        debug.textContent = '⚠ Failed: ' + fails.join(', ') + ' — ' + new Date().toLocaleTimeString();
+    } else {
+        debug.style.display = 'none';
+    }
+}
+
+// Pull to Refresh
+let touchStartY = 0;
+let isPulling = false;
+const pullEl = $('pullIndicator');
+
+document.addEventListener('touchstart', (e) => {
+    if (window.scrollY <= 0) {
+        touchStartY = e.touches[0].clientY;
+        isPulling = true;
+    }
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+    if (!isPulling) return;
+    const dy = e.touches[0].clientY - touchStartY;
+    if (dy > 0 && dy < 150) {
+        pullEl.style.height = Math.min(dy * 0.5, 50) + 'px';
+    }
+}, { passive: true });
+
+document.addEventListener('touchend', () => {
+    if (!isPulling) return;
+    isPulling = false;
+    const h = parseFloat(pullEl.style.height) || 0;
+    if (h >= 40) {
+        pullEl.style.height = '40px';
+        loadAll().then(() => {
+            setTimeout(() => { pullEl.style.height = '0px'; }, 500);
         });
-        
-        // Request cache for offline fallback
-        const dataCache = {};
-        
-        // Fetch with timeout, retry, and caching
-        async function fetchWithRetry(url, options = {}, retries = 2, timeoutMs = 10000) {
-            const cacheKey = url + JSON.stringify(options);
-            
-            for (let attempt = 0; attempt <= retries; attempt++) {
-                try {
-                    const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-                    
-                    const response = await fetch(url, {
-                        ...options,
-                        signal: controller.signal
-                    });
-                    clearTimeout(timeoutId);
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}`);
-                    }
-                    
-                    const data = await response.json();
-                    // Cache successful responses
-                    dataCache[cacheKey] = { data, timestamp: Date.now() };
-                    return data;
-                    
-                } catch (err) {
-                    const isLastAttempt = attempt === retries;
-                    const isAbort = err.name === 'AbortError';
-                    
-                    console.warn(`[Fetch] ${url} attempt ${attempt + 1}/${retries + 1} failed:`, isAbort ? 'timeout' : err.message);
-                    
-                    if (isLastAttempt) {
-                        // Return cached data if available
-                        if (dataCache[cacheKey]) {
-                            console.log(`[Fetch] Using cached data for ${url}`);
-                            return dataCache[cacheKey].data;
-                        }
-                        throw err;
-                    }
-                    
-                    // Wait before retry (exponential backoff)
-                    await new Promise(r => setTimeout(r, 500 * Math.pow(2, attempt)));
-                }
-            }
-        }
-        
-        // Safe text escaping to prevent XSS
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        // Refresh all widgets (used after coming back online)
-        async function refreshAllWidgets() {
-            const refreshes = [
-                fetchMacStatus().then(() => updateTimestamp('mac-updated')),
-                fetchJaneStatus().then(() => updateTimestamp('jane-updated')),
-                fetchPredictionMarkets().then(() => updateTimestamp('pm-updated')),
-                fetchAINews().then(() => updateTimestamp('ainews-updated')),
-                fetchAgentsAndCron(),
-                fetchTasks(),
-                fetchPositions(),
-                fetchTikTok().then(() => updateTimestamp('metrics-updated')),
-                fetchSolBalance()
-            ];
-            await Promise.allSettled(refreshes);
-            document.getElementById('last-refresh').textContent = new Date().toLocaleTimeString();
-        }
-        
-        // Show widget error state
-        function showWidgetError(elementId, message = 'Failed to load') {
-            const el = document.getElementById(elementId);
-            if (el) {
-                el.innerHTML = `<div style="color:var(--text-dim);font-size:0.8rem;text-align:center;padding:0.5rem;">⚠️ ${escapeHtml(message)}</div>`;
-            }
-        }
-        
-        // ==========================================
-        // Data Fetching Functions
-        // ==========================================
-        
-        // Fetch tasks
-        async function fetchTasks() {
-            try {
-                const data = await fetchWithRetry('/api/tasks', {}, 1, 8000);
-                const completed = data.completed || [];
-                
-                // Completed list
-                const completedList = document.getElementById('completed-list');
-                if (completedList) {
-                    if (completed.length > 0) {
-                        completedList.innerHTML = completed.slice(0, 6).map(t => `
-                            <div class="completed-item">
-                                <span class="completed-icon">${escapeHtml(t.icon) || '✓'}</span>
-                                <span class="completed-text">${escapeHtml(t.task)}</span>
-                                <span class="completed-check">✓</span>
-                            </div>
-                        `).join('');
-                    } else {
-                        completedList.innerHTML = '<div class="completed-item"><span class="completed-text" style="color: var(--text-dim);">Nothing completed yet today</span></div>';
-                    }
-                }
-            } catch (err) {
-                console.error('Failed to fetch tasks:', err);
-                showWidgetError('completed-list', 'Tasks unavailable');
-            }
-        }
-        
-        // Fetch positions
-        async function fetchPositions() {
-            try {
-                const data = await fetchWithRetry('/api/trading', {}, 1, 8000);
-                
-                const list = document.getElementById('positions-list');
-                const openPositions = (data.positions || []).filter(p => p.status === 'open' || !p.status);
-                
-                if (openPositions.length === 0) {
-                    // Show realized P&L from summary or realizedTrades
-                    if (data.summary && data.summary.totalRealizedPnL !== undefined) {
-                        const totalRealized = data.summary.totalRealizedPnL;
-                        const totalPercent = data.summary.totalRealizedPercent;
-                        const isPositive = totalRealized >= 0;
-                        list.innerHTML = `
-                            <div style="text-align: center; padding: 0.5rem;">
-                                <div style="color: var(--text-dim); font-size: 0.75rem; margin-bottom: 0.25rem;">All positions closed</div>
-                                <div style="font-size: 1.1rem; font-weight: 700; color: ${isPositive ? 'var(--green)' : 'var(--red)'};">
-                                    ${isPositive ? '+' : ''}$${totalRealized.toFixed(2)} <span style="font-size: 0.8rem; opacity: 0.8;">(${isPositive ? '+' : ''}${totalPercent.toFixed(1)}%)</span>
-                                </div>
-                            </div>
-                        `;
-                    } else if (data.realizedTrades && data.realizedTrades.length > 0) {
-                        const totalRealized = data.realizedTrades.reduce((sum, t) => sum + (t.realizedPnL || 0), 0);
-                        const isPositive = totalRealized >= 0;
-                        list.innerHTML = `
-                            <div style="text-align: center; padding: 0.5rem;">
-                                <div style="color: var(--text-dim); font-size: 0.75rem; margin-bottom: 0.25rem;">All positions closed</div>
-                                <div style="font-size: 1.1rem; font-weight: 700; color: ${isPositive ? 'var(--green)' : 'var(--red)'};">
-                                    ${isPositive ? '+' : ''}$${totalRealized.toFixed(2)} realized
-                                </div>
-                            </div>
-                        `;
-                    } else {
-                        list.innerHTML = '<div style="color: var(--text-dim); font-size: 0.85rem; text-align: center;">No open positions</div>';
-                    }
-                    return;
-                }
-                
-                list.innerHTML = openPositions.map(p => {
-                    const pnl = p.pnlPercent || 0;
-                    const isPositive = pnl >= 0;
-                    return `
-                        <div class="position-row">
-                            <span class="position-icon">${p.icon || '📈'}</span>
-                            <span class="position-name">${p.symbol || p.token}</span>
-                            <span class="position-pnl ${isPositive ? 'positive' : 'negative'}">${isPositive ? '+' : ''}${pnl.toFixed(1)}%</span>
-                            <span class="position-arrow">${isPositive ? '↗' : '↘'}</span>
-                        </div>
-                    `;
-                }).join('');
-            } catch (err) {
-                console.error('Failed to fetch positions:', err);
-            }
-        }
-        
-        // Fetch TikTok with 24h change tracking
-        async function fetchTikTok() {
-            try {
-                const data = await fetchWithRetry('/api/tiktok', {}, 1, 8000);
-                
-                // Get current values
-                const profile = data.profile || data;
-                const followers = profile.followers || 0;
-                const likes = profile.likes || profile.totalLikes || 0;
-                const views = data.totalViews || 0;
-                const changes24h = data.changes24h || {};
-                
-                // Update main display
-                document.getElementById('tiktok-followers').textContent = followers.toLocaleString();
-                document.getElementById('tiktok-likes').textContent = likes.toLocaleString();
-                const viewsEl = document.getElementById('tiktok-views');
-                if (viewsEl) viewsEl.textContent = views.toLocaleString();
-                
-                // Update 24h banner
-                const followers24h = changes24h.followers || 0;
-                const likes24h = changes24h.likes || 0;
-                const views24h = changes24h.views || 0;
-                document.getElementById('tiktok-24h-followers').textContent = `+${followers24h} followers`;
-                document.getElementById('tiktok-24h-likes').textContent = `+${likes24h} likes`;
-                const views24hEl = document.getElementById('tiktok-24h-views');
-                if (views24hEl) views24hEl.textContent = `+${views24h} views`;
-                
-                // Style based on positive/zero
-                document.getElementById('tiktok-24h-followers').style.color = followers24h > 0 ? 'var(--green)' : 'var(--text-dim)';
-                document.getElementById('tiktok-24h-likes').style.color = likes24h > 0 ? 'var(--green)' : 'var(--text-dim)';
-                if (views24hEl) views24hEl.style.color = views24h > 0 ? 'var(--green)' : 'var(--text-dim)';
-                
-                // Get previous values from localStorage for "since last check" display
-                const prev = JSON.parse(localStorage.getItem('tiktok_prev') || '{}');
-                
-                // Calculate and show changes since last check
-                const followersChange = document.getElementById('tiktok-followers-change');
-                const likesChange = document.getElementById('tiktok-likes-change');
-                
-                if (prev.followers !== undefined && prev.followers !== followers) {
-                    const diff = followers - prev.followers;
-                    followersChange.textContent = diff > 0 ? `+${diff} since last` : `${diff} since last`;
-                    followersChange.className = 'tiktok-stat-change ' + (diff > 0 ? 'positive' : 'neutral');
-                } else {
-                    followersChange.textContent = 'since last check';
-                    followersChange.className = 'tiktok-stat-change neutral';
-                }
-                
-                if (prev.likes !== undefined && prev.likes !== likes) {
-                    const diff = likes - prev.likes;
-                    likesChange.textContent = diff > 0 ? `+${diff} since last` : `${diff} since last`;
-                    likesChange.className = 'tiktok-stat-change ' + (diff > 0 ? 'positive' : 'neutral');
-                } else {
-                    likesChange.textContent = 'since last check';
-                    likesChange.className = 'tiktok-stat-change neutral';
-                }
-                
-                // Views change
-                const viewsChange = document.getElementById('tiktok-views-change');
-                if (viewsChange) {
-                    if (prev.views !== undefined && prev.views !== views) {
-                        const diff = views - prev.views;
-                        viewsChange.textContent = diff > 0 ? `+${diff} since last` : `${diff} since last`;
-                        viewsChange.className = 'tiktok-stat-change ' + (diff > 0 ? 'positive' : 'neutral');
-                    } else {
-                        viewsChange.textContent = 'since last check';
-                        viewsChange.className = 'tiktok-stat-change neutral';
-                    }
-                }
-                
-                // Store current values for next comparison
-                localStorage.setItem('tiktok_prev', JSON.stringify({
-                    followers,
-                    likes,
-                    views,
-                    timestamp: Date.now()
-                }));
-                
-                // Update timestamp
-                const updated = data.lastUpdated ? new Date(data.lastUpdated) : new Date();
-                document.getElementById('tiktok-updated').textContent = updated.toLocaleTimeString('en-US', {
-                    hour: 'numeric',
-                    minute: '2-digit'
-                }).toLowerCase();
-                
-            } catch (err) {
-                console.error('Failed to fetch TikTok:', err);
-            }
-        }
-        
-        // Fetch PENGUIN balance and value
-        // Solana RPC endpoints with fallback
-        const SOLANA_RPCS = [
-            'https://solana-rpc.publicnode.com',
-            'https://api.mainnet-beta.solana.com'
-        ];
-        
-        async function fetchPenguinBalance() {
-            const wallet = 'ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L';
-            const penguinMint = '8Jx8AAHj86wbQgUTjGuj6GTTL5Ps3cqxKRTvpaJApump';
-            const costBasis = 51.95; // Entry cost
-            
-            try {
-                // Fetch PENGUIN token balance with RPC fallback
-                let balanceData = null;
-                for (const rpc of SOLANA_RPCS) {
-                    try {
-                        const controller = new AbortController();
-                        const timeoutId = setTimeout(() => controller.abort(), 8000);
-                        const balanceResponse = await fetch(rpc, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                jsonrpc: '2.0',
-                                id: 1,
-                                method: 'getTokenAccountsByOwner',
-                                params: [wallet, { mint: penguinMint }, { encoding: 'jsonParsed' }]
-                            }),
-                            signal: controller.signal
-                        });
-                        clearTimeout(timeoutId);
-                        if (balanceResponse.ok) {
-                            balanceData = await balanceResponse.json();
-                            break;
-                        }
-                    } catch (rpcErr) {
-                        console.warn('[PENGUIN] RPC failed:', rpc, rpcErr.message);
-                    }
-                }
-                
-                if (!balanceData) {
-                    throw new Error('All Solana RPCs failed');
-                }
-                
-                let penguinBalance = 0;
-                if (balanceData.result?.value?.[0]?.account?.data?.parsed?.info?.tokenAmount) {
-                    const tokenAmount = balanceData.result.value[0].account.data.parsed.info.tokenAmount;
-                    penguinBalance = parseFloat(tokenAmount.uiAmount) || 0;
-                }
-                
-                // Fetch PENGUIN price from DexScreener with timeout
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 8000);
-                const priceResponse = await fetch('https://api.dexscreener.com/latest/dex/tokens/' + penguinMint, {
-                    signal: controller.signal
-                });
-                clearTimeout(timeoutId);
-                const priceData = await priceResponse.json();
-                
-                let penguinPrice = 0;
-                if (priceData.pairs && priceData.pairs.length > 0) {
-                    penguinPrice = parseFloat(priceData.pairs[0].priceUsd) || 0;
-                }
-                
-                // Calculate and display USD value
-                const usdValue = penguinBalance * penguinPrice;
-                document.getElementById('penguin-value').textContent = '$' + usdValue.toFixed(2);
-                
-                // Calculate and display P&L
-                const pnl = usdValue - costBasis;
-                const pnlPercent = ((usdValue / costBasis) - 1) * 100;
-                const pnlEl = document.getElementById('penguin-pnl');
-                if (pnlEl) {
-                    const isPositive = pnl >= 0;
-                    pnlEl.textContent = `${isPositive ? '+' : ''}${pnlPercent.toFixed(1)}%`;
-                    pnlEl.style.color = isPositive ? 'var(--green)' : 'var(--red)';
-                }
-                
-                // Update timestamp
-                document.getElementById('metrics-updated').textContent = new Date().toLocaleTimeString('en-US', {
-                    hour: 'numeric',
-                    minute: '2-digit'
-                }).toLowerCase();
-                
-            } catch (err) {
-                console.error('Failed to fetch PENGUIN:', err);
-                document.getElementById('penguin-value').textContent = '--';
-            }
-        }
-        
-        // Alias for backwards compatibility
-        const fetchSolBalance = fetchPenguinBalance;
-        
-        // Open chat
-        // Chat Functions
-        function openChat() {
-            document.getElementById('chat-overlay').classList.add('open');
-            document.body.style.overflow = 'hidden';
-            document.body.style.position = 'fixed';
-            document.body.style.width = '100%';
-            document.body.style.top = `-${window.scrollY}px`;
-            loadChatHistory();
-            document.getElementById('chat-input').focus();
-        }
-        
-        function closeChat() {
-            document.getElementById('chat-overlay').classList.remove('open');
-            const scrollY = document.body.style.top;
-            document.body.style.overflow = '';
-            document.body.style.position = '';
-            document.body.style.width = '';
-            document.body.style.top = '';
-            window.scrollTo(0, parseInt(scrollY || '0') * -1);
-        }
-        
-        async function loadChatHistory() {
-            try {
-                const res = await fetch('/api/chat/history');
-                if (!res.ok) return;
-                const data = await res.json();
-                
-                const container = document.getElementById('chat-messages');
-                if (data.messages && data.messages.length > 0) {
-                    container.innerHTML = data.messages.map(m => `
-                        <div class="chat-message ${m.role === 'user' ? 'user' : 'jane'}">
-                            ${m.content}
-                            <div class="time">${new Date(m.timestamp).toLocaleTimeString()}</div>
-                        </div>
-                    `).join('');
-                    container.scrollTop = container.scrollHeight;
-                }
-            } catch (err) {
-                console.error('Failed to load chat history:', err);
-            }
-        }
-        
-        async function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const message = input.value.trim();
-            if (!message) return;
-            
-            const sendBtn = document.getElementById('send-btn');
-            sendBtn.disabled = true;
-            
-            // Add user message to UI
-            const container = document.getElementById('chat-messages');
-            container.innerHTML += `
-                <div class="chat-message user">
-                    ${message}
-                    <div class="time">${new Date().toLocaleTimeString()}</div>
-                </div>
-            `;
-            container.scrollTop = container.scrollHeight;
-            input.value = '';
-            
-            // Add "typing" indicator
-            container.innerHTML += `
-                <div class="chat-message jane" id="typing-indicator">
-                    <em>Jane is typing...</em>
-                </div>
-            `;
-            container.scrollTop = container.scrollHeight;
-            
-            try {
-                const res = await fetch('/api/chat/send', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message })
-                });
-                
-                // Remove typing indicator
-                document.getElementById('typing-indicator')?.remove();
-                
-                if (res.ok) {
-                    container.innerHTML += `
-                        <div class="chat-message jane">
-                            Message sent! I'll respond shortly via WhatsApp 📱
-                            <div class="time">${new Date().toLocaleTimeString()}</div>
-                        </div>
-                    `;
-                } else {
-                    container.innerHTML += `
-                        <div class="chat-message jane">
-                            Failed to send. Try again?
-                            <div class="time">${new Date().toLocaleTimeString()}</div>
-                        </div>
-                    `;
-                }
-                container.scrollTop = container.scrollHeight;
-            } catch (err) {
-                document.getElementById('typing-indicator')?.remove();
-                container.innerHTML += `
-                    <div class="chat-message jane">
-                        Network error. Check your connection.
-                        <div class="time">${new Date().toLocaleTimeString()}</div>
-                    </div>
-                `;
-            }
-            
-            sendBtn.disabled = false;
-        }
-        
-        // Send on Enter (Shift+Enter for newline)
-        document.getElementById('chat-input')?.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-        
-        // Night mode
-        function checkNightMode() {
-            const saved = localStorage.getItem('jane-dashboard-night-mode');
-            if (saved === 'on') {
-                document.body.classList.add('night-mode');
-            }
-        }
-        checkNightMode();
-        
-        // WebSocket for real-time updates
-        // WebSocket with reconnection backoff
-        let wsReconnectAttempts = 0;
-        let wsInstance = null;
-        
-        function initWebSocket() {
-            // Prevent duplicate connections
-            if (wsInstance && wsInstance.readyState === WebSocket.OPEN) {
-                return;
-            }
-            
-            try {
-                wsInstance = new WebSocket(`ws://${window.location.host}`);
-                
-                wsInstance.onopen = () => {
-                    console.log('[WebSocket] Connected');
-                    wsReconnectAttempts = 0; // Reset on successful connection
-                };
-                
-                wsInstance.onmessage = (event) => {
-                    try {
-                        const msg = JSON.parse(event.data);
-                        if (msg.type === 'update') {
-                            if (msg.widget === 'tasks') fetchTasks();
-                            if (msg.widget === 'trading') fetchPositions();
-                            if (msg.widget === 'tiktok') fetchTikTok();
-                            if (msg.widget === 'predictions') fetchPredictionMarkets();
-                        }
-                    } catch (err) {
-                        console.warn('[WebSocket] Invalid message:', err);
-                    }
-                };
-                
-                wsInstance.onclose = () => {
-                    console.log('[WebSocket] Disconnected');
-                    wsInstance = null;
-                    // Exponential backoff: 3s, 6s, 12s, 24s, max 60s
-                    const delay = Math.min(3000 * Math.pow(2, wsReconnectAttempts), 60000);
-                    wsReconnectAttempts++;
-                    setTimeout(initWebSocket, delay);
-                };
-                
-                wsInstance.onerror = (err) => {
-                    console.warn('[WebSocket] Error:', err);
-                };
-            } catch (err) {
-                console.error('[WebSocket] Failed to create:', err);
-                setTimeout(initWebSocket, 5000);
-            }
-        }
-        
-        // Fetch Mac Mini Status
-        async function fetchMacStatus() {
-            try {
-                const data = await fetchWithRetry('/api/system', {}, 1, 5000);
-                document.getElementById('mac-status-badge').textContent = data.status || 'Online';
-                document.getElementById('mac-cpu').textContent = (data.cpu || '--') + '%';
-                document.getElementById('mac-memory').textContent = (data.memory || '--') + '%';
-            } catch (err) {
-                // Graceful degradation - show online since server responded
-                document.getElementById('mac-status-badge').textContent = 'Online';
-                document.getElementById('mac-cpu').textContent = '--';
-                document.getElementById('mac-memory').textContent = '--';
-            }
-        }
-        
-        // Fetch Jane's Status
-        async function fetchJaneStatus() {
-            const modelEl = document.getElementById('jane-model');
-            try {
-                const data = await fetchWithRetry('/api/sessions', {}, 1, 5000);
-                if (!data || !data.sessions) {
-                    modelEl.textContent = 'No data';
-                    return;
-                }
-                
-                // Find main session
-                const mainSession = data.sessions.find(s => s.kind === 'main') || data.sessions[0];
-                if (mainSession) {
-                    // Show model if available - format dynamically
-                    if (mainSession.model) {
-                        // e.g. "anthropic/claude-opus-4-5" -> "Claude Opus 4.5"
-                        const rawModel = mainSession.model.split('/').pop();
-                        const formatted = rawModel
-                            .replace('claude-', 'Claude ')
-                            .replace(/-/g, ' ')
-                            .replace('4 5', '4.5')
-                            .replace('3 5', '3.5')
-                            .split(' ')
-                            .map(w => w.charAt(0).toUpperCase() + w.slice(1))
-                            .join(' ');
-                        modelEl.textContent = formatted;
-                    } else {
-                        modelEl.textContent = 'No model data';
-                    }
-                } else {
-                    modelEl.textContent = 'No session';
-                }
-                
-                // Calculate Jane's age (born Jan 31, 2026)
-                const birthDate = new Date('2026-01-31');
-                const today = new Date();
-                const ageMs = today - birthDate;
-                const ageDays = Math.floor(ageMs / (1000 * 60 * 60 * 24));
-                document.getElementById('jane-age').textContent = ageDays + 'd old';
-                
-            } catch (err) {
-                modelEl.textContent = 'Error: ' + err.message;
-            }
-        }
-        
-        // Fetch Prediction Markets
-        async function fetchPredictionMarkets() {
-            try {
-                const data = await fetchWithRetry('/api/predictions', {}, 2, 12000);
-                
-                // Get markets
-                let markets = data.markets || [];
-                if (data.featured) markets.unshift(data.featured);
-                if (data.top) markets = [...markets, ...data.top];
-                
-                // Remove duplicates by slug
-                const seen = new Set();
-                markets = markets.filter(m => {
-                    if (seen.has(m.slug)) return false;
-                    seen.add(m.slug);
-                    return true;
-                });
-                
-                if (markets.length === 0) {
-                    document.getElementById('pm-list').innerHTML = `
-                        <div class="pm-item">
-                            <span class="pm-question">No active markets</span>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                // Categorize markets
-                function categorize(q) {
-                    const ql = q.toLowerCase();
-                    // Check politics FIRST (before sports) to catch primaries, elections, etc.
-                    if (ql.includes('trump') || ql.includes('biden') || ql.includes('president') || 
-                        ql.includes('government') || ql.includes('congress') || ql.includes('iran') ||
-                        ql.includes('war') || ql.includes('russia') || ql.includes('china') ||
-                        ql.includes('election') || ql.includes('shutdown') || ql.includes('primary') ||
-                        ql.includes('governor') || ql.includes('senator') || ql.includes('attorney general') ||
-                        ql.includes('paxton') || ql.includes('democrat') || ql.includes('republican') ||
-                        ql.includes('gop') || ql.includes('dnc') || ql.includes('rnc') ||
-                        ql.includes('vote') || ql.includes('ballot') || ql.includes('nominee')) {
-                        return 'politics';
-                    }
-                    if (ql.includes('super bowl') || ql.includes('nfl') || ql.includes('nba') || 
-                        ql.includes('vs') || ql.includes('🏈') || 
-                        ql.includes('game') || ql.includes('championship') || ql.includes('playoffs') ||
-                        ql.includes('milan') || ql.includes('serie a') || ql.includes('premier league') ||
-                        ql.includes('la liga') || ql.includes('uefa') || ql.includes('champions league') ||
-                        ql.includes('world cup') || ql.includes('fc ') || ql.includes(' fc') ||
-                        ql.includes('manchester') || ql.includes('liverpool') || ql.includes('barcelona') ||
-                        ql.includes('real madrid') || ql.includes('juventus') || ql.includes('psg') ||
-                        ql.includes('arsenal') || ql.includes('chelsea') || ql.includes('tottenham') ||
-                        ql.includes('bayern') || ql.includes('dortmund') || ql.includes('inter') ||
-                        ql.includes('atletico') || ql.includes('napoli') || ql.includes('roma') ||
-                        ql.includes('lakers') || ql.includes('celtics') || ql.includes('warriors') ||
-                        ql.includes('chiefs') || ql.includes('eagles') || ql.includes('bills') ||
-                        ql.includes('seahawks') || ql.includes('patriots') || ql.includes('cowboys') ||
-                        ql.includes('mlb') || ql.includes('nhl') || ql.includes('mls') ||
-                        ql.includes('tennis') || ql.includes('golf') || ql.includes('f1') ||
-                        ql.includes('boxing') || ql.includes('ufc') || ql.includes('mma')) {
-                        return 'sports';
-                    }
-                    // M&A - Mergers & Acquisitions
-                    if (ql.includes('acquire') || ql.includes('acquisition') || ql.includes('merger') ||
-                        ql.includes('merge') || ql.includes('buy out') || ql.includes('buyout') ||
-                        ql.includes('take over') || ql.includes('takeover') || ql.includes('purchased by') ||
-                        ql.includes('will buy') || ql.includes('buying') || ql.includes('deal to buy')) {
-                        return 'manda';
-                    }
-                    if (ql.includes('bitcoin') || ql.includes('crypto') || ql.includes('btc') || 
-                        ql.includes('eth') || ql.includes('solana') || ql.includes('price of') ||
-                        ql.includes('price above') || ql.includes('price below')) {
-                        return 'finance';
-                    }
-                    if (ql.includes('ai') || ql.includes('openai') || ql.includes('google') || 
-                        ql.includes('apple') || ql.includes('ipo') ||
-                        ql.includes('stock') || ql.includes('company') || ql.includes('market cap') ||
-                        ql.includes('fed') || ql.includes('rate cut') || ql.includes('rate hike') ||
-                        ql.includes('recession') || ql.includes('inflation') || ql.includes('gdp') ||
-                        ql.includes('earnings') || ql.includes('revenue') || ql.includes('layoff') ||
-                        ql.includes('ceo') || ql.includes('amazon') || ql.includes('meta') ||
-                        ql.includes('microsoft') || ql.includes('nvidia') || ql.includes('tesla') ||
-                        ql.includes('s&p') || ql.includes('dow') || ql.includes('nasdaq') ||
-                        ql.includes('economy') || ql.includes('tariff') || ql.includes('trade war')) {
-                        return 'finance';
-                    }
-                    return 'other';
-                }
-                
-                function getTags(m, cat) {
-                    const tags = [];
-                    const ql = m.question.toLowerCase();
-                    if (cat === 'sports') tags.push({ label: '🏈 Sports', class: 'sports' });
-                    if (cat === 'politics') tags.push({ label: '🏛️ Politics', class: 'politics' });
-                    if (cat === 'manda') tags.push({ label: '🤝 M&A', class: 'manda' });
-                    if (cat === 'finance') {
-                        if (ql.includes('bitcoin') || ql.includes('crypto') || ql.includes('btc')) {
-                            tags.push({ label: '₿ Crypto', class: 'crypto' });
-                        } else if (ql.includes('ai')) {
-                            tags.push({ label: '🤖 Tech', class: 'tech' });
-                        } else {
-                            tags.push({ label: '💰 Finance', class: 'finance' });
-                        }
-                    }
-                    if (cat === 'other') tags.push({ label: '📊 Other', class: '' });
-                    return tags;
-                }
-                
-                // Filter sports: keep Super Bowl, filter hockey, filter non-Celtics basketball
-                function isSuperBowl(q) {
-                    return q.toLowerCase().includes('super bowl');
-                }
-                function isHockeyGame(q) {
-                    const ql = q.toLowerCase();
-                    return ql.includes('nhl') || ql.includes('hockey') || ql.includes('stanley cup') ||
-                           ql.includes('kraken') || ql.includes('ducks') || ql.includes('bruins') ||
-                           ql.includes('penguins') || ql.includes('maple leafs') || ql.includes('canadiens') ||
-                           ql.includes('rangers') || ql.includes('islanders') || ql.includes('devils') ||
-                           ql.includes('flyers') || ql.includes('capitals') || ql.includes('hurricanes') ||
-                           ql.includes('panthers') || ql.includes('lightning') || ql.includes('red wings') ||
-                           ql.includes('blackhawks') || ql.includes('blues') || ql.includes('predators') ||
-                           ql.includes('avalanche') || ql.includes('wild') || ql.includes('jets') ||
-                           ql.includes('flames') || ql.includes('oilers') || ql.includes('canucks') ||
-                           ql.includes('sharks') || ql.includes('golden knights') || ql.includes('coyotes') ||
-                           ql.includes('senators') || ql.includes('sabres') || ql.includes('blue jackets');
-                }
-                function isBasketballGame(q) {
-                    const ql = q.toLowerCase();
-                    if (ql.includes('super bowl') || ql.includes('nfl') || ql.includes('football')) return false;
-                    return (ql.includes('nba') || ql.includes('basketball') ||
-                            ql.includes('lakers') || ql.includes('warriors') || ql.includes('celtics') ||
-                            ql.includes('76ers') || ql.includes('bucks') || ql.includes('heat') ||
-                            ql.includes('knicks') || ql.includes('nets') || ql.includes('suns') ||
-                            ql.includes('nuggets') || ql.includes('clippers') || ql.includes('mavericks') ||
-                            ql.includes('grizzlies') || ql.includes('timberwolves') || ql.includes('cavaliers') ||
-                            ql.includes('pacers') || ql.includes('thunder') || ql.includes('rockets') ||
-                            ql.includes('spurs') || ql.includes('kings') || ql.includes('pelicans') ||
-                            ql.includes('raptors') || ql.includes('bulls') || ql.includes('pistons') ||
-                            ql.includes('hawks') || ql.includes('magic') || ql.includes('hornets') ||
-                            ql.includes('wizards') || ql.includes('blazers') || ql.includes('jazz')) &&
-                           !ql.includes('championship') && !ql.includes('playoffs') && !ql.includes('finals');
-                }
-                function isCelticsGame(q) {
-                    const ql = q.toLowerCase();
-                    return ql.includes('celtics') || ql.includes('boston');
-                }
-                
-                // Sort Super Bowl to top, then filter
-                markets.sort((a, b) => {
-                    const aSuper = isSuperBowl(a.question || '');
-                    const bSuper = isSuperBowl(b.question || '');
-                    if (aSuper && !bSuper) return -1;
-                    if (!aSuper && bSuper) return 1;
-                    return 0;
-                });
-                
-                markets = markets.filter(m => {
-                    const q = m.question || '';
-                    if (isSuperBowl(q)) return true; // Always keep Super Bowl
-                    if (isHockeyGame(q)) return false; // Filter out hockey
-                    if (isBasketballGame(q) && !isCelticsGame(q)) return false;
-                    return true;
-                }).slice(0, 15); // Top 15 by volume
-                
-                // Group by category
-                const groups = { sports: [], politics: [], manda: [], finance: [], other: [] };
-                markets.forEach(m => {
-                    const cat = categorize(m.question || '');
-                    groups[cat].push({ ...m, category: cat });
-                });
-                
-                // Build HTML
-                let html = '';
-                const categoryLabels = {
-                    sports: '🏈 Sports',
-                    politics: '🏛️ Geopolitics',
-                    manda: '🤝 M&A',
-                    finance: '💰 Business & Finance',
-                    other: '📊 Other'
-                };
-                
-                ['sports', 'manda', 'politics', 'finance', 'other'].forEach(cat => {
-                    if (groups[cat].length === 0) return;
-                    html += `<div class="pm-category">${categoryLabels[cat]}</div>`;
-                    
-                    groups[cat].forEach(m => {
-                        const tags = getTags(m, cat);
-                        const q = m.question || '';
-                        
-                        // Determine odds display
-                        let oddsHtml = '';
-                        if (m.teams && m.teams.favorite && m.teams.underdog) {
-                            // Sports with favorite/underdog format
-                            oddsHtml = `
-                                <span class="pm-odds fav">${m.teams.favorite.name} ${m.teams.favorite.odds}%</span>
-                                <span class="pm-odds dog">${m.teams.underdog.name} ${m.teams.underdog.odds}%</span>
-                            `;
-                        } else if (m.teams && m.teams.team1 && m.teams.team2) {
-                            // Sports with team1/team2 format
-                            const t1 = m.teams.team1;
-                            const t2 = m.teams.team2;
-                            const t1Class = t1.odds >= t2.odds ? 'fav' : 'dog';
-                            const t2Class = t2.odds >= t1.odds ? 'fav' : 'dog';
-                            oddsHtml = `
-                                <span class="pm-odds ${t1Class}">${t1.name} ${t1.odds}%</span>
-                                <span class="pm-odds ${t2Class}">${t2.name} ${t2.odds}%</span>
-                            `;
-                        } else {
-                            // Yes/No market
-                            oddsHtml = `
-                                <span class="pm-odds yes">Yes ${m.yesOdds || 50}%</span>
-                                <span class="pm-odds no">No ${m.noOdds || 50}%</span>
-                            `;
-                        }
-                        
-                        // Format volume and source
-                        const vol = m.volume24h || m.volume || 0;
-                        const volStr = vol >= 1000000 ? '$' + (vol/1000000).toFixed(1) + 'M' : 
-                                       vol >= 1000 ? '$' + (vol/1000).toFixed(0) + 'K' : 
-                                       vol > 0 ? '$' + vol : '';
-                        const source = m.source || 'Polymarket';
-                        const sourceIcon = source === 'Kalshi' ? '🟢' : '🟣';
-                        const metaHtml = `<span class="pm-meta">${sourceIcon} ${source}${volStr ? ' • ' + volStr : ''}</span>`;
-                        
-                        html += `
-                            <div class="pm-item">
-                                <div class="pm-question-row">
-                                    <div class="pm-question">${q}</div>
-                                </div>
-                                <div class="pm-odds-row">${oddsHtml}</div>
-                                <div class="pm-meta-row">${metaHtml}</div>
-                            </div>
-                        `;
-                    });
-                });
-                
-                document.getElementById('pm-list').innerHTML = html;
-            } catch (err) {
-                console.error('Predictions error:', err);
-                document.getElementById('pm-list').innerHTML = `
-                    <div class="pm-item">
-                        <span class="pm-question">Polymarket unavailable</span>
-                    </div>
-                `;
-            }
-        }
-        
-        // Fetch Second Brain Stats (uses /api/mindmap)
-        async function fetchSecondBrain() {
-            // Bubble map is static - just return success for timestamp update
-            // The bubbles are populated from USER.md knowledge
-            return Promise.resolve();
-        }
-        
-        // AI News Widget
-        let aiNewsCache = { enterprise: [], retail: [], lastFetch: 0 };
-        const AI_NEWS_PROXIES = [
-            'https://api.allorigins.win/raw?url=',
-            'https://corsproxy.io/?'  // Fallback proxy
-        ];
-        
-        async function fetchAINews() {
-            try {
-                const data = await fetchWithRetry('/api/ai-news', {}, 2, 10000);
-                
-                // Map server response to display format
-                const enterprise = (data.agenticEnterprise || []).map(item => ({
-                    title: item.title,
-                    link: item.link,
-                    source: item.source,
-                    time: item.date || ''
-                }));
-                
-                const retail = (data.agenticRetail || []).map(item => ({
-                    title: item.title,
-                    link: item.link,
-                    source: item.source,
-                    time: item.date || ''
-                }));
-                
-                // Add featured item to enterprise if exists
-                if (data.featured) {
-                    enterprise.unshift({
-                        title: data.featured.title,
-                        link: data.featured.link,
-                        source: data.featured.source,
-                        time: data.featured.date || '',
-                        featured: true
-                    });
-                }
-                
-                aiNewsCache = { enterprise, retail, lastFetch: Date.now() };
-                renderAINews();
-                
-            } catch (err) {
-                console.error('AI News fetch error:', err);
-                document.getElementById('ainews-enterprise').innerHTML = '<div class="ainews-item">Failed to load news</div>';
-            }
-        }
-        
-        function formatNewsTime(dateStr) {
-            if (!dateStr) return '';
-            const date = new Date(dateStr);
-            const now = new Date();
-            const diffMs = now - date;
-            const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
-            
-            if (diffHrs < 1) return 'Just now';
-            if (diffHrs < 24) return `${diffHrs}h ago`;
-            return `${Math.floor(diffHrs / 24)}d ago`;
-        }
-        
-        function renderAINews() {
-            const enterpriseEl = document.getElementById('ainews-enterprise');
-            const retailEl = document.getElementById('ainews-retail');
-            
-            if (aiNewsCache.enterprise.length > 0) {
-                enterpriseEl.innerHTML = aiNewsCache.enterprise.slice(0, 6).map(item => `
-                    <a href="${item.link}" target="_blank" class="ainews-item enterprise" style="text-decoration: none;">
-                        <div class="ainews-headline">${item.title}</div>
-                        <div class="ainews-meta">
-                            <span class="ainews-source">${item.source}</span>
-                            <span>${item.time}</span>
-                        </div>
-                    </a>
-                `).join('');
-            }
-            
-            if (aiNewsCache.retail.length > 0) {
-                retailEl.innerHTML = aiNewsCache.retail.slice(0, 6).map(item => `
-                    <a href="${item.link}" target="_blank" class="ainews-item retail" style="text-decoration: none;">
-                        <div class="ainews-headline">${item.title}</div>
-                        <div class="ainews-meta">
-                            <span class="ainews-source">${item.source}</span>
-                            <span>${item.time}</span>
-                        </div>
-                    </a>
-                `).join('');
-            }
-        }
-        
-        function switchAINewsTab(tab) {
-            document.querySelectorAll('.ainews-tab').forEach(t => t.classList.remove('active'));
-            document.querySelector(`.ainews-tab[data-tab="${tab}"]`).classList.add('active');
-            
-            document.getElementById('ainews-enterprise').style.display = tab === 'enterprise' ? 'flex' : 'none';
-            document.getElementById('ainews-retail').style.display = tab === 'retail' ? 'flex' : 'none';
-        }
-        
-        // Timestamp helper
-        function updateTimestamp(id) {
-            const el = document.getElementById(id);
-            if (el) el.textContent = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-        }
-        
-        // Widget refresh dispatcher
-        async function refreshWidget(widget) {
-            const btn = event?.target;
-            if (btn) btn.classList.add('spinning');
-            
-            try {
-                switch(widget) {
-                    case 'mac':
-                        await fetchMacStatus();
-                        updateTimestamp('mac-updated');
-                        break;
-                    case 'jane':
-                        await fetchJaneStatus();
-                        await fetchAgentsAndCron();
-                        updateTimestamp('jane-updated');
-                        break;
-                    case 'predictions':
-                        await fetchPredictionMarkets();
-                        updateTimestamp('pm-updated');
-                        break;
-                    case 'ainews':
-                        await fetchAINews();
-                        updateTimestamp('ainews-updated');
-                        break;
-                    case 'brain':
-                        await fetchSecondBrain();
-                        updateTimestamp('brain-updated');
-                        break;
-                    case 'tasks':
-                        await fetchTasks();
-                        updateTimestamp('tasks-updated');
-                        break;
-                    case 'tiktok':
-                        await fetchTikTok();
-                        break;
-                    case 'metrics':
-                        await fetchPenguinBalance();
-                        break;
-                    case 'agents':
-                        await fetchAgentsAndCron();
-                        updateTimestamp('agents-updated');
-                        break;
-                    case 'jobs':
-                        await fetchAgentsAndCron();
-                        await fetchTasks();
-                        updateTimestamp('jobs-updated');
-                        break;
-                }
-            } finally {
-                if (btn) btn.classList.remove('spinning');
-            }
-        }
-        
-        // Fetch live agents, cron jobs, and tasks
-        async function fetchAgentsAndCron() {
-            try {
-                // Fetch sessions/agents (non-blocking - use cached data on failure)
-                const sessData = await fetchWithRetry('/api/sessions', {}, 1, 5000).catch(() => null);
-                if (sessData?.sessions) {
-                    let sessions = sessData.sessions;
-                    const twoHoursAgo = Date.now() - (2 * 60 * 60 * 1000);
-                    
-                    // Find main session (Jane)
-                    const mainSession = sessions.find(s => s.key?.endsWith(':main'));
-                    
-                    // Find active sub-agents (exclude cron and main)
-                    const subAgents = sessions.filter(s => 
-                        s.updatedAt > twoHoursAgo && 
-                        !s.key?.includes(':cron:') && 
-                        !s.key?.endsWith(':main')
-                    );
-                    
-                    let html = '';
-                    
-                    // Always show Jane (main agent) first
-                    if (mainSession) {
-                        const tokens = mainSession.totalTokens ? Math.round(mainSession.totalTokens / 1000) + 'k' : '--';
-                        html += `
-                            <div class="agent-item">
-                                <span class="agent-icon"><img src="/icon-192.png" alt="Jane" class="jane-logo-small"></span>
-                                <div class="agent-info">
-                                    <div class="agent-name">Jane</div>
-                                    <div class="agent-detail">Main Agent • ${tokens} tokens</div>
-                                </div>
-                                <div class="agent-status"></div>
-                            </div>
-                        `;
-                    }
-                    
-                    // Show sub-agents if any
-                    subAgents.slice(0, 2).forEach(s => {
-                        const name = escapeHtml(s.displayName || s.key?.split(':').pop() || 'Sub-Agent');
-                        const tokens = s.totalTokens ? Math.round(s.totalTokens / 1000) + 'k' : '--';
-                        html += `
-                            <div class="agent-item">
-                                <span class="agent-icon">🚀</span>
-                                <div class="agent-info">
-                                    <div class="agent-name">${name}</div>
-                                    <div class="agent-detail">Sub-Agent • ${tokens} tokens</div>
-                                </div>
-                                <div class="agent-status"></div>
-                            </div>
-                        `;
-                    });
-                    
-                    document.getElementById('agents-list').innerHTML = html || '<div class="agent-empty">No agents found</div>';
-                }
-                
-                // Fetch cron jobs
-                const cronRes = await fetch('/api/cron');
-                if (cronRes.ok) {
-                    const cronData = await cronRes.json();
-                    const jobs = cronData.jobs || [];
-                    
-                    if (jobs.length > 0) {
-                        document.getElementById('cron-list').innerHTML = jobs.map(j => {
-                            const nextRun = j.nextRun ? new Date(j.nextRun).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '--';
-                            return `
-                                <div class="cron-item">
-                                    <span class="cron-icon">${j.icon || '⏰'}</span>
-                                    <div class="cron-info">
-                                        <div class="cron-name">${j.name}</div>
-                                        <div class="cron-detail">${j.schedule}</div>
-                                    </div>
-                                    <div class="cron-next">Next: ${nextRun}</div>
-                                </div>
-                            `;
-                        }).join('');
-                    } else {
-                        document.getElementById('cron-list').innerHTML = '<div class="cron-item"><span class="cron-icon">📭</span><div class="cron-info"><div class="cron-name">No recurring jobs</div></div></div>';
-                    }
-                }
-                
-                // Fetch tasks
-                const tasksRes = await fetch('/api/tasks');
-                if (tasksRes.ok) {
-                    const tasksData = await tasksRes.json();
-                    const tasks = tasksData.inProgress || [];
-                    
-                    if (tasks.length > 0) {
-                        document.getElementById('tasks-list').innerHTML = tasks.slice(0, 4).map(t => `
-                            <div class="task-item">
-                                <span class="task-icon">${t.icon || '📌'}</span>
-                                <div class="task-info">
-                                    <div class="task-name">${t.task}</div>
-                                    <div class="task-detail">${t.detail || ''}</div>
-                                </div>
-                            </div>
-                        `).join('');
-                    } else {
-                        document.getElementById('tasks-list').innerHTML = '<div class="task-item"><span class="task-icon">✨</span><div class="task-info"><div class="task-name">No active tasks</div></div></div>';
-                    }
-                }
-            } catch (err) {
-                console.error('Failed to fetch agents/cron:', err);
-            }
-        }
-        
-        // Init
-        fetchMacStatus().then(() => updateTimestamp('mac-updated'));
-        fetchJaneStatus().then(() => updateTimestamp('jane-updated'));
-        fetchPredictionMarkets().then(() => updateTimestamp('pm-updated'));
-        fetchAINews().then(() => updateTimestamp('ainews-updated'));
-        fetchSecondBrain().then(() => updateTimestamp('brain-updated'));
-        fetchAgentsAndCron(); // Now part of Jane widget
-        fetchTasks(); // Completed Today widget
-        fetchPositions();
-        fetchTikTok().then(() => updateTimestamp('metrics-updated'));
-        fetchSolBalance();
-        initWebSocket();
-        
-        // Update last refresh time
-        document.getElementById('last-refresh').textContent = new Date().toLocaleTimeString();
-        
-        // Force refresh - clears cache and reloads
-        async function forceRefresh() {
-            // Unregister service worker
-            if ('serviceWorker' in navigator) {
-                const registrations = await navigator.serviceWorker.getRegistrations();
-                for (const registration of registrations) {
-                    await registration.unregister();
-                }
-            }
-            // Clear caches
-            if ('caches' in window) {
-                const names = await caches.keys();
-                for (const name of names) {
-                    await caches.delete(name);
-                }
-            }
-            // Reload with cache bypass
-            window.location.reload(true);
-        }
-        
-        // Refresh intervals - consolidated to prevent duplicate fetches
-        // Mac status: every 60s
-        setInterval(() => fetchMacStatus().then(() => updateTimestamp('mac-updated')), 60000);
-        
-        // Jane status + agents + tasks: every 30s (combined to reduce API calls)
-        setInterval(() => {
-            Promise.all([fetchJaneStatus(), fetchAgentsAndCron(), fetchTasks()])
-                .then(() => updateTimestamp('jane-updated'))
-                .catch(console.error);
-        }, 30000);
-        
-        // Trading positions: every 30s
-        setInterval(fetchPositions, 30000);
-        
-        // Prediction markets: every 2 min
-        setInterval(() => fetchPredictionMarkets().then(() => updateTimestamp('pm-updated')), 120000);
-        
-        // AI News: every 5 min (external API - less frequent)
-        setInterval(() => fetchAINews().then(() => updateTimestamp('ainews-updated')), 300000);
-        
-        // TikTok + SOL balance: every 60s
-        setInterval(() => {
-            Promise.all([fetchTikTok(), fetchSolBalance()])
-                .then(() => updateTimestamp('metrics-updated'))
-                .catch(console.error);
-        }, 60000);
-        
-        // Second brain: every 2 min (static content, just timestamp update)
-        setInterval(() => fetchSecondBrain().then(() => updateTimestamp('brain-updated')), 120000);
-    </script>
+    } else {
+        pullEl.style.height = '0px';
+    }
+});
+
+// WebSocket
+let ws = null;
+function connectWS() {
+    const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+    ws = new WebSocket(proto + '//' + location.host);
+    ws.onopen = () => $('wsDot').classList.remove('offline');
+    ws.onclose = () => { $('wsDot').classList.add('offline'); setTimeout(connectWS, 3000); };
+    ws.onerror = () => ws.close();
+    ws.onmessage = (e) => {
+        try {
+            const msg = JSON.parse(e.data);
+            if (msg.type === 'update' && msg.widget === 'mind') renderMind(msg.data);
+        } catch {}
+    };
+}
+
+// Init
+loadAll();
+connectWS();
+setInterval(loadAll, 60000);
+</script>
 </body>
 </html>

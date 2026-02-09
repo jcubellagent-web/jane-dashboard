@@ -1,0 +1,19 @@
+{
+  "watchlist": [
+    {
+      "token": "SUBWAY",
+      "name": "Subway Queen",
+      "ca": "561XxnuBCvPdoJC1a7zJDuBqqcQwZ2rEsaAd1eM1pump",
+      "chain": "solana",
+      "dex": "pumpswap",
+      "addedAt": "2026-02-08T02:04:00-05:00",
+      "priceAtAdd": 0.0001385,
+      "priceChange24h": 278,
+      "volume24h": 625232,
+      "liquidity": 30663,
+      "notes": "Josh added manually. Pump.fun token, +278% in 24h at time of add.",
+      "dexscreener": "https://dexscreener.com/solana/g7jlsdtn8eu2njf2ty89wlr91jjr8wfcwa6r7edcmqgy"
+    }
+  ],
+  "lastUpdated": "2026-02-08T02:04:00-05:00"
+}

@@ -440,27 +440,53 @@ const server = http.createServer((req, res) => {
 
     // API endpoint for connected accounts & data sources
     if (req.url === '/api/connections') {
+        // White/light SVG icons for dark background
+        const icons = {
+            whatsapp: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2325D366'%3E%3Cpath d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z'/%3E%3C/svg%3E",
+            gmail: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23EA4335'%3E%3Cpath d='M20 18h-2V9.25L12 13 6 9.25V18H4V6h1.2l6.8 4.25L18.8 6H20m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2z'/%3E%3C/svg%3E",
+            twitter: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z'/%3E%3C/svg%3E",
+            tiktok: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.72a8.19 8.19 0 004.76 1.52V6.79a4.85 4.85 0 01-1-.1z'/%3E%3C/svg%3E",
+            reddit: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF4500'%3E%3Cpath d='M12 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 01-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 01.042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 014.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 01.14-.197.35.35 0 01.238-.042l2.906.617a1.214 1.214 0 011.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 00-.231.094.33.33 0 000 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 00.029-.463.33.33 0 00-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 00-.232-.095z'/%3E%3C/svg%3E",
+            github: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/%3E%3C/svg%3E",
+            sorare: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300DC96'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='black' font-size='12' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E",
+            phantom: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23AB9FF2'%3E%3Crect width='24' height='24' rx='6'/%3E%3Ccircle cx='9' cy='12' r='2' fill='white'/%3E%3Ccircle cx='15' cy='12' r='2' fill='white'/%3E%3C/svg%3E",
+            polymarket: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/%3E%3C/svg%3E",
+            kalshi: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234A90D9'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='14' font-weight='bold'%3EK%3C/text%3E%3C/svg%3E",
+            manifold: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234337c9'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='14' font-weight='bold'%3EM%3C/text%3E%3C/svg%3E",
+            metaculus: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23006C67'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3EMC%3C/text%3E%3C/svg%3E",
+            coingecko: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238BC53F'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Ccircle cx='9' cy='10' r='2' fill='white'/%3E%3Ccircle cx='9' cy='10' r='1' fill='black'/%3E%3C/svg%3E",
+            yahoo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%237B1FA2'%3E%3Cpath d='M2 4l5.5 8.5V20h3v-7.5L16 4h-3.5L9.25 9.5 6 4H2zm14 0l3 8h3l-3-8h-3zm2 10a2 2 0 100 4 2 2 0 000-4z'/%3E%3C/svg%3E",
+            dexscreener: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300E676'%3E%3Cpath d='M3 17l6-6 4 4 8-8v3h2V3h-7v2h3l-6 6-4-4-8 8z'/%3E%3C/svg%3E",
+            brave: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FB542B'%3E%3Cpath d='M12 2L4 5.5v5c0 5.25 3.4 10.15 8 11.5 4.6-1.35 8-6.25 8-11.5v-5L12 2zm0 2.18l6 2.63v4.19c0 4.35-2.76 8.43-6 9.68-3.24-1.25-6-5.33-6-9.68V6.81l6-2.63z'/%3E%3Cpath d='M12 6l-4 1.8v3.2c0 3.13 1.7 6.08 4 7.2 2.3-1.12 4-4.07 4-7.2V7.8L12 6z'/%3E%3C/svg%3E",
+            substack: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6719'%3E%3Cpath d='M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z'/%3E%3C/svg%3E",
+            twilio: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F22F46'%3E%3Cpath d='M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 20.25c-4.556 0-8.25-3.694-8.25-8.25S7.444 3.75 12 3.75s8.25 3.694 8.25 8.25-3.694 8.25-8.25 8.25zm3.11-11.36a1.89 1.89 0 110 3.78 1.89 1.89 0 010-3.78zm0 4.44a1.89 1.89 0 110 3.78 1.89 1.89 0 010-3.78zm-6.22-4.44a1.89 1.89 0 110 3.78 1.89 1.89 0 010-3.78zm0 4.44a1.89 1.89 0 110 3.78 1.89 1.89 0 010-3.78z'/%3E%3C/svg%3E",
+            huggingface: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFD21E'%3E%3Cpath d='M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-2.5 7a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm5 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM8 15.5c0-.276.5-.5.5-.5h7c0 0 .5.224.5.5S15.052 18 12 18s-4-.224-4-2.5z'/%3E%3C/svg%3E",
+        };
         const connections = {
             accounts: [
-                { name: 'WhatsApp', detail: 'communication channel', icon: 'https://web.whatsapp.com/favicon-64x64.ico', active: true },
-                { name: 'Gmail', detail: 'jcubellagent@gmail.com', icon: 'https://mail.google.com/favicon.ico', active: true },
-                { name: 'X / Twitter', detail: '@AgentJc11443', icon: 'https://abs.twimg.com/favicons/twitter.3.ico', active: true },
-                { name: 'TikTok', detail: '@degencollector', icon: 'https://www.tiktok.com/favicon.ico', active: true },
-                { name: 'Reddit', detail: 'u/JaneAgentAI', icon: 'https://www.reddit.com/favicon.ico', active: true },
-                { name: 'GitHub', detail: 'jcubellagent-web', icon: 'https://github.com/favicon.ico', active: true, invert: true },
-                { name: 'Sorare', detail: 'jcubnft', icon: 'https://sorare.com/favicon.ico', active: true },
-                { name: 'Phantom Wallet', detail: 'Solana', icon: 'https://phantom.app/favicon.ico', active: true }
+                { name: 'WhatsApp', detail: 'communication channel', icon: icons.whatsapp, active: true },
+                { name: 'Gmail', detail: 'jcubellagent@gmail.com', icon: icons.gmail, active: true },
+                { name: 'X / Twitter', detail: '@AgentJc11443', icon: icons.twitter, active: true },
+                { name: 'TikTok', detail: '@degencollector', icon: icons.tiktok, active: true },
+                { name: 'Reddit', detail: 'u/JaneAgentAI', icon: icons.reddit, active: true },
+                { name: 'GitHub', detail: 'jcubellagent-web', icon: icons.github, active: true },
+                { name: 'Sorare', detail: 'jcubnft', icon: icons.sorare, active: true },
+                { name: 'Phantom Wallet', detail: 'Solana', icon: icons.phantom, active: true },
+                { name: 'Substack', detail: '@agentjc11443', icon: icons.substack, active: true },
+                { name: 'Twilio', detail: 'Phone number provider', icon: icons.twilio, active: true },
+                { name: 'HuggingFace', detail: 'JaneAgentAI', icon: icons.huggingface, active: true }
             ],
             dataSources: [
-                { name: 'Polymarket API', detail: 'prediction markets', icon: 'https://polymarket.com/favicon.ico', active: true },
-                { name: 'Kalshi API', detail: 'prediction markets', icon: 'https://kalshi.com/favicon.ico', active: true },
-                { name: 'Manifold Markets API', detail: 'prediction markets', icon: 'https://manifold.markets/favicon.ico', active: true },
-                { name: 'Metaculus API', detail: 'prediction markets', icon: 'https://www.metaculus.com/favicon.ico', active: true },
-                { name: 'CoinGecko API', detail: 'crypto prices', icon: 'https://www.coingecko.com/favicon.ico', active: true },
-                { name: 'Yahoo Finance API', detail: 'stock prices', icon: 'https://finance.yahoo.com/favicon.ico', active: true },
-                { name: 'DexScreener API', detail: 'memecoin data', icon: 'https://dexscreener.com/favicon.ico', active: true },
-                { name: 'Sorare GraphQL API', detail: 'fantasy sports', icon: 'https://sorare.com/favicon.ico', active: true },
-                { name: 'GitHub API', detail: 'code repos', icon: 'https://github.com/favicon.ico', active: true, invert: true }
+                { name: 'Polymarket', detail: 'prediction markets', icon: icons.polymarket, active: true },
+                { name: 'Kalshi', detail: 'prediction markets', icon: icons.kalshi, active: true },
+                { name: 'Manifold', detail: 'prediction markets', icon: icons.manifold, active: true },
+                { name: 'Metaculus', detail: 'prediction markets', icon: icons.metaculus, active: true },
+                { name: 'CoinGecko', detail: 'crypto prices', icon: icons.coingecko, active: true },
+                { name: 'Yahoo Finance', detail: 'stock prices', icon: icons.yahoo, active: true },
+                { name: 'DexScreener', detail: 'memecoin data', icon: icons.dexscreener, active: true },
+                { name: 'Sorare GraphQL', detail: 'fantasy sports', icon: icons.sorare, active: true },
+                { name: 'GitHub API', detail: 'code repos', icon: icons.github, active: true },
+                { name: 'Brave Search', detail: 'web search', icon: icons.brave, active: true }
             ]
         };
         res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -469,13 +495,145 @@ const server = http.createServer((req, res) => {
     }
 
     // API endpoint for system stats
+    // DGEN Watch List - DexScreener API
+    if (req.url === '/api/dgen') {
+        const DGEN_TOKENS = [
+            { address: 'Cm6fNnMk7NfzStP9CZpsQA2v3jjzbcYGAxdJySmHpump', name: 'Buttcoin', symbol: 'BUTT' },
+            { address: '8Jx8AAHj86wbQgUTjGuj6GTTL5Ps3cqxKRTvpaJApump', name: 'Nietzschean Penguin', symbol: 'PENGUIN' },
+            { address: 'FzLMPzqz9Ybn26qRzPKDKwsLV6Kpvugh31jF7T7npump', name: 'The Black Swan', symbol: 'BlackSwan' },
+            { address: '561XxnuBCvPdoJC1a7zJDuBqqcQwZ2rEsaAd1eM1pump', name: 'Subway Queen', symbol: 'SUBWAY' },
+            { address: '9AvytnUKsLxPxFHFqS6VLxaxt5p6BhYNr53SD2Chpump', name: 'The Official 67 Coin', symbol: '67' }
+        ];
+        const addresses = DGEN_TOKENS.map(t => t.address).join(',');
+        https.get(`https://api.dexscreener.com/latest/dex/tokens/${addresses}`, (apiRes) => {
+            let body = '';
+            apiRes.on('data', chunk => body += chunk);
+            apiRes.on('end', () => {
+                try {
+                    const data = JSON.parse(body);
+                    const results = DGEN_TOKENS.map(token => {
+                        const pair = (data.pairs || []).find(p => p.baseToken && p.baseToken.address === token.address);
+                        return {
+                            name: token.name,
+                            symbol: token.symbol,
+                            address: token.address,
+                            marketCap: pair ? (pair.marketCap || pair.fdv || null) : null,
+                            volume24h: pair ? (pair.volume && pair.volume.h24 || null) : null,
+                            priceChange24h: pair ? (pair.priceChange && pair.priceChange.h24 || null) : null,
+                            priceUsd: pair ? pair.priceUsd : null,
+                            url: pair ? pair.url : null,
+                            imageUrl: (pair && pair.info && pair.info.imageUrl) ? pair.info.imageUrl : null
+                        };
+                    });
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ tokens: results, lastUpdated: new Date().toISOString() }));
+                } catch (err) {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: err.message }));
+                }
+            });
+        }).on('error', (err) => {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: err.message }));
+        });
+        return;
+    }
+
+    if (req.url === '/api/usage') {
+        const usageFile = path.join(ROOT, 'usage.json');
+        if (fs.existsSync(usageFile)) {
+            const data = fs.readFileSync(usageFile, 'utf8');
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(data);
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ contextPercent: null }));
+        }
+        return;
+    }
+
     if (req.url === '/api/system') {
         const stats = getSystemStats();
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(stats));
+        // Fetch Mini #2 stats from monitoring endpoint (non-blocking)
+        fetch('http://100.66.132.34:3001/status', { signal: AbortSignal.timeout(2000) })
+            .then(r => r.json())
+            .then(mini2Data => {
+                const mini2Mem = mini2Data?.checks?.memory;
+                const mini2Disk = mini2Data?.checks?.disk;
+                let mini2MemPercent = 0;
+                if (mini2Mem?.raw) {
+                    const free = (mini2Mem.raw.match(/Pages free:\s+(\d+)/) || [])[1] || 0;
+                    const active = (mini2Mem.raw.match(/Pages active:\s+(\d+)/) || [])[1] || 0;
+                    const inactive = (mini2Mem.raw.match(/Pages inactive:\s+(\d+)/) || [])[1] || 0;
+                    const spec = (mini2Mem.raw.match(/Pages speculative:\s+(\d+)/) || [])[1] || 0;
+                    const total = parseInt(free) + parseInt(active) + parseInt(inactive) + parseInt(spec);
+                    if (total > 0) mini2MemPercent = Math.round(((parseInt(active) + parseInt(spec)) / total) * 100);
+                }
+                let mini2Cpu = 0;
+                try {
+                    const cpuOut = execSync("ssh -o ConnectTimeout=2 mini2 \"top -l 1 | grep 'CPU usage' | awk '{print \\$3}' | tr -d '%'\" 2>/dev/null", { encoding: 'utf8', timeout: 5000 });
+                    mini2Cpu = Math.round(parseFloat(cpuOut) || 0);
+                } catch(e) {}
+                stats.mini2 = {
+                    online: true,
+                    cpu: mini2Cpu,
+                    memory: mini2MemPercent,
+                    disk: parseInt((mini2Disk?.usedPercent || '0').replace('%', '')),
+                    ollamaModels: mini2Data?.checks?.ollama?.models || []
+                };
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(stats));
+            })
+            .catch(() => {
+                stats.mini2 = { online: false };
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(stats));
+            });
         return;
     }
     
+    // API endpoint for usage stats (tokens, cost, messages today)
+    if (req.url === '/api/usage-today') {
+        try {
+            const sessionsDir = path.join(os.homedir(), '.openclaw', 'agents', 'main', 'sessions');
+            const files = fs.readdirSync(sessionsDir).filter(f => f.endsWith('.jsonl') && !f.endsWith('.lock'));
+            let totalTokens = 0, totalCost = 0, messagesToday = 0;
+            const todayStr = new Date().toISOString().slice(0, 10);
+            // Read main session transcript only (most recent by mtime)
+            let newest = null, newestMtime = 0;
+            for (const f of files) {
+                const fp = path.join(sessionsDir, f);
+                const stat = fs.statSync(fp);
+                if (stat.mtimeMs > newestMtime) { newestMtime = stat.mtimeMs; newest = fp; }
+            }
+            if (newest) {
+                const lines = fs.readFileSync(newest, 'utf8').split('\n').filter(Boolean);
+                for (const line of lines) {
+                    try {
+                        const entry = JSON.parse(line);
+                        const ts = entry.timestamp ? new Date(entry.timestamp).toISOString().slice(0, 10) : '';
+                        if (ts === todayStr) {
+                            const msg = entry.message || entry;
+                            if (msg.role === 'user') messagesToday++;
+                            const usage = msg.usage || {};
+                            if (usage.input || usage.output || usage.cacheRead) {
+                                totalTokens += (usage.input || 0) + (usage.output || 0) + (usage.cacheRead || 0);
+                            }
+                            if (usage.cost && usage.cost.total) totalCost += usage.cost.total;
+                        }
+                    } catch {}
+                }
+            }
+            const tokenStr = totalTokens > 1000000 ? (totalTokens / 1000000).toFixed(1) + 'M' : totalTokens > 1000 ? (totalTokens / 1000).toFixed(0) + 'K' : totalTokens.toString();
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ tokensToday: tokenStr, costToday: '$' + totalCost.toFixed(2), messagesToday }));
+        } catch (err) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ tokensToday: '--', costToday: '--', messagesToday: 0 }));
+        }
+        return;
+    }
+
     // API endpoint for Jane's Mind state (reasoning/task tracking)
     const mindStateFile = path.join(ROOT, 'mind-state.json');
     if (req.url === '/api/mind' && req.method === 'GET') {
@@ -543,6 +701,53 @@ const server = http.createServer((req, res) => {
     }
     
     // API endpoint for mindmap/Second Brain stats
+    // Smart Notifications from Mini #2
+    if (req.url === '/api/notifications') {
+        const fetchNotifications = () => new Promise((resolve) => {
+            const r = require('http').get('http://100.66.132.34:3002/alerts', { timeout: 5000 }, (resp) => {
+                let d = '';
+                resp.on('data', c => d += c);
+                resp.on('end', () => { try { resolve(JSON.parse(d)); } catch { resolve([]); } });
+            });
+            r.on('error', () => resolve([]));
+            r.on('timeout', () => { r.destroy(); resolve([]); });
+        });
+        fetchNotifications().then(alerts => {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(alerts));
+        });
+        return;
+    }
+
+    if (req.url === '/api/notifications/dismiss' && req.method === 'POST') {
+        let body = '';
+        req.on('data', c => body += c);
+        req.on('end', () => {
+            const opts = { method: 'POST', hostname: '100.66.132.34', port: 3002, path: '/alerts/dismiss', headers: { 'Content-Type': 'application/json' } };
+            const r = require('http').request(opts, (resp) => {
+                let d = '';
+                resp.on('data', c => d += c);
+                resp.on('end', () => { res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(d); });
+            });
+            r.on('error', () => { res.writeHead(500); res.end('{"error":"failed"}'); });
+            r.write(body);
+            r.end();
+        });
+        return;
+    }
+
+    if (req.url === '/api/notifications/read' && req.method === 'POST') {
+        const opts = { method: 'POST', hostname: '100.66.132.34', port: 3002, path: '/alerts/read' };
+        const r = require('http').request(opts, (resp) => {
+            let d = '';
+            resp.on('data', c => d += c);
+            resp.on('end', () => { res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(d); });
+        });
+        r.on('error', () => { res.writeHead(500); res.end('{"error":"failed"}'); });
+        r.end();
+        return;
+    }
+
     if (req.url === '/api/mindmap') {
         const stats = getMindmapStats();
         res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -604,6 +809,15 @@ const server = http.createServer((req, res) => {
             if (stats.profile) {
                 stats.followers = stats.profile.followers;
                 stats.likes = stats.profile.likes;
+            }
+            
+            // Normalize videos array (may be 'videos' or 'recentVideos')
+            if (!stats.recentVideos && stats.videos) {
+                stats.recentVideos = stats.videos.map(v => ({
+                    title: v.title || v.url?.split('/').pop() || 'Video',
+                    views: v.views,
+                    url: v.url
+                }));
             }
             
             // Calculate total views from all videos
@@ -704,6 +918,144 @@ const server = http.createServer((req, res) => {
         return;
     }
     
+    // API endpoint for Kalshi positions
+    if (req.url === '/api/kalshi/positions') {
+        (async () => {
+        const crypto = require('crypto');
+        try {
+            const API_KEY = fs.readFileSync(path.join(WORKSPACE, '.secrets', 'kalshi_api_key.txt'), 'utf8').trim();
+            const PRIVATE_KEY = fs.readFileSync(path.join(WORKSPACE, '.secrets', 'kalshi_private_key.pem'), 'utf8');
+            const KALSHI_BASE = 'https://api.elections.kalshi.com';
+
+            const TICKER_NAMES = {
+                'KXNFLSBMVP-26-DMAYE10': 'Drake Maye Super Bowl MVP',
+                'KXSB-26-NE': 'Patriots Win Super Bowl',
+                'KXSUPERBOWLAD-SB2026-TEMU': 'Temu Super Bowl Ad',
+                'KXSUPERBOWLAD-SB2026-ANTHROPIC': 'Anthropic Super Bowl Ad',
+                'KXNFLMENTION-SB26-SCHE': "'Schedule' Mentioned in Super Bowl"
+            };
+
+            function kalshiSign(method, apiPath) {
+                const timestamp = Date.now().toString();
+                const msgString = timestamp + method + apiPath;
+                const sign = crypto.createSign('RSA-SHA256');
+                sign.update(msgString);
+                sign.end();
+                const signature = sign.sign({
+                    key: PRIVATE_KEY,
+                    padding: crypto.constants.RSA_PKCS1_PSS_PADDING,
+                    saltLength: crypto.constants.RSA_PSS_SALTLEN_DIGEST,
+                });
+                return { timestamp, signature: signature.toString('base64') };
+            }
+
+            function kalshiGet(apiPath) {
+                return new Promise((resolve, reject) => {
+                    const { timestamp, signature } = kalshiSign('GET', apiPath);
+                    const url = new URL(KALSHI_BASE + apiPath);
+                    const options = {
+                        hostname: url.hostname,
+                        path: url.pathname + url.search,
+                        method: 'GET',
+                        headers: {
+                            'KALSHI-ACCESS-KEY': API_KEY,
+                            'KALSHI-ACCESS-SIGNATURE': signature,
+                            'KALSHI-ACCESS-TIMESTAMP': timestamp,
+                            'Content-Type': 'application/json'
+                        }
+                    };
+                    const r = https.request(options, (resp) => {
+                        let data = '';
+                        resp.on('data', chunk => data += chunk);
+                        resp.on('end', () => {
+                            try { resolve(JSON.parse(data)); }
+                            catch(e) { resolve(data); }
+                        });
+                    });
+                    r.on('error', reject);
+                    r.end();
+                });
+            }
+
+            const [positionsData, settlementsData, balanceData] = await Promise.all([
+                kalshiGet('/trade-api/v2/portfolio/positions'),
+                kalshiGet('/trade-api/v2/portfolio/settlements'),
+                kalshiGet('/trade-api/v2/portfolio/balance')
+            ]);
+
+            // Fetch market data for each active position
+            const positions = positionsData?.market_positions || [];
+            const marketTickers = [...new Set(positions.map(p => p.ticker))];
+            const marketDataMap = {};
+            await Promise.all(marketTickers.map(async t => {
+                try {
+                    const md = await kalshiGet(`/trade-api/v2/markets/${t}`);
+                    marketDataMap[t] = md?.market || md;
+                } catch(e) {}
+            }));
+
+            const active = positions.filter(p => (p.total_traded || 0) > 0).map(p => {
+                const market = marketDataMap[p.ticker] || {};
+                const side = (p.position || 0) > 0 ? 'YES' : (p.position || 0) < 0 ? 'NO' : 'NONE';
+                const shares = Math.abs(p.position || 0);
+                const totalCost = p.market_exposure || p.total_traded || 0;
+                const avgEntry = shares > 0 ? (totalCost / shares) : 0;
+                const currentPrice = side === 'YES' ? (market.yes_bid || market.last_price || 0) : (market.no_bid || (100 - (market.last_price || 0)));
+                const pnl = shares > 0 ? ((currentPrice - avgEntry) * shares / 100) : 0;
+                return {
+                    ticker: p.ticker,
+                    name: TICKER_NAMES[p.ticker] || market.title || p.ticker,
+                    side,
+                    shares,
+                    avgEntry: avgEntry / 100,
+                    currentPrice: currentPrice / 100,
+                    pnl: pnl,
+                    expiration: market.expiration_time || market.close_time || null,
+                    status: market.status || 'unknown'
+                };
+            }).filter(p => p.shares > 0);
+
+            const settlements = (settlementsData?.settlements || []).map(s => {
+                const tk = s.ticker;
+                const yesCount = s.yes_count || 0;
+                const noCount = s.no_count || 0;
+                const result = s.market_result;
+                // Determine primary side (net position)
+                const side = (noCount > yesCount) ? 'NO' : 'YES';
+                const shares = Math.max(yesCount, noCount);
+                const totalCost = (s.yes_total_cost || 0) + (s.no_total_cost || 0);
+                // Payout: winning side gets 100 per share
+                const payout = result === 'yes' ? (yesCount * 100) : result === 'no' ? (noCount * 100) : 0;
+                const pnl = (payout - totalCost) / 100;
+                const won = pnl >= 0;
+                return {
+                    ticker: tk,
+                    name: TICKER_NAMES[tk] || tk,
+                    side,
+                    shares,
+                    totalCost: totalCost / 100,
+                    result,
+                    won,
+                    pnl,
+                    settledAt: s.settled_time || null
+                };
+            }).sort((a, b) => new Date(b.settledAt || 0) - new Date(a.settledAt || 0));
+
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({
+                active,
+                settled: settlements,
+                balance: balanceData?.balance || balanceData || {},
+                timestamp: Date.now()
+            }));
+        } catch(e) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: e.message }));
+        }
+        })();
+        return;
+    }
+
     // API endpoint for wallet balances (live from Solana RPC)
     if (req.url === '/api/wallet') {
         const walletAddresses = {
@@ -1001,10 +1353,55 @@ const server = http.createServer((req, res) => {
         return;
     }
     
-    // API endpoint for Sorare lineup (reads from JSON, can be updated via Sorare GraphQL API)
+    // API endpoint for Sorare lineup (reads from JSON, triggers background refresh if stale)
+    // NBA live games — returns teams currently playing
+    if (req.url === '/api/nba-live') {
+        const nbaUrl = 'https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json';
+        https.get(nbaUrl, { headers: { 'User-Agent': 'JaneDashboard/1.0' } }, (nbaRes) => {
+            let body = '';
+            nbaRes.on('data', c => body += c);
+            nbaRes.on('end', () => {
+                try {
+                    const d = JSON.parse(body);
+                    const games = (d.scoreboard || {}).games || [];
+                    const liveTeams = [];
+                    games.forEach(g => {
+                        const status = (g.gameStatusText || '').toLowerCase();
+                        // Live if contains Q1-Q4, OT, or "half"
+                        const isLive = /q[1-4]|ot|half/i.test(status);
+                        if (isLive) {
+                            liveTeams.push(g.homeTeam?.teamName || '');
+                            liveTeams.push(g.awayTeam?.teamName || '');
+                        }
+                    });
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ liveTeams, games: games.map(g => ({ home: g.homeTeam?.teamName, away: g.awayTeam?.teamName, status: g.gameStatusText })) }));
+                } catch(e) {
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ liveTeams: [], games: [] }));
+                }
+            });
+        }).on('error', () => {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ liveTeams: [], games: [] }));
+        });
+        return;
+    }
+
     if (req.url === '/api/sorare') {
         const statsFile = path.join(ROOT, 'sorare-stats.json');
+        // Trigger background refresh if file is >5 min old
         if (fs.existsSync(statsFile)) {
+            const age = Date.now() - fs.statSync(statsFile).mtimeMs;
+            if (age > 5 * 60 * 1000 && !global._sorareRefreshing) {
+                global._sorareRefreshing = true;
+                const { exec: execChild } = require('child_process');
+                execChild(`bash "${path.join(ROOT, 'fetch-sorare.sh')}"`, { timeout: 60000 }, (err) => {
+                    global._sorareRefreshing = false;
+                    if (err) console.error('Sorare refresh error:', err.message);
+                    else console.log('Sorare data refreshed');
+                });
+            }
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(fs.readFileSync(statsFile));
         } else {
@@ -1540,6 +1937,238 @@ const server = http.createServer((req, res) => {
         return;
     }
 
+    // ===== X/Twitter Growth Endpoints =====
+    if (req.url === '/api/x-stats' && req.method === 'GET') {
+        const statsFile = path.join(ROOT, 'x-stats.json');
+        if (fs.existsSync(statsFile)) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(fs.readFileSync(statsFile));
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ followers: 0, following: 0, tweets: 0, impressions: 0 }));
+        }
+        return;
+    }
+    
+    if (req.url === '/api/x-refresh' && req.method === 'POST') {
+        // Write flag file that heartbeat/agent picks up for immediate scrape
+        fs.writeFileSync(path.join(ROOT, '.x-refresh-requested'), new Date().toISOString());
+        res.writeHead(200, {'Content-Type':'application/json'});
+        res.end('{"ok":true,"message":"X stats refresh requested"}');
+        return;
+    }
+
+    if (req.url === '/api/x-plan' && req.method === 'GET') {
+        const planFile = path.join(ROOT, 'x-plan.json');
+        if (fs.existsSync(planFile)) {
+            try {
+                const plan = JSON.parse(fs.readFileSync(planFile, 'utf8'));
+                const today = new Date().toISOString().split('T')[0];
+                // Auto-reset if plan is from a previous day
+                if (plan.date && plan.date !== today) {
+                    const fresh = { date: today, tasks: [] };
+                    fs.writeFileSync(planFile, JSON.stringify(fresh, null, 2));
+                    res.writeHead(200, {'Content-Type':'application/json'});
+                    res.end(JSON.stringify(fresh));
+                } else {
+                    res.writeHead(200, {'Content-Type':'application/json'});
+                    res.end(JSON.stringify(plan));
+                }
+            } catch(e) { res.writeHead(200, {'Content-Type':'application/json'}); res.end(fs.readFileSync(planFile)); }
+        } else { res.writeHead(404); res.end('{}'); }
+        return;
+    }
+
+    if (req.url === '/api/x-queue' && req.method === 'GET') {
+        const queueFile = path.join(ROOT, 'x-queue.json');
+        if (fs.existsSync(queueFile)) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(fs.readFileSync(queueFile));
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ pending: [], recent: [] }));
+        }
+        return;
+    }
+    
+    const xApproveMatch = req.url.match(/^\/api\/x-queue\/approve\/(.+)$/);
+    if (xApproveMatch && req.method === 'POST') {
+        const id = xApproveMatch[1];
+        const queueFile = path.join(ROOT, 'x-queue.json');
+        try {
+            const data = fs.existsSync(queueFile) ? JSON.parse(fs.readFileSync(queueFile, 'utf8')) : { pending: [], recent: [] };
+            const idx = data.pending.findIndex(item => item.id === id);
+            if (idx === -1) {
+                res.writeHead(404, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Item not found' }));
+                return;
+            }
+            const item = data.pending.splice(idx, 1)[0];
+            item.status = 'approved';
+            item.approvedAt = new Date().toISOString();
+            data.recent.unshift(item);
+            if (data.recent.length > 10) data.recent = data.recent.slice(0, 10);
+            fs.writeFileSync(queueFile, JSON.stringify(data, null, 2));
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(data));
+        } catch (err) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: err.message }));
+        }
+        return;
+    }
+    
+    // POST /api/x-queue/add - Add draft tweet/reply to queue
+    if (req.url === '/api/x-queue/add' && req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => body += chunk);
+        req.on('end', () => {
+            try {
+                const item = JSON.parse(body);
+                const queueFile = path.join(ROOT, 'x-queue.json');
+                const data = fs.existsSync(queueFile) ? JSON.parse(fs.readFileSync(queueFile, 'utf8')) : { pending: [], recent: [] };
+                const newItem = {
+                    id: item.id || ('draft-' + Date.now().toString(36)),
+                    type: item.type || 'tweet',
+                    text: item.text || item.content || item.draft || '',
+                    target: item.target || null,
+                    theme: item.theme || null,
+                    status: 'pending',
+                    createdAt: new Date().toISOString()
+                };
+                if (item.scheduledFor) newItem.scheduledFor = item.scheduledFor;
+                data.pending.push(newItem);
+                fs.writeFileSync(queueFile, JSON.stringify(data, null, 2));
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true, item: newItem, queue: data }));
+            } catch (err) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: err.message }));
+            }
+        });
+        return;
+    }
+    
+    // POST /api/x-queue/schedule - Set scheduled post time for a queued item
+    if (req.url === '/api/x-queue/schedule' && req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => body += chunk);
+        req.on('end', () => {
+            try {
+                const { id, scheduledFor } = JSON.parse(body);
+                const queueFile = path.join(ROOT, 'x-queue.json');
+                const data = fs.existsSync(queueFile) ? JSON.parse(fs.readFileSync(queueFile, 'utf8')) : { pending: [], recent: [] };
+                const item = data.pending.find(i => i.id === id);
+                if (!item) {
+                    res.writeHead(404, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Item not found in pending queue' }));
+                    return;
+                }
+                item.scheduledFor = scheduledFor;
+                item.status = 'scheduled';
+                fs.writeFileSync(queueFile, JSON.stringify(data, null, 2));
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true, item, queue: data }));
+            } catch (err) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: err.message }));
+            }
+        });
+        return;
+    }
+    
+    const xRejectMatch = req.url.match(/^\/api\/x-queue\/reject\/(.+)$/);
+    if (xRejectMatch && req.method === 'POST') {
+        const id = xRejectMatch[1];
+        const queueFile = path.join(ROOT, 'x-queue.json');
+        try {
+            const data = fs.existsSync(queueFile) ? JSON.parse(fs.readFileSync(queueFile, 'utf8')) : { pending: [], recent: [] };
+            const idx = data.pending.findIndex(item => item.id === id);
+            if (idx === -1) {
+                res.writeHead(404, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Item not found' }));
+                return;
+            }
+            data.pending.splice(idx, 1);
+            fs.writeFileSync(queueFile, JSON.stringify(data, null, 2));
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(data));
+        } catch (err) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: err.message }));
+        }
+        return;
+    }
+    
+    // POST /api/x-plan/approve/:id - Approve a content idea
+    const xPlanApproveMatch = req.url.match(/^\/api\/x-plan\/approve\/(.+)$/);
+    if (xPlanApproveMatch && req.method === 'POST') {
+        const id = decodeURIComponent(xPlanApproveMatch[1]);
+        const planFile = path.join(ROOT, 'x-plan.json');
+        try {
+            const data = fs.existsSync(planFile) ? JSON.parse(fs.readFileSync(planFile, 'utf8')) : {};
+            const idx = (data.contentIdeas || []).findIndex(i => i.id === id);
+            if (idx === -1) {
+                res.writeHead(404, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Content idea not found' }));
+                return;
+            }
+            data.contentIdeas[idx].status = 'approved';
+            fs.writeFileSync(planFile, JSON.stringify(data, null, 2));
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: true, idea: data.contentIdeas[idx] }));
+        } catch (err) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: err.message }));
+        }
+        return;
+    }
+
+    // POST /api/x-plan/reject/:id - Reject a content idea
+    const xPlanRejectMatch = req.url.match(/^\/api\/x-plan\/reject\/(.+)$/);
+    if (xPlanRejectMatch && req.method === 'POST') {
+        const id = decodeURIComponent(xPlanRejectMatch[1]);
+        const planFile = path.join(ROOT, 'x-plan.json');
+        try {
+            const data = fs.existsSync(planFile) ? JSON.parse(fs.readFileSync(planFile, 'utf8')) : {};
+            const idx = (data.contentIdeas || []).findIndex(i => i.id === id);
+            if (idx === -1) {
+                res.writeHead(404, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Content idea not found' }));
+                return;
+            }
+            data.contentIdeas[idx].status = 'rejected';
+            fs.writeFileSync(planFile, JSON.stringify(data, null, 2));
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: true, idea: data.contentIdeas[idx] }));
+        } catch (err) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: err.message }));
+        }
+        return;
+    }
+
+    // API endpoint to request briefing refresh
+    if (req.url === '/api/briefing/refresh' && req.method === 'POST') {
+        const flagFile = path.join(ROOT, '.briefing-refresh-requested');
+        fs.writeFileSync(flagFile, new Date().toISOString());
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ok: true, message: 'Briefing refresh requested' }));
+        return;
+    }
+    // API endpoint for daily briefing
+    if (req.url === '/api/briefing') {
+        const briefingFile = path.join(ROOT, 'briefing.json');
+        if (fs.existsSync(briefingFile)) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(fs.readFileSync(briefingFile));
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'No briefing available yet' }));
+        }
+        return;
+    }
+    
     // Parse URL and strip query string
     const urlPath = new URL(req.url, `http://${req.headers.host}`).pathname;
     
@@ -1637,7 +2266,12 @@ const WATCHED_FILES = {
     'tiktok': path.join(ROOT, 'tiktok-stats.json'),
     'trading': path.join(ROOT, 'trading-positions.json'),
     'sorare': path.join(ROOT, 'sorare-stats.json'),
-    'panini': path.join(ROOT, 'panini-collection.json')
+    'panini': path.join(ROOT, 'panini-collection.json'),
+    'mind': path.join(ROOT, 'mind-state.json'),
+    'x-queue': path.join(ROOT, 'x-queue.json'),
+    'x-stats': path.join(ROOT, 'x-stats.json'),
+    'x-plan': path.join(ROOT, 'x-plan.json'),
+    'briefing': path.join(ROOT, 'briefing.json')
 };
 
 // Debounce file change events
@@ -1652,6 +2286,7 @@ Object.entries(WATCHED_FILES).forEach(([key, filePath]) => {
     if (fs.existsSync(filePath)) {
         fs.watch(filePath, (eventType) => {
             if (eventType === 'change') {
+                const debounceMs = key === 'mind' ? 50 : 500;
                 debounceFileChange(key, () => {
                     try {
                         const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -1660,7 +2295,7 @@ Object.entries(WATCHED_FILES).forEach(([key, filePath]) => {
                     } catch (err) {
                         console.error(`Failed to read ${key}:`, err.message);
                     }
-                });
+                }, debounceMs);
             }
         });
         console.log(`👁️  Watching: ${key}`);
@@ -1682,6 +2317,224 @@ fs.watch(tasksDir, (eventType, filename) => {
         });
     }
 });
+
+// === Instant Mind Activation on Incoming Message ===
+// Watch the main session transcript — when a new user message arrives,
+// immediately flip mind-state to "Active" so the widget lights up before Jane starts processing.
+(function setupTranscriptWatcher() {
+    const sessionsDir = path.join(os.homedir(), '.openclaw', 'agents', 'main', 'sessions');
+    const mindFile = path.join(ROOT, 'mind-state.json');
+    let lastSize = 0;
+    let mainTranscript = null;
+    let idleProtectedUntil = 0; // Debounce: protect idle state for 2s after setting
+
+    // Find the main session transcript (most recently modified .jsonl)
+    function findMainTranscript() {
+        try {
+            const files = fs.readdirSync(sessionsDir).filter(f => f.endsWith('.jsonl') && !f.endsWith('.lock'));
+            if (files.length === 0) return null;
+            // Pick the most recently modified
+            let newest = null, newestMtime = 0;
+            for (const f of files) {
+                const fp = path.join(sessionsDir, f);
+                const stat = fs.statSync(fp);
+                if (stat.mtimeMs > newestMtime) { newestMtime = stat.mtimeMs; newest = fp; }
+            }
+            return newest;
+        } catch { return null; }
+    }
+
+    function checkForNewMessage() {
+        if (!mainTranscript) mainTranscript = findMainTranscript();
+        if (!mainTranscript) return;
+        try {
+            const stat = fs.statSync(mainTranscript);
+            if (lastSize === 0) { lastSize = stat.size; return; }
+            if (stat.size > lastSize) {
+                // Read only the new bytes
+                const fd = fs.openSync(mainTranscript, 'r');
+                const buf = Buffer.alloc(stat.size - lastSize);
+                fs.readSync(fd, buf, 0, buf.length, lastSize);
+                fs.closeSync(fd);
+                lastSize = stat.size;
+                const newContent = buf.toString('utf8');
+                // Parse new JSONL entries and update mind widget
+                const newLines = newContent.split('\n').filter(Boolean);
+                for (const line of newLines) {
+                    try {
+                        const entry = JSON.parse(line);
+                        const msg = entry.message || entry;
+                        const role = msg.role;
+                        const current = JSON.parse(fs.readFileSync(mindFile, 'utf8'));
+
+                        // Skip updates during idle protection window (prevents overwriting idle with stale tool calls)
+                        if (Date.now() < idleProtectedUntil && role !== 'user') continue;
+
+                        if (role === 'user') {
+                            // Check if this is a system/heartbeat message (not a real user message)
+                            const content = Array.isArray(msg.content) ? msg.content : (typeof msg.content === 'string' ? [{ type: 'text', text: msg.content }] : []);
+                            const textContent = content.map(c => c.text || '').join('').trim();
+                            const isSystem = textContent.startsWith('Read HEARTBEAT') || 
+                                            textContent.includes('MIND WIDGET CHECK') ||
+                                            textContent.includes('Exec completed') ||
+                                            textContent.startsWith('System:') ||
+                                            textContent.startsWith('[2') && textContent.includes('EST]');
+                            if (isSystem) {
+                                // System message — just update timestamp, don't activate
+                                current.lastUpdated = Date.now();
+                                fs.writeFileSync(mindFile, JSON.stringify(current, null, 2));
+                                continue;
+                            }
+                            // Real user message — activate mind
+                            idleProtectedUntil = 0;
+                            current.task = 'Processing incoming message...';
+                            current.steps = [{ label: 'Receiving and analyzing message', status: 'active', tool: 'opus' }];
+                            current.thought = 'New message received — processing...';
+                            current.lastUpdated = Date.now();
+                            fs.writeFileSync(mindFile, JSON.stringify(current, null, 2));
+                            console.log('⚡ Mind activated: user message');
+                        } else if (role === 'assistant' && msg.content) {
+                            // Assistant response — detect tool calls and text
+                            const content = Array.isArray(msg.content) ? msg.content : [msg.content];
+                            const toolCalls = content.filter(c => c.type === 'toolCall' || c.type === 'tool_use');
+                            const textParts = content.filter(c => c.type === 'text' && c.text && !c.text.startsWith('NO_REPLY') && !c.text.startsWith('HEARTBEAT'));
+
+                            // Extract assistant's own narration as thought context
+                            const narration = textParts.length > 0 ? textParts[0].text.split('\n')[0].substring(0, 120) : null;
+
+                            if (toolCalls.length > 0) {
+                                // Map tool names to human-readable labels
+                                const toolLabels = {
+                                    'exec': 'Running shell command', 'read': 'Reading file', 'write': 'Writing file',
+                                    'edit': 'Editing file', 'web_search': 'Searching the web', 'web_fetch': 'Fetching webpage',
+                                    'browser': 'Browser automation', 'message': 'Sending message', 'cron': 'Managing cron jobs',
+                                    'sessions_spawn': 'Spawning sub-agent', 'memory_search': 'Searching memory',
+                                    'image': 'Analyzing image', 'tts': 'Generating speech', 'gateway': 'Gateway config',
+                                    'session_status': 'Checking session status', 'sessions_list': 'Listing sessions',
+                                    'process': 'Managing background process', 'memory_get': 'Reading memory'
+                                };
+                                const toolModels = {
+                                    'exec': 'opus', 'read': 'opus', 'write': 'opus', 'edit': 'opus',
+                                    'web_search': 'opus', 'web_fetch': 'opus', 'browser': 'opus',
+                                    'sessions_spawn': 'sonnet', 'memory_search': 'ollama', 'memory_get': 'ollama'
+                                };
+                                const steps = toolCalls.map(tc => {
+                                    const name = (tc.name || 'unknown').toLowerCase();
+                                    const args = tc.arguments || {};
+                                    // Smart labeling: detect specific tools from arguments
+                                    let label = toolLabels[name] || `Using ${name}`;
+                                    let tool = toolModels[name] || 'opus';
+                                    if (name === 'exec' && typeof args.command === 'string') {
+                                        const cmd = args.command;
+                                        if (cmd.includes('whisper')) { label = 'Transcribing audio via Whisper'; tool = 'whisper'; }
+                                        else if (cmd.includes('ollama')) { label = 'Running Ollama model'; tool = 'ollama'; }
+                                        else if (cmd.includes('txt2image') || cmd.includes('stable_diffusion') || cmd.includes('mflux')) { label = 'Generating image'; tool = 'sd'; }
+                                        else if (cmd.includes('ssh mini2')) { label = 'Running command on Mini #2'; tool = 'opus'; }
+                                        else if (cmd.includes('curl') && cmd.includes('sorare')) { label = 'Querying Sorare API'; tool = 'opus'; }
+                                        else if (cmd.includes('curl') && cmd.includes('nba')) { label = 'Checking NBA scores'; tool = 'opus'; }
+                                        else if (cmd.includes('fetch-sorare')) { label = 'Refreshing Sorare data'; tool = 'opus'; }
+                                        else if (cmd.includes('launchctl')) { label = 'Restarting service'; tool = 'opus'; }
+                                        else if (cmd.includes('grep') || cmd.includes('cat') || cmd.includes('head') || cmd.includes('tail')) { label = 'Inspecting files'; tool = 'opus'; }
+                                        else if (cmd.includes('python3')) { label = 'Running Python script'; tool = 'opus'; }
+                                    }
+                                    if (name === 'edit') {
+                                        const fp = args.path || args.file_path || '';
+                                        if (fp.includes('mind-state')) { return null; }
+                                        else if (fp.includes('index.html')) { label = 'Editing dashboard UI'; }
+                                        else if (fp.includes('server.js')) { label = 'Editing dashboard server'; }
+                                        else if (fp.includes('.json')) { label = `Editing ${fp.split('/').pop()}`; }
+                                        else if (fp.includes('.md')) { label = `Editing ${fp.split('/').pop()}`; }
+                                        else { label = `Editing ${fp.split('/').pop() || 'file'}`; }
+                                    }
+                                    if (name === 'read') {
+                                        const fp = args.path || args.file_path || '';
+                                        if (fp.includes('index.html')) { label = 'Reading dashboard code'; }
+                                        else if (fp) { label = `Reading ${fp.split('/').pop()}`; }
+                                    }
+                                    if (name === 'write') {
+                                        const fp = args.path || args.file_path || '';
+                                        if (fp.includes('mind-state')) { return null; } // Skip — meta update, not real work
+                                        else if (fp.includes('sorare')) { label = 'Updating Sorare data'; }
+                                        else if (fp.includes('x-plan') || fp.includes('x-stats')) { label = 'Updating X/Twitter data'; }
+                                        else if (fp.includes('index.html')) { label = 'Updating dashboard UI'; }
+                                        else if (fp.includes('server.js')) { label = 'Updating dashboard server'; }
+                                    }
+                                    return { label, status: 'active', tool };
+                                });
+                                // Keep existing descriptive task name — only set if truly empty
+                                if (!current.task || current.task === 'Processing incoming message...') {
+                                    current.task = 'Working...';
+                                }
+                                // Filter out null entries (skipped tools like mind-state writes)
+                                const validSteps = steps.filter(Boolean);
+                                if (validSteps.length === 0) continue; // Nothing to show
+                                // Append new steps to existing ones (mark previous active as done)
+                                const existingSteps = (current.steps || []).map(s => 
+                                    s.status === 'active' ? { ...s, status: 'done' } : s
+                                );
+                                // Only keep last 6 steps to prevent overflow
+                                const combined = [...existingSteps, ...validSteps].slice(-6);
+                                current.steps = combined;
+                                // Use assistant narration if available, otherwise only overwrite stale thoughts
+                                const genericThoughts = ['New message received — processing...', 'Composing response...', 'Reply sent. Idle — waiting for Josh.', ''];
+                                if (narration && narration.length > 10) {
+                                    current.thought = narration;
+                                } else if (!current.thought || genericThoughts.includes(current.thought)) {
+                                    const stepLabels = validSteps.map(s => s.label);
+                                    current.thought = stepLabels.length === 1 ? stepLabels[0] : stepLabels.join(' → ');
+                                }
+                                current.lastUpdated = Date.now();
+                                fs.writeFileSync(mindFile, JSON.stringify(current, null, 2));
+                                console.log(`⚡ Mind updated: ${toolCalls.length} tool calls (${toolCalls.map(tc => tc.name).join(', ')})`);
+                            } else if (textParts.length > 0 && msg.stopReason === 'stop') {
+                                // Final text response with stop — return to idle but keep steps as "done" (dimmed)
+                                // Skip HEARTBEAT_OK and NO_REPLY (not real replies)
+                                const replyText = textParts.map(t => t.text).join('').trim();
+                                if (replyText === 'HEARTBEAT_OK' || replyText === 'NO_REPLY') continue;
+                                current.lastTask = current.task || current.lastTask;
+                                current.task = null;
+                                if (current.steps && current.steps.length > 0) {
+                                    current.steps = current.steps.map(s => ({ ...s, status: 'done' }));
+                                }
+                                current.thought = 'Reply sent. Idle — waiting for Josh.';
+                                current.lastUpdated = Date.now();
+                                idleProtectedUntil = Date.now() + 2000; // Protect idle for 2s
+                                fs.writeFileSync(mindFile, JSON.stringify(current, null, 2));
+                                console.log('⚡ Mind updated: reply sent, steps dimmed, returning to idle');
+                            } else if (textParts.length > 0) {
+                                // Text but not final (might have more tool calls coming)
+                                current.thought = 'Composing response...';
+                                current.steps = [{ label: 'Sending reply', status: 'active', tool: 'opus' }];
+                                current.lastUpdated = Date.now();
+                                fs.writeFileSync(mindFile, JSON.stringify(current, null, 2));
+                                console.log('⚡ Mind updated: composing reply');
+                            }
+                        } else if (role === 'toolResult') {
+                            // Tool result came back — just update timestamp, preserve existing thought
+                            try {
+                                const current2 = JSON.parse(fs.readFileSync(mindFile, 'utf8'));
+                                current2.lastUpdated = Date.now();
+                                fs.writeFileSync(mindFile, JSON.stringify(current2, null, 2));
+                            } catch {}
+                        }
+                    } catch { /* skip unparseable lines */ }
+                }
+            } else {
+                lastSize = stat.size;
+            }
+        } catch {
+            // Transcript might have rotated
+            mainTranscript = findMainTranscript();
+            lastSize = 0;
+        }
+    }
+
+    // Poll every 200ms for near-instant detection
+    setInterval(checkForNewMessage, 200);
+    // Re-discover transcript every 60s in case of rotation
+    setInterval(() => { mainTranscript = findMainTranscript(); lastSize = 0; }, 60000);
+    console.log('⚡ Instant mind activation watcher enabled');
+})();
 
 // API endpoint for Jane to trigger manual push
 // POST /api/push { widget: 'tasks', data: {...} }

@@ -49,6 +49,23 @@ When opening the `openclaw` Chrome profile:
 
 ---
 
+## Mac Mini #2 (Compute Node)
+
+- **Host:** jcagent2@100.66.132.34 (Tailscale)
+- **SSH:** `ssh mini2`
+- **RAM:** 16GB, Apple Silicon (arm64)
+- **Software:** Python 3.14.3, Node v25.6.0, FFmpeg 8.0.1, Tailscale
+- **Whisper:** `/Users/jcagent2/.local/bin/whisper` (pipx, openai-whisper 20250625, turbo model cached)
+  - SSH PATH must include `/opt/homebrew/bin` for ffmpeg
+- **Ollama:** `/usr/local/bin/ollama` v0.15.6
+  - **URL from Mini #1:** `http://100.66.132.34:11434`
+  - **Models:** nomic-embed-text, llama3.1:8b
+  - **Config:** OLLAMA_HOST=0.0.0.0, OLLAMA_KEEP_ALIVE=2m, OLLAMA_MAX_LOADED_MODELS=1
+  - **Auto-start:** launchd plist at `/Users/jcagent2/Library/LaunchAgents/com.ollama.server.plist`
+- **Remote Whisper script:** `scripts/whisper-remote.sh <audio_file> [args]`
+
+---
+
 ## Accounts
 
 ### Sorare
@@ -70,6 +87,33 @@ When opening the `openclaw` Chrome profile:
 ### Claude API (Anthropic)
 - **API Key:** `~/.openclaw/workspace/.secrets/claude_api_key.txt`
 - For Claude Developer Platform / API access
+
+### GitHub
+- **Username:** jcubellagent-web (created via Google sign-in)
+- **Email:** jcubellagent@gmail.com
+- **Token:** `~/.openclaw/workspace/.secrets/github_token.txt` (expires Mar 9, 2026)
+- **URL:** https://github.com/jcubellagent-web
+- **Dashboard repo:** https://github.com/jcubellagent-web/jane-dashboard
+
+### Substack
+- **Email:** jcubellagent@gmail.com
+- **Login:** Email magic link (no password set)
+- **Handle:** @agentjc11443
+- **Interests:** Technology, AI, Finance, Crypto, Sports, DeFi
+- **Subscriptions:** The Substack Post, The Crypto Advisor, Jordi Visser Macro-AI-Crypto, Doomberg, AI For Developers, Cassandra Unchained (Michael Burry)
+
+### Reddit
+- **Username:** JaneAgentAI
+- **Email:** jcubellagent@gmail.com
+- **Password:** JCAgent123!!!
+
+### HuggingFace
+- **Username:** JaneAgentAI
+- **Email:** jcubellagent@gmail.com
+- **Password:** JCAgent123!!!
+- **Token:** `~/.openclaw/workspace/.secrets/huggingface_token.txt` (read-only, named "mflux-local")
+- **Profile:** https://huggingface.co/JaneAgentAI
+- **FLUX access:** Approved (FLUX.1-schnell)
 
 ### Phantom Wallet (Solana)
 - **Address:** `ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L`
@@ -130,11 +174,29 @@ If the Jupiter Extension is missing from the OpenClaw browser, here's how to rei
 
 ---
 
+### Brave Search API
+- **Account owner:** Josh (personal email — required payment info)
+- **API Key:** `~/.openclaw/workspace/.secrets/brave_search_api_key.txt`
+- **Config:** Set in `openclaw.json` under `tools.web.search.apiKey` AND `env.BRAVE_API_KEY`
+- **Plan:** Free AI (2,000 queries/month)
+- **Endpoint:** `https://api.search.brave.com/res/v1/web/search`
+
+---
+
 ## Communication
 
 - **Primary:** WhatsApp (Josh's mobile)
 - **Josh's phone:** +17175759384
 - **iMessage:** Paused
+
+### Twilio (Jane's Phone Number)
+- **Number:** +1 (518) 741-3592
+- **Capabilities:** Voice, SMS, MMS, Fax
+- **Location:** Glens Falls, NY
+- **Credentials:** `~/.openclaw/workspace/.secrets/twilio.txt`
+- **Check SMS script:** `~/.openclaw/workspace/scripts/check-sms.sh`
+- **API:** `curl -u "$SID:$TOKEN" https://api.twilio.com/2010-04-01/Accounts/$SID/Messages.json`
+- **Use for:** 2FA verification codes, account signups
 
 ---
 

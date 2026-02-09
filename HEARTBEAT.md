@@ -1,7 +1,13 @@
 # HEARTBEAT.md
 
-## Mind State Update
-If actively working on a task for Josh, update `/dashboard/mind-state.json` with:
+## Mind State Update (TOP PRIORITY — NEVER SKIP)
+**Every single heartbeat**, update `/dashboard/mind-state.json`. No exceptions.
+- If working on a task: set task, steps, thought with real detail
+- If idle: set task=null, steps=[], thought="Idle — waiting for Josh"
+- **Always** update `lastUpdated` to current epoch ms
+- This widget must NEVER go stale. Josh monitors it constantly.
+
+Update `/dashboard/mind-state.json` with:
 - Current task description
 - Steps (with status: pending/active/done)
 - Current thought/status
@@ -22,15 +28,29 @@ Update `/dashboard/sessions.json` with current session data every heartbeat:
 - Write filtered session data to `/dashboard/sessions.json`
 - Include `lastUpdated` timestamp
 
-## TikTok Stats Check
-Check @degencollector TikTok stats:
-1. **Scheduled**: 2-3x daily (morning ~9am, afternoon ~2pm, evening ~8pm) if last check was 4+ hours ago
-2. **On-demand**: Immediately if `/dashboard/.tiktok-refresh-requested` exists (delete after checking)
+## Gmail Inbox Check
+Check jcubellagent@gmail.com inbox 2-3x daily:
+1. Open Gmail in openclaw browser profile
+2. Review new emails since last check
+3. Delete/archive junk (verification codes, marketing, onboarding noise)
+4. Alert Josh if anything needs his attention
+5. Update `memory/heartbeat-state.json` with last check timestamp
 
-**How to check:**
-- Navigate to https://www.tiktok.com/@degencollector
-- Get: followers, total likes, and view counts for recent videos
-- Update `/dashboard/tiktok-stats.json`
-- Update `memory/heartbeat-state.json` with new timestamp
+## TikTok
+Removed — widget deleted per Josh's request (Feb 8)
 
-Track last check in `memory/heartbeat-state.json`
+## X/Twitter Stats Refresh
+Refresh @AgentJc11443 analytics every 2-3 hours:
+1. Open `https://x.com/i/account_analytics` in openclaw browser profile
+2. Scrape: impressions, engagement rate, engagements, profile visits, likes, reposts, followers, following
+3. Update `/dashboard/x-stats.json` with fresh data
+4. Update `memory/heartbeat-state.json` with `lastXStatsCheck` timestamp
+
+**On-demand**: Immediately if `/dashboard/.x-refresh-requested` exists (delete after checking)
+
+## Daily Briefing Refresh
+**On-demand**: If `/dashboard/.briefing-refresh-requested` exists:
+1. Delete the flag file
+2. Generate a fresh daily briefing (web search for top news: markets, crypto, tech, sports)
+3. Write to `/dashboard/briefing.json`
+4. The dashboard will auto-update via WebSocket file watcher

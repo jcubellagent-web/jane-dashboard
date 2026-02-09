@@ -889,7 +889,7 @@
         .predictions-list {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.6rem;
             flex: 1;
             overflow-y: auto;
         }
@@ -898,7 +898,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.6rem 0.75rem;
+            padding: 0.6rem;
             background: rgba(255,255,255,0.02);
             border-radius: 8px;
             border: 1px solid var(--border);
@@ -920,8 +920,8 @@
         }
         
         .prediction-question {
-            font-size: 0.8rem;
-            line-height: 1.3;
+            font-size: 0.75rem;
+            line-height: 1.35;
         }
         
         .prediction-source {
@@ -994,6 +994,118 @@
             margin-top: 0;
             border-top: none;
             padding-top: 0;
+        }
+        
+        /* Kalshi Active Bets */
+        .kalshi-bets-section {
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .kalshi-bets-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .kalshi-bets-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .kalshi-balance {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+        .kalshi-history-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.2rem;
+            position: relative;
+        }
+        .kalshi-bet-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 0.5rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 6px;
+            border: 1px solid rgba(74, 222, 128, 0.1);
+            margin-bottom: 0.35rem;
+            font-size: 0.75rem;
+        }
+        .kalshi-bet-name {
+            flex: 1;
+            margin-right: 0.5rem;
+            color: var(--text);
+            line-height: 1.3;
+        }
+        .kalshi-bet-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-shrink: 0;
+        }
+        .kalshi-side-badge {
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 700;
+        }
+        .kalshi-side-yes {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--green);
+        }
+        .kalshi-side-no {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--red);
+        }
+        .kalshi-pnl {
+            font-size: 0.7rem;
+            font-weight: 600;
+            min-width: 45px;
+            text-align: right;
+        }
+        .kalshi-pnl.positive { color: var(--green); }
+        .kalshi-pnl.negative { color: var(--red); }
+        .kalshi-settled-popup {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 1.5rem;
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 10px;
+            padding: 0.75rem;
+            min-width: 280px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 50;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+        }
+        .kalshi-settled-popup.visible {
+            display: block;
+        }
+        .kalshi-settled-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.3rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .kalshi-no-bets {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-align: center;
+            padding: 0.5rem;
         }
         
         /* AI News */
@@ -1644,12 +1756,13 @@
             box-shadow: 0 4px 30px rgba(74, 222, 128, 0.1), inset 0 0 60px rgba(74, 222, 128, 0.03);
         }
         
-        /* Jane's Mind - Real reasoning widget (prominent) */
+        /* Jane's Mind - Brain Map Widget */
         .mind-widget {
             border-color: rgba(74, 222, 128, 0.4);
             border-width: 2px;
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(74, 222, 128, 0.1), inset 0 0 80px rgba(74, 222, 128, 0.03);
             padding: 1.25rem 1.5rem;
+            min-height: 480px;
         }
         
         .mind-logo {
@@ -1675,69 +1788,155 @@
             font-size: 0.75rem;
         }
         
-        .mind-content {
-            font-size: 0.85rem;
-            max-height: 280px;
+        .mind-body {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+        
+        .mind-model-legend {
+            display: flex;
+            gap: 12px;
+            padding: 4px 0 8px 0;
+            flex-wrap: wrap;
+        }
+        .model-dot {
+            font-size: 0.7rem;
+            color: var(--dot-color, #4ade80);
+            opacity: 0.7;
+        }
+        .brain-map-container {
+            flex-shrink: 0;
+            width: 220px;
+            height: 220px;
+            position: relative;
+        }
+        
+        .brain-map-container svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .brain-hub {
+            transition: all 0.5s ease;
+        }
+        
+        .brain-hub.active {
+            filter: drop-shadow(0 0 12px rgba(74, 222, 128, 0.6));
+        }
+        
+        .brain-node-circle {
+            transition: all 0.4s ease;
+            cursor: default;
+        }
+        
+        .brain-node-label {
+            font-size: 7px;
+            fill: rgba(255,255,255,0.5);
+            text-anchor: middle;
+            pointer-events: none;
+            transition: fill 0.4s ease;
+        }
+        
+        .brain-line {
+            transition: stroke 0.4s ease, opacity 0.4s ease;
+        }
+        
+        @keyframes brainPulse {
+            0%, 100% { r: 18; opacity: 0.8; }
+            50% { r: 22; opacity: 1; }
+        }
+        
+        @keyframes brainPulseIdle {
+            0%, 100% { r: 18; opacity: 0.3; }
+            50% { r: 20; opacity: 0.4; }
+        }
+        
+        @keyframes pulseDot {
+            0% { offset-distance: 0%; opacity: 1; }
+            100% { offset-distance: 100%; opacity: 0; }
+        }
+        
+        .pulse-dot {
+            offset-distance: 0%;
+            animation: pulseDot 1.5s linear infinite;
+        }
+        
+        .mind-info {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-height: 380px;
             overflow-y: auto;
         }
         
-        .mind-task {
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid rgba(74, 222, 128, 0.2);
+        .mind-section {
+            padding-bottom: 0.6rem;
+            border-bottom: 1px solid rgba(74, 222, 128, 0.12);
         }
         
-        .mind-task-label {
-            font-size: 0.7rem;
+        .mind-section:last-child { border-bottom: none; }
+        
+        .mind-section-label {
+            font-size: 0.6rem;
             color: var(--text-dim);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.35rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
         }
         
         .mind-task-text {
             color: var(--accent);
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.3;
+        }
+        
+        .mind-thought-text {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.8rem;
+            font-style: italic;
+            line-height: 1.3;
         }
         
         .mind-steps {
-            margin-bottom: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
         }
         
         .mind-step {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.35rem 0;
-            font-size: 0.8rem;
-        }
-        
-        .mind-step.pending {
-            color: var(--text-dim);
-        }
-        
-        .mind-step.active {
-            color: var(--accent);
-        }
-        
-        .mind-step.done {
-            color: var(--green);
-        }
-        
-        .step-icon {
-            font-size: 0.7rem;
-        }
-        
-        .mind-thought {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.4rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid rgba(74, 222, 128, 0.15);
+            padding: 0.3rem 0.5rem;
             font-size: 0.75rem;
-            color: var(--text-dim);
-            font-style: italic;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        
+        .mind-step.pending { color: var(--text-dim); }
+        .mind-step.active { color: #4ade80; background: rgba(74, 222, 128, 0.08); }
+        .mind-step.done { color: rgba(74, 222, 128, 0.6); }
+        
+        .step-indicator {
+            font-size: 0.65rem;
+            flex-shrink: 0;
+            width: 14px;
+            text-align: center;
+        }
+        
+        .step-tool {
+            font-size: 0.6rem;
+            padding: 1px 5px;
+            border-radius: 3px;
+            margin-left: auto;
+            flex-shrink: 0;
+            font-weight: 600;
+            letter-spacing: 0.3px;
         }
         
         .thought-prefix {
@@ -2011,17 +2210,59 @@
                     <span class="thinking-title">Jane's Mind</span>
                     <span class="thinking-status" id="mind-status">● Active</span>
                 </div>
-                <div class="mind-content" id="mind-content">
-                    <div class="mind-task">
-                        <div class="mind-task-label">Current Task</div>
-                        <div class="mind-task-text" id="mind-current-task">Awaiting instructions...</div>
+                <div class="mind-model-legend" id="mind-model-legend">
+                    <span class="model-dot" style="--dot-color:#3b82f6">● Opus</span>
+                    <span class="model-dot" style="--dot-color:#8b5cf6">● Sonnet</span>
+                    <span class="model-dot" style="--dot-color:#a855f7">● Whisper</span>
+                    <span class="model-dot" style="--dot-color:#f97316">● Ollama</span>
+                    <span class="model-dot" style="--dot-color:#ec4899">● Stable Diffusion</span>
+                </div>
+                <div class="mind-body" style="flex-direction: row-reverse;">
+                    <!-- Brain Map SVG -->
+                    <div class="brain-map-container">
+                        <svg id="brain-map" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="rgba(74,222,128,0.4)"/>
+                                    <stop offset="100%" stop-color="rgba(74,222,128,0)"/>
+                                </radialGradient>
+                                <filter id="glow">
+                                    <feGaussianBlur stdDeviation="3" result="blur"/>
+                                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                </filter>
+                            </defs>
+                            <!-- Glow backdrop -->
+                            <circle cx="110" cy="110" r="50" fill="url(#hubGlow)" opacity="0.3" id="brain-glow"/>
+                            <!-- Connection lines (drawn by JS) -->
+                            <g id="brain-lines"></g>
+                            <!-- Pulse dots (drawn by JS) -->
+                            <g id="brain-pulses"></g>
+                            <!-- Satellite nodes (drawn by JS) -->
+                            <g id="brain-nodes"></g>
+                            <!-- Center hub -->
+                            <circle cx="110" cy="110" r="18" fill="rgba(74,222,128,0.25)" stroke="rgba(74,222,128,0.6)" stroke-width="2" id="brain-hub" class="brain-hub">
+                                <animate attributeName="r" values="18;22;18" dur="3s" repeatCount="indefinite"/>
+                                <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3s" repeatCount="indefinite"/>
+                            </circle>
+                            <text x="110" y="113" text-anchor="middle" fill="rgba(74,222,128,0.7)" font-size="8" font-weight="600">JANE</text>
+                        </svg>
                     </div>
-                    <div class="mind-steps" id="mind-steps">
-                        <!-- Steps will be populated here -->
-                    </div>
-                    <div class="mind-thought" id="mind-thought">
-                        <span class="thought-prefix"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg></span>
-                        <span id="mind-thought-text">Ready for your next request.</span>
+                    <!-- Info Panel -->
+                    <div class="mind-info">
+                        <div class="mind-section">
+                            <div class="mind-section-label">GOAL / OBJECTIVE</div>
+                            <div class="mind-task-text" id="mind-current-task">Awaiting instructions...</div>
+                        </div>
+                        <div class="mind-section">
+                            <div class="mind-section-label">THINKING &amp; DECISIONS</div>
+                            <div class="mind-thought-text" id="mind-thought-text">Ready for your next request.</div>
+                        </div>
+                        <div class="mind-section">
+                            <div class="mind-section-label">ACTIONS &amp; TOOLS</div>
+                            <div class="mind-steps" id="mind-steps">
+                                <!-- Steps populated by JS -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2089,40 +2330,6 @@
                 </div>
             </div>
             
-            <!-- TikTok Stats - Expanded -->
-            <div class="card card-tiktok-full">
-                <div class="card-header">
-                    <div class="card-title">
-                        <span class="card-icon"><svg class="cat-icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></span>
-                        TikTok Stats
-                        <span class="last-refresh" id="tiktok-refresh">--</span>
-                        <span class="tiktok-pending" id="tiktok-pending" style="display:none; color:#f0b90b; font-size:0.7em; margin-left:8px;">⏳ Updating...</span>
-                    </div>
-                    <div class="card-meta">
-                        <button class="refresh-btn" onclick="requestTikTokUpdate(this)" title="Request live TikTok scrape">↻</button>
-                    </div>
-                </div>
-                <div class="tiktok-handle">@degencollector</div>
-                <div class="tiktok-stats-grid" style="grid-template-columns: repeat(3, 1fr);">
-                    <div class="tiktok-stat">
-                        <div class="tiktok-stat-value" id="tiktok-views">--</div>
-                        <div class="tiktok-stat-delta" id="tiktok-views-delta"></div>
-                        <div class="tiktok-stat-label">Views</div>
-                    </div>
-                    <div class="tiktok-stat">
-                        <div class="tiktok-stat-value" id="tiktok-likes">--</div>
-                        <div class="tiktok-stat-delta" id="tiktok-likes-delta"></div>
-                        <div class="tiktok-stat-label">Likes</div>
-                    </div>
-                    <div class="tiktok-stat">
-                        <div class="tiktok-stat-value" id="tiktok-followers">--</div>
-                        <div class="tiktok-stat-delta" id="tiktok-followers-delta"></div>
-                        <div class="tiktok-stat-label">Followers</div>
-                    </div>
-                </div>
-                <div class="tiktok-videos-title">Recent Videos</div>
-                <div class="tiktok-videos" id="tiktok-videos"></div>
-            </div>
         </div>
         
         <!-- CENTER COLUMN: Jane Status + Connected stacked -->
@@ -2277,6 +2484,23 @@
                 </div>
                 <div class="card-meta">
                     <button class="refresh-btn" onclick="refreshPredictions(this)">↻</button>
+                </div>
+            </div>
+            <!-- Kalshi Active Bets -->
+            <div class="kalshi-bets-section" id="kalshi-bets-section">
+                <div class="kalshi-bets-header">
+                    <div class="kalshi-bets-title">
+                        <img src="https://kalshi.com/favicon.ico" alt="K" style="width:14px;height:14px;border-radius:3px;filter:brightness(0) invert(1);">
+                        My Active Bets
+                        <span class="kalshi-balance" id="kalshi-balance"></span>
+                    </div>
+                    <div style="position:relative;">
+                        <button class="kalshi-history-btn" id="kalshi-history-btn" onclick="toggleSettledPopup(event)">📊</button>
+                        <div class="kalshi-settled-popup" id="kalshi-settled-popup"></div>
+                    </div>
+                </div>
+                <div id="kalshi-bets-list">
+                    <div class="kalshi-no-bets">Loading...</div>
                 </div>
             </div>
             <div class="predictions-list" id="predictions-list">
@@ -3151,6 +3375,80 @@
             else doRefresh();
         }
         
+        // ===== KALSHI POSITIONS =====
+        function toggleSettledPopup(e) {
+            e.stopPropagation();
+            const popup = document.getElementById('kalshi-settled-popup');
+            popup.classList.toggle('visible');
+            // Close on outside click
+            if (popup.classList.contains('visible')) {
+                setTimeout(() => {
+                    document.addEventListener('click', function closePopup() {
+                        popup.classList.remove('visible');
+                        document.removeEventListener('click', closePopup);
+                    }, { once: true });
+                }, 10);
+            }
+        }
+
+        async function refreshKalshi(btn) {
+            const doRefresh = async () => {
+                try {
+                    const data = await fetchWithTimeout('/api/kalshi/positions', 10000);
+                    const listEl = document.getElementById('kalshi-bets-list');
+                    const balanceEl = document.getElementById('kalshi-balance');
+                    const popupEl = document.getElementById('kalshi-settled-popup');
+
+                    // Balance
+                    if (data.balance !== undefined) {
+                        balanceEl.textContent = '• $' + (data.balance / 100).toFixed(2);
+                    }
+
+                    // Active bets
+                    const active = data.active || [];
+                    if (active.length === 0) {
+                        listEl.innerHTML = '<div class="kalshi-no-bets">No active bets</div>';
+                    } else {
+                        listEl.innerHTML = active.map(bet => {
+                            const sideClass = bet.side === 'yes' ? 'kalshi-side-yes' : 'kalshi-side-no';
+                            const pnlVal = bet.pnl || 0;
+                            const pnlClass = pnlVal >= 0 ? 'positive' : 'negative';
+                            const pnlSign = pnlVal >= 0 ? '+' : '';
+                            return `<div class="kalshi-bet-item">
+                                <span class="kalshi-bet-name">${bet.name}</span>
+                                <div class="kalshi-bet-meta">
+                                    <span class="kalshi-side-badge ${sideClass}">${bet.side.toUpperCase()}</span>
+                                    <span class="kalshi-pnl ${pnlClass}">${pnlSign}$${(Math.abs(pnlVal) / 100).toFixed(2)}</span>
+                                </div>
+                            </div>`;
+                        }).join('');
+                    }
+
+                    // Settled bets popup
+                    const settled = data.settled || [];
+                    let popupHtml = '<div class="kalshi-settled-title">Settled Bets</div>';
+                    if (settled.length === 0) {
+                        popupHtml += '<div class="kalshi-no-bets">No settled bets</div>';
+                    } else {
+                        popupHtml += settled.slice(0, 15).map(bet => {
+                            const pnlVal = bet.pnl || 0;
+                            const pnlClass = pnlVal >= 0 ? 'positive' : 'negative';
+                            const pnlSign = pnlVal >= 0 ? '+' : '';
+                            return `<div class="kalshi-bet-item">
+                                <span class="kalshi-bet-name">${bet.name}</span>
+                                <span class="kalshi-pnl ${pnlClass}">${pnlSign}$${(Math.abs(pnlVal) / 100).toFixed(2)}</span>
+                            </div>`;
+                        }).join('');
+                    }
+                    popupEl.innerHTML = popupHtml;
+                } catch (err) {
+                    console.error('Kalshi refresh error:', err);
+                }
+            };
+            if (btn) spinButton(btn, doRefresh());
+            else doRefresh();
+        }
+
         // ===== JANE'S MIND (Real Reasoning) =====
         let mindState = {
             task: null,
@@ -3158,50 +3456,230 @@
             thought: 'Ready for your next request.'
         };
         
+        // Brain map configuration
+        const brainRegions = [
+            { name: 'Language', angle: -90 },
+            { name: 'Reasoning', angle: -45 },
+            { name: 'Research', angle: 0 },
+            { name: 'Vision', angle: 45 },
+            { name: 'Planning', angle: 90 },
+            { name: 'Market', angle: 135 },
+            { name: 'Execution', angle: 180 },
+            { name: 'Memory', angle: -135 }
+        ];
+        const brainToolColors = {
+            'opus': '#3b82f6', 'claude': '#3b82f6',
+            'sonnet': '#8b5cf6',
+            'whisper': '#a855f7',
+            'ollama': '#f97316',
+            'stable-diffusion': '#ec4899', 'sd': '#ec4899', 'image': '#ec4899',
+            'default': 'rgba(74,222,128,0.3)'
+        };
+        const brainToolToRegion = {
+            'opus': 'Reasoning', 'claude': 'Reasoning', 'sonnet': 'Reasoning',
+            'whisper': 'Language', 'ollama': 'Reasoning',
+            'stable-diffusion': 'Vision', 'sd': 'Vision', 'image': 'Vision',
+            'web_search': 'Research', 'web_fetch': 'Research',
+            'browser': 'Research', 'exec': 'Execution', 'read': 'Memory', 'write': 'Execution',
+            'edit': 'Execution', 'tts': 'Language', 'message': 'Language',
+            'trading': 'Market', 'kalshi': 'Market', 'sorare': 'Market',
+            'cron': 'Planning', 'sessions_spawn': 'Planning'
+        };
+        let activeRegions = new Set();
+
+        function initBrainMap() {
+            const cx = 110, cy = 110;
+            // Irregular radii for organic look
+            const radii = [82, 75, 88, 70, 85, 78, 72, 80];
+            const linesG = document.getElementById('brain-lines');
+            const nodesG = document.getElementById('brain-nodes');
+            linesG.innerHTML = '';
+            nodesG.innerHTML = '';
+
+            brainRegions.forEach((region, i) => {
+                const rad = (region.angle * Math.PI) / 180;
+                const r = radii[i] || 78;
+                const x = cx + r * Math.cos(rad);
+                const y = cy + r * Math.sin(rad);
+                region.x = x; region.y = y;
+
+                // Line
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+                line.setAttribute('x2', x); line.setAttribute('y2', y);
+                line.setAttribute('stroke', 'rgba(74,222,128,0.15)');
+                line.setAttribute('stroke-width', '1');
+                line.setAttribute('id', `brain-line-${i}`);
+                line.classList.add('brain-line');
+                linesG.appendChild(line);
+
+                // Node circle
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', x); circle.setAttribute('cy', y);
+                circle.setAttribute('r', '10');
+                circle.setAttribute('fill', 'rgba(74,222,128,0.1)');
+                circle.setAttribute('stroke', 'rgba(74,222,128,0.25)');
+                circle.setAttribute('stroke-width', '1.5');
+                circle.setAttribute('id', `brain-node-${i}`);
+                circle.classList.add('brain-node-circle');
+                nodesG.appendChild(circle);
+
+                // Label
+                const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label.setAttribute('x', x);
+                label.setAttribute('y', y + (y < cy ? -15 : 18));
+                label.textContent = region.name;
+                label.classList.add('brain-node-label');
+                label.setAttribute('id', `brain-label-${i}`);
+                nodesG.appendChild(label);
+            });
+        }
+
+        function activateBrainRegion(regionName, color) {
+            const idx = brainRegions.findIndex(r => r.name === regionName);
+            if (idx === -1) return;
+            const node = document.getElementById(`brain-node-${idx}`);
+            const line = document.getElementById(`brain-line-${idx}`);
+            const label = document.getElementById(`brain-label-${idx}`);
+            if (node) {
+                node.setAttribute('fill', color.replace(')', ',0.3)').replace('rgb', 'rgba').replace('rgba(', 'rgba(').replace('#', ''));
+                // Simpler: just set fill and stroke
+                node.setAttribute('fill', color); node.setAttribute('fill-opacity', '0.35');
+                node.setAttribute('stroke', color); node.setAttribute('stroke-opacity', '0.8');
+                node.setAttribute('r', '13');
+            }
+            if (line) { line.setAttribute('stroke', color); line.setAttribute('stroke-opacity', '0.6'); line.setAttribute('stroke-width', '2'); }
+            if (label) { label.setAttribute('fill', 'rgba(255,255,255,0.9)'); }
+            activeRegions.add(regionName);
+            // Spawn a pulse dot
+            spawnPulseDot(idx, color);
+        }
+
+        function resetBrainRegions() {
+            brainRegions.forEach((_, i) => {
+                const node = document.getElementById(`brain-node-${i}`);
+                const line = document.getElementById(`brain-line-${i}`);
+                const label = document.getElementById(`brain-label-${i}`);
+                if (node) { node.setAttribute('fill', 'rgba(74,222,128,0.1)'); node.setAttribute('fill-opacity', '1'); node.setAttribute('stroke', 'rgba(74,222,128,0.25)'); node.setAttribute('stroke-opacity', '1'); node.setAttribute('r', '10'); }
+                if (line) { line.setAttribute('stroke', 'rgba(74,222,128,0.15)'); line.setAttribute('stroke-opacity', '1'); line.setAttribute('stroke-width', '1'); }
+                if (label) { label.setAttribute('fill', 'rgba(255,255,255,0.5)'); }
+            });
+            activeRegions.clear();
+            document.getElementById('brain-pulses').innerHTML = '';
+        }
+
+        function spawnPulseDot(idx, color) {
+            const pulsesG = document.getElementById('brain-pulses');
+            const r = brainRegions[idx];
+            const cx = 110, cy = 110;
+            // Create animated circle along line
+            const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            dot.setAttribute('r', '3');
+            dot.setAttribute('fill', color);
+            dot.setAttribute('opacity', '0.9');
+            // Animate from center to node
+            const animX = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+            animX.setAttribute('attributeName', 'cx');
+            animX.setAttribute('from', cx); animX.setAttribute('to', r.x);
+            animX.setAttribute('dur', '1.2s'); animX.setAttribute('repeatCount', 'indefinite');
+            const animY = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+            animY.setAttribute('attributeName', 'cy');
+            animY.setAttribute('from', cy); animY.setAttribute('to', r.y);
+            animY.setAttribute('dur', '1.2s'); animY.setAttribute('repeatCount', 'indefinite');
+            const animO = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+            animO.setAttribute('attributeName', 'opacity');
+            animO.setAttribute('values', '0.9;0.9;0'); animO.setAttribute('keyTimes', '0;0.7;1');
+            animO.setAttribute('dur', '1.2s'); animO.setAttribute('repeatCount', 'indefinite');
+            dot.appendChild(animX); dot.appendChild(animY); dot.appendChild(animO);
+            pulsesG.appendChild(dot);
+        }
+
+        function getToolColor(tool) {
+            if (!tool) return brainToolColors['default'];
+            const t = tool.toLowerCase();
+            for (const [key, color] of Object.entries(brainToolColors)) {
+                if (t.includes(key)) return color;
+            }
+            return brainToolColors['default'];
+        }
+
+        function getToolRegion(tool) {
+            if (!tool) return null;
+            const t = tool.toLowerCase();
+            for (const [key, region] of Object.entries(brainToolToRegion)) {
+                if (t.includes(key)) return region;
+            }
+            return 'Analysis'; // default
+        }
+
         function updateMind(task, steps, thought) {
             if (task !== undefined) {
-                // Only update task if we have a new one, or preserve the old one
-                if (task) {
-                    mindState.task = task;
-                }
+                if (task) mindState.task = task;
                 document.getElementById('mind-current-task').textContent = mindState.task || 'Awaiting instructions...';
             }
             
             if (steps !== undefined && steps.length > 0) {
-                // Only update steps if we have new ones
                 mindState.steps = steps;
             }
+
+            // Reset brain, then activate based on steps
+            resetBrainRegions();
+            const hasActive = mindState.steps && mindState.steps.some(s => s.status === 'active');
+            const hub = document.getElementById('brain-hub');
+            if (hasActive || mindState.task) {
+                hub.setAttribute('fill', 'rgba(74,222,128,0.4)');
+                hub.setAttribute('stroke', 'rgba(74,222,128,0.8)');
+            } else {
+                hub.setAttribute('fill', 'rgba(74,222,128,0.15)');
+                hub.setAttribute('stroke', 'rgba(74,222,128,0.3)');
+            }
+
             if (mindState.steps && mindState.steps.length > 0) {
                 const container = document.getElementById('mind-steps');
-                const stepIcons = {
-                    done: `<svg class="cat-icon" style="width:10px;height:10px" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`,
-                    active: `<svg class="cat-icon" style="width:10px;height:10px" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`,
-                    pending: `<svg class="cat-icon" style="width:10px;height:10px;opacity:0.4" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>`
-                };
-                const stepsHtml = mindState.steps.map((step, i) => {
+                const indicators = { done: '✓', active: '●', pending: '○' };
+                
+                // Activate brain regions for active/done steps
+                mindState.steps.forEach(step => {
+                    if (step.status === 'active' || step.status === 'done') {
+                        const tool = step.tool || '';
+                        const region = getToolRegion(tool);
+                        const color = getToolColor(tool);
+                        if (region) activateBrainRegion(region, color);
+                    }
+                });
+
+                // Only show pulse dots for active steps
+                document.getElementById('brain-pulses').innerHTML = '';
+                mindState.steps.forEach(step => {
+                    if (step.status === 'active') {
+                        const tool = step.tool || '';
+                        const region = getToolRegion(tool);
+                        const color = getToolColor(tool);
+                        const idx = brainRegions.findIndex(r => r.name === region);
+                        if (idx !== -1) spawnPulseDot(idx, color);
+                    }
+                });
+
+                const stepsHtml = mindState.steps.map(step => {
                     const status = step.status || 'pending';
-                    const icon = stepIcons[status] || stepIcons.pending;
+                    const ind = indicators[status] || '○';
                     const stepText = step.text || step.label || '';
-                    const isWaiting = status === 'active' && stepText.toLowerCase().includes('waiting');
-                    const dotsClass = isWaiting ? ' waiting-dots' : '';
-                    return `<div class="mind-step ${status}"><span class="step-icon">${icon}</span> <span class="${dotsClass}">${stepText}</span></div>`;
+                    const tool = step.tool || '';
+                    const color = getToolColor(tool);
+                    const toolBadge = tool ? `<span class="step-tool" style="background:${color}22;color:${color}">${tool}</span>` : '';
+                    const dotsClass = (status === 'active' && stepText.toLowerCase().includes('waiting')) ? ' waiting-dots' : '';
+                    return `<div class="mind-step ${status}"><span class="step-indicator">${ind}</span><span class="${dotsClass}">${stepText}</span>${toolBadge}</div>`;
                 }).join('');
                 
-                // Check if all steps are done - add waiting line
-                const allDone = mindState.steps.length > 0 && mindState.steps.every(s => s.status === 'done');
-                const hasActiveStep = mindState.steps.some(s => s.status === 'active');
-                const waitingLine = (allDone && !hasActiveStep) 
-                    ? `<div class="mind-step active" style="margin-top:8px;opacity:0.7"><span class="step-icon">${stepIcons.active}</span> <span class="waiting-dots">Waiting for further instruction</span></div>`
-                    : '';
-                
+                const allDone = mindState.steps.every(s => s.status === 'done');
+                const waitingLine = (allDone && !mindState.steps.some(s => s.status === 'active'))
+                    ? `<div class="mind-step active" style="margin-top:4px;opacity:0.6"><span class="step-indicator">●</span><span class="waiting-dots">Awaiting next instruction</span></div>` : '';
                 container.innerHTML = stepsHtml + waitingLine;
             }
             
             if (thought !== undefined) {
                 mindState.thought = thought;
-                const thoughtEl = document.getElementById('mind-thought-text');
-                thoughtEl.textContent = thought;
-                thoughtEl.classList.remove('waiting-dots'); // No dots on thought box
+                document.getElementById('mind-thought-text').textContent = thought;
             }
         }
         
@@ -3254,10 +3732,10 @@
             refreshSystem();
             refreshAgents();
             refreshTicker();
+            refreshKalshi();
             refreshPredictions();
             refreshNews();
             refreshConnections();
-            refreshTikTok();
             refreshSorare();
             refreshTasks();
             refreshCron();
@@ -3337,12 +3815,13 @@
         // Initial load
         refreshSystem();
         refreshAgents();
-        refreshTicker();  // Still fetch initial data and NDAQ/IBIT from API
+        refreshTicker();
+        refreshKalshi();
         refreshPredictions();
         refreshNews();
-        refreshTikTok();
         refreshTasks();
         refreshCron();
+        initBrainMap();
         refreshMind();
         refreshSorare();
         refreshMemecoins();  // Was missing from init!
@@ -3362,9 +3841,9 @@
         setAdaptiveTicker();
         setInterval(setAdaptiveTicker, 60000);  // Re-check market status every minute
         
+        setInterval(refreshKalshi, 60000);  // Kalshi every 60 seconds
         setInterval(refreshPredictions, 300000);  // Predictions every 5 minutes
         setInterval(refreshNews, 300000);
-        setInterval(refreshTikTok, 300000);
         setInterval(refreshTasks, 60000);
         setInterval(refreshCron, 60000);
         setInterval(refreshSorare, 300000);  // Refresh Sorare every 5 minutes

@@ -1,0 +1,8 @@
+{
+  "contextUsed": 60023,
+  "contextMax": 200000,
+  "contextPercent": 30,
+  "compactions": 5,
+  "rateStatus": "normal",
+  "lastUpdated": "2026-02-07T17:42:00-05:00"
+}

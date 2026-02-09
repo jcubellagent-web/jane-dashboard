@@ -75,6 +75,19 @@ CURRENT_DATA=$(curl -s 'https://api.sorare.com/graphql' \
     \"query\": \"{ so5 { so5Fixture(slug: \\\"$CURRENT_SLUG\\\") { slug gameWeek startDate endDate so5Leaderboards { slug displayName mySo5Lineups { id so5Rankings { ranking score } so5Appearances { score anyCard { slug rarityTyped ... on NBACard { basketballPlayer { displayName } anyTeam { name } } } } } } } } }\"
   }")
 
+# Get upcoming (next) fixture lineups
+UPCOMING_SLUG=$(echo "$FIXTURES" | jq -r '.data.so5.allSo5Fixtures.nodes[1].slug // empty')
+UPCOMING_DATA='{"data":{"so5":{"so5Fixture":{"slug":"none","gameWeek":0,"so5Leaderboards":[]}}}}'
+if [ -n "$UPCOMING_SLUG" ]; then
+  UPCOMING_DATA=$(curl -s 'https://api.sorare.com/graphql' \
+    -H "Authorization: Bearer $TOKEN" \
+    -H "JWT-AUD: jane-dashboard" \
+    -H "Content-Type: application/json" \
+    -d "{
+      \"query\": \"{ so5 { so5Fixture(slug: \\\"$UPCOMING_SLUG\\\") { slug gameWeek startDate endDate so5Leaderboards { slug displayName mySo5Lineups { id so5Rankings { ranking score } so5Appearances { score anyCard { slug rarityTyped ... on NBACard { basketballPlayer { displayName } anyTeam { name } } } } } } } } }\"
+    }")
+fi
+
 # Get past fixtures and find one with completed results
 PAST_FIXTURES=$(curl -s 'https://api.sorare.com/graphql' \
   -H "Authorization: Bearer $TOKEN" \
@@ -117,6 +130,7 @@ jq -n \
   --argjson user "$USER_DATA" \
   --argjson fixtures "$FIXTURES" \
   --argjson current "$CURRENT_DATA" \
+  --argjson upcoming "$UPCOMING_DATA" \
   --argjson completed "$COMPLETED_DATA" \
 '{
   lastUpdated: (now | strftime("%Y-%m-%dT%H:%M:%SZ")),
@@ -144,6 +158,21 @@ jq -n \
     startDate: $current.data.so5.so5Fixture.startDate,
     endDate: $current.data.so5.so5Fixture.endDate,
     lineups: [($current.data.so5.so5Fixture.so5Leaderboards // [])[] | select(.mySo5Lineups | length > 0) | {
+      leaderboard: .displayName,
+      entries: [.mySo5Lineups[] | {
+        id: .id,
+        ranking: .so5Rankings[0].ranking,
+        score: .so5Rankings[0].score,
+        players: [.so5Appearances[] | {name: .anyCard.basketballPlayer.displayName, team: .anyCard.anyTeam.name, score: .score, rarity: .anyCard.rarityTyped}]
+      }]
+    }]
+  },
+  upcomingFixture: {
+    slug: $upcoming.data.so5.so5Fixture.slug,
+    gameWeek: $upcoming.data.so5.so5Fixture.gameWeek,
+    startDate: $upcoming.data.so5.so5Fixture.startDate,
+    endDate: $upcoming.data.so5.so5Fixture.endDate,
+    lineups: [($upcoming.data.so5.so5Fixture.so5Leaderboards // [])[] | select(.mySo5Lineups | length > 0) | {
       leaderboard: .displayName,
       entries: [.mySo5Lineups[] | {
         id: .id,

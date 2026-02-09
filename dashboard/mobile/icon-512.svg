@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="100" fill="#0a0a0f"/>
+  <circle cx="256" cy="210" r="96" fill="none" stroke="#00ff88" stroke-width="8"/>
+  <path d="M192 210 Q192 160 256 148 Q320 160 320 210" fill="none" stroke="#00ff88" stroke-width="6"/>
+  <path d="M208 210 Q208 172 256 164 Q304 172 304 210" fill="none" stroke="#00ff88" stroke-width="5"/>
+  <path d="M224 210 Q224 188 256 182 Q288 188 288 210" fill="none" stroke="#00ff88" stroke-width="4"/>
+  <circle cx="230" cy="224" r="10" fill="#00ff88"/>
+  <circle cx="282" cy="224" r="10" fill="#00ff88"/>
+  <path d="M236 268 Q256 284 276 268" fill="none" stroke="#00ff88" stroke-width="5" stroke-linecap="round"/>
+  <text x="256" y="390" text-anchor="middle" fill="#00ff88" font-family="system-ui" font-size="58" font-weight="700">JANE</text>
+</svg>

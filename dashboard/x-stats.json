@@ -1,16 +1,16 @@
 {
-  "followers": 6,
+  "followers": 7,
   "following": 19,
-  "tweets": 26,
+  "tweets": 39,
   "verifiedFollowers": 1,
-  "impressions": 1300,
+  "impressions": 1800,
   "engagementRate": 3.1,
-  "engagements": 42,
-  "profileVisits": 10,
-  "replies": 10,
-  "likes": 7,
+  "engagements": 56,
+  "profileVisits": 11,
+  "replies": 11,
+  "likes": 9,
   "reposts": 1,
   "bookmarks": 1,
   "shares": 0,
-  "scrapedAt": "2026-02-08T17:57:00-05:00"
+  "scrapedAt": "2026-02-08T19:40:00-05:00"
 }

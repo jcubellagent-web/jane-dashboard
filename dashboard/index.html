@@ -1916,8 +1916,29 @@
         }
         
         @keyframes sciHubPulse {
-            0%, 100% { r: 4; fill-opacity: 0.45; filter: drop-shadow(0 0 4px rgba(74,222,128,0.2)); }
-            50% { r: 6; fill-opacity: 0.9; filter: drop-shadow(0 0 12px rgba(74,222,128,0.6)); }
+            0%, 100% { r: 14; fill-opacity: 0.12; filter: drop-shadow(0 0 4px rgba(74,222,128,0.15)); }
+            50% { r: 17; fill-opacity: 0.3; filter: drop-shadow(0 0 15px rgba(74,222,128,0.5)); }
+        }
+        
+        @keyframes hubOuterSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes hubOuterSpinReverse {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
+        
+        .hub-outer-ring {
+            transform-origin: 100px 190px;
+        }
+        .brain-idle .hub-outer-ring {
+            animation: hubOuterSpin 12s linear infinite;
+        }
+        .brain-active .hub-outer-ring {
+            animation: hubOuterSpin 4s linear infinite;
+            stroke: rgba(74,222,128,0.6);
+            stroke-width: 1;
         }
         
         @keyframes sciNodePulse {
@@ -2034,14 +2055,22 @@
         /* Hub label breathing */
         @keyframes sciHubLabelPulse {
             0%, 100% { fill-opacity: 0.5; }
-            50% { fill-opacity: 0.9; }
+            50% { fill-opacity: 1; }
         }
         .brain-idle #brain-hub-label {
             animation: sciHubLabelPulse 3.5s ease-in-out infinite;
         }
         .brain-active #brain-hub-label {
             fill-opacity: 1 !important;
-            fill: rgba(74,222,128,0.9);
+            fill: rgba(74,222,128,1);
+            filter: drop-shadow(0 0 6px rgba(74,222,128,0.5));
+        }
+        .brain-idle #brain-hub-sublabel {
+            animation: sciLabelPulse 3.5s ease-in-out infinite;
+        }
+        .brain-active #brain-hub-sublabel {
+            fill-opacity: 0.8 !important;
+            fill: rgba(74,222,128,0.7);
         }
         
         /* ===== ACTIVE STATE ===== */
@@ -2497,9 +2526,13 @@
                             <g id="brain-pulses"></g>
                             <!-- Satellite nodes (drawn by JS) -->
                             <g id="brain-nodes"></g>
-                            <!-- Center hub — small precise dot -->
-                            <circle cx="100" cy="190" r="3" fill="rgba(74,222,128,0.5)" stroke="rgba(74,222,128,0.8)" stroke-width="1" id="brain-hub" class="brain-hub"/>
-                            <text x="100" y="201" text-anchor="middle" fill="rgba(74,222,128,0.65)" font-size="7" font-family="'SF Mono','Menlo',monospace" letter-spacing="3" font-weight="500" id="brain-hub-label">JANE</text>
+                            <!-- Center hub -->
+                            <g id="brain-hub-group" class="brain-hub-group">
+                                <circle cx="100" cy="190" r="22" fill="rgba(74,222,128,0.08)" stroke="rgba(74,222,128,0.3)" stroke-width="0.5" stroke-dasharray="4 4" class="hub-outer-ring" id="hub-outer-ring"/>
+                                <circle cx="100" cy="190" r="15" fill="rgba(74,222,128,0.15)" stroke="rgba(74,222,128,0.5)" stroke-width="1" id="brain-hub" class="brain-hub"/>
+                                <text x="100" y="187" text-anchor="middle" fill="rgba(74,222,128,0.7)" font-size="11" font-family="'SF Mono','Menlo',monospace" letter-spacing="4" font-weight="600" id="brain-hub-label">J</text>
+                                <text x="100" y="199" text-anchor="middle" fill="rgba(74,222,128,0.4)" font-size="5" font-family="'SF Mono','Menlo',monospace" letter-spacing="1" font-weight="400" id="brain-hub-sublabel">JANE</text>
+                            </g>
                         </svg>
                     </div>
                     <!-- Info Panel -->
@@ -3954,13 +3987,15 @@
             const hub = document.getElementById('brain-hub');
             const brainSvg = document.getElementById('brain-map');
             if (hasActive || mindState.task) {
-                hub.setAttribute('fill', 'rgba(74,222,128,0.6)');
+                hub.setAttribute('fill', 'rgba(74,222,128,0.3)');
                 hub.setAttribute('stroke', 'rgba(74,222,128,0.9)');
+                hub.setAttribute('r', '16');
                 brainSvg.classList.remove('brain-idle');
                 brainSvg.classList.add('brain-active');
             } else {
-                hub.setAttribute('fill', 'rgba(74,222,128,0.2)');
-                hub.setAttribute('stroke', 'rgba(74,222,128,0.3)');
+                hub.setAttribute('fill', 'rgba(74,222,128,0.15)');
+                hub.setAttribute('stroke', 'rgba(74,222,128,0.5)');
+                hub.setAttribute('r', '15');
                 brainSvg.classList.remove('brain-active');
                 brainSvg.classList.add('brain-idle');
             }

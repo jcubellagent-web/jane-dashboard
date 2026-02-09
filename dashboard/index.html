@@ -4162,7 +4162,7 @@
         // Crypto WebSocket disabled - using API polling instead
         
         // Initial load
-        initBrainMap();
+        try { initBrainMap(); } catch(e) { console.warn('Brain init deferred:', e.message); setTimeout(initBrainMap, 100); }
         refreshMind();
         // Stagger API calls to avoid overwhelming the server
         setTimeout(() => { refreshSystem(); refreshTicker(); refreshXStats(); }, 500);

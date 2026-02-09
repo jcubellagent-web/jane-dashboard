@@ -2,439 +2,147 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#0a0f1a">
-    <title>Jane — Mobile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jane · Mobile</title>
+    <link rel="icon" href="icon-192.png">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --bg: #0a0f1a;
-            --card: rgba(16, 24, 40, 0.85);
-            --border: rgba(74, 222, 128, 0.15);
+            --bg: #0a0a0f;
+            --card-bg: rgba(255,255,255,0.04);
+            --card-border: rgba(255,255,255,0.08);
             --accent: #4ade80;
-            --text: #f1f5f9;
-            --dim: #64748b;
-            --red: #ef4444;
+            --text: rgba(255,255,255,0.9);
+            --text-dim: rgba(255,255,255,0.4);
         }
-        html, body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
             background: var(--bg);
             color: var(--text);
-            min-height: 100vh;
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro', system-ui, sans-serif;
+            min-height: 100dvh;
+            padding: 0.5rem;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Header */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(10, 15, 26, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-        }
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .ws-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--accent);
-            box-shadow: 0 0 8px var(--accent);
-            transition: all 0.3s;
-        }
-        .ws-dot.offline {
-            background: var(--red);
-            box-shadow: 0 0 8px var(--red);
-        }
-        .logo {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--accent);
-        }
-        .clock {
-            font-size: 13px;
-            color: var(--dim);
-            font-variant-numeric: tabular-nums;
-        }
-
-        /* Container */
-        .container {
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        /* Card Base */
         .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 0.5rem;
         }
-        .card-label {
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--dim);
-            margin-bottom: 12px;
+
+        /* Status Bar */
+        .status-bar {
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        /* Model Badge */
-        .model-badge {
-            display: inline-flex;
-            align-items: center;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 3px 10px;
-            border-radius: 8px;
-            background: rgba(74, 222, 128, 0.12);
-            color: var(--accent);
-            border: 1px solid rgba(74, 222, 128, 0.25);
-        }
-
-        /* Mind: Section Labels */
-        .mind-section-label {
-            font-size: 9px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: rgba(74, 222, 128, 0.5);
-            margin-bottom: 6px;
-        }
-
-        /* Mind: Goal */
-        .mind-goal {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text);
-            line-height: 1.4;
-            margin-bottom: 8px;
-        }
-        .mind-goal.idle {
-            color: var(--dim);
-        }
-        @keyframes dots {
-            0%, 20% { content: ''; }
-            40% { content: '.'; }
-            60% { content: '..'; }
-            80%, 100% { content: '...'; }
-        }
-        .mind-goal.idle::after {
-            content: '';
-            animation: dots 1.5s steps(1) infinite;
-        }
-
-        /* Mind: Thought */
-        .mind-thought {
-            font-size: 13px;
-            color: #94a3b8;
-            line-height: 1.5;
-            margin-bottom: 0;
-        }
-        .mind-thought:empty { display: none; }
-        .mind-thought:empty + .mind-section-label { margin-top: 14px; }
-
-        /* Mind: Steps */
-        .steps {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .step {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            color: var(--dim);
-            min-height: 32px;
-            padding: 4px 0;
-        }
-        .step-icon {
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            font-size: 13px;
-        }
-        .step.done .step-icon { color: var(--accent); }
-        .step.done .step-text { color: rgba(148, 163, 184, 0.6); text-decoration: line-through; text-decoration-color: rgba(148,163,184,0.3); }
-        .step.active { color: var(--text); }
-        .step.active .step-icon { color: var(--accent); }
-        .step.pending .step-icon { color: rgba(100, 116, 139, 0.5); }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .spinner {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            border: 2px solid rgba(100, 116, 139, 0.3);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        /* Status Row */
-        .status-row {
-            display: flex;
-            gap: 6px;
-            margin-top: 14px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(74, 222, 128, 0.08);
+            gap: 0.35rem;
             flex-wrap: wrap;
         }
+        .status-bar img {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+        }
+        .status-label {
+            font-weight: 700;
+            font-size: 0.65rem;
+            color: var(--accent);
+        }
         .status-pill {
-            flex: 1 0 0;
-            min-width: 0;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(74, 222, 128, 0.1);
-            border-radius: 10px;
-            padding: 8px 10px;
+            font-size: 0.55rem;
+            color: rgba(255,255,255,0.7);
+            font-weight: 500;
         }
-        .pill-label {
-            font-size: 9px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: rgba(100, 116, 139, 0.8);
+        .status-pill.green {
+            color: var(--accent);
+            font-weight: 700;
         }
-        .pill-value {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text);
-            margin-top: 2px;
-            font-variant-numeric: tabular-nums;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+        .status-pill.red {
+            color: #ef4444;
+            font-weight: 700;
+        }
+        .status-pill.dim {
+            color: var(--text-dim);
+        }
+        .status-divider {
+            color: rgba(255,255,255,0.2);
+            font-size: 0.45rem;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <div class="header-left">
-            <div class="ws-dot" id="wsDot"></div>
-            <div class="logo">Jane</div>
-        </div>
-        <div class="clock" id="clock">--:--</div>
-    </div>
-
-    <!-- Pull to Refresh -->
-    <div id="pullIndicator" style="position:fixed;top:0;left:0;right:0;height:0;background:var(--accent);z-index:9999;transition:height 0.2s;overflow:hidden;display:flex;align-items:center;justify-content:center;">
-        <span style="font-size:12px;color:#0a0f1a;font-weight:600;">Release to refresh</span>
-    </div>
-
-    <div class="container">
-        <!-- Debug row (shows data load status) -->
-        <div id="debugRow" style="font-size:10px;color:var(--dim);padding:4px 0;display:none;"></div>
-
-        <!-- Jane's Mind -->
-        <div class="card">
-            <div class="card-label">
-                <span>🧠</span>
-                <span>Jane's Mind</span>
-                <span class="model-badge" id="modelBadge">--</span>
-            </div>
-
-            <!-- Section 1: Goal / Objective -->
-            <div class="mind-section-label">GOAL / OBJECTIVE</div>
-            <div class="mind-goal" id="mindGoal">Loading...</div>
-
-            <!-- Section 2: Thinking & Decisions -->
-            <div class="mind-section-label" style="margin-top:14px;">THINKING &amp; DECISIONS</div>
-            <div class="mind-thought" id="mindThought"></div>
-
-            <!-- Section 3: Actions & Tools -->
-            <div class="mind-section-label" style="margin-top:14px;">ACTIONS &amp; TOOLS</div>
-            <div class="steps" id="mindSteps"></div>
-
-            <div class="status-row">
-                <div class="status-pill"><div class="pill-label">Model</div><div class="pill-value" id="pillModel">--</div></div>
-                <div class="status-pill"><div class="pill-label">CPU</div><div class="pill-value" id="pillCpu">--</div></div>
-                <div class="status-pill"><div class="pill-label">RAM</div><div class="pill-value" id="pillRam">--</div></div>
-            </div>
+    <!-- Jane Status Bar -->
+    <div class="card">
+        <div class="status-bar">
+            <img src="icon-192.png" alt="Jane">
+            <span class="status-label">Jane</span>
+            <span class="status-pill" id="model-pill">Model: --</span>
+            <span class="status-pill green" id="plan-pill">Plan: Max</span>
+            <span class="status-divider">·</span>
+            <span class="status-pill dim" id="age-pill">Age: --</span>
+            <span class="status-divider">·</span>
+            <span class="status-pill" id="cpu-pill">CPU: --%</span>
+            <span class="status-divider">·</span>
+            <span class="status-pill" id="ram-pill">RAM: --%</span>
+            <span class="status-divider">·</span>
+            <span class="status-pill" id="mini2-pill">Mini2: --</span>
         </div>
     </div>
 
-<script>
-const $ = id => document.getElementById(id);
+    <script>
+        async function fetchJSON(url, timeout = 8000) {
+            const ctrl = new AbortController();
+            const t = setTimeout(() => ctrl.abort(), timeout);
+            try {
+                const r = await fetch(url, { signal: ctrl.signal });
+                clearTimeout(t);
+                return await r.json();
+            } catch(e) {
+                clearTimeout(t);
+                return null;
+            }
+        }
 
-// Clock
-function updateClock() {
-    $('clock').textContent = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-}
-updateClock();
-setInterval(updateClock, 10000);
+        async function refreshStatus() {
+            const [sessions, system] = await Promise.all([
+                fetchJSON('/api/sessions'),
+                fetchJSON('/api/system')
+            ]);
 
-// Fetch helper with cache busting and 10s timeout
-async function fetchJSON(url) {
-    try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 10000);
-        const r = await fetch(url + (url.includes('?') ? '&' : '?') + '_t=' + Date.now(), { 
-            cache: 'no-store',
-            signal: controller.signal 
-        });
-        clearTimeout(timeout);
-        if (!r.ok) { console.warn('Fetch failed:', url, r.status); return null; }
-        return await r.json();
-    } catch (e) { console.warn('Fetch error:', url, e.message); return null; }
-}
+            if (sessions?.sessions?.length) {
+                const main = sessions.sessions.find(s => s.kind === 'main') || sessions.sessions[0];
+                if (main?.model) {
+                    const name = main.model.split('/').pop()
+                        .replace('claude-', '').replace(/-/g, ' ')
+                        .replace('4 5', '4.5').replace('4 6', '4.6');
+                    document.getElementById('model-pill').textContent = 'Model: ' + name;
+                }
+            }
 
-// Render mind
-function renderMind(d) {
-    if (!d) return;
-    
-    const goalEl = $('mindGoal');
-    if (d.task) {
-        goalEl.textContent = d.task;
-        goalEl.classList.remove('idle');
-    } else {
-        goalEl.textContent = 'Awaiting instructions';
-        goalEl.classList.add('idle');
-    }
-    
-    const thoughtEl = $('mindThought');
-    thoughtEl.textContent = d.thought || '';
-    // Hide the Thinking section label if no thought
-    const thinkingLabel = thoughtEl.previousElementSibling;
-    if (!d.thought) {
-        thoughtEl.style.display = 'none';
-        if (thinkingLabel) thinkingLabel.style.display = 'none';
-    } else {
-        thoughtEl.style.display = 'block';
-        if (thinkingLabel) thinkingLabel.style.display = 'block';
-    }
-    $('modelBadge').textContent = (d.model || '--').toUpperCase();
-    
-    const stepsEl = $('mindSteps');
-    if (d.steps && d.steps.length) {
-        stepsEl.innerHTML = d.steps.map(s => {
-            const st = s.status || 'pending';
-            let icon = '○';
-            if (st === 'done') icon = '✓';
-            else if (st === 'active') icon = '<span class="spinner"></span>';
-            return `<div class="step ${st}"><div class="step-icon">${icon}</div><span class="step-text">${s.label || ''}</span></div>`;
-        }).join('');
-    } else {
-        stepsEl.innerHTML = '';
-    }
-}
+            if (system) {
+                document.getElementById('cpu-pill').textContent = 'CPU: ' + (system.cpu || 0) + '%';
+                document.getElementById('ram-pill').textContent = 'RAM: ' + (system.memory || 0) + '%';
 
-// Load all data
-async function loadAll() {
-    const debug = $('debugRow');
-    
-    // Load mind first (fast, static file)
-    const mind = await fetchJSON('/mind-state.json');
-    renderMind(mind);
-    if (mind) $('pillModel').textContent = mind.model || '--';
+                if (system.uptime) {
+                    document.getElementById('age-pill').textContent = 'Age: ' + system.uptime;
+                }
 
-    // Load from static JSON files (API routes fail from external IPs)
-    const usage = await fetchJSON('/usage-today.json');
-    if (usage) {
-        $('pillTokens').textContent = usage.tokensToday || '--';
-        $('pillMsgs').textContent = usage.messagesToday != null ? String(usage.messagesToday) : '--';
-    }
-    
-    const system = await fetchJSON('/system-status.json');
-    if (system) {
-        $('pillCpu').textContent = system.cpu != null ? system.cpu + '%' : '--';
-        $('pillRam').textContent = system.memory != null ? system.memory + '%' : '--';
-    }
-    
-    // Debug
-    const fails = [];
-    if (!mind) fails.push('mind');
-    if (!system) fails.push('system');
-    if (!usage) fails.push('usage');
-    if (fails.length > 0) {
-        debug.style.display = 'block';
-        debug.textContent = '⚠ Failed: ' + fails.join(', ') + ' — ' + new Date().toLocaleTimeString();
-    } else {
-        debug.style.display = 'none';
-    }
-}
+                const m2 = document.getElementById('mini2-pill');
+                if (system.mini2) {
+                    if (system.mini2.online) {
+                        m2.textContent = 'Mini2: ✓';
+                        m2.className = 'status-pill green';
+                    } else {
+                        m2.textContent = 'Mini2: ✗';
+                        m2.className = 'status-pill red';
+                    }
+                }
+            }
+        }
 
-// Pull to Refresh
-let touchStartY = 0;
-let isPulling = false;
-const pullEl = $('pullIndicator');
-
-document.addEventListener('touchstart', (e) => {
-    if (window.scrollY <= 0) {
-        touchStartY = e.touches[0].clientY;
-        isPulling = true;
-    }
-}, { passive: true });
-
-document.addEventListener('touchmove', (e) => {
-    if (!isPulling) return;
-    const dy = e.touches[0].clientY - touchStartY;
-    if (dy > 0 && dy < 150) {
-        pullEl.style.height = Math.min(dy * 0.5, 50) + 'px';
-    }
-}, { passive: true });
-
-document.addEventListener('touchend', () => {
-    if (!isPulling) return;
-    isPulling = false;
-    const h = parseFloat(pullEl.style.height) || 0;
-    if (h >= 40) {
-        pullEl.style.height = '40px';
-        loadAll().then(() => {
-            setTimeout(() => { pullEl.style.height = '0px'; }, 500);
-        });
-    } else {
-        pullEl.style.height = '0px';
-    }
-});
-
-// WebSocket
-let ws = null;
-function connectWS() {
-    const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
-    ws = new WebSocket(proto + '//' + location.host);
-    ws.onopen = () => $('wsDot').classList.remove('offline');
-    ws.onclose = () => { $('wsDot').classList.add('offline'); setTimeout(connectWS, 3000); };
-    ws.onerror = () => ws.close();
-    ws.onmessage = (e) => {
-        try {
-            const msg = JSON.parse(e.data);
-            if (msg.type === 'update' && msg.widget === 'mind') renderMind(msg.data);
-        } catch {}
-    };
-}
-
-// Init
-loadAll();
-connectWS();
-setInterval(loadAll, 60000);
-</script>
+        refreshStatus();
+        setInterval(refreshStatus, 30000);
+    </script>
 </body>
 </html>

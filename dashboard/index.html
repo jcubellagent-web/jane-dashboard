@@ -4102,6 +4102,7 @@
         
         function addThought(text) {
             const container = document.getElementById('thinking-content');
+            if (!container) return; // Dashboard Ops removed
             
             // Mark old lines
             container.querySelectorAll('.thinking-line').forEach(el => el.classList.add('old'));

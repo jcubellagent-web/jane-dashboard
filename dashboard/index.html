@@ -3029,6 +3029,15 @@
                         if (cpuSlim) cpuSlim.textContent = 'CPU ' + cpuVal;
                         const ramSlim = document.getElementById('ram-slim');
                         if (ramSlim) ramSlim.textContent = 'RAM ' + ramVal;
+                        // Uptime from system API
+                        if (system.uptime) {
+                            const uptimeSlim = document.getElementById('uptime-slim');
+                            if (uptimeSlim) uptimeSlim.textContent = system.uptime;
+                            const ageEl = document.getElementById('jane-age');
+                            if (ageEl) ageEl.textContent = system.uptime;
+                            const ageSlim = document.getElementById('jane-age-slim');
+                            if (ageSlim) ageSlim.textContent = system.uptime;
+                        }
                     }
                     
                     addThought("System metrics updated.");

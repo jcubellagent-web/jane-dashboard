@@ -2454,6 +2454,8 @@
                     <span class="status-slim-pill" id="uptime-slim">--</span>
                     <span class="status-slim-divider">·</span>
                     <span class="status-slim-pill green" id="plan-slim">Max</span>
+                    <span class="status-slim-divider">·</span>
+                    <span class="status-slim-pill" id="mini2-slim" title="Mac Mini #2 (compute node)">Mini2 --</span>
                 </div>
             </div>
             <!-- Jane's Mind - Real reasoning/task tracking -->
@@ -3042,6 +3044,19 @@
                         if (cpuSlim) cpuSlim.textContent = 'CPU ' + cpuVal;
                         const ramSlim = document.getElementById('ram-slim');
                         if (ramSlim) ramSlim.textContent = 'RAM ' + ramVal;
+                        // Mini #2 status
+                        const mini2Slim = document.getElementById('mini2-slim');
+                        if (mini2Slim && system.mini2) {
+                            if (system.mini2.online) {
+                                mini2Slim.textContent = 'Mini2 ✓';
+                                mini2Slim.className = 'status-slim-pill green';
+                                mini2Slim.title = `Mini #2: CPU ${system.mini2.cpu}% · RAM ${system.mini2.memory}% · Ollama: ${(system.mini2.ollamaModels||[]).join(', ')}`;
+                            } else {
+                                mini2Slim.textContent = 'Mini2 ✗';
+                                mini2Slim.className = 'status-slim-pill red';
+                                mini2Slim.title = 'Mini #2: Offline';
+                            }
+                        }
                         // Uptime from system API
                         if (system.uptime) {
                             const uptimeSlim = document.getElementById('uptime-slim');

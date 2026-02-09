@@ -4164,9 +4164,21 @@
         // Refresh mind state periodically
         setInterval(refreshMind, 5000);
         
-        // Initial load
-        try { initBrainMap(); } catch(e) { console.warn('Brain init error:', e.message); }
-        try { refreshMind(); } catch(e) { console.warn('Mind init error:', e.message); }
+        // Initial load — each wrapped to prevent cascade failure
+        try { initBrainMap(); } catch(e) { console.warn('Brain init:', e.message); }
+        try { refreshMind(); } catch(e) {}
+        try { refreshSystem(); } catch(e) {}
+        try { refreshTicker(); } catch(e) {}
+        try { refreshXStats(); } catch(e) {}
+        try { refreshKalshi(); } catch(e) {}
+        try { refreshPredictions(); } catch(e) {}
+        try { refreshNews(); } catch(e) {}
+        try { refreshSorare(); } catch(e) {}
+        try { refreshMemecoins(); } catch(e) {}
+        try { refreshConnections(); } catch(e) {}
+        try { refreshAgents(); } catch(e) {}
+        try { refreshTasks(); } catch(e) {}
+        try { refreshCron(); } catch(e) {}
         
         // Auto-refresh intervals
         setInterval(refreshSystem, 30000);

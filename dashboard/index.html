@@ -4162,20 +4162,15 @@
         // Crypto WebSocket disabled - using API polling instead
         
         // Initial load
-        refreshSystem();
-        refreshAgents();
-        refreshTicker();
-        refreshKalshi();
-        refreshPredictions();
-        refreshNews();
-        refreshXStats();
-        refreshTasks();
-        refreshCron();
         initBrainMap();
         refreshMind();
-        refreshSorare();
-        refreshMemecoins();
-        refreshConnections();
+        // Stagger API calls to avoid overwhelming the server
+        setTimeout(() => { refreshSystem(); refreshTicker(); refreshXStats(); }, 500);
+        setTimeout(() => { refreshKalshi(); refreshPredictions(); refreshNews(); }, 1500);
+        setTimeout(() => { refreshSorare(); refreshMemecoins(); refreshConnections(); }, 2500);
+        setTimeout(() => { refreshAgents(); refreshTasks(); refreshCron(); }, 3500);
+        // Retry all after 10s in case any timed out
+        setTimeout(() => { refreshSystem(); refreshTicker(); refreshXStats(); refreshKalshi(); refreshPredictions(); refreshNews(); }, 10000);
         
         // Auto-refresh intervals
         setInterval(refreshSystem, 30000);

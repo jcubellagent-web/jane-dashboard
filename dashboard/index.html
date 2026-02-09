@@ -3831,15 +3831,17 @@
                 const container = document.getElementById('mind-steps');
                 const indicators = { done: '✓', active: '●', pending: '○' };
                 
-                // Activate brain regions for active/done steps
-                mindState.steps.forEach(step => {
-                    if (step.status === 'active' || step.status === 'done') {
-                        const tool = step.tool || '';
-                        const region = getToolRegion(tool);
-                        const color = getToolColor(tool);
-                        if (region) activateBrainRegion(region, color);
-                    }
-                });
+                // Activate brain regions only when actively working (not idle with done steps)
+                if (hasActive || mindState.task) {
+                    mindState.steps.forEach(step => {
+                        if (step.status === 'active' || step.status === 'done') {
+                            const tool = step.tool || '';
+                            const region = getToolRegion(tool);
+                            const color = getToolColor(tool);
+                            if (region) activateBrainRegion(region, color);
+                        }
+                    });
+                }
 
                 // Only show pulse dots for active steps
                 document.getElementById('brain-pulses').innerHTML = '';

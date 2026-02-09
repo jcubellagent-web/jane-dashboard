@@ -3793,14 +3793,14 @@
         // Brain map configuration — diamond layout (tall vertical)
         // Positions defined as offsets from center (100, 190) in viewBox 200x380
         var brainRegions = [
-            { name: 'Language',  dx: 0,   dy: -155 },  // top point
-            { name: 'Reasoning', dx: 55,  dy: -110 },  // upper right
-            { name: 'Research',  dx: 80,  dy: -40 },   // mid right upper
-            { name: 'Vision',    dx: 55,  dy: 30 },    // mid right lower
-            { name: 'Planning',  dx: 0,   dy: 155 },   // bottom point
-            { name: 'Market',    dx: -55, dy: 30 },     // mid left lower
-            { name: 'Execution', dx: -80, dy: -40 },    // mid left upper
-            { name: 'Memory',    dx: -55, dy: -110 }    // upper left
+            { name: 'Reasoning', dx: 0,   dy: -155 },  // top — primary thinking
+            { name: 'Code',      dx: 55,  dy: -110 },  // upper right — exec/read/write/edit
+            { name: 'Web',       dx: 80,  dy: -40 },   // mid right — search/fetch/browser
+            { name: 'Social',    dx: 55,  dy: 30 },    // mid right lower — X, messaging
+            { name: 'Data',      dx: 0,   dy: 155 },   // bottom — APIs, dashboard, monitoring
+            { name: 'Market',    dx: -55, dy: 30 },     // mid left lower — Kalshi, Sorare, trading
+            { name: 'Memory',    dx: -80, dy: -40 },    // mid left — memory search, files
+            { name: 'Language',  dx: -55, dy: -110 }    // upper left — whisper, TTS
         ];
         var brainToolColors = {
             'opus': '#4ade80', 'claude': '#4ade80',
@@ -3811,14 +3811,15 @@
             'default': 'rgba(74,222,128,0.3)'
         };
         var brainToolToRegion = {
-            'opus': 'Reasoning', 'claude': 'Reasoning', 'sonnet': 'Reasoning',
-            'whisper': 'Language', 'ollama': 'Reasoning',
-            'stable-diffusion': 'Vision', 'sd': 'Vision', 'image': 'Vision',
-            'web_search': 'Research', 'web_fetch': 'Research',
-            'browser': 'Research', 'exec': 'Execution', 'read': 'Memory', 'write': 'Execution',
-            'edit': 'Execution', 'tts': 'Language', 'message': 'Language',
-            'trading': 'Market', 'kalshi': 'Market', 'sorare': 'Market',
-            'cron': 'Planning', 'sessions_spawn': 'Planning'
+            'opus': 'Reasoning', 'claude': 'Reasoning', 'sonnet': 'Reasoning', 'ollama': 'Reasoning',
+            'whisper': 'Language', 'tts': 'Language',
+            'web_search': 'Web', 'web_fetch': 'Web', 'browser': 'Web',
+            'exec': 'Code', 'read': 'Code', 'write': 'Code', 'edit': 'Code',
+            'memory_search': 'Memory', 'memory_get': 'Memory',
+            'message': 'Social', 'sessions_spawn': 'Social', 'sessions_send': 'Social',
+            'trading': 'Market', 'kalshi': 'Market', 'sorare': 'Market', 'memecoins': 'Market',
+            'cron': 'Data', 'session_status': 'Data', 'sessions_list': 'Data',
+            'stable-diffusion': 'Web', 'sd': 'Web', 'image': 'Web'
         };
         var activeRegions = new Set();
 

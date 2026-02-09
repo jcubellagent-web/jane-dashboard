@@ -4162,12 +4162,15 @@
         setInterval(refreshMind, 5000);
         
         // Initial load
+        console.log('INIT START');
         try { initBrainMap(); } catch(e) { console.warn('Brain init error:', e.message); }
         try { refreshMind(); } catch(e) { console.warn('Mind init error:', e.message); }
-        window.setTimeout(function() { refreshSystem(); refreshTicker(); refreshXStats(); }, 200);
-        window.setTimeout(function() { refreshKalshi(); refreshPredictions(); }, 800);
-        window.setTimeout(function() { refreshNews(); refreshSorare(); refreshMemecoins(); refreshConnections(); }, 1500);
-        window.setTimeout(function() { refreshAgents(); refreshTasks(); refreshCron(); }, 2500);
+        console.log('INIT: setting timeouts');
+        window.setTimeout(function() { console.log('TIMEOUT 1 fired'); refreshSystem(); refreshTicker(); refreshXStats(); }, 200);
+        window.setTimeout(function() { console.log('TIMEOUT 2 fired'); refreshKalshi(); refreshPredictions(); }, 800);
+        window.setTimeout(function() { console.log('TIMEOUT 3 fired'); refreshNews(); refreshSorare(); refreshMemecoins(); refreshConnections(); }, 1500);
+        window.setTimeout(function() { console.log('TIMEOUT 4 fired'); refreshAgents(); refreshTasks(); refreshCron(); }, 2500);
+        console.log('INIT COMPLETE');
         
         // Auto-refresh intervals
         setInterval(refreshSystem, 30000);

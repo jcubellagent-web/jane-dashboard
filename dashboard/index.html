@@ -1847,8 +1847,8 @@
         }
         
         @keyframes idleNodeBreathe {
-            0%, 100% { r: 8; stroke-opacity: 0.15; fill-opacity: 0.05; }
-            50% { r: 10; stroke-opacity: 0.3; fill-opacity: 0.1; }
+            0%, 100% { r: 4; fill-opacity: 0.2; }
+            50% { r: 6; fill-opacity: 0.4; }
         }
         
         @keyframes idleLineBreathe {
@@ -3697,10 +3697,10 @@
                 // Node circle
                 const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 circle.setAttribute('cx', x); circle.setAttribute('cy', y);
-                circle.setAttribute('r', '10');
-                circle.setAttribute('fill', 'rgba(74,222,128,0.1)');
-                circle.setAttribute('stroke', 'rgba(74,222,128,0.25)');
-                circle.setAttribute('stroke-width', '1.5');
+                circle.setAttribute('r', '5');
+                circle.setAttribute('fill', 'rgba(74,222,128,0.3)');
+                circle.setAttribute('stroke', 'none');
+                circle.setAttribute('stroke-width', '0');
                 circle.setAttribute('id', `brain-node-${i}`);
                 circle.classList.add('brain-node-circle');
                 nodesG.appendChild(circle);
@@ -3725,9 +3725,9 @@
             if (node) {
                 node.setAttribute('fill', color.replace(')', ',0.3)').replace('rgb', 'rgba').replace('rgba(', 'rgba(').replace('#', ''));
                 // Simpler: just set fill and stroke
-                node.setAttribute('fill', color); node.setAttribute('fill-opacity', '0.35');
-                node.setAttribute('stroke', color); node.setAttribute('stroke-opacity', '0.8');
-                node.setAttribute('r', '13');
+                node.setAttribute('fill', color); node.setAttribute('fill-opacity', '0.6');
+                node.setAttribute('stroke', 'none');
+                node.setAttribute('r', '7');
             }
             if (line) { line.setAttribute('stroke', color); line.setAttribute('stroke-opacity', '0.6'); line.setAttribute('stroke-width', '2'); }
             if (label) { label.setAttribute('fill', 'rgba(255,255,255,0.9)'); }
@@ -3741,7 +3741,7 @@
                 const node = document.getElementById(`brain-node-${i}`);
                 const line = document.getElementById(`brain-line-${i}`);
                 const label = document.getElementById(`brain-label-${i}`);
-                if (node) { node.setAttribute('fill', 'rgba(74,222,128,0.1)'); node.setAttribute('fill-opacity', '1'); node.setAttribute('stroke', 'rgba(74,222,128,0.25)'); node.setAttribute('stroke-opacity', '1'); node.setAttribute('r', '10'); }
+                if (node) { node.setAttribute('fill', 'rgba(74,222,128,0.3)'); node.setAttribute('fill-opacity', '1'); node.setAttribute('stroke', 'none'); node.setAttribute('r', '5'); }
                 if (line) { line.setAttribute('stroke', 'rgba(74,222,128,0.15)'); line.setAttribute('stroke-opacity', '1'); line.setAttribute('stroke-width', '1'); }
                 if (label) { label.setAttribute('fill', 'rgba(255,255,255,0.5)'); }
             });

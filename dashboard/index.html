@@ -3958,7 +3958,7 @@
 
         function updateMind(task, steps, thought) {
             if (task !== undefined) {
-                if (task) mindState.task = task;
+                mindState.task = task;
                 const taskEl = document.getElementById('mind-current-task');
                 if (mindState.task) {
                     taskEl.textContent = mindState.task;
@@ -3969,7 +3969,7 @@
                 }
             }
             
-            if (steps !== undefined && steps.length > 0) {
+            if (steps !== undefined) {
                 mindState.steps = steps;
             }
 

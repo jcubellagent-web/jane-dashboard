@@ -1939,6 +1939,10 @@
             0% { stroke-dashoffset: 0; }
             100% { stroke-dashoffset: -628; }
         }
+        @keyframes sciRingScanReverse {
+            0% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: 628; }
+        }
         
         @keyframes sciGridPulse {
             0%, 100% { stroke-opacity: 0.08; }
@@ -1960,18 +1964,30 @@
         /* Scanning ring (idle only) */
         .sci-scan-ring {
             fill: none;
-            stroke: rgba(74,222,128,0.25);
-            stroke-width: 1;
-            stroke-dasharray: 30 598;
+            stroke: rgba(74,222,128,0.2);
+            stroke-width: 0.8;
             transform-origin: 100px 190px;
         }
-        .brain-idle .sci-scan-ring {
-            animation: sciRingScan 6s linear infinite;
-        }
-        .brain-active .sci-scan-ring {
-            animation: sciRingScan 3s linear infinite;
-            stroke: rgba(74,222,128,0.3);
-        }
+        /* Orbit 1 — large, CW */
+        .sci-orbit-1 { stroke-dasharray: 25 603; }
+        .brain-idle .sci-orbit-1 { animation: sciRingScan 8s linear infinite; }
+        .brain-active .sci-orbit-1 { animation: sciRingScan 3s linear infinite; stroke: rgba(74,222,128,0.35); }
+        /* Orbit 2 — medium, CCW */
+        .sci-orbit-2 { stroke-dasharray: 20 295; }
+        .brain-idle .sci-orbit-2 { animation: sciRingScanReverse 6s linear infinite; }
+        .brain-active .sci-orbit-2 { animation: sciRingScanReverse 2.5s linear infinite; stroke: rgba(74,222,128,0.35); }
+        /* Orbit 3 — small, CW fast */
+        .sci-orbit-3 { stroke-dasharray: 15 236; }
+        .brain-idle .sci-orbit-3 { animation: sciRingScan 5s linear infinite; }
+        .brain-active .sci-orbit-3 { animation: sciRingScan 2s linear infinite; stroke: rgba(74,222,128,0.4); }
+        /* Orbit 4 — large, CCW slow */
+        .sci-orbit-4 { stroke-dasharray: 35 719; }
+        .brain-idle .sci-orbit-4 { animation: sciRingScanReverse 10s linear infinite; }
+        .brain-active .sci-orbit-4 { animation: sciRingScanReverse 4s linear infinite; stroke: rgba(74,222,128,0.3); }
+        /* Orbit 5 — medium, CW */
+        .sci-orbit-5 { stroke-dasharray: 18 385; }
+        .brain-idle .sci-orbit-5 { animation: sciRingScan 7s linear infinite; }
+        .brain-active .sci-orbit-5 { animation: sciRingScan 2.8s linear infinite; stroke: rgba(74,222,128,0.35); }
         
         /* Glow backdrop */
         .brain-idle #brain-glow {
@@ -2469,8 +2485,12 @@
                             <!-- Crosshair lines -->
                             <line x1="100" y1="60" x2="100" y2="320" stroke="rgba(74,222,128,0.03)" stroke-width="0.5"/>
                             <line x1="10" y1="190" x2="190" y2="190" stroke="rgba(74,222,128,0.03)" stroke-width="0.5"/>
-                            <!-- Scanning ring -->
-                            <circle cx="100" cy="190" r="100" class="sci-scan-ring"/>
+                            <!-- Orbiting arcs -->
+                            <circle cx="100" cy="190" r="100" class="sci-scan-ring sci-orbit-1"/>
+                            <circle cx="100" cy="190" r="50" class="sci-scan-ring sci-orbit-2"/>
+                            <circle cx="100" cy="190" r="40" class="sci-scan-ring sci-orbit-3"/>
+                            <circle cx="100" cy="190" r="120" class="sci-scan-ring sci-orbit-4"/>
+                            <circle cx="100" cy="190" r="64" class="sci-scan-ring sci-orbit-5"/>
                             <!-- Connection lines (drawn by JS) -->
                             <g id="brain-lines"></g>
                             <!-- Pulse dots (drawn by JS) -->

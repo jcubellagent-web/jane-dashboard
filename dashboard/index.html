@@ -1911,28 +1911,28 @@
         }
         
         @keyframes sciPulse {
-            0%, 100% { opacity: 0.03; }
-            50% { opacity: 0.08; }
+            0%, 100% { opacity: 0.05; transform: scale(0.95); }
+            50% { opacity: 0.25; transform: scale(1.1); }
         }
         
         @keyframes sciHubPulse {
-            0%, 100% { r: 3; fill-opacity: 0.4; }
-            50% { r: 4; fill-opacity: 0.7; }
+            0%, 100% { r: 3; fill-opacity: 0.3; filter: drop-shadow(0 0 2px rgba(74,222,128,0.1)); }
+            50% { r: 5; fill-opacity: 0.8; filter: drop-shadow(0 0 8px rgba(74,222,128,0.4)); }
         }
         
         @keyframes sciNodePulse {
-            0%, 100% { fill-opacity: 0.25; }
-            50% { fill-opacity: 0.5; }
+            0%, 100% { fill-opacity: 0.15; r: 2; }
+            50% { fill-opacity: 0.6; r: 3.5; }
         }
         
         @keyframes sciLinePulse {
-            0%, 100% { stroke-opacity: 0.06; }
-            50% { stroke-opacity: 0.12; }
+            0%, 100% { stroke-opacity: 0.04; }
+            50% { stroke-opacity: 0.2; }
         }
         
         @keyframes sciLabelPulse {
-            0%, 100% { fill-opacity: 0.25; }
-            50% { fill-opacity: 0.4; }
+            0%, 100% { fill-opacity: 0.15; }
+            50% { fill-opacity: 0.55; }
         }
         
         @keyframes sciRingScan {
@@ -1941,8 +1941,8 @@
         }
         
         @keyframes sciGridPulse {
-            0%, 100% { stroke-opacity: 0.04; }
-            50% { stroke-opacity: 0.08; }
+            0%, 100% { stroke-opacity: 0.03; }
+            50% { stroke-opacity: 0.12; }
         }
         
         /* Concentric reference rings */
@@ -1952,21 +1952,21 @@
             stroke-width: 0.5;
         }
         .brain-idle .sci-ring {
-            animation: sciGridPulse 6s ease-in-out infinite;
+            animation: sciGridPulse 4s ease-in-out infinite;
         }
-        .brain-idle .sci-ring:nth-child(2) { animation-delay: 1s; }
-        .brain-idle .sci-ring:nth-child(3) { animation-delay: 2s; }
+        .brain-idle .sci-ring:nth-child(2) { animation-delay: 0.8s; }
+        .brain-idle .sci-ring:nth-child(3) { animation-delay: 1.6s; }
         
         /* Scanning ring (idle only) */
         .sci-scan-ring {
             fill: none;
-            stroke: rgba(74,222,128,0.15);
-            stroke-width: 0.8;
-            stroke-dasharray: 20 608;
+            stroke: rgba(74,222,128,0.25);
+            stroke-width: 1;
+            stroke-dasharray: 30 598;
             transform-origin: 100px 190px;
         }
         .brain-idle .sci-scan-ring {
-            animation: sciRingScan 8s linear infinite;
+            animation: sciRingScan 6s linear infinite;
         }
         .brain-active .sci-scan-ring {
             animation: sciRingScan 3s linear infinite;
@@ -1975,7 +1975,8 @@
         
         /* Glow backdrop */
         .brain-idle #brain-glow {
-            animation: sciPulse 5s ease-in-out infinite;
+            animation: sciPulse 4s ease-in-out infinite;
+            transform-origin: 100px 190px;
         }
         
         /* Hub */
@@ -1985,7 +1986,7 @@
         
         /* Nodes */
         .brain-idle .brain-node-circle {
-            animation: sciNodePulse 5s ease-in-out infinite;
+            animation: sciNodePulse 3.5s ease-in-out infinite;
         }
         .brain-idle #brain-node-0 { animation-delay: 0s; }
         .brain-idle #brain-node-1 { animation-delay: 0.6s; }
@@ -1998,7 +1999,7 @@
         
         /* Lines */
         .brain-idle .brain-line {
-            animation: sciLinePulse 5s ease-in-out infinite;
+            animation: sciLinePulse 3.5s ease-in-out infinite;
         }
         .brain-idle #brain-line-0 { animation-delay: 0s; }
         .brain-idle #brain-line-1 { animation-delay: 0.6s; }
@@ -2011,7 +2012,7 @@
         
         /* Labels */
         .brain-idle .brain-node-label {
-            animation: sciLabelPulse 5s ease-in-out infinite;
+            animation: sciLabelPulse 3.5s ease-in-out infinite;
         }
         
         /* ===== ACTIVE STATE ===== */

@@ -865,6 +865,60 @@
         }
         
         /* Prediction Markets - Full height right column */
+        /* X Growth Widget */
+        .card-xgrowth {
+            flex: 0 1 auto;
+        }
+        .x-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .x-stat-item {
+            text-align: center;
+            padding: 0.4rem;
+            background: rgba(74,222,128,0.05);
+            border-radius: 6px;
+        }
+        .x-stat-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .x-stat-label {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .x-roadmap {
+            border-top: 1px solid rgba(74,222,128,0.1);
+            padding-top: 0.5rem;
+        }
+        .x-roadmap-title {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+        }
+        .x-roadmap-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.7);
+        }
+        .x-roadmap-pct {
+            font-weight: 700;
+            color: var(--accent);
+            min-width: 32px;
+            font-size: 0.8rem;
+        }
+
         .card-predictions-full {
             display: flex;
             flex-direction: column;
@@ -2693,6 +2747,64 @@
                 </div>
             </div>
             </div>
+            <!-- X Growth Widget -->
+            <div class="card card-xgrowth">
+                <div class="card-header">
+                    <div class="card-title" style="display:flex;align-items:center;gap:8px;">
+                        <img id="x-profile-pic" src="https://abs.twimg.com/favicons/twitter.3.ico" alt="@AgentJc11443" style="width:24px;height:24px;border-radius:50%;border:2px solid var(--accent);background:#000;">
+                        <span>X Growth</span>
+                        <span class="last-refresh" id="x-refresh">--</span>
+                    </div>
+                    <div class="card-meta">
+                        <button class="refresh-btn" onclick="refreshXStats(this)">↻</button>
+                    </div>
+                </div>
+                <!-- Stats Grid -->
+                <div class="x-stats-grid">
+                    <div class="x-stat-item">
+                        <div class="x-stat-value" id="x-followers">--</div>
+                        <div class="x-stat-label">Followers</div>
+                    </div>
+                    <div class="x-stat-item">
+                        <div class="x-stat-value" id="x-following">--</div>
+                        <div class="x-stat-label">Following</div>
+                    </div>
+                    <div class="x-stat-item">
+                        <div class="x-stat-value" id="x-posts">--</div>
+                        <div class="x-stat-label">Posts</div>
+                    </div>
+                    <div class="x-stat-item">
+                        <div class="x-stat-value" id="x-impressions">--</div>
+                        <div class="x-stat-label">Impressions</div>
+                    </div>
+                    <div class="x-stat-item">
+                        <div class="x-stat-value" id="x-engagements">--</div>
+                        <div class="x-stat-label">Engagements</div>
+                    </div>
+                    <div class="x-stat-item">
+                        <div class="x-stat-value" id="x-eng-rate">--</div>
+                        <div class="x-stat-label">Eng. Rate</div>
+                    </div>
+                </div>
+                <!-- Growth Roadmap -->
+                <div class="x-roadmap">
+                    <div class="x-roadmap-title">Growth Roadmap</div>
+                    <div class="x-roadmap-items" id="x-roadmap-items">
+                        <div class="x-roadmap-item">
+                            <span class="x-roadmap-pct">70%</span>
+                            <span class="x-roadmap-text">Quality replies to high-follower accounts</span>
+                        </div>
+                        <div class="x-roadmap-item">
+                            <span class="x-roadmap-pct">20%</span>
+                            <span class="x-roadmap-text">Original AI × Crypto content</span>
+                        </div>
+                        <div class="x-roadmap-item">
+                            <span class="x-roadmap-pct">10%</span>
+                            <span class="x-roadmap-text">Strategic follows & engagement</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div><!-- end right-column -->
         
     </main>
@@ -2839,6 +2951,27 @@
         }
         
         // Connected Accounts
+        // X Growth Stats
+        async function refreshXStats(btn) {
+            const doRefresh = async () => {
+                try {
+                    const data = await fetchWithTimeout('/x-stats.json', 5000);
+                    if (data) {
+                        document.getElementById('x-followers').textContent = data.followers || 0;
+                        document.getElementById('x-following').textContent = data.following || 0;
+                        document.getElementById('x-posts').textContent = data.tweets || 0;
+                        document.getElementById('x-impressions').textContent = data.impressions ? (data.impressions >= 1000 ? (data.impressions/1000).toFixed(1)+'K' : data.impressions) : '0';
+                        document.getElementById('x-engagements').textContent = data.engagements || 0;
+                        document.getElementById('x-eng-rate').textContent = (data.engagementRate || 0) + '%';
+                        const el = document.getElementById('x-refresh');
+                        if (el) el.textContent = new Date().toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit'});
+                    }
+                } catch (err) { console.error('X stats error:', err); }
+            };
+            if (btn) spinButton(btn, doRefresh());
+            else doRefresh();
+        }
+
         async function refreshConnections(btn) {
             try {
                 const res = await fetch('/api/connections');
@@ -3932,6 +4065,7 @@
             refreshNews();
             refreshConnections();
             refreshSorare();
+            refreshXStats();
             refreshTasks();
             refreshCron();
             refreshMind();
@@ -4014,12 +4148,13 @@
         refreshKalshi();
         refreshPredictions();
         refreshNews();
+        refreshXStats();
         refreshTasks();
         refreshCron();
         initBrainMap();
         refreshMind();
         refreshSorare();
-        refreshMemecoins();  // Was missing from init!
+        refreshMemecoins();
         refreshConnections();
         
         // Auto-refresh intervals

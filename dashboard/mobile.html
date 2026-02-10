@@ -25,32 +25,39 @@
             overscroll-behavior-y: contain;
         }
 
-        /* Pull to refresh — minimal bar */
-        .ptr-bar {
+        /* Pull to refresh — spinning Jane icon */
+        .ptr-icon {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: transparent;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 200;
             pointer-events: none;
+            transition: top 0.25s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .ptr-bar .ptr-fill {
-            height: 100%;
-            width: 0%;
-            background: var(--accent);
-            transition: width 0.2s ease;
-            border-radius: 0 1px 1px 0;
+        .ptr-icon .ptr-jane {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            box-shadow: 0 0 12px rgba(74,222,128,0.3);
+            transition: transform 0.1s linear;
         }
-        .ptr-bar.loading .ptr-fill {
-            width: 100%;
-            animation: ptrShimmer 1s ease-in-out infinite;
+        .ptr-icon.loading .ptr-jane {
+            animation: ptrSpin 0.8s linear infinite;
         }
-        @keyframes ptrShimmer {
-            0% { opacity: 1; }
-            50% { opacity: 0.3; }
-            100% { opacity: 1; }
+        @keyframes ptrSpin {
+            to { transform: rotate(360deg); }
         }
 
         .card {
@@ -479,7 +486,7 @@
     </style>
 </head>
 <body>
-    <div class="ptr-bar" id="ptr"><div class="ptr-fill" id="ptr-fill"></div></div>
+    <div class="ptr-icon" id="ptr"><div class="ptr-jane">🧠</div></div>
     <!-- Page Header -->
     <div style="padding: 0.6rem 0.25rem 0.3rem; display:flex; align-items:center; justify-content:space-between;">
         <div style="display:flex; align-items:center; gap:0.4rem;">
@@ -1134,10 +1141,10 @@
             requestAnimationFrame(render);
         })();
 
-        // Pull to refresh — minimal bar
+        // Pull to refresh — spinning Jane icon
         let ptrStart = 0, ptrActive = false, ptrRefreshing = false;
-        const ptrBar = document.getElementById('ptr');
-        const ptrFill = document.getElementById('ptr-fill');
+        const ptrIcon = document.getElementById('ptr');
+        const ptrJane = ptrIcon.querySelector('.ptr-jane');
 
         document.addEventListener('touchstart', e => {
             if (window.scrollY === 0 && !ptrRefreshing) {
@@ -1149,40 +1156,37 @@
         document.addEventListener('touchmove', e => {
             if (!ptrActive) return;
             const dy = e.touches[0].clientY - ptrStart;
-            if (dy > 20 && dy < 150) {
-                const pct = Math.min(((dy - 20) / 80) * 100, 100);
-                ptrFill.style.width = pct + '%';
+            if (dy > 10 && dy < 150) {
+                const progress = Math.min((dy - 10) / 70, 1);
+                ptrIcon.style.top = (progress * 50 - 10) + 'px';
+                ptrJane.style.transform = 'rotate(' + (progress * 360) + 'deg)';
             }
         }, { passive: true });
 
         document.addEventListener('touchend', () => {
             if (!ptrActive) return;
             ptrActive = false;
-            const w = parseFloat(ptrFill.style.width) || 0;
-            if (w >= 80) {
-                // Trigger refresh
+            const top = parseFloat(ptrIcon.style.top) || -50;
+            if (top >= 30) {
+                // Trigger refresh — start spinning
                 ptrRefreshing = true;
-                ptrBar.classList.add('loading');
-                ptrFill.style.width = '100%';
+                ptrIcon.style.top = '12px';
+                ptrIcon.classList.add('loading');
                 Promise.all([refreshStatus(), refreshMind(), refreshTicker()]).then(() => {
-                    ptrBar.classList.remove('loading');
-                    ptrFill.style.transition = 'opacity 1.2s ease-out';
-                    ptrFill.style.opacity = '0';
+                    ptrIcon.classList.remove('loading');
+                    ptrIcon.style.transition = 'top 0.3s ease';
+                    ptrIcon.style.top = '-50px';
                     setTimeout(() => {
-                        ptrFill.style.transition = 'none';
-                        ptrFill.style.width = '0%';
-                        ptrFill.style.opacity = '1';
-                        // Force reflow so 'none' applies before clearing
-                        ptrFill.offsetHeight;
-                        ptrFill.style.transition = '';
+                        ptrIcon.style.transition = '';
+                        ptrJane.style.transform = '';
                         ptrRefreshing = false;
-                    }, 1300);
+                    }, 350);
                 });
             } else {
-                // Cancel — didn't pull far enough
-                ptrFill.style.transition = 'width 0.2s ease';
-                ptrFill.style.width = '0%';
-                setTimeout(() => { ptrFill.style.transition = ''; }, 200);
+                // Cancel — snap back
+                ptrIcon.style.transition = 'top 0.2s ease';
+                ptrIcon.style.top = '-50px';
+                setTimeout(() => { ptrIcon.style.transition = ''; ptrJane.style.transform = ''; }, 200);
             }
         });
     </script>

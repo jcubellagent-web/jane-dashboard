@@ -671,7 +671,10 @@
             document.getElementById('mind-task-text').textContent = data.task || 'Awaiting instructions...';
 
             // Thinking & Decisions
-            document.getElementById('mind-thought-text').textContent = data.thought || 'Ready for your next request.';
+            const thoughtEl = document.getElementById('mind-thought-text');
+            thoughtEl.textContent = data.thought || 'Ready for your next request.';
+            const modelColors = {opus:'#4ade80', claude:'#4ade80', sonnet:'#8b5cf6', whisper:'#facc15', ollama:'#f97316', sd:'#ec4899'};
+            thoughtEl.style.color = modelColors[(data.model||'').toLowerCase()] || 'var(--accent)';
 
             // Actions & Tools (steps)
             const stepsEl = document.getElementById('mind-steps');

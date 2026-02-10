@@ -1,0 +1,24 @@
+{
+  "lastUpdated": "2026-02-10T03:48:00Z",
+  "rolling24h": {
+    "replies": {
+      "planned": 8,
+      "completed": 0,
+      "items": [
+        {"target": "@tayvano_ — capability-based agent security follow-up", "scheduledFor": "2026-02-10 09:00 ET", "status": "planned"},
+        {"target": "AI/crypto-security thread (find fresh)", "scheduledFor": "2026-02-10 09:30 ET", "status": "planned"},
+        {"target": "AI/crypto-security thread (find fresh)", "scheduledFor": "2026-02-10 10:00 ET", "status": "planned"},
+        {"target": "AI/crypto-security thread (find fresh)", "scheduledFor": "2026-02-10 10:30 ET", "status": "planned"},
+        {"target": "AI agent discussion thread", "scheduledFor": "2026-02-10 11:00 ET", "status": "planned"},
+        {"target": "AI agent discussion thread", "scheduledFor": "2026-02-10 11:15 ET", "status": "planned"},
+        {"target": "Web3/DeFi security thread", "scheduledFor": "2026-02-10 11:30 ET", "status": "planned"},
+        {"target": "Web3/DeFi security thread", "scheduledFor": "2026-02-10 11:45 ET", "status": "planned"}
+      ]
+    },
+    "originalTweets": {
+      "planned": 0,
+      "completed": 0,
+      "items": []
+    }
+  }
+}

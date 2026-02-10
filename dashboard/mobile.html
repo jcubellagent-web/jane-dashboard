@@ -789,10 +789,18 @@
             showDelta('x-d-followers', data.followers, prev.followers);
             showDelta('x-d-impressions', data.impressions, prev.impressions);
             showDelta('x-d-likes', data.likes, prev.likes);
-            // Planned content
+            // Planned content — from rolling 24h content plan
+            const plan = await fetchJSON('/x-content-plan.json');
             const setP = (id, val) => { const el = document.querySelector('#' + id + ' .x-val'); if (el) el.textContent = val != null ? String(val) : '--'; };
-            setP('x-planned-replies', data.plannedReplies);
-            setP('x-planned-tweets', data.plannedTweets);
+            if (plan && plan.rolling24h) {
+                const r = plan.rolling24h.replies || {};
+                const t = plan.rolling24h.originalTweets || {};
+                setP('x-planned-replies', (r.planned || 0) - (r.completed || 0));
+                setP('x-planned-tweets', (t.planned || 0) - (t.completed || 0));
+            } else {
+                setP('x-planned-replies', data.plannedReplies);
+                setP('x-planned-tweets', data.plannedTweets);
+            }
         }
 
         async function refreshMind() {

@@ -119,7 +119,9 @@ _Distilled wisdom from daily experiences. Updated periodically._
 - First trading session together went well - trust established
 - Prefers tooltips/displays to show only what's actually live, not aspirational
 - Wants detailed `thought` text in mind-state widget — show sub-decisions, problem-solving, not just step names (Feb 7)
-- X Growth: aggressive 30+ replies/day target
+- X Growth: pivoted to AI news feed bot (Feb 9) — daily briefs, not reply grinding
+- **Mind-state widget**: always descriptive goals, show "Sending WhatsApp response" step before idle
+- Mobile dashboard ticker: API key for NASDAQ is `nasdaq` not `ndaq`
 
 ---
 
@@ -133,17 +135,25 @@ _Distilled wisdom from daily experiences. Updated periodically._
 ## X/Twitter Growth
 
 ### Account (@AgentJc11443)
-- Premium/Verified ✅, 6 followers, 10 following
-- First tweet: "Hello World 👋" — 14 views, 1 like, 1 repost
-- First engagement: 5 replies to AI/crypto threads (Feb 7 night)
-- Best performing: @minchoi reply (45 views) — riding high-visibility threads works
-- Strategy doc: `x-strategy.md` — AI×Crypto 35%, Web3 Culture 30%, Helpful 20%, Personality 15%
+- Premium/Verified ✅, 8 followers, 19 following
+- **REBRANDED Feb 9**: Now an AI news feed bot, NOT a personality/engagement account
+- Bio: "AI-powered news bot | Daily AI innovations, macro moves & M&A deals | Your optimized data feed | Built by @jcubnft"
+- **DO NOT post about crypto-security** — Josh explicitly banned this topic
+- Thread template: `x-thread-template.md` — 5-tweet daily brief format
+- Core providers tracked: Anthropic, OpenAI, Google DeepMind, Meta AI, Mistral, xAI, DeepSeek
+- Content plan: `dashboard/x-content-plan.json` (rolling 24h)
+- Profile pic saved locally: `dashboard/x-pfp.jpg`
 
 ### X Data Access
 - X API Free = post only, no analytics read. Basic = $100/mo (too expensive)
 - Solution: Browser scraping via heartbeats every 2-3 hours
 - Manual refresh: button writes `.x-refresh-requested` flag → heartbeat picks up
-- Dashboard widget: Harvey ball daily action plan, neon engagement stats, recent activity
+
+### X Content Strategy (Feb 9 rebrand)
+- **Niche**: Daily AI news briefs (4-5/day) — foundational model updates, M&A, markets
+- **BANNED TOPICS**: crypto-security, wallet security, agent security (Josh very explicit)
+- **Thread format**: Anchor → Model Providers → Business/M&A → Markets → Hot Take
+- **Provider emojis**: Anthropic🟢 OpenAI🔵 DeepMind🔴 Meta🟣 Mistral⚪ xAI⚫ DeepSeek🔷
 
 ### Local Models (Feb 2026)
 - **Ollama models**: nomic-embed-text (274MB), llama3.1:8b (4.9GB), mistral:7b (4.4GB)
@@ -211,4 +221,4 @@ _Distilled wisdom from daily experiences. Updated periodically._
 - Background refresh script: `dashboard/refresh-mobile-data.sh` (every 60s)
 - Mini #1 Tailscale IP: 100.121.89.84
 
-_Last updated: 2026-02-08_
+_Last updated: 2026-02-09_

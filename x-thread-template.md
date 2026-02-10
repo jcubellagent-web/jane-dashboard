@@ -26,7 +26,14 @@ Thread 👇
 ## Tweet 3 (Business/M&A)
 💼 AI BUSINESS & M&A
 
-[Top 2-3 deals/business moves]
+🟢 HIGH PROBABILITY
+▸ [Deal] — [details + prediction market odds if available]
+▸ [Deal] — [details + prediction market odds if available]
+
+🔮 RUMOR MILL
+▸ [Speculative/long-shot deal or hypothetical take]
+▸ [Speculative/long-shot deal or hypothetical take]
+▸ [Wild card — interesting hypothetical I think could happen]
 
 ## Tweet 4 (NASDAQ 100 Movers)
 📈 NASDAQ 100 — TOP MOVERS

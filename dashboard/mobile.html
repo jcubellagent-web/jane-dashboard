@@ -971,13 +971,13 @@
             function render() {
                 const isActive = document.getElementById('mindmap-card')?.classList.contains('mindmap-active');
                 const speed = isActive ? 0.003 : 0.0008;
-                const breatheSpeed = isActive ? 0.015 : 0.006;
+                const breatheSpeed = isActive ? 0.018 : 0.01;
                 angle += speed;
                 breathe += breatheSpeed;
 
-                const breatheMult = 0.6 + Math.sin(breathe) * 0.4;
-                const baseAlpha = (isActive ? 0.18 : 0.06) * breatheMult;
-                const lineAlpha = (isActive ? 0.08 : 0.025) * breatheMult;
+                const breatheMult = 0.35 + Math.sin(breathe) * 0.65;
+                const baseAlpha = (isActive ? 0.22 : 0.14) * breatheMult;
+                const lineAlpha = (isActive ? 0.10 : 0.06) * breatheMult;
 
                 ctx.clearRect(0, 0, W, H);
 

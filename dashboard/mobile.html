@@ -297,6 +297,23 @@
         }
         .tk-c.pos { color: #4ade80; }
         .tk-c.neg { color: #ef4444; }
+
+        /* X/Twitter strip */
+        .x-stat {
+            font-size: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.15rem;
+        }
+        .x-val {
+            color: rgba(255,255,255,0.85);
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+        .x-lbl {
+            color: rgba(255,255,255,0.35);
+            font-weight: 500;
+        }
         .tk-logo {
             width: 14px;
             height: 14px;
@@ -637,6 +654,19 @@
         </div>
     </div>
 
+    <!-- X/Twitter Growth Strip -->
+    <div class="card" id="x-strip" style="padding:0.4rem 0.6rem;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:0.4rem;">
+            <img id="x-pfp" src="icon-192.png" style="width:18px;height:18px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);">
+            <span style="font-size:0.55rem;font-weight:700;color:rgba(255,255,255,0.5);">@AgentJc11443</span>
+            <span style="flex:1;"></span>
+            <span class="x-stat" id="x-followers"><span class="x-val">--</span> <span class="x-lbl">followers</span></span>
+            <span class="x-stat" id="x-impressions"><span class="x-val">--</span> <span class="x-lbl">views</span></span>
+            <span class="x-stat" id="x-engagement"><span class="x-val">--</span> <span class="x-lbl">eng</span></span>
+            <span class="x-stat" id="x-likes"><span class="x-val">--</span> <span class="x-lbl">likes</span></span>
+        </div>
+    </div>
+
     <script>
         async function fetchJSON(url, timeout = 8000) {
             const ctrl = new AbortController();
@@ -719,6 +749,17 @@
                 const open = marketOpen[key];
                 dot.style.cssText = 'display:inline-block;width:4px;height:4px;border-radius:50%;margin-right:1px;background:' + (open ? '#4ade80' : '#ef4444');
             }
+        }
+
+        async function refreshXStats() {
+            const data = await fetchJSON('/x-stats.json');
+            if (!data) return;
+            const fmt = v => v >= 1000 ? (v/1000).toFixed(1) + 'K' : String(v);
+            const set = (id, val) => { const el = document.querySelector('#' + id + ' .x-val'); if (el) el.textContent = val; };
+            set('x-followers', fmt(data.followers || 0));
+            set('x-impressions', fmt(data.impressions || 0));
+            set('x-engagement', data.engagementRate || '--');
+            set('x-likes', fmt(data.likes || 0));
         }
 
         async function refreshMind() {
@@ -1008,9 +1049,11 @@
         refreshStatus();
         refreshMind();
         refreshTicker();
+        refreshXStats();
         setInterval(refreshStatus, 30000);
         setInterval(refreshMind, 5000);
         setInterval(refreshTicker, 60000);
+        setInterval(refreshXStats, 120000);
 
         // Angular Neural Network
         (function initNeuralSphere() {
@@ -1172,7 +1215,7 @@
                 ptrRefreshing = true;
                 ptrIcon.style.top = '12px';
                 ptrIcon.classList.add('loading');
-                Promise.all([refreshStatus(), refreshMind(), refreshTicker()]).then(() => {
+                Promise.all([refreshStatus(), refreshMind(), refreshTicker(), refreshXStats()]).then(() => {
                     ptrIcon.classList.remove('loading');
                     ptrIcon.style.transition = 'top 0.3s ease';
                     ptrIcon.style.top = '-50px';

@@ -28,11 +28,24 @@ Thread 👇
 
 [Top 2-3 deals/business moves]
 
-## Tweet 4 (Markets)
-📊 MARKETS
+## Tweet 4 (Crypto Movers)
+📊 CRYPTO MOVERS (Top 300)
 
-BTC $XX | ETH $XX | SOL $XX | NDAQ $XX
-AI movers: [notable stock moves]
+🟩 BIGGEST GAINERS
+1. [COIN] +XX%
+2. [COIN] +XX%
+3. [COIN] +XX%
+4. [COIN] +XX%
+5. [COIN] +XX%
+
+🟥 BIGGEST LOSERS
+1. [COIN] -XX%
+2. [COIN] -XX%
+3. [COIN] -XX%
+4. [COIN] -XX%
+5. [COIN] -XX%
+
+💡 [One take on what's driving the biggest movers — narrative, catalyst, or pattern]
 
 ## Tweet 5 (Hot Take)
 🔥 TAKE OF THE DAY

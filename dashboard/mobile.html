@@ -671,6 +671,9 @@
             <span class="tk tk-placeholder" id="tk-slot5"><span style="width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,0.08);display:inline-block;vertical-align:middle;"></span> <span class="tk-c" style="color:rgba(255,255,255,0.15);">--%</span></span>
             <span class="tk tk-placeholder" id="tk-slot6"><span style="width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,0.08);display:inline-block;vertical-align:middle;"></span> <span class="tk-c" style="color:rgba(255,255,255,0.15);">--%</span></span>
         </div>
+        <div id="ticker-expanded" style="display:none;margin-top:0.4rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:0.4rem;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.3rem 0.8rem;" id="ticker-prices"></div>
+        </div>
     </div>
 
     <!-- X/Twitter Growth Strip -->
@@ -749,9 +752,53 @@
             }
         }
 
+        // Ticker double-tap to expand
+        let tickerExpanded = false;
+        let tickerLastTap = 0;
+        let tickerData = null;
+        document.getElementById('ticker-strip').addEventListener('click', (e) => {
+            const now = Date.now();
+            if (now - tickerLastTap < 350) {
+                tickerExpanded = !tickerExpanded;
+                document.getElementById('ticker-expanded').style.display = tickerExpanded ? '' : 'none';
+                if (tickerExpanded && tickerData) renderTickerPrices(tickerData);
+            }
+            tickerLastTap = now;
+        });
+
+        function renderTickerPrices(data) {
+            const el = document.getElementById('ticker-prices');
+            if (!el) return;
+            const labels = {btc:'Bitcoin', eth:'Ethereum', sol:'Solana', nasdaq:'NASDAQ', ibit:'IBIT'};
+            const logos = {
+                btc:'https://assets.coingecko.com/coins/images/1/small/bitcoin.png',
+                eth:'https://assets.coingecko.com/coins/images/279/small/ethereum.png',
+                sol:'https://assets.coingecko.com/coins/images/4128/small/solana.png',
+                nasdaq:'https://www.nasdaq.com/sites/acquia.prod/files/2020/09/24/nasdaq.jpg',
+                ibit:'https://companiesmarketcap.com/img/company-logos/64/IBIT.webp'
+            };
+            el.innerHTML = Object.entries(data).map(([key, val]) => {
+                if (!val || !val.price) return '';
+                const price = val.price >= 1000 ? '$' + val.price.toLocaleString('en',{maximumFractionDigits:0}) : '$' + val.price.toFixed(2);
+                const ch = val.change24h;
+                const chStr = ch != null ? (ch >= 0 ? '+' : '') + ch.toFixed(2) + '%' : '';
+                const chColor = ch > 0 ? '#4ade80' : ch < 0 ? '#ef4444' : 'rgba(255,255,255,0.5)';
+                const logo = logos[key] || '';
+                const name = labels[key] || key.toUpperCase();
+                return `<div style="display:flex;align-items:center;gap:0.3rem;padding:0.15rem 0;">
+                    ${logo ? `<img src="${logo}" style="width:16px;height:16px;border-radius:50%;">` : ''}
+                    <span style="font-size:0.6rem;color:rgba(255,255,255,0.7);min-width:50px;">${name}</span>
+                    <span style="font-size:0.65rem;font-weight:600;color:white;">${price}</span>
+                    <span style="font-size:0.55rem;color:${chColor};margin-left:auto;">${chStr}</span>
+                </div>`;
+            }).join('');
+        }
+
         async function refreshTicker() {
             const data = await fetchJSON('/api/ticker');
             if (!data) return;
+            tickerData = data;
+            if (tickerExpanded) renderTickerPrices(data);
             const fmt = (v, isDollar) => {
                 if (v == null) return '--';
                 if (isDollar) return v >= 1000 ? '$' + v.toLocaleString('en',{maximumFractionDigits:0}) : '$' + v.toFixed(2);

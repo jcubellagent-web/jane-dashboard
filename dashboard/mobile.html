@@ -697,24 +697,28 @@
         // Keyword → brain region mapping
         // Regions: 0=REASONING, 1=CODE, 2=WEB, 3=SOCIAL, 4=DATA, 5=MARKET, 6=MEMORY, 7=LANGUAGE
         const keywordToRegions = {
-            // Reasoning keywords
-            reason: [0], analy: [0], think: [0], strateg: [0], plan: [0], evaluat: [0],
-            // Code keywords
-            code: [1], exec: [1], script: [1], compil: [1], build: [1], edit: [1], function: [1], debug: [1], generat: [1],
-            // Web keywords
-            search: [2], web: [2], fetch: [2], browser: [2], scrape: [2], crawl: [2], url: [2],
-            // Social keywords
-            social: [3], tweet: [3], post: [3], reply: [3], message: [3], discord: [3], whatsapp: [3], engag: [3], draft: [3],
-            // Data keywords
-            data: [4], json: [4], file: [4], read: [4], write: [4], dashboard: [4], stat: [4], process: [4],
-            // Market keywords
-            market: [5], trad: [5], swap: [5], jupiter: [5], solana: [5], sol: [5], sorare: [5], kalshi: [5], price: [5], crypto: [5], defi: [5], token: [5],
-            // Memory keywords
-            memory: [6], recall: [6], remember: [6], knowledge: [6], history: [6], embed: [6],
-            // Language keywords
-            transcri: [7], voice: [7], audio: [7], speech: [7], language: [7], tts: [7],
+            // Reasoning (0)
+            reason: [0], analy: [0], think: [0], strateg: [0], plan: [0], evaluat: [0], decision: [0], assess: [0],
+            // Code (1)
+            code: [1], script: [1], compil: [1], build: [1], edit: [1], function: [1], debug: [1], implement: [1],
+            shell: [1], command: [1], commit: [1], ' run': [1], css: [1], html: [1], svg: [1], widget: [1],
+            // Web (2)
+            'web search': [2], 'web fetch': [2], browser: [2], scrape: [2], crawl: [2], url: [2], website: [2],
+            'searching': [2], 'fetching': [2],
+            // Social (3)
+            social: [3], tweet: [3], 'post': [3], reply: [3], discord: [3], whatsapp: [3], engag: [3],
+            'x timeline': [3], '@': [3], thread: [3],
+            // Data (4)
+            'json': [4], 'file': [4], dashboard: [4], 'writing to': [4], 'reading': [4], dataset: [4], updat: [4],
+            // Market (5)
+            market: [5], trad: [5], swap: [5], jupiter: [5], solana: [5], sorare: [5], kalshi: [5], price: [5],
+            defi: [5], token: [5], wallet: [5], portfolio: [5],
+            // Memory (6)
+            memory: [6], recall: [6], remember: [6], knowledge: [6], embed: [6],
+            // Language (7)
+            transcri: [7], voice: [7], audio: [7], speech: [7], tts: [7], whisper: [7],
             // Image
-            image: [1,4], avatar: [1,4], render: [1,4], visual: [1,4],
+            image: [1,4], avatar: [1,4], render: [1,4], stable diffusion: [1,4],
         };
 
         // Model name normalization (tool field → canonical model)

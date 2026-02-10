@@ -1054,7 +1054,7 @@
                 ptrFill.style.width = '100%';
                 Promise.all([refreshStatus(), refreshMind()]).then(() => {
                     ptrBar.classList.remove('loading');
-                    ptrFill.style.transition = 'width 0.3s ease, opacity 0.3s ease';
+                    ptrFill.style.transition = 'width 0.8s ease, opacity 1.2s ease-out';
                     ptrFill.style.opacity = '0';
                     setTimeout(() => {
                         ptrFill.style.width = '0%';

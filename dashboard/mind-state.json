@@ -2,6 +2,21 @@
   "task": "Working...",
   "steps": [
     {
+      "label": "Receiving and analyzing message",
+      "status": "done",
+      "tool": "opus"
+    },
+    {
+      "label": "Transcribing audio via Whisper",
+      "status": "done",
+      "tool": "whisper"
+    },
+    {
+      "label": "Managing background process",
+      "status": "done",
+      "tool": "opus"
+    },
+    {
       "label": "Inspecting files",
       "status": "done",
       "tool": "opus"
@@ -13,26 +28,11 @@
     },
     {
       "label": "Editing mobile.html",
-      "status": "done",
-      "tool": "opus"
-    },
-    {
-      "label": "Inspecting files",
-      "status": "done",
-      "tool": "opus"
-    },
-    {
-      "label": "Inspecting files",
-      "status": "done",
-      "tool": "opus"
-    },
-    {
-      "label": "Inspecting files",
       "status": "active",
       "tool": "opus"
     }
   ],
-  "thought": "Mobile doesn't have WebSocket — it uses polling. That's fine, 60s interval is good. Now let me also do a quick X stats r",
-  "lastUpdated": 1770702580354,
-  "lastTask": "Sent Jane J logo for WhatsApp profile pic"
+  "thought": "The widget is looking for `plan.rolling24h` which doesn't exist in the current JSON — it falls back to `data.plannedRepl",
+  "lastUpdated": 1770702752811,
+  "lastTask": "Working..."
 }

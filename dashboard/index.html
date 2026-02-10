@@ -4203,7 +4203,28 @@
         setInterval(refreshConnections, 300000);  // Connections every 5 minutes
         setInterval(refreshDesktopTweetFeed, 300000);  // Tweet feed every 5 minutes
         // Memecoins interval removed
-        
+
+        // WebSocket for real-time push updates
+        (function connectWS() {
+            const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const ws = new WebSocket(proto + '//' + location.host);
+            ws.onmessage = (evt) => {
+                try {
+                    const msg = JSON.parse(evt.data);
+                    if (msg.type === 'update') {
+                        const k = msg.widget;
+                        if (k === 'x-tweets' || k === 'x-thread-history') refreshDesktopTweetFeed();
+                        if (k === 'x-stats') refreshXStats();
+                        if (k === 'mind') refreshMind();
+                        if (k === 'sessions') refreshAgents();
+                        if (k === 'sorare' || k === 'sorare-mobile') refreshSorare();
+                    }
+                } catch(e) {}
+            };
+            ws.onclose = () => setTimeout(connectWS, 3000);
+            ws.onerror = () => ws.close();
+        })();
+
         // Night Mode
         let bouncingAnimation = null;
         let bounceX = 50, bounceY = 50;

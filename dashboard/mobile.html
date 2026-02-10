@@ -461,10 +461,7 @@
         }
         .mm-flow-dot {
             opacity: 0;
-        }
-        .mm-flow-dot.flowing {
-            opacity: 0.9;
-            r: 2;
+            pointer-events: none;
         }
         .mindmap-label {
             font-size: 3.5px;
@@ -589,14 +586,7 @@
                 <text x="40" y="4" class="mindmap-label" data-node="7">LANGUAGE</text>
             </g>
             <g id="mm-pulses">
-                <circle r="1.5" class="mindmap-pulse mm-flow-dot" data-node="0"/>
-                <circle r="1.5" class="mindmap-pulse mm-flow-dot" data-node="1"/>
-                <circle r="1.5" class="mindmap-pulse mm-flow-dot" data-node="2"/>
-                <circle r="1.5" class="mindmap-pulse mm-flow-dot" data-node="3"/>
-                <circle r="1.5" class="mindmap-pulse mm-flow-dot" data-node="4"/>
-                <circle r="1.5" class="mindmap-pulse mm-flow-dot" data-node="5"/>
-                <circle r="1.5" class="mindmap-pulse mm-flow-dot" data-node="6"/>
-                <circle r="1.5" class="mindmap-pulse mm-flow-dot" data-node="7"/>
+                <g id="mm-flow-container"></g>
             </g>
             <circle cx="80" cy="45" r="18" class="mindmap-orb mindmap-orb-outer"/>
             <circle cx="80" cy="45" r="14" class="mindmap-orb mindmap-orb-mid"/>
@@ -766,36 +756,45 @@
                 lines.forEach((l, i) => l.classList.toggle('lit', indices.includes(i)));
                 labels.forEach((l, i) => l.classList.toggle('lit', indices.includes(i)));
 
-                // Animate flow dots along active lines
-                const dots = card.querySelectorAll('.mm-flow-dot');
+                // Animate burst of flow dots along active lines
                 const lineEls = card.querySelectorAll('.mindmap-line');
-                dots.forEach((dot, i) => {
-                    dot.classList.remove('flowing');
-                    dot.style.fill = '';
-                    if (indices.includes(i) && lineEls[i]) {
-                        const line = lineEls[i];
-                        const x1=+line.getAttribute('x1'), y1=+line.getAttribute('y1');
-                        const x2=+line.getAttribute('x2'), y2=+line.getAttribute('y2');
-                        const color = {sonnet:'#8b5cf6',whisper:'#facc15',ollama:'#f97316',sd:'#ec4899'}[window._mmModel] || '#4ade80';
+                const flowContainer = document.getElementById('mm-flow-container');
+                const color = {sonnet:'#8b5cf6',whisper:'#facc15',ollama:'#f97316',sd:'#ec4899'}[window._mmModel] || '#4ade80';
+                indices.forEach(i => {
+                    if (!lineEls[i]) return;
+                    const line = lineEls[i];
+                    const x1=+line.getAttribute('x1'), y1=+line.getAttribute('y1');
+                    const x2=+line.getAttribute('x2'), y2=+line.getAttribute('y2');
+                    const burstCount = 4 + Math.floor(Math.random()*4); // 4-7 dots per burst
+                    for (let b = 0; b < burstCount; b++) {
+                        const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+                        const r = 1 + Math.random()*1.5;
+                        dot.setAttribute('r', r);
+                        dot.setAttribute('cx', x1);
+                        dot.setAttribute('cy', y1);
                         dot.style.fill = color;
-                        dot.classList.add('flowing');
-                        // Animate dot from center to node
+                        dot.style.opacity = '0';
+                        dot.style.filter = `drop-shadow(0 0 ${r}px ${color})`;
+                        flowContainer.appendChild(dot);
+                        const duration = 800 + Math.random()*1000;
+                        const delay = b * (80 + Math.random()*120); // staggered burst
+                        const wobbleX = (Math.random()-0.5)*6; // random lateral spread
+                        const wobbleY = (Math.random()-0.5)*6;
                         let start = null;
-                        const duration = 1200 + Math.random()*800;
-                        const delay = i * 150;
-                        function animDot(ts) {
+                        (function animBurst(ts) {
                             if (!start) start = ts;
                             const elapsed = ts - start - delay;
-                            if (elapsed < 0) { requestAnimationFrame(animDot); return; }
+                            if (elapsed < 0) { requestAnimationFrame(animBurst); return; }
                             const t = Math.min(elapsed / duration, 1);
                             const eased = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
-                            dot.setAttribute('cx', x1 + (x2-x1)*eased);
-                            dot.setAttribute('cy', y1 + (y2-y1)*eased);
-                            dot.style.opacity = t < 0.1 ? t*10 : t > 0.8 ? (1-t)*5 : 0.9;
-                            if (t < 1) requestAnimationFrame(animDot);
-                            else { dot.classList.remove('flowing'); dot.style.opacity = 0; }
-                        }
-                        requestAnimationFrame(animDot);
+                            const wx = wobbleX * Math.sin(t * Math.PI);
+                            const wy = wobbleY * Math.sin(t * Math.PI);
+                            dot.setAttribute('cx', x1 + (x2-x1)*eased + wx);
+                            dot.setAttribute('cy', y1 + (y2-y1)*eased + wy);
+                            dot.style.opacity = t < 0.1 ? t*10 : t > 0.75 ? (1-t)*4 : 0.85;
+                            if (t < 1) requestAnimationFrame(animBurst);
+                            else flowContainer.removeChild(dot);
+                        })(performance.now());
                     }
                 });
             }

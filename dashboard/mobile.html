@@ -80,6 +80,15 @@
             border-radius: 12px;
             padding: 0.5rem 0.75rem;
             margin-bottom: 0.5rem;
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+        .card.glow {
+            border-color: rgba(74,222,128,0.2);
+            box-shadow: 0 0 12px rgba(74,222,128,0.06), inset 0 0 12px rgba(74,222,128,0.03);
+        }
+        .card.glow-blue {
+            border-color: rgba(29,155,240,0.2);
+            box-shadow: 0 0 12px rgba(29,155,240,0.06), inset 0 0 12px rgba(29,155,240,0.03);
         }
 
         /* Status Bar */
@@ -733,8 +742,8 @@
         updateGreeting();
         setInterval(updateGreeting, 60000);
     </script>
-    <!-- Jane Status Bar -->
-    <div class="card" id="status-card" style="cursor:pointer;" onclick="toggleStatusExpand()">
+    <!-- Jane Status Bar (sticky) -->
+    <div class="card" id="status-card" style="cursor:pointer;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(10,10,15,0.85);border-color:rgba(74,222,128,0.15);" onclick="toggleStatusExpand()">
         <div class="status-bar">
             <div class="status-pills">
                 <span class="status-pill" id="model-pill">Model: --</span>
@@ -1133,6 +1142,13 @@
             idx = Math.max(0, Math.min(idx, threads.length - 1));
             window._threadIdx = idx;
             const thread = threads[idx];
+            // Glow effect on fresh data
+            const feedCard = document.getElementById('tweet-feed');
+            if (feedCard && thread.lastUpdated && (Date.now() - thread.lastUpdated) < 600000) {
+                feedCard.classList.add('glow-blue');
+            } else if (feedCard) {
+                feedCard.classList.remove('glow-blue');
+            }
             const container = document.getElementById('tweet-feed-list');
             const timeEl = document.getElementById('tweet-feed-time');
             const dateEl = document.getElementById('tweet-thread-date');
@@ -1224,6 +1240,7 @@
             const isActive = data.task != null;
 
             card.classList.toggle('active', isActive);
+            card.classList.toggle('glow', isActive);
             dot.classList.toggle('active', isActive);
             window._mmModel = data.model || 'opus';
             refreshMindMap(isActive, data.steps);
@@ -1492,17 +1509,20 @@
             }
         }
 
-        // Connected Accounts - collapsible
+        // Connected Accounts - collapsible (persisted)
         const connToggle = document.getElementById('conn-toggle');
         const connBody = document.getElementById('conn-body');
         const connArrow = document.getElementById('conn-arrow');
-        let connOpen = false;
+        let connOpen = localStorage.getItem('mobile-conn-open') === 'true';
+        if (connOpen) { connBody.style.display = ''; connArrow.style.transform = 'rotate(90deg)'; }
         connToggle.addEventListener('click', () => {
             connOpen = !connOpen;
+            localStorage.setItem('mobile-conn-open', connOpen);
             connBody.style.display = connOpen ? '' : 'none';
             connArrow.style.transform = connOpen ? 'rotate(90deg)' : '';
             if (connOpen && !connBody.dataset.loaded) refreshConnections();
         });
+        if (connOpen) refreshConnections();
 
         async function refreshConnections() {
             try {
@@ -1541,9 +1561,11 @@
             document.getElementById('status-expanded').style.display = statusExpanded ? '' : 'none';
         }
 
-        let sorareOpen = false;
+        let sorareOpen = localStorage.getItem('mobile-sorare-open') === 'true';
+        if (sorareOpen) { document.getElementById('sorare-body').style.display = ''; document.getElementById('sorare-chevron').style.transform = 'rotate(180deg)'; }
         function toggleSorare() {
             sorareOpen = !sorareOpen;
+            localStorage.setItem('mobile-sorare-open', sorareOpen);
             document.getElementById('sorare-body').style.display = sorareOpen ? '' : 'none';
             document.getElementById('sorare-chevron').style.transform = sorareOpen ? 'rotate(180deg)' : '';
         }

@@ -690,7 +690,7 @@
             card.classList.toggle('active', isActive);
             dot.classList.toggle('active', isActive);
             window._mmModel = data.model || 'opus';
-            refreshMindMap(isActive);
+            refreshMindMap(isActive, data.steps);
 
             if (!isActive) {
                 content.style.display = '';
@@ -729,13 +729,55 @@
             return d.innerHTML;
         }
 
-        function refreshMindMap(isActive) {
+        // Tool/label → brain region mapping
+        // Regions: 0=REASONING, 1=CODE, 2=WEB, 3=SOCIAL, 4=DATA, 5=MARKET, 6=MEMORY, 7=LANGUAGE
+        const toolToRegions = {
+            // By tool name
+            opus: [0], claude: [0], sonnet: [0],
+            exec: [1], code: [1], script: [1], compile: [1], build: [1],
+            web_search: [2], web_fetch: [2], browser: [2], search: [2], fetch: [2],
+            message: [3], tweet: [3], x: [3], whatsapp: [3], discord: [3], social: [3], post: [3], reply: [3],
+            read: [4,6], write: [4,1], edit: [1], data: [4], json: [4], file: [4],
+            trading: [5], market: [5], swap: [5], jupiter: [5], solana: [5], sorare: [5], kalshi: [5], price: [5],
+            memory: [6], memory_search: [6], memory_get: [6], recall: [6],
+            whisper: [7], tts: [7], transcri: [7], voice: [7], language: [7], ollama: [7],
+            // Stable diffusion
+            sd: [1,4], image: [1,4],
+        };
+
+        function getActiveRegions(steps) {
+            const regions = new Map(); // regionIndex → {model, tool}
+            if (!steps || !steps.length) return regions;
+            const activeSteps = steps.filter(s => s.status === 'active' || s.status === 'done');
+            for (const step of activeSteps) {
+                const label = (step.label || '').toLowerCase();
+                const tool = (step.tool || '').toLowerCase();
+                let matched = false;
+                for (const [key, indices] of Object.entries(toolToRegions)) {
+                    if (tool === key || label.includes(key)) {
+                        for (const idx of indices) {
+                            if (!regions.has(idx)) regions.set(idx, tool || 'opus');
+                        }
+                        matched = true;
+                    }
+                }
+                // Default: if step has a tool but no region match, map to REASONING
+                if (!matched && tool) regions.set(0, tool);
+            }
+            // Always light REASONING if nothing else matched
+            if (regions.size === 0) regions.set(0, 'opus');
+            return regions;
+        }
+
+        function refreshMindMap(isActive, steps) {
             const card = document.getElementById('mindmap-card');
             card.classList.toggle('mindmap-active', isActive);
             card.classList.toggle('mindmap-idle', !isActive);
 
-            // Update model legend
+            // Update model legend — highlight all active models
             const modelMap = {opus:'mm-dot-opus', sonnet:'mm-dot-sonnet', whisper:'mm-dot-whisper', ollama:'mm-dot-ollama', sd:'mm-dot-sd'};
+            const colorMap = {opus:'#4ade80', claude:'#4ade80', sonnet:'#8b5cf6', whisper:'#facc15', ollama:'#f97316', sd:'#ec4899'};
+            const classMap = {sonnet:'lit-sonnet', whisper:'lit-whisper', ollama:'lit-ollama', sd:'lit-sd'};
             document.querySelectorAll('.mm-legend-dot').forEach(d => d.style.opacity = '0.35');
             if (isActive && window._mmModel) {
                 const el = document.getElementById(modelMap[window._mmModel]);
@@ -743,29 +785,35 @@
             }
 
             if (isActive) {
-                // Randomly light up 2-3 nodes each refresh
+                const regions = getActiveRegions(steps);
+                const indices = [...regions.keys()];
+
+                // Also highlight legend dots for any model in active regions
+                for (const model of regions.values()) {
+                    const el = document.getElementById(modelMap[model]);
+                    if (el) el.style.opacity = '1';
+                }
+
                 const nodes = card.querySelectorAll('.mindmap-node');
                 const lines = card.querySelectorAll('.mindmap-line');
                 const labels = card.querySelectorAll('.mindmap-label');
-                const count = 2 + Math.floor(Math.random() * 3);
-                const indices = [];
-                while (indices.length < count) {
-                    const i = Math.floor(Math.random() * 8);
-                    if (!indices.includes(i)) indices.push(i);
-                }
-                const modelClass = {sonnet:'lit-sonnet',whisper:'lit-whisper',ollama:'lit-ollama',sd:'lit-sd'}[window._mmModel] || 'lit';
+
                 nodes.forEach((n, i) => {
                     n.classList.remove('lit','lit-sonnet','lit-whisper','lit-ollama','lit-sd');
-                    if (indices.includes(i)) n.classList.add(modelClass);
+                    if (regions.has(i)) {
+                        const model = regions.get(i);
+                        n.classList.add(classMap[model] || 'lit');
+                    }
                 });
                 lines.forEach((l, i) => l.classList.toggle('lit', indices.includes(i)));
                 labels.forEach((l, i) => l.classList.toggle('lit', indices.includes(i)));
 
-                // Animate burst of flow dots along active lines
+                // Animate burst of flow dots along active lines — color per region's model
                 const lineEls = card.querySelectorAll('.mindmap-line');
                 const flowContainer = document.getElementById('mm-flow-container');
-                const color = {sonnet:'#8b5cf6',whisper:'#facc15',ollama:'#f97316',sd:'#ec4899'}[window._mmModel] || '#4ade80';
                 indices.forEach(i => {
+                    const model = regions.get(i);
+                    const color = colorMap[model] || '#4ade80';
                     if (!lineEls[i]) return;
                     const line = lineEls[i];
                     const x1=+line.getAttribute('x1'), y1=+line.getAttribute('y1');

@@ -728,7 +728,11 @@
                         .replace('claude-', '').replace(/-/g, ' ')
                         .replace('4 5', '4.5').replace('4 6', '4.6');
                     document.getElementById('model-pill').textContent = 'Model: ' + name;
+                } else {
+                    document.getElementById('model-pill').textContent = 'Model: opus 4.6';
                 }
+            } else {
+                document.getElementById('model-pill').textContent = 'Model: opus 4.6';
             }
 
             if (system) {

@@ -116,6 +116,7 @@
         .mind-card {
             position: relative;
             overflow: hidden;
+            min-height: 140px;
         }
         .mind-card::before {
             content: '';
@@ -291,11 +292,11 @@
         @keyframes mmScanCW { 0% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -314; } }
         @keyframes mmScanCCW { 0% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 314; } }
 
-        .mindmap-idle .mm-orbit-1 { animation: mmScanCW 8s linear infinite; }
-        .mindmap-idle .mm-orbit-2 { animation: mmScanCCW 6s linear infinite; }
-        .mindmap-idle .mm-orbit-3 { animation: mmScanCW 5s linear infinite; }
-        .mindmap-idle .mm-orbit-4 { animation: mmScanCCW 10s linear infinite; }
-        .mindmap-idle .mm-orbit-5 { animation: mmScanCW 7s linear infinite; }
+        .mindmap-idle .mm-orbit-1 { animation: mmScanCW 8s linear infinite; opacity: 0.15; }
+        .mindmap-idle .mm-orbit-2 { animation: mmScanCCW 6s linear infinite; opacity: 0.15; }
+        .mindmap-idle .mm-orbit-3 { animation: mmScanCW 5s linear infinite; opacity: 0.15; }
+        .mindmap-idle .mm-orbit-4 { animation: mmScanCCW 10s linear infinite; opacity: 0.15; }
+        .mindmap-idle .mm-orbit-5 { animation: mmScanCW 7s linear infinite; opacity: 0.15; }
 
         .mindmap-active .mm-orbit-1 { animation: mmScanCW 3s linear infinite; stroke: rgba(74,222,128,0.35); }
         .mindmap-active .mm-orbit-2 { animation: mmScanCCW 2.5s linear infinite; stroke: rgba(74,222,128,0.35); }
@@ -376,8 +377,16 @@
             stroke-width: 1;
             transition: stroke 0.5s;
         }
+        .mindmap-idle .mindmap-hub {
+            animation: mmHubCoreBreathe 3.5s ease-in-out infinite;
+        }
         .mindmap-active .mindmap-hub {
-            stroke: rgba(74,222,128,0.6);
+            stroke: rgba(74,222,128,0.8);
+            filter: drop-shadow(0 0 10px rgba(74,222,128,0.5));
+        }
+        @keyframes mmHubCoreBreathe {
+            0%, 100% { stroke: rgba(74,222,128,0.2); filter: drop-shadow(0 0 3px rgba(74,222,128,0.1)); }
+            50% { stroke: rgba(74,222,128,0.5); filter: drop-shadow(0 0 10px rgba(74,222,128,0.35)); }
         }
         .mindmap-hub-ring {
             fill: none;
@@ -408,7 +417,7 @@
         }
         @keyframes mmOrbBreathe {
             0%, 100% { fill: rgba(74,222,128,0.02); }
-            50% { fill: rgba(74,222,128,0.1); }
+            50% { fill: rgba(74,222,128,0.15); }
         }
         @keyframes mmOrbActive {
             0%, 100% { fill: rgba(74,222,128,0.06); }
@@ -423,8 +432,8 @@
         }
         @keyframes hubSpin { to { stroke-dashoffset: -24; } }
         @keyframes mmHubBreathe {
-            0%, 100% { stroke: rgba(74,222,128,0.1); }
-            50% { stroke: rgba(74,222,128,0.25); }
+            0%, 100% { stroke: rgba(74,222,128,0.15); filter: drop-shadow(0 0 2px rgba(74,222,128,0.1)); }
+            50% { stroke: rgba(74,222,128,0.5); filter: drop-shadow(0 0 8px rgba(74,222,128,0.3)); }
         }
         .mindmap-glow {
             transition: opacity 0.5s;
@@ -438,8 +447,8 @@
             animation: mmGlowActive 1.5s ease-in-out infinite;
         }
         @keyframes mmGlowBreathe {
-            0%, 100% { opacity: 0.08; }
-            50% { opacity: 0.3; }
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.4; }
         }
         @keyframes mmGlowActive {
             0%, 100% { opacity: 0.2; }
@@ -534,7 +543,7 @@
             <span class="mm-legend-dot" id="mm-dot-ollama" style="color:#f97316;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Ollama</span></span>
             <span class="mm-legend-dot" id="mm-dot-sd" style="color:#ec4899;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">SD</span></span>
         </div>
-        <svg class="mindmap-svg" viewBox="0 -8 160 98" xmlns="http://www.w3.org/2000/svg">
+        <svg class="mindmap-svg" viewBox="0 -8 160 110" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <radialGradient id="mmGlow" cx="50%" cy="50%" r="50%">
                     <stop offset="0%" stop-color="rgba(74,222,128,0.2)"/>
@@ -690,7 +699,8 @@
 
             if (!isActive) {
                 content.style.display = '';
-                content.innerHTML = '<div class="mind-idle">Idle — waiting for Josh<span class="mind-idle-dots"></span></div>';
+                const lastGoal = data.lastTask && data.lastTask !== 'Working...' ? `<div style="color:rgba(255,255,255,0.35);font-size:0.65rem;margin-top:0.3rem;">Last: ${esc(data.lastTask)}</div>` : '';
+                content.innerHTML = '<div class="mind-idle">Idle — waiting for Josh<span class="mind-idle-dots"></span></div>' + lastGoal;
                 sections.style.display = 'none';
                 return;
             }

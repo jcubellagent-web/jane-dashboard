@@ -38,6 +38,8 @@ Thread 👇
 ## Tweet 4 (NASDAQ 100 Movers)
 📈 NASDAQ 100 — TOP MOVERS
 
+💡 [One take on what's driving the session — sector rotation, earnings, macro catalyst]
+
 🟩 GAINERS
 1. $[TICKER] +X.XX% — [one-line headline]
 2. $[TICKER] +X.XX% — [one-line headline]
@@ -52,10 +54,10 @@ Thread 👇
 4. $[TICKER] -X.XX% — [one-line headline]
 5. $[TICKER] -X.XX% — [one-line headline]
 
-💡 [One take on what's driving the session — sector rotation, earnings, macro catalyst]
-
 ## Tweet 5 (Crypto Movers)
 📊 CRYPTO MOVERS (Top 300)
+
+💡 [One take on what's driving the biggest movers — narrative, catalyst, or pattern]
 
 🟩 BIGGEST GAINERS
 1. [COIN] +XX%
@@ -70,8 +72,6 @@ Thread 👇
 3. [COIN] -XX%
 4. [COIN] -XX%
 5. [COIN] -XX%
-
-💡 [One take on what's driving the biggest movers — narrative, catalyst, or pattern]
 
 ## Tweet 6 (Hot Take)
 🔥 TAKE OF THE DAY

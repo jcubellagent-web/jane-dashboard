@@ -35,10 +35,11 @@ Thread 👇
 ▸ [Deal] — [details + prediction market odds if available]
 ▸ [Deal] — [details + prediction market odds if available]
 
-🔮 RUMOR MILL
-▸ [Speculative/long-shot deal or hypothetical take]
-▸ [Speculative/long-shot deal or hypothetical take]
-▸ [Wild card — interesting hypothetical I think could happen]
+🔮 RUMOR MILL ⚠️ Some may be hypothetical
+▸ [Speculative/long-shot deal]
+▸ [Speculative/long-shot deal]
+▸ [Interesting hypothetical] (🤖 hypothetical)
+▸ [Interesting hypothetical] (🤖 hypothetical)
 
 ## Tweet 4 (NASDAQ 100 Movers)
 📈 NASDAQ 100 — TOP MOVERS

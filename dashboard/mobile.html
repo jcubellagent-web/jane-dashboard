@@ -720,8 +720,8 @@
     <div class="ptr-spacer" id="ptr-spacer">
         <div class="ptr-icon" id="ptr"><div class="ptr-jane"><img src="icon-192.png" style="width:22px;height:22px;border-radius:50%;"></div></div>
     </div>
-    <!-- Page Header -->
-    <div style="padding: 0.6rem 0.25rem 0.3rem; display:flex; align-items:center; justify-content:space-between;">
+    <!-- Page Header (sticky) -->
+    <div style="padding: 0.6rem 0.25rem 0.3rem; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:101; background:rgba(10,10,15,0.92); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); margin: -0.5rem -0.5rem 0; padding-left:0.75rem; padding-right:0.75rem;">
         <div style="display:flex; align-items:center; gap:0.4rem;">
             <img src="openclaw-logo.png" alt="OpenClaw" style="width:20px;height:20px;border-radius:5px;opacity:0.8;">
             <img src="icon-192.png" alt="Jane" style="width:20px;height:20px;border-radius:5px;">
@@ -742,8 +742,8 @@
         updateGreeting();
         setInterval(updateGreeting, 60000);
     </script>
-    <!-- Jane Status Bar (sticky) -->
-    <div class="card" id="status-card" style="cursor:pointer;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(10,10,15,0.85);border-color:rgba(74,222,128,0.15);" onclick="toggleStatusExpand()">
+    <!-- Jane Status Bar (sticky, below header) -->
+    <div class="card" id="status-card" style="cursor:pointer;position:sticky;top:36px;z-index:100;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(10,10,15,0.85);border-color:rgba(74,222,128,0.15);" onclick="toggleStatusExpand()">
         <div class="status-bar">
             <div class="status-pills">
                 <span class="status-pill" id="model-pill">Model: --</span>

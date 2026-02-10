@@ -1,23 +1,17 @@
 {
   "sessions": [
     {
-      "key": "agent:main:subagent:613c58a2-8c0a-447f-b733-a05e65c0247c",
-      "label": "Delete old tweets - attempt 2",
-      "status": "aborted",
-      "totalTokens": 122694
+      "key": "agent:main:subagent:5f856978-d85a-4f0b-9466-68cd67e2e888",
+      "label": "Register for Finnhub, CoinGecko, Alpha Vantage APIs",
+      "status": "completed",
+      "totalTokens": 143594
     },
     {
-      "key": "agent:main:subagent:f311587d-506f-4142-a472-6b2c6d4d8a32",
-      "label": "Follow key news and influencer accounts",
+      "key": "agent:main:subagent:a627869c-1b25-4e19-9240-27bb090d1bea",
+      "label": "Data source audit for X strategy",
       "status": "completed",
-      "totalTokens": 65677
-    },
-    {
-      "key": "agent:main:subagent:227039eb-cd54-4e7d-babc-b22e738fbe8d",
-      "label": "Post first AI Daily Brief thread",
-      "status": "completed",
-      "totalTokens": 41517
+      "totalTokens": 49305
     }
   ],
-  "lastUpdated": 1770699600000
+  "lastUpdated": 1770704400000
 }

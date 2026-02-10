@@ -1,1 +1,1 @@
-{"cpu":16,"memory":99,"disk":10,"uptime":"9d 11h 2m","mini2":{"online":true,"cpu":9,"memory":20,"disk":7,"ollamaModels":["llama3.1:8b","nomic-embed-text:latest"]}}
+{"cpu":17,"memory":98,"disk":10,"uptime":"9d 11h 16m","mini2":{"online":true,"cpu":3,"memory":19,"disk":7,"ollamaModels":["llama3.1:8b","nomic-embed-text:latest"]}}

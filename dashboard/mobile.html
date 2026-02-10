@@ -1201,6 +1201,30 @@
         setInterval(refreshXStats, 60000);
         setInterval(refreshTweetFeed, 120000);
 
+        // WebSocket for real-time push updates
+        (function initWebSocket() {
+            const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            let ws;
+            function connect() {
+                ws = new WebSocket(proto + '//' + location.host);
+                ws.onmessage = (e) => {
+                    try {
+                        const msg = JSON.parse(e.data);
+                        if (msg.type === 'fileChange') {
+                            const k = msg.key;
+                            if (k === 'x-stats') refreshXStats();
+                            else if (k === 'x-tweets') refreshTweetFeed();
+                            else if (k === 'mind') refreshMind();
+                            else if (k === 'sessions') refreshStatus();
+                        }
+                    } catch(err) {}
+                };
+                ws.onclose = () => setTimeout(connect, 3000);
+                ws.onerror = () => ws.close();
+            }
+            connect();
+        })();
+
         // Angular Neural Network
         (function initNeuralSphere() {
             const canvas = document.getElementById('neural-sphere');

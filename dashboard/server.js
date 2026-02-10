@@ -2292,7 +2292,8 @@ const WATCHED_FILES = {
     'x-queue': path.join(ROOT, 'x-queue.json'),
     'x-stats': path.join(ROOT, 'x-stats.json'),
     'x-plan': path.join(ROOT, 'x-plan.json'),
-    'briefing': path.join(ROOT, 'briefing.json')
+    'briefing': path.join(ROOT, 'briefing.json'),
+    'x-tweets': path.join(ROOT, 'x-latest-tweets.json')
 };
 
 // Debounce file change events

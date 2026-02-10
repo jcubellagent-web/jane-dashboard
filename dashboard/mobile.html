@@ -769,15 +769,14 @@
         function renderTickerPrices(data) {
             const el = document.getElementById('ticker-prices');
             if (!el) return;
-            const labels = {btc:'Bitcoin', eth:'Ethereum', sol:'Solana', nasdaq:'NASDAQ', ibit:'IBIT'};
+            const labels = {btc:'Bitcoin', eth:'Ethereum', sol:'Solana', nasdaq:'NASDAQ'};
             const logos = {
                 btc:'https://assets.coingecko.com/coins/images/1/small/bitcoin.png',
                 eth:'https://assets.coingecko.com/coins/images/279/small/ethereum.png',
                 sol:'https://assets.coingecko.com/coins/images/4128/small/solana.png',
-                nasdaq:'https://www.nasdaq.com/sites/acquia.prod/files/2020/09/24/nasdaq.jpg',
-                ibit:'https://companiesmarketcap.com/img/company-logos/64/IBIT.webp'
+                nasdaq:'https://www.nasdaq.com/sites/acquia.prod/files/2020/09/24/nasdaq.jpg'
             };
-            el.innerHTML = Object.entries(data).map(([key, val]) => {
+            el.innerHTML = Object.entries(data).filter(([key]) => key !== 'ibit').map(([key, val]) => {
                 if (!val || !val.price) return '';
                 const price = val.price >= 1000 ? '$' + val.price.toLocaleString('en',{maximumFractionDigits:0}) : '$' + val.price.toFixed(2);
                 const ch = val.change24h;

@@ -1,26 +1,9 @@
 {
-  "lastUpdated": 1739155991000,
   "sessions": [
-    {
-      "key": "agent:main:main",
-      "channel": "whatsapp",
-      "model": "claude-opus-4-6",
-      "totalTokens": 134694,
-      "updatedAt": 1770695599747
-    },
-    {
-      "key": "agent:main:subagent:1fa1fd4f",
-      "label": "Delete crypto-security tweets",
-      "model": "claude-opus-4-6",
-      "totalTokens": 40858,
-      "updatedAt": 1770695529218
-    },
-    {
-      "key": "agent:main:cron:1923f8f4",
-      "label": "X Engagement Feedback Loop",
-      "model": "claude-opus-4-6",
-      "totalTokens": 65431,
-      "updatedAt": 1770694505165
-    }
-  ]
+    {"key":"agent:main:main","kind":"main","channel":"whatsapp","model":"claude-opus-4-6","totalTokens":48819,"updatedAt":1770696787731},
+    {"key":"agent:main:subagent:1fa1fd4f","kind":"subagent","label":"Delete crypto-security tweets","model":"claude-opus-4-6","totalTokens":97678,"updatedAt":1770695873857},
+    {"key":"agent:main:cron:1923f8f4","kind":"cron","label":"X Engagement Feedback Loop","model":"claude-opus-4-6","totalTokens":65431,"updatedAt":1770694505165},
+    {"key":"agent:main:cron:19dd811e","kind":"cron","label":"Sorare Injury Monitor","model":"claude-opus-4-6","totalTokens":34244,"updatedAt":1770676130476}
+  ],
+  "lastUpdated": 1770697814000
 }

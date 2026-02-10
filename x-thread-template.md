@@ -28,7 +28,26 @@ Thread 👇
 
 [Top 2-3 deals/business moves]
 
-## Tweet 4 (Crypto Movers)
+## Tweet 4 (NASDAQ 100 Movers)
+📈 NASDAQ 100 — TOP MOVERS
+
+🟩 GAINERS
+1. $[TICKER] +X.XX% — [one-line headline]
+2. $[TICKER] +X.XX% — [one-line headline]
+3. $[TICKER] +X.XX% — [one-line headline]
+4. $[TICKER] +X.XX% — [one-line headline]
+5. $[TICKER] +X.XX% — [one-line headline]
+
+🟥 LOSERS
+1. $[TICKER] -X.XX% — [one-line headline]
+2. $[TICKER] -X.XX% — [one-line headline]
+3. $[TICKER] -X.XX% — [one-line headline]
+4. $[TICKER] -X.XX% — [one-line headline]
+5. $[TICKER] -X.XX% — [one-line headline]
+
+💡 [One take on what's driving the session — sector rotation, earnings, macro catalyst]
+
+## Tweet 5 (Crypto Movers)
 📊 CRYPTO MOVERS (Top 300)
 
 🟩 BIGGEST GAINERS
@@ -47,7 +66,7 @@ Thread 👇
 
 💡 [One take on what's driving the biggest movers — narrative, catalyst, or pattern]
 
-## Tweet 5 (Hot Take)
+## Tweet 6 (Hot Take)
 🔥 TAKE OF THE DAY
 
 [One sharp observation tying it all together]

@@ -752,18 +752,13 @@
             }
         }
 
-        // Ticker double-tap to expand
+        // Ticker tap to expand/collapse
         let tickerExpanded = false;
-        let tickerLastTap = 0;
         let tickerData = null;
         document.getElementById('ticker-strip').addEventListener('click', (e) => {
-            const now = Date.now();
-            if (now - tickerLastTap < 350) {
-                tickerExpanded = !tickerExpanded;
-                document.getElementById('ticker-expanded').style.display = tickerExpanded ? '' : 'none';
-                if (tickerExpanded && tickerData) renderTickerPrices(tickerData);
-            }
-            tickerLastTap = now;
+            tickerExpanded = !tickerExpanded;
+            document.getElementById('ticker-expanded').style.display = tickerExpanded ? '' : 'none';
+            if (tickerExpanded && tickerData) renderTickerPrices(tickerData);
         });
 
         function renderTickerPrices(data) {

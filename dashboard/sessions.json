@@ -1,23 +1,26 @@
 {
-  "lastUpdated": 1770627191962,
+  "lastUpdated": 1739155991000,
   "sessions": [
     {
       "key": "agent:main:main",
-      "displayName": "+17175759384",
+      "channel": "whatsapp",
       "model": "claude-opus-4-6",
-      "updatedAt": 1770628391792
+      "totalTokens": 134694,
+      "updatedAt": 1770695599747
+    },
+    {
+      "key": "agent:main:subagent:1fa1fd4f",
+      "label": "Delete crypto-security tweets",
+      "model": "claude-opus-4-6",
+      "totalTokens": 40858,
+      "updatedAt": 1770695529218
     },
     {
       "key": "agent:main:cron:1923f8f4",
-      "displayName": "Cron: X Engagement Feedback Loop",
+      "label": "X Engagement Feedback Loop",
       "model": "claude-opus-4-6",
-      "updatedAt": 1770618905167
-    },
-    {
-      "key": "agent:main:cron:19dd811e",
-      "displayName": "Cron: sorare-injury-monitor",
-      "model": "claude-opus-4-6",
-      "updatedAt": 1770611330520
+      "totalTokens": 65431,
+      "updatedAt": 1770694505165
     }
   ]
 }

@@ -1,0 +1,19 @@
+{
+  "gainers": [
+    {"company": "Applovin Corp", "symbol": "APP", "price": 460.38, "change": 53.66, "pctChange": "+13.19%", "headline": "Analyst upgrades & short seller retreat boost shares"},
+    {"company": "Shopify", "symbol": "SHOP", "price": 118.40, "change": 6.35, "pctChange": "+5.67%", "headline": "Strong Q4 merchant growth drives rally"},
+    {"company": "Palantir Technologies", "symbol": "PLTR", "price": 142.91, "change": 7.01, "pctChange": "+5.16%", "headline": "AI government contracts expansion fuels momentum"},
+    {"company": "Take-Two Interactive", "symbol": "TTWO", "price": 205.03, "change": 9.44, "pctChange": "+4.83%", "headline": "GTA VI hype & strong pipeline outlook"},
+    {"company": "Axon Enterprise Inc.", "symbol": "AXON", "price": 433.77, "change": 19.57, "pctChange": "+4.72%", "headline": "AI-powered policing products driving growth"}
+  ],
+  "losers": [
+    {"company": "Workday, Inc.", "symbol": "WDAY", "price": 154.56, "change": -8.36, "pctChange": "-5.13%", "headline": "Weak enterprise spending outlook concerns"},
+    {"company": "Booking Holdings", "symbol": "BKNG", "price": 4237.05, "change": -220.12, "pctChange": "-4.94%", "headline": "Travel demand slowdown fears after earnings"},
+    {"company": "Atlassian", "symbol": "TEAM", "price": 91.23, "change": -3.49, "pctChange": "-3.68%", "headline": "Cloud migration headwinds weigh on shares"},
+    {"company": "Cognizant", "symbol": "CTSH", "price": 74.60, "change": -2.48, "pctChange": "-3.22%", "headline": "IT services spending pullback pressure"},
+    {"company": "Old Dominion Freight", "symbol": "ODFL", "price": 196.11, "change": -6.36, "pctChange": "-3.14%", "headline": "Freight volumes declining, soft macro signals"}
+  ],
+  "lastUpdated": 1770696685181,
+  "source": "slickcharts.com",
+  "marketDate": "2026-02-07"
+}

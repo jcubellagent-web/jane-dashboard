@@ -283,17 +283,17 @@
         .mindmap-svg { position: relative; z-index: 1; }
 
         .mindmap-node {
-            fill: rgba(74,222,128,0.15);
-            stroke: rgba(74,222,128,0.4);
-            stroke-width: 0.8;
-            transition: fill 0.5s, stroke 0.5s, r 0.3s;
+            fill: rgba(74,222,128,0.5);
+            stroke: none;
+            stroke-width: 0;
+            transition: fill 0.5s, r 0.3s;
         }
         .mindmap-idle .mindmap-node {
             animation: mmNodeFloat 5s ease-in-out infinite;
         }
         @keyframes mmNodeFloat {
-            0%, 100% { fill: rgba(74,222,128,0.08); stroke: rgba(74,222,128,0.2); transform: translateY(0); }
-            50% { fill: rgba(74,222,128,0.2); stroke: rgba(74,222,128,0.5); transform: translateY(-1.5px); }
+            0%, 100% { fill: rgba(74,222,128,0.3); transform: translateY(0); }
+            50% { fill: rgba(74,222,128,0.6); transform: translateY(-1.5px); }
         }
         .mindmap-idle .mindmap-node:nth-child(2) { animation-delay: 0.5s; }
         .mindmap-idle .mindmap-node:nth-child(3) { animation-delay: 1s; }
@@ -307,32 +307,26 @@
         }
         .mindmap-active .mindmap-node {
             fill: rgba(74,222,128,0.3);
-            stroke: rgba(74,222,128,0.7);
         }
         .mindmap-active .mindmap-node.lit {
-            fill: rgba(74,222,128,0.6);
-            stroke: #4ade80;
-            filter: drop-shadow(0 0 4px rgba(74,222,128,0.5));
+            fill: #4ade80;
+            filter: drop-shadow(0 0 4px rgba(74,222,128,0.6));
         }
         .mindmap-active .mindmap-node.lit-sonnet {
-            fill: rgba(139,92,246,0.6);
-            stroke: #8b5cf6;
-            filter: drop-shadow(0 0 4px rgba(139,92,246,0.5));
+            fill: #8b5cf6;
+            filter: drop-shadow(0 0 4px rgba(139,92,246,0.6));
         }
         .mindmap-active .mindmap-node.lit-whisper {
-            fill: rgba(250,204,21,0.6);
-            stroke: #facc15;
-            filter: drop-shadow(0 0 4px rgba(250,204,21,0.5));
+            fill: #facc15;
+            filter: drop-shadow(0 0 4px rgba(250,204,21,0.6));
         }
         .mindmap-active .mindmap-node.lit-ollama {
-            fill: rgba(249,115,22,0.6);
-            stroke: #f97316;
-            filter: drop-shadow(0 0 4px rgba(249,115,22,0.5));
+            fill: #f97316;
+            filter: drop-shadow(0 0 4px rgba(249,115,22,0.6));
         }
         .mindmap-active .mindmap-node.lit-sd {
-            fill: rgba(236,72,153,0.6);
-            stroke: #ec4899;
-            filter: drop-shadow(0 0 4px rgba(236,72,153,0.5));
+            fill: #ec4899;
+            filter: drop-shadow(0 0 4px rgba(236,72,153,0.6));
         }
         .mindmap-line {
             stroke: transparent;
@@ -530,24 +524,24 @@
                 </radialGradient>
             </defs>
             <g id="mm-lines">
-                <line x1="80" y1="45" x2="80" y2="5" class="mindmap-line" data-node="0"/>
-                <line x1="80" y1="45" x2="120" y2="12" class="mindmap-line" data-node="1"/>
-                <line x1="80" y1="45" x2="145" y2="32" class="mindmap-line" data-node="2"/>
-                <line x1="80" y1="45" x2="120" y2="78" class="mindmap-line" data-node="3"/>
-                <line x1="80" y1="45" x2="80" y2="85" class="mindmap-line" data-node="4"/>
-                <line x1="80" y1="45" x2="40" y2="78" class="mindmap-line" data-node="5"/>
-                <line x1="80" y1="45" x2="15" y2="32" class="mindmap-line" data-node="6"/>
-                <line x1="80" y1="45" x2="40" y2="12" class="mindmap-line" data-node="7"/>
+                <line x1="80" y1="45" x2="80" y2="7.5" class="mindmap-line" data-node="0"/>
+                <line x1="80" y1="45" x2="118.1" y2="13.6" class="mindmap-line" data-node="1"/>
+                <line x1="80" y1="45" x2="142.5" y2="32.5" class="mindmap-line" data-node="2"/>
+                <line x1="80" y1="45" x2="118.1" y2="76.4" class="mindmap-line" data-node="3"/>
+                <line x1="80" y1="45" x2="80" y2="82.5" class="mindmap-line" data-node="4"/>
+                <line x1="80" y1="45" x2="41.9" y2="76.4" class="mindmap-line" data-node="5"/>
+                <line x1="80" y1="45" x2="17.5" y2="32.5" class="mindmap-line" data-node="6"/>
+                <line x1="80" y1="45" x2="41.9" y2="13.6" class="mindmap-line" data-node="7"/>
             </g>
             <g id="mm-nodes">
-                <circle cx="80" cy="5" r="4" class="mindmap-node" data-node="0"/>
-                <circle cx="120" cy="12" r="3.5" class="mindmap-node" data-node="1"/>
-                <circle cx="145" cy="32" r="3.5" class="mindmap-node" data-node="2"/>
-                <circle cx="120" cy="78" r="3.5" class="mindmap-node" data-node="3"/>
-                <circle cx="80" cy="85" r="4" class="mindmap-node" data-node="4"/>
-                <circle cx="40" cy="78" r="3.5" class="mindmap-node" data-node="5"/>
-                <circle cx="15" cy="32" r="3.5" class="mindmap-node" data-node="6"/>
-                <circle cx="40" cy="12" r="3.5" class="mindmap-node" data-node="7"/>
+                <circle cx="80" cy="5" r="2.5" class="mindmap-node" data-node="0"/>
+                <circle cx="120" cy="12" r="2.5" class="mindmap-node" data-node="1"/>
+                <circle cx="145" cy="32" r="2.5" class="mindmap-node" data-node="2"/>
+                <circle cx="120" cy="78" r="2.5" class="mindmap-node" data-node="3"/>
+                <circle cx="80" cy="85" r="2.5" class="mindmap-node" data-node="4"/>
+                <circle cx="40" cy="78" r="2.5" class="mindmap-node" data-node="5"/>
+                <circle cx="15" cy="32" r="2.5" class="mindmap-node" data-node="6"/>
+                <circle cx="40" cy="12" r="2.5" class="mindmap-node" data-node="7"/>
             </g>
             <g id="mm-labels">
                 <text x="80" y="-4" class="mindmap-label" data-node="0">REASONING</text>
@@ -803,11 +797,13 @@
                         n.classList.add(classMap[model] || 'lit');
                     }
                 });
-                // Hide all lines first, then animate active ones shooting out
+                // Hide inactive lines, keep active ones persistent
                 lines.forEach((l, i) => {
                     if (!indices.includes(i)) {
                         l.classList.remove('lit');
                         l.style.strokeDashoffset = '';
+                        l.style.stroke = '';
+                        l.removeAttribute('data-active');
                     }
                 });
                 labels.forEach((l, i) => l.classList.toggle('lit', indices.includes(i)));
@@ -820,27 +816,33 @@
                     const color = colorMap[model] || '#4ade80';
                     if (!lineEls[i]) return;
                     const line = lineEls[i];
+                    const alreadyActive = line.hasAttribute('data-active');
 
-                    // Shoot-out animation: line draws from center to node
                     const x1=+line.getAttribute('x1'), y1=+line.getAttribute('y1');
                     const x2=+line.getAttribute('x2'), y2=+line.getAttribute('y2');
-                    const len = Math.sqrt((x2-x1)**2 + (y2-y1)**2);
-                    line.style.strokeDasharray = len + ' ' + len;
-                    line.style.strokeDashoffset = len;
-                    line.classList.add('lit');
-                    // Color the line to match the model
-                    line.style.stroke = color;
-                    // Animate dashoffset to 0
-                    let shootStart = null;
-                    const shootDuration = 400;
-                    (function animShoot(ts) {
-                        if (!shootStart) shootStart = ts;
-                        const t = Math.min((ts - shootStart) / shootDuration, 1);
-                        const eased = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
-                        line.style.strokeDashoffset = len * (1 - eased);
-                        if (t < 1) requestAnimationFrame(animShoot);
-                        else line.style.strokeDashoffset = '0';
-                    })(performance.now());
+
+                    if (!alreadyActive) {
+                        // First activation — shoot out animation
+                        const len = Math.sqrt((x2-x1)**2 + (y2-y1)**2);
+                        line.style.strokeDasharray = len + ' ' + len;
+                        line.style.strokeDashoffset = len;
+                        line.classList.add('lit');
+                        line.style.stroke = color;
+                        line.setAttribute('data-active', '1');
+                        let shootStart = null;
+                        const shootDuration = 400;
+                        (function animShoot(ts) {
+                            if (!shootStart) shootStart = ts;
+                            const t = Math.min((ts - shootStart) / shootDuration, 1);
+                            const eased = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+                            line.style.strokeDashoffset = len * (1 - eased);
+                            if (t < 1) requestAnimationFrame(animShoot);
+                            else line.style.strokeDashoffset = '0';
+                        })(performance.now());
+                    } else {
+                        // Already active — just update color, keep line visible
+                        line.style.stroke = color;
+                    }
                     // Flow dots start after line finishes drawing (400ms delay)
                     const burstCount = 4 + Math.floor(Math.random()*4);
                     for (let b = 0; b < burstCount; b++) {

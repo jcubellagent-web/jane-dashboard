@@ -314,6 +314,13 @@
             color: rgba(255,255,255,0.35);
             font-weight: 500;
         }
+        .x-delta {
+            font-size: 0.4rem;
+            font-weight: 600;
+        }
+        .x-delta.up { color: #4ade80; }
+        .x-delta.down { color: #ef4444; }
+        .x-delta.flat { color: rgba(255,255,255,0.2); }
         .tk-logo {
             width: 14px;
             height: 14px;
@@ -658,12 +665,11 @@
     <div class="card" id="x-strip" style="padding:0.4rem 0.6rem;overflow:hidden;">
         <div style="display:flex;align-items:center;gap:0.4rem;">
             <img id="x-pfp" src="icon-192.png" style="width:18px;height:18px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);">
-            <span style="font-size:0.55rem;font-weight:700;color:rgba(255,255,255,0.5);">@AgentJc11443</span>
+            <span class="x-stat" id="x-engagement" style="margin-right:0.1rem;"><span class="x-val" style="font-size:0.65rem;color:#4ade80;">--</span> <span class="x-lbl">eng</span></span>
             <span style="flex:1;"></span>
-            <span class="x-stat" id="x-followers"><span class="x-val">--</span> <span class="x-lbl">followers</span></span>
-            <span class="x-stat" id="x-impressions"><span class="x-val">--</span> <span class="x-lbl">views</span></span>
-            <span class="x-stat" id="x-engagement"><span class="x-val">--</span> <span class="x-lbl">eng</span></span>
-            <span class="x-stat" id="x-likes"><span class="x-val">--</span> <span class="x-lbl">likes</span></span>
+            <span class="x-stat" id="x-followers"><span class="x-val">--</span> <span class="x-lbl">flw</span> <span class="x-delta" id="x-d-followers"></span></span>
+            <span class="x-stat" id="x-impressions"><span class="x-val">--</span> <span class="x-lbl">views</span> <span class="x-delta" id="x-d-impressions"></span></span>
+            <span class="x-stat" id="x-likes"><span class="x-val">--</span> <span class="x-lbl">likes</span> <span class="x-delta" id="x-d-likes"></span></span>
         </div>
     </div>
 
@@ -756,10 +762,23 @@
             if (!data) return;
             const fmt = v => v >= 1000 ? (v/1000).toFixed(1) + 'K' : String(v);
             const set = (id, val) => { const el = document.querySelector('#' + id + ' .x-val'); if (el) el.textContent = val; };
+            set('x-engagement', data.engagementRate || '--');
             set('x-followers', fmt(data.followers || 0));
             set('x-impressions', fmt(data.impressions || 0));
-            set('x-engagement', data.engagementRate || '--');
             set('x-likes', fmt(data.likes || 0));
+            // 24h growth deltas
+            const prev = data.prev24h || {};
+            const showDelta = (id, current, previous) => {
+                const el = document.getElementById(id);
+                if (!el || previous == null) { if (el) el.textContent = ''; return; }
+                const diff = current - previous;
+                if (diff > 0) { el.textContent = '+' + fmt(diff); el.className = 'x-delta up'; }
+                else if (diff < 0) { el.textContent = fmt(diff); el.className = 'x-delta down'; }
+                else { el.textContent = '—'; el.className = 'x-delta flat'; }
+            };
+            showDelta('x-d-followers', data.followers, prev.followers);
+            showDelta('x-d-impressions', data.impressions, prev.impressions);
+            showDelta('x-d-likes', data.likes, prev.likes);
         }
 
         async function refreshMind() {

@@ -865,59 +865,90 @@
         }
         
         /* Prediction Markets - Full height right column */
-        /* X Growth Widget */
+        /* X Growth Widget - Mobile-inspired */
         .card-xgrowth {
             flex: 0 1 auto;
         }
-        .x-stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
-        }
-        .x-stat-item {
-            text-align: center;
-            padding: 0.4rem;
-            background: rgba(74,222,128,0.05);
-            border-radius: 6px;
-        }
-        .x-stat-value {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #fff;
-        }
-        .x-stat-label {
-            font-size: 0.6rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .x-roadmap {
-            border-top: 1px solid rgba(74,222,128,0.1);
-            padding-top: 0.5rem;
-        }
-        .x-roadmap-title {
-            font-size: 0.65rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.4rem;
-            font-weight: 600;
-        }
-        .x-roadmap-item {
+        .x-stats-strip {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 0.5rem;
-            padding: 0.25rem 0;
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.7);
+            margin-bottom: 0.6rem;
+            padding: 0.4rem 0.5rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
         }
-        .x-roadmap-pct {
+        .x-strip-stat {
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+        .x-strip-val {
+            color: rgba(255,255,255,0.9);
             font-weight: 700;
-            color: var(--accent);
-            min-width: 32px;
-            font-size: 0.8rem;
+            font-variant-numeric: tabular-nums;
         }
+        .x-strip-lbl {
+            color: rgba(255,255,255,0.35);
+            font-weight: 500;
+            font-size: 0.6rem;
+        }
+        .x-strip-delta {
+            font-size: 0.55rem;
+            font-weight: 600;
+        }
+        .x-strip-delta.up { color: #4ade80; }
+        .x-strip-delta.down { color: #ef4444; }
+        .x-strip-delta.flat { color: rgba(255,255,255,0.2); }
+        .x-plan-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .x-tweet-item {
+            padding: 0.5rem 0.6rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            border-left: 2px solid rgba(255,255,255,0.08);
+        }
+        .x-tweet-item:first-child {
+            border-left-color: #4ade80;
+        }
+        .x-tweet-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3px;
+        }
+        .x-tweet-text {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.45;
+            white-space: pre-wrap;
+        }
+        .x-tweet-stat {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.3);
+        }
+        .x-thread-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .x-thread-nav-btn {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.25);
+            cursor: pointer;
+            padding: 0 0.3rem;
+            user-select: none;
+        }
+        .x-thread-nav-btn:hover { color: rgba(255,255,255,0.5); }
+        /* roadmap removed — replaced by tweet feed */
 
         .card-predictions-full {
             display: flex;
@@ -2702,34 +2733,36 @@
                     </div>
                 </div>
             </div>
-            <!-- X Growth Widget -->
+            <!-- X Growth Widget (Mobile-inspired) -->
             <div class="card card-xgrowth">
                 <div class="card-header">
                     <div class="card-title" style="display:flex;align-items:center;gap:8px;">
-                        <img id="x-profile-pic" src="https://pbs.twimg.com/profile_images/2020308693817147392/t3XaP-Il_200x200.jpg" alt="@AgentJc11443" style="width:28px;height:28px;border-radius:50%;border:2px solid var(--accent);object-fit:cover;">
-                        <span>X Growth</span>
+                        <img id="x-profile-pic" src="x-pfp.jpg" alt="JCAgentleman" style="width:28px;height:28px;border-radius:50%;border:2px solid var(--accent);object-fit:cover;">
+                        <span>JCAgentleman</span>
                         <span class="last-refresh" id="x-refresh">--</span>
                     </div>
                     <div class="card-meta">
                         <button class="refresh-btn" onclick="refreshXStats(this)">↻</button>
                     </div>
                 </div>
-                <div class="x-stats-grid">
-                    <div class="x-stat-item"><div class="x-stat-value" id="x-followers">--</div><div class="x-stat-label">Followers</div></div>
-                    <div class="x-stat-item"><div class="x-stat-value" id="x-following">--</div><div class="x-stat-label">Following</div></div>
-                    <div class="x-stat-item"><div class="x-stat-value" id="x-posts">--</div><div class="x-stat-label">Posts</div></div>
-                    <div class="x-stat-item"><div class="x-stat-value" id="x-impressions">--</div><div class="x-stat-label">Impressions</div></div>
-                    <div class="x-stat-item"><div class="x-stat-value" id="x-engagements">--</div><div class="x-stat-label">Engagements</div></div>
-                    <div class="x-stat-item"><div class="x-stat-value" id="x-eng-rate">--</div><div class="x-stat-label">Eng. Rate</div></div>
+                <!-- Stats Strip -->
+                <div class="x-stats-strip">
+                    <span class="x-strip-stat" id="x-engagement"><span class="x-strip-val" style="color:#4ade80;">--</span> <span class="x-strip-lbl">eng</span></span>
+                    <span class="x-strip-stat" id="x-followers"><span class="x-strip-val">--</span> <span class="x-strip-lbl">flw</span> <span class="x-strip-delta" id="x-d-followers"></span></span>
+                    <span class="x-strip-stat" id="x-impressions"><span class="x-strip-val">--</span> <span class="x-strip-lbl">views</span> <span class="x-strip-delta" id="x-d-impressions"></span></span>
+                    <span class="x-strip-stat" id="x-likes"><span class="x-strip-val">--</span> <span class="x-strip-lbl">likes</span> <span class="x-strip-delta" id="x-d-likes"></span></span>
+                    <span class="x-strip-stat" id="x-planned-replies"><span class="x-plan-dot" style="background:#1d9bf0;"></span> <span class="x-strip-val">--</span> <span class="x-strip-lbl">replies</span></span>
+                    <span class="x-strip-stat" id="x-planned-tweets"><span class="x-plan-dot" style="background:#4ade80;"></span> <span class="x-strip-val">--</span> <span class="x-strip-lbl">tweets</span></span>
                 </div>
-                <div class="x-roadmap">
-                    <div class="x-roadmap-title">Growth Roadmap</div>
-                    <div class="x-roadmap-items" id="x-roadmap-items">
-                        <div class="x-roadmap-item"><span class="x-roadmap-pct">70%</span><span class="x-roadmap-text">Quality replies to high-follower accounts</span></div>
-                        <div class="x-roadmap-item"><span class="x-roadmap-pct">20%</span><span class="x-roadmap-text">Original AI × Crypto content</span></div>
-                        <div class="x-roadmap-item"><span class="x-roadmap-pct">10%</span><span class="x-roadmap-text">Strategic follows & engagement</span></div>
-                    </div>
+                <!-- Thread Navigation -->
+                <div class="x-thread-nav" id="x-thread-nav">
+                    <span class="x-thread-nav-btn" id="dt-nav-left" onclick="dtSwipeThread(1)" style="display:none;">◀</span>
+                    <span id="dt-thread-date" style="font-size:0.7rem;font-weight:600;color:#4ade80;"></span>
+                    <span id="dt-thread-dots" style="font-size:0.5rem;color:rgba(255,255,255,0.3);letter-spacing:3px;"></span>
+                    <span class="x-thread-nav-btn" id="dt-nav-right" onclick="dtSwipeThread(-1)" style="display:none;">▶</span>
                 </div>
+                <!-- Tweet Feed -->
+                <div id="dt-tweet-feed" style="display:flex;flex-direction:column;gap:0.5rem;max-height:400px;overflow-y:auto;transition:opacity 0.25s ease;"></div>
             </div>
         </div>
         
@@ -2933,26 +2966,123 @@
             return doRefresh();
         }
         
-        // Connected Accounts
-        // X Growth Stats
+        // X Growth Stats (mobile-inspired)
         async function refreshXStats(btn) {
             const doRefresh = async () => {
                 try {
                     const data = await fetchWithTimeout('/x-stats.json', 5000);
-                    if (data) {
-                        document.getElementById('x-followers').textContent = data.followers || 0;
-                        document.getElementById('x-following').textContent = data.following || 0;
-                        document.getElementById('x-posts').textContent = data.tweets || 0;
-                        document.getElementById('x-impressions').textContent = data.impressions ? (data.impressions >= 1000 ? (data.impressions/1000).toFixed(1)+'K' : data.impressions) : '0';
-                        document.getElementById('x-engagements').textContent = data.engagements || 0;
-                        document.getElementById('x-eng-rate').textContent = String(data.engagementRate || '0%').replace(/%/g, '') + '%';
-                        const el = document.getElementById('x-refresh');
-                        if (el) el.textContent = new Date().toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit'});
+                    if (!data) return;
+                    const fmt = v => v >= 1000 ? (v/1000).toFixed(1) + 'K' : String(v);
+                    const set = (id, val) => { const el = document.querySelector('#' + id + ' .x-strip-val'); if (el) el.textContent = val; };
+                    set('x-engagement', data.engagementRate || '--');
+                    set('x-followers', fmt(data.followers || 0));
+                    set('x-impressions', fmt(data.impressions || 0));
+                    set('x-likes', fmt(data.likes || 0));
+                    // 24h deltas
+                    const prev = data.prev24h || {};
+                    const showDelta = (id, current, previous) => {
+                        const el = document.getElementById(id);
+                        if (!el || previous == null) { if (el) el.textContent = ''; return; }
+                        const diff = current - previous;
+                        if (diff > 0) { el.textContent = '+' + fmt(diff); el.className = 'x-strip-delta up'; }
+                        else if (diff < 0) { el.textContent = fmt(diff); el.className = 'x-strip-delta down'; }
+                        else { el.textContent = '—'; el.className = 'x-strip-delta flat'; }
+                    };
+                    showDelta('x-d-followers', data.followers, prev.followers);
+                    showDelta('x-d-impressions', data.impressions, prev.impressions);
+                    showDelta('x-d-likes', data.likes, prev.likes);
+                    // Planned content
+                    const plan = await fetchWithTimeout('/x-content-plan.json', 5000);
+                    const setP = (id, val) => { const el = document.querySelector('#' + id + ' .x-strip-val'); if (el) el.textContent = val != null ? String(val) : '--'; };
+                    if (plan && plan.plan) {
+                        const r = plan.plan.replies || {};
+                        const t = plan.plan.threads || {};
+                        setP('x-planned-replies', (r.planned || 0) - (r.completed || 0));
+                        setP('x-planned-tweets', (t.planned || 0) - (t.completed || 0));
+                    } else if (plan && plan.rolling24h) {
+                        const r = plan.rolling24h.replies || {};
+                        const t = plan.rolling24h.originalTweets || {};
+                        setP('x-planned-replies', (r.planned || 0) - (r.completed || 0));
+                        setP('x-planned-tweets', (t.planned || 0) - (t.completed || 0));
                     }
+                    const el = document.getElementById('x-refresh');
+                    if (el) el.textContent = new Date().toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit'});
                 } catch (err) { console.error('X stats error:', err); }
             };
             if (btn) spinButton(btn, doRefresh());
             else doRefresh();
+        }
+
+        // Desktop Tweet Feed (mirrors mobile)
+        window._dtThreadData = [];
+        window._dtThreadIdx = 0;
+
+        async function refreshDesktopTweetFeed() {
+            let histData = await fetchWithTimeout('/x-thread-history.json', 5000);
+            if (histData && histData.threads && histData.threads.length > 0) {
+                window._dtThreadData = histData.threads;
+            } else {
+                const data = await fetchWithTimeout('/x-latest-tweets.json', 5000);
+                if (data && data.tweets) {
+                    window._dtThreadData = [{ date: 'Latest', label: 'Latest', tweets: data.tweets, lastUpdated: data.lastUpdated }];
+                } else return;
+            }
+            dtRenderThread(window._dtThreadIdx);
+        }
+
+        function dtRenderThread(idx) {
+            const threads = window._dtThreadData;
+            if (!threads || !threads.length) return;
+            idx = Math.max(0, Math.min(idx, threads.length - 1));
+            window._dtThreadIdx = idx;
+            const thread = threads[idx];
+            const container = document.getElementById('dt-tweet-feed');
+            const dateEl = document.getElementById('dt-thread-date');
+            const dotsEl = document.getElementById('dt-thread-dots');
+            const leftBtn = document.getElementById('dt-nav-left');
+            const rightBtn = document.getElementById('dt-nav-right');
+
+            if (dateEl) dateEl.textContent = thread.label || thread.date || '';
+            if (dotsEl) dotsEl.innerHTML = threads.map((_, i) => '<span style="color:' + (i === idx ? '#4ade80' : 'rgba(255,255,255,0.2)') + ';">●</span>').join('');
+            if (leftBtn) leftBtn.style.display = idx < threads.length - 1 ? 'inline' : 'none';
+            if (rightBtn) rightBtn.style.display = idx > 0 ? 'inline' : 'none';
+
+            container.style.opacity = '0';
+            setTimeout(() => {
+                container.innerHTML = '';
+                (thread.tweets || []).forEach((tweet, i) => {
+                    const div = document.createElement('div');
+                    div.className = 'x-tweet-item';
+                    if (i === 0) div.style.borderLeftColor = '#4ade80';
+                    let timeDisplay = '';
+                    if (tweet.time) {
+                        const t = new Date(tweet.time);
+                        const mins = Math.round((Date.now() - t.getTime()) / 60000);
+                        if (mins < 1) timeDisplay = 'just now';
+                        else if (mins < 60) timeDisplay = mins + 'm ago';
+                        else if (mins < 1440) timeDisplay = Math.round(mins/60) + 'h ago';
+                        else timeDisplay = t.toLocaleDateString([], {month:'short', day:'numeric'}) + ' ' + t.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+                    }
+                    const threadNum = tweet.threadNum ? '<span style="color:#4ade80;font-weight:600;font-size:0.65rem;margin-right:4px;">' + tweet.threadNum + '</span>' : '';
+                    div.innerHTML = '<div class="x-tweet-meta">' +
+                        '<div>' + threadNum + '<span class="x-tweet-stat">' + timeDisplay + '</span></div>' +
+                        '<div style="display:flex;gap:0.5rem;">' +
+                        (tweet.views ? '<span class="x-tweet-stat">👁 ' + tweet.views + '</span>' : '') +
+                        (tweet.likes ? '<span class="x-tweet-stat">❤️ ' + tweet.likes + '</span>' : '') +
+                        (tweet.reposts ? '<span class="x-tweet-stat">🔁 ' + tweet.reposts + '</span>' : '') +
+                        '</div></div>' +
+                        '<div class="x-tweet-text">' + (tweet.text || '') + '</div>';
+                    container.appendChild(div);
+                });
+                container.style.opacity = '1';
+            }, 150);
+        }
+
+        function dtSwipeThread(dir) {
+            const newIdx = window._dtThreadIdx + dir;
+            if (newIdx >= 0 && newIdx < window._dtThreadData.length) {
+                dtRenderThread(newIdx);
+            }
         }
 
         async function refreshConnections(btn) {
@@ -3982,6 +4112,7 @@
             refreshConnections();
             refreshSorare();
             refreshXStats();
+            refreshDesktopTweetFeed();
             // Tasks/Cron widgets removed
             refreshMind();
             
@@ -4040,6 +4171,7 @@
         try { refreshSystem(); } catch(e) {}
         try { refreshTicker(); } catch(e) {}
         try { refreshXStats(); } catch(e) {}
+        try { refreshDesktopTweetFeed(); } catch(e) {}
         try { refreshKalshi(); } catch(e) {}
         try { refreshPredictions(); } catch(e) {}
         try { refreshNews(); } catch(e) {}
@@ -4069,6 +4201,7 @@
         // Tasks/Cron intervals removed
         setInterval(refreshSorare, 300000);  // Refresh Sorare every 5 minutes
         setInterval(refreshConnections, 300000);  // Connections every 5 minutes
+        setInterval(refreshDesktopTweetFeed, 300000);  // Tweet feed every 5 minutes
         // Memecoins interval removed
         
         // Night Mode

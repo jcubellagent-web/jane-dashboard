@@ -1054,14 +1054,17 @@
                 ptrFill.style.width = '100%';
                 Promise.all([refreshStatus(), refreshMind()]).then(() => {
                     ptrBar.classList.remove('loading');
-                    ptrFill.style.transition = 'width 0.8s ease, opacity 1.2s ease-out';
+                    ptrFill.style.transition = 'opacity 1.2s ease-out';
                     ptrFill.style.opacity = '0';
                     setTimeout(() => {
+                        ptrFill.style.transition = 'none';
                         ptrFill.style.width = '0%';
                         ptrFill.style.opacity = '1';
+                        // Force reflow so 'none' applies before clearing
+                        ptrFill.offsetHeight;
                         ptrFill.style.transition = '';
                         ptrRefreshing = false;
-                    }, 300);
+                    }, 1300);
                 });
             } else {
                 // Cancel — didn't pull far enough

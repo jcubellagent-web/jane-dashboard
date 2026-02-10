@@ -25,30 +25,32 @@
             overscroll-behavior-y: contain;
         }
 
-        /* Pull to refresh */
-        .ptr-indicator {
+        /* Pull to refresh — minimal bar */
+        .ptr-bar {
             position: fixed;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 28px;
-            height: 28px;
-            border: 2px solid rgba(255,255,255,0.15);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            transition: top 0.2s ease, opacity 0.2s ease;
-            opacity: 0;
-            z-index: 100;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: transparent;
+            z-index: 200;
+            pointer-events: none;
         }
-        .ptr-indicator.visible {
-            top: 12px;
-            opacity: 1;
+        .ptr-bar .ptr-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+            transition: width 0.2s ease;
+            border-radius: 0 1px 1px 0;
         }
-        .ptr-indicator.spinning {
-            animation: ptrSpin 0.6s linear infinite;
+        .ptr-bar.loading .ptr-fill {
+            width: 100%;
+            animation: ptrShimmer 1s ease-in-out infinite;
         }
-        @keyframes ptrSpin {
-            to { transform: translateX(-50%) rotate(360deg); }
+        @keyframes ptrShimmer {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
         }
 
         .card {
@@ -450,7 +452,7 @@
     </style>
 </head>
 <body>
-    <div class="ptr-indicator" id="ptr"></div>
+    <div class="ptr-bar" id="ptr"><div class="ptr-fill" id="ptr-fill"></div></div>
     <!-- Page Header -->
     <div style="padding: 0.6rem 0.25rem 0.3rem; display:flex; align-items:center; justify-content:space-between;">
         <div style="display:flex; align-items:center; gap:0.4rem;">
@@ -1020,10 +1022,10 @@
             requestAnimationFrame(render);
         })();
 
-        // Pull to refresh
+        // Pull to refresh — minimal bar
         let ptrStart = 0, ptrActive = false, ptrRefreshing = false;
-        const ptr = document.getElementById('ptr');
-        const mainContent = document.querySelector('.container') || document.body;
+        const ptrBar = document.getElementById('ptr');
+        const ptrFill = document.getElementById('ptr-fill');
 
         document.addEventListener('touchstart', e => {
             if (window.scrollY === 0 && !ptrRefreshing) {
@@ -1035,36 +1037,37 @@
         document.addEventListener('touchmove', e => {
             if (!ptrActive) return;
             const dy = e.touches[0].clientY - ptrStart;
-            if (dy > 30 && dy < 120) {
-                ptr.classList.add('visible');
-                ptr.style.top = Math.min(dy - 30, 20) + 'px';
-                // Hold content down during pull
-                mainContent.style.transform = `translateY(${Math.min(dy * 0.3, 30)}px)`;
-                mainContent.style.transition = 'none';
+            if (dy > 20 && dy < 150) {
+                const pct = Math.min(((dy - 20) / 80) * 100, 100);
+                ptrFill.style.width = pct + '%';
             }
         }, { passive: true });
 
         document.addEventListener('touchend', () => {
             if (!ptrActive) return;
             ptrActive = false;
-            if (ptr.classList.contains('visible')) {
+            const w = parseFloat(ptrFill.style.width) || 0;
+            if (w >= 80) {
+                // Trigger refresh
                 ptrRefreshing = true;
-                ptr.classList.add('spinning');
-                // Hold content offset while refreshing
-                mainContent.style.transition = 'transform 0.2s ease';
-                mainContent.style.transform = 'translateY(30px)';
-                // Refresh everything
+                ptrBar.classList.add('loading');
+                ptrFill.style.width = '100%';
                 Promise.all([refreshStatus(), refreshMind()]).then(() => {
-                    // Smooth dismiss
-                    mainContent.style.transition = 'transform 0.3s ease';
-                    mainContent.style.transform = '';
-                    ptr.classList.remove('visible', 'spinning');
-                    ptr.style.top = '';
-                    ptrRefreshing = false;
+                    ptrBar.classList.remove('loading');
+                    ptrFill.style.transition = 'width 0.3s ease, opacity 0.3s ease';
+                    ptrFill.style.opacity = '0';
+                    setTimeout(() => {
+                        ptrFill.style.width = '0%';
+                        ptrFill.style.opacity = '1';
+                        ptrFill.style.transition = '';
+                        ptrRefreshing = false;
+                    }, 300);
                 });
             } else {
-                mainContent.style.transition = 'transform 0.2s ease';
-                mainContent.style.transform = '';
+                // Cancel — didn't pull far enough
+                ptrFill.style.transition = 'width 0.2s ease';
+                ptrFill.style.width = '0%';
+                setTimeout(() => { ptrFill.style.transition = ''; }, 200);
             }
         });
     </script>

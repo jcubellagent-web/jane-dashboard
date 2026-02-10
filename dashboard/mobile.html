@@ -847,7 +847,7 @@
                     const burstCount = 4 + Math.floor(Math.random()*4);
                     for (let b = 0; b < burstCount; b++) {
                         const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
-                        const r = 1 + Math.random()*1.5;
+                        const r = 0.8;
                         dot.setAttribute('r', r);
                         dot.setAttribute('cx', x1);
                         dot.setAttribute('cy', y1);
@@ -925,10 +925,10 @@
             const cx = W/2, cy = H/2;
             const R = 70; // sphere radius
 
-            // Generate sphere points using fibonacci sphere
-            const numPoints = 60;
+            // Generate sphere points using fibonacci sphere (less dense)
+            const numPoints = 40;
             const points = [];
-            const phi = Math.PI * (3 - Math.sqrt(5)); // golden angle
+            const phi = Math.PI * (3 - Math.sqrt(5));
             for (let i = 0; i < numPoints; i++) {
                 const y = 1 - (i / (numPoints-1)) * 2;
                 const r = Math.sqrt(1 - y*y);
@@ -936,13 +936,13 @@
                 points.push({ x: r*Math.cos(theta), y: y, z: r*Math.sin(theta) });
             }
 
-            // Build connections (connect nearby points)
+            // Build connections (connect nearby points, sparser)
             const connections = [];
             for (let i = 0; i < numPoints; i++) {
                 for (let j = i+1; j < numPoints; j++) {
                     const dx = points[i].x-points[j].x, dy = points[i].y-points[j].y, dz = points[i].z-points[j].z;
                     const dist = Math.sqrt(dx*dx+dy*dy+dz*dz);
-                    if (dist < 0.7) connections.push([i,j]);
+                    if (dist < 0.65) connections.push([i,j]);
                 }
             }
 
@@ -951,46 +951,43 @@
 
             function render() {
                 const isActive = document.getElementById('mindmap-card')?.classList.contains('mindmap-active');
-                const speed = isActive ? 0.008 : 0.002;
-                const breatheSpeed = isActive ? 0.04 : 0.015;
+                const speed = isActive ? 0.004 : 0.001; // much slower rotation
+                const breatheSpeed = isActive ? 0.02 : 0.008; // slower breathing
                 angle += speed;
                 breathe += breatheSpeed;
 
-                const breatheScale = 1 + Math.sin(breathe) * (isActive ? 0.06 : 0.04);
-                const baseAlpha = isActive ? 0.25 : 0.1;
-                const lineAlpha = isActive ? 0.12 : 0.04;
-                const glowR = isActive ? 0.4 : 0.15;
+                // Brightness breathing (no size change)
+                const breatheMult = 0.7 + Math.sin(breathe) * 0.3; // 0.4-1.0 brightness range
+                const baseAlpha = (isActive ? 0.2 : 0.08) * breatheMult;
+                const lineAlpha = (isActive ? 0.1 : 0.03) * breatheMult;
+                const glowAlpha = (isActive ? 0.3 : 0.1) * breatheMult;
 
                 ctx.clearRect(0, 0, W, H);
 
-                // Project 3D → 2D with rotation
+                // Project 3D → 2D with rotation (fixed size, no scale pulsing)
                 const cosA = Math.cos(angle), sinA = Math.sin(angle);
-                const cosT = Math.cos(angle*0.3), sinT = Math.sin(angle*0.3); // slight tilt
+                const cosT = Math.cos(angle*0.3), sinT = Math.sin(angle*0.3);
                 const projected = points.map(p => {
-                    // Rotate Y axis
                     let x = p.x*cosA + p.z*sinA;
                     let z = -p.x*sinA + p.z*cosA;
                     let y = p.y;
-                    // Slight X rotation for tilt
                     let y2 = y*cosT - z*sinT;
                     let z2 = y*sinT + z*cosT;
-                    const scale = breatheScale;
-                    const depth = (z2 + 1.5) / 3; // 0-1 depth for sizing
+                    const depth = (z2 + 1.5) / 3;
                     return {
-                        sx: cx + x * R * scale,
-                        sy: cy + y2 * R * scale * 0.75, // slight vertical compression for perspective
+                        sx: cx + x * R,
+                        sy: cy + y2 * R * 0.75,
                         depth: depth,
                         z: z2
                     };
                 });
 
-                // Draw connections (back to front)
-                ctx.lineWidth = 0.5;
+                // Draw connections
+                ctx.lineWidth = 0.4;
                 connections.forEach(([i,j]) => {
                     const a = projected[i], b = projected[j];
                     const avgDepth = (a.depth + b.depth) / 2;
-                    const alpha = lineAlpha * avgDepth;
-                    ctx.strokeStyle = `rgba(74,222,128,${alpha})`;
+                    ctx.strokeStyle = `rgba(74,222,128,${lineAlpha * avgDepth})`;
                     ctx.beginPath();
                     ctx.moveTo(a.sx, a.sy);
                     ctx.lineTo(b.sx, b.sy);
@@ -1000,18 +997,17 @@
                 // Draw points (sorted by depth)
                 const sorted = projected.map((p,i) => ({...p, i})).sort((a,b) => a.z - b.z);
                 sorted.forEach(p => {
-                    const r = 0.8 + p.depth * 1.5;
-                    const alpha = baseAlpha * p.depth + 0.02;
+                    const r = 0.6 + p.depth * 1.0; // consistent smaller size
+                    const alpha = baseAlpha * p.depth + 0.01;
 
-                    // Glow
+                    // Subtle glow on front-facing points
                     if (p.depth > 0.5) {
                         ctx.beginPath();
-                        ctx.arc(p.sx, p.sy, r*3, 0, Math.PI*2);
-                        ctx.fillStyle = `rgba(74,222,128,${glowR * (p.depth-0.5)})`;
+                        ctx.arc(p.sx, p.sy, r*2.5, 0, Math.PI*2);
+                        ctx.fillStyle = `rgba(74,222,128,${glowAlpha * (p.depth-0.5) * 0.3})`;
                         ctx.fill();
                     }
 
-                    // Point
                     ctx.beginPath();
                     ctx.arc(p.sx, p.sy, r, 0, Math.PI*2);
                     ctx.fillStyle = `rgba(74,222,128,${alpha})`;

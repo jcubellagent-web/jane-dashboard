@@ -450,13 +450,12 @@
             fill: #4ade80;
             opacity: 0;
         }
-        .mindmap-active .mindmap-pulse {
-            animation: mmPulse 2s ease-in-out infinite;
+        .mm-flow-dot {
+            opacity: 0;
         }
-        @keyframes mmPulse {
-            0% { opacity: 0; r: 1; }
-            50% { opacity: 0.8; }
-            100% { opacity: 0; r: 3; }
+        .mm-flow-dot.flowing {
+            opacity: 0.9;
+            r: 2;
         }
         .mindmap-label {
             font-size: 3.5px;
@@ -507,33 +506,26 @@
         </div>
     </div>
 
-    <!-- Jane's Mind -->
-    <div class="card mind-card" id="mind-card">
-        <div class="mind-header">
-            <span class="mind-title">🧠 Jane's Mind</span>
-            <span class="mind-status-dot" id="mind-dot"></span>
+    <!-- Connected Accounts (collapsible) -->
+    <div class="card" id="conn-card" style="padding:0.5rem 0.75rem;">
+        <div id="conn-toggle" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;-webkit-tap-highlight-color:transparent;">
+            <span style="font-size:0.7rem;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:0.3rem;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent)"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+                Connected Accounts
+            </span>
+            <span id="conn-arrow" style="font-size:0.6rem;color:var(--text-dim);transition:transform 0.3s;">▶</span>
         </div>
-        <div id="mind-content">
-            <div class="mind-idle">Idle — waiting for Josh<span class="mind-idle-dots"></span></div>
-        </div>
-        <div id="mind-sections" style="display:none;">
-            <div class="mind-section">
-                <div class="mind-section-label">GOAL / OBJECTIVE</div>
-                <div class="mind-task-text" id="mind-task-text">Awaiting instructions...</div>
-            </div>
-            <div class="mind-section">
-                <div class="mind-section-label">THINKING &amp; DECISIONS</div>
-                <div class="mind-thought-text" id="mind-thought-text">Ready for your next request.</div>
-            </div>
-            <div class="mind-section" id="mind-actions-section" style="display:none;">
-                <div class="mind-section-label">ACTIONS &amp; TOOLS</div>
-                <div class="mind-steps" id="mind-steps"></div>
-            </div>
+        <div id="conn-body" style="display:none;margin-top:0.5rem;">
+            <div style="font-size:0.55rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim);font-weight:600;margin-bottom:0.2rem;">My Accounts</div>
+            <div id="conn-accounts" style="display:grid;grid-template-columns:1fr 1fr;gap:0.15rem 0.5rem;"></div>
+            <div style="border-top:1px solid rgba(255,255,255,0.05);margin:0.3rem 0;"></div>
+            <div style="font-size:0.55rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim);font-weight:600;margin-bottom:0.2rem;">Data Connections</div>
+            <div id="conn-datasources" style="display:grid;grid-template-columns:1fr 1fr;gap:0.15rem 0.5rem;"></div>
         </div>
     </div>
 
-    <!-- Mind Map -->
-    <div class="card mindmap-card mindmap-idle" id="mindmap-card">
+    <!-- Mind Map (floating, no card background) -->
+    <div class="mindmap-card mindmap-idle" id="mindmap-card" style="background:transparent;border:none;">
         <span class="mindmap-header">MIND MAP</span>
         <div style="position:absolute;top:0.4rem;right:0.75rem;display:flex;gap:0.4rem;align-items:center;">
             <span class="mm-legend-dot" id="mm-dot-opus" style="color:#4ade80;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Opus</span></span>
@@ -558,48 +550,76 @@
             <circle cx="80" cy="45" r="45" class="mindmap-orbit mm-orbit-4" fill="none"/>
             <circle cx="80" cy="45" r="30" class="mindmap-orbit mm-orbit-5" fill="none"/>
             <g id="mm-lines">
-                <line x1="80" y1="45" x2="80" y2="7" class="mindmap-line" data-node="0"/>
-                <line x1="80" y1="45" x2="125" y2="14" class="mindmap-line" data-node="1"/>
-                <line x1="80" y1="45" x2="145" y2="45" class="mindmap-line" data-node="2"/>
-                <line x1="80" y1="45" x2="125" y2="76" class="mindmap-line" data-node="3"/>
-                <line x1="80" y1="45" x2="35" y2="76" class="mindmap-line" data-node="4"/>
-                <line x1="80" y1="45" x2="15" y2="45" class="mindmap-line" data-node="5"/>
-                <line x1="80" y1="45" x2="35" y2="14" class="mindmap-line" data-node="6"/>
+                <line x1="80" y1="45" x2="80" y2="5" class="mindmap-line" data-node="0"/>
+                <line x1="80" y1="45" x2="120" y2="12" class="mindmap-line" data-node="1"/>
+                <line x1="80" y1="45" x2="145" y2="32" class="mindmap-line" data-node="2"/>
+                <line x1="80" y1="45" x2="120" y2="78" class="mindmap-line" data-node="3"/>
+                <line x1="80" y1="45" x2="80" y2="85" class="mindmap-line" data-node="4"/>
+                <line x1="80" y1="45" x2="40" y2="78" class="mindmap-line" data-node="5"/>
+                <line x1="80" y1="45" x2="15" y2="32" class="mindmap-line" data-node="6"/>
+                <line x1="80" y1="45" x2="40" y2="12" class="mindmap-line" data-node="7"/>
             </g>
             <g id="mm-nodes">
-                <circle cx="80" cy="7" r="4" class="mindmap-node" data-node="0"/>
-                <circle cx="125" cy="14" r="3.5" class="mindmap-node" data-node="1"/>
-                <circle cx="145" cy="45" r="3.5" class="mindmap-node" data-node="2"/>
-                <circle cx="125" cy="76" r="3" class="mindmap-node" data-node="3"/>
-                <circle cx="35" cy="76" r="3" class="mindmap-node" data-node="4"/>
-                <circle cx="15" cy="45" r="3.5" class="mindmap-node" data-node="5"/>
-                <circle cx="35" cy="14" r="3.5" class="mindmap-node" data-node="6"/>
+                <circle cx="80" cy="5" r="4" class="mindmap-node" data-node="0"/>
+                <circle cx="120" cy="12" r="3.5" class="mindmap-node" data-node="1"/>
+                <circle cx="145" cy="32" r="3.5" class="mindmap-node" data-node="2"/>
+                <circle cx="120" cy="78" r="3.5" class="mindmap-node" data-node="3"/>
+                <circle cx="80" cy="85" r="4" class="mindmap-node" data-node="4"/>
+                <circle cx="40" cy="78" r="3.5" class="mindmap-node" data-node="5"/>
+                <circle cx="15" cy="32" r="3.5" class="mindmap-node" data-node="6"/>
+                <circle cx="40" cy="12" r="3.5" class="mindmap-node" data-node="7"/>
             </g>
             <g id="mm-labels">
-                <text x="80" y="-1" class="mindmap-label" data-node="0">REASON</text>
-                <text x="125" y="7" class="mindmap-label" data-node="1">SEARCH</text>
-                <text x="145" y="39" class="mindmap-label" data-node="2">CODE</text>
-                <text x="125" y="84" class="mindmap-label" data-node="3">WRITE</text>
-                <text x="35" y="84" class="mindmap-label" data-node="4">READ</text>
-                <text x="15" y="39" class="mindmap-label" data-node="5">TOOLS</text>
-                <text x="35" y="7" class="mindmap-label" data-node="6">MEMORY</text>
+                <text x="80" y="-4" class="mindmap-label" data-node="0">REASONING</text>
+                <text x="120" y="4" class="mindmap-label" data-node="1">CODE</text>
+                <text x="145" y="24" class="mindmap-label" data-node="2">WEB</text>
+                <text x="120" y="88" class="mindmap-label" data-node="3">SOCIAL</text>
+                <text x="80" y="96" class="mindmap-label" data-node="4">DATA</text>
+                <text x="40" y="88" class="mindmap-label" data-node="5">MARKET</text>
+                <text x="15" y="24" class="mindmap-label" data-node="6">MEMORY</text>
+                <text x="40" y="4" class="mindmap-label" data-node="7">LANGUAGE</text>
             </g>
             <g id="mm-pulses">
-                <circle cx="80" cy="26" r="1.5" class="mindmap-pulse" data-node="0" style="animation-delay:0s"/>
-                <circle cx="102" cy="29" r="1.5" class="mindmap-pulse" data-node="1" style="animation-delay:0.3s"/>
-                <circle cx="112" cy="45" r="1.5" class="mindmap-pulse" data-node="2" style="animation-delay:0.6s"/>
-                <circle cx="102" cy="60" r="1.5" class="mindmap-pulse" data-node="3" style="animation-delay:0.9s"/>
-                <circle cx="57" cy="60" r="1.5" class="mindmap-pulse" data-node="4" style="animation-delay:1.2s"/>
-                <circle cx="47" cy="45" r="1.5" class="mindmap-pulse" data-node="5" style="animation-delay:1.5s"/>
-                <circle cx="57" cy="29" r="1.5" class="mindmap-pulse" data-node="6" style="animation-delay:1.8s"/>
+                <circle r="1.5" class="mindmap-pulse mm-flow-dot" data-node="0"/>
+                <circle r="1.5" class="mindmap-pulse mm-flow-dot" data-node="1"/>
+                <circle r="1.5" class="mindmap-pulse mm-flow-dot" data-node="2"/>
+                <circle r="1.5" class="mindmap-pulse mm-flow-dot" data-node="3"/>
+                <circle r="1.5" class="mindmap-pulse mm-flow-dot" data-node="4"/>
+                <circle r="1.5" class="mindmap-pulse mm-flow-dot" data-node="5"/>
+                <circle r="1.5" class="mindmap-pulse mm-flow-dot" data-node="6"/>
+                <circle r="1.5" class="mindmap-pulse mm-flow-dot" data-node="7"/>
             </g>
-            <!-- Breathing glow orb around hub -->
             <circle cx="80" cy="45" r="18" class="mindmap-orb mindmap-orb-outer"/>
             <circle cx="80" cy="45" r="14" class="mindmap-orb mindmap-orb-mid"/>
             <circle cx="80" cy="45" r="12" class="mindmap-hub-ring"/>
             <circle cx="80" cy="45" r="9" class="mindmap-hub"/>
             <image href="icon-192.png" x="73" y="38" width="14" height="14" opacity="0.7"/>
         </svg>
+    </div>
+
+    <!-- Jane's Mind -->
+    <div class="card mind-card" id="mind-card">
+        <div class="mind-header">
+            <span class="mind-title">🧠 Jane's Mind</span>
+            <span class="mind-status-dot" id="mind-dot"></span>
+        </div>
+        <div id="mind-content">
+            <div class="mind-idle">Idle — waiting for Josh<span class="mind-idle-dots"></span></div>
+        </div>
+        <div id="mind-sections" style="display:none;">
+            <div class="mind-section">
+                <div class="mind-section-label">GOAL / OBJECTIVE</div>
+                <div class="mind-task-text" id="mind-task-text">Awaiting instructions...</div>
+            </div>
+            <div class="mind-section">
+                <div class="mind-section-label">THINKING &amp; DECISIONS</div>
+                <div class="mind-thought-text" id="mind-thought-text">Ready for your next request.</div>
+            </div>
+            <div class="mind-section" id="mind-actions-section" style="display:none;">
+                <div class="mind-section-label">ACTIONS &amp; TOOLS</div>
+                <div class="mind-steps" id="mind-steps"></div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -722,10 +742,10 @@
                 const nodes = card.querySelectorAll('.mindmap-node');
                 const lines = card.querySelectorAll('.mindmap-line');
                 const labels = card.querySelectorAll('.mindmap-label');
-                const count = 2 + Math.floor(Math.random() * 2);
+                const count = 2 + Math.floor(Math.random() * 3);
                 const indices = [];
                 while (indices.length < count) {
-                    const i = Math.floor(Math.random() * 7);
+                    const i = Math.floor(Math.random() * 8);
                     if (!indices.includes(i)) indices.push(i);
                 }
                 const modelClass = {sonnet:'lit-sonnet',whisper:'lit-whisper',ollama:'lit-ollama',sd:'lit-sd'}[window._mmModel] || 'lit';
@@ -735,7 +755,72 @@
                 });
                 lines.forEach((l, i) => l.classList.toggle('lit', indices.includes(i)));
                 labels.forEach((l, i) => l.classList.toggle('lit', indices.includes(i)));
+
+                // Animate flow dots along active lines
+                const dots = card.querySelectorAll('.mm-flow-dot');
+                const lineEls = card.querySelectorAll('.mindmap-line');
+                dots.forEach((dot, i) => {
+                    dot.classList.remove('flowing');
+                    dot.style.fill = '';
+                    if (indices.includes(i) && lineEls[i]) {
+                        const line = lineEls[i];
+                        const x1=+line.getAttribute('x1'), y1=+line.getAttribute('y1');
+                        const x2=+line.getAttribute('x2'), y2=+line.getAttribute('y2');
+                        const color = {sonnet:'#8b5cf6',whisper:'#facc15',ollama:'#f97316',sd:'#ec4899'}[window._mmModel] || '#4ade80';
+                        dot.style.fill = color;
+                        dot.classList.add('flowing');
+                        // Animate dot from center to node
+                        let start = null;
+                        const duration = 1200 + Math.random()*800;
+                        const delay = i * 150;
+                        function animDot(ts) {
+                            if (!start) start = ts;
+                            const elapsed = ts - start - delay;
+                            if (elapsed < 0) { requestAnimationFrame(animDot); return; }
+                            const t = Math.min(elapsed / duration, 1);
+                            const eased = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+                            dot.setAttribute('cx', x1 + (x2-x1)*eased);
+                            dot.setAttribute('cy', y1 + (y2-y1)*eased);
+                            dot.style.opacity = t < 0.1 ? t*10 : t > 0.8 ? (1-t)*5 : 0.9;
+                            if (t < 1) requestAnimationFrame(animDot);
+                            else { dot.classList.remove('flowing'); dot.style.opacity = 0; }
+                        }
+                        requestAnimationFrame(animDot);
+                    }
+                });
             }
+        }
+
+        // Connected Accounts - collapsible
+        const connToggle = document.getElementById('conn-toggle');
+        const connBody = document.getElementById('conn-body');
+        const connArrow = document.getElementById('conn-arrow');
+        let connOpen = false;
+        connToggle.addEventListener('click', () => {
+            connOpen = !connOpen;
+            connBody.style.display = connOpen ? '' : 'none';
+            connArrow.style.transform = connOpen ? 'rotate(90deg)' : '';
+            if (connOpen && !connBody.dataset.loaded) refreshConnections();
+        });
+
+        async function refreshConnections() {
+            try {
+                const data = await fetchJSON('/api/connections');
+                if (!data) return;
+                const render = (items, id) => {
+                    const el = document.getElementById(id);
+                    el.innerHTML = items.map(i => `
+                        <div style="display:flex;align-items:center;gap:0.25rem;padding:0.1rem 0;font-size:0.6rem;color:rgba(255,255,255,0.7);">
+                            <img src="${i.icon}" alt="" style="width:12px;height:12px;border-radius:2px;${i.invert?'filter:invert(1);':''}" onerror="this.style.display='none'">
+                            <span>${esc(i.name)}</span>
+                            ${i.active ? '<span style="color:var(--accent);font-size:0.4rem;">●</span>' : ''}
+                        </div>
+                    `).join('');
+                };
+                render(data.accounts || [], 'conn-accounts');
+                render(data.dataSources || [], 'conn-datasources');
+                connBody.dataset.loaded = '1';
+            } catch(e) { console.error('connections', e); }
         }
 
         refreshStatus();

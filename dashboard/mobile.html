@@ -330,7 +330,11 @@
             transition: fill 0.5s, stroke 0.5s, r 0.3s;
         }
         .mindmap-idle .mindmap-node {
-            animation: mmNodeBreathe 4s ease-in-out infinite;
+            animation: mmNodeFloat 5s ease-in-out infinite;
+        }
+        @keyframes mmNodeFloat {
+            0%, 100% { fill: rgba(74,222,128,0.08); stroke: rgba(74,222,128,0.2); transform: translateY(0); }
+            50% { fill: rgba(74,222,128,0.2); stroke: rgba(74,222,128,0.5); transform: translateY(-1.5px); }
         }
         .mindmap-idle .mindmap-node:nth-child(2) { animation-delay: 0.5s; }
         .mindmap-idle .mindmap-node:nth-child(3) { animation-delay: 1s; }
@@ -372,23 +376,21 @@
             filter: drop-shadow(0 0 4px rgba(236,72,153,0.5));
         }
         .mindmap-line {
-            stroke: rgba(74,222,128,0.06);
+            stroke: transparent;
             stroke-width: 0.5;
-            transition: stroke 0.5s;
+            stroke-dasharray: 2 2;
+            transition: stroke 0.3s;
         }
         .mindmap-idle .mindmap-line {
-            animation: mmLineBreathe 4s ease-in-out infinite;
+            stroke: transparent;
         }
         .mindmap-active .mindmap-line {
-            stroke: rgba(74,222,128,0.15);
-        }
-        @keyframes mmLineBreathe {
-            0%, 100% { stroke: rgba(74,222,128,0.04); }
-            50% { stroke: rgba(74,222,128,0.1); }
+            stroke: transparent;
         }
         .mindmap-active .mindmap-line.lit {
-            stroke: rgba(74,222,128,0.35);
-            stroke-width: 0.8;
+            stroke: rgba(74,222,128,0.4);
+            stroke-width: 0.7;
+            stroke-dasharray: 2 2;
         }
         .mindmap-hub {
             fill: #0a0a0a;
@@ -876,10 +878,16 @@
                         n.classList.add(classMap[model] || 'lit');
                     }
                 });
-                lines.forEach((l, i) => l.classList.toggle('lit', indices.includes(i)));
+                // Hide all lines first, then animate active ones shooting out
+                lines.forEach((l, i) => {
+                    if (!indices.includes(i)) {
+                        l.classList.remove('lit');
+                        l.style.strokeDashoffset = '';
+                    }
+                });
                 labels.forEach((l, i) => l.classList.toggle('lit', indices.includes(i)));
 
-                // Animate burst of flow dots along active lines — color per region's model
+                // Animate lines shooting out + burst flow dots
                 const lineEls = card.querySelectorAll('.mindmap-line');
                 const flowContainer = document.getElementById('mm-flow-container');
                 indices.forEach(i => {
@@ -887,9 +895,29 @@
                     const color = colorMap[model] || '#4ade80';
                     if (!lineEls[i]) return;
                     const line = lineEls[i];
+
+                    // Shoot-out animation: line draws from center to node
                     const x1=+line.getAttribute('x1'), y1=+line.getAttribute('y1');
                     const x2=+line.getAttribute('x2'), y2=+line.getAttribute('y2');
-                    const burstCount = 4 + Math.floor(Math.random()*4); // 4-7 dots per burst
+                    const len = Math.sqrt((x2-x1)**2 + (y2-y1)**2);
+                    line.style.strokeDasharray = len + ' ' + len;
+                    line.style.strokeDashoffset = len;
+                    line.classList.add('lit');
+                    // Color the line to match the model
+                    line.style.stroke = color;
+                    // Animate dashoffset to 0
+                    let shootStart = null;
+                    const shootDuration = 400;
+                    (function animShoot(ts) {
+                        if (!shootStart) shootStart = ts;
+                        const t = Math.min((ts - shootStart) / shootDuration, 1);
+                        const eased = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+                        line.style.strokeDashoffset = len * (1 - eased);
+                        if (t < 1) requestAnimationFrame(animShoot);
+                        else line.style.strokeDashoffset = '0';
+                    })(performance.now());
+                    // Flow dots start after line finishes drawing (400ms delay)
+                    const burstCount = 4 + Math.floor(Math.random()*4);
                     for (let b = 0; b < burstCount; b++) {
                         const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
                         const r = 1 + Math.random()*1.5;
@@ -901,7 +929,7 @@
                         dot.style.filter = `drop-shadow(0 0 ${r}px ${color})`;
                         flowContainer.appendChild(dot);
                         const duration = 800 + Math.random()*1000;
-                        const delay = b * (80 + Math.random()*120); // staggered burst
+                        const delay = 400 + b * (80 + Math.random()*120); // 400ms wait for line shoot + staggered burst
                         const wobbleX = (Math.random()-0.5)*6; // random lateral spread
                         const wobbleY = (Math.random()-0.5)*6;
                         let start = null;

@@ -12,6 +12,13 @@
   "reposts": 1,
   "bookmarks": 1,
   "shares": 0,
-  "notifications": 14,
-  "scrapedAt": "2026-02-10T00:35:00Z"
+  "notifications": 18,
+  "scrapedAt": "2026-02-10T03:35:00Z",
+  "prev24h": {
+    "followers": 8,
+    "impressions": 3100,
+    "likes": 18
+  },
+  "plannedReplies": 8,
+  "plannedTweets": 0
 }

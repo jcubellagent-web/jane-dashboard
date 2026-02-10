@@ -321,6 +321,13 @@
         .x-delta.up { color: #4ade80; }
         .x-delta.down { color: #ef4444; }
         .x-delta.flat { color: rgba(255,255,255,0.2); }
+        .x-plan-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            display: inline-block;
+            vertical-align: middle;
+        }
         .tk-logo {
             width: 14px;
             height: 14px;
@@ -663,13 +670,16 @@
 
     <!-- X/Twitter Growth Strip -->
     <div class="card" id="x-strip" style="padding:0.4rem 0.6rem;overflow:hidden;">
-        <div style="display:flex;align-items:center;gap:0.4rem;">
-            <img id="x-pfp" src="x-pfp.jpg" style="width:18px;height:18px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);">
-            <span class="x-stat" id="x-engagement" style="margin-right:0.1rem;"><span class="x-val" style="font-size:0.65rem;color:#4ade80;">--</span> <span class="x-lbl">eng</span></span>
-            <span style="flex:1;"></span>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:0.35rem;">
+                <img id="x-pfp" src="x-pfp.jpg" style="width:18px;height:18px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);">
+                <span class="x-stat" id="x-engagement"><span class="x-val" style="font-size:0.65rem;color:#4ade80;">--</span> <span class="x-lbl">eng</span></span>
+            </div>
             <span class="x-stat" id="x-followers"><span class="x-val">--</span> <span class="x-lbl">flw</span> <span class="x-delta" id="x-d-followers"></span></span>
             <span class="x-stat" id="x-impressions"><span class="x-val">--</span> <span class="x-lbl">views</span> <span class="x-delta" id="x-d-impressions"></span></span>
             <span class="x-stat" id="x-likes"><span class="x-val">--</span> <span class="x-lbl">likes</span> <span class="x-delta" id="x-d-likes"></span></span>
+            <span class="x-stat" id="x-planned-replies"><span class="x-plan-dot" style="background:#1d9bf0;"></span> <span class="x-val">--</span> <span class="x-lbl">replies</span></span>
+            <span class="x-stat" id="x-planned-tweets"><span class="x-plan-dot" style="background:#4ade80;"></span> <span class="x-val">--</span> <span class="x-lbl">tweets</span></span>
         </div>
     </div>
 
@@ -779,6 +789,10 @@
             showDelta('x-d-followers', data.followers, prev.followers);
             showDelta('x-d-impressions', data.impressions, prev.impressions);
             showDelta('x-d-likes', data.likes, prev.likes);
+            // Planned content
+            const setP = (id, val) => { const el = document.querySelector('#' + id + ' .x-val'); if (el) el.textContent = val != null ? String(val) : '--'; };
+            setP('x-planned-replies', data.plannedReplies);
+            setP('x-planned-tweets', data.plannedTweets);
         }
 
         async function refreshMind() {

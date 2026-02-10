@@ -1,24 +1,22 @@
 {
   "followers": 8,
-  "following": 19,
-  "tweets": 42,
+  "following": 34,
+  "tweets": 9,
   "verifiedFollowers": 2,
-  "impressions": 3100,
-  "engagementRate": "2.6%",
-  "engagements": 84,
-  "profileVisits": 22,
-  "replies": 11,
-  "likes": 18,
+  "impressions": 3300,
+  "engagementRate": "3.2%",
+  "engagements": 108,
+  "profileVisits": 26,
+  "replies": 16,
+  "likes": 24,
   "reposts": 1,
   "bookmarks": 1,
   "shares": 0,
-  "notifications": 18,
-  "scrapedAt": "2026-02-10T03:35:00Z",
+  "notifications": 1,
+  "scrapedAt": "2026-02-10T06:06:00Z",
   "prev24h": {
     "followers": 8,
     "impressions": 3100,
     "likes": 18
-  },
-  "plannedReplies": 8,
-  "plannedTweets": 0
+  }
 }

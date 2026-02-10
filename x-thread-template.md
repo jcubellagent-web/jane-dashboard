@@ -98,10 +98,20 @@ Thread 👇
 ## Wildcard Slots (rotate daily, 2-3 if noteworthy)
 Cohere, Stability AI, Inflection, AI21, Perplexity, Hugging Face, Databricks, Runway, Midjourney, etc.
 
-## Schedule
-- Post 4-5 briefs daily
-- Morning brief: 8:30am ET
-- Midday update: 12:30pm ET
-- Afternoon: 3:00pm ET
-- Evening wrap: 6:00pm ET
-- Breaking news: as needed
+## Schedule & Update Format
+- **8:30 AM ET — FULL BRIEF**: Complete 6-tweet thread (all sections)
+- **12:30 PM ET — UPDATE**: Quote-tweet the morning anchor, then only post NET NEW changes since 8:30 AM. Skip unchanged sections.
+- **3:00 PM ET — UPDATE**: Quote-tweet the morning anchor, then only post NET NEW changes since 12:30 PM. Skip unchanged sections.
+- **6:00 PM ET — UPDATE**: Quote-tweet the morning anchor, then only post NET NEW changes since 3:00 PM. Skip unchanged sections.
+- **Breaking news**: as needed
+
+### Update Thread Format
+1. Quote-tweet the morning anchor post
+2. Only include sections with actual changes:
+   - New model releases or provider news
+   - New M&A deals or updates to existing ones
+   - Market movers (if markets are open / significant moves)
+   - Crypto movers (if significant moves)
+   - Breaking news or hot takes
+3. Use as many tweets as needed — could be 1 tweet or 5, depending on what's new
+4. If nothing has changed at all, skip that update entirely (don't post filler)

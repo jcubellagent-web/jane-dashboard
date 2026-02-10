@@ -509,17 +509,6 @@
         </div>
     </div>
 
-    <!-- Ticker Strip -->
-    <div class="card" id="ticker-strip" style="padding:0.4rem 0.6rem;overflow:hidden;">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:0.3rem;" id="ticker-row">
-            <span class="tk" id="tk-btc">BTC <span class="tk-p">--</span> <span class="tk-c">--%</span></span>
-            <span class="tk" id="tk-eth">ETH <span class="tk-p">--</span> <span class="tk-c">--%</span></span>
-            <span class="tk" id="tk-sol">SOL <span class="tk-p">--</span> <span class="tk-c">--%</span></span>
-            <span class="tk" id="tk-ndaq">NDAQ <span class="tk-p">--</span> <span class="tk-c">--%</span></span>
-            <span class="tk" id="tk-ibit">IBIT <span class="tk-p">--</span> <span class="tk-c">--%</span></span>
-        </div>
-    </div>
-
     <!-- Connected Accounts (collapsible) -->
     <div class="card" id="conn-card" style="padding:0.5rem 0.75rem;">
         <div id="conn-toggle" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;-webkit-tap-highlight-color:transparent;">
@@ -623,6 +612,16 @@
         </div>
     </div>
 
+    <!-- Ticker Strip -->
+    <div class="card" id="ticker-strip" style="padding:0.4rem 0.6rem;overflow:hidden;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:0.3rem;" id="ticker-row">
+            <span class="tk" id="tk-btc">BTC <span class="tk-p">--</span> <span class="tk-c">--%</span></span>
+            <span class="tk" id="tk-eth">ETH <span class="tk-p">--</span> <span class="tk-c">--%</span></span>
+            <span class="tk" id="tk-sol">SOL <span class="tk-p">--</span> <span class="tk-c">--%</span></span>
+            <span class="tk" id="tk-ndaq">NDAQ <span class="tk-p">--</span> <span class="tk-c">--%</span></span>
+        </div>
+    </div>
+
     <script>
         async function fetchJSON(url, timeout = 8000) {
             const ctrl = new AbortController();
@@ -684,7 +683,7 @@
             };
             const items = {
                 btc: data.btc, eth: data.eth, sol: data.sol,
-                ndaq: data.ndaq, ibit: data.ibit
+                ndaq: data.ndaq
             };
             for (const [key, val] of Object.entries(items)) {
                 const el = document.getElementById('tk-' + key);

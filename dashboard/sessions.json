@@ -1,9 +1,23 @@
 {
   "sessions": [
-    {"key":"agent:main:main","kind":"main","channel":"whatsapp","model":"claude-opus-4-6","totalTokens":128683,"updatedAt":1770698041808},
-    {"key":"agent:main:subagent:227039eb","kind":"subagent","label":"Post first AI Daily Brief thread","model":"claude-opus-4-6","totalTokens":0,"updatedAt":1770697954300},
-    {"key":"agent:main:subagent:1fa1fd4f","kind":"subagent","label":"Delete crypto-security tweets","model":"claude-opus-4-6","totalTokens":97678,"updatedAt":1770695873857},
-    {"key":"agent:main:cron:1923f8f4","kind":"cron","label":"X Engagement Feedback Loop","model":"claude-opus-4-6","totalTokens":65431,"updatedAt":1770694505165}
+    {
+      "key": "agent:main:subagent:613c58a2-8c0a-447f-b733-a05e65c0247c",
+      "label": "Delete old tweets - attempt 2",
+      "status": "aborted",
+      "totalTokens": 122694
+    },
+    {
+      "key": "agent:main:subagent:f311587d-506f-4142-a472-6b2c6d4d8a32",
+      "label": "Follow key news and influencer accounts",
+      "status": "completed",
+      "totalTokens": 65677
+    },
+    {
+      "key": "agent:main:subagent:227039eb-cd54-4e7d-babc-b22e738fbe8d",
+      "label": "Post first AI Daily Brief thread",
+      "status": "completed",
+      "totalTokens": 41517
+    }
   ],
-  "lastUpdated": 1770701591000
+  "lastUpdated": 1770699600000
 }

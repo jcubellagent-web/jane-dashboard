@@ -461,6 +461,10 @@ const server = http.createServer((req, res) => {
             substack: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6719'%3E%3Cpath d='M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z'/%3E%3C/svg%3E",
             twilio: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F22F46'%3E%3Cpath d='M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 20.25c-4.556 0-8.25-3.694-8.25-8.25S7.444 3.75 12 3.75s8.25 3.694 8.25 8.25-3.694 8.25-8.25 8.25zm3.11-11.36a1.89 1.89 0 110 3.78 1.89 1.89 0 010-3.78zm0 4.44a1.89 1.89 0 110 3.78 1.89 1.89 0 010-3.78zm-6.22-4.44a1.89 1.89 0 110 3.78 1.89 1.89 0 010-3.78zm0 4.44a1.89 1.89 0 110 3.78 1.89 1.89 0 010-3.78z'/%3E%3C/svg%3E",
             huggingface: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFD21E'%3E%3Cpath d='M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-2.5 7a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm5 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM8 15.5c0-.276.5-.5.5-.5h7c0 0 .5.224.5.5S15.052 18 12 18s-4-.224-4-2.5z'/%3E%3C/svg%3E",
+            finnhub: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300C9A7'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3EFH%3C/text%3E%3C/svg%3E",
+            alphavantage: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F7931A'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3EAV%3C/text%3E%3C/svg%3E",
+            arxiv: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23B31B1B'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='10' font-weight='bold'%3EarXiv%3C/text%3E%3C/svg%3E",
+            hackernews: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6600'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='16' font-weight='bold'%3EY%3C/text%3E%3C/svg%3E",
         };
         const connections = {
             accounts: [
@@ -477,16 +481,33 @@ const server = http.createServer((req, res) => {
                 { name: 'HuggingFace', detail: 'JaneAgentAI', icon: icons.huggingface, active: true }
             ],
             dataSources: [
-                { name: 'Polymarket', detail: 'prediction markets', icon: icons.polymarket, active: true },
+                { name: 'Finnhub', detail: 'real-time stocks, 60/min', icon: icons.finnhub, active: true },
+                { name: 'Alpha Vantage', detail: 'NASDAQ movers, sentiment', icon: icons.alphavantage, active: true },
+                { name: 'CoinGecko', detail: 'crypto prices, 10k/mo', icon: icons.coingecko, active: true },
                 { name: 'Kalshi', detail: 'prediction markets', icon: icons.kalshi, active: true },
-                { name: 'Manifold', detail: 'prediction markets', icon: icons.manifold, active: true },
-                { name: 'Metaculus', detail: 'prediction markets', icon: icons.metaculus, active: true },
-                { name: 'CoinGecko', detail: 'crypto prices', icon: icons.coingecko, active: true },
+                { name: 'Polymarket', detail: 'prediction markets', icon: icons.polymarket, active: true },
+                { name: 'Brave Search', detail: 'web search, 2k/mo', icon: icons.brave, active: true },
+                { name: 'GitHub API', detail: 'AI provider releases', icon: icons.github, active: true },
+                { name: 'HuggingFace API', detail: 'trending models', icon: icons.huggingface, active: true },
+                { name: 'DeFi Llama', detail: 'TVL, yields, DEX vol', icon: icons.dexscreener, active: true },
                 { name: 'Yahoo Finance', detail: 'stock prices', icon: icons.yahoo, active: true },
                 { name: 'DexScreener', detail: 'memecoin data', icon: icons.dexscreener, active: true },
                 { name: 'Sorare GraphQL', detail: 'fantasy sports', icon: icons.sorare, active: true },
-                { name: 'GitHub API', detail: 'code repos', icon: icons.github, active: true },
-                { name: 'Brave Search', detail: 'web search', icon: icons.brave, active: true }
+                { name: 'Manifold', detail: 'prediction markets', icon: icons.manifold, active: true },
+                { name: 'Metaculus', detail: 'prediction markets', icon: icons.metaculus, active: true },
+                { name: 'arXiv API', detail: 'AI research papers', icon: icons.arxiv, active: true },
+                { name: 'Hacker News', detail: 'tech news', icon: icons.hackernews, active: true },
+                { name: 'Fear & Greed Index', detail: 'crypto sentiment', icon: icons.coingecko, active: true }
+            ],
+            newsletters: [
+                { name: 'TLDR AI', detail: 'daily AI digest', active: true },
+                { name: 'TLDR Tech', detail: 'daily tech news', active: true },
+                { name: 'TLDR Crypto', detail: 'daily crypto', active: true },
+                { name: 'The Rundown AI', detail: 'daily, 2M readers', active: true },
+                { name: 'Alpha Signal', detail: 'models & papers', active: true },
+                { name: 'Morning Brew', detail: 'markets & biz', active: true },
+                { name: 'The Crypto Advisor', detail: 'Substack', active: true },
+                { name: 'Doomberg', detail: 'Substack', active: true }
             ]
         };
         res.writeHead(200, { 'Content-Type': 'application/json' });

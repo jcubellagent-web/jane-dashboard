@@ -1,0 +1,325 @@
+{
+  "apis": [
+    {
+      "name": "Alpha Vantage",
+      "category": "Stock Market",
+      "url": "https://www.alphavantage.co/",
+      "freeLimit": "25 requests/day, 5/min",
+      "apiKey": "needed",
+      "dataPoints": ["real-time quotes", "daily OHLCV", "NASDAQ 100 constituents", "top gainers/losers", "market news sentiment", "50+ technical indicators"]
+    },
+    {
+      "name": "Finnhub",
+      "category": "Stock Market",
+      "url": "https://finnhub.io/",
+      "freeLimit": "60 calls/min",
+      "apiKey": "needed",
+      "dataPoints": ["real-time quotes", "company news", "earnings calendar", "IPO calendar", "market status", "SEC filings", "recommendation trends"]
+    },
+    {
+      "name": "Twelve Data",
+      "category": "Stock Market",
+      "url": "https://twelvedata.com/",
+      "freeLimit": "800 calls/day, 8/min",
+      "apiKey": "needed",
+      "dataPoints": ["real-time prices", "time series", "technical indicators", "NASDAQ constituents", "forex"]
+    },
+    {
+      "name": "Yahoo Finance (yfinance)",
+      "category": "Stock Market",
+      "url": "https://pypi.org/project/yfinance/",
+      "freeLimit": "Unofficial, no hard limit but may throttle",
+      "apiKey": "none",
+      "dataPoints": ["real-time quotes", "historical data", "earnings", "analyst recommendations", "options chains"]
+    },
+    {
+      "name": "Financial Modeling Prep",
+      "category": "Stock Market / M&A",
+      "url": "https://financialmodelingprep.com/",
+      "freeLimit": "250 calls/day",
+      "apiKey": "needed",
+      "dataPoints": ["stock prices", "company profiles", "M&A deals list", "IPO calendar", "earnings transcripts", "SEC filings"]
+    },
+    {
+      "name": "CoinGecko",
+      "category": "Crypto",
+      "url": "https://www.coingecko.com/en/api",
+      "freeLimit": "5-15 calls/min (Demo: 30 calls/min, 10k/month)",
+      "apiKey": "needed (free demo key)",
+      "dataPoints": ["prices", "market cap", "volume", "trending coins", "exchanges", "NFT data", "historical data"]
+    },
+    {
+      "name": "CoinMarketCap",
+      "category": "Crypto",
+      "url": "https://coinmarketcap.com/api/",
+      "freeLimit": "10,000 calls/month, 30/min",
+      "apiKey": "needed",
+      "dataPoints": ["latest prices", "market rankings", "gainers/losers", "trending", "global metrics", "exchange data"]
+    },
+    {
+      "name": "CoinPaprika",
+      "category": "Crypto",
+      "url": "https://api.coinpaprika.com/",
+      "freeLimit": "25,000 calls/month",
+      "apiKey": "none (public endpoints)",
+      "dataPoints": ["prices", "market data", "coin details", "exchanges", "OHLCV"]
+    },
+    {
+      "name": "CryptoCompare",
+      "category": "Crypto",
+      "url": "https://min-api.cryptocompare.com/",
+      "freeLimit": "100,000 calls/month",
+      "apiKey": "needed",
+      "dataPoints": ["prices", "historical OHLCV", "social stats", "news", "exchanges"]
+    },
+    {
+      "name": "Hacker News API",
+      "category": "Tech News",
+      "url": "https://github.com/HackerNews/API",
+      "freeLimit": "Unlimited (Firebase)",
+      "apiKey": "none",
+      "dataPoints": ["top stories", "new stories", "best stories", "ask/show/job posts", "comments"]
+    },
+    {
+      "name": "Reddit API (via JSON)",
+      "category": "Tech News / Crypto / AI",
+      "url": "https://www.reddit.com/dev/api/",
+      "freeLimit": "100 queries/min (OAuth), or append .json to any URL",
+      "apiKey": "needed for OAuth, none for .json trick",
+      "dataPoints": ["subreddit posts", "comments", "trending", "r/artificial", "r/cryptocurrency", "r/wallstreetbets"]
+    },
+    {
+      "name": "NewsAPI",
+      "category": "General News / AI / Tech",
+      "url": "https://newsapi.org/",
+      "freeLimit": "100 requests/day (dev only, no production)",
+      "apiKey": "needed",
+      "dataPoints": ["headlines", "keyword search", "source filtering", "AI/tech/crypto news"]
+    },
+    {
+      "name": "GNews",
+      "category": "General News",
+      "url": "https://gnews.io/",
+      "freeLimit": "100 requests/day",
+      "apiKey": "needed",
+      "dataPoints": ["top headlines", "keyword search", "category filtering"]
+    },
+    {
+      "name": "Hugging Face API",
+      "category": "AI/ML",
+      "url": "https://huggingface.co/api",
+      "freeLimit": "Generous (public model metadata is free)",
+      "apiKey": "have",
+      "dataPoints": ["model listings", "trending models", "new model releases", "model details", "datasets"]
+    },
+    {
+      "name": "arXiv API",
+      "category": "AI/ML Research",
+      "url": "http://export.arxiv.org/api/query",
+      "freeLimit": "Unlimited (respectful use)",
+      "apiKey": "none",
+      "dataPoints": ["paper search", "cs.AI/cs.LG/cs.CL papers", "abstracts", "authors", "categories"]
+    },
+    {
+      "name": "Papers With Code API",
+      "category": "AI/ML Research",
+      "url": "https://paperswithcode.com/api/v1/",
+      "freeLimit": "Unlimited",
+      "apiKey": "none",
+      "dataPoints": ["trending papers", "SOTA benchmarks", "methods", "datasets", "code repos"]
+    },
+    {
+      "name": "Kalshi API",
+      "category": "Prediction Markets",
+      "url": "https://trading-api.kalshi.com/",
+      "freeLimit": "Free tier available",
+      "apiKey": "have",
+      "dataPoints": ["event markets", "prices/probabilities", "trade history", "AI/politics/crypto markets"]
+    },
+    {
+      "name": "Polymarket (via API/CLOB)",
+      "category": "Prediction Markets",
+      "url": "https://docs.polymarket.com/",
+      "freeLimit": "Public read access free",
+      "apiKey": "none",
+      "dataPoints": ["market odds", "volume", "AI/crypto/politics events"]
+    },
+    {
+      "name": "GitHub Events API",
+      "category": "AI/ML Releases",
+      "url": "https://api.github.com/",
+      "freeLimit": "60 req/hr unauthenticated, 5000/hr authenticated",
+      "apiKey": "have (GitHub token)",
+      "dataPoints": ["repo releases (openai, anthropic, meta, mistral)", "stars", "trending repos"]
+    },
+    {
+      "name": "RSS Feeds (various)",
+      "category": "Multi-category",
+      "url": "Various",
+      "freeLimit": "Unlimited",
+      "apiKey": "none",
+      "dataPoints": ["TechCrunch", "The Verge", "Ars Technica", "VentureBeat AI", "MIT Tech Review", "Bloomberg M&A"]
+    },
+    {
+      "name": "Fear & Greed Index (Alternative.me)",
+      "category": "Crypto Sentiment",
+      "url": "https://api.alternative.me/fng/",
+      "freeLimit": "Unlimited",
+      "apiKey": "none",
+      "dataPoints": ["crypto fear/greed score", "historical values", "classification"]
+    },
+    {
+      "name": "DeFi Llama",
+      "category": "Crypto / DeFi",
+      "url": "https://defillama.com/docs/api",
+      "freeLimit": "Unlimited",
+      "apiKey": "none",
+      "dataPoints": ["TVL by chain/protocol", "yields", "stablecoin data", "DEX volumes", "fees/revenue"]
+    }
+  ],
+  "newsletters": [
+    {
+      "name": "TLDR AI",
+      "url": "https://tldr.tech/ai",
+      "frequency": "Daily",
+      "category": "AI",
+      "subscribed": true
+    },
+    {
+      "name": "The Batch (DeepLearning.AI)",
+      "url": "https://www.deeplearning.ai/the-batch/",
+      "frequency": "Weekly",
+      "category": "AI Research",
+      "subscribed": false
+    },
+    {
+      "name": "The Rundown AI",
+      "url": "https://www.therundown.ai/",
+      "frequency": "Daily",
+      "category": "AI",
+      "subscribed": true
+    },
+    {
+      "name": "Import AI",
+      "url": "https://importai.substack.com/",
+      "frequency": "Weekly",
+      "category": "AI Research",
+      "subscribed": false
+    },
+    {
+      "name": "Alpha Signal",
+      "url": "https://alphasignal.ai/",
+      "frequency": "Daily",
+      "category": "AI/ML Models",
+      "subscribed": true
+    },
+    {
+      "name": "TLDR Crypto",
+      "url": "https://tldr.tech/crypto",
+      "frequency": "Daily",
+      "category": "Crypto",
+      "subscribed": true
+    },
+    {
+      "name": "Milk Road",
+      "url": "https://www.milkroad.com/",
+      "frequency": "Daily",
+      "category": "Crypto",
+      "subscribed": false
+    },
+    {
+      "name": "Morning Brew",
+      "url": "https://www.morningbrew.com/daily",
+      "frequency": "Daily",
+      "category": "Markets/Business",
+      "subscribed": true
+    },
+    {
+      "name": "TLDR Newsletter",
+      "url": "https://tldr.tech/",
+      "frequency": "Daily",
+      "category": "Tech",
+      "subscribed": true
+    },
+    {
+      "name": "Bankless",
+      "url": "https://www.bankless.com/",
+      "frequency": "Daily",
+      "category": "Crypto/DeFi",
+      "subscribed": false
+    },
+    {
+      "name": "The Pragmatic Engineer",
+      "url": "https://newsletter.pragmaticengineer.com/",
+      "frequency": "Weekly",
+      "category": "Tech Industry",
+      "subscribed": false
+    },
+    {
+      "name": "Axios Pro Rata",
+      "url": "https://www.axios.com/newsletters/axios-pro-rata",
+      "frequency": "Daily",
+      "category": "M&A / VC / Deals",
+      "subscribed": false
+    },
+    {
+      "name": "Term Sheet (Fortune)",
+      "url": "https://fortune.com/newsletter/termsheet",
+      "frequency": "Daily",
+      "category": "M&A / VC / Deals",
+      "subscribed": false
+    },
+    {
+      "name": "The Crypto Advisor (Substack)",
+      "url": "https://substack.com/@thecryptoadvisor",
+      "frequency": "Weekly",
+      "category": "Crypto",
+      "subscribed": true
+    },
+    {
+      "name": "Doomberg (Substack)",
+      "url": "https://doomberg.substack.com/",
+      "frequency": "Weekly",
+      "category": "Markets/Energy",
+      "subscribed": true
+    }
+  ],
+  "existing": [
+    {
+      "name": "Brave Search API",
+      "what": "Web search queries - headlines, real-time info, any topic. 2,000 queries/month free.",
+      "status": "active"
+    },
+    {
+      "name": "Kalshi API",
+      "what": "Prediction market odds/prices for AI, politics, crypto, economy events.",
+      "status": "active"
+    },
+    {
+      "name": "Sorare API (GraphQL)",
+      "what": "NBA fantasy card data, fixtures, player stats. Token valid until Mar 2026.",
+      "status": "active"
+    },
+    {
+      "name": "GitHub Token",
+      "what": "GitHub API access - track releases from AI providers' repos (anthropic, openai, meta-llama, mistralai, deepseek-ai).",
+      "status": "active"
+    },
+    {
+      "name": "HuggingFace Token",
+      "what": "Model metadata, trending models, new releases on HF Hub.",
+      "status": "active"
+    },
+    {
+      "name": "Claude API (Anthropic)",
+      "what": "LLM inference for content generation, summarization.",
+      "status": "active"
+    },
+    {
+      "name": "Twilio",
+      "what": "SMS/voice for 2FA and account verification.",
+      "status": "active"
+    }
+  ],
+  "lastUpdated": 1770701400000
+}

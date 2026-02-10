@@ -2568,6 +2568,13 @@
                         <div class="conn-section-title">Data Connections</div>
                         <div class="conn-grid" id="conn-datasources"></div>
                     </div>
+                    <div id="conn-newsletters-section" style="display:none;">
+                        <div class="conn-divider"></div>
+                        <div class="conn-section">
+                            <div class="conn-section-title">📧 Newsletters</div>
+                            <div class="conn-grid" id="conn-newsletters"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -2964,6 +2971,17 @@
                 };
                 render(data.accounts, 'conn-accounts');
                 render(data.dataSources, 'conn-datasources');
+                if (data.newsletters && data.newsletters.length) {
+                    document.getElementById('conn-newsletters-section').style.display = '';
+                    const nlEl = document.getElementById('conn-newsletters');
+                    nlEl.innerHTML = data.newsletters.map(i => `
+                        <div class="conn-item">
+                            <span style="font-size:0.7rem;">📧</span>
+                            <span title="${i.detail || ''}">${i.name}</span>
+                            ${i.active ? '<span class="conn-dot"></span>' : ''}
+                        </div>
+                    `).join('');
+                }
                 document.getElementById('connections-refresh').textContent = new Date().toLocaleTimeString();
             } catch(e) { console.error('connections', e); }
         }

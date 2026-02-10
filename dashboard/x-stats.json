@@ -1,22 +1,19 @@
 {
-  "followers": 8,
-  "following": 34,
-  "tweets": 9,
-  "verifiedFollowers": 2,
-  "impressions": 3300,
-  "engagementRate": "3.1%",
-  "engagements": 108,
-  "profileVisits": 26,
-  "replies": 16,
-  "likes": 24,
-  "reposts": 1,
+  "handle": "@AgentJc11443",
+  "followers": 14,
+  "following": 106,
+  "posts": 39,
+  "impressions": "4.5K",
+  "engagementRate": "3.8%",
+  "engagements": 173,
+  "profileVisits": 32,
+  "replies": 32,
+  "likes": 35,
+  "reposts": 3,
   "bookmarks": 1,
-  "shares": 0,
-  "notifications": 1,
-  "scrapedAt": "2026-02-10T06:21:00Z",
-  "prev24h": {
-    "followers": 8,
-    "impressions": 3100,
-    "likes": 18
-  }
+  "shares": 3,
+  "verifiedFollowers": 4,
+  "period": "7D",
+  "scrapedAt": "2026-02-10T15:51:00-05:00",
+  "lastUpdated": "2026-02-10T15:51:00-05:00"
 }

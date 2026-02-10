@@ -358,10 +358,17 @@ function getSystemStats() {
         const cpuRaw = execSync("top -l 1 | grep 'CPU usage' | awk '{print $3}' | tr -d '%'", { encoding: 'utf8' });
         const cpu = parseFloat(cpuRaw) || 0;
         
-        // Memory usage
-        const totalMem = os.totalmem();
-        const freeMem = os.freemem();
-        const memory = Math.round(((totalMem - freeMem) / totalMem) * 100);
+        // Memory usage — use memory_pressure for accurate macOS available memory
+        let memory = 0;
+        try {
+            const mpRaw = execSync("memory_pressure | grep 'System-wide memory free percentage'", { encoding: 'utf8' });
+            const freeMatch = mpRaw.match(/(\d+)%/);
+            memory = freeMatch ? (100 - parseInt(freeMatch[1])) : 0;
+        } catch {
+            const totalMem = os.totalmem();
+            const freeMem = os.freemem();
+            memory = Math.round(((totalMem - freeMem) / totalMem) * 100);
+        }
         
         // Disk usage
         const diskRaw = execSync("df -h / | tail -1 | awk '{print $5}' | tr -d '%'", { encoding: 'utf8' });
@@ -2287,13 +2294,15 @@ const WATCHED_FILES = {
     'tiktok': path.join(ROOT, 'tiktok-stats.json'),
     'trading': path.join(ROOT, 'trading-positions.json'),
     'sorare': path.join(ROOT, 'sorare-stats.json'),
+    'sorare-mobile': path.join(ROOT, 'sorare-mobile.json'),
     'panini': path.join(ROOT, 'panini-collection.json'),
     'mind': path.join(ROOT, 'mind-state.json'),
     'x-queue': path.join(ROOT, 'x-queue.json'),
     'x-stats': path.join(ROOT, 'x-stats.json'),
     'x-plan': path.join(ROOT, 'x-plan.json'),
     'briefing': path.join(ROOT, 'briefing.json'),
-    'x-tweets': path.join(ROOT, 'x-latest-tweets.json')
+    'x-tweets': path.join(ROOT, 'x-latest-tweets.json'),
+    'x-thread-history': path.join(ROOT, 'x-thread-history.json')
 };
 
 // Debounce file change events

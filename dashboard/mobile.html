@@ -26,19 +26,34 @@
         }
 
         /* Pull to refresh — spinning Jane icon */
+        .ptr-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+        .ptr-spacer {
+            height: 0;
+            transition: height 0.35s cubic-bezier(0.2, 0, 0, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .ptr-spacer.open {
+            height: 60px;
+        }
         .ptr-icon {
-            position: fixed;
-            top: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 200;
-            pointer-events: none;
-            transition: top 0.25s ease;
             width: 36px;
             height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .ptr-spacer.open .ptr-icon {
+            opacity: 1;
+            transform: scale(1);
         }
         .ptr-icon .ptr-jane {
             width: 30px;
@@ -51,7 +66,6 @@
             justify-content: center;
             font-size: 16px;
             box-shadow: 0 0 12px rgba(74,222,128,0.3);
-            transition: transform 0.1s linear;
         }
         .ptr-icon.loading .ptr-jane {
             animation: ptrSpin 0.8s linear infinite;
@@ -511,16 +525,196 @@
             text-anchor: middle;
             transition: fill 0.5s;
         }
+        /* Sub-agent satellite */
+        @keyframes mmOrbit {
+            from { transform: rotate(0deg) translateX(28px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(28px) rotate(-360deg); }
+        }
+        @keyframes mmSubPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        @keyframes mmSubFadeIn {
+            0% { opacity: 0; transform: scale(0); }
+            60% { opacity: 1; transform: scale(1.15); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes mmSubFadeOut {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+        @keyframes mmLabelFadeIn {
+            0% { opacity: 0; transform: translateY(5px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes mmLabelFadeOut {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-5px); }
+        }
+        .mm-subagent-sat {
+            animation: mmSubFadeIn 0.8s ease-out forwards, mmOrbit 6s linear 0.8s infinite;
+            transform-origin: 80px 45px;
+        }
+        .mm-subagent-sat.done {
+            animation: mmSubFadeOut 1.5s ease-out forwards;
+        }
+        .mm-subagent-label-wrap {
+            position: absolute;
+            right: 0.4rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            max-width: 5.5rem;
+        }
+        .mm-subagent-label {
+            font-size: 0.4rem;
+            color: #8b5cf6;
+            background: rgba(139,92,246,0.1);
+            border: 1px solid rgba(139,92,246,0.2);
+            border-radius: 8px;
+            padding: 0.15rem 0.35rem;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+            animation: mmLabelFadeIn 0.6s ease-out;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .mm-subagent-label.done {
+            animation: mmLabelFadeOut 1.5s ease-out forwards;
+            color: #4ade80;
+            border-color: rgba(74,222,128,0.2);
+            background: rgba(74,222,128,0.08);
+        }
+        .mm-subagent-label .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #8b5cf6;
+            flex-shrink: 0;
+            animation: mmSubPulse 1.5s ease-in-out infinite;
+        }
+        .mm-subagent-label.done .dot {
+            background: #4ade80;
+            animation: none;
+        }
         .mindmap-active .mindmap-label.lit {
             fill: #4ade80;
+        }
+        /* Sorare Widget */
+        .sorare-lineup {
+            background: rgba(255,255,255,0.04);
+            border-radius: 8px;
+            padding: 0.4rem 0.5rem;
+            margin-bottom: 0.4rem;
+        }
+        .sorare-lineup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.3rem;
+        }
+        .sorare-lineup-name {
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.7);
+        }
+        .sorare-rank {
+            font-size: 0.55rem;
+            color: rgba(255,255,255,0.5);
+        }
+        .sorare-score {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #4ade80;
+        }
+        .sorare-player-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.15rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .sorare-player-row:last-child { border-bottom: none; }
+        .sorare-player-name {
+            font-size: 0.55rem;
+            color: rgba(255,255,255,0.75);
+            flex: 1;
+        }
+        .sorare-player-team {
+            font-size: 0.45rem;
+            color: rgba(255,255,255,0.35);
+            margin-left: 0.3rem;
+        }
+        .sorare-player-score {
+            font-size: 0.55rem;
+            font-weight: 600;
+            color: #4ade80;
+            min-width: 2.5rem;
+            text-align: right;
+        }
+        .sorare-player-score.zero {
+            color: rgba(255,255,255,0.25);
+        }
+        .sorare-task {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.25rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .sorare-task:last-child { border-bottom: none; }
+        .sorare-task-check {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.5rem;
+        }
+        .sorare-task-check.done {
+            border-color: #4ade80;
+            background: rgba(74,222,128,0.15);
+            color: #4ade80;
+        }
+        .sorare-task-name {
+            font-size: 0.55rem;
+            color: rgba(255,255,255,0.7);
+            flex: 1;
+        }
+        .sorare-task-name.done {
+            text-decoration: line-through;
+            color: rgba(255,255,255,0.35);
+        }
+        .sorare-task-time {
+            font-size: 0.45rem;
+            color: rgba(74,222,128,0.6);
+        }
+        .sorare-section-label {
+            font-size: 0.5rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.3rem;
         }
     </style>
 </head>
 <body>
-    <div class="ptr-icon" id="ptr"><div class="ptr-jane"><img src="icon-192.png" style="width:22px;height:22px;border-radius:50%;"></div></div>
+    <div class="ptr-spacer" id="ptr-spacer">
+        <div class="ptr-icon" id="ptr"><div class="ptr-jane"><img src="icon-192.png" style="width:22px;height:22px;border-radius:50%;"></div></div>
+    </div>
     <!-- Page Header -->
     <div style="padding: 0.6rem 0.25rem 0.3rem; display:flex; align-items:center; justify-content:space-between;">
         <div style="display:flex; align-items:center; gap:0.4rem;">
+            <img src="openclaw-logo.png" alt="OpenClaw" style="width:20px;height:20px;border-radius:5px;opacity:0.8;">
             <img src="icon-192.png" alt="Jane" style="width:20px;height:20px;border-radius:5px;">
             <span style="font-size:0.85rem;font-weight:700;color:var(--accent);">Jane</span>
             <span style="font-size:0.6rem;color:var(--text-dim);font-weight:400;">Josh's Personal Assistant</span>
@@ -540,7 +734,7 @@
         setInterval(updateGreeting, 60000);
     </script>
     <!-- Jane Status Bar -->
-    <div class="card">
+    <div class="card" id="status-card" style="cursor:pointer;" onclick="toggleStatusExpand()">
         <div class="status-bar">
             <div class="status-pills">
                 <span class="status-pill" id="model-pill">Model: --</span>
@@ -549,6 +743,12 @@
                 <span class="status-pill" id="cpu-pill">CPU: --%</span>
                 <span class="status-pill" id="ram-pill">RAM: --%</span>
                 <span class="status-pill" id="mini2-pill">Mini2: --</span>
+                <span class="status-pill" id="mini1-pill">Mini1: --</span>
+            </div>
+        </div>
+        <div id="status-expanded" style="display:none;margin-top:0.3rem;padding-top:0.3rem;border-top:1px solid rgba(255,255,255,0.06);">
+            <div class="status-pills">
+                <span class="status-pill" id="ram-detail-pill">M1: --% · M2: --%</span>
             </div>
         </div>
     </div>
@@ -633,7 +833,10 @@
             <circle cx="80" cy="45" r="12" class="mindmap-hub-ring"/>
             <circle cx="80" cy="45" r="9" class="mindmap-hub"/>
             <image href="icon-192.png" x="73" y="38" width="14" height="14" opacity="0.7"/>
+            <!-- Sub-agent satellites -->
+            <g id="mm-subagents"></g>
         </svg>
+        <div id="mm-subagent-labels" class="mm-subagent-label-wrap"></div>
     </div>
 
     <!-- Jane's Mind -->
@@ -691,14 +894,38 @@
         </div>
     </div>
 
-    <!-- Latest Tweets Feed -->
-    <div class="card" id="tweet-feed" style="padding:0.5rem 0.6rem;">
+    <!-- Latest Tweets Feed (Swipeable) -->
+    <div class="card" id="tweet-feed" style="padding:0.5rem 0.6rem;overflow:hidden;">
         <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.5rem;">
             <img src="x-pfp.jpg" style="width:20px;height:20px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);">
-            <span style="font-size:0.65rem;font-weight:600;color:rgba(255,255,255,0.7);">@AgentJc11443</span>
+            <span style="font-size:0.65rem;font-weight:600;color:rgba(255,255,255,0.7);">JCAgentleman</span>
             <span style="font-size:0.5rem;color:rgba(255,255,255,0.3);margin-left:auto;" id="tweet-feed-time"></span>
         </div>
-        <div id="tweet-feed-list" style="display:flex;flex-direction:column;gap:0.5rem;"></div>
+        <div id="tweet-thread-label" style="display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-bottom:0.4rem;">
+            <span id="tweet-nav-left" onclick="swipeThread(1)" style="font-size:0.7rem;color:rgba(255,255,255,0.25);cursor:pointer;padding:0 0.3rem;display:none;">◀</span>
+            <span id="tweet-thread-date" style="font-size:0.55rem;font-weight:600;color:#4ade80;"></span>
+            <span id="tweet-nav-dots" style="font-size:0.4rem;color:rgba(255,255,255,0.3);letter-spacing:3px;"></span>
+            <span id="tweet-nav-right" onclick="swipeThread(-1)" style="font-size:0.7rem;color:rgba(255,255,255,0.25);cursor:pointer;padding:0 0.3rem;display:none;">▶</span>
+        </div>
+        <div id="tweet-swipe-container" style="position:relative;touch-action:pan-y;">
+            <div id="tweet-feed-list" style="display:flex;flex-direction:column;gap:0.5rem;transition:opacity 0.25s ease;"></div>
+        </div>
+    </div>
+
+    <!-- Sorare Widget -->
+    <div class="card" id="sorare-widget" style="padding:0.5rem 0.75rem;">
+        <div id="sorare-header" style="display:flex;align-items:center;gap:0.4rem;cursor:pointer;" onclick="toggleSorare()">
+            <svg width="18" height="18" viewBox="0 0 24 24" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" fill="none" stroke="#4ade80" stroke-width="2"/><path d="M12 2C12 2 9 8 9 12s3 10 3 10M12 2c0 0 3 6 3 10s-3 10-3 10M2 12h20" fill="none" stroke="#4ade80" stroke-width="1.2"/></svg>
+            <span style="font-size:0.7rem;font-weight:700;color:rgba(255,255,255,0.85);">SORARE NBA</span>
+            <span id="sorare-gw-badge" style="font-size:0.5rem;background:rgba(74,222,128,0.15);color:#4ade80;padding:0.1rem 0.35rem;border-radius:6px;font-weight:600;">GW--</span>
+            <span id="sorare-status-badge" style="font-size:0.5rem;padding:0.1rem 0.35rem;border-radius:6px;font-weight:600;margin-left:auto;">--</span>
+            <span id="sorare-chevron" style="font-size:0.6rem;color:rgba(255,255,255,0.4);transition:transform 0.2s;">▼</span>
+        </div>
+        <div id="sorare-body" style="display:none;margin-top:0.5rem;">
+            <div id="sorare-daily-tasks" style="margin-bottom:0.6rem;"></div>
+            <div id="sorare-active" style="margin-bottom:0.6rem;"></div>
+            <div id="sorare-upcoming"></div>
+        </div>
     </div>
 
     <script>
@@ -737,11 +964,21 @@
 
             if (system) {
                 document.getElementById('cpu-pill').textContent = 'CPU: ' + (system.cpu || 0) + '%';
-                document.getElementById('ram-pill').textContent = 'RAM: ' + (system.memory || 0) + '%';
+                // Blended RAM: average of Mini #1 + Mini #2 (both 16GB)
+                const m1Ram = system.memory || 0;
+                const m2Ram = system.mini2 ? (system.mini2.memory || 0) : m1Ram;
+                const blendedRam = Math.round((m1Ram + m2Ram) / 2);
+                document.getElementById('ram-pill').textContent = 'RAM: ' + blendedRam + '%';
 
                 if (system.uptime) {
                     document.getElementById('age-pill').textContent = 'Age: ' + system.uptime;
                 }
+
+                // Expanded row — combined RAM detail
+                // Main row Mini1 pill
+                const m1Online = system.cpu !== undefined;
+                document.getElementById('mini1-pill').textContent = 'Mini1: ' + (m1Online ? '✓' : '✗');
+                document.getElementById('mini1-pill').className = 'status-pill ' + (m1Online ? 'green' : 'red');
 
                 const m2 = document.getElementById('mini2-pill');
                 if (system.mini2) {
@@ -752,6 +989,7 @@
                         m2.textContent = 'Mini2: ✗';
                         m2.className = 'status-pill red';
                     }
+                    document.getElementById('ram-detail-pill').textContent = 'M1: ' + (system.memory || 0) + '% · M2: ' + (system.mini2.memory || 0) + '%';
                 }
             }
         }
@@ -868,31 +1106,111 @@
             }
         }
 
+        // Thread swipe state
+        window._threadData = [];
+        window._threadIdx = 0;
+        window._swipeStartX = 0;
+
         async function refreshTweetFeed() {
-            const data = await fetchJSON('/x-latest-tweets.json');
+            // Try history file first, fall back to latest
+            let histData = await fetchJSON('/x-thread-history.json');
+            if (histData && histData.threads && histData.threads.length > 0) {
+                window._threadData = histData.threads;
+            } else {
+                const data = await fetchJSON('/x-latest-tweets.json');
+                if (data && data.tweets) {
+                    window._threadData = [{ date: 'Latest', label: 'Latest', tweets: data.tweets, lastUpdated: data.lastUpdated }];
+                } else return;
+            }
+            // Always show first (latest) thread on refresh unless user swiped
+            renderThread(window._threadIdx);
+            setupSwipeGesture();
+        }
+
+        function renderThread(idx) {
+            const threads = window._threadData;
+            if (!threads || !threads.length) return;
+            idx = Math.max(0, Math.min(idx, threads.length - 1));
+            window._threadIdx = idx;
+            const thread = threads[idx];
             const container = document.getElementById('tweet-feed-list');
             const timeEl = document.getElementById('tweet-feed-time');
-            if (!data || !data.tweets || !container) return;
-            if (timeEl && data.lastUpdated) {
-                const ago = Math.round((Date.now() - data.lastUpdated) / 60000);
-                timeEl.textContent = ago < 1 ? 'just now' : ago + 'm ago';
+            const dateEl = document.getElementById('tweet-thread-date');
+            const dotsEl = document.getElementById('tweet-nav-dots');
+            const leftBtn = document.getElementById('tweet-nav-left');
+            const rightBtn = document.getElementById('tweet-nav-right');
+
+            // Update nav
+            if (dateEl) dateEl.textContent = thread.label || thread.date || '';
+            if (dotsEl) dotsEl.innerHTML = threads.map((_, i) => '<span style="color:' + (i === idx ? '#4ade80' : 'rgba(255,255,255,0.2)') + ';">●</span>').join('');
+            if (leftBtn) leftBtn.style.display = idx < threads.length - 1 ? 'inline' : 'none';
+            if (rightBtn) rightBtn.style.display = idx > 0 ? 'inline' : 'none';
+
+            const lu = thread.lastUpdated || (window._threadData === threads ? threads[0].lastUpdated : null);
+            if (timeEl && lu) {
+                const ago = Math.round((Date.now() - lu) / 60000);
+                timeEl.textContent = ago < 1 ? 'just now' : ago < 60 ? ago + 'm ago' : Math.round(ago/60) + 'h ago';
             }
-            container.innerHTML = '';
-            data.tweets.forEach((tweet, i) => {
-                const div = document.createElement('div');
-                div.style.cssText = 'padding:0.4rem 0.5rem;background:rgba(255,255,255,0.03);border-radius:8px;border-left:2px solid ' + (i === 0 ? '#4ade80' : 'rgba(255,255,255,0.08)') + ';';
-                const timeAgo = tweet.time || '';
-                const threadNum = tweet.threadNum ? '<span style="color:#4ade80;font-weight:600;font-size:0.55rem;margin-right:4px;">' + tweet.threadNum + '</span>' : '';
-                div.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">' +
-                    '<div>' + threadNum + '<span style="font-size:0.5rem;color:rgba(255,255,255,0.35);">' + timeAgo + '</span></div>' +
-                    '<div style="display:flex;gap:0.4rem;font-size:0.5rem;color:rgba(255,255,255,0.3);">' +
-                    (tweet.views ? '<span>👁 ' + tweet.views + '</span>' : '') +
-                    (tweet.likes ? '<span>❤️ ' + tweet.likes + '</span>' : '') +
-                    (tweet.reposts ? '<span>🔁 ' + tweet.reposts + '</span>' : '') +
-                    '</div></div>' +
-                    '<div style="font-size:0.6rem;color:rgba(255,255,255,0.8);line-height:1.4;white-space:pre-wrap;">' + (tweet.text || '') + '</div>';
-                container.appendChild(div);
-            });
+
+            // Animate
+            container.style.opacity = '0';
+            setTimeout(() => {
+                container.innerHTML = '';
+                (thread.tweets || []).forEach((tweet, i) => {
+                    const div = document.createElement('div');
+                    div.style.cssText = 'padding:0.4rem 0.5rem;background:rgba(255,255,255,0.03);border-radius:8px;border-left:2px solid ' + (i === 0 ? '#4ade80' : 'rgba(255,255,255,0.08)') + ';';
+                    let timeDisplay = '';
+                    if (tweet.time) {
+                        const t = new Date(tweet.time);
+                        const mins = Math.round((Date.now() - t.getTime()) / 60000);
+                        if (mins < 1) timeDisplay = 'just now';
+                        else if (mins < 60) timeDisplay = mins + 'm ago';
+                        else if (mins < 1440) timeDisplay = Math.round(mins/60) + 'h ago';
+                        else timeDisplay = t.toLocaleDateString([], {month:'short', day:'numeric'}) + ' ' + t.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+                    }
+                    const threadNum = tweet.threadNum ? '<span style="color:#4ade80;font-weight:600;font-size:0.55rem;margin-right:4px;">' + tweet.threadNum + '</span>' : '';
+                    div.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">' +
+                        '<div>' + threadNum + '<span style="font-size:0.5rem;color:rgba(255,255,255,0.35);">' + timeDisplay + '</span></div>' +
+                        '<div style="display:flex;gap:0.4rem;font-size:0.5rem;color:rgba(255,255,255,0.3);">' +
+                        (tweet.views ? '<span>👁 ' + tweet.views + '</span>' : '') +
+                        (tweet.likes ? '<span>❤️ ' + tweet.likes + '</span>' : '') +
+                        (tweet.reposts ? '<span>🔁 ' + tweet.reposts + '</span>' : '') +
+                        '</div></div>' +
+                        '<div style="font-size:0.6rem;color:rgba(255,255,255,0.8);line-height:1.4;white-space:pre-wrap;">' + (tweet.text || '') + '</div>';
+                    container.appendChild(div);
+                });
+                container.style.opacity = '1';
+            }, 150);
+        }
+
+        function swipeThread(dir) {
+            // dir: -1 = newer (right arrow), +1 = older (left arrow)
+            const newIdx = window._threadIdx + dir;
+            if (newIdx >= 0 && newIdx < window._threadData.length) {
+                renderThread(newIdx);
+            }
+        }
+
+        function setupSwipeGesture() {
+            const el = document.getElementById('tweet-swipe-container');
+            if (!el || el._swipeSetup) return;
+            el._swipeSetup = true;
+            let startX = 0, startY = 0, tracking = false;
+            el.addEventListener('touchstart', e => {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                tracking = true;
+            }, {passive: true});
+            el.addEventListener('touchend', e => {
+                if (!tracking) return;
+                tracking = false;
+                const dx = e.changedTouches[0].clientX - startX;
+                const dy = e.changedTouches[0].clientY - startY;
+                if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+                    if (dx < 0) swipeThread(1);  // swipe left = older
+                    else swipeThread(-1);          // swipe right = newer
+                }
+            }, {passive: true});
         }
 
         async function refreshMind() {
@@ -909,6 +1227,33 @@
             dot.classList.toggle('active', isActive);
             window._mmModel = data.model || 'opus';
             refreshMindMap(isActive, data.steps);
+
+            // Sub-agent satellites
+            const saContainer = document.getElementById('mm-subagents');
+            const saLabels = document.getElementById('mm-subagent-labels');
+            const subs = data.subAgents || [];
+            if (subs.length > 0) {
+                let svgHtml = '';
+                let labelHtml = '';
+                subs.forEach((sa, i) => {
+                    const isActive = sa.status === 'active';
+                    const isDone = sa.status === 'done';
+                    const color = isActive ? '#8b5cf6' : '#4ade80';
+                    const satClass = isDone ? 'mm-subagent-sat done' : 'mm-subagent-sat';
+                    svgHtml += `<circle cx="80" cy="45" r="3" fill="${color}" class="${satClass}" style="animation-delay:${i*-2}s;"/>`;
+                    const doneClass = isDone ? ' done' : '';
+                    labelHtml += `<span class="mm-subagent-label${doneClass}"><span class="dot"></span>${esc(sa.label)}</span>`;
+                });
+                saContainer.innerHTML = svgHtml;
+                saLabels.innerHTML = labelHtml;
+                // Auto-remove done sub-agents after fade
+                if (subs.every(s => s.status === 'done')) {
+                    setTimeout(() => { saContainer.innerHTML = ''; saLabels.innerHTML = ''; }, 2000);
+                }
+            } else {
+                saContainer.innerHTML = '';
+                saLabels.innerHTML = '';
+            }
 
             if (!isActive) {
                 content.style.display = '';
@@ -1190,16 +1535,166 @@
             } catch(e) { console.error('connections', e); }
         }
 
+        let statusExpanded = false;
+        function toggleStatusExpand() {
+            statusExpanded = !statusExpanded;
+            document.getElementById('status-expanded').style.display = statusExpanded ? '' : 'none';
+        }
+
+        let sorareOpen = false;
+        function toggleSorare() {
+            sorareOpen = !sorareOpen;
+            document.getElementById('sorare-body').style.display = sorareOpen ? '' : 'none';
+            document.getElementById('sorare-chevron').style.transform = sorareOpen ? 'rotate(180deg)' : '';
+        }
+
+        async function refreshSorare() {
+            const [data, tasksData] = await Promise.all([
+                fetchJSON('/sorare-mobile.json'),
+                fetchJSON('/sorare-daily-tasks.json')
+            ]);
+
+            // Daily tasks
+            const tasksEl = document.getElementById('sorare-daily-tasks');
+            if (tasksData && tasksData.tasks && tasksData.tasks.length > 0) {
+                let tHtml = '<div class="sorare-section-label">📋 Daily Tasks</div>';
+                tHtml += '<div class="sorare-lineup" style="padding:0.3rem 0.5rem;">';
+                tasksData.tasks.forEach(t => {
+                    const doneClass = t.done ? ' done' : '';
+                    const checkIcon = t.done ? '✓' : '';
+                    const timeStr = t.doneAt ? new Date(t.doneAt).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}) : '';
+                    tHtml += '<div class="sorare-task">';
+                    tHtml += '<div class="sorare-task-check' + doneClass + '">' + checkIcon + '</div>';
+                    tHtml += '<span class="sorare-task-name' + doneClass + '">' + t.name + '</span>';
+                    if (timeStr) tHtml += '<span class="sorare-task-time">' + timeStr + '</span>';
+                    tHtml += '</div>';
+                });
+                tHtml += '</div>';
+                tasksEl.innerHTML = tHtml;
+            } else {
+                tasksEl.innerHTML = '';
+            }
+            if (!data || !data.activeFixture) return;
+            const fix = data.activeFixture;
+            const now = Date.now();
+            const start = new Date(fix.startDate).getTime();
+            const end = new Date(fix.endDate).getTime();
+            const isLive = now >= start && now <= end;
+            const isPast = now > end;
+
+            const upGW = data.upcomingFixture ? data.upcomingFixture.gameWeek : null;
+            document.getElementById('sorare-gw-badge').textContent = 'GW' + fix.gameWeek + (upGW ? ' / GW' + upGW : '');
+            const statusBadge = document.getElementById('sorare-status-badge');
+            if (isLive) {
+                statusBadge.textContent = '● LIVE';
+                statusBadge.style.background = 'rgba(74,222,128,0.15)';
+                statusBadge.style.color = '#4ade80';
+            } else if (isPast) {
+                statusBadge.textContent = 'FINAL';
+                statusBadge.style.background = 'rgba(255,255,255,0.08)';
+                statusBadge.style.color = 'rgba(255,255,255,0.5)';
+            } else {
+                const d = new Date(fix.startDate);
+                statusBadge.textContent = 'Starts ' + (d.getMonth()+1) + '/' + d.getDate();
+                statusBadge.style.background = 'rgba(250,204,21,0.15)';
+                statusBadge.style.color = '#facc15';
+            }
+
+            const activeEl = document.getElementById('sorare-active');
+            let html = '';
+            if (fix.lineups.length === 0) {
+                html = '<div style="font-size:0.55rem;color:rgba(255,255,255,0.4);text-align:center;padding:0.5rem;">No lineups set for this matchup</div>';
+            } else {
+                html += '<div class="sorare-section-label">' + (isLive ? '🟢 GW' + fix.gameWeek + ' Active' : isPast ? '✅ GW' + fix.gameWeek + ' Completed' : '📋 GW' + fix.gameWeek + ' Set') + ' — ' + fix.lineups[0].leaderboard + '</div>';
+                let teamCounter = 0;
+                fix.lineups.forEach((lb, lbIdx) => {
+                    lb.entries.forEach((entry, idx) => {
+                        teamCounter++;
+                        html += '<div class="sorare-lineup">';
+                        html += '<div class="sorare-lineup-header">';
+                        html += '<div><span class="sorare-lineup-name">' + (lb.leaderboard.replace('Limited ', '').replace('Champion', 'Champ')) + ' Team ' + teamCounter + '</span></div>';
+                        html += '<div style="display:flex;align-items:baseline;gap:0.4rem;">';
+                        html += '<span class="sorare-score">' + (entry.score || 0).toFixed(1) + ' pts</span>';
+                        html += '<span class="sorare-rank">#' + (entry.ranking || '--') + '</span>';
+                        html += '</div></div>';
+                        entry.players.forEach(p => {
+                            const shortTeam = p.team ? p.team.split(' ').pop() : '';
+                            const scoreClass = (p.score === 0 || p.score === null) ? 'sorare-player-score zero' : 'sorare-player-score';
+                            const scoreText = p.score != null ? p.score.toFixed(1) : '--';
+                            html += '<div class="sorare-player-row">';
+                            html += '<span class="sorare-player-name">' + p.name + '</span>';
+                            html += '<span class="sorare-player-team">' + shortTeam + '</span>';
+                            html += '<span class="' + scoreClass + '">' + scoreText + '</span>';
+                            html += '</div>';
+                        });
+                        html += '</div>';
+                    });
+                });
+            }
+            activeEl.innerHTML = html;
+
+            // Upcoming fixture section — show API lineups or planned lineups from tasks JSON
+            const upEl = document.getElementById('sorare-upcoming');
+            if (data.upcomingFixture && data.upcomingFixture.lineups && data.upcomingFixture.lineups.length > 0) {
+                const upStart = new Date(data.upcomingFixture.startDate);
+                const upDateStr = (upStart.getMonth()+1) + '/' + upStart.getDate();
+                let upHtml = '<div class="sorare-section-label" style="margin-top:0.3rem;">📅 GW' + data.upcomingFixture.gameWeek + ' Upcoming (Feb ' + upStart.getDate() + '-' + new Date(data.upcomingFixture.endDate).getDate() + ')</div>';
+                data.upcomingFixture.lineups.forEach(lb => {
+                    lb.entries.forEach((entry, idx) => {
+                        upHtml += '<div class="sorare-lineup" style="opacity:0.7;">';
+                        upHtml += '<div class="sorare-lineup-header">';
+                        upHtml += '<span class="sorare-lineup-name">' + lb.leaderboard + ' Team ' + (idx+1) + '</span>';
+                        upHtml += '</div>';
+                        entry.players.forEach(p => {
+                            upHtml += '<div class="sorare-player-row">';
+                            upHtml += '<span class="sorare-player-name">' + p.name + '</span>';
+                            upHtml += '<span class="sorare-player-team">' + (p.team ? p.team.split(' ').pop() : '') + '</span>';
+                            upHtml += '<span class="sorare-player-score zero">--</span>';
+                            upHtml += '</div>';
+                        });
+                        upHtml += '</div>';
+                    });
+                });
+                upEl.innerHTML = upHtml;
+            } else if (tasksData && tasksData.upcomingLineups && tasksData.upcomingLineups.teams && tasksData.upcomingLineups.teams.length > 0) {
+                // Show planned lineups from tasks data
+                const ul = tasksData.upcomingLineups;
+                const upStart = new Date(ul.startDate);
+                const upEnd = new Date(ul.endDate);
+                let upHtml = '<div class="sorare-section-label" style="margin-top:0.3rem;">📅 GW' + (data.upcomingFixture ? data.upcomingFixture.gameWeek : ul.gameWeek) + ' Planned (Feb ' + upStart.getDate() + '-' + upEnd.getDate() + ')</div>';
+                ul.teams.forEach((team, idx) => {
+                    upHtml += '<div class="sorare-lineup" style="opacity:0.7;">';
+                    upHtml += '<div class="sorare-lineup-header">';
+                    upHtml += '<span class="sorare-lineup-name">' + team.name + '</span>';
+                    upHtml += '</div>';
+                    team.players.forEach(p => {
+                        upHtml += '<div class="sorare-player-row">';
+                        upHtml += '<span class="sorare-player-name">' + p.name + '</span>';
+                        upHtml += '<span class="sorare-player-team" style="font-size:0.45rem;">' + (p.position || '') + '</span>';
+                        upHtml += '<span class="sorare-player-score zero">' + (p.avgScore ? '~' + p.avgScore : '--') + '</span>';
+                        upHtml += '</div>';
+                    });
+                    if (team.strategy) upHtml += '<div style="font-size:0.4rem;color:rgba(255,255,255,0.3);margin-top:0.2rem;font-style:italic;">' + team.strategy + '</div>';
+                    upHtml += '</div>';
+                });
+                upEl.innerHTML = upHtml;
+            } else {
+                upEl.innerHTML = '';
+            }
+        }
+
         refreshStatus();
         refreshMind();
         refreshTicker();
         refreshXStats();
         refreshTweetFeed();
+        refreshSorare();
         setInterval(refreshStatus, 30000);
         setInterval(refreshMind, 5000);
         setInterval(refreshTicker, 60000);
         setInterval(refreshXStats, 60000);
         setInterval(refreshTweetFeed, 120000);
+        setInterval(refreshSorare, 300000);
 
         // WebSocket for real-time push updates
         (function initWebSocket() {
@@ -1213,9 +1708,10 @@
                         if (msg.type === 'fileChange') {
                             const k = msg.key;
                             if (k === 'x-stats') refreshXStats();
-                            else if (k === 'x-tweets') refreshTweetFeed();
+                            else if (k === 'x-tweets' || k === 'x-thread-history') refreshTweetFeed();
                             else if (k === 'mind') refreshMind();
                             else if (k === 'sessions') refreshStatus();
+                            else if (k === 'sorare-mobile' || k === 'sorare') refreshSorare();
                         }
                     } catch(err) {}
                 };
@@ -1356,8 +1852,8 @@
 
         // Pull to refresh — spinning Jane icon
         let ptrStart = 0, ptrActive = false, ptrRefreshing = false;
+        const ptrSpacer = document.getElementById('ptr-spacer');
         const ptrIcon = document.getElementById('ptr');
-        const ptrJane = ptrIcon.querySelector('.ptr-jane');
 
         document.addEventListener('touchstart', e => {
             if (window.scrollY === 0 && !ptrRefreshing) {
@@ -1369,37 +1865,52 @@
         document.addEventListener('touchmove', e => {
             if (!ptrActive) return;
             const dy = e.touches[0].clientY - ptrStart;
-            if (dy > 10 && dy < 150) {
-                const progress = Math.min((dy - 10) / 70, 1);
-                ptrIcon.style.top = (progress * 50 - 10) + 'px';
-                ptrJane.style.transform = 'rotate(' + (progress * 360) + 'deg)';
+            if (dy > 10 && dy < 120) {
+                const h = Math.min(dy - 10, 60);
+                ptrSpacer.style.transition = 'none';
+                ptrSpacer.style.height = h + 'px';
+                const progress = h / 60;
+                ptrIcon.style.opacity = progress;
+                ptrIcon.style.transform = 'scale(' + (0.5 + progress * 0.5) + ') rotate(' + (progress * 360) + 'deg)';
             }
         }, { passive: true });
 
         document.addEventListener('touchend', () => {
             if (!ptrActive) return;
             ptrActive = false;
-            const top = parseFloat(ptrIcon.style.top) || -50;
-            if (top >= 30) {
-                // Trigger refresh — start spinning
+            const h = parseFloat(ptrSpacer.style.height) || 0;
+            if (h >= 45) {
+                // Trigger refresh — open spacer fully, Jane spins in the gap
                 ptrRefreshing = true;
-                ptrIcon.style.top = '12px';
+                ptrSpacer.style.transition = 'height 0.3s cubic-bezier(0.2,0,0,1)';
+                ptrSpacer.classList.add('open');
+                ptrIcon.style.opacity = '1';
+                ptrIcon.style.transform = 'scale(1)';
                 ptrIcon.classList.add('loading');
-                Promise.all([refreshStatus(), refreshMind(), refreshTicker(), refreshXStats(), refreshTweetFeed()]).then(() => {
-                    ptrIcon.classList.remove('loading');
-                    ptrIcon.style.transition = 'top 0.3s ease';
-                    ptrIcon.style.top = '-50px';
+                Promise.all([refreshStatus(), refreshMind(), refreshTicker(), refreshXStats(), refreshTweetFeed(), refreshSorare()]).then(() => {
+                    // Data loaded — hold 400ms, then close
                     setTimeout(() => {
-                        ptrIcon.style.transition = '';
-                        ptrJane.style.transform = '';
-                        ptrRefreshing = false;
-                    }, 350);
+                        ptrIcon.classList.remove('loading');
+                        ptrSpacer.classList.remove('open');
+                        ptrSpacer.style.height = '';
+                        setTimeout(() => {
+                            ptrIcon.style.opacity = '';
+                            ptrIcon.style.transform = '';
+                            ptrSpacer.style.transition = '';
+                            ptrRefreshing = false;
+                        }, 400);
+                    }, 400);
                 });
             } else {
-                // Cancel — snap back
-                ptrIcon.style.transition = 'top 0.2s ease';
-                ptrIcon.style.top = '-50px';
-                setTimeout(() => { ptrIcon.style.transition = ''; ptrJane.style.transform = ''; }, 200);
+                // Cancel — snap closed
+                ptrSpacer.style.transition = 'height 0.25s ease';
+                ptrSpacer.style.height = '0';
+                ptrIcon.style.opacity = '0';
+                ptrIcon.style.transform = 'scale(0.5)';
+                setTimeout(() => {
+                    ptrSpacer.style.transition = '';
+                    ptrIcon.style.transform = '';
+                }, 250);
             }
         });
     </script>

@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-10T06:37:03Z",
+  "lastUpdated": "2026-02-10T21:12:05Z",
   "user": {
     "slug": "jcubnft",
     "nickname": "jcubnft",
@@ -7,7 +7,7 @@
     "walletAddress": "0x2890B67B3724108848E9E6b8c74525821A8EEDB6"
   },
   "cards": {
-    "total": 225,
+    "total": 228,
     "breakdown": [
       {
         "rarity": "common",
@@ -57,7 +57,124 @@
     "gameWeek": 90,
     "startDate": "2026-02-20T00:00:00Z",
     "endDate": "2026-02-23T04:01:30Z",
-    "lineups": []
+    "lineups": [
+      {
+        "leaderboard": "Limited Champion",
+        "entries": [
+          {
+            "id": "So5Lineup:d50df886-d588-4b79-a6a9-e4e9c44f365e",
+            "ranking": null,
+            "score": 0.0,
+            "players": [
+              {
+                "name": "Anthony Edwards",
+                "team": "Minnesota Timberwolves",
+                "score": 0.0,
+                "rarity": "limited"
+              },
+              {
+                "name": "Derrick White",
+                "team": "Boston Celtics",
+                "score": 0.0,
+                "rarity": "limited"
+              },
+              {
+                "name": "Payton Pritchard",
+                "team": "Boston Celtics",
+                "score": 0.0,
+                "rarity": "limited"
+              },
+              {
+                "name": "Deandre Ayton",
+                "team": "Los Angeles Lakers",
+                "score": 0.0,
+                "rarity": "limited"
+              },
+              {
+                "name": "Will Riley",
+                "team": "Washington Wizards",
+                "score": 0.0,
+                "rarity": "limited"
+              }
+            ]
+          },
+          {
+            "id": "So5Lineup:734998a3-568e-4296-b65f-19a751593917",
+            "ranking": null,
+            "score": 0.0,
+            "players": [
+              {
+                "name": "Nikola Jokić",
+                "team": "Denver Nuggets",
+                "score": 0.0,
+                "rarity": "limited"
+              },
+              {
+                "name": "Derrick White",
+                "team": "Boston Celtics",
+                "score": 0.0,
+                "rarity": "limited"
+              },
+              {
+                "name": "Payton Pritchard",
+                "team": "Boston Celtics",
+                "score": 0.0,
+                "rarity": "limited"
+              },
+              {
+                "name": "Tre Johnson",
+                "team": "Washington Wizards",
+                "score": 0.0,
+                "rarity": "limited"
+              },
+              {
+                "name": "Keldon Johnson",
+                "team": "San Antonio Spurs",
+                "score": 0.0,
+                "rarity": "limited"
+              }
+            ]
+          },
+          {
+            "id": "So5Lineup:dfdce686-c8cf-4b76-acb7-b2d0384eeb3e",
+            "ranking": null,
+            "score": 0.0,
+            "players": [
+              {
+                "name": "Jaylen Brown",
+                "team": "Boston Celtics",
+                "score": 0.0,
+                "rarity": "limited"
+              },
+              {
+                "name": "Cooper Flagg",
+                "team": "Dallas Mavericks",
+                "score": 0.0,
+                "rarity": "limited"
+              },
+              {
+                "name": "Brandon Miller",
+                "team": "Charlotte Hornets",
+                "score": 0.0,
+                "rarity": "limited"
+              },
+              {
+                "name": "Zion Williamson",
+                "team": "New Orleans Pelicans",
+                "score": 0.0,
+                "rarity": "limited"
+              },
+              {
+                "name": "Sion James",
+                "team": "Charlotte Hornets",
+                "score": 0.0,
+                "rarity": "limited"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   "upcomingFixture": {
     "slug": "nba-24-27-feb-2026",

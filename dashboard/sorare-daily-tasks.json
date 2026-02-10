@@ -1,0 +1,337 @@
+{
+  "lastUpdated": 1770708800000,
+  "tasks": [
+    {
+      "id": "free-common-packs",
+      "name": "Open Free Common Packs",
+      "description": "Claim free Common card packs (Regular + Benched types)",
+      "frequency": "daily",
+      "done": false,
+      "doneAt": null
+    },
+    {
+      "id": "daily-missions",
+      "name": "Complete Daily Missions",
+      "description": "Check sidebar for daily tasks — XP, Essence, Gems",
+      "frequency": "daily",
+      "done": false,
+      "doneAt": null
+    },
+    {
+      "id": "weekly-missions",
+      "name": "Complete Weekly Missions",
+      "description": "Larger goals for Essence/Gems/XP bonuses",
+      "frequency": "weekly",
+      "done": false,
+      "doneAt": null
+    },
+    {
+      "id": "set-lineups",
+      "name": "Set Lineups for Upcoming GW",
+      "description": "GW34 Limited Champion — 3 lineups SET: (1) Jokić MVP + D.White/Pritchard/Tre Johnson/K.Johnson, (2) Ant Edwards MVP + D.White/Pritchard/Ayton/W.Riley, (3) J.Brown MVP + Flagg/B.Miller/Zion/S.James",
+      "frequency": "per-gameweek",
+      "done": true,
+      "doneAt": "2026-02-10T07:23:00Z"
+    },
+    {
+      "id": "claim-rewards",
+      "name": "Claim Gameweek Rewards",
+      "description": "Cards, Essence, Gems, Hot Streak cash after GW ends",
+      "frequency": "per-gameweek",
+      "done": false,
+      "doneAt": null
+    },
+    {
+      "id": "scrap-duplicates",
+      "name": "Scrap Duplicate Commons",
+      "description": "Turn unwanted cards into Essence",
+      "frequency": "daily",
+      "done": false,
+      "doneAt": null
+    },
+    {
+      "id": "essence-crafting",
+      "name": "Craft Cards (1,000 Essence)",
+      "description": "Card Factory — pick 1 of 10, 25% Special Draw chance",
+      "frequency": "as-needed",
+      "done": false,
+      "doneAt": null
+    },
+    {
+      "id": "collection-bonuses",
+      "name": "Complete Team Collections",
+      "description": "Full team commons = $5 in 50%-off credits (up to $150)",
+      "frequency": "ongoing",
+      "done": false,
+      "doneAt": null
+    },
+    {
+      "id": "hot-streaks",
+      "name": "Track Hot Streaks",
+      "description": "Cash prizes at score thresholds (4 In-Season + 1 Classic)",
+      "frequency": "per-gameweek",
+      "done": false,
+      "doneAt": null
+    },
+    {
+      "id": "card-sealing",
+      "name": "Seal Unused Cards",
+      "description": "Lock cards in vault for reward bonus %",
+      "frequency": "as-needed",
+      "done": false,
+      "doneAt": null
+    }
+  ],
+  "upcomingLineups": {
+    "gameWeek": 34,
+    "slug": "nba-21-23-feb-2026",
+    "startDate": "2026-02-20T00:00:00Z",
+    "endDate": "2026-02-23T04:01:30Z",
+    "cardInventory": {
+      "limitedCount": 42,
+      "commonCount": 186,
+      "limited": [
+        {
+          "player": "Shai Gilgeous-Alexander",
+          "team": "Thunder",
+          "season": 2025
+        },
+        {
+          "player": "Nikola Jokić",
+          "team": "Nuggets",
+          "season": 2025
+        },
+        {
+          "player": "Anthony Edwards",
+          "team": "Timberwolves",
+          "season": 2025
+        },
+        {
+          "player": "Anthony Edwards",
+          "team": "Timberwolves",
+          "season": 2024
+        },
+        {
+          "player": "Anthony Edwards",
+          "team": "Timberwolves",
+          "season": 2023
+        },
+        {
+          "player": "Jaylen Brown",
+          "team": "Celtics",
+          "season": 2025
+        },
+        {
+          "player": "Cade Cunningham",
+          "team": "Pistons",
+          "season": 2025
+        },
+        {
+          "player": "Zion Williamson",
+          "team": "Pelicans",
+          "season": 2025
+        },
+        {
+          "player": "Bam Adebayo",
+          "team": "Heat",
+          "season": 2025
+        },
+        {
+          "player": "Brandon Miller",
+          "team": "Hornets",
+          "season": 2025
+        },
+        {
+          "player": "Derrick White",
+          "team": "Celtics",
+          "season": 2025
+        },
+        {
+          "player": "Derrick White",
+          "team": "Celtics",
+          "season": 2025
+        },
+        {
+          "player": "Payton Pritchard",
+          "team": "Celtics",
+          "season": 2025
+        },
+        {
+          "player": "Payton Pritchard",
+          "team": "Celtics",
+          "season": 2023
+        },
+        {
+          "player": "Payton Pritchard",
+          "team": "Celtics",
+          "season": 2022
+        },
+        {
+          "player": "Payton Pritchard",
+          "team": "Celtics",
+          "season": 2022
+        },
+        {
+          "player": "Cooper Flagg",
+          "team": "Mavericks",
+          "season": 2025
+        },
+        {
+          "player": "Cooper Flagg",
+          "team": "Mavericks",
+          "season": 2025
+        },
+        {
+          "player": "Lauri Markkanen",
+          "team": "Jazz",
+          "season": 2024
+        },
+        {
+          "player": "Jusuf Nurkić",
+          "team": "Jazz",
+          "season": 2025
+        },
+        {
+          "player": "Klay Thompson",
+          "team": "Mavericks",
+          "season": 2025
+        },
+        {
+          "player": "Tre Johnson",
+          "team": "Wizards",
+          "season": 2025
+        },
+        {
+          "player": "Tre Johnson",
+          "team": "Wizards",
+          "season": 2025
+        },
+        {
+          "player": "Gradey Dick",
+          "team": "Raptors",
+          "season": 2025
+        },
+        {
+          "player": "Kentavious Caldwell-Pope",
+          "team": "Grizzlies",
+          "season": 2025
+        },
+        {
+          "player": "Keldon Johnson",
+          "team": "Spurs",
+          "season": 2025
+        },
+        {
+          "player": "Patrick Williams",
+          "team": "Bulls",
+          "season": 2025
+        },
+        {
+          "player": "Deandre Ayton",
+          "team": "Lakers",
+          "season": 2025
+        },
+        {
+          "player": "Saddiq Bey",
+          "team": "Pelicans",
+          "season": 2025
+        },
+        {
+          "player": "Kevin Huerter",
+          "team": "Bulls",
+          "season": 2025
+        },
+        {
+          "player": "Chris Boucher",
+          "team": "Celtics",
+          "season": 2025
+        },
+        {
+          "player": "Tyus Jones",
+          "team": "Magic",
+          "season": 2025
+        },
+        {
+          "player": "Corey Kispert",
+          "team": "Wizards",
+          "season": 2025
+        },
+        {
+          "player": "John Konchar",
+          "team": "Grizzlies",
+          "season": 2025
+        },
+        {
+          "player": "Sion James",
+          "team": "Hornets",
+          "season": 2025
+        },
+        {
+          "player": "Jalen Pickett",
+          "team": "Nuggets",
+          "season": 2025
+        },
+        {
+          "player": "Ryan Dunn",
+          "team": "Suns",
+          "season": 2025
+        },
+        {
+          "player": "Carter Bryant",
+          "team": "Spurs",
+          "season": 2025
+        },
+        {
+          "player": "Will Riley",
+          "team": "Wizards",
+          "season": 2025
+        },
+        {
+          "player": "Kris Murray",
+          "team": "Trail Blazers",
+          "season": 2025
+        },
+        {
+          "player": "Liam McNeeley",
+          "team": "Hornets",
+          "season": 2025
+        }
+      ]
+    },
+    "teams": [
+      {
+        "name": "Limited Champion #1 — Jokić MVP",
+        "players": [
+          {"name": "Nikola Jokić", "position": "C", "note": "MVP — L10 avg 63, 3 games"},
+          {"name": "Derrick White", "position": "G", "note": "L10 avg 33, 2 games"},
+          {"name": "Payton Pritchard", "position": "G", "note": "L10 avg 32, 2 games"},
+          {"name": "Tre Johnson", "position": "G", "note": "L10 avg 25, 3 games (GTD)"},
+          {"name": "Keldon Johnson", "position": "G/F", "note": "L10 avg 24, 2 games"}
+        ],
+        "strategy": "Jokić MVP carry + BOS backcourt duo + WAS/SAS role players. Cap: 114/120"
+      },
+      {
+        "name": "Limited Champion #2 — Ant Edwards MVP",
+        "players": [
+          {"name": "Anthony Edwards", "position": "G", "note": "MVP — L10 avg 47, 2 games"},
+          {"name": "Derrick White", "position": "G", "note": "L10 avg 33, 2 games"},
+          {"name": "Payton Pritchard", "position": "G", "note": "L10 avg 32, 2 games"},
+          {"name": "Deandre Ayton", "position": "C", "note": "L10 avg 25, 2 games"},
+          {"name": "Will Riley", "position": "F", "note": "L10 avg 25, 3 games"}
+        ],
+        "strategy": "Ant MVP + BOS duo + LAL/WAS value plays. Cap: 115/120"
+      },
+      {
+        "name": "Limited Champion #3 — Jaylen Brown MVP",
+        "players": [
+          {"name": "Jaylen Brown", "position": "G/F", "note": "MVP — L10 avg 46, 2 games"},
+          {"name": "Cooper Flagg", "position": "F", "note": "L10 avg 43, 2 games"},
+          {"name": "Brandon Miller", "position": "F", "note": "L10 avg 35, 3 games"},
+          {"name": "Zion Williamson", "position": "F", "note": "L10 avg 33, 2 games"},
+          {"name": "Sion James", "position": "G", "note": "L10 avg 9, 3 games"}
+        ],
+        "strategy": "Brown MVP + Flagg/Miller/Zion upside stack. Cap: 120/120 (maxed)"
+      }
+    ]
+  }
+}

@@ -1,17 +1,44 @@
 {
+  "lastUpdated": 1739199191000,
   "sessions": [
     {
-      "key": "agent:main:subagent:5f856978-d85a-4f0b-9466-68cd67e2e888",
-      "label": "Register for Finnhub, CoinGecko, Alpha Vantage APIs",
-      "status": "completed",
-      "totalTokens": 143594
+      "key": "agent:main:main",
+      "displayName": "+17175759384",
+      "model": "claude-opus-4-6",
+      "totalTokens": 89072,
+      "updatedAt": 1770733742054
     },
     {
-      "key": "agent:main:subagent:a627869c-1b25-4e19-9240-27bb090d1bea",
-      "label": "Data source audit for X strategy",
-      "status": "completed",
-      "totalTokens": 49305
+      "key": "agent:main:cron:db53eb61",
+      "label": "Cron: X Stats Scrape",
+      "model": "claude-opus-4-6",
+      "totalTokens": 30532,
+      "updatedAt": 1770733268785,
+      "lastMessage": "Impressions 3.5K, eng rate 3.8%, followers 11, reposts 2."
+    },
+    {
+      "key": "agent:main:cron:3a51ef33",
+      "label": "Cron: Daily Brief - 8:30 AM Full Thread",
+      "model": "claude-opus-4-6",
+      "totalTokens": 58133,
+      "updatedAt": 1770730200076,
+      "lastMessage": "6-tweet thread posted. Anchor live."
+    },
+    {
+      "key": "agent:main:cron:57f61a2c",
+      "label": "Cron: Sorare GW34 Lineup Check",
+      "model": "claude-opus-4-6",
+      "totalTokens": 33179,
+      "updatedAt": 1770729746414,
+      "lastMessage": "GW34 lineups already set — 3 Champion lineups in place."
+    },
+    {
+      "key": "agent:main:cron:7514d3d2",
+      "label": "Cron: Pre-Brief Data Fetch (8:00 AM)",
+      "model": "claude-opus-4-6",
+      "totalTokens": 96685,
+      "updatedAt": 1770728621354,
+      "lastMessage": "Pre-brief cached: Anthropic $20B, xAI/SpaceX $1.25T, OpenAI ads."
     }
-  ],
-  "lastUpdated": 1770704400000
+  ]
 }

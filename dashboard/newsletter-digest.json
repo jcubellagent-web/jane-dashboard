@@ -1,0 +1,33 @@
+{
+  "date": "2026-02-10",
+  "fetchedAt": "2026-02-10T08:05:00-05:00",
+  "sources": {
+    "morningBrew": {
+      "subject": "☕️ What you really, really want",
+      "markets": {
+        "nasdaq": {"value": 23238.67, "change": "+0.90%"},
+        "sp500": {"value": 6964.82, "change": "+0.47%"},
+        "dow": {"value": 50135.87, "change": "+0.04%"},
+        "tenYear": {"value": "4.198%", "change": "-1.0 bps"},
+        "bitcoin": {"value": 69527.45, "change": "-2.48%"}
+      },
+      "headlines": [
+        "Tech stocks rebound from AI-induced software panic; Monday.com plunges -20.79% on weak guidance",
+        "Alphabet raises $20B in bonds, planning 100-year bonds to fund $185B AI infrastructure spend",
+        "Job market in 'low hire, low fire' mode — reverse recruiting trend emerging as job searches average 6 months",
+        "SpaceX pivots from Mars to Moon — Musk targets self-growing lunar city within a decade",
+        "Novo Nordisk sues Hims & Hers over copycat weight loss treatments",
+        "MrBeast's company buying teen banking app Step",
+        "Cuba runs out of jet fuel — Air Canada suspends all flights amid US pressure",
+        "UK PM Starmer faces calls to resign over ambassador with Epstein ties",
+        "Gold hits $5,000 (via Reddit r/Gold trending)"
+      ]
+    },
+    "tldrAI": {"status": "not_subscribed_yet", "note": "Signup confirmation only — no newsletter content today"},
+    "tldrCrypto": {"status": "not_subscribed_yet", "note": "Signup confirmation only"},
+    "alphaSignal": {"status": "not_confirmed", "note": "Email confirmation pending"},
+    "rundownAI": {"status": "not_subscribed"},
+    "substackDigests": {"status": "none_received"}
+  },
+  "note": "Most newsletter subscriptions are brand new — only Morning Brew delivered actual content today"
+}

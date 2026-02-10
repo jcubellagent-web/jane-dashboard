@@ -669,22 +669,28 @@
             content.style.display = 'none';
             sections.style.display = '';
 
-            // Goal / Objective
-            document.getElementById('mind-task-text').textContent = data.task || 'Awaiting instructions...';
+            // Model color map
+            const modelColors = {opus:'#4ade80', claude:'#4ade80', sonnet:'#8b5cf6', whisper:'#facc15', ollama:'#f97316', sd:'#ec4899'};
+            const activeColor = modelColors[(data.model||'').toLowerCase()] || 'var(--accent)';
+
+            // Goal / Objective — colored by active model
+            const goalEl = document.getElementById('mind-task-text');
+            goalEl.textContent = data.task || 'Awaiting instructions...';
+            goalEl.style.color = activeColor;
 
             // Thinking & Decisions
             const thoughtEl = document.getElementById('mind-thought-text');
             thoughtEl.textContent = data.thought || 'Ready for your next request.';
-            const modelColors = {opus:'#4ade80', claude:'#4ade80', sonnet:'#8b5cf6', whisper:'#facc15', ollama:'#f97316', sd:'#ec4899'};
-            thoughtEl.style.color = modelColors[(data.model||'').toLowerCase()] || 'var(--accent)';
+            thoughtEl.style.color = activeColor;
 
-            // Actions & Tools (steps)
+            // Actions & Tools (steps) — each step colored by its own tool/model
             const stepsEl = document.getElementById('mind-steps');
             if (data.steps && data.steps.length) {
                 const indicators = { done: '✓', active: '●', pending: '○' };
                 stepsEl.innerHTML = data.steps.map(step => {
                     const s = step.status || 'pending';
-                    return `<div class="mind-step ${s}"><span class="mind-step-icon">${indicators[s]}</span><span>${esc(step.label)}</span></div>`;
+                    const stepColor = modelColors[(step.tool||'').toLowerCase()] || 'var(--accent)';
+                    return `<div class="mind-step ${s}" style="color:${stepColor}"><span class="mind-step-icon">${indicators[s]}</span><span>${esc(step.label)}</span></div>`;
                 }).join('');
             } else {
                 stepsEl.innerHTML = '';

@@ -2493,8 +2493,15 @@ fs.watch(tasksDir, (eventType, filename) => {
                                     return { label, status: 'active', tool };
                                 });
                                 // Keep existing descriptive task name — only set if truly empty
-                                if (!current.task || current.task === 'Processing incoming message...') {
-                                    current.task = 'Working...';
+                                // NEVER use generic "Working..." — infer from steps instead
+                                if (!current.task || current.task === 'Processing incoming message...' || current.task === 'Working...') {
+                                    // Try to infer a descriptive task from the latest step labels
+                                    const latestLabel = steps.filter(Boolean).map(s => s.label).pop();
+                                    if (latestLabel) {
+                                        current.task = latestLabel;
+                                    } else {
+                                        current.task = 'Processing request...';
+                                    }
                                 }
                                 // Filter out null entries (skipped tools like mind-state writes)
                                 const validSteps = steps.filter(Boolean);

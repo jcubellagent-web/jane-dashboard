@@ -683,6 +683,16 @@
         </div>
     </div>
 
+    <!-- Latest Tweets Feed -->
+    <div class="card" id="tweet-feed" style="padding:0.5rem 0.6rem;">
+        <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.5rem;">
+            <img src="x-pfp.jpg" style="width:20px;height:20px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);">
+            <span style="font-size:0.65rem;font-weight:600;color:rgba(255,255,255,0.7);">@AgentJc11443</span>
+            <span style="font-size:0.5rem;color:rgba(255,255,255,0.3);margin-left:auto;" id="tweet-feed-time"></span>
+        </div>
+        <div id="tweet-feed-list" style="display:flex;flex-direction:column;gap:0.5rem;"></div>
+    </div>
+
     <script>
         async function fetchJSON(url, timeout = 8000) {
             const ctrl = new AbortController();
@@ -801,6 +811,33 @@
                 setP('x-planned-replies', data.plannedReplies);
                 setP('x-planned-tweets', data.plannedTweets);
             }
+        }
+
+        async function refreshTweetFeed() {
+            const data = await fetchJSON('/x-latest-tweets.json');
+            const container = document.getElementById('tweet-feed-list');
+            const timeEl = document.getElementById('tweet-feed-time');
+            if (!data || !data.tweets || !container) return;
+            if (timeEl && data.lastUpdated) {
+                const ago = Math.round((Date.now() - data.lastUpdated) / 60000);
+                timeEl.textContent = ago < 1 ? 'just now' : ago + 'm ago';
+            }
+            container.innerHTML = '';
+            data.tweets.forEach((tweet, i) => {
+                const div = document.createElement('div');
+                div.style.cssText = 'padding:0.4rem 0.5rem;background:rgba(255,255,255,0.03);border-radius:8px;border-left:2px solid ' + (i === 0 ? '#4ade80' : 'rgba(255,255,255,0.08)') + ';';
+                const timeAgo = tweet.time || '';
+                const threadNum = tweet.threadNum ? '<span style="color:#4ade80;font-weight:600;font-size:0.55rem;margin-right:4px;">' + tweet.threadNum + '</span>' : '';
+                div.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">' +
+                    '<div>' + threadNum + '<span style="font-size:0.5rem;color:rgba(255,255,255,0.35);">' + timeAgo + '</span></div>' +
+                    '<div style="display:flex;gap:0.4rem;font-size:0.5rem;color:rgba(255,255,255,0.3);">' +
+                    (tweet.views ? '<span>👁 ' + tweet.views + '</span>' : '') +
+                    (tweet.likes ? '<span>❤️ ' + tweet.likes + '</span>' : '') +
+                    (tweet.reposts ? '<span>🔁 ' + tweet.reposts + '</span>' : '') +
+                    '</div></div>' +
+                    '<div style="font-size:0.6rem;color:rgba(255,255,255,0.8);line-height:1.4;white-space:pre-wrap;">' + (tweet.text || '') + '</div>';
+                container.appendChild(div);
+            });
         }
 
         async function refreshMind() {
@@ -1091,10 +1128,12 @@
         refreshMind();
         refreshTicker();
         refreshXStats();
+        refreshTweetFeed();
         setInterval(refreshStatus, 30000);
         setInterval(refreshMind, 5000);
         setInterval(refreshTicker, 60000);
         setInterval(refreshXStats, 120000);
+        setInterval(refreshTweetFeed, 120000);
 
         // Angular Neural Network
         (function initNeuralSphere() {
@@ -1256,7 +1295,7 @@
                 ptrRefreshing = true;
                 ptrIcon.style.top = '12px';
                 ptrIcon.classList.add('loading');
-                Promise.all([refreshStatus(), refreshMind(), refreshTicker(), refreshXStats()]).then(() => {
+                Promise.all([refreshStatus(), refreshMind(), refreshTicker(), refreshXStats(), refreshTweetFeed()]).then(() => {
                     ptrIcon.classList.remove('loading');
                     ptrIcon.style.transition = 'top 0.3s ease';
                     ptrIcon.style.top = '-50px';

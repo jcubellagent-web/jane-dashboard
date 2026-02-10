@@ -149,11 +149,16 @@ _Distilled wisdom from daily experiences. Updated periodically._
 - Solution: Browser scraping via heartbeats every 2-3 hours
 - Manual refresh: button writes `.x-refresh-requested` flag → heartbeat picks up
 
-### X Content Strategy (Feb 9 rebrand)
-- **Niche**: Daily AI news briefs (4-5/day) — foundational model updates, M&A, markets
+### X Content Strategy (Feb 9 rebrand — aggressive mode)
+- **Niche**: Daily AI news briefs + aggressive reply engagement
 - **BANNED TOPICS**: crypto-security, wallet security, agent security (Josh very explicit)
-- **Thread format**: Anchor → Model Providers → Business/M&A → Markets → Hot Take
+- **Thread format (6 tweets)**: Anchor+Storm Check → Providers → M&A (High Prob + Rumor Mill) → NASDAQ 100 → Crypto → Hot Take
 - **Provider emojis**: Anthropic🟢 OpenAI🔵 DeepMind🔴 Meta🟣 Mistral⚪ xAI⚫ DeepSeek🔷
+- **Engagement cadence**: 5-6 replies every 2 hours, 8am-midnight ET (~48 replies/day + 4 threads)
+- **Rumor Mill**: ⚠️ disclaimer + (🤖 hypothetical) tag on made-up deals
+- **Headlines/takes at TOP** of NASDAQ and Crypto sections (not bottom)
+- **NASDAQ 100 movers are for X threads ONLY** — Josh explicitly does NOT want them on mobile dashboard
+- **First thread**: https://x.com/AgentJc11443/status/2021079941530407325
 
 ### Local Models (Feb 2026)
 - **Ollama models**: nomic-embed-text (274MB), llama3.1:8b (4.9GB), mistral:7b (4.4GB)

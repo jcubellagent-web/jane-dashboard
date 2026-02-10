@@ -274,40 +274,54 @@
         }
         .mindmap-ring {
             fill: none;
+            stroke: rgba(74,222,128,0.04);
+            stroke-width: 0.3;
+        }
+        .mindmap-grid-ring {
+            fill: none;
+            stroke: rgba(74,222,128,0.03);
+            stroke-width: 0.2;
+        }
+        .mindmap-active .mindmap-grid-ring {
             stroke: rgba(74,222,128,0.06);
-            stroke-width: 0.5;
         }
-        .mindmap-orbit {
-            stroke: rgba(74,222,128,0.15);
-            stroke-width: 0.7;
-            stroke-linecap: round;
+        .mindmap-radial {
+            stroke: rgba(74,222,128,0.02);
+            stroke-width: 0.2;
+            stroke-dasharray: 1 3;
+        }
+        .mindmap-active .mindmap-radial {
+            stroke: rgba(74,222,128,0.04);
+        }
+        /* Rotating scan sweep */
+        .mindmap-sweep {
+            fill: none;
+            stroke-width: 0;
+        }
+        .mm-sweep-cone {
+            opacity: 0.04;
             transform-origin: 80px 45px;
+            animation: mmSweep 12s linear infinite;
         }
-        .mm-orbit-1 { stroke-width: 0.8; }
-        .mm-orbit-3 { stroke-width: 0.5; }
-        .mm-orbit-4 { stroke-width: 0.9; }
-        .mm-orbit-5 { stroke-width: 0.6; }
+        .mindmap-active .mm-sweep-cone {
+            opacity: 0.08;
+            animation: mmSweep 8s linear infinite;
         }
-        .mm-orbit-1 { stroke-dasharray: 25 160; }
-        .mm-orbit-2 { stroke-dasharray: 18 100; }
-        .mm-orbit-3 { stroke-dasharray: 12 60; }
-        .mm-orbit-4 { stroke-dasharray: 30 230; }
-        .mm-orbit-5 { stroke-dasharray: 15 120; }
-
-        @keyframes mmScanCW { 0% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -314; } }
-        @keyframes mmScanCCW { 0% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 314; } }
-
-        .mindmap-idle .mm-orbit-1 { animation: mmScanCW 25s linear infinite; opacity: 0.12; }
-        .mindmap-idle .mm-orbit-2 { animation: mmScanCCW 20s linear infinite; opacity: 0.12; }
-        .mindmap-idle .mm-orbit-3 { animation: mmScanCW 18s linear infinite; opacity: 0.12; }
-        .mindmap-idle .mm-orbit-4 { animation: mmScanCCW 30s linear infinite; opacity: 0.12; }
-        .mindmap-idle .mm-orbit-5 { animation: mmScanCW 22s linear infinite; opacity: 0.12; }
-
-        .mindmap-active .mm-orbit-1 { animation: mmScanCW 16s linear infinite; stroke: rgba(74,222,128,0.3); }
-        .mindmap-active .mm-orbit-2 { animation: mmScanCCW 12s linear infinite; stroke: rgba(74,222,128,0.3); }
-        .mindmap-active .mm-orbit-3 { animation: mmScanCW 10s linear infinite; stroke: rgba(74,222,128,0.35); }
-        .mindmap-active .mm-orbit-4 { animation: mmScanCCW 20s linear infinite; stroke: rgba(74,222,128,0.25); }
-        .mindmap-active .mm-orbit-5 { animation: mmScanCW 14s linear infinite; stroke: rgba(74,222,128,0.3); }
+        @keyframes mmSweep { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Ambient particles */
+        .mm-particle {
+            fill: rgba(74,222,128,0.15);
+            animation: mmDrift 20s linear infinite;
+        }
+        .mindmap-active .mm-particle {
+            fill: rgba(74,222,128,0.3);
+        }
+        @keyframes mmDrift {
+            0% { opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { opacity: 0; transform: translateY(-8px); }
+        }
 
         .mindmap-node {
             fill: rgba(74,222,128,0.15);
@@ -548,18 +562,46 @@
         <svg class="mindmap-svg" viewBox="0 -8 160 110" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <radialGradient id="mmGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stop-color="rgba(74,222,128,0.2)"/>
+                    <stop offset="0%" stop-color="rgba(74,222,128,0.12)"/>
+                    <stop offset="40%" stop-color="rgba(74,222,128,0.04)"/>
                     <stop offset="100%" stop-color="rgba(74,222,128,0)"/>
                 </radialGradient>
+                <radialGradient id="mmAtmosphere" cx="50%" cy="45%" r="60%">
+                    <stop offset="0%" stop-color="rgba(74,222,128,0.06)"/>
+                    <stop offset="50%" stop-color="rgba(20,40,30,0.03)"/>
+                    <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
             </defs>
-            <circle cx="80" cy="45" r="18" fill="url(#mmGlow)" class="mindmap-glow"/>
+            <!-- Full-field atmosphere -->
+            <rect x="0" y="-8" width="160" height="110" fill="url(#mmAtmosphere)"/>
+            <!-- Atmosphere glow -->
+            <circle cx="80" cy="45" r="50" fill="url(#mmGlow)" class="mindmap-glow"/>
+            <!-- Concentric grid rings (radar style) -->
+            <circle cx="80" cy="45" r="12" class="mindmap-grid-ring"/>
+            <circle cx="80" cy="45" r="24" class="mindmap-grid-ring"/>
+            <circle cx="80" cy="45" r="36" class="mindmap-grid-ring"/>
+            <circle cx="80" cy="45" r="48" class="mindmap-grid-ring"/>
+            <!-- Radial crosshair lines -->
+            <line x1="80" y1="-5" x2="80" y2="95" class="mindmap-radial"/>
+            <line x1="10" y1="45" x2="150" y2="45" class="mindmap-radial"/>
+            <line x1="35" y1="0" x2="125" y2="90" class="mindmap-radial"/>
+            <line x1="125" y1="0" x2="35" y2="90" class="mindmap-radial"/>
+            <!-- Rotating radar sweep -->
+            <path d="M80,45 L80,-5 A50,50 0 0,1 120,10 Z" fill="rgba(74,222,128,0.06)" class="mm-sweep-cone"/>
+            <!-- Ambient particles (stars) -->
+            <circle cx="25" cy="15" r="0.4" class="mm-particle" style="animation-delay:0s;"/>
+            <circle cx="140" cy="20" r="0.3" class="mm-particle" style="animation-delay:3s;"/>
+            <circle cx="10" cy="70" r="0.5" class="mm-particle" style="animation-delay:7s;"/>
+            <circle cx="150" cy="75" r="0.3" class="mm-particle" style="animation-delay:11s;"/>
+            <circle cx="60" cy="0" r="0.4" class="mm-particle" style="animation-delay:5s;"/>
+            <circle cx="100" cy="92" r="0.3" class="mm-particle" style="animation-delay:14s;"/>
+            <circle cx="5" cy="45" r="0.4" class="mm-particle" style="animation-delay:9s;"/>
+            <circle cx="155" cy="50" r="0.3" class="mm-particle" style="animation-delay:2s;"/>
+            <circle cx="45" cy="90" r="0.4" class="mm-particle" style="animation-delay:16s;"/>
+            <circle cx="130" cy="5" r="0.3" class="mm-particle" style="animation-delay:12s;"/>
+            <!-- Faint orbital rings (true circles, very subtle) -->
             <circle cx="80" cy="45" r="18" class="mindmap-ring"/>
             <circle cx="80" cy="45" r="34" class="mindmap-ring"/>
-            <ellipse cx="80" cy="45" rx="38" ry="18" class="mindmap-orbit mm-orbit-1" fill="none" transform="rotate(-20,80,45)"/>
-            <ellipse cx="80" cy="45" rx="22" ry="10" class="mindmap-orbit mm-orbit-2" fill="none" transform="rotate(35,80,45)"/>
-            <ellipse cx="80" cy="45" rx="16" ry="7" class="mindmap-orbit mm-orbit-3" fill="none" transform="rotate(-55,80,45)"/>
-            <ellipse cx="80" cy="45" rx="45" ry="20" class="mindmap-orbit mm-orbit-4" fill="none" transform="rotate(15,80,45)"/>
-            <ellipse cx="80" cy="45" rx="30" ry="12" class="mindmap-orbit mm-orbit-5" fill="none" transform="rotate(-40,80,45)"/>
             <g id="mm-lines">
                 <line x1="80" y1="45" x2="80" y2="5" class="mindmap-line" data-node="0"/>
                 <line x1="80" y1="45" x2="120" y2="12" class="mindmap-line" data-node="1"/>

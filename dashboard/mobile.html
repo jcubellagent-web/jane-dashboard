@@ -773,40 +773,69 @@
 
         // Tool/label → brain region mapping
         // Regions: 0=REASONING, 1=CODE, 2=WEB, 3=SOCIAL, 4=DATA, 5=MARKET, 6=MEMORY, 7=LANGUAGE
-        const toolToRegions = {
-            // By tool name
-            opus: [0], claude: [0], sonnet: [0],
-            exec: [1], code: [1], script: [1], compile: [1], build: [1],
-            web_search: [2], web_fetch: [2], browser: [2], search: [2], fetch: [2],
-            message: [3], tweet: [3], x: [3], whatsapp: [3], discord: [3], social: [3], post: [3], reply: [3],
-            read: [4,6], write: [4,1], edit: [1], data: [4], json: [4], file: [4],
-            trading: [5], market: [5], swap: [5], jupiter: [5], solana: [5], sorare: [5], kalshi: [5], price: [5],
-            memory: [6], memory_search: [6], memory_get: [6], recall: [6],
-            whisper: [7], tts: [7], transcri: [7], voice: [7], language: [7], ollama: [7],
-            // Stable diffusion
-            sd: [1,4], image: [1,4],
+        // Keyword → brain region mapping
+        // Regions: 0=REASONING, 1=CODE, 2=WEB, 3=SOCIAL, 4=DATA, 5=MARKET, 6=MEMORY, 7=LANGUAGE
+        const keywordToRegions = {
+            // Reasoning keywords
+            reason: [0], analy: [0], think: [0], strateg: [0], plan: [0], evaluat: [0],
+            // Code keywords
+            code: [1], exec: [1], script: [1], compil: [1], build: [1], edit: [1], function: [1], debug: [1], generat: [1],
+            // Web keywords
+            search: [2], web: [2], fetch: [2], browser: [2], scrape: [2], crawl: [2], url: [2],
+            // Social keywords
+            social: [3], tweet: [3], post: [3], reply: [3], message: [3], discord: [3], whatsapp: [3], engag: [3], draft: [3],
+            // Data keywords
+            data: [4], json: [4], file: [4], read: [4], write: [4], dashboard: [4], stat: [4], process: [4],
+            // Market keywords
+            market: [5], trad: [5], swap: [5], jupiter: [5], solana: [5], sol: [5], sorare: [5], kalshi: [5], price: [5], crypto: [5], defi: [5], token: [5],
+            // Memory keywords
+            memory: [6], recall: [6], remember: [6], knowledge: [6], history: [6], embed: [6],
+            // Language keywords
+            transcri: [7], voice: [7], audio: [7], speech: [7], language: [7], tts: [7],
+            // Image
+            image: [1,4], avatar: [1,4], render: [1,4], visual: [1,4],
         };
 
+        // Model name normalization (tool field → canonical model)
+        const modelNames = new Set(['opus','claude','sonnet','whisper','ollama','sd']);
+
         function getActiveRegions(steps) {
-            const regions = new Map(); // regionIndex → {model, tool}
+            const regions = new Map(); // regionIndex → model name
             if (!steps || !steps.length) return regions;
             const activeSteps = steps.filter(s => s.status === 'active' || s.status === 'done');
             for (const step of activeSteps) {
                 const label = (step.label || '').toLowerCase();
                 const tool = (step.tool || '').toLowerCase();
+                // Determine model from tool field (should be model name like opus, sonnet, whisper, etc.)
+                const model = modelNames.has(tool) ? tool : 'opus';
                 let matched = false;
-                for (const [key, indices] of Object.entries(toolToRegions)) {
-                    if (tool === key || label.includes(key)) {
+                // Match keywords from label
+                for (const [keyword, indices] of Object.entries(keywordToRegions)) {
+                    if (label.includes(keyword)) {
                         for (const idx of indices) {
-                            if (!regions.has(idx)) regions.set(idx, tool || 'opus');
+                            if (!regions.has(idx)) regions.set(idx, model);
                         }
                         matched = true;
                     }
                 }
-                // Default: if step has a tool but no region match, map to REASONING
-                if (!matched && tool) regions.set(0, tool);
+                // Also check tool field as keyword (for backward compat)
+                if (!matched) {
+                    for (const [keyword, indices] of Object.entries(keywordToRegions)) {
+                        if (tool.includes(keyword)) {
+                            for (const idx of indices) {
+                                if (!regions.has(idx)) regions.set(idx, model);
+                            }
+                            matched = true;
+                        }
+                    }
+                }
+                // Default: if tool is a known model, map to its natural region
+                if (!matched) {
+                    const modelRegion = {opus:0, claude:0, sonnet:0, whisper:7, ollama:7, sd:1}[model];
+                    if (modelRegion !== undefined) regions.set(modelRegion, model);
+                    else regions.set(0, model);
+                }
             }
-            // Always light REASONING if nothing else matched
             if (regions.size === 0) regions.set(0, 'opus');
             return regions;
         }

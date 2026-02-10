@@ -4,9 +4,9 @@
 🧠 AI DAILY BRIEF — [Day] [Date]
 
 🌪️ IS ANYTHING TAKING THE WORLD BY STORM?
-[YES / NO]
+[YES 🚀 / NO]
 
-[If YES: What's spiking — a product launch, viral meme, trend, news event, or narrative shift that's showing a sharp surge in interest since the last brief. Link/context if available.]
+[If YES 🚀: What's spiking — a product launch, viral meme, trend, news event, or narrative shift that's showing a sharp surge in interest since the last brief. Link/context if available.]
 
 [If NO: "Nothing breaking through the noise right now. Here's what's moving underneath 👇"]
 

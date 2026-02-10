@@ -1021,11 +1021,12 @@
         })();
 
         // Pull to refresh
-        let ptrStart = 0, ptrActive = false;
+        let ptrStart = 0, ptrActive = false, ptrRefreshing = false;
         const ptr = document.getElementById('ptr');
+        const mainContent = document.querySelector('.container') || document.body;
 
         document.addEventListener('touchstart', e => {
-            if (window.scrollY === 0) {
+            if (window.scrollY === 0 && !ptrRefreshing) {
                 ptrStart = e.touches[0].clientY;
                 ptrActive = true;
             }
@@ -1037,6 +1038,9 @@
             if (dy > 30 && dy < 120) {
                 ptr.classList.add('visible');
                 ptr.style.top = Math.min(dy - 30, 20) + 'px';
+                // Hold content down during pull
+                mainContent.style.transform = `translateY(${Math.min(dy * 0.3, 30)}px)`;
+                mainContent.style.transition = 'none';
             }
         }, { passive: true });
 
@@ -1044,13 +1048,23 @@
             if (!ptrActive) return;
             ptrActive = false;
             if (ptr.classList.contains('visible')) {
+                ptrRefreshing = true;
                 ptr.classList.add('spinning');
-                refreshStatus().then(() => {
-                    setTimeout(() => {
-                        ptr.classList.remove('visible', 'spinning');
-                        ptr.style.top = '';
-                    }, 400);
+                // Hold content offset while refreshing
+                mainContent.style.transition = 'transform 0.2s ease';
+                mainContent.style.transform = 'translateY(30px)';
+                // Refresh everything
+                Promise.all([refreshStatus(), refreshMind()]).then(() => {
+                    // Smooth dismiss
+                    mainContent.style.transition = 'transform 0.3s ease';
+                    mainContent.style.transform = '';
+                    ptr.classList.remove('visible', 'spinning');
+                    ptr.style.top = '';
+                    ptrRefreshing = false;
                 });
+            } else {
+                mainContent.style.transition = 'transform 0.2s ease';
+                mainContent.style.transform = '';
             }
         });
     </script>

@@ -923,33 +923,43 @@
         setInterval(refreshStatus, 30000);
         setInterval(refreshMind, 5000);
 
-        // Neural Network Sphere
+        // Angular Neural Network
         (function initNeuralSphere() {
             const canvas = document.getElementById('neural-sphere');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             const W = canvas.width, H = canvas.height;
             const cx = W/2, cy = H/2;
-            const R = 70; // sphere radius
+            const R = 90; // wider spread
 
-            // Generate sphere points using fibonacci sphere (less dense)
-            const numPoints = 40;
-            const points = [];
-            const phi = Math.PI * (3 - Math.sqrt(5));
-            for (let i = 0; i < numPoints; i++) {
-                const y = 1 - (i / (numPoints-1)) * 2;
-                const r = Math.sqrt(1 - y*y);
-                const theta = phi * i;
-                points.push({ x: r*Math.cos(theta), y: y, z: r*Math.sin(theta) });
-            }
+            // Icosahedron vertices (12 points — angular, geometric)
+            const t = (1 + Math.sqrt(5)) / 2; // golden ratio
+            const raw = [
+                [-1,t,0],[1,t,0],[-1,-t,0],[1,-t,0],
+                [0,-1,t],[0,1,t],[0,-1,-t],[0,1,-t],
+                [t,0,-1],[t,0,1],[-t,0,-1],[-t,0,1]
+            ];
+            // Normalize to unit sphere
+            const norm = Math.sqrt(1 + t*t);
+            const points = raw.map(([x,y,z]) => ({x:x/norm, y:y/norm, z:z/norm}));
 
-            // Build connections (connect nearby points, sparser)
+            // Add 8 midpoints on select edges for slight detail
+            const midEdges = [[0,1],[0,5],[1,5],[4,5],[4,9],[5,9],[1,9],[0,11],[5,11],[4,11]];
+            midEdges.forEach(([a,b]) => {
+                const mx = (points[a].x+points[b].x)/2;
+                const my = (points[a].y+points[b].y)/2;
+                const mz = (points[a].z+points[b].z)/2;
+                const ml = Math.sqrt(mx*mx+my*my+mz*mz);
+                points.push({x:mx/ml, y:my/ml, z:mz/ml});
+            });
+
+            // Build connections — connect points within distance threshold
             const connections = [];
-            for (let i = 0; i < numPoints; i++) {
-                for (let j = i+1; j < numPoints; j++) {
+            for (let i = 0; i < points.length; i++) {
+                for (let j = i+1; j < points.length; j++) {
                     const dx = points[i].x-points[j].x, dy = points[i].y-points[j].y, dz = points[i].z-points[j].z;
                     const dist = Math.sqrt(dx*dx+dy*dy+dz*dz);
-                    if (dist < 0.65) connections.push([i,j]);
+                    if (dist < 0.8) connections.push([i,j]);
                 }
             }
 
@@ -958,22 +968,19 @@
 
             function render() {
                 const isActive = document.getElementById('mindmap-card')?.classList.contains('mindmap-active');
-                const speed = isActive ? 0.004 : 0.001; // much slower rotation
-                const breatheSpeed = isActive ? 0.02 : 0.008; // slower breathing
+                const speed = isActive ? 0.003 : 0.0008;
+                const breatheSpeed = isActive ? 0.015 : 0.006;
                 angle += speed;
                 breathe += breatheSpeed;
 
-                // Brightness breathing (no size change)
-                const breatheMult = 0.7 + Math.sin(breathe) * 0.3; // 0.4-1.0 brightness range
-                const baseAlpha = (isActive ? 0.2 : 0.08) * breatheMult;
-                const lineAlpha = (isActive ? 0.1 : 0.03) * breatheMult;
-                const glowAlpha = (isActive ? 0.3 : 0.1) * breatheMult;
+                const breatheMult = 0.6 + Math.sin(breathe) * 0.4;
+                const baseAlpha = (isActive ? 0.18 : 0.06) * breatheMult;
+                const lineAlpha = (isActive ? 0.08 : 0.025) * breatheMult;
 
                 ctx.clearRect(0, 0, W, H);
 
-                // Project 3D → 2D with rotation (fixed size, no scale pulsing)
                 const cosA = Math.cos(angle), sinA = Math.sin(angle);
-                const cosT = Math.cos(angle*0.3), sinT = Math.sin(angle*0.3);
+                const cosT = Math.cos(angle*0.4), sinT = Math.sin(angle*0.4);
                 const projected = points.map(p => {
                     let x = p.x*cosA + p.z*sinA;
                     let z = -p.x*sinA + p.z*cosA;
@@ -981,16 +988,11 @@
                     let y2 = y*cosT - z*sinT;
                     let z2 = y*sinT + z*cosT;
                     const depth = (z2 + 1.5) / 3;
-                    return {
-                        sx: cx + x * R,
-                        sy: cy + y2 * R * 0.75,
-                        depth: depth,
-                        z: z2
-                    };
+                    return { sx: cx + x * R, sy: cy + y2 * R * 0.7, depth, z: z2 };
                 });
 
-                // Draw connections
-                ctx.lineWidth = 0.4;
+                // Angular connections
+                ctx.lineWidth = 0.3;
                 connections.forEach(([i,j]) => {
                     const a = projected[i], b = projected[j];
                     const avgDepth = (a.depth + b.depth) / 2;
@@ -1001,19 +1003,11 @@
                     ctx.stroke();
                 });
 
-                // Draw points (sorted by depth)
+                // Vertices
                 const sorted = projected.map((p,i) => ({...p, i})).sort((a,b) => a.z - b.z);
                 sorted.forEach(p => {
-                    const r = 0.6 + p.depth * 1.0; // consistent smaller size
-                    const alpha = baseAlpha * p.depth + 0.01;
-
-                    // Subtle glow on front-facing points
-                    if (p.depth > 0.5) {
-                        ctx.beginPath();
-                        ctx.arc(p.sx, p.sy, r*2.5, 0, Math.PI*2);
-                        ctx.fillStyle = `rgba(74,222,128,${glowAlpha * (p.depth-0.5) * 0.3})`;
-                        ctx.fill();
-                    }
+                    const r = p.i < 12 ? 1.0 : 0.5; // icosahedron verts bigger, midpoints smaller
+                    const alpha = baseAlpha * p.depth + 0.008;
 
                     ctx.beginPath();
                     ctx.arc(p.sx, p.sy, r, 0, Math.PI*2);

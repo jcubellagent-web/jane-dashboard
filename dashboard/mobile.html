@@ -279,30 +279,35 @@
         }
         .mindmap-orbit {
             stroke: rgba(74,222,128,0.15);
-            stroke-width: 0.8;
+            stroke-width: 0.7;
             stroke-linecap: round;
             transform-origin: 80px 45px;
         }
-        .mm-orbit-1 { stroke-dasharray: 15 160; }
-        .mm-orbit-2 { stroke-dasharray: 12 100; }
-        .mm-orbit-3 { stroke-dasharray: 8 80; }
-        .mm-orbit-4 { stroke-dasharray: 20 230; }
-        .mm-orbit-5 { stroke-dasharray: 10 120; }
+        .mm-orbit-1 { stroke-width: 0.8; }
+        .mm-orbit-3 { stroke-width: 0.5; }
+        .mm-orbit-4 { stroke-width: 0.9; }
+        .mm-orbit-5 { stroke-width: 0.6; }
+        }
+        .mm-orbit-1 { stroke-dasharray: 25 160; }
+        .mm-orbit-2 { stroke-dasharray: 18 100; }
+        .mm-orbit-3 { stroke-dasharray: 12 60; }
+        .mm-orbit-4 { stroke-dasharray: 30 230; }
+        .mm-orbit-5 { stroke-dasharray: 15 120; }
 
         @keyframes mmScanCW { 0% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -314; } }
         @keyframes mmScanCCW { 0% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 314; } }
 
-        .mindmap-idle .mm-orbit-1 { animation: mmScanCW 8s linear infinite; opacity: 0.15; }
-        .mindmap-idle .mm-orbit-2 { animation: mmScanCCW 6s linear infinite; opacity: 0.15; }
-        .mindmap-idle .mm-orbit-3 { animation: mmScanCW 5s linear infinite; opacity: 0.15; }
-        .mindmap-idle .mm-orbit-4 { animation: mmScanCCW 10s linear infinite; opacity: 0.15; }
-        .mindmap-idle .mm-orbit-5 { animation: mmScanCW 7s linear infinite; opacity: 0.15; }
+        .mindmap-idle .mm-orbit-1 { animation: mmScanCW 25s linear infinite; opacity: 0.12; }
+        .mindmap-idle .mm-orbit-2 { animation: mmScanCCW 20s linear infinite; opacity: 0.12; }
+        .mindmap-idle .mm-orbit-3 { animation: mmScanCW 18s linear infinite; opacity: 0.12; }
+        .mindmap-idle .mm-orbit-4 { animation: mmScanCCW 30s linear infinite; opacity: 0.12; }
+        .mindmap-idle .mm-orbit-5 { animation: mmScanCW 22s linear infinite; opacity: 0.12; }
 
-        .mindmap-active .mm-orbit-1 { animation: mmScanCW 3s linear infinite; stroke: rgba(74,222,128,0.35); }
-        .mindmap-active .mm-orbit-2 { animation: mmScanCCW 2.5s linear infinite; stroke: rgba(74,222,128,0.35); }
-        .mindmap-active .mm-orbit-3 { animation: mmScanCW 2s linear infinite; stroke: rgba(74,222,128,0.4); }
-        .mindmap-active .mm-orbit-4 { animation: mmScanCCW 4s linear infinite; stroke: rgba(74,222,128,0.3); }
-        .mindmap-active .mm-orbit-5 { animation: mmScanCW 2.8s linear infinite; stroke: rgba(74,222,128,0.35); }
+        .mindmap-active .mm-orbit-1 { animation: mmScanCW 16s linear infinite; stroke: rgba(74,222,128,0.3); }
+        .mindmap-active .mm-orbit-2 { animation: mmScanCCW 12s linear infinite; stroke: rgba(74,222,128,0.3); }
+        .mindmap-active .mm-orbit-3 { animation: mmScanCW 10s linear infinite; stroke: rgba(74,222,128,0.35); }
+        .mindmap-active .mm-orbit-4 { animation: mmScanCCW 20s linear infinite; stroke: rgba(74,222,128,0.25); }
+        .mindmap-active .mm-orbit-5 { animation: mmScanCW 14s linear infinite; stroke: rgba(74,222,128,0.3); }
 
         .mindmap-node {
             fill: rgba(74,222,128,0.15);
@@ -550,11 +555,11 @@
             <circle cx="80" cy="45" r="18" fill="url(#mmGlow)" class="mindmap-glow"/>
             <circle cx="80" cy="45" r="18" class="mindmap-ring"/>
             <circle cx="80" cy="45" r="34" class="mindmap-ring"/>
-            <circle cx="80" cy="45" r="38" class="mindmap-orbit mm-orbit-1" fill="none"/>
-            <circle cx="80" cy="45" r="22" class="mindmap-orbit mm-orbit-2" fill="none"/>
-            <circle cx="80" cy="45" r="16" class="mindmap-orbit mm-orbit-3" fill="none"/>
-            <circle cx="80" cy="45" r="45" class="mindmap-orbit mm-orbit-4" fill="none"/>
-            <circle cx="80" cy="45" r="30" class="mindmap-orbit mm-orbit-5" fill="none"/>
+            <ellipse cx="80" cy="45" rx="38" ry="18" class="mindmap-orbit mm-orbit-1" fill="none" transform="rotate(-20,80,45)"/>
+            <ellipse cx="80" cy="45" rx="22" ry="10" class="mindmap-orbit mm-orbit-2" fill="none" transform="rotate(35,80,45)"/>
+            <ellipse cx="80" cy="45" rx="16" ry="7" class="mindmap-orbit mm-orbit-3" fill="none" transform="rotate(-55,80,45)"/>
+            <ellipse cx="80" cy="45" rx="45" ry="20" class="mindmap-orbit mm-orbit-4" fill="none" transform="rotate(15,80,45)"/>
+            <ellipse cx="80" cy="45" rx="30" ry="12" class="mindmap-orbit mm-orbit-5" fill="none" transform="rotate(-40,80,45)"/>
             <g id="mm-lines">
                 <line x1="80" y1="45" x2="80" y2="5" class="mindmap-line" data-node="0"/>
                 <line x1="80" y1="45" x2="120" y2="12" class="mindmap-line" data-node="1"/>

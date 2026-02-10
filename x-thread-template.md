@@ -15,7 +15,7 @@ Thread 👇
 🔴 Google DeepMind: [latest]
 🟣 Meta AI: [latest]
 ⚪ Mistral: [latest]
-🟠 xAI: [latest]
+⚫ xAI: [latest]
 🔷 DeepSeek: [latest]
 
 📌 ALSO NOTABLE:

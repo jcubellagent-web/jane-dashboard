@@ -112,9 +112,16 @@ _Distilled wisdom from daily experiences. Updated periodically._
 
 ---
 
+### Market Data APIs (Feb 10)
+- **Finnhub**: .secrets/finnhub_api_key.txt — 60 req/min, real-time stock quotes
+- **Alpha Vantage**: .secrets/alphavantage_api_key.txt — 25 req/day, NASDAQ top movers
+- **CoinGecko**: .secrets/coingecko_api_key.txt — 10k/mo, header `x-cg-demo-api-key`
+- All tested and working
+
 ## Josh Notes
 
 - Prefers to be kept in the loop during long operations
+- Stays up late — don't nag about sleep
 - Heavy tasks should spawn sub-agents to keep main chat responsive
 - First trading session together went well - trust established
 - Prefers tooltips/displays to show only what's actually live, not aspirational
@@ -149,9 +156,18 @@ _Distilled wisdom from daily experiences. Updated periodically._
 - Solution: Browser scraping via heartbeats every 2-3 hours
 - Manual refresh: button writes `.x-refresh-requested` flag → heartbeat picks up
 
-### X Content Strategy (Feb 9 rebrand — aggressive mode)
+### X Content Strategy (Feb 10 — full automation live)
 - **Niche**: Daily AI news briefs + aggressive reply engagement
 - **BANNED TOPICS**: crypto-security, wallet security, agent security (Josh very explicit)
+- **Anchor format**: 🌪️ IS ANYTHING TAKING THE WORLD BY STORM? YES 🚀 / NO
+- **Morning pipeline**: 8:00 AM pre-fetch (Gmail newsletters + APIs) → 8:30 AM full 6-tweet thread
+- **Intraday updates**: 12:30/3:00/6:00 PM — quote-tweet morning anchor, only net-new changes
+- **Reply cadence**: 5-6 every 2 hours, 8am-10pm ET (~48/day)
+- **Breaking news**: Jump on immediately, no cap on posts
+- **Follow strategy**: Mix of degen CT (Becker, Elio types) + rising small accounts + strategic big
+- **Overnight follows**: 10/hr from 2-7 AM
+- **Growth feedback**: Nightly report at 10 PM analyzing what works
+- **Newsletter sources**: TLDR AI/Tech/Crypto, Rundown AI, Alpha Signal, Morning Brew
 - **Thread format (6 tweets)**: Anchor+Storm Check → Providers → M&A (High Prob + Rumor Mill) → NASDAQ 100 → Crypto → Hot Take
 - **Provider emojis**: Anthropic🟢 OpenAI🔵 DeepMind🔴 Meta🟣 Mistral⚪ xAI⚫ DeepSeek🔷
 - **Engagement cadence**: 5-6 replies every 2 hours, 8am-midnight ET (~48 replies/day + 4 threads)
@@ -226,4 +242,11 @@ _Distilled wisdom from daily experiences. Updated periodically._
 - Background refresh script: `dashboard/refresh-mobile-data.sh` (every 60s)
 - Mini #1 Tailscale IP: 100.121.89.84
 
-_Last updated: 2026-02-09_
+### Mobile Dashboard WebSocket (Feb 10)
+- WebSocket client added to mobile.html for real-time push
+- Listens for: x-stats, x-tweets, mind, sessions file changes
+- Auto-reconnects on disconnect (3s delay)
+- Ticker widget: single-tap expand/collapse showing full prices
+- IBIT removed from ticker per Josh
+
+_Last updated: 2026-02-10_

@@ -272,56 +272,15 @@
             width: 280px;
             height: 160px;
         }
-        .mindmap-ring {
-            fill: none;
-            stroke: rgba(74,222,128,0.04);
-            stroke-width: 0.3;
+        /* Neural sphere canvas */
+        .neural-sphere-canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
-        .mindmap-grid-ring {
-            fill: none;
-            stroke: rgba(74,222,128,0.03);
-            stroke-width: 0.2;
-        }
-        .mindmap-active .mindmap-grid-ring {
-            stroke: rgba(74,222,128,0.06);
-        }
-        .mindmap-radial {
-            stroke: rgba(74,222,128,0.02);
-            stroke-width: 0.2;
-            stroke-dasharray: 1 3;
-        }
-        .mindmap-active .mindmap-radial {
-            stroke: rgba(74,222,128,0.04);
-        }
-        /* Rotating scan sweep */
-        .mindmap-sweep {
-            fill: none;
-            stroke-width: 0;
-        }
-        .mm-sweep-cone {
-            opacity: 0.04;
-            transform-origin: 80px 45px;
-            animation: mmSweep 12s linear infinite;
-        }
-        .mindmap-active .mm-sweep-cone {
-            opacity: 0.08;
-            animation: mmSweep 8s linear infinite;
-        }
-        @keyframes mmSweep { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        /* Ambient particles */
-        .mm-particle {
-            fill: rgba(74,222,128,0.15);
-            animation: mmDrift 20s linear infinite;
-        }
-        .mindmap-active .mm-particle {
-            fill: rgba(74,222,128,0.3);
-        }
-        @keyframes mmDrift {
-            0% { opacity: 0; }
-            10% { opacity: 0.4; }
-            90% { opacity: 0.4; }
-            100% { opacity: 0; transform: translateY(-8px); }
-        }
+        .mindmap-svg { position: relative; z-index: 1; }
 
         .mindmap-node {
             fill: rgba(74,222,128,0.15);
@@ -561,6 +520,7 @@
             <span class="mm-legend-dot" id="mm-dot-ollama" style="color:#f97316;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Ollama</span></span>
             <span class="mm-legend-dot" id="mm-dot-sd" style="color:#ec4899;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">SD</span></span>
         </div>
+        <canvas id="neural-sphere" class="neural-sphere-canvas" width="280" height="210"></canvas>
         <svg class="mindmap-svg" viewBox="0 -8 160 110" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <radialGradient id="mmGlow" cx="50%" cy="50%" r="50%">
@@ -568,42 +528,7 @@
                     <stop offset="40%" stop-color="rgba(74,222,128,0.04)"/>
                     <stop offset="100%" stop-color="rgba(74,222,128,0)"/>
                 </radialGradient>
-                <radialGradient id="mmAtmosphere" cx="50%" cy="45%" r="60%">
-                    <stop offset="0%" stop-color="rgba(74,222,128,0.06)"/>
-                    <stop offset="50%" stop-color="rgba(20,40,30,0.03)"/>
-                    <stop offset="100%" stop-color="transparent"/>
-                </radialGradient>
             </defs>
-            <!-- Full-field atmosphere -->
-            <rect x="0" y="-8" width="160" height="110" fill="url(#mmAtmosphere)"/>
-            <!-- Atmosphere glow -->
-            <circle cx="80" cy="45" r="50" fill="url(#mmGlow)" class="mindmap-glow"/>
-            <!-- Concentric grid rings (radar style) -->
-            <circle cx="80" cy="45" r="12" class="mindmap-grid-ring"/>
-            <circle cx="80" cy="45" r="24" class="mindmap-grid-ring"/>
-            <circle cx="80" cy="45" r="36" class="mindmap-grid-ring"/>
-            <circle cx="80" cy="45" r="48" class="mindmap-grid-ring"/>
-            <!-- Radial crosshair lines -->
-            <line x1="80" y1="-5" x2="80" y2="95" class="mindmap-radial"/>
-            <line x1="10" y1="45" x2="150" y2="45" class="mindmap-radial"/>
-            <line x1="35" y1="0" x2="125" y2="90" class="mindmap-radial"/>
-            <line x1="125" y1="0" x2="35" y2="90" class="mindmap-radial"/>
-            <!-- Rotating radar sweep -->
-            <path d="M80,45 L80,-5 A50,50 0 0,1 120,10 Z" fill="rgba(74,222,128,0.06)" class="mm-sweep-cone"/>
-            <!-- Ambient particles (stars) -->
-            <circle cx="25" cy="15" r="0.4" class="mm-particle" style="animation-delay:0s;"/>
-            <circle cx="140" cy="20" r="0.3" class="mm-particle" style="animation-delay:3s;"/>
-            <circle cx="10" cy="70" r="0.5" class="mm-particle" style="animation-delay:7s;"/>
-            <circle cx="150" cy="75" r="0.3" class="mm-particle" style="animation-delay:11s;"/>
-            <circle cx="60" cy="0" r="0.4" class="mm-particle" style="animation-delay:5s;"/>
-            <circle cx="100" cy="92" r="0.3" class="mm-particle" style="animation-delay:14s;"/>
-            <circle cx="5" cy="45" r="0.4" class="mm-particle" style="animation-delay:9s;"/>
-            <circle cx="155" cy="50" r="0.3" class="mm-particle" style="animation-delay:2s;"/>
-            <circle cx="45" cy="90" r="0.4" class="mm-particle" style="animation-delay:16s;"/>
-            <circle cx="130" cy="5" r="0.3" class="mm-particle" style="animation-delay:12s;"/>
-            <!-- Faint orbital rings (true circles, very subtle) -->
-            <circle cx="80" cy="45" r="18" class="mindmap-ring"/>
-            <circle cx="80" cy="45" r="34" class="mindmap-ring"/>
             <g id="mm-lines">
                 <line x1="80" y1="45" x2="80" y2="5" class="mindmap-line" data-node="0"/>
                 <line x1="80" y1="45" x2="120" y2="12" class="mindmap-line" data-node="1"/>
@@ -988,6 +913,113 @@
         refreshMind();
         setInterval(refreshStatus, 30000);
         setInterval(refreshMind, 5000);
+
+        // Neural Network Sphere
+        (function initNeuralSphere() {
+            const canvas = document.getElementById('neural-sphere');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const W = canvas.width, H = canvas.height;
+            const cx = W/2, cy = H/2;
+            const R = 70; // sphere radius
+
+            // Generate sphere points using fibonacci sphere
+            const numPoints = 60;
+            const points = [];
+            const phi = Math.PI * (3 - Math.sqrt(5)); // golden angle
+            for (let i = 0; i < numPoints; i++) {
+                const y = 1 - (i / (numPoints-1)) * 2;
+                const r = Math.sqrt(1 - y*y);
+                const theta = phi * i;
+                points.push({ x: r*Math.cos(theta), y: y, z: r*Math.sin(theta) });
+            }
+
+            // Build connections (connect nearby points)
+            const connections = [];
+            for (let i = 0; i < numPoints; i++) {
+                for (let j = i+1; j < numPoints; j++) {
+                    const dx = points[i].x-points[j].x, dy = points[i].y-points[j].y, dz = points[i].z-points[j].z;
+                    const dist = Math.sqrt(dx*dx+dy*dy+dz*dz);
+                    if (dist < 0.7) connections.push([i,j]);
+                }
+            }
+
+            let angle = 0;
+            let breathe = 0;
+
+            function render() {
+                const isActive = document.getElementById('mindmap-card')?.classList.contains('mindmap-active');
+                const speed = isActive ? 0.008 : 0.002;
+                const breatheSpeed = isActive ? 0.04 : 0.015;
+                angle += speed;
+                breathe += breatheSpeed;
+
+                const breatheScale = 1 + Math.sin(breathe) * (isActive ? 0.06 : 0.04);
+                const baseAlpha = isActive ? 0.25 : 0.1;
+                const lineAlpha = isActive ? 0.12 : 0.04;
+                const glowR = isActive ? 0.4 : 0.15;
+
+                ctx.clearRect(0, 0, W, H);
+
+                // Project 3D → 2D with rotation
+                const cosA = Math.cos(angle), sinA = Math.sin(angle);
+                const cosT = Math.cos(angle*0.3), sinT = Math.sin(angle*0.3); // slight tilt
+                const projected = points.map(p => {
+                    // Rotate Y axis
+                    let x = p.x*cosA + p.z*sinA;
+                    let z = -p.x*sinA + p.z*cosA;
+                    let y = p.y;
+                    // Slight X rotation for tilt
+                    let y2 = y*cosT - z*sinT;
+                    let z2 = y*sinT + z*cosT;
+                    const scale = breatheScale;
+                    const depth = (z2 + 1.5) / 3; // 0-1 depth for sizing
+                    return {
+                        sx: cx + x * R * scale,
+                        sy: cy + y2 * R * scale * 0.75, // slight vertical compression for perspective
+                        depth: depth,
+                        z: z2
+                    };
+                });
+
+                // Draw connections (back to front)
+                ctx.lineWidth = 0.5;
+                connections.forEach(([i,j]) => {
+                    const a = projected[i], b = projected[j];
+                    const avgDepth = (a.depth + b.depth) / 2;
+                    const alpha = lineAlpha * avgDepth;
+                    ctx.strokeStyle = `rgba(74,222,128,${alpha})`;
+                    ctx.beginPath();
+                    ctx.moveTo(a.sx, a.sy);
+                    ctx.lineTo(b.sx, b.sy);
+                    ctx.stroke();
+                });
+
+                // Draw points (sorted by depth)
+                const sorted = projected.map((p,i) => ({...p, i})).sort((a,b) => a.z - b.z);
+                sorted.forEach(p => {
+                    const r = 0.8 + p.depth * 1.5;
+                    const alpha = baseAlpha * p.depth + 0.02;
+
+                    // Glow
+                    if (p.depth > 0.5) {
+                        ctx.beginPath();
+                        ctx.arc(p.sx, p.sy, r*3, 0, Math.PI*2);
+                        ctx.fillStyle = `rgba(74,222,128,${glowR * (p.depth-0.5)})`;
+                        ctx.fill();
+                    }
+
+                    // Point
+                    ctx.beginPath();
+                    ctx.arc(p.sx, p.sy, r, 0, Math.PI*2);
+                    ctx.fillStyle = `rgba(74,222,128,${alpha})`;
+                    ctx.fill();
+                });
+
+                requestAnimationFrame(render);
+            }
+            requestAnimationFrame(render);
+        })();
 
         // Pull to refresh
         let ptrStart = 0, ptrActive = false;

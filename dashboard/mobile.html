@@ -290,6 +290,12 @@
         }
         .tk-c.pos { color: #4ade80; }
         .tk-c.neg { color: #ef4444; }
+        .tk-logo {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
 
         .mindmap-svg {
             width: 280px;
@@ -615,10 +621,10 @@
     <!-- Ticker Strip -->
     <div class="card" id="ticker-strip" style="padding:0.4rem 0.6rem;overflow:hidden;">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:0.3rem;" id="ticker-row">
-            <span class="tk" id="tk-btc">BTC <span class="tk-c">--%</span></span>
-            <span class="tk" id="tk-eth">ETH <span class="tk-c">--%</span></span>
-            <span class="tk" id="tk-sol">SOL <span class="tk-c">--%</span></span>
-            <span class="tk" id="tk-ndaq">NDAQ <span class="tk-c">--%</span></span>
+            <span class="tk" id="tk-btc"><img src="https://assets.coingecko.com/coins/images/1/small/bitcoin.png" class="tk-logo"> <span class="tk-c">--%</span></span>
+            <span class="tk" id="tk-eth"><img src="https://assets.coingecko.com/coins/images/279/small/ethereum.png" class="tk-logo"> <span class="tk-c">--%</span></span>
+            <span class="tk" id="tk-sol"><img src="https://assets.coingecko.com/coins/images/4128/small/solana.png" class="tk-logo"> <span class="tk-c">--%</span></span>
+            <span class="tk" id="tk-ndaq"><img src="https://www.nasdaq.com/sites/acquia.prod/files/2020/09/24/nasdaq.jpg" class="tk-logo" style="border-radius:3px;object-fit:cover;"> <span class="tk-c">--%</span></span>
         </div>
     </div>
 

@@ -1,9 +1,14 @@
 # X Daily AI Brief — Thread Template
 
-## Tweet 1 (Anchor)
+## Tweet 1 (Anchor + Storm Check)
 🧠 AI DAILY BRIEF — [Day] [Date]
 
-Today's foundational model updates + headlines from the biggest players in AI.
+⚡ TAKING THE WORLD BY STORM?
+[YES / NO]
+
+[If YES: What's spiking — a product launch, viral meme, trend, news event, or narrative shift that's showing a sharp surge in interest since the last brief. Link/context if available.]
+
+[If NO: "Nothing breaking through the noise right now. Here's what's moving underneath 👇"]
 
 Thread 👇
 

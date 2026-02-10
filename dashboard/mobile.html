@@ -976,8 +976,8 @@
                 breathe += breatheSpeed;
 
                 const breatheMult = 0.35 + Math.sin(breathe) * 0.65;
-                const baseAlpha = (isActive ? 0.22 : 0.14) * breatheMult;
-                const lineAlpha = (isActive ? 0.10 : 0.06) * breatheMult;
+                const baseAlpha = (isActive ? 0.70 : 0.45) * breatheMult;
+                const lineAlpha = (isActive ? 0.35 : 0.20) * breatheMult;
 
                 ctx.clearRect(0, 0, W, H);
 

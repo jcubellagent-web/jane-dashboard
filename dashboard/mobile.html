@@ -270,6 +270,27 @@
             color: var(--text-dim);
             letter-spacing: 0.05em;
         }
+        /* Ticker strip */
+        .tk {
+            font-size: 0.55rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.5);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+        .tk-p {
+            color: rgba(255,255,255,0.85);
+            font-variant-numeric: tabular-nums;
+        }
+        .tk-c {
+            font-size: 0.5rem;
+            font-variant-numeric: tabular-nums;
+        }
+        .tk-c.pos { color: #4ade80; }
+        .tk-c.neg { color: #ef4444; }
+
         .mindmap-svg {
             width: 280px;
             height: 160px;
@@ -488,6 +509,17 @@
         </div>
     </div>
 
+    <!-- Ticker Strip -->
+    <div class="card" id="ticker-strip" style="padding:0.4rem 0.6rem;overflow:hidden;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:0.3rem;" id="ticker-row">
+            <span class="tk" id="tk-btc">BTC <span class="tk-p">--</span> <span class="tk-c">--%</span></span>
+            <span class="tk" id="tk-eth">ETH <span class="tk-p">--</span> <span class="tk-c">--%</span></span>
+            <span class="tk" id="tk-sol">SOL <span class="tk-p">--</span> <span class="tk-c">--%</span></span>
+            <span class="tk" id="tk-ndaq">NDAQ <span class="tk-p">--</span> <span class="tk-c">--%</span></span>
+            <span class="tk" id="tk-ibit">IBIT <span class="tk-p">--</span> <span class="tk-c">--%</span></span>
+        </div>
+    </div>
+
     <!-- Connected Accounts (collapsible) -->
     <div class="card" id="conn-card" style="padding:0.5rem 0.75rem;">
         <div id="conn-toggle" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;-webkit-tap-highlight-color:transparent;">
@@ -639,6 +671,29 @@
                         m2.className = 'status-pill red';
                     }
                 }
+            }
+        }
+
+        async function refreshTicker() {
+            const data = await fetchJSON('/api/ticker');
+            if (!data) return;
+            const fmt = (v, isDollar) => {
+                if (v == null) return '--';
+                if (isDollar) return v >= 1000 ? '$' + v.toLocaleString('en',{maximumFractionDigits:0}) : '$' + v.toFixed(2);
+                return v.toFixed(2) + '%';
+            };
+            const items = {
+                btc: data.btc, eth: data.eth, sol: data.sol,
+                ndaq: data.ndaq, ibit: data.ibit
+            };
+            for (const [key, val] of Object.entries(items)) {
+                const el = document.getElementById('tk-' + key);
+                if (!el || !val) continue;
+                el.querySelector('.tk-p').textContent = fmt(val.price, true);
+                const chEl = el.querySelector('.tk-c');
+                const ch = val.change24h;
+                chEl.textContent = ch != null ? (ch >= 0 ? '+' : '') + ch.toFixed(1) + '%' : '--%';
+                chEl.className = 'tk-c ' + (ch > 0 ? 'pos' : ch < 0 ? 'neg' : '');
             }
         }
 
@@ -928,8 +983,10 @@
 
         refreshStatus();
         refreshMind();
+        refreshTicker();
         setInterval(refreshStatus, 30000);
         setInterval(refreshMind, 5000);
+        setInterval(refreshTicker, 60000);
 
         // Angular Neural Network
         (function initNeuralSphere() {
@@ -1090,7 +1147,7 @@
                 ptrRefreshing = true;
                 ptrBar.classList.add('loading');
                 ptrFill.style.width = '100%';
-                Promise.all([refreshStatus(), refreshMind()]).then(() => {
+                Promise.all([refreshStatus(), refreshMind(), refreshTicker()]).then(() => {
                     ptrBar.classList.remove('loading');
                     ptrFill.style.transition = 'opacity 1.2s ease-out';
                     ptrFill.style.opacity = '0';

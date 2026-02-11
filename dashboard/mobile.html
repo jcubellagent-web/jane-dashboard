@@ -1766,32 +1766,32 @@
                     return;
                 }
                 
-                // Show enable button
-                if (btn) {
+                // Show enable button AND auto-prompt on first PWA launch
+                async function subscribePush() {
+                    try {
+                        const resp = await fetch('/api/push/vapid-key');
+                        const { publicKey } = await resp.json();
+                        const sub = await reg.pushManager.subscribe({
+                            userVisibleOnly: true,
+                            applicationServerKey: urlBase64ToUint8Array(publicKey)
+                        });
+                        await fetch('/api/push/subscribe', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(sub.toJSON())
+                        });
+                        if (btn) { btn.textContent = '🔔 Notifications ON'; btn.style.color = '#4ade80'; btn.onclick = null; btn.style.display = 'inline-flex'; }
+                    } catch (e) {
+                        console.error('Push subscription failed:', e);
+                        if (btn) { btn.textContent = '🔔 Enable'; btn.style.display = 'inline-flex'; btn.onclick = subscribePush; }
+                    }
+                }
+                // Auto-prompt if in standalone PWA mode
+                if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) {
+                    subscribePush();
+                } else if (btn) {
                     btn.style.display = 'inline-flex';
-                    btn.onclick = async () => {
-                        try {
-                            const resp = await fetch('/api/push/vapid-key');
-                            const { publicKey } = await resp.json();
-                            const sub = await reg.pushManager.subscribe({
-                                userVisibleOnly: true,
-                                applicationServerKey: urlBase64ToUint8Array(publicKey)
-                            });
-                            await fetch('/api/push/subscribe', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(sub.toJSON())
-                            });
-                            btn.textContent = '🔔 Notifications ON';
-                            btn.style.color = '#4ade80';
-                            btn.onclick = null;
-                            // Send test notification
-                            await fetch('/api/push/test', { method: 'POST' });
-                        } catch (e) {
-                            console.error('Push subscription failed:', e);
-                            btn.textContent = '❌ Failed';
-                        }
-                    };
+                    btn.onclick = subscribePush;
                 }
             } catch (e) { console.error('SW registration failed:', e); }
         })();

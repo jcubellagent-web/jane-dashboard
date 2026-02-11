@@ -2177,17 +2177,17 @@ function cronTouchEnd(e){
 }
 function buildGantt(data){
     const now=new Date(), nowH=now.getHours()+now.getMinutes()/60;
-    const catColors={
-        '🌅 Morning':{bg:'#4ade80',text:'#0a2e14',label:'Morning',icon:'🌅'},
-        '☀️ Midday':{bg:'#38bdf8',text:'#0c2d4a',label:'Midday',icon:'☀️'},
-        '🌙 Evening':{bg:'#a78bfa',text:'#1e1245',label:'Evening',icon:'🌙'},
-        '🔄 Recurring':{bg:'#fb923c',text:'#3d1f00',label:'Recurring',icon:'🔄'}
+    const typeColors={
+        thread:{bg:'#4ade80',text:'#0a2e14',label:'Thread Posts'},
+        replies:{bg:'#38bdf8',text:'#0c2d4a',label:'Replies'},
+        data:{bg:'#a78bfa',text:'#1e1245',label:'Data / Analytics'},
+        ops:{bg:'#fb923c',text:'#3d1f00',label:'Ops (Sorare, etc)'}
     };
     // Parse jobs
     const bars=[];
     data.groups.forEach(g=>{
-        const cat=catColors[g.label]||{bg:'#888',text:'#000',label:'Other',icon:'📋'};
         g.jobs.forEach(j=>{
+            const typ=typeColors[j.type]||typeColors.data;
             const times=j.time.split(',').map(s=>s.trim());
             let hasTimed=false;
             times.forEach(t=>{
@@ -2197,11 +2197,9 @@ function buildGantt(data){
                 if(m[3].toUpperCase()==='PM'&&hr!==12)hr+=12;
                 if(m[3].toUpperCase()==='AM'&&hr===12)hr=0;
                 hasTimed=true;
-                bars.push({name:j.name,start:hr+mi/60,dur:0.75,done:j.done,cat:cat,time:t,group:g.label});
+                bars.push({name:j.name,start:hr+mi/60,dur:0.75,done:j.done,cat:typ,time:t,group:g.label,
+                    threadNum:j.threadNum||null,tweets:j.tweets||null,count:j.count||null,type:j.type});
             });
-            if(!hasTimed&&!g.label.includes('Recurring')){
-                // non-parseable time, skip
-            }
         });
     });
     bars.sort((a,b)=>a.start-b.start);
@@ -2221,7 +2219,7 @@ function buildGantt(data){
 
     // Legend
     html+='<div style="display:flex;gap:0.6rem;margin-bottom:0.5rem;flex-wrap:wrap;">';
-    Object.values(catColors).forEach(c=>{
+    Object.values(typeColors).forEach(c=>{
         html+=`<div style="display:flex;align-items:center;gap:3px;">`;
         html+=`<div style="width:8px;height:8px;border-radius:2px;background:${c.bg};opacity:0.8;"></div>`;
         html+=`<span style="font-size:7px;color:rgba(255,255,255,0.4);font-weight:500;">${c.label}</span>`;
@@ -2283,7 +2281,7 @@ function buildGantt(data){
         html+=`</div>`;
 
         // Bar
-        html+=`<div class="gantt-bar" data-name="${b.name}" data-time="${b.time}" data-cat="${b.cat.label}" data-done="${b.done}" `;
+        html+=`<div class="gantt-bar" data-name="${b.name}" data-time="${b.time}" data-cat="${b.cat.label}" data-done="${b.done}" data-type="${b.type||''}" data-threadnum="${b.threadNum||''}" data-tweets="${b.tweets||''}" data-count="${b.count||''}" `;
         html+=`style="position:absolute;left:${left}%;top:${top+2}px;width:${width}%;height:${rowH-4}px;`;
         html+=`background:${barBg};opacity:${barOpacity};border-radius:4px;${glow}${stripeStyle}`;
         html+=`cursor:pointer;display:flex;align-items:center;padding:0 5px;overflow:hidden;transition:all 0.2s ease;z-index:3;" `;
@@ -2291,10 +2289,16 @@ function buildGantt(data){
 
         // Bar content
         const textColor=b.cat.text;
+        let barLabel=b.name;
+        if(b.type==='thread'&&b.threadNum) barLabel=`#${b.threadNum} ${b.name}`;
+        if(b.type==='replies'&&b.count) barLabel=`${b.name} ×${b.count}`;
         html+=`<span style="font-size:8px;color:${textColor};font-weight:${isActive?'700':'600'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:${barOpacity<0.3?'0.6':'1'};">`;
         if(b.done)html+='✓ ';
         if(isActive)html+='▸ ';
-        html+=`${b.name}</span>`;
+        html+=`${barLabel}</span>`;
+        if(b.type==='thread'&&b.tweets){
+            html+=`<span style="margin-left:auto;font-size:6px;color:${textColor};opacity:0.7;font-weight:700;flex-shrink:0;padding-left:3px;">${b.tweets}tw</span>`;
+        }
         html+=`</div>`;
     });
 
@@ -2322,9 +2326,17 @@ function showGanttTooltip(bar,e){
     const tip=document.getElementById('gantt-tooltip');
     const name=bar.dataset.name, time=bar.dataset.time, cat=bar.dataset.cat, done=bar.dataset.done==='true';
     const statusIcon=done?'✅ Complete':'🔄 Scheduled';
+    const typ=bar.dataset.type||'';
+    const threadNum=bar.dataset.threadnum||'';
+    const tweets=bar.dataset.tweets||'';
+    const count=bar.dataset.count||'';
+    let detail='';
+    if(typ==='thread'&&threadNum) detail=`<div style="font-size:8px;color:rgba(255,255,255,0.5);">📝 Thread #${threadNum} · ${tweets} tweets</div>`;
+    if(typ==='replies'&&count) detail=`<div style="font-size:8px;color:rgba(255,255,255,0.5);">💬 ${count} replies this batch</div>`;
     tip.innerHTML=`
         <div style="font-size:10px;font-weight:700;color:var(--accent);margin-bottom:3px;">${name}</div>
         <div style="font-size:8px;color:rgba(255,255,255,0.5);margin-bottom:2px;">⏰ ${time} · ${cat}</div>
+        ${detail}
         <div style="font-size:8px;color:rgba(255,255,255,0.6);">${statusIcon}</div>
     `;
     tip.style.display='block';

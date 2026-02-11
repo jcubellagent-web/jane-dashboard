@@ -1,19 +1,39 @@
 {
-  "lastUpdated": 1770776598895,
-  "count": 21,
-  "sessions": [
-    {"key":"agent:main:main","kind":"other","channel":"whatsapp","displayName":"+17175759384","model":"claude-opus-4-6","totalTokens":19351},
-    {"key":"agent:main:cron:db53eb61","label":"X Stats Scrape","totalTokens":20081},
-    {"key":"agent:main:subagent:9c4785e9","label":"mobile-perf-optimization","totalTokens":48570},
-    {"key":"agent:main:cron:57f61a2c","label":"Sorare GW34 Lineup Check","totalTokens":30784},
-    {"key":"agent:main:cron:9c34768e","label":"X Reply Engagement Cycle","totalTokens":63169},
-    {"key":"agent:main:cron:1923f8f4","label":"X Engagement Feedback Loop","totalTokens":91937},
-    {"key":"agent:main:cron:f7ebf2a2","label":"X Daily Recap - 7:30 PM","totalTokens":53343},
-    {"key":"agent:main:cron:5a564af3","label":"X Update Brief - 6:00 PM","totalTokens":54224},
-    {"key":"agent:main:cron:19dd811e","label":"sorare-injury-monitor","totalTokens":33228},
-    {"key":"agent:main:cron:35e0a42c","label":"X Update Brief - 3:00 PM","totalTokens":71096},
-    {"key":"agent:main:cron:429d4536","label":"X Update Brief - 12:30 PM","totalTokens":72529},
-    {"key":"agent:main:cron:3a51ef33","label":"Daily Brief - 8:30 AM","totalTokens":58133},
-    {"key":"agent:main:cron:7514d3d2","label":"Pre-Brief Data Fetch","totalTokens":96685}
+  "lastUpdated": 1770781100000,
+  "activeSessions": [
+    {
+      "key": "agent:main:main",
+      "channel": "whatsapp",
+      "model": "claude-opus-4-6",
+      "tokens": 182058
+    }
+  ],
+  "recentSubagents": [
+    {
+      "key": "agent:main:subagent:598d1727-2f94-494a-a962-5410841dc9e6",
+      "label": "redesign-jobs-widget",
+      "status": "completed",
+      "updatedAt": 1770780926018
+    },
+    {
+      "key": "agent:main:subagent:0ebb61fb-b8aa-4722-afc1-60da365ae497",
+      "label": "systems-thinking-research",
+      "status": "completed",
+      "updatedAt": 1770779899112
+    }
+  ],
+  "recentCrons": [
+    {
+      "label": "X Engagement Feedback Loop",
+      "updatedAt": 1770780905181
+    },
+    {
+      "label": "X Reply Engagement Cycle",
+      "updatedAt": 1770778800018
+    },
+    {
+      "label": "X Stats Scrape",
+      "updatedAt": 1770780068768
+    }
   ]
 }

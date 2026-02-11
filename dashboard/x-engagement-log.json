@@ -966,10 +966,10 @@
         "note": "LOW ROI — skip unless AI angle exists"
       }
     },
-    "optimalTargets": "AI product/business accounts with 50K-150K parent views. SahilBloom-type threads (business + AI intersection) are our new sweet spot. Target 15K-80K follower accounts.",
-    "keyInsight": "Tuesday data confirms the news feed pivot is working. Business-angle AI takes (SahilBloom 163 views) now rival pure tech takes. The winning formula: contrarian reframe of viral thread + specific data point + one-sentence thesis. AndrewYang reply interesting anomaly — 5 replies back despite low views, suggesting controversial AI-displacement topics drive conversation even from small accounts.",
-    "timingAnalysis": "8AM batch: avg 13 views after 8hrs. 10AM batch: avg 17 views after 6hrs. 12PM batch: avg 59 views after 4hrs. MIDDAY POSTS OUTPERFORMING MORNING — likely because more users online + algorithms favor recency during peak hours.",
-    "urgentFix": "Reply-033 (@KobeissiLetter) and reply-034 (@DeItaone 12PM) still missing URLs. Also reply-039 through 043 (2PM batch) missing URLs. URL logging must be fixed in the posting workflow."
+    "optimalTargets": "Finance/markets accounts with 10K-70K parent views (StockSavvyShay, zerohedge, DavidBCollum). AI-business intersection threads (SahilBloom). Target 15K-80K follower accounts.",
+    "keyInsight": "EVENING BATCH IS THE WINNER. 6PM replies averaging 48 views/reply vs 24 for 12PM and 22 for 8AM. StockSavvyShay reply (140 views, 3 replies, 1 bookmark) is our best engagement-generating reply — the PLTR/NET orchestration layer framing generated actual conversation. SahilBloom still our view leader at 196. The common thread: contrarian reframe of a popular thesis with specific data.",
+    "timingAnalysis": "8AM batch (11hrs): avg 25 views. 10AM batch (9hrs): avg 21 views. 12PM batch (7hrs): avg 24 views. 6PM batch (1.5hrs): avg 48 views. EVENING OUTPERFORMING despite less time — likely due to peak Twitter usage 5-8PM ET + fresher threads.",
+    "urgentFix": "2PM batch (5 replies: MrinankSharma, Mr_Derivatives, BoringBiz_, blknoiz06, buccocapital) NOT VISIBLE on profile — may not have been posted or were filtered. Need to verify posting workflow. Also @TheShortBear reply not found."
   },
   "strategyUpdates": [
     {
@@ -1173,6 +1173,20 @@
         "URL LOGGING BROKEN: 7 replies today have no URLs. Fix the posting workflow to always capture tweet URLs.",
         "DAILY BRIEF performing well: 37 views, 1 like, 1 repost on morning thread. Keep the anchor format.",
         "NEXT TARGET: Post 4-5 replies during 11am-1pm ET window tomorrow, targeting AI-business and AI-product threads."
+      ]
+    },
+    {
+      "date": "2026-02-10T19:35",
+      "finding": "Tuesday 7:35PM full-day analysis: 6PM batch is our best ever. StockSavvyShay reply hit 140 views + 3 REPLIES + 1 bookmark in 90 minutes. SahilBloom climbed to 196 views. DavidBCollum gained a like. Profile: 14 followers, 5.4K impressions, 207 engagements.",
+      "recommendations": [
+        "EVENING POSTING WINS: 6PM batch averaged 48 views/reply vs 24 for midday. Post best replies at 5-7PM ET.",
+        "STOCKSAVVYSHAY = NEW BEST ENGAGEMENT: 140 views + 3 replies + 1 bookmark. Markets/AI platform thesis resonates. PLTR/NET orchestration layer framing was perfect.",
+        "MARKETS-AI INTERSECTION IS THE SWEET SPOT: SahilBloom (196, AI business), StockSavvyShay (140, AI platforms), zerohedge (70, AI capex debt), DavidBCollum (34, AI bonds). All top performers touch AI + finance.",
+        "2PM BATCH MISSING: 5 replies (MrinankSharma, Mr_Derivatives, BoringBiz_, blknoiz06, buccocapital) not visible on profile. Posting workflow may have failed. Investigate.",
+        "PURE MACRO STILL WEAK: KobeissiLetter Yuan reply = 6 views. Macro without AI angle doesn't work for our audience.",
+        "ENGAGEMENT RATE IMPROVING: 13 total likes (up from 10), 18 replies received (up from 13). Converting views to engagement better with markets/AI framing.",
+        "FOLLOWER GROWTH STALLED: Still 14 followers. Need original threads during peak hours to convert profile visitors.",
+        "WEDNESDAY PLAN: (1) Post replies 5-7PM ET targeting markets/AI threads, (2) Focus on platform/infrastructure thesis (PLTR, NET, ORCL style), (3) Morning daily brief + 1 original thread at noon"
       ]
     }
   ]

@@ -9,7 +9,7 @@
           "time": "8:00 AM"
         },
         {
-          "name": "Daily Morning Brief",
+          "name": "Data Fetch + Daily Morning Brief",
           "time": "8:30 AM"
         },
         {
@@ -30,11 +30,11 @@
           "time": "12 PM, 2 PM"
         },
         {
-          "name": "X Update Brief",
+          "name": "Data Fetch + X Update Brief",
           "time": "12:30 PM"
         },
         {
-          "name": "X Update Brief",
+          "name": "Data Fetch + X Update Brief",
           "time": "4:30 PM"
         }
       ]
@@ -47,11 +47,11 @@
           "time": "4 PM, 6 PM, 8 PM, 10 PM"
         },
         {
-          "name": "X Update Brief",
+          "name": "Data Fetch + X Update Brief",
           "time": "6:00 PM"
         },
         {
-          "name": "X Daily Recap",
+          "name": "X Data Fetch + Daily Recap",
           "time": "7:15 PM"
         },
         {

@@ -42,6 +42,12 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - Remote Whisper: `scripts/whisper-remote.sh`
 - Local models: nomic-embed-text, llama3.1:8b, mistral:7b, MLX SD 2.1
 
+## PWA / Push Notifications
+- HTTPS on port 3443 (self-signed cert, trusted on Josh's iPhone)
+- Push send: `curl -sk -X POST https://100.121.89.84:3443/api/push/send -H "Content-Type: application/json" -d '{"title":"Jane","body":"msg"}'`
+- Icon embedded as base64 in HTML (iOS won't load manifest icons over IP HTTPS)
+- Response prefix: 🦞 emoji (was `[openclaw]`)
+
 ## Accounts Summary
 - HuggingFace: JaneAgentAI, FLUX approved (can't run locally)
 - Twilio: +1 (518) 741-3592, scripts in `scripts/check-sms.sh`

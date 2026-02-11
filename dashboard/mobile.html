@@ -891,6 +891,15 @@
         <div id="mm-subagent-labels" class="mm-subagent-label-wrap"></div>
     </div>
 
+    <!-- Recurring Jobs Widget -->
+    <div class="card" id="cron-widget" style="padding:0.4rem 0.6rem;font-size:11px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.3rem;">
+            <span style="font-weight:600;color:var(--text-dim);letter-spacing:0.5px;font-size:10px;text-transform:uppercase;">📋 Recurring Jobs</span>
+            <span id="cron-updated" style="font-size:9px;color:var(--text-dim);"></span>
+        </div>
+        <div id="cron-list" style="line-height:1.5;color:rgba(255,255,255,0.55);"></div>
+    </div>
+
     <!-- Jane's Mind -->
     <div class="card mind-card" id="mind-card">
         <div class="mind-header">
@@ -2116,5 +2125,22 @@
             <circle cx="16" cy="10" r="1.2"/>
         </svg>
     </a>
+<script>
+// Cron schedule widget
+(function(){
+    const groupColors = {'🌅 Morning':'#fbbf24','☀️ Midday':'#fb923c','🌙 Evening':'#818cf8','🔄 Recurring':'#4ade80'};
+    fetch('cron-schedule.json?_='+Date.now()).then(r=>r.json()).then(d=>{
+        const el=document.getElementById('cron-list');
+        let h='';
+        d.groups.forEach(g=>{
+            const c=groupColors[g.label]||'#888';
+            h+=`<div style="margin-bottom:0.25rem;"><span style="color:${c};font-size:10px;font-weight:600;">${g.label}</span>`;
+            g.jobs.forEach(j=>{h+=`<div style="padding-left:0.6rem;">• ${j.name} <span style="color:rgba(255,255,255,0.3);">— ${j.time}</span></div>`;});
+            h+='</div>';
+        });
+        el.innerHTML=h;
+    }).catch(()=>{document.getElementById('cron-list').textContent='Failed to load schedule';});
+})();
+</script>
 </body>
 </html>

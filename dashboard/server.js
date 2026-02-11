@@ -1632,6 +1632,18 @@ function handleRequest(req, res) {
         return;
     }
 
+    if (req.url === '/api/cron-schedule') {
+        const cronFile = path.join(ROOT, 'cron-schedule.json');
+        if (fs.existsSync(cronFile)) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(fs.readFileSync(cronFile, 'utf8'));
+        } else {
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end('{"error":"not found"}');
+        }
+        return;
+    }
+
     if (req.url === '/api/sorare') {
         const statsFile = path.join(ROOT, 'sorare-stats.json');
         // Trigger background refresh if file is >5 min old

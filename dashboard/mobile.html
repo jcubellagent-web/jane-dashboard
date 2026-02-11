@@ -605,29 +605,29 @@
         }
         .mm-subagent-label-wrap {
             position: absolute;
-            right: 0.4rem;
+            right: 0.3rem;
             top: 50%;
             transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            gap: 0.25rem;
-            max-width: 5.5rem;
+            gap: 0.3rem;
+            max-width: 7rem;
         }
         .mm-subagent-label {
-            font-size: 0.4rem;
+            font-size: 0.45rem;
             color: #8b5cf6;
             background: rgba(139,92,246,0.1);
             border: 1px solid rgba(139,92,246,0.2);
             border-radius: 8px;
-            padding: 0.15rem 0.35rem;
+            padding: 0.15rem 0.4rem;
             display: flex;
             align-items: center;
             gap: 0.2rem;
             animation: mmLabelFadeIn 0.6s ease-out;
-            line-height: 1.2;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            line-height: 1.3;
+            white-space: normal;
+            word-wrap: break-word;
+            max-width: 6.5rem;
         }
         .mm-subagent-label.done {
             animation: mmLabelFadeOut 1.5s ease-out forwards;
@@ -1289,31 +1289,35 @@
             window._mmModel = data.model || 'opus';
             refreshMindMap(isActive, data.steps);
 
-            // Sub-agent satellites
+            // Sub-agent satellites — only re-render if data changed
             const saContainer = document.getElementById('mm-subagents');
             const saLabels = document.getElementById('mm-subagent-labels');
             const subs = data.subAgents || [];
-            if (subs.length > 0) {
-                let svgHtml = '';
-                let labelHtml = '';
-                subs.forEach((sa, i) => {
-                    const isActive = sa.status === 'active';
-                    const isDone = sa.status === 'done';
-                    const color = isActive ? '#8b5cf6' : '#4ade80';
-                    const satClass = isDone ? 'mm-subagent-sat done' : 'mm-subagent-sat';
-                    svgHtml += `<circle cx="80" cy="45" r="3" fill="${color}" class="${satClass}" style="animation-delay:${i*-2}s;"/>`;
-                    const doneClass = isDone ? ' done' : '';
-                    labelHtml += `<span class="mm-subagent-label${doneClass}"><span class="dot"></span>${esc(sa.label)}</span>`;
-                });
-                saContainer.innerHTML = svgHtml;
-                saLabels.innerHTML = labelHtml;
-                // Auto-remove done sub-agents after fade
-                if (subs.every(s => s.status === 'done')) {
-                    setTimeout(() => { saContainer.innerHTML = ''; saLabels.innerHTML = ''; }, 2000);
+            const saKey = JSON.stringify(subs);
+            if (saKey !== window._lastSubAgentKey) {
+                window._lastSubAgentKey = saKey;
+                if (subs.length > 0) {
+                    let svgHtml = '';
+                    let labelHtml = '';
+                    subs.forEach((sa, i) => {
+                        const isActive = sa.status === 'active';
+                        const isDone = sa.status === 'done';
+                        const color = isActive ? '#8b5cf6' : '#4ade80';
+                        const satClass = isDone ? 'mm-subagent-sat done' : 'mm-subagent-sat';
+                        svgHtml += `<circle cx="80" cy="45" r="3" fill="${color}" class="${satClass}" style="animation-delay:${i*-2.5}s;"/>`;
+                        const doneClass = isDone ? ' done' : '';
+                        labelHtml += `<span class="mm-subagent-label${doneClass}"><span class="dot"></span>${esc(sa.label)}</span>`;
+                    });
+                    saContainer.innerHTML = svgHtml;
+                    saLabels.innerHTML = labelHtml;
+                    // Auto-remove done sub-agents after fade
+                    if (subs.every(s => s.status === 'done')) {
+                        setTimeout(() => { saContainer.innerHTML = ''; saLabels.innerHTML = ''; window._lastSubAgentKey = '[]'; }, 2000);
+                    }
+                } else {
+                    saContainer.innerHTML = '';
+                    saLabels.innerHTML = '';
                 }
-            } else {
-                saContainer.innerHTML = '';
-                saLabels.innerHTML = '';
             }
 
             if (!isActive) {

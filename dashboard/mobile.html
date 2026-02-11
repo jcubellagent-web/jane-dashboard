@@ -917,12 +917,15 @@
     </div>
 
     <!-- Today's Jobs Widget -->
-    <div class="card" id="cron-widget" style="padding:0.3rem 0.6rem;font-size:11px;cursor:pointer;transition:all 0.25s ease;" onclick="toggleCronWidget()">
-        <div id="cron-bar" style="display:flex;align-items:center;justify-content:space-between;">
-            <span style="color:rgba(255,255,255,0.45);font-size:10px;">⚡ <span style="color:#39ff14;font-weight:600;">Today's Jobs</span> · <span id="cron-summary">Loading…</span></span>
-            <span id="cron-chevron" style="color:rgba(255,255,255,0.25);font-size:10px;transition:transform 0.25s ease;">▾</span>
+    <div class="card" id="cron-widget" style="padding:0;font-size:11px;cursor:pointer;transition:all 0.25s ease;border:1px solid rgba(57,255,20,0.15);overflow:hidden;" onclick="toggleCronWidget()">
+        <div id="cron-bar" style="display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0.6rem;">
+            <span style="font-size:14px;filter:hue-rotate(90deg) brightness(1.5);text-shadow:0 0 6px #39ff14;">🤖</span>
+            <span style="color:#39ff14;font-weight:700;font-size:11px;letter-spacing:0.5px;">Today's Jobs</span>
+            <span id="cron-count" style="color:#39ff14;font-weight:900;font-size:13px;margin-left:auto;">--</span>
+            <span id="cron-hint" style="color:rgba(255,255,255,0.2);font-size:8px;font-style:italic;">tap to expand</span>
+            <span id="cron-chevron" style="color:rgba(57,255,20,0.4);font-size:9px;transition:transform 0.25s ease;">▾</span>
         </div>
-        <div id="cron-list" style="max-height:0;overflow:hidden;transition:max-height 0.3s ease;line-height:1.5;color:rgba(255,255,255,0.55);margin-top:0;"></div>
+        <div id="cron-list" style="max-height:0;overflow:hidden;transition:max-height 0.4s ease;padding:0 0.6rem;"></div>
     </div>
 
     <!-- Ticker Strip -->
@@ -2126,39 +2129,64 @@
         </svg>
     </a>
 <script>
-// Cron schedule widget — collapsible
+// Cron schedule widget — redesigned HUD style
 var cronExpanded=false;
 function toggleCronWidget(){
     cronExpanded=!cronExpanded;
     const list=document.getElementById('cron-list');
     const chev=document.getElementById('cron-chevron');
-    if(cronExpanded){list.style.maxHeight=list.scrollHeight+'px';list.style.marginTop='0.3rem';chev.style.transform='rotate(180deg)';}
-    else{list.style.maxHeight='0';list.style.marginTop='0';chev.style.transform='';}
+    const hint=document.getElementById('cron-hint');
+    if(cronExpanded){
+        list.style.maxHeight=list.scrollHeight+'px';
+        list.style.paddingBottom='0.4rem';
+        chev.style.transform='rotate(180deg)';
+        hint.textContent='tap to collapse';
+    } else {
+        list.style.maxHeight='0';
+        list.style.paddingBottom='0';
+        chev.style.transform='';
+        hint.textContent='tap to expand';
+    }
 }
 (function(){
     const groupColors={'🌅 Morning':'#fbbf24','☀️ Midday':'#fb923c','🌙 Evening':'#818cf8','🔄 Recurring':'#4ade80'};
     fetch('cron-schedule.json?_='+Date.now()).then(r=>r.json()).then(d=>{
-        let total=0,nextJob=null;
+        let total=0, doneCount=0, nextJob=null;
         const now=new Date();
-        d.groups.forEach(g=>{total+=g.jobs.length;
+        d.groups.forEach(g=>{
             g.jobs.forEach(j=>{
-                const m=j.time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
-                if(m&&!nextJob){let h=parseInt(m[1]),mi=parseInt(m[2]);if(m[3].toUpperCase()==='PM'&&h!==12)h+=12;if(m[3].toUpperCase()==='AM'&&h===12)h=0;
-                    const t=new Date(now);t.setHours(h,mi,0,0);if(t>now)nextJob=j;}
+                total++;
+                if(j.done) doneCount++;
+                if(!j.done && !nextJob){
+                    const m=j.time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+                    if(m){let h=parseInt(m[1]),mi=parseInt(m[2]);if(m[3].toUpperCase()==='PM'&&h!==12)h+=12;if(m[3].toUpperCase()==='AM'&&h===12)h=0;
+                        const t=new Date(now);t.setHours(h,mi,0,0);if(t>now)nextJob=j;}
+                }
             });
         });
-        const summ=total+' Jobs'+(nextJob?' · Next: '+nextJob.name+' '+nextJob.time:'');
-        document.getElementById('cron-summary').textContent=summ;
+        document.getElementById('cron-count').textContent=doneCount+'/'+total;
         const el=document.getElementById('cron-list');
         let h='';
         d.groups.forEach(g=>{
             const c=groupColors[g.label]||'#888';
-            h+=`<div style="margin-bottom:0.2rem;"><span style="color:${c};font-size:10px;font-weight:600;">${g.label}</span>`;
-            g.jobs.forEach(j=>{h+=`<div style="padding-left:0.6rem;font-size:10px;">• ${j.name} <span style="color:rgba(255,255,255,0.3);">— ${j.time}</span></div>`;});
-            h+='</div>';
+            h+=`<div style="margin-top:0.35rem;margin-bottom:0.15rem;"><span style="color:${c};font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">${g.label}</span></div>`;
+            g.jobs.forEach(j=>{
+                const isDone=j.done;
+                const isNext=(!isDone && nextJob && j.name===nextJob.name && j.time===nextJob.time);
+                const bg=isNext?'rgba(57,255,20,0.08)':'transparent';
+                const border=isNext?'border-left:2px solid #39ff14;padding-left:0.4rem;':'padding-left:0.5rem;';
+                const nameStyle=isDone?'text-decoration:line-through;color:rgba(255,255,255,0.25);':'color:rgba(255,255,255,0.7);';
+                const timeStyle=isDone?'color:rgba(255,255,255,0.15);':'color:rgba(255,255,255,0.3);';
+                const icon=isDone?'✅':'';
+                const nextBadge=isNext?'<span style="font-size:7px;background:rgba(57,255,20,0.2);color:#39ff14;padding:0.05rem 0.25rem;border-radius:3px;font-weight:600;margin-left:0.3rem;">NEXT</span>':'';
+                h+=`<div style="display:flex;align-items:center;gap:0.3rem;font-size:10px;padding:0.12rem 0;${border}background:${bg};border-radius:2px;">`;
+                h+=`<span style="${timeStyle}font-size:9px;min-width:52px;">${j.time}</span>`;
+                h+=`<span style="${nameStyle}">${isDone?icon+' ':''}${j.name}${nextBadge}</span>`;
+                h+=`</div>`;
+            });
         });
         el.innerHTML=h;
-    }).catch(()=>{document.getElementById('cron-summary').textContent='Failed to load';});
+    }).catch(()=>{document.getElementById('cron-count').textContent='!';});
 })();
 </script>
 </body>

@@ -6,19 +6,23 @@
       "jobs": [
         {
           "name": "Pre-Brief Data Fetch",
-          "time": "8:00 AM"
+          "time": "8:00 AM",
+          "done": false
         },
         {
           "name": "Data Fetch + Daily Morning Brief",
-          "time": "8:30 AM"
+          "time": "8:30 AM",
+          "done": false
         },
         {
           "name": "X Replies",
-          "time": "8 AM, 10 AM"
+          "time": "8 AM, 10 AM",
+          "done": false
         },
         {
           "name": "Sorare Daily Tasks",
-          "time": "10:07 AM"
+          "time": "10:07 AM",
+          "done": false
         }
       ]
     },
@@ -27,15 +31,18 @@
       "jobs": [
         {
           "name": "X Replies",
-          "time": "12 PM, 2 PM"
+          "time": "12 PM, 2 PM",
+          "done": false
         },
         {
           "name": "Data Fetch + X Update Brief",
-          "time": "12:30 PM"
+          "time": "12:30 PM",
+          "done": false
         },
         {
           "name": "Data Fetch + X Update Brief",
-          "time": "4:30 PM"
+          "time": "4:30 PM",
+          "done": false
         }
       ]
     },
@@ -44,19 +51,23 @@
       "jobs": [
         {
           "name": "X Replies",
-          "time": "4 PM, 6 PM, 8 PM, 10 PM"
+          "time": "4 PM, 6 PM, 8 PM, 10 PM",
+          "done": false
         },
         {
           "name": "Data Fetch + X Update Brief",
-          "time": "6:00 PM"
+          "time": "6:00 PM",
+          "done": false
         },
         {
           "name": "X Data Fetch + Daily Recap",
-          "time": "7:15 PM"
+          "time": "7:15 PM",
+          "done": false
         },
         {
           "name": "X Growth Report",
-          "time": "10:00 PM"
+          "time": "10:00 PM",
+          "done": false
         }
       ]
     },
@@ -65,23 +76,28 @@
       "jobs": [
         {
           "name": "X Stats Scrape",
-          "time": "every 30 min"
+          "time": "every 30 min",
+          "done": false
         },
         {
           "name": "X Engagement Feedback",
-          "time": "every 3 hours"
+          "time": "every 3 hours",
+          "done": false
         },
         {
           "name": "Sorare Injury Monitor",
-          "time": "every 6 hours"
+          "time": "every 6 hours",
+          "done": false
         },
         {
           "name": "Sorare GW34 Lineup Check",
-          "time": "every 6 hours"
+          "time": "every 6 hours",
+          "done": false
         },
         {
           "name": "X Follow Accounts",
-          "time": "2–7 AM (overnight)"
+          "time": "2–7 AM (overnight)",
+          "done": false
         }
       ]
     }

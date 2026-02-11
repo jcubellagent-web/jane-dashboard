@@ -367,6 +367,18 @@
             padding: 0 0.3rem; user-select: none;
         }
         .x-thread-nav-btn:hover { color: rgba(255,255,255,0.5); }
+        .x-tab-bar {
+            display: flex; gap: 0; margin-bottom: 0.5rem; flex-shrink: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .x-tab {
+            flex: 1; text-align: center; padding: 0.4rem 0; font-size: 0.75rem;
+            font-weight: 600; color: rgba(255,255,255,0.35); cursor: pointer;
+            border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s;
+            user-select: none;
+        }
+        .x-tab:hover { color: rgba(255,255,255,0.55); }
+        .x-tab.active { color: #1d9bf0; border-bottom-color: #1d9bf0; }
         .x-tweet-feed {
             display: flex; flex-direction: column; gap: 0.5rem;
             overflow-y: auto; flex: 1; min-height: 0;
@@ -414,6 +426,60 @@
         .sorare-summary-item { text-align: center; }
         .sorare-summary-value { font-weight: 700; color: #ffd700; }
         .sorare-summary-label { font-size: 0.55rem; color: var(--text-dim); text-transform: uppercase; }
+
+        /* Coinbase Wallet Widget */
+        .wallet-toggle {
+            display: flex; align-items: center; justify-content: space-between;
+            cursor: pointer; padding: 0.5rem 0.75rem;
+        }
+        .wallet-toggle-title {
+            font-size: 0.8rem; font-weight: 700; color: #3b82f6;
+            display: flex; align-items: center; gap: 0.4rem;
+        }
+        .wallet-arrow { font-size: 0.6rem; color: var(--text-dim); transition: transform 0.3s; }
+        .wallet-body { display: none; padding: 0.5rem 0.75rem 0.75rem; }
+        .wallet-body.open { display: block; }
+        .wallet-chain { margin-bottom: 0.5rem; }
+        .wallet-chain:last-child { margin-bottom: 0; }
+        .wallet-chain-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 0.25rem;
+        }
+        .wallet-chain-name {
+            font-size: 0.7rem; font-weight: 700; color: var(--text);
+            text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .wallet-chain-total {
+            font-size: 0.75rem; font-weight: 700; color: #3b82f6;
+        }
+        .wallet-addr-row {
+            display: flex; align-items: center; gap: 0.3rem;
+            font-family: 'SF Mono', monospace; font-size: 0.65rem; color: var(--text-dim);
+            margin-bottom: 0.3rem;
+        }
+        .wallet-copy-btn {
+            background: none; border: none; color: var(--text-dim); cursor: pointer;
+            font-size: 0.6rem; padding: 1px 4px; border-radius: 3px;
+        }
+        .wallet-copy-btn:hover { color: var(--accent); background: rgba(74,222,128,0.1); }
+        .wallet-token-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.2rem 0; font-size: 0.7rem;
+        }
+        .wallet-token-name { color: var(--text); font-weight: 500; }
+        .wallet-token-bal { color: var(--text-dim); font-variant-numeric: tabular-nums; }
+        .wallet-token-usd { color: #3b82f6; font-weight: 600; font-variant-numeric: tabular-nums; }
+        .wallet-empty { font-size: 0.65rem; color: var(--text-dim); font-style: italic; padding: 0.2rem 0; }
+        .wallet-total-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.4rem 0.5rem; margin-top: 0.4rem;
+            background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2);
+            border-radius: 6px; font-size: 0.75rem;
+        }
+        .wallet-total-label { color: var(--text-dim); font-weight: 600; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 0.05em; }
+        .wallet-total-value { color: #3b82f6; font-weight: 700; font-size: 0.85rem; }
+        .wallet-updated { font-size: 0.55rem; color: var(--text-dim); opacity: 0.6; }
+        .wallet-divider { border-top: 1px solid rgba(255,255,255,0.05); margin: 0.35rem 0; }
 
         /* Scrollbar */
         ::-webkit-scrollbar { width: 5px; }
@@ -597,9 +663,14 @@
                     <span class="x-strip-stat" id="x-impressions"><span class="x-strip-val">--</span> <span class="x-strip-lbl">views</span> <span class="x-strip-delta" id="x-d-impressions"></span></span>
                     <span class="x-strip-stat" id="x-likes"><span class="x-strip-val">--</span> <span class="x-strip-lbl">likes</span> <span class="x-strip-delta" id="x-d-likes"></span></span>
                 </div>
-                <!-- Thread Navigation (removed for scrollable list) -->
+                <!-- Tabs -->
+                <div class="x-tab-bar">
+                    <div class="x-tab active" id="x-tab-threads" onclick="switchXTab('threads')">Threads</div>
+                    <div class="x-tab" id="x-tab-replies" onclick="switchXTab('replies')">Replies</div>
+                </div>
                 <!-- Tweet Feed -->
                 <div class="x-tweet-feed" id="dt-tweet-feed"></div>
+                <div class="x-tweet-feed" id="dt-replies-feed" style="display:none;"></div>
             </div>
 
             <!-- Sorare Widget -->
@@ -756,18 +827,37 @@
         // ===== X TWEET FEED =====
         window._dtThreadData = [];
         window._dtThreadIdx = 0;
+        window._dtRepliesData = [];
+        window._dtActiveXTab = 'threads';
+        window._dtRepliesTabTimer = null;
+
+        function switchXTab(tab) {
+            window._dtActiveXTab = tab;
+            document.getElementById('x-tab-threads').classList.toggle('active', tab === 'threads');
+            document.getElementById('x-tab-replies').classList.toggle('active', tab === 'replies');
+            document.getElementById('dt-tweet-feed').style.display = tab === 'threads' ? '' : 'none';
+            document.getElementById('dt-replies-feed').style.display = tab === 'replies' ? '' : 'none';
+            if (window._dtRepliesTabTimer) clearTimeout(window._dtRepliesTabTimer);
+            if (tab === 'replies') {
+                window._dtRepliesTabTimer = setTimeout(() => switchXTab('threads'), 5 * 60 * 1000);
+            }
+        }
 
         async function refreshDesktopTweetFeed() {
-            let histData = await fetchWithTimeout('/x-thread-history.json', 5000);
+            const [histData, latestData] = await Promise.all([
+                fetchWithTimeout('/x-thread-history.json', 5000),
+                fetchWithTimeout('/x-latest-tweets.json', 5000)
+            ]);
             if (histData && histData.threads && histData.threads.length > 0) {
                 window._dtThreadData = histData.threads;
-            } else {
-                const data = await fetchWithTimeout('/x-latest-tweets.json', 5000);
-                if (data && data.tweets) {
-                    window._dtThreadData = [{ date:'Latest', label:'Latest', tweets:data.tweets, lastUpdated:data.lastUpdated }];
-                } else return;
+            } else if (latestData && latestData.tweets) {
+                window._dtThreadData = [{ date:'Latest', label:'Latest', tweets:latestData.tweets, lastUpdated:latestData.lastUpdated }];
+            }
+            if (latestData && latestData.tweets) {
+                window._dtRepliesData = latestData.tweets;
             }
             dtRenderAllThreads();
+            dtRenderReplies();
         }
 
         function dtRenderAllThreads() {
@@ -806,6 +896,35 @@
                         '<div class="x-tweet-text">'+(tweet.text||'')+'</div>';
                     container.appendChild(div);
                 });
+            });
+        }
+
+        function dtRenderReplies() {
+            const tweets = window._dtRepliesData;
+            const container = document.getElementById('dt-replies-feed');
+            if (!tweets || !tweets.length || !container) return;
+            container.innerHTML = '';
+            tweets.forEach((tweet) => {
+                const div = document.createElement('div');
+                div.className = 'x-tweet-item';
+                let timeDisplay = '';
+                if (tweet.time) {
+                    const t = new Date(tweet.time);
+                    const mins = Math.round((Date.now()-t.getTime())/60000);
+                    if (mins<1) timeDisplay='just now';
+                    else if (mins<60) timeDisplay=mins+'m ago';
+                    else if (mins<1440) timeDisplay=Math.round(mins/60)+'h ago';
+                    else timeDisplay=t.toLocaleDateString([],{month:'short',day:'numeric'})+' '+t.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+                }
+                div.innerHTML = '<div class="x-tweet-meta">'+
+                    '<div><span class="x-tweet-stat">'+timeDisplay+'</span></div>'+
+                    '<div style="display:flex;gap:0.5rem;">'+
+                    (tweet.views?'<span class="x-tweet-stat">👁 '+tweet.views+'</span>':'')+
+                    (tweet.likes?'<span class="x-tweet-stat">❤️ '+tweet.likes+'</span>':'')+
+                    (tweet.reposts?'<span class="x-tweet-stat">🔁 '+tweet.reposts+'</span>':'')+
+                    '</div></div>'+
+                    '<div class="x-tweet-text">'+(tweet.text||'')+'</div>';
+                container.appendChild(div);
             });
         }
 
@@ -1122,8 +1241,8 @@
         // Auto-refresh
         setInterval(refreshMind, 5000);
         setInterval(()=>{ refreshSystem(); refreshAgents(); }, 30000);
-        setInterval(refreshXStats, 60000);
-        setInterval(refreshDesktopTweetFeed, 300000);
+        setInterval(refreshXStats, 30000);
+        setInterval(refreshDesktopTweetFeed, 60000);
         setInterval(refreshSorare, 300000);
         setInterval(refreshConnections, 600000);
 
@@ -1134,9 +1253,15 @@
             ws.onmessage = (evt) => {
                 try {
                     const msg = JSON.parse(evt.data);
+                    const wsPending = {};
+                    function wsRefresh(key, fn) {
+                        if (wsPending[key]) return;
+                        wsPending[key] = true;
+                        requestAnimationFrame(() => { wsPending[key] = false; fn(); });
+                    }
                     function handleWidget(k) {
-                        if (k==='x-tweets'||k==='x-thread-history') refreshDesktopTweetFeed();
-                        else if (k==='x-stats') refreshXStats();
+                        if (k==='x-tweets'||k==='x-thread-history'||k==='x-latest-tweets') wsRefresh('x-tweets', refreshDesktopTweetFeed);
+                        else if (k==='x-stats') wsRefresh('x-stats', refreshXStats);
                         else if (k==='mind') refreshMind();
                         else if (k==='sessions') refreshAgents();
                         else if (k==='sorare'||k==='sorare-mobile') refreshSorare();

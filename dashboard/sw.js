@@ -1,5 +1,5 @@
 // Jane Dashboard — Service Worker for Push Notifications
-const CACHE_NAME = 'jane-dash-v1';
+const CACHE_NAME = 'jane-dash-v2';
 
 // Install
 self.addEventListener('install', (event) => {

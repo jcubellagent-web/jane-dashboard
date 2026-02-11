@@ -948,9 +948,10 @@
         </div>
     </div>
 
-    <!-- X/Twitter Growth Strip -->
-    <div class="card" id="x-strip" style="padding:0.4rem 0.6rem;overflow:hidden;">
-        <div style="display:flex;align-items:center;justify-content:space-between;">
+    <!-- X/Twitter — Unified Widget -->
+    <div class="card" id="tweet-feed" style="padding:0.5rem 0.6rem;overflow:hidden;">
+        <!-- Stats bar (always visible) -->
+        <div id="x-strip" style="display:flex;align-items:center;justify-content:space-between;padding-bottom:0.4rem;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:0.4rem;">
             <div style="display:flex;align-items:center;gap:0.35rem;">
                 <img id="x-pfp" src="x-pfp.jpg" style="width:18px;height:18px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);">
                 <span class="x-stat" id="x-engagement"><span class="x-val" style="font-size:0.65rem;color:#4ade80;">--</span> <span class="x-lbl">eng</span></span>
@@ -961,21 +962,15 @@
             <span class="x-stat" id="x-planned-replies"><span class="x-plan-dot" style="background:#1d9bf0;"></span> <span class="x-val">--</span> <span class="x-lbl">replies</span></span>
             <span class="x-stat" id="x-planned-tweets"><span class="x-plan-dot" style="background:#4ade80;"></span> <span class="x-val">--</span> <span class="x-lbl">tweets</span></span>
         </div>
-    </div>
-
-    <!-- Latest Tweets Feed (Swipeable) -->
-    <div class="card" id="tweet-feed" style="padding:0.5rem 0.6rem;overflow:hidden;">
-        <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.5rem;">
-            <img src="x-pfp.jpg" style="width:20px;height:20px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);">
-            <span style="font-size:0.65rem;font-weight:600;color:rgba(255,255,255,0.7);">JCAgentleman</span>
-            <span style="font-size:0.5rem;color:rgba(255,255,255,0.3);margin-left:auto;" id="tweet-feed-time"></span>
-        </div>
+        <!-- Thread navigation -->
         <div id="tweet-thread-label" style="display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-bottom:0.4rem;">
             <span id="tweet-nav-left" onclick="swipeThread(1)" style="font-size:0.7rem;color:rgba(255,255,255,0.25);cursor:pointer;padding:0 0.3rem;display:none;">◀</span>
             <span id="tweet-thread-date" style="font-size:0.55rem;font-weight:600;color:#4ade80;"></span>
             <span id="tweet-nav-dots" style="font-size:0.4rem;color:rgba(255,255,255,0.3);letter-spacing:3px;"></span>
             <span id="tweet-nav-right" onclick="swipeThread(-1)" style="font-size:0.7rem;color:rgba(255,255,255,0.25);cursor:pointer;padding:0 0.3rem;display:none;">▶</span>
+            <span style="font-size:0.5rem;color:rgba(255,255,255,0.3);margin-left:auto;" id="tweet-feed-time"></span>
         </div>
+        <!-- Thread content (swipeable) -->
         <div id="tweet-swipe-container" style="position:relative;touch-action:pan-y;">
             <div id="tweet-feed-list" style="display:flex;flex-direction:column;gap:0.5rem;transition:opacity 0.25s ease;"></div>
         </div>

@@ -1,40 +1,45 @@
 {
-  "updated": "2026-02-11T10:32:00-05:00",
+  "updated": "2026-02-11T10:38:00-05:00",
   "groups": [
     {
       "label": "🌅 Morning",
       "jobs": [
         {"name": "Pre-Brief Data Fetch", "time": "8:00 AM", "done": true, "type": "data"},
         {"name": "Daily Morning Brief", "time": "8:30 AM", "done": true, "type": "thread", "threadNum": 1, "tweets": 6},
-        {"name": "X Replies", "time": "8 AM, 10 AM", "done": true, "type": "replies", "count": 10},
-        {"name": "Sorare Daily Tasks", "time": "10:07 AM", "done": false, "type": "ops"}
+        {"name": "X Replies (8 AM)", "time": "8:00 AM", "done": true, "type": "replies", "count": 5},
+        {"name": "X Replies (10 AM)", "time": "10:00 AM", "done": true, "type": "replies", "count": 5},
+        {"name": "Sorare Daily Tasks", "time": "10:07 AM", "done": true, "type": "ops"}
       ]
     },
     {
       "label": "☀️ Midday",
       "jobs": [
-        {"name": "X Replies", "time": "12 PM, 2 PM", "done": false, "type": "replies", "count": 6},
+        {"name": "X Replies (12 PM)", "time": "12:00 PM", "done": false, "type": "replies", "count": 3},
         {"name": "Update Brief", "time": "12:30 PM", "done": false, "type": "thread", "threadNum": 2, "tweets": 3},
+        {"name": "X Replies (2 PM)", "time": "2:00 PM", "done": false, "type": "replies", "count": 3},
         {"name": "Update Brief", "time": "4:30 PM", "done": false, "type": "thread", "threadNum": 3, "tweets": 3}
       ]
     },
     {
       "label": "🌙 Evening",
       "jobs": [
-        {"name": "X Replies", "time": "4 PM, 6 PM, 8 PM, 10 PM", "done": false, "type": "replies", "count": 12},
+        {"name": "X Replies (4 PM)", "time": "4:00 PM", "done": false, "type": "replies", "count": 3},
+        {"name": "X Replies (6 PM)", "time": "6:00 PM", "done": false, "type": "replies", "count": 3},
         {"name": "Update Brief", "time": "6:00 PM", "done": false, "type": "thread", "threadNum": 4, "tweets": 3},
         {"name": "Daily Recap", "time": "7:15 PM", "done": false, "type": "thread", "threadNum": 5, "tweets": 6},
-        {"name": "X Growth Report", "time": "10:00 PM", "done": false, "type": "data"}
+        {"name": "X Replies (8 PM)", "time": "8:00 PM", "done": false, "type": "replies", "count": 3},
+        {"name": "X Growth Report", "time": "10:00 PM", "done": false, "type": "data"},
+        {"name": "X Replies (10 PM)", "time": "10:00 PM", "done": false, "type": "replies", "count": 3}
       ]
     },
     {
       "label": "🔄 Recurring",
       "jobs": [
-        {"name": "X Stats Scrape", "time": "every 30 min", "done": true, "type": "data"},
-        {"name": "X Engagement Feedback", "time": "every 3 hours", "done": true, "type": "data"},
-        {"name": "Sorare Injury Monitor", "time": "every 6 hours", "done": true, "type": "ops"},
-        {"name": "Sorare GW34 Lineup Check", "time": "every 6 hours", "done": true, "type": "ops"},
-        {"name": "X Follow Accounts", "time": "2–7 AM (overnight)", "done": true, "type": "ops"}
+        {"name": "X Stats Scrape — next ~11:00 AM", "time": "every 30 min", "done": false, "type": "data"},
+        {"name": "X Engagement Feedback — next ~10:40 AM", "time": "every 3 hours", "done": false, "type": "data"},
+        {"name": "Sorare Injury Monitor — next ~11:29 AM", "time": "every 6 hours", "done": false, "type": "ops"},
+        {"name": "Sorare GW34 Lineup Check — next ~10:49 AM", "time": "every 6 hours", "done": false, "type": "ops"},
+        {"name": "X Follow Accounts — done (overnight only)", "time": "2:00 AM", "done": true, "type": "ops"}
       ]
     }
   ]

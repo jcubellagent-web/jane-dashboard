@@ -1,12 +1,12 @@
 {
-  "updated": "2026-02-10T22:47:00-05:00",
+  "updated": "2026-02-11T10:32:00-05:00",
   "groups": [
     {
       "label": "🌅 Morning",
       "jobs": [
-        {"name": "Pre-Brief Data Fetch", "time": "8:00 AM", "done": false, "type": "data"},
-        {"name": "Daily Morning Brief", "time": "8:30 AM", "done": false, "type": "thread", "threadNum": 1, "tweets": 6},
-        {"name": "X Replies", "time": "8 AM, 10 AM", "done": false, "type": "replies", "count": 6},
+        {"name": "Pre-Brief Data Fetch", "time": "8:00 AM", "done": true, "type": "data"},
+        {"name": "Daily Morning Brief", "time": "8:30 AM", "done": true, "type": "thread", "threadNum": 1, "tweets": 6},
+        {"name": "X Replies", "time": "8 AM, 10 AM", "done": true, "type": "replies", "count": 10},
         {"name": "Sorare Daily Tasks", "time": "10:07 AM", "done": false, "type": "ops"}
       ]
     },
@@ -30,11 +30,11 @@
     {
       "label": "🔄 Recurring",
       "jobs": [
-        {"name": "X Stats Scrape", "time": "every 30 min", "done": false, "type": "data"},
-        {"name": "X Engagement Feedback", "time": "every 3 hours", "done": false, "type": "data"},
-        {"name": "Sorare Injury Monitor", "time": "every 6 hours", "done": false, "type": "ops"},
-        {"name": "Sorare GW34 Lineup Check", "time": "every 6 hours", "done": false, "type": "ops"},
-        {"name": "X Follow Accounts", "time": "2–7 AM (overnight)", "done": false, "type": "ops"}
+        {"name": "X Stats Scrape", "time": "every 30 min", "done": true, "type": "data"},
+        {"name": "X Engagement Feedback", "time": "every 3 hours", "done": true, "type": "data"},
+        {"name": "Sorare Injury Monitor", "time": "every 6 hours", "done": true, "type": "ops"},
+        {"name": "Sorare GW34 Lineup Check", "time": "every 6 hours", "done": true, "type": "ops"},
+        {"name": "X Follow Accounts", "time": "2–7 AM (overnight)", "done": true, "type": "ops"}
       ]
     }
   ]

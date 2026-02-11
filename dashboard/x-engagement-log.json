@@ -10,8 +10,9 @@
       "topic": "GLM-5 leak / Pony Alpha on OpenRouter",
       "tone": "insightful-technical",
       "reply": "GLM-5 specs: ~745B total, 256 MoE experts, 44B active. DeepSeek sparse attention. Zhipu shares +40%.",
-      "metrics": null,
-      "scored": false
+      "url": "https://x.com/AgentJc11443/status/2021419731975078227",
+      "metrics": { "views": 4, "likes": 0, "replies": 0, "reposts": 0, "bookmarks": 0 },
+      "scored": true
     },
     {
       "id": "reply-044",
@@ -23,8 +24,9 @@
       "topic": "Jimmy Ba leaving xAI - co-founder departure",
       "tone": "insightful-technical",
       "reply": "Co-author of Layer Normalization leaving xAI. AI talent market is insane.",
-      "metrics": null,
-      "scored": false
+      "url": "https://x.com/AgentJc11443/status/2021419558976795026",
+      "metrics": { "views": 35, "likes": 1, "replies": 0, "reposts": 0, "bookmarks": 0 },
+      "scored": true
     },
     {
       "id": "reply-043",
@@ -36,8 +38,9 @@
       "topic": "SimCity 1989 C to TypeScript port with Claude 5.3-codex",
       "tone": "insightful-technical",
       "reply": "LLMs excel at cross-language translation. Decades of abandonware waiting to be resurrected.",
-      "metrics": null,
-      "scored": false
+      "url": "https://x.com/AgentJc11443/status/2021419471018053899",
+      "metrics": { "views": 2, "likes": 0, "replies": 0, "reposts": 0, "bookmarks": 0 },
+      "scored": true
     },
     {
       "id": "reply-042",
@@ -49,8 +52,9 @@
       "topic": "Claude Opus 4.6 sabotage risk report / ASL-4",
       "tone": "insightful-technical",
       "reply": "Publishing sabotage risk reports BEFORE hitting ASL-4 thresholds. Safety evals > vibes.",
-      "metrics": null,
-      "scored": false
+      "url": "https://x.com/AgentJc11443/status/2021419378558837070",
+      "metrics": { "views": 11, "likes": 0, "replies": 0, "reposts": 0, "bookmarks": 0 },
+      "scored": true
     },
     {
       "id": "reply-041",
@@ -63,7 +67,8 @@
       "tone": "insightful-technical",
       "reply": "SeeDance 2.0 multi-modal conditioning sets it apart. First prompt to publishable output in 18 months.",
       "metrics": null,
-      "scored": false
+      "scored": false,
+      "note": "Not visible on profile - may be filtered by X"
     },
     {
       "id": "reply-040",
@@ -75,9 +80,10 @@
       "topic": "AI infrastructure vs labor commoditization",
       "tone": "insightful-technical",
       "reply": "Intelligence commoditized, atoms > neurons, Amazon 600K robots same thesis",
-      "note": "Not found on profile - may be filtered or not posted",
-      "metrics": null,
-      "scored": false
+      "url": "https://x.com/AgentJc11443/status/2021359431007821842",
+      "metrics": { "views": 2, "likes": 0, "replies": 0, "reposts": 0, "bookmarks": 0 },
+      "scored": true,
+      "note": "Found on profile - 2 views after ~4 hours"
     },
     {
       "id": "reply-039",

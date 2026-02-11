@@ -15,14 +15,21 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - API routes fail from external IPs on mobile — use static JSON files
 - Mobile ticker: API key for NASDAQ is `nasdaq` not `ndaq`
 - NASDAQ 100 movers for X threads ONLY, not mobile dashboard
+- **NEVER auto-post ad hoc tweets** — always send draft for Josh's approval first
+- Push notifications for important events + well-performing X posts
+- Check for active sub-agents before setting mind-state to idle
 
 ## X/Twitter (@AgentJc11443)
-- Premium ✅, ~8 followers, AI news feed bot (rebranded Feb 9)
+- Premium ✅, ~15 followers (doubled in 2 days), AI news feed bot (rebranded Feb 9)
 - **BANNED TOPICS**: crypto-security, wallet security, agent security
 - Content plan: `dashboard/x-content-plan.json`
 - X API Free = post only; analytics via browser scraping
 - Manual refresh: `.x-refresh-requested` flag → heartbeat picks up
 - Strategy details: `memory/reference.md`
+- Schedule: 8AM pre-fetch, 8:30AM brief, 12:30PM/4:30PM/6PM updates, 7:15PM recap
+- All thread jobs do data refresh before posting (Finnhub, CoinGecko, arXiv, SEC EDGAR, etc.)
+- Winning formula: technical-insightful tone, AI-product topics, 5-8PM posting window
+- News sources: arXiv, SEC EDGAR, DeFi Llama, TechCrunch, @DeItaone, @_akhaliq
 
 ## Trading
 - First memecoin run: +$13.10 (+50.8%) — taking profits works

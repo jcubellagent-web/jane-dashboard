@@ -619,6 +619,21 @@
                 </div>
             </div>
 
+            <!-- Coinbase Wallet — collapsible -->
+            <div class="card" style="padding:0;">
+                <div class="wallet-toggle" id="wallet-toggle">
+                    <span class="wallet-toggle-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#3b82f6"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                        Coinbase Wallet
+                        <span class="last-refresh" id="wallet-refresh">--</span>
+                    </span>
+                    <span class="wallet-arrow" id="wallet-arrow">▶</span>
+                </div>
+                <div class="wallet-body" id="wallet-body">
+                    <div id="wallet-content"><span class="wallet-empty">Loading...</span></div>
+                </div>
+            </div>
+
             <!-- Connected Accounts — collapsible dropdown -->
             <div class="card" style="padding:0;">
                 <div class="conn-toggle" id="conn-toggle">
@@ -1215,13 +1230,72 @@
             } catch(e) {}
         }
 
+        // ===== COINBASE WALLET =====
+        document.getElementById('wallet-toggle').addEventListener('click', () => {
+            const body = document.getElementById('wallet-body');
+            const arrow = document.getElementById('wallet-arrow');
+            const isOpen = body.classList.toggle('open');
+            arrow.style.transform = isOpen ? 'rotate(90deg)' : '';
+        });
+
+        function truncAddr(addr) {
+            if (!addr) return '';
+            return addr.slice(0,6) + '…' + addr.slice(-4);
+        }
+
+        async function refreshWallet(btn) {
+            const doRefresh = async () => {
+                try {
+                    const data = await fetchWithTimeout('/coinbase-wallet.json', 5000);
+                    if (!data) return;
+                    const container = document.getElementById('wallet-content');
+                    const totalUsd = (data.evm?.totalUsd||0) + (data.solana?.totalUsd||0);
+
+                    function renderChain(chain, label) {
+                        if (!chain) return '';
+                        const addrTrunc = truncAddr(chain.address);
+                        const balRows = (chain.balances||[]).length > 0
+                            ? chain.balances.map(b => `<div class="wallet-token-row"><span class="wallet-token-name">${b.symbol||b.token||'?'}</span><span class="wallet-token-bal">${b.amount!=null?Number(b.amount).toLocaleString(undefined,{maximumFractionDigits:6}):''}</span><span class="wallet-token-usd">${b.usd!=null?'$'+Number(b.usd).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}):''}</span></div>`).join('')
+                            : '<div class="wallet-empty">No tokens</div>';
+                        return `<div class="wallet-chain">
+                            <div class="wallet-chain-header">
+                                <span class="wallet-chain-name">${label} (${chain.network||''})</span>
+                                <span class="wallet-chain-total">$${Number(chain.totalUsd||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
+                            </div>
+                            <div class="wallet-addr-row">
+                                <span>${addrTrunc}</span>
+                                <button class="wallet-copy-btn" onclick="event.stopPropagation();navigator.clipboard.writeText('${chain.address}');this.textContent='✓';setTimeout(()=>this.textContent='📋',1500)" title="Copy address">📋</button>
+                            </div>
+                            ${balRows}
+                        </div>`;
+                    }
+
+                    let updated = '';
+                    if (data.lastUpdated) {
+                        const d = new Date(data.lastUpdated);
+                        updated = `<div class="wallet-updated">Updated: ${d.toLocaleDateString()} ${d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div>`;
+                    }
+
+                    container.innerHTML = renderChain(data.evm, 'EVM') +
+                        '<div class="wallet-divider"></div>' +
+                        renderChain(data.solana, 'Solana') +
+                        `<div class="wallet-total-bar"><span class="wallet-total-label">Total Value</span><span class="wallet-total-value">$${totalUsd.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</span></div>` +
+                        updated;
+
+                    document.getElementById('wallet-refresh').textContent = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+                } catch(e) { console.error('Wallet:', e); }
+            };
+            if (btn) return spinButton(btn, doRefresh());
+            return doRefresh();
+        }
+
         // ===== REFRESH ALL =====
         function refreshAll() {
             const mainBtn = document.getElementById('refresh-all-btn');
             if (mainBtn) mainBtn.classList.add('spinning');
             document.querySelectorAll('.refresh-btn').forEach(btn=>btn.classList.add('spinning'));
             refreshSystem(); refreshAgents(); refreshXStats(); refreshDesktopTweetFeed();
-            refreshConnections(); refreshSorare(); refreshMind();
+            refreshConnections(); refreshSorare(); refreshMind(); refreshWallet();
             setTimeout(() => {
                 if (mainBtn) mainBtn.classList.remove('spinning');
                 document.querySelectorAll('.refresh-btn').forEach(btn=>btn.classList.remove('spinning'));
@@ -1237,6 +1311,7 @@
         refreshConnections().catch(e=>console.warn('Connections:',e.message));
         refreshSorare().catch(e=>console.warn('Sorare:',e.message));
         refreshAgents().catch(e=>console.warn('Agents:',e.message));
+        refreshWallet().catch(e=>console.warn('Wallet:',e.message));
 
         // Auto-refresh
         setInterval(refreshMind, 5000);
@@ -1245,6 +1320,7 @@
         setInterval(refreshDesktopTweetFeed, 60000);
         setInterval(refreshSorare, 300000);
         setInterval(refreshConnections, 600000);
+        setInterval(refreshWallet, 300000);
 
         // WebSocket
         (function connectWS() {
@@ -1265,6 +1341,7 @@
                         else if (k==='mind') refreshMind();
                         else if (k==='sessions') refreshAgents();
                         else if (k==='sorare'||k==='sorare-mobile') refreshSorare();
+                        else if (k==='coinbase-wallet') refreshWallet();
                     }
                     if (msg.type==='update') handleWidget(msg.widget);
                     else if (msg.type==='batch'&&msg.updates) msg.updates.forEach(u=>handleWidget(u.widget));

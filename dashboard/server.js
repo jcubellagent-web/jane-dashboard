@@ -624,11 +624,11 @@ function handleRequest(req, res) {
                 { name: 'Phantom Wallet', detail: 'Solana', icon: icons.phantom, active: true },
                 { name: 'Substack', detail: '@agentjc11443', icon: icons.substack, active: true },
                 { name: 'Twilio', detail: 'Phone number provider', icon: icons.twilio, active: true },
-                { name: 'HuggingFace', detail: 'JaneAgentAI', icon: icons.huggingface, active: true },
-                { name: '@DeItaone', detail: 'breaking financial news', icon: icons.twitter, active: true },
-                { name: '@_akhaliq', detail: 'AI papers & research', icon: icons.twitter, active: true }
+                { name: 'HuggingFace', detail: 'JaneAgentAI', icon: icons.huggingface, active: true }
             ],
             dataSources: [
+                { name: '@DeItaone', detail: 'breaking financial news', icon: icons.twitter, active: true },
+                { name: '@_akhaliq', detail: 'AI papers & research', icon: icons.twitter, active: true },
                 { name: 'Finnhub', detail: 'real-time stocks, 60/min', icon: icons.finnhub, active: true },
                 { name: 'Alpha Vantage', detail: 'NASDAQ movers, sentiment', icon: icons.alphavantage, active: true },
                 { name: 'CoinGecko', detail: 'crypto prices, 10k/mo', icon: icons.coingecko, active: true },

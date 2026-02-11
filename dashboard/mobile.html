@@ -987,6 +987,7 @@
         </div>
         <div id="sorare-body" style="display:none;margin-top:0.5rem;">
             <div id="sorare-daily-tasks" style="margin-bottom:0.6rem;"></div>
+            <div id="sorare-crafting" style="margin-bottom:0.6rem;"></div>
             <div id="sorare-active" style="margin-bottom:0.6rem;"></div>
             <div id="sorare-upcoming"></div>
         </div>
@@ -1615,9 +1616,10 @@
         }
 
         async function refreshSorare() {
-            const [data, tasksData] = await Promise.all([
+            const [data, tasksData, craftData] = await Promise.all([
                 fetchJSON('/sorare-mobile.json'),
-                fetchJSON('/sorare-daily-tasks.json')
+                fetchJSON('/sorare-daily-tasks.json'),
+                fetchJSON('/sorare-crafting-status.json')
             ]);
 
             // Daily tasks
@@ -1640,6 +1642,37 @@
             } else {
                 tasksEl.innerHTML = '';
             }
+
+            // Crafting progress bar
+            const craftEl = document.getElementById('sorare-crafting');
+            if (craftData && craftData.essenceBalance != null) {
+                const bal = craftData.essenceBalance;
+                const cost = craftData.craftingCost || 1000;
+                const pct = Math.min(100, Math.round((bal / cost) * 100));
+                const needed = Math.max(0, cost - bal);
+                const barColor = pct >= 100 ? '#4ade80' : '#a78bfa';
+                let cHtml = '<div class="sorare-section-label">🔮 Crafting Progress</div>';
+                cHtml += '<div class="sorare-lineup" style="padding:0.4rem 0.5rem;">';
+                cHtml += '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.25rem;">';
+                cHtml += '<span style="font-size:0.55rem;color:rgba(255,255,255,0.7);">Limited Card Craft</span>';
+                cHtml += '<span style="font-size:0.55rem;font-weight:600;color:' + barColor + ';">' + bal + ' / ' + cost + ' Essence</span>';
+                cHtml += '</div>';
+                cHtml += '<div style="width:100%;height:8px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;">';
+                cHtml += '<div style="width:' + pct + '%;height:100%;background:' + barColor + ';border-radius:4px;transition:width 0.5s;"></div>';
+                cHtml += '</div>';
+                cHtml += '<div style="display:flex;justify-content:space-between;margin-top:0.2rem;">';
+                cHtml += '<span style="font-size:0.45rem;color:rgba(255,255,255,0.4);">' + pct + '%</span>';
+                if (needed > 0) {
+                    cHtml += '<span style="font-size:0.45rem;color:rgba(255,255,255,0.4);">' + needed + ' more needed</span>';
+                } else {
+                    cHtml += '<span style="font-size:0.45rem;color:#4ade80;font-weight:600;">✨ Ready to craft!</span>';
+                }
+                cHtml += '</div></div>';
+                craftEl.innerHTML = cHtml;
+            } else {
+                craftEl.innerHTML = '';
+            }
+
             if (!data || !data.activeFixture) return;
             const fix = data.activeFixture;
             const now = Date.now();

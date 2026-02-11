@@ -734,7 +734,7 @@
             <span style="font-size:0.6rem;color:var(--text-dim);font-weight:400;">Josh's Personal Assistant</span>
         </div>
         <div style="display:flex;align-items:center;gap:0.4rem;">
-            <button id="push-btn" style="display:none;font-size:0.6rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:rgba(255,255,255,0.6);padding:0.2rem 0.5rem;cursor:pointer;align-items:center;gap:0.2rem;-webkit-tap-highlight-color:transparent;">🔔 Enable</button>
+            <button id="push-btn" style="display:inline-flex;font-size:0.6rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:rgba(255,255,255,0.6);padding:0.2rem 0.5rem;cursor:pointer;align-items:center;gap:0.2rem;-webkit-tap-highlight-color:transparent;">🔔 Enable</button>
             <span id="greeting" style="font-size:0.7rem;font-weight:600;color:var(--accent);"></span>
         </div>
     </div>
@@ -1753,7 +1753,11 @@
 
         // Push Notifications
         (async function initPushNotifications() {
-            if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+            const btn = document.getElementById('push-btn');
+            if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+                if (btn) { btn.textContent = '🔔 Not supported'; btn.style.color = 'rgba(255,255,255,0.3)'; btn.onclick = () => alert('Push notifications require iOS 16.4+ and the app must be added to your Home Screen via Safari Share → Add to Home Screen. Then open from the Home Screen icon.'); }
+                return;
+            }
             try {
                 const reg = await navigator.serviceWorker.register('/sw.js');
                 console.log('SW registered');

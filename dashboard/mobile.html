@@ -1755,7 +1755,9 @@
         (async function initPushNotifications() {
             const btn = document.getElementById('push-btn');
             if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-                if (btn) { btn.textContent = '🔔 Not supported'; btn.style.color = 'rgba(255,255,255,0.3)'; btn.onclick = () => alert('Push notifications require iOS 16.4+ and the app must be added to your Home Screen via Safari Share → Add to Home Screen. Then open from the Home Screen icon.'); }
+                const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+                const info = `SW: ${'serviceWorker' in navigator}\nPush: ${'PushManager' in window}\nNotification: ${'Notification' in window}\nStandalone: ${standalone}\nUA: ${navigator.userAgent}`;
+                if (btn) { btn.textContent = '🔔 Not supported'; btn.style.color = 'rgba(255,255,255,0.3)'; btn.onclick = () => alert(info); }
                 return;
             }
             try {

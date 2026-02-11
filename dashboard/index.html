@@ -367,18 +367,6 @@
             padding: 0 0.3rem; user-select: none;
         }
         .x-thread-nav-btn:hover { color: rgba(255,255,255,0.5); }
-        .x-tab-bar {
-            display: flex; gap: 0; margin-bottom: 0.5rem; flex-shrink: 0;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-        .x-tab {
-            flex: 1; text-align: center; padding: 0.4rem 0; font-size: 0.75rem;
-            font-weight: 600; color: rgba(255,255,255,0.35); cursor: pointer;
-            border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s;
-            user-select: none;
-        }
-        .x-tab:hover { color: rgba(255,255,255,0.55); }
-        .x-tab.active { color: #1d9bf0; border-bottom-color: #1d9bf0; }
         .x-tweet-feed {
             display: flex; flex-direction: column; gap: 0.5rem;
             overflow-y: auto; flex: 1; min-height: 0;
@@ -678,14 +666,8 @@
                     <span class="x-strip-stat" id="x-impressions"><span class="x-strip-val">--</span> <span class="x-strip-lbl">views</span> <span class="x-strip-delta" id="x-d-impressions"></span></span>
                     <span class="x-strip-stat" id="x-likes"><span class="x-strip-val">--</span> <span class="x-strip-lbl">likes</span> <span class="x-strip-delta" id="x-d-likes"></span></span>
                 </div>
-                <!-- Tabs -->
-                <div class="x-tab-bar">
-                    <div class="x-tab active" id="x-tab-threads" onclick="switchXTab('threads')">Threads</div>
-                    <div class="x-tab" id="x-tab-replies" onclick="switchXTab('replies')">Replies</div>
-                </div>
                 <!-- Tweet Feed -->
                 <div class="x-tweet-feed" id="dt-tweet-feed"></div>
-                <div class="x-tweet-feed" id="dt-replies-feed" style="display:none;"></div>
             </div>
 
             <!-- Sorare Widget -->
@@ -842,21 +824,6 @@
         // ===== X TWEET FEED =====
         window._dtThreadData = [];
         window._dtThreadIdx = 0;
-        window._dtRepliesData = [];
-        window._dtActiveXTab = 'threads';
-        window._dtRepliesTabTimer = null;
-
-        function switchXTab(tab) {
-            window._dtActiveXTab = tab;
-            document.getElementById('x-tab-threads').classList.toggle('active', tab === 'threads');
-            document.getElementById('x-tab-replies').classList.toggle('active', tab === 'replies');
-            document.getElementById('dt-tweet-feed').style.display = tab === 'threads' ? '' : 'none';
-            document.getElementById('dt-replies-feed').style.display = tab === 'replies' ? '' : 'none';
-            if (window._dtRepliesTabTimer) clearTimeout(window._dtRepliesTabTimer);
-            if (tab === 'replies') {
-                window._dtRepliesTabTimer = setTimeout(() => switchXTab('threads'), 5 * 60 * 1000);
-            }
-        }
 
         async function refreshDesktopTweetFeed() {
             const [histData, latestData] = await Promise.all([
@@ -868,11 +835,7 @@
             } else if (latestData && latestData.tweets) {
                 window._dtThreadData = [{ date:'Latest', label:'Latest', tweets:latestData.tweets, lastUpdated:latestData.lastUpdated }];
             }
-            if (latestData && latestData.tweets) {
-                window._dtRepliesData = latestData.tweets;
-            }
             dtRenderAllThreads();
-            dtRenderReplies();
         }
 
         function dtRenderAllThreads() {
@@ -880,17 +843,53 @@
             const container = document.getElementById('dt-tweet-feed');
             if (!threads || !threads.length || !container) return;
             container.innerHTML = '';
-            // Show all threads newest first (already sorted newest first from API)
-            threads.forEach((thread, tIdx) => {
+
+            // Determine today's date string for pinning logic
+            const now = new Date();
+            const todayStr = now.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+
+            // Separate today's threads from older ones
+            const todayThreads = [];
+            const olderThreads = [];
+            threads.forEach(thread => {
+                const d = thread.date || '';
+                // Match if thread date contains today's month+day
+                if (d === todayStr || d === now.toLocaleDateString('en-US', { month:'short', day:'numeric' }) ||
+                    (d.includes(now.toLocaleDateString('en-US', { month:'short' }).split(' ')[0]) && d.includes(String(now.getDate())))) {
+                    todayThreads.push(thread);
+                } else {
+                    olderThreads.push(thread);
+                }
+            });
+
+            // Find pinned thread (earliest today = last in array since threads are newest-first)
+            let pinnedThread = null;
+            const todayUpdates = [];
+            if (todayThreads.length > 1) {
+                // Threads are newest first; last one is the earliest (morning brief)
+                pinnedThread = todayThreads[todayThreads.length - 1];
+                todayUpdates.push(...todayThreads.slice(0, todayThreads.length - 1));
+            } else if (todayThreads.length === 1) {
+                // Only one thread today - it's the pinned morning brief
+                pinnedThread = todayThreads[0];
+            }
+
+            // Render order: today's updates (newest first) → pinned morning brief → older threads
+            const ordered = [...todayUpdates];
+            if (pinnedThread) ordered.push(pinnedThread);
+            ordered.push(...olderThreads);
+
+            ordered.forEach((thread, tIdx) => {
+                const isPinned = thread === pinnedThread && todayUpdates.length > 0;
                 // Thread date header
                 const header = document.createElement('div');
                 header.style.cssText = 'font-size:0.7rem;font-weight:600;color:#4ade80;padding:0.4rem 0 0.2rem;' + (tIdx > 0 ? 'border-top:1px solid rgba(255,255,255,0.06);margin-top:0.5rem;padding-top:0.6rem;' : '');
-                header.textContent = thread.label || thread.date || '';
+                header.textContent = (isPinned ? '📌 Pinned · ' : '') + (thread.label || thread.date || '');
                 container.appendChild(header);
                 (thread.tweets || []).forEach((tweet, i) => {
                     const div = document.createElement('div');
                     div.className = 'x-tweet-item';
-                    if (i === 0) div.style.borderLeftColor = '#4ade80';
+                    if (i === 0) div.style.borderLeftColor = isPinned ? '#f59e0b' : '#4ade80';
                     let timeDisplay = '';
                     if (tweet.time) {
                         const t = new Date(tweet.time);
@@ -913,30 +912,6 @@
                 });
             });
         }
-
-        function dtRenderReplies() {
-            const tweets = window._dtRepliesData;
-            const container = document.getElementById('dt-replies-feed');
-            if (!tweets || !tweets.length || !container) return;
-            container.innerHTML = '';
-            tweets.forEach((tweet) => {
-                const div = document.createElement('div');
-                div.className = 'x-tweet-item';
-                let timeDisplay = '';
-                if (tweet.time) {
-                    const t = new Date(tweet.time);
-                    const mins = Math.round((Date.now()-t.getTime())/60000);
-                    if (mins<1) timeDisplay='just now';
-                    else if (mins<60) timeDisplay=mins+'m ago';
-                    else if (mins<1440) timeDisplay=Math.round(mins/60)+'h ago';
-                    else timeDisplay=t.toLocaleDateString([],{month:'short',day:'numeric'})+' '+t.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
-                }
-                div.innerHTML = '<div class="x-tweet-meta">'+
-                    '<div><span class="x-tweet-stat">'+timeDisplay+'</span></div>'+
-                    '<div style="display:flex;gap:0.5rem;">'+
-                    (tweet.views?'<span class="x-tweet-stat">👁 '+tweet.views+'</span>':'')+
-                    (tweet.likes?'<span class="x-tweet-stat">❤️ '+tweet.likes+'</span>':'')+
-                    (tweet.reposts?'<span class="x-tweet-stat">🔁 '+tweet.reposts+'</span>':'')+
                     '</div></div>'+
                     '<div class="x-tweet-text">'+(tweet.text||'')+'</div>';
                 container.appendChild(div);

@@ -199,6 +199,7 @@
         "reposts": 0,
         "bookmarks": 0
       },
+      "note": "Still top Tuesday performer at 10.5 hours",
       "scored": true
     },
     {
@@ -899,7 +900,7 @@
     }
   ],
   "insights": {
-    "lastAnalysis": "2026-02-11T00:35:00.000Z",
+    "lastAnalysis": "2026-02-11T03:45:00.000Z",
     "totalReplies": 45,
     "repliesScraped": 39,
     "repliesUnscrapable": 6,
@@ -1157,6 +1158,21 @@
         "FIX URL LOGGING: 10AM batch (5 replies) missing URLs - cant track metrics.",
         "CHARLIEJHILLS REPLIED BACK: Prioritize accounts that engage with their replies.",
         "QUALITY > FARMING: Best replies add genuine analysis (cost breakdowns, competitive positioning)."
+      ]
+    },
+    {
+      "date": "2026-02-10T22:45",
+      "finding": "10PM batch: 6 replies posted, 5 visible on profile (emollick SeeDance filtered). Jimmy Ba reply got 1 LIKE at 35 views in 30 min — fastest engagement ever. Also discovered 2 unreported replies: copper datacenter (96 views in 2hrs!) and crypto regulation (27 views). Profile: 16 followers, 6.9K impressions, 255 engagements, 48 likes.",
+      "recommendations": [
+        "JIMMY BA = EARLY WIN: 35 views + 1 like in 30 min on 496K-view parent. AI talent/co-founder departure news is a strong category.",
+        "COPPER DATACENTER REPLY = SLEEPER HIT: 96 views in 2 hours (no likes yet). Data-driven infrastructure takes get views. Need to convert to engagement.",
+        "ANTHROPIC SAFETY REPLY AT 11 VIEWS: Decent for 30 min on 161K parent. Safety/responsible AI framing works for visibility.",
+        "EMOLLICK REPLY FILTERED AGAIN: Second time an emollick reply is invisible. May be spam-filtered due to account age. STOP replying to emollick.",
+        "SIMCITY REPLY BURIED: 2 views on 420K parent — massive thread with 154 replies drowns us. Avoid 100K+ reply-count threads.",
+        "LATE NIGHT POSTING WORKS: 10PM ET batch getting engagement immediately. AI/tech audience is online late.",
+        "UNREPORTED REPLIES: Need to fix posting workflow — copper and crypto-regulation replies had no log entries. Manually adding.",
+        "PROFILE GROWTH: 16 followers (+1 today), 6.9K impressions (up from 6.8K), 48 likes (up from 45).",
+        "WEDNESDAY PRIORITIES: (1) Target AI talent/hiring news, (2) AI infrastructure/commodity plays, (3) Avoid mega-threads >100 replies, (4) Stop replying to emollick"
       ]
     },
     {

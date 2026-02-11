@@ -2197,24 +2197,29 @@ function buildGantt(data){
                 if(m[3].toUpperCase()==='PM'&&hr!==12)hr+=12;
                 if(m[3].toUpperCase()==='AM'&&hr===12)hr=0;
                 hasTimed=true;
-                bars.push({name:j.name,start:hr+mi/60,dur:0.75,done:j.done,cat:typ,time:t,group:g.label,
+                bars.push({name:j.name,start:hr+mi/60,dur:0.5,done:j.done,cat:typ,time:t,group:g.label,
                     threadNum:j.threadNum||null,tweets:j.tweets||null,count:j.count||null,type:j.type});
             });
         });
     });
     bars.sort((a,b)=>a.start-b.start);
 
-    const tStart=7, tEnd=24, tRange=tEnd-tStart;
-    const rowH=28, rowGap=3, headerH=20;
-    const totalH=headerH+bars.length*(rowH+rowGap)+40;
+    // Filter to visible window only
+    const winStart=Math.max(0,Math.floor(nowH)), winEnd=Math.min(24,winStart+6);
+    const visibleBars=bars.filter(b=>b.start+b.dur>winStart&&b.start<winEnd);
+
+    // Rolling 6-hour window from now
+    const tStart=Math.max(0,Math.floor(nowH)), tEnd=Math.min(24,tStart+6), tRange=tEnd-tStart;
+    const rowH=32, rowGap=4, headerH=22;
     const el=document.getElementById('cron-gantt');
 
     let html='<div style="position:relative;font-family:-apple-system,BlinkMacSystemFont,sans-serif;">';
 
     // Title
     html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">';
-    html+='<span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.8px;">Daily Timeline</span>';
-    html+=`<span style="font-size:8px;color:rgba(255,255,255,0.3);">${now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</span>`;
+    html+='<span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.8px;">Next 6 Hours</span>';
+    const fmtTime=(h)=>{const hr=h%12||12;const ap=h>=12?'PM':'AM';return hr+' '+ap;};
+    html+=`<span style="font-size:8px;color:rgba(255,255,255,0.3);">${fmtTime(tStart)} – ${fmtTime(tEnd)} · ${visibleBars.length} jobs</span>`;
     html+='</div>';
 
     // Legend
@@ -2234,20 +2239,16 @@ function buildGantt(data){
     html+='<div style="position:relative;height:'+headerH+'px;margin-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.06);">';
     for(let t=tStart;t<=tEnd;t+=1){
         const pct=((t-tStart)/tRange)*100;
-        const isHour3=t%3===0;
-        if(isHour3){
-            const label=t===12?'12P':t===24?'12A':t>12?(t-12)+'P':t+'A';
-            html+=`<span style="position:absolute;left:${pct}%;transform:translateX(-50%);top:2px;font-size:7px;font-weight:600;color:rgba(255,255,255,${isHour3?'0.4':'0.2'});">${label}</span>`;
-        }
-        // Tick mark
-        html+=`<div style="position:absolute;left:${pct}%;bottom:0;width:1px;height:${isHour3?'6':'3'}px;background:rgba(255,255,255,${isHour3?'0.12':'0.05'});"></div>`;
+        const label=t===0?'12A':t===12?'12P':t===24?'12A':t>12?(t-12)+'P':t+'A';
+        html+=`<span style="position:absolute;left:${pct}%;transform:translateX(-50%);top:2px;font-size:8px;font-weight:600;color:rgba(255,255,255,0.45);">${label}</span>`;
+        html+=`<div style="position:absolute;left:${pct}%;bottom:0;width:1px;height:6px;background:rgba(255,255,255,0.12);"></div>`;
     }
     html+='</div>';
 
     // Grid lines
-    const trackH=bars.length*(rowH+rowGap);
-    html+=`<div style="position:relative;height:${trackH}px;">`;
-    for(let t=tStart;t<=tEnd;t+=3){
+    const trackH=visibleBars.length*(rowH+rowGap);
+    html+=`<div style="position:relative;height:${Math.max(trackH,40)}px;">`;
+    for(let t=tStart;t<=tEnd;t+=1){
         const pct=((t-tStart)/tRange)*100;
         html+=`<div style="position:absolute;left:${pct}%;top:0;height:100%;width:1px;background:rgba(255,255,255,0.04);"></div>`;
     }
@@ -2261,11 +2262,15 @@ function buildGantt(data){
         html+=`</div>`;
     }
 
+    // No jobs message
+    if(visibleBars.length===0){
+        html+=`<div style="display:flex;align-items:center;justify-content:center;height:40px;color:rgba(255,255,255,0.25);font-size:9px;">No scheduled jobs in this window</div>`;
+    }
     // Bars with row labels
-    bars.forEach((b,i)=>{
+    visibleBars.forEach((b,i)=>{
         const top=i*(rowH+rowGap);
         const left=Math.max(0,((b.start-tStart)/tRange)*100);
-        const width=Math.max(3,(b.dur/tRange)*100);
+        const width=Math.max(8,(b.dur/tRange)*100);
         const isPast=b.start+b.dur<nowH;
         const isActive=b.start<=nowH&&b.start+b.dur>nowH;
         const isFuture=b.start>nowH;
@@ -2306,9 +2311,9 @@ function buildGantt(data){
     html+='</div>'; // end chart area
 
     // Summary bar
-    const done=bars.filter(b=>b.done).length;
-    const active=bars.filter(b=>{return b.start<=nowH&&b.start+b.dur>nowH&&!b.done;}).length;
-    const upcoming=bars.filter(b=>b.start>nowH&&!b.done).length;
+    const done=visibleBars.filter(b=>b.done).length;
+    const active=visibleBars.filter(b=>{return b.start<=nowH&&b.start+b.dur>nowH&&!b.done;}).length;
+    const upcoming=visibleBars.filter(b=>b.start>nowH&&!b.done).length;
     html+='<div style="display:flex;justify-content:space-between;margin-top:0.4rem;padding:0.25rem 0.4rem;background:rgba(255,255,255,0.03);border-radius:4px;font-size:8px;">';
     html+=`<span style="color:rgba(255,255,255,0.3);">✓ ${done} done</span>`;
     html+=`<span style="color:var(--accent);font-weight:600;">${active>0?'▸ '+active+' active':'—'}</span>`;

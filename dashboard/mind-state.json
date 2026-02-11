@@ -2,7 +2,7 @@
   "task": "Transcribing audio via Whisper",
   "steps": [
     {
-      "label": "Writing file",
+      "label": "Editing mobile.html",
       "status": "done",
       "tool": "opus"
     },
@@ -32,7 +32,7 @@
       "tool": "opus"
     }
   ],
-  "thought": "Add the extra data attributes to the bar element:",
-  "lastUpdated": 1770781711780,
-  "lastTask": "McKinsey-grade Gantt chart redesign"
+  "thought": "Add the rolling window label and update the title:",
+  "lastUpdated": 1770781822837,
+  "lastTask": "Gantt chart: color by type (threads/replies/data/ops)"
 }

@@ -4221,7 +4221,7 @@
                     }
                 } catch(e) {}
             };
-            ws.onclose = () => setTimeout(connectWS, 3000);
+            ws.onclose = () => setTimeout(connectWS, 1000);
             ws.onerror = () => ws.close();
         })();
 

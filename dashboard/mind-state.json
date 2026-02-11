@@ -1,15 +1,9 @@
 {
-  "task": "Transcribing audio via Whisper",
+  "task": "LATENCY TEST",
   "steps": [
     {
-      "label": "Transcribing audio via Whisper",
-      "status": "done",
-      "tool": "whisper"
-    },
-    {
-      "label": "Managing background process",
-      "status": "done",
-      "tool": "opus"
+      "label": "Testing speed",
+      "status": "done"
     },
     {
       "label": "Running shell command",
@@ -17,22 +11,16 @@
       "tool": "opus"
     },
     {
-      "label": "Running shell command",
+      "label": "Editing dashboard server",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Running shell command",
-      "status": "done",
-      "tool": "opus"
-    },
-    {
-      "label": "Running shell command",
+      "label": "Editing dashboard UI",
       "status": "active",
       "tool": "opus"
     }
   ],
-  "thought": "Push works! 🎉",
-  "lastUpdated": 1770774065750,
-  "lastTask": "Transcribing audio via Whisper"
+  "thought": "Also let me check the desktop reconnect — it has a fixed 3s retry which is slow:",
+  "lastUpdated": 1770774278844
 }

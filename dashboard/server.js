@@ -2712,7 +2712,7 @@ fs.watch(tasksDir, (eventType, filename) => {
     }
 
     // Poll every 200ms for near-instant detection
-    setInterval(checkForNewMessage, 200);
+    setInterval(checkForNewMessage, 100);
     // Re-discover transcript every 60s in case of rotation
     setInterval(() => { mainTranscript = findMainTranscript(); lastSize = 0; }, 60000);
     console.log('⚡ Instant mind activation watcher enabled');

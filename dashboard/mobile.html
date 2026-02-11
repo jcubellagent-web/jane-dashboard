@@ -744,7 +744,11 @@
             <span id="greeting" style="font-size:0.7rem;font-weight:600;color:var(--accent);"></span>
         </div>
     </div>
+    <script src="dashboard-common.js"></script>
     <script>
+        // Pause CSS animations when tab is hidden (audit item #12)
+        initAnimationPauseOnHidden();
+        
         function updateGreeting() {
             const h = new Date().getHours();
             let g;
@@ -952,18 +956,7 @@
     </div>
 
     <script>
-        async function fetchJSON(url, timeout = 8000) {
-            const ctrl = new AbortController();
-            const t = setTimeout(() => ctrl.abort(), timeout);
-            try {
-                const r = await fetch(url, { signal: ctrl.signal });
-                clearTimeout(t);
-                return await r.json();
-            } catch(e) {
-                clearTimeout(t);
-                return null;
-            }
-        }
+        // fetchJSON → now in dashboard-common.js
 
         async function refreshStatus() {
             const [sessions, system] = await Promise.all([
@@ -1326,11 +1319,7 @@
             }
         }
 
-        function esc(str) {
-            const d = document.createElement('div');
-            d.textContent = str;
-            return d.innerHTML;
-        }
+        // esc() → now in dashboard-common.js
 
         // Tool/label → brain region mapping
         // Regions: 0=REASONING, 1=CODE, 2=WEB, 3=SOCIAL, 4=DATA, 5=MARKET, 6=MEMORY, 7=LANGUAGE
@@ -1727,10 +1716,7 @@
         refreshSorare();
         // Smart intervals — pause when tab hidden
         const _intervals = [];
-        function smartInterval(fn, ms) {
-            const id = setInterval(() => { if (!document.hidden) fn(); }, ms);
-            _intervals.push(id);
-        }
+        // smartInterval → now in dashboard-common.js
         smartInterval(refreshStatus, 30000);
         smartInterval(refreshMind, 5000);
         smartInterval(refreshTicker, 60000);
@@ -1759,13 +1745,17 @@
                 ws.onmessage = (e) => {
                     try {
                         const msg = JSON.parse(e.data);
-                        if (msg.type === 'fileChange') {
-                            const k = msg.key;
+                        function handleWidgetUpdate(k) {
                             if (k === 'x-stats') wsRefresh(k, refreshXStats);
                             else if (k === 'x-tweets' || k === 'x-thread-history') wsRefresh('tweets', refreshTweetFeed);
                             else if (k === 'mind') wsRefresh(k, refreshMind);
                             else if (k === 'sessions') wsRefresh(k, refreshStatus);
                             else if (k === 'sorare-mobile' || k === 'sorare') wsRefresh('sorare', refreshSorare);
+                        }
+                        if (msg.type === 'update' || msg.type === 'fileChange') {
+                            handleWidgetUpdate(msg.widget || msg.key);
+                        } else if (msg.type === 'batch' && msg.updates) {
+                            msg.updates.forEach(u => handleWidgetUpdate(u.widget));
                         }
                     } catch(err) {}
                 };

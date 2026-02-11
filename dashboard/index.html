@@ -2819,6 +2819,7 @@
         </svg>
     </a>
     
+    <script src="dashboard-common.js"></script>
     <script>
         // Global error handler — prevent any single error from killing the dashboard
         window.onerror = function(msg, url, line, col, error) {
@@ -2829,6 +2830,9 @@
             console.warn('Unhandled rejection:', e.reason?.message || e.reason);
             e.preventDefault();
         });
+        
+        // Pause CSS animations when tab is hidden (audit item #12)
+        initAnimationPauseOnHidden();
         
         // Update time
         function updateTime() {
@@ -2859,44 +2863,7 @@
         }
         updateJaneAge();
         
-        // Fetch with timeout
-        async function fetchWithTimeout(url, timeout = 8000) {
-            const controller = new AbortController();
-            const id = setTimeout(() => controller.abort(), timeout);
-            try {
-                const response = await fetch(url, { signal: controller.signal });
-                clearTimeout(id);
-                return await response.json();
-            } catch (err) {
-                clearTimeout(id);
-                throw err;
-            }
-        }
-        
-        // Helper to spin refresh button
-        function spinButton(btn, promise) {
-            btn.classList.add('spinning');
-            // Ensure minimum spin time of 600ms for visibility
-            const minSpinTime = new Promise(resolve => setTimeout(resolve, 600));
-            return Promise.all([promise, minSpinTime]).finally(() => btn.classList.remove('spinning'));
-        }
-        
-        // Check if US stock market is open (9:30 AM - 4:00 PM ET, Mon-Fri)
-        function isStockMarketOpen() {
-            const now = new Date();
-            const etOptions = { timeZone: 'America/New_York' };
-            const etTime = new Date(now.toLocaleString('en-US', etOptions));
-            const day = etTime.getDay(); // 0=Sun, 6=Sat
-            const hours = etTime.getHours();
-            const minutes = etTime.getMinutes();
-            const timeInMinutes = hours * 60 + minutes;
-            
-            // Market open: 9:30 AM (570 min) to 4:00 PM (960 min), Mon-Fri
-            const isWeekday = day >= 1 && day <= 5;
-            const isDuringHours = timeInMinutes >= 570 && timeInMinutes < 960;
-            
-            return isWeekday && isDuringHours;
-        }
+        // fetchWithTimeout, spinButton, isStockMarketOpen → now in dashboard-common.js
         
         function updateMarketStatus() {
             const isOpen = isStockMarketOpen();
@@ -3125,6 +3092,7 @@
                         fetchWithTimeout('/api/sessions', 10000),
                         fetchWithTimeout('/api/system', 10000)
                     ]);
+                    _cachedSessions = sessions; // Share with refreshAgents
                     
                     // Model
                     if (sessions?.sessions?.length) {
@@ -3198,10 +3166,13 @@
         }
         
         // Sessions (Dashboard Ops)
+        // Shared sessions cache — refreshSystem fetches it, refreshAgents reuses it
+        let _cachedSessions = null;
+        
         async function refreshAgents(btn) {
             const doRefresh = async () => {
                 try {
-                    const data = await fetchWithTimeout('/api/sessions');
+                    const data = _cachedSessions || await fetchWithTimeout('/api/sessions');
                     const container = document.getElementById('ops-sessions-list');
                     
                     if (!data?.sessions?.length) {
@@ -4131,32 +4102,26 @@
             const container = document.getElementById('thinking-content');
             if (!container) return; // Dashboard Ops removed
             
-            // Mark old lines
-            container.querySelectorAll('.thinking-line').forEach(el => el.classList.add('old'));
+            // Batch DOM reads first, then writes (avoid layout thrashing)
+            const existingLines = container.querySelectorAll('.thinking-line');
+            const cursorsToRemove = [];
+            existingLines.forEach(el => {
+                const cursor = el.querySelector('.thinking-cursor');
+                if (cursor) cursorsToRemove.push(cursor);
+            });
+            const excess = existingLines.length >= maxThinkingLines ? existingLines[0] : null;
             
-            // Add new thought
+            // Now batch all writes
+            existingLines.forEach(el => el.classList.add('old'));
+            cursorsToRemove.forEach(c => c.remove());
+            if (excess) excess.remove();
+            
             const line = document.createElement('div');
             line.className = 'thinking-line';
             line.innerHTML = text + '<span class="thinking-cursor"></span>';
             container.appendChild(line);
             
-            // Remove cursor from previous lines
-            setTimeout(() => {
-                container.querySelectorAll('.thinking-line').forEach((el, i, arr) => {
-                    if (i < arr.length - 1) {
-                        const cursor = el.querySelector('.thinking-cursor');
-                        if (cursor) cursor.remove();
-                    }
-                });
-            }, 100);
-            
-            // Limit lines
-            const lines = container.querySelectorAll('.thinking-line');
-            if (lines.length > maxThinkingLines) {
-                lines[0].remove();
-            }
-            
-            // Auto-scroll
+            // Single layout read+write at end
             container.scrollTop = container.scrollHeight;
         }
         
@@ -4167,40 +4132,38 @@
         
         // Initial load — each wrapped to prevent cascade failure
         try { initBrainMap(); } catch(e) { console.warn('Brain init:', e.message); }
-        try { refreshMind(); } catch(e) {}
-        try { refreshSystem(); } catch(e) {}
-        try { refreshTicker(); } catch(e) {}
-        try { refreshXStats(); } catch(e) {}
-        try { refreshDesktopTweetFeed(); } catch(e) {}
-        try { refreshKalshi(); } catch(e) {}
-        try { refreshPredictions(); } catch(e) {}
-        try { refreshNews(); } catch(e) {}
-        try { refreshSorare(); } catch(e) {}
+        refreshMind().catch(e => console.warn('Mind init:', e.message));
+        refreshSystem().catch(e => console.warn('System init:', e.message));
+        refreshTicker().catch(e => console.warn('Ticker init:', e.message));
+        refreshXStats().catch(e => console.warn('XStats init:', e.message));
+        refreshDesktopTweetFeed().catch(e => console.warn('Tweet feed init:', e.message));
+        refreshKalshi().catch(e => console.warn('Kalshi init:', e.message));
+        refreshPredictions().catch(e => console.warn('Predictions init:', e.message));
+        refreshNews().catch(e => console.warn('News init:', e.message));
+        refreshSorare().catch(e => console.warn('Sorare init:', e.message));
         // Memecoins widget removed
-        try { refreshConnections(); } catch(e) {}
-        try { refreshAgents(); } catch(e) {}
+        refreshConnections().catch(e => console.warn('Connections init:', e.message));
+        refreshAgents().catch(e => console.warn('Agents init:', e.message));
         // Tasks/Cron widgets removed
         
-        // Auto-refresh intervals
-        setInterval(refreshSystem, 30000);
-        setInterval(refreshAgents, 30000);
+        // Auto-refresh intervals (deduplicated — refreshSystem shares data with refreshAgents)
+        setInterval(() => { refreshSystem(); refreshAgents(); }, 30000);
         
-        // Adaptive ticker: 10s when market open, 60s when closed (crypto still updates)
+        // Adaptive ticker: 30s when market open, 60s when closed
         let tickerInterval = null;
         function setAdaptiveTicker() {
             if (tickerInterval) clearInterval(tickerInterval);
-            const ms = isStockMarketOpen() ? 10000 : 60000;
+            const ms = isStockMarketOpen() ? 30000 : 60000;
             tickerInterval = setInterval(refreshTicker, ms);
         }
         setAdaptiveTicker();
         setInterval(setAdaptiveTicker, 60000);  // Re-check market status every minute
         
-        setInterval(refreshKalshi, 60000);  // Kalshi every 60 seconds
+        setInterval(refreshKalshi, 120000);  // Kalshi every 2 minutes (server caches 60s)
         setInterval(refreshPredictions, 300000);  // Predictions every 5 minutes
         setInterval(refreshNews, 300000);
-        // Tasks/Cron intervals removed
         setInterval(refreshSorare, 300000);  // Refresh Sorare every 5 minutes
-        setInterval(refreshConnections, 300000);  // Connections every 5 minutes
+        setInterval(refreshConnections, 600000);  // Connections every 10 minutes (static data)
         setInterval(refreshDesktopTweetFeed, 300000);  // Tweet feed every 5 minutes
         // Memecoins interval removed
 
@@ -4211,14 +4174,15 @@
             ws.onmessage = (evt) => {
                 try {
                     const msg = JSON.parse(evt.data);
-                    if (msg.type === 'update') {
-                        const k = msg.widget;
+                    function handleWidget(k) {
                         if (k === 'x-tweets' || k === 'x-thread-history') refreshDesktopTweetFeed();
-                        if (k === 'x-stats') refreshXStats();
-                        if (k === 'mind') refreshMind();
-                        if (k === 'sessions') refreshAgents();
-                        if (k === 'sorare' || k === 'sorare-mobile') refreshSorare();
+                        else if (k === 'x-stats') refreshXStats();
+                        else if (k === 'mind') refreshMind();
+                        else if (k === 'sessions') refreshAgents();
+                        else if (k === 'sorare' || k === 'sorare-mobile') refreshSorare();
                     }
+                    if (msg.type === 'update') handleWidget(msg.widget);
+                    else if (msg.type === 'batch' && msg.updates) msg.updates.forEach(u => handleWidget(u.widget));
                 } catch(e) {}
             };
             ws.onclose = () => setTimeout(connectWS, 1000);

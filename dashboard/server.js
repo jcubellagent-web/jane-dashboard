@@ -31,12 +31,46 @@ const execAsync = promisify(exec);
 const os = require('os');
 const https = require('https');
 
-// Caches (to avoid rate limits)
+// ===== Rate Limiting (audit item #13) =====
+const rateLimitBuckets = {};
+const RATE_LIMIT = 60; // requests per minute per endpoint
+const RATE_WINDOW = 60000; // 1 minute
+
+function checkRateLimit(endpoint) {
+    const now = Date.now();
+    if (!rateLimitBuckets[endpoint]) rateLimitBuckets[endpoint] = [];
+    const bucket = rateLimitBuckets[endpoint];
+    while (bucket.length > 0 && bucket[0] < now - RATE_WINDOW) bucket.shift();
+    if (bucket.length >= RATE_LIMIT) return false;
+    bucket.push(now);
+    return true;
+}
+
+// ===== Gateway proxy config (audit item #11 — tokens stay server-side) =====
+const GATEWAY_URL = 'http://127.0.0.1:18789';
+const GATEWAY_TOKEN = '47cf46ba8962b26d18a3d690d80a3e109f57e2525b8f6941';
+const HOOK_TOKEN = '5c8d56dd45438059dddecbedb8a7123abaf72721153dc95d';
+
+// Caches (to avoid rate limits and reduce external API calls)
 let cryptoCache = { data: null, timestamp: 0 };
 let aiNewsCache = { data: null, timestamp: 0 };
 let tickerCache = { data: null, timestamp: 0 };
 let systemStatsCache = { data: null, timestamp: 0 };
 const SYSTEM_CACHE_TTL = 30000; // 30 seconds
+
+// TTL caches for expensive endpoints
+let dgenCache = { data: null, timestamp: 0 };
+let predictionsCache = { data: null, timestamp: 0 };
+let memecoinsCache = { data: null, timestamp: 0 };
+let kalshiCache = { data: null, timestamp: 0 };
+let walletCache = { data: null, timestamp: 0 };
+let buttcoinCache = { data: null, timestamp: 0 };
+let nbaLiveCache = { data: null, timestamp: 0 };
+let marketCache = { data: null, timestamp: 0 };
+let notificationsCache = { data: null, timestamp: 0 };
+let usageTodayCache = { data: null, timestamp: 0 };
+const CACHE_TTL_30S = 30000;
+const CACHE_TTL_60S = 60000;
 
 // Paths for dynamic data
 const WORKSPACE = path.join(os.homedir(), '.openclaw', 'workspace');
@@ -456,6 +490,92 @@ function handleRequest(req, res) {
         return;
     }
 
+    // Rate limiting for API endpoints
+    if (req.url.startsWith('/api/')) {
+        const endpoint = req.url.split('?')[0];
+        if (!checkRateLimit(endpoint)) {
+            res.writeHead(429, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Too many requests. Max 60/min per endpoint.' }));
+            return;
+        }
+    }
+
+    // ===== Gateway Proxy Endpoints (audit item #11 — tokens never reach browser) =====
+    if (req.url === '/api/gateway/hook' && req.method === 'POST') {
+        let body = '';
+        req.on('data', c => body += c);
+        req.on('end', () => {
+            const opts = {
+                method: 'POST', hostname: '127.0.0.1', port: 18789, path: '/hooks/agent',
+                headers: { 'Authorization': `Bearer ${HOOK_TOKEN}`, 'Content-Type': 'application/json' }
+            };
+            const proxy = require('http').request(opts, (pRes) => {
+                let d = '';
+                pRes.on('data', c => d += c);
+                pRes.on('end', () => { res.writeHead(pRes.statusCode, { 'Content-Type': 'application/json' }); res.end(d); });
+            });
+            proxy.on('error', () => { res.writeHead(502); res.end('{"error":"Gateway unavailable"}'); });
+            const parsed = JSON.parse(body || '{}');
+            proxy.write(JSON.stringify({
+                message: parsed.message, name: parsed.name || 'Dashboard',
+                sessionKey: parsed.sessionKey || 'dashboard:main', deliver: parsed.deliver !== false,
+                channel: parsed.channel || 'whatsapp', ...parsed
+            }));
+            proxy.end();
+        });
+        return;
+    }
+
+    if (req.url === '/api/gateway/wake' && req.method === 'POST') {
+        let body = '';
+        req.on('data', c => body += c);
+        req.on('end', () => {
+            const opts = {
+                method: 'POST', hostname: '127.0.0.1', port: 18789, path: '/hooks/wake',
+                headers: { 'Authorization': `Bearer ${HOOK_TOKEN}`, 'Content-Type': 'application/json' }
+            };
+            const proxy = require('http').request(opts, (pRes) => {
+                let d = '';
+                pRes.on('data', c => d += c);
+                pRes.on('end', () => { res.writeHead(pRes.statusCode, { 'Content-Type': 'application/json' }); res.end(d); });
+            });
+            proxy.on('error', () => { res.writeHead(502); res.end('{"error":"Gateway unavailable"}'); });
+            proxy.write(body);
+            proxy.end();
+        });
+        return;
+    }
+
+    if (req.url === '/api/gateway/status') {
+        const opts = {
+            hostname: '127.0.0.1', port: 18789, path: '/api/status',
+            headers: { 'Authorization': `Bearer ${GATEWAY_TOKEN}` }
+        };
+        require('http').get(opts, (pRes) => {
+            let d = '';
+            pRes.on('data', c => d += c);
+            pRes.on('end', () => { res.writeHead(pRes.statusCode, { 'Content-Type': 'application/json' }); res.end(d); });
+        }).on('error', () => { res.writeHead(502); res.end('{"error":"Gateway unavailable"}'); });
+        return;
+    }
+
+    const gwSessionMatch = req.url.match(/^\/api\/gateway\/sessions\/(.+)\/history/);
+    if (gwSessionMatch) {
+        const sessionKey = decodeURIComponent(gwSessionMatch[1]);
+        const limit = new URL(req.url, 'http://x').searchParams.get('limit') || 20;
+        const opts = {
+            hostname: '127.0.0.1', port: 18789,
+            path: `/api/sessions/${encodeURIComponent(sessionKey)}/history?limit=${limit}`,
+            headers: { 'Authorization': `Bearer ${GATEWAY_TOKEN}` }
+        };
+        require('http').get(opts, (pRes) => {
+            let d = '';
+            pRes.on('data', c => d += c);
+            pRes.on('end', () => { res.writeHead(pRes.statusCode, { 'Content-Type': 'application/json' }); res.end(d); });
+        }).on('error', () => { res.writeHead(502); res.end('{"error":"Gateway unavailable"}'); });
+        return;
+    }
+
     // API endpoint for connected accounts & data sources
     if (req.url === '/api/connections') {
         // White/light SVG icons for dark background
@@ -536,6 +656,12 @@ function handleRequest(req, res) {
     // API endpoint for system stats
     // DGEN Watch List - DexScreener API
     if (req.url === '/api/dgen') {
+        const now = Date.now();
+        if (dgenCache.data && (now - dgenCache.timestamp) < CACHE_TTL_60S) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(dgenCache.data));
+            return;
+        }
         const DGEN_TOKENS = [
             { address: 'Cm6fNnMk7NfzStP9CZpsQA2v3jjzbcYGAxdJySmHpump', name: 'Buttcoin', symbol: 'BUTT' },
             { address: '8Jx8AAHj86wbQgUTjGuj6GTTL5Ps3cqxKRTvpaJApump', name: 'Nietzschean Penguin', symbol: 'PENGUIN' },
@@ -564,8 +690,10 @@ function handleRequest(req, res) {
                             imageUrl: (pair && pair.info && pair.info.imageUrl) ? pair.info.imageUrl : null
                         };
                     });
+                    const result = { tokens: results, lastUpdated: new Date().toISOString() };
+                    dgenCache = { data: result, timestamp: Date.now() };
                     res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ tokens: results, lastUpdated: new Date().toISOString() }));
+                    res.end(JSON.stringify(result));
                 } catch (err) {
                     res.writeHead(500, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ error: err.message }));
@@ -646,6 +774,12 @@ function handleRequest(req, res) {
     
     // API endpoint for usage stats (tokens, cost, messages today)
     if (req.url === '/api/usage-today') {
+        const now = Date.now();
+        if (usageTodayCache.data && (now - usageTodayCache.timestamp) < CACHE_TTL_60S) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(usageTodayCache.data));
+            return;
+        }
         try {
             const sessionsDir = path.join(os.homedir(), '.openclaw', 'agents', 'main', 'sessions');
             const files = fs.readdirSync(sessionsDir).filter(f => f.endsWith('.jsonl') && !f.endsWith('.lock'));
@@ -677,8 +811,10 @@ function handleRequest(req, res) {
                 }
             }
             const tokenStr = totalTokens > 1000000 ? (totalTokens / 1000000).toFixed(1) + 'M' : totalTokens > 1000 ? (totalTokens / 1000).toFixed(0) + 'K' : totalTokens.toString();
+            const result = { tokensToday: tokenStr, costToday: '$' + totalCost.toFixed(2), messagesToday };
+            usageTodayCache = { data: result, timestamp: Date.now() };
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ tokensToday: tokenStr, costToday: '$' + totalCost.toFixed(2), messagesToday }));
+            res.end(JSON.stringify(result));
         } catch (err) {
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ tokensToday: '--', costToday: '--', messagesToday: 0 }));
@@ -755,6 +891,12 @@ function handleRequest(req, res) {
     // API endpoint for mindmap/Second Brain stats
     // Smart Notifications from Mini #2
     if (req.url === '/api/notifications') {
+        const now = Date.now();
+        if (notificationsCache.data && (now - notificationsCache.timestamp) < CACHE_TTL_30S) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(notificationsCache.data));
+            return;
+        }
         const fetchNotifications = () => new Promise((resolve) => {
             const r = require('http').get('http://100.66.132.34:3002/alerts', { timeout: 5000 }, (resp) => {
                 let d = '';
@@ -765,6 +907,7 @@ function handleRequest(req, res) {
             r.on('timeout', () => { r.destroy(); resolve([]); });
         });
         fetchNotifications().then(alerts => {
+            notificationsCache = { data: alerts, timestamp: Date.now() };
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(alerts));
         });
@@ -972,6 +1115,12 @@ function handleRequest(req, res) {
     
     // API endpoint for Kalshi positions
     if (req.url === '/api/kalshi/positions') {
+        const now = Date.now();
+        if (kalshiCache.data && (now - kalshiCache.timestamp) < CACHE_TTL_60S) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(kalshiCache.data));
+            return;
+        }
         (async () => {
         const crypto = require('crypto');
         try {
@@ -1093,13 +1242,15 @@ function handleRequest(req, res) {
                 };
             }).sort((a, b) => new Date(b.settledAt || 0) - new Date(a.settledAt || 0));
 
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({
+            const result = {
                 active,
                 settled: settlements,
                 balance: balanceData?.balance || balanceData || {},
                 timestamp: Date.now()
-            }));
+            };
+            kalshiCache = { data: result, timestamp: Date.now() };
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(result));
         } catch(e) {
             res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: e.message }));
@@ -1110,6 +1261,12 @@ function handleRequest(req, res) {
 
     // API endpoint for wallet balances (live from Solana RPC)
     if (req.url === '/api/wallet') {
+        const now = Date.now();
+        if (walletCache.data && (now - walletCache.timestamp) < CACHE_TTL_30S) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(walletCache.data));
+            return;
+        }
         const walletAddresses = {
             jane: { address: 'ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L', label: "Jane's Wallet" },
             josh: { address: '6EYvnXTGFj5HQzLAJMYs4EpYnzQ6A4gUVrG5vncP96h8', label: "Josh's Wallet" }
@@ -1177,6 +1334,7 @@ function handleRequest(req, res) {
                 },
                 lastUpdated: new Date().toISOString()
             };
+            walletCache = { data: wallets, timestamp: Date.now() };
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(wallets));
         }).catch(() => {
@@ -1188,6 +1346,12 @@ function handleRequest(req, res) {
     
     // API endpoint for Buttcoin balance in Josh's wallet
     if (req.url === '/api/buttcoin') {
+        const now = Date.now();
+        if (buttcoinCache.data && (now - buttcoinCache.timestamp) < CACHE_TTL_30S) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(buttcoinCache.data));
+            return;
+        }
         const BUTTCOIN_MINT = 'Cm6fNnMk7NfzStP9CZpsQA2v3jjzbcYGAxdJySmHpump';
         const JOSH_WALLET = '6EYvnXTGFj5HQzLAJMYs4EpYnzQ6A4gUVrG5vncP96h8';
         
@@ -1259,6 +1423,12 @@ function handleRequest(req, res) {
     
     // API endpoint for meme coin tracker - LIVE Solana memecoins via GeckoTerminal
     if (req.url === '/api/memecoins') {
+        const now = Date.now();
+        if (memecoinsCache.data && (now - memecoinsCache.timestamp) < CACHE_TTL_60S) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(memecoinsCache.data));
+            return;
+        }
         const MIN_MCAP = 100000;    // $100K minimum
         const MAX_MCAP = 100000000; // $100M maximum
         
@@ -1388,13 +1558,15 @@ function handleRequest(req, res) {
                     };
                 });
                 
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({
+                const result = {
                     memecoins,
                     lastUpdated: new Date().toISOString(),
                     source: 'GeckoTerminal',
                     filters: { minMcap: MIN_MCAP, maxMcap: MAX_MCAP }
-                }));
+                };
+                memecoinsCache = { data: result, timestamp: Date.now() };
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(result));
             });
         }).catch(err => {
             console.error('Memecoin fetch error:', err);
@@ -1408,6 +1580,12 @@ function handleRequest(req, res) {
     // API endpoint for Sorare lineup (reads from JSON, triggers background refresh if stale)
     // NBA live games — returns teams currently playing
     if (req.url === '/api/nba-live') {
+        const now = Date.now();
+        if (nbaLiveCache.data && (now - nbaLiveCache.timestamp) < CACHE_TTL_30S) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(nbaLiveCache.data));
+            return;
+        }
         const nbaUrl = 'https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json';
         https.get(nbaUrl, { headers: { 'User-Agent': 'JaneDashboard/1.0' } }, (nbaRes) => {
             let body = '';
@@ -1427,7 +1605,9 @@ function handleRequest(req, res) {
                         }
                     });
                     res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ liveTeams, games: games.map(g => ({ home: g.homeTeam?.teamName, away: g.awayTeam?.teamName, status: g.gameStatusText })) }));
+                    const result = { liveTeams, games: games.map(g => ({ home: g.homeTeam?.teamName, away: g.awayTeam?.teamName, status: g.gameStatusText })) };
+                    nbaLiveCache = { data: result, timestamp: Date.now() };
+                    res.end(JSON.stringify(result));
                 } catch(e) {
                     res.writeHead(200, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ liveTeams: [], games: [] }));
@@ -1465,6 +1645,12 @@ function handleRequest(req, res) {
     
     // API endpoint for Polymarket prediction markets (competitive markets with 20-80% odds)
     if (req.url === '/api/predictions') {
+        const now = Date.now();
+        if (predictionsCache.data && (now - predictionsCache.timestamp) < 300000) { // 5 min TTL
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(predictionsCache.data));
+            return;
+        }
         const mainUrl = 'https://gamma-api.polymarket.com/markets?closed=false&order=volume24hr&ascending=false&limit=100';
         const superBowlUrl = 'https://gamma-api.polymarket.com/markets?closed=false&limit=50&tag=nfl';
         // Business & Finance specific tags
@@ -1732,13 +1918,15 @@ function handleRequest(req, res) {
                 ? [pinnedMarket, ...balanced.slice(0, 29)]
                 : balanced.slice(0, 30);
             
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ 
+            const result = { 
                 markets: finalMarkets, 
                 lastUpdated: new Date().toISOString(),
                 filter: 'competitive (15-85% odds)',
                 hasPinned: !!pinnedMarket
-            }));
+            };
+            predictionsCache = { data: result, timestamp: Date.now() };
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(result));
         }).catch(err => {
             res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: err.message }));
@@ -1748,7 +1936,14 @@ function handleRequest(req, res) {
     
     // API endpoint for market data
     if (req.url === '/api/market') {
+        const now = Date.now();
+        if (marketCache.data && (now - marketCache.timestamp) < CACHE_TTL_60S) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(marketCache.data));
+            return;
+        }
         fetchMarketData().then(data => {
+            marketCache = { data, timestamp: Date.now() };
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(data));
         }).catch(err => {
@@ -2473,6 +2668,38 @@ const WATCHED_FILES = {
     'x-thread-history': path.join(ROOT, 'x-thread-history.json')
 };
 
+// Batched WebSocket updates — collect rapid file changes and send as one broadcast
+const pendingUpdates = {};
+let batchTimer = null;
+const BATCH_DELAY = 300; // ms to wait before flushing batch
+
+function flushBatch() {
+    batchTimer = null;
+    const keys = Object.keys(pendingUpdates);
+    if (keys.length === 0) return;
+    
+    if (keys.length === 1) {
+        // Single update — send as before for backwards compat
+        const key = keys[0];
+        console.log(`📤 Broadcasting ${key} update to ${clients.size} clients`);
+        broadcast({ type: 'update', widget: key, data: pendingUpdates[key], timestamp: Date.now() });
+    } else {
+        // Batch multiple updates into one message
+        console.log(`📤 Broadcasting batch update (${keys.join(', ')}) to ${clients.size} clients`);
+        broadcast({ type: 'batch', updates: Object.entries(pendingUpdates).map(([widget, data]) => ({ widget, data })), timestamp: Date.now() });
+    }
+    
+    // Clear
+    for (const k of keys) delete pendingUpdates[k];
+}
+
+function queueUpdate(key, data) {
+    pendingUpdates[key] = data;
+    if (!batchTimer) {
+        batchTimer = setTimeout(flushBatch, BATCH_DELAY);
+    }
+}
+
 // Debounce file change events
 const fileChangeTimers = {};
 function debounceFileChange(key, callback, delay = 500) {
@@ -2489,8 +2716,7 @@ Object.entries(WATCHED_FILES).forEach(([key, filePath]) => {
                 debounceFileChange(key, () => {
                     try {
                         const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-                        console.log(`📤 Broadcasting ${key} update to ${clients.size} clients`);
-                        broadcast({ type: 'update', widget: key, data, timestamp: Date.now() });
+                        queueUpdate(key, data);
                     } catch (err) {
                         console.error(`Failed to read ${key}:`, err.message);
                     }
@@ -2508,8 +2734,7 @@ fs.watch(tasksDir, (eventType, filename) => {
         debounceFileChange('tasks', () => {
             try {
                 const data = JSON.parse(fs.readFileSync(WATCHED_FILES.tasks, 'utf8'));
-                console.log(`📤 Broadcasting tasks update to ${clients.size} clients`);
-                broadcast({ type: 'update', widget: 'tasks', data, timestamp: Date.now() });
+                queueUpdate('tasks', data);
             } catch (err) {
                 // File might not exist yet
             }

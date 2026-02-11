@@ -927,9 +927,9 @@
             <span id="cron-chevron" style="color:rgba(74,222,128,0.4);font-size:9px;transition:transform 0.25s ease;">▾</span>
         </div>
         <div id="cron-expanded" style="max-height:0;overflow:hidden;transition:max-height 0.4s ease;">
-            <div id="cron-pages" style="display:flex;transition:transform 0.3s ease;width:200%;" ontouchstart="cronTouchStart(event)" ontouchmove="cronTouchMove(event)" ontouchend="cronTouchEnd(event)">
+            <div id="cron-pages" style="display:flex;transition:transform 0.3s ease;width:200%;align-items:flex-start;" ontouchstart="cronTouchStart(event)" ontouchmove="cronTouchMove(event)" ontouchend="cronTouchEnd(event)">
                 <div id="cron-list" style="width:50%;padding:0 0.6rem;box-sizing:border-box;"></div>
-                <div id="cron-gantt" style="width:50%;padding:0.3rem 0.6rem;box-sizing:border-box;"></div>
+                <div id="cron-gantt" style="width:50%;padding:0.3rem 0.6rem;box-sizing:border-box;min-height:280px;"></div>
             </div>
             <div id="cron-dots" style="display:flex;justify-content:center;gap:6px;padding:0.3rem 0;">
                 <span class="cron-dot active" onclick="cronGoPage(0)" style="width:6px;height:6px;border-radius:50%;background:var(--accent);transition:all 0.2s;cursor:pointer;"></span>
@@ -2148,7 +2148,10 @@ function toggleCronWidget(e){
     const chev=document.getElementById('cron-chevron');
     const hint=document.getElementById('cron-hint');
     if(cronExpanded){
-        exp.style.maxHeight=exp.scrollHeight+200+'px';
+        const list=document.getElementById('cron-list');
+        const gantt=document.getElementById('cron-gantt');
+        const maxH=Math.max(list.scrollHeight,gantt.scrollHeight,300)+60;
+        exp.style.maxHeight=maxH+'px';
         chev.style.transform='rotate(180deg)';
         hint.textContent='tap to collapse';
     } else {
@@ -2210,7 +2213,7 @@ function buildGantt(data){
 
     // Rolling 6-hour window from now
     const tStart=Math.max(0,Math.floor(nowH)), tEnd=Math.min(24,tStart+6), tRange=tEnd-tStart;
-    const rowH=32, rowGap=4, headerH=22;
+    const rowH=38, rowGap=6, headerH=24;
     const el=document.getElementById('cron-gantt');
 
     let html='<div style="position:relative;font-family:-apple-system,BlinkMacSystemFont,sans-serif;">';
@@ -2240,14 +2243,14 @@ function buildGantt(data){
     for(let t=tStart;t<=tEnd;t+=1){
         const pct=((t-tStart)/tRange)*100;
         const label=t===0?'12A':t===12?'12P':t===24?'12A':t>12?(t-12)+'P':t+'A';
-        html+=`<span style="position:absolute;left:${pct}%;transform:translateX(-50%);top:2px;font-size:8px;font-weight:600;color:rgba(255,255,255,0.45);">${label}</span>`;
+        html+=`<span style="position:absolute;left:${pct}%;transform:translateX(-50%);top:2px;font-size:9px;font-weight:700;color:rgba(255,255,255,0.5);">${label}</span>`;
         html+=`<div style="position:absolute;left:${pct}%;bottom:0;width:1px;height:6px;background:rgba(255,255,255,0.12);"></div>`;
     }
     html+='</div>';
 
     // Grid lines
     const trackH=visibleBars.length*(rowH+rowGap);
-    html+=`<div style="position:relative;height:${Math.max(trackH,40)}px;">`;
+    html+=`<div style="position:relative;height:${Math.max(trackH,120)}px;">`;
     for(let t=tStart;t<=tEnd;t+=1){
         const pct=((t-tStart)/tRange)*100;
         html+=`<div style="position:absolute;left:${pct}%;top:0;height:100%;width:1px;background:rgba(255,255,255,0.04);"></div>`;
@@ -2264,13 +2267,13 @@ function buildGantt(data){
 
     // No jobs message
     if(visibleBars.length===0){
-        html+=`<div style="display:flex;align-items:center;justify-content:center;height:40px;color:rgba(255,255,255,0.25);font-size:9px;">No scheduled jobs in this window</div>`;
+        html+=`<div style="display:flex;align-items:center;justify-content:center;height:120px;color:rgba(255,255,255,0.25);font-size:11px;">No scheduled jobs in this window</div>`;
     }
     // Bars with row labels
     visibleBars.forEach((b,i)=>{
         const top=i*(rowH+rowGap);
         const left=Math.max(0,((b.start-tStart)/tRange)*100);
-        const width=Math.max(8,(b.dur/tRange)*100);
+        const width=Math.max(12,(b.dur/tRange)*100);
         const isPast=b.start+b.dur<nowH;
         const isActive=b.start<=nowH&&b.start+b.dur>nowH;
         const isFuture=b.start>nowH;
@@ -2280,16 +2283,11 @@ function buildGantt(data){
         const glow=isActive?`box-shadow:0 0 8px ${b.cat.bg}40, 0 1px 3px rgba(0,0,0,0.3);`:'box-shadow:0 1px 2px rgba(0,0,0,0.2);';
         const stripeStyle=b.done?`background-image:repeating-linear-gradient(45deg,transparent,transparent 3px,rgba(0,0,0,0.1) 3px,rgba(0,0,0,0.1) 6px);`:'';
 
-        // Row label (left side, outside bar)
-        html+=`<div style="position:absolute;left:0;top:${top}px;height:${rowH}px;display:flex;align-items:center;pointer-events:none;z-index:1;">`;
-        html+=`<span style="font-size:7px;color:rgba(255,255,255,${isPast||b.done?'0.15':'0.35'});white-space:nowrap;max-width:${left>15?'none':'60px'};overflow:hidden;text-overflow:ellipsis;">${b.time}</span>`;
-        html+=`</div>`;
-
         // Bar
         html+=`<div class="gantt-bar" data-name="${b.name}" data-time="${b.time}" data-cat="${b.cat.label}" data-done="${b.done}" data-type="${b.type||''}" data-threadnum="${b.threadNum||''}" data-tweets="${b.tweets||''}" data-count="${b.count||''}" `;
         html+=`style="position:absolute;left:${left}%;top:${top+2}px;width:${width}%;height:${rowH-4}px;`;
-        html+=`background:${barBg};opacity:${barOpacity};border-radius:4px;${glow}${stripeStyle}`;
-        html+=`cursor:pointer;display:flex;align-items:center;padding:0 5px;overflow:hidden;transition:all 0.2s ease;z-index:3;" `;
+        html+=`background:${barBg};opacity:${barOpacity};border-radius:5px;${glow}${stripeStyle}`;
+        html+=`cursor:pointer;display:flex;align-items:center;padding:0 8px;overflow:hidden;transition:all 0.2s ease;z-index:3;" `;
         html+=`onclick="event.stopPropagation();showGanttTooltip(this,event)">`;
 
         // Bar content
@@ -2297,12 +2295,12 @@ function buildGantt(data){
         let barLabel=b.name;
         if(b.type==='thread'&&b.threadNum) barLabel=`#${b.threadNum} ${b.name}`;
         if(b.type==='replies'&&b.count) barLabel=`${b.name} ×${b.count}`;
-        html+=`<span style="font-size:8px;color:${textColor};font-weight:${isActive?'700':'600'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:${barOpacity<0.3?'0.6':'1'};">`;
+        html+=`<span style="font-size:9px;color:${textColor};font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">`;
         if(b.done)html+='✓ ';
         if(isActive)html+='▸ ';
         html+=`${barLabel}</span>`;
         if(b.type==='thread'&&b.tweets){
-            html+=`<span style="margin-left:auto;font-size:6px;color:${textColor};opacity:0.7;font-weight:700;flex-shrink:0;padding-left:3px;">${b.tweets}tw</span>`;
+            html+=`<span style="margin-left:auto;font-size:7px;color:${textColor};opacity:0.8;font-weight:800;flex-shrink:0;padding-left:4px;background:rgba(0,0,0,0.15);padding:1px 4px;border-radius:3px;">${b.tweets}tw</span>`;
         }
         html+=`</div>`;
     });

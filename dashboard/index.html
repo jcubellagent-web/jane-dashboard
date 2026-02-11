@@ -597,13 +597,7 @@
                     <span class="x-strip-stat" id="x-impressions"><span class="x-strip-val">--</span> <span class="x-strip-lbl">views</span> <span class="x-strip-delta" id="x-d-impressions"></span></span>
                     <span class="x-strip-stat" id="x-likes"><span class="x-strip-val">--</span> <span class="x-strip-lbl">likes</span> <span class="x-strip-delta" id="x-d-likes"></span></span>
                 </div>
-                <!-- Thread Navigation -->
-                <div class="x-thread-nav" id="x-thread-nav">
-                    <span class="x-thread-nav-btn" id="dt-nav-left" onclick="dtSwipeThread(1)" style="display:none;">◀</span>
-                    <span id="dt-thread-date" style="font-size:0.7rem;font-weight:600;color:#4ade80;"></span>
-                    <span id="dt-thread-dots" style="font-size:0.5rem;color:rgba(255,255,255,0.3);letter-spacing:3px;"></span>
-                    <span class="x-thread-nav-btn" id="dt-nav-right" onclick="dtSwipeThread(-1)" style="display:none;">▶</span>
-                </div>
+                <!-- Thread Navigation (removed for scrollable list) -->
                 <!-- Tweet Feed -->
                 <div class="x-tweet-feed" id="dt-tweet-feed"></div>
             </div>
@@ -773,29 +767,21 @@
                     window._dtThreadData = [{ date:'Latest', label:'Latest', tweets:data.tweets, lastUpdated:data.lastUpdated }];
                 } else return;
             }
-            dtRenderThread(window._dtThreadIdx);
+            dtRenderAllThreads();
         }
 
-        function dtRenderThread(idx) {
+        function dtRenderAllThreads() {
             const threads = window._dtThreadData;
-            if (!threads || !threads.length) return;
-            idx = Math.max(0, Math.min(idx, threads.length-1));
-            window._dtThreadIdx = idx;
-            const thread = threads[idx];
             const container = document.getElementById('dt-tweet-feed');
-            const dateEl = document.getElementById('dt-thread-date');
-            const dotsEl = document.getElementById('dt-thread-dots');
-            const leftBtn = document.getElementById('dt-nav-left');
-            const rightBtn = document.getElementById('dt-nav-right');
-
-            if (dateEl) dateEl.textContent = thread.label || thread.date || '';
-            if (dotsEl) dotsEl.innerHTML = threads.map((_,i) => '<span style="color:'+(i===idx?'#4ade80':'rgba(255,255,255,0.2)')+';">●</span>').join('');
-            if (leftBtn) leftBtn.style.display = idx < threads.length-1 ? 'inline' : 'none';
-            if (rightBtn) rightBtn.style.display = idx > 0 ? 'inline' : 'none';
-
-            container.style.opacity = '0';
-            setTimeout(() => {
-                container.innerHTML = '';
+            if (!threads || !threads.length || !container) return;
+            container.innerHTML = '';
+            // Show all threads newest first (already sorted newest first from API)
+            threads.forEach((thread, tIdx) => {
+                // Thread date header
+                const header = document.createElement('div');
+                header.style.cssText = 'font-size:0.7rem;font-weight:600;color:#4ade80;padding:0.4rem 0 0.2rem;' + (tIdx > 0 ? 'border-top:1px solid rgba(255,255,255,0.06);margin-top:0.5rem;padding-top:0.6rem;' : '');
+                header.textContent = thread.label || thread.date || '';
+                container.appendChild(header);
                 (thread.tweets || []).forEach((tweet, i) => {
                     const div = document.createElement('div');
                     div.className = 'x-tweet-item';
@@ -820,13 +806,7 @@
                         '<div class="x-tweet-text">'+(tweet.text||'')+'</div>';
                     container.appendChild(div);
                 });
-                container.style.opacity = '1';
-            }, 150);
-        }
-
-        function dtSwipeThread(dir) {
-            const newIdx = window._dtThreadIdx + dir;
-            if (newIdx >= 0 && newIdx < window._dtThreadData.length) dtRenderThread(newIdx);
+            });
         }
 
         // ===== CONNECTIONS =====

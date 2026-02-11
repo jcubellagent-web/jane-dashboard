@@ -1755,6 +1755,18 @@
         (async function initPushNotifications() {
             const btn = document.getElementById('push-btn');
             if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+                // Fallback: try HTTPS port for full push support
+                if (location.protocol === 'http:' && location.port === '3000') {
+                    if (btn) { 
+                        btn.textContent = '🔔 Enable'; 
+                        btn.style.color = 'rgba(255,255,255,0.6)';
+                        btn.onclick = () => {
+                            // Redirect to HTTPS version for push support
+                            window.location.href = location.href.replace(':3000', ':3443').replace('http:', 'https:');
+                        };
+                    }
+                    return;
+                }
                 const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
                 const info = `SW: ${'serviceWorker' in navigator}\nPush: ${'PushManager' in window}\nNotification: ${'Notification' in window}\nStandalone: ${standalone}\nUA: ${navigator.userAgent}`;
                 if (btn) { btn.textContent = '🔔 Not supported'; btn.style.color = 'rgba(255,255,255,0.3)'; btn.onclick = () => alert(info); }

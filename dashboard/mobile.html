@@ -2390,8 +2390,16 @@ function showGanttTooltip(bar,e){
         });
         el.innerHTML=h;
         buildGantt(d);
+        window._lastCronData=d;
     }).catch(()=>{document.getElementById('cron-count').textContent='!';});
 })();
+// Re-fetch and re-render Gantt every 15 minutes
+setInterval(()=>{
+    fetch('cron-schedule.json?_='+Date.now()).then(r=>r.json()).then(d=>{
+        window._lastCronData=d;
+        buildGantt(d);
+    }).catch(()=>{});
+},15*60*1000);
 </script>
 </body>
 </html>

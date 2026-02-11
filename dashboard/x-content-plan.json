@@ -2,9 +2,9 @@
   "plan": {
     "date": "2026-02-10",
     "threads": {
-      "planned": 4,
-      "completed": 4,
-      "schedule": ["08:30", "12:30", "15:00", "18:00"]
+      "planned": 5,
+      "completed": 5,
+      "schedule": ["08:30", "12:30", "15:00", "18:00", "19:30"]
     },
     "replies": {
       "planned": 48,

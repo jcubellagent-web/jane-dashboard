@@ -25,7 +25,9 @@ const MIME_TYPES = {
     '.woff2': 'font/woff2',
 };
 
-const { execSync } = require('child_process');
+const { exec } = require('child_process');
+const { promisify } = require('util');
+const execAsync = promisify(exec);
 const os = require('os');
 const https = require('https');
 
@@ -33,6 +35,8 @@ const https = require('https');
 let cryptoCache = { data: null, timestamp: 0 };
 let aiNewsCache = { data: null, timestamp: 0 };
 let tickerCache = { data: null, timestamp: 0 };
+let systemStatsCache = { data: null, timestamp: 0 };
+const SYSTEM_CACHE_TTL = 30000; // 30 seconds
 
 // Paths for dynamic data
 const WORKSPACE = path.join(os.homedir(), '.openclaw', 'workspace');
@@ -351,30 +355,35 @@ function fetchCoinCap(res, cacheTimestamp) {
     });
 }
 
-// Get system stats
-function getSystemStats() {
+// Get system stats (async, cached)
+async function getSystemStats() {
+    const now = Date.now();
+    if (systemStatsCache.data && (now - systemStatsCache.timestamp) < SYSTEM_CACHE_TTL) {
+        return systemStatsCache.data;
+    }
     try {
-        // CPU usage (macOS)
-        const cpuRaw = execSync("top -l 1 | grep 'CPU usage' | awk '{print $3}' | tr -d '%'", { encoding: 'utf8' });
-        const cpu = parseFloat(cpuRaw) || 0;
+        // Run all shell commands in parallel (async, non-blocking)
+        const [cpuResult, mpResult, diskResult] = await Promise.allSettled([
+            execAsync("top -l 1 | grep 'CPU usage' | awk '{print $3}' | tr -d '%'", { timeout: 5000 }),
+            execAsync("memory_pressure | grep 'System-wide memory free percentage'", { timeout: 5000 }),
+            execAsync("df -h / | tail -1 | awk '{print $5}' | tr -d '%'", { timeout: 5000 })
+        ]);
         
-        // Memory usage — use memory_pressure for accurate macOS available memory
+        const cpu = cpuResult.status === 'fulfilled' ? Math.round(parseFloat(cpuResult.value.stdout) || 0) : 0;
+        
         let memory = 0;
-        try {
-            const mpRaw = execSync("memory_pressure | grep 'System-wide memory free percentage'", { encoding: 'utf8' });
-            const freeMatch = mpRaw.match(/(\d+)%/);
+        if (mpResult.status === 'fulfilled') {
+            const freeMatch = mpResult.value.stdout.match(/(\d+)%/);
             memory = freeMatch ? (100 - parseInt(freeMatch[1])) : 0;
-        } catch {
+        } else {
             const totalMem = os.totalmem();
             const freeMem = os.freemem();
             memory = Math.round(((totalMem - freeMem) / totalMem) * 100);
         }
         
-        // Disk usage
-        const diskRaw = execSync("df -h / | tail -1 | awk '{print $5}' | tr -d '%'", { encoding: 'utf8' });
-        const disk = parseInt(diskRaw) || 0;
+        const disk = diskResult.status === 'fulfilled' ? parseInt(diskResult.value.stdout) || 0 : 0;
         
-        // System uptime
+        // System uptime (no shell needed)
         const uptimeSeconds = os.uptime();
         const days = Math.floor(uptimeSeconds / 86400);
         const hours = Math.floor((uptimeSeconds % 86400) / 3600);
@@ -384,7 +393,9 @@ function getSystemStats() {
         if (hours > 0) uptime += `${hours}h `;
         uptime += `${minutes}m`;
         
-        return { cpu: Math.round(cpu), memory, disk, uptime };
+        const stats = { cpu, memory, disk, uptime };
+        systemStatsCache = { data: stats, timestamp: Date.now() };
+        return stats;
     } catch (error) {
         console.error('System stats error:', error.message);
         return { cpu: 0, memory: 0, disk: 0, uptime: 'unknown' };
@@ -581,11 +592,15 @@ function handleRequest(req, res) {
     }
 
     if (req.url === '/api/system') {
-        const stats = getSystemStats();
-        // Fetch Mini #2 stats from monitoring endpoint (non-blocking)
-        fetch('http://100.66.132.34:3001/status', { signal: AbortSignal.timeout(2000) })
-            .then(r => r.json())
-            .then(mini2Data => {
+        // Background poller for Mini2 stats (cached, refreshed every 30s)
+        if (!global._mini2Cache) global._mini2Cache = { data: { online: false }, timestamp: 0 };
+        
+        const refreshMini2 = async () => {
+            const now = Date.now();
+            if ((now - global._mini2Cache.timestamp) < SYSTEM_CACHE_TTL) return;
+            try {
+                const r = await fetch('http://100.66.132.34:3001/status', { signal: AbortSignal.timeout(2000) });
+                const mini2Data = await r.json();
                 const mini2Mem = mini2Data?.checks?.memory;
                 const mini2Disk = mini2Data?.checks?.disk;
                 let mini2MemPercent = 0;
@@ -599,24 +614,33 @@ function handleRequest(req, res) {
                 }
                 let mini2Cpu = 0;
                 try {
-                    const cpuOut = execSync("ssh -o ConnectTimeout=2 mini2 \"top -l 1 | grep 'CPU usage' | awk '{print \\$3}' | tr -d '%'\" 2>/dev/null", { encoding: 'utf8', timeout: 5000 });
-                    mini2Cpu = Math.round(parseFloat(cpuOut) || 0);
+                    const cpuOut = await execAsync("ssh -o ConnectTimeout=2 mini2 \"top -l 1 | grep 'CPU usage' | awk '{print \\$3}' | tr -d '%'\" 2>/dev/null", { timeout: 5000 });
+                    mini2Cpu = Math.round(parseFloat(cpuOut.stdout) || 0);
                 } catch(e) {}
-                stats.mini2 = {
-                    online: true,
-                    cpu: mini2Cpu,
-                    memory: mini2MemPercent,
-                    disk: parseInt((mini2Disk?.usedPercent || '0').replace('%', '')),
-                    ollamaModels: mini2Data?.checks?.ollama?.models || []
+                global._mini2Cache = {
+                    data: {
+                        online: true,
+                        cpu: mini2Cpu,
+                        memory: mini2MemPercent,
+                        disk: parseInt((mini2Disk?.usedPercent || '0').replace('%', '')),
+                        ollamaModels: mini2Data?.checks?.ollama?.models || []
+                    },
+                    timestamp: Date.now()
                 };
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify(stats));
-            })
-            .catch(() => {
-                stats.mini2 = { online: false };
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify(stats));
-            });
+            } catch {
+                global._mini2Cache = { data: { online: false }, timestamp: Date.now() };
+            }
+        };
+
+        // Fetch local stats and mini2 in parallel (all async)
+        Promise.all([getSystemStats(), refreshMini2()]).then(([stats]) => {
+            stats.mini2 = global._mini2Cache.data;
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(stats));
+        }).catch(() => {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Failed to get system stats' }));
+        });
         return;
     }
     

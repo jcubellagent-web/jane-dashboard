@@ -69,8 +69,14 @@ let nbaLiveCache = { data: null, timestamp: 0 };
 let marketCache = { data: null, timestamp: 0 };
 let notificationsCache = { data: null, timestamp: 0 };
 let usageTodayCache = { data: null, timestamp: 0 };
+let arxivCache = { data: null, timestamp: 0 };
+let secEdgarCache = { data: null, timestamp: 0 };
+let defiLlamaCache = { data: null, timestamp: 0 };
+let techCrunchCache = { data: null, timestamp: 0 };
 const CACHE_TTL_30S = 30000;
 const CACHE_TTL_60S = 60000;
+const CACHE_TTL_5MIN = 300000;
+const CACHE_TTL_30MIN = 1800000;
 
 // Paths for dynamic data
 const WORKSPACE = path.join(os.homedir(), '.openclaw', 'workspace');
@@ -603,6 +609,8 @@ function handleRequest(req, res) {
             alphavantage: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F7931A'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3EAV%3C/text%3E%3C/svg%3E",
             arxiv: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23B31B1B'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='10' font-weight='bold'%3EarXiv%3C/text%3E%3C/svg%3E",
             hackernews: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6600'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='16' font-weight='bold'%3EY%3C/text%3E%3C/svg%3E",
+            secedgar: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230A3161'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='9' font-weight='bold'%3ESEC%3C/text%3E%3C/svg%3E",
+            techcrunch: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300A562'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='11' font-weight='bold'%3ETC%3C/text%3E%3C/svg%3E",
         };
         const connections = {
             accounts: [
@@ -616,7 +624,9 @@ function handleRequest(req, res) {
                 { name: 'Phantom Wallet', detail: 'Solana', icon: icons.phantom, active: true },
                 { name: 'Substack', detail: '@agentjc11443', icon: icons.substack, active: true },
                 { name: 'Twilio', detail: 'Phone number provider', icon: icons.twilio, active: true },
-                { name: 'HuggingFace', detail: 'JaneAgentAI', icon: icons.huggingface, active: true }
+                { name: 'HuggingFace', detail: 'JaneAgentAI', icon: icons.huggingface, active: true },
+                { name: '@DeItaone', detail: 'breaking financial news', icon: icons.twitter, active: true },
+                { name: '@_akhaliq', detail: 'AI papers & research', icon: icons.twitter, active: true }
             ],
             dataSources: [
                 { name: 'Finnhub', detail: 'real-time stocks, 60/min', icon: icons.finnhub, active: true },
@@ -633,7 +643,9 @@ function handleRequest(req, res) {
                 { name: 'Sorare GraphQL', detail: 'fantasy sports', icon: icons.sorare, active: true },
                 { name: 'Manifold', detail: 'prediction markets', icon: icons.manifold, active: true },
                 { name: 'Metaculus', detail: 'prediction markets', icon: icons.metaculus, active: true },
-                { name: 'arXiv API', detail: 'AI research papers', icon: icons.arxiv, active: true },
+                { name: 'SEC EDGAR', detail: '8-K filings, real-time', icon: icons.secedgar, active: true },
+                { name: 'TechCrunch RSS', detail: 'startup funding & launches', icon: icons.techcrunch, active: true },
+                { name: 'arXiv RSS', detail: 'cs.AI + cs.CL papers', icon: icons.arxiv, active: true },
                 { name: 'Hacker News', detail: 'tech news', icon: icons.hackernews, active: true },
                 { name: 'Fear & Greed Index', detail: 'crypto sentiment', icon: icons.coingecko, active: true }
             ],
@@ -2533,6 +2545,162 @@ function handleRequest(req, res) {
     // Parse URL and strip query string
     const urlPath = new URL(req.url, `http://${req.headers.host}`).pathname;
     
+    // ===== arXiv RSS (cs.AI + cs.CL) — cached 30 min =====
+    if (req.url === '/api/arxiv') {
+        const now = Date.now();
+        if (arxivCache.data && (now - arxivCache.timestamp) < CACHE_TTL_30MIN) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(arxivCache.data));
+            return;
+        }
+        const fetchFeed = (url) => new Promise((resolve) => {
+            https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 10000 }, (r) => {
+                let d = '';
+                r.on('data', c => d += c);
+                r.on('end', () => resolve(d));
+            }).on('error', () => resolve('')).on('timeout', function() { this.destroy(); resolve(''); });
+        });
+        Promise.all([
+            fetchFeed('https://export.arxiv.org/rss/cs.AI'),
+            fetchFeed('https://export.arxiv.org/rss/cs.CL')
+        ]).then(([aiXml, clXml]) => {
+            const parse = (xml, category) => {
+                const items = [];
+                const re = /<item[^>]*>([\s\S]*?)<\/item>/gi;
+                let m;
+                while ((m = re.exec(xml)) !== null && items.length < 15) {
+                    const block = m[1];
+                    const title = (block.match(/<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/title>/s) || [])[1] || '';
+                    const desc = (block.match(/<description>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/description>/s) || [])[1] || '';
+                    const link = (block.match(/<link>(.*?)<\/link>/) || [])[1] || '';
+                    if (title) items.push({
+                        title: title.replace(/<[^>]*>/g, '').trim().substring(0, 120),
+                        description: desc.replace(/<[^>]*>/g, '').trim().substring(0, 300),
+                        link, category
+                    });
+                }
+                return items;
+            };
+            const result = {
+                papers: [...parse(aiXml, 'cs.AI'), ...parse(clXml, 'cs.CL')],
+                lastUpdated: new Date().toISOString()
+            };
+            arxivCache = { data: result, timestamp: Date.now() };
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(result));
+        });
+        return;
+    }
+
+    // ===== SEC EDGAR 8-K filings — cached 5 min =====
+    if (req.url === '/api/sec-edgar') {
+        const now = Date.now();
+        if (secEdgarCache.data && (now - secEdgarCache.timestamp) < CACHE_TTL_5MIN) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(secEdgarCache.data));
+            return;
+        }
+        const today = new Date().toISOString().split('T')[0];
+        const edgarUrl = `https://efts.sec.gov/LATEST/search-index?q=*&dateRange=custom&startdt=${today}&enddt=${today}&forms=8-K`;
+        https.get(edgarUrl, { headers: { 'User-Agent': 'Jane-Dashboard/1.0 jcubellagent@gmail.com', 'Accept': 'application/json' }, timeout: 10000 }, (apiRes) => {
+            let body = '';
+            apiRes.on('data', c => body += c);
+            apiRes.on('end', () => {
+                try {
+                    const data = JSON.parse(body);
+                    const hits = (data.hits && data.hits.hits) || [];
+                    const total = (data.hits && data.hits.total && data.hits.total.value) || 0;
+                    const result = { filings: hits.slice(0, 20), total, lastUpdated: new Date().toISOString() };
+                    secEdgarCache = { data: result, timestamp: Date.now() };
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify(result));
+                } catch (e) {
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ filings: [], error: e.message, lastUpdated: new Date().toISOString() }));
+                }
+            });
+        }).on('error', (e) => {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ filings: [], error: e.message }));
+        });
+        return;
+    }
+
+    // ===== DeFi Llama protocols TVL — cached 5 min =====
+    if (req.url === '/api/defi-llama') {
+        const now = Date.now();
+        if (defiLlamaCache.data && (now - defiLlamaCache.timestamp) < CACHE_TTL_5MIN) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(defiLlamaCache.data));
+            return;
+        }
+        https.get('https://api.llama.fi/protocols', { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 10000 }, (apiRes) => {
+            let body = '';
+            apiRes.on('data', c => body += c);
+            apiRes.on('end', () => {
+                try {
+                    const protocols = JSON.parse(body);
+                    const top20 = protocols.slice(0, 20).map(p => ({
+                        name: p.name, symbol: p.symbol, tvl: p.tvl,
+                        change_1d: p.change_1d, change_7d: p.change_7d,
+                        category: p.category, chain: p.chain, logo: p.logo
+                    }));
+                    const totalTvl = protocols.reduce((s, p) => s + (p.tvl || 0), 0);
+                    const result = { protocols: top20, totalTvl, totalProtocols: protocols.length, lastUpdated: new Date().toISOString() };
+                    defiLlamaCache = { data: result, timestamp: Date.now() };
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify(result));
+                } catch (e) {
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ protocols: [], error: e.message }));
+                }
+            });
+        }).on('error', (e) => {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ protocols: [], error: e.message }));
+        });
+        return;
+    }
+
+    // ===== TechCrunch RSS — cached 30 min =====
+    if (req.url === '/api/techcrunch') {
+        const now = Date.now();
+        if (techCrunchCache.data && (now - techCrunchCache.timestamp) < CACHE_TTL_30MIN) {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(techCrunchCache.data));
+            return;
+        }
+        https.get('https://techcrunch.com/feed/', { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 10000 }, (apiRes) => {
+            let body = '';
+            apiRes.on('data', c => body += c);
+            apiRes.on('end', () => {
+                const items = [];
+                const re = /<item>([\s\S]*?)<\/item>/gi;
+                let m;
+                while ((m = re.exec(body)) !== null && items.length < 15) {
+                    const block = m[1];
+                    const title = (block.match(/<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/title>/s) || [])[1] || '';
+                    const link = (block.match(/<link>(.*?)<\/link>/) || [])[1] || '';
+                    const pubDate = (block.match(/<pubDate>(.*?)<\/pubDate>/) || [])[1] || '';
+                    const desc = (block.match(/<description>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/description>/s) || [])[1] || '';
+                    if (title) items.push({
+                        title: title.replace(/<[^>]*>/g, '').trim().substring(0, 120),
+                        link, pubDate,
+                        description: desc.replace(/<[^>]*>/g, '').trim().substring(0, 200)
+                    });
+                }
+                const result = { articles: items, lastUpdated: new Date().toISOString() };
+                techCrunchCache = { data: result, timestamp: Date.now() };
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(result));
+            });
+        }).on('error', (e) => {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ articles: [], error: e.message }));
+        });
+        return;
+    }
+
     // Auto-detect mobile devices and serve mobile.html
     const userAgent = req.headers['user-agent'] || '';
     const isMobile = /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);

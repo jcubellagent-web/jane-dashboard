@@ -1,12 +1,12 @@
 {
-  "name": "Jane Dashboard",
+  "name": "Jane",
   "short_name": "Jane",
-  "description": "Personal AI Assistant Dashboard & Communication Portal",
-  "start_url": "/",
+  "description": "Personal AI Assistant",
+  "start_url": "/mobile.html",
   "display": "standalone",
-  "background_color": "#0f172a",
+  "background_color": "#0a0a0f",
   "theme_color": "#4ade80",
-  "orientation": "any",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",

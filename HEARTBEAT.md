@@ -15,6 +15,12 @@ Update `/dashboard/mind-state.json` with:
 
 If idle for 5+ minutes, the widget auto-shows "Idle" state.
 
+## Context Overflow Prevention
+If context feels heavy (long conversation, many tool calls), proactively:
+1. Use `/new` or suggest it to Josh before hitting limits
+2. Keep MEMORY.md and TOOLS.md lean — archive details to `memory/reference.md`
+3. Prefer sub-agents for heavy work (browser sessions, long file reads)
+
 ## Mobile Chat Queue
 Check `/dashboard/chat-queue.json` for pending messages from the mobile app.
 If messages exist:

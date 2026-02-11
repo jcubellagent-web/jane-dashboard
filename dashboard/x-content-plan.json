@@ -3,30 +3,30 @@
     "date": "2026-02-10",
     "threads": {
       "planned": 4,
-      "completed": 3,
+      "completed": 4,
       "schedule": ["08:30", "12:30", "15:00", "18:00"]
     },
     "replies": {
       "planned": 48,
-      "completed": 21,
+      "completed": 27,
       "cadence": "5-6 every 2 hours",
       "schedule": ["08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00"]
     },
     "totalPlanned": 52,
-    "totalCompleted": 24
+    "totalCompleted": 31
   },
   "todayActual": {
     "date": "2026-02-10",
     "threads": {
       "planned": 4,
-      "completed": 3
+      "completed": 4
     },
     "replies": {
       "planned": 48,
-      "completed": 21
+      "completed": 27
     },
     "totalPlanned": 52,
-    "totalCompleted": 24
+    "totalCompleted": 31
   },
   "lastUpdated": 1770764400000
 }

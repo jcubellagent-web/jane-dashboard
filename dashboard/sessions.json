@@ -1,44 +1,17 @@
 {
-  "lastUpdated": 1739199191000,
+  "lastUpdated": 1770769691000,
   "sessions": [
-    {
-      "key": "agent:main:main",
-      "displayName": "+17175759384",
-      "model": "claude-opus-4-6",
-      "totalTokens": 89072,
-      "updatedAt": 1770733742054
-    },
-    {
-      "key": "agent:main:cron:db53eb61",
-      "label": "Cron: X Stats Scrape",
-      "model": "claude-opus-4-6",
-      "totalTokens": 30532,
-      "updatedAt": 1770733268785,
-      "lastMessage": "Impressions 3.5K, eng rate 3.8%, followers 11, reposts 2."
-    },
-    {
-      "key": "agent:main:cron:3a51ef33",
-      "label": "Cron: Daily Brief - 8:30 AM Full Thread",
-      "model": "claude-opus-4-6",
-      "totalTokens": 58133,
-      "updatedAt": 1770730200076,
-      "lastMessage": "6-tweet thread posted. Anchor live."
-    },
-    {
-      "key": "agent:main:cron:57f61a2c",
-      "label": "Cron: Sorare GW34 Lineup Check",
-      "model": "claude-opus-4-6",
-      "totalTokens": 33179,
-      "updatedAt": 1770729746414,
-      "lastMessage": "GW34 lineups already set — 3 Champion lineups in place."
-    },
-    {
-      "key": "agent:main:cron:7514d3d2",
-      "label": "Cron: Pre-Brief Data Fetch (8:00 AM)",
-      "model": "claude-opus-4-6",
-      "totalTokens": 96685,
-      "updatedAt": 1770728621354,
-      "lastMessage": "Pre-brief cached: Anthropic $20B, xAI/SpaceX $1.25T, OpenAI ads."
-    }
+    {"key": "agent:main:main", "displayName": "heartbeat", "model": "claude-opus-4-6", "totalTokens": 33524, "updatedAt": 1770769699000},
+    {"key": "agent:main:cron:db53eb61", "label": "Cron: X Stats Scrape", "model": "claude-opus-4-6", "totalTokens": 24912, "updatedAt": 1770769268771},
+    {"key": "agent:main:cron:5a564af3", "label": "Cron: X Update Brief - 6:00 PM", "model": "claude-opus-4-6", "totalTokens": 54224, "updatedAt": 1770764675040},
+    {"key": "agent:main:cron:9c34768e", "label": "Cron: X Reply Engagement Cycle", "model": "claude-opus-4-6", "totalTokens": 60661, "updatedAt": 1770764400022},
+    {"key": "agent:main:cron:19dd811e", "label": "Cron: sorare-injury-monitor", "model": "claude-opus-4-6", "totalTokens": 33228, "updatedAt": 1770762530493},
+    {"key": "agent:main:cron:1923f8f4", "label": "Cron: X Engagement Feedback Loop", "model": "claude-opus-4-6", "totalTokens": 61335, "updatedAt": 1770759305180},
+    {"key": "agent:main:cron:35e0a42c", "label": "Cron: X Update Brief - 3:00 PM", "model": "claude-opus-4-6", "totalTokens": 71096, "updatedAt": 1770753600076},
+    {"key": "agent:main:cron:57f61a2c", "label": "Cron: Sorare GW34 Lineup Check", "model": "claude-opus-4-6", "totalTokens": 26011, "updatedAt": 1770751346351},
+    {"key": "agent:main:cron:429d4536", "label": "Cron: X Update Brief - 12:30 PM", "model": "claude-opus-4-6", "totalTokens": 72529, "updatedAt": 1770744600075},
+    {"key": "agent:main:cron:3a51ef33", "label": "Cron: Daily Brief - 8:30 AM Full Thread", "model": "claude-opus-4-6", "totalTokens": 58133, "updatedAt": 1770730200076},
+    {"key": "agent:main:cron:7514d3d2", "label": "Cron: Pre-Brief Data Fetch (8:00 AM)", "model": "claude-opus-4-6", "totalTokens": 96685, "updatedAt": 1770728621354},
+    {"key": "agent:main:cron:d44219b7", "label": "Cron: X Follow 10 accounts (overnight)", "model": "claude-opus-4-6", "totalTokens": 44968, "updatedAt": 1770724800022}
   ]
 }

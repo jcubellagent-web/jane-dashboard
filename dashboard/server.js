@@ -433,7 +433,7 @@ async function fetchMarketData() {
     }
 }
 
-const server = http.createServer((req, res) => {
+function handleRequest(req, res) {
     // CORS headers for local development
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -2362,13 +2362,43 @@ const server = http.createServer((req, res) => {
         res.writeHead(200, headers);
         res.end(content);
     });
-});
+}
+
+const server = http.createServer(handleRequest);
+
+// HTTPS server for push notifications (service workers require HTTPS)
+const HTTPS_PORT = 3443;
+let httpsServer;
+try {
+    const tlsDir = path.join(WORKSPACE, '.secrets', 'tls');
+    const tlsKey = path.join(tlsDir, 'selfsigned.key');
+    const tlsCert = path.join(tlsDir, 'selfsigned.crt');
+    if (fs.existsSync(tlsKey) && fs.existsSync(tlsCert)) {
+        httpsServer = https.createServer({
+            key: fs.readFileSync(tlsKey),
+            cert: fs.readFileSync(tlsCert)
+        }, handleRequest);
+    }
+} catch (e) {
+    console.warn('HTTPS setup skipped:', e.message);
+}
 
 // ============================================
 // WebSocket Server for Real-Time Push Updates
 // ============================================
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ server });
+// Also attach WebSocket to HTTPS server if available
+let wssSecure;
+if (httpsServer) {
+    wssSecure = new WebSocket.Server({ server: httpsServer });
+    wssSecure.on('connection', (ws) => {
+        clients.add(ws);
+        ws.send(JSON.stringify({ type: 'connected', timestamp: Date.now() }));
+        ws.on('close', () => clients.delete(ws));
+        ws.on('error', () => clients.delete(ws));
+    });
+}
 
 // Track connected clients
 let clients = new Set();
@@ -2697,6 +2727,13 @@ server.listen(PORT, '0.0.0.0', () => {
     console.log(`   Local:   http://localhost:${PORT}`);
     console.log(`   Network: http://${getLocalIP()}:${PORT}`);
     console.log(`   WebSocket: ws://localhost:${PORT}`);
+    if (httpsServer) {
+        httpsServer.listen(HTTPS_PORT, '0.0.0.0', () => {
+            console.log(`   HTTPS:   https://${getLocalIP()}:${HTTPS_PORT}`);
+            console.log(`   Tailscale HTTPS: https://100.121.89.84:${HTTPS_PORT}`);
+            console.log(`   WSS:     wss://localhost:${HTTPS_PORT}`);
+        });
+    }
     console.log('');
     console.log('Press Ctrl+C to stop');
 });

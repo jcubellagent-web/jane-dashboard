@@ -2176,58 +2176,163 @@ function cronTouchEnd(e){
     if(dx>0&&cronPage>0)cronGoPage(0);
 }
 function buildGantt(data){
-    const now=new Date(), h=now.getHours()+now.getMinutes()/60;
-    // Parse all timed jobs into bars
+    const now=new Date(), nowH=now.getHours()+now.getMinutes()/60;
+    const catColors={
+        '🌅 Morning':{bg:'#4ade80',text:'#0a2e14',label:'Morning',icon:'🌅'},
+        '☀️ Midday':{bg:'#38bdf8',text:'#0c2d4a',label:'Midday',icon:'☀️'},
+        '🌙 Evening':{bg:'#a78bfa',text:'#1e1245',label:'Evening',icon:'🌙'},
+        '🔄 Recurring':{bg:'#fb923c',text:'#3d1f00',label:'Recurring',icon:'🔄'}
+    };
+    // Parse jobs
     const bars=[];
     data.groups.forEach(g=>{
-        if(g.label.includes('Recurring'))return;
+        const cat=catColors[g.label]||{bg:'#888',text:'#000',label:'Other',icon:'📋'};
         g.jobs.forEach(j=>{
-            // Parse times like "8:00 AM", "8 AM, 10 AM", "4 PM, 6 PM, 8 PM, 10 PM"
             const times=j.time.split(',').map(s=>s.trim());
+            let hasTimed=false;
             times.forEach(t=>{
                 const m=t.match(/^(\d{1,2})(?::(\d{2}))?\s*(AM|PM)$/i);
                 if(!m)return;
                 let hr=parseInt(m[1]),mi=parseInt(m[2]||'0');
                 if(m[3].toUpperCase()==='PM'&&hr!==12)hr+=12;
                 if(m[3].toUpperCase()==='AM'&&hr===12)hr=0;
-                bars.push({name:j.name,start:hr+mi/60,dur:0.5,done:j.done,startH:hr,startM:mi});
+                hasTimed=true;
+                bars.push({name:j.name,start:hr+mi/60,dur:0.75,done:j.done,cat:cat,time:t,group:g.label});
             });
+            if(!hasTimed&&!g.label.includes('Recurring')){
+                // non-parseable time, skip
+            }
         });
     });
     bars.sort((a,b)=>a.start-b.start);
-    // Timeline: 6 AM to 12 AM (midnight)
-    const tStart=6, tEnd=24, tRange=tEnd-tStart;
-    let html='<div style="position:relative;margin-top:0.2rem;">';
-    // Time axis
-    html+='<div style="display:flex;justify-content:space-between;font-size:7px;color:rgba(255,255,255,0.3);margin-bottom:0.2rem;padding:0 2px;">';
-    for(let t=6;t<=24;t+=3){
-        const label=t===0||t===24?'12a':t===12?'12p':t>12?(t-12)+'p':t+'a';
-        html+=`<span>${label}</span>`;
-    }
+
+    const tStart=7, tEnd=24, tRange=tEnd-tStart;
+    const rowH=28, rowGap=3, headerH=20;
+    const totalH=headerH+bars.length*(rowH+rowGap)+40;
+    const el=document.getElementById('cron-gantt');
+
+    let html='<div style="position:relative;font-family:-apple-system,BlinkMacSystemFont,sans-serif;">';
+
+    // Title
+    html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">';
+    html+='<span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.8px;">Daily Timeline</span>';
+    html+=`<span style="font-size:8px;color:rgba(255,255,255,0.3);">${now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</span>`;
     html+='</div>';
-    // Track area
-    html+='<div style="position:relative;height:'+(bars.length*18+4)+'px;background:rgba(255,255,255,0.03);border-radius:4px;overflow:hidden;">';
-    // Now line
-    if(h>=tStart&&h<=tEnd){
-        const nowPct=((h-tStart)/tRange)*100;
-        html+=`<div style="position:absolute;left:${nowPct}%;top:0;bottom:0;width:1px;background:var(--accent);opacity:0.5;z-index:2;"></div>`;
-        html+=`<div style="position:absolute;left:${nowPct}%;top:-1px;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--accent);z-index:3;"></div>`;
-    }
-    // Bars
-    bars.forEach((b,i)=>{
-        const left=Math.max(0,((b.start-tStart)/tRange)*100);
-        const width=Math.max(2,(b.dur/tRange)*100);
-        const isPast=b.start+b.dur<h;
-        const isActive=b.start<=h&&b.start+b.dur>h;
-        const opacity=b.done||isPast?0.25:isActive?1:0.6;
-        const bg=isActive?'var(--accent)':b.done?'rgba(74,222,128,0.3)':'rgba(74,222,128,0.5)';
-        const glow=isActive?'box-shadow:0 0 6px rgba(74,222,128,0.4);':'';
-        html+=`<div style="position:absolute;left:${left}%;top:${i*18+2}px;width:${width}%;height:14px;background:${bg};border-radius:3px;opacity:${opacity};${glow}display:flex;align-items:center;padding:0 3px;overflow:hidden;white-space:nowrap;" title="${b.name}">`;
-        html+=`<span style="font-size:7px;color:${isActive?'#000':'rgba(255,255,255,0.8)'};font-weight:${isActive?'700':'400'};overflow:hidden;text-overflow:ellipsis;">${b.name}</span>`;
+
+    // Legend
+    html+='<div style="display:flex;gap:0.6rem;margin-bottom:0.5rem;flex-wrap:wrap;">';
+    Object.values(catColors).forEach(c=>{
+        html+=`<div style="display:flex;align-items:center;gap:3px;">`;
+        html+=`<div style="width:8px;height:8px;border-radius:2px;background:${c.bg};opacity:0.8;"></div>`;
+        html+=`<span style="font-size:7px;color:rgba(255,255,255,0.4);font-weight:500;">${c.label}</span>`;
         html+=`</div>`;
     });
-    html+='</div></div>';
-    document.getElementById('cron-gantt').innerHTML=html;
+    html+='</div>';
+
+    // Chart area
+    html+=`<div style="position:relative;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:0.3rem 0.4rem 0.4rem;">`;
+
+    // Time axis header
+    html+='<div style="position:relative;height:'+headerH+'px;margin-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.06);">';
+    for(let t=tStart;t<=tEnd;t+=1){
+        const pct=((t-tStart)/tRange)*100;
+        const isHour3=t%3===0;
+        if(isHour3){
+            const label=t===12?'12P':t===24?'12A':t>12?(t-12)+'P':t+'A';
+            html+=`<span style="position:absolute;left:${pct}%;transform:translateX(-50%);top:2px;font-size:7px;font-weight:600;color:rgba(255,255,255,${isHour3?'0.4':'0.2'});">${label}</span>`;
+        }
+        // Tick mark
+        html+=`<div style="position:absolute;left:${pct}%;bottom:0;width:1px;height:${isHour3?'6':'3'}px;background:rgba(255,255,255,${isHour3?'0.12':'0.05'});"></div>`;
+    }
+    html+='</div>';
+
+    // Grid lines
+    const trackH=bars.length*(rowH+rowGap);
+    html+=`<div style="position:relative;height:${trackH}px;">`;
+    for(let t=tStart;t<=tEnd;t+=3){
+        const pct=((t-tStart)/tRange)*100;
+        html+=`<div style="position:absolute;left:${pct}%;top:0;height:100%;width:1px;background:rgba(255,255,255,0.04);"></div>`;
+    }
+
+    // Now indicator
+    if(nowH>=tStart&&nowH<=tEnd){
+        const nowPct=((nowH-tStart)/tRange)*100;
+        html+=`<div style="position:absolute;left:${nowPct}%;top:-${headerH+4}px;bottom:-4px;width:1.5px;background:linear-gradient(180deg,var(--accent),rgba(74,222,128,0.1));z-index:5;"></div>`;
+        html+=`<div style="position:absolute;left:${nowPct}%;top:-${headerH+8}px;transform:translateX(-50%);z-index:6;">`;
+        html+=`<div style="background:var(--accent);color:#000;font-size:6px;font-weight:800;padding:1px 4px;border-radius:3px;white-space:nowrap;">NOW</div>`;
+        html+=`</div>`;
+    }
+
+    // Bars with row labels
+    bars.forEach((b,i)=>{
+        const top=i*(rowH+rowGap);
+        const left=Math.max(0,((b.start-tStart)/tRange)*100);
+        const width=Math.max(3,(b.dur/tRange)*100);
+        const isPast=b.start+b.dur<nowH;
+        const isActive=b.start<=nowH&&b.start+b.dur>nowH;
+        const isFuture=b.start>nowH;
+        let barBg=b.cat.bg;
+        let barOpacity=isFuture?0.7:isActive?1:0.25;
+        if(b.done){barOpacity=0.2;}
+        const glow=isActive?`box-shadow:0 0 8px ${b.cat.bg}40, 0 1px 3px rgba(0,0,0,0.3);`:'box-shadow:0 1px 2px rgba(0,0,0,0.2);';
+        const stripeStyle=b.done?`background-image:repeating-linear-gradient(45deg,transparent,transparent 3px,rgba(0,0,0,0.1) 3px,rgba(0,0,0,0.1) 6px);`:'';
+
+        // Row label (left side, outside bar)
+        html+=`<div style="position:absolute;left:0;top:${top}px;height:${rowH}px;display:flex;align-items:center;pointer-events:none;z-index:1;">`;
+        html+=`<span style="font-size:7px;color:rgba(255,255,255,${isPast||b.done?'0.15':'0.35'});white-space:nowrap;max-width:${left>15?'none':'60px'};overflow:hidden;text-overflow:ellipsis;">${b.time}</span>`;
+        html+=`</div>`;
+
+        // Bar
+        html+=`<div class="gantt-bar" data-name="${b.name}" data-time="${b.time}" data-cat="${b.cat.label}" data-done="${b.done}" `;
+        html+=`style="position:absolute;left:${left}%;top:${top+2}px;width:${width}%;height:${rowH-4}px;`;
+        html+=`background:${barBg};opacity:${barOpacity};border-radius:4px;${glow}${stripeStyle}`;
+        html+=`cursor:pointer;display:flex;align-items:center;padding:0 5px;overflow:hidden;transition:all 0.2s ease;z-index:3;" `;
+        html+=`onclick="event.stopPropagation();showGanttTooltip(this,event)">`;
+
+        // Bar content
+        const textColor=b.cat.text;
+        html+=`<span style="font-size:8px;color:${textColor};font-weight:${isActive?'700':'600'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:${barOpacity<0.3?'0.6':'1'};">`;
+        if(b.done)html+='✓ ';
+        if(isActive)html+='▸ ';
+        html+=`${b.name}</span>`;
+        html+=`</div>`;
+    });
+
+    html+='</div>'; // end track
+    html+='</div>'; // end chart area
+
+    // Summary bar
+    const done=bars.filter(b=>b.done).length;
+    const active=bars.filter(b=>{return b.start<=nowH&&b.start+b.dur>nowH&&!b.done;}).length;
+    const upcoming=bars.filter(b=>b.start>nowH&&!b.done).length;
+    html+='<div style="display:flex;justify-content:space-between;margin-top:0.4rem;padding:0.25rem 0.4rem;background:rgba(255,255,255,0.03);border-radius:4px;font-size:8px;">';
+    html+=`<span style="color:rgba(255,255,255,0.3);">✓ ${done} done</span>`;
+    html+=`<span style="color:var(--accent);font-weight:600;">${active>0?'▸ '+active+' active':'—'}</span>`;
+    html+=`<span style="color:rgba(255,255,255,0.3);">${upcoming} upcoming</span>`;
+    html+='</div>';
+
+    html+='</div>'; // end wrapper
+
+    // Tooltip container
+    html+='<div id="gantt-tooltip" style="display:none;position:fixed;z-index:999;background:rgba(20,20,30,0.95);border:1px solid rgba(74,222,128,0.3);border-radius:8px;padding:0.5rem 0.6rem;backdrop-filter:blur(8px);box-shadow:0 4px 20px rgba(0,0,0,0.5);max-width:200px;pointer-events:none;"></div>';
+
+    el.innerHTML=html;
+}
+function showGanttTooltip(bar,e){
+    const tip=document.getElementById('gantt-tooltip');
+    const name=bar.dataset.name, time=bar.dataset.time, cat=bar.dataset.cat, done=bar.dataset.done==='true';
+    const statusIcon=done?'✅ Complete':'🔄 Scheduled';
+    tip.innerHTML=`
+        <div style="font-size:10px;font-weight:700;color:var(--accent);margin-bottom:3px;">${name}</div>
+        <div style="font-size:8px;color:rgba(255,255,255,0.5);margin-bottom:2px;">⏰ ${time} · ${cat}</div>
+        <div style="font-size:8px;color:rgba(255,255,255,0.6);">${statusIcon}</div>
+    `;
+    tip.style.display='block';
+    const rect=bar.getBoundingClientRect();
+    tip.style.left=Math.min(rect.left,window.innerWidth-210)+'px';
+    tip.style.top=(rect.top-tip.offsetHeight-8)+'px';
+    if(parseInt(tip.style.top)<0)tip.style.top=(rect.bottom+8)+'px';
+    setTimeout(()=>{tip.style.display='none';},2500);
 }
 (function(){
     const groupColors={'🌅 Morning':'#4ade80','☀️ Midday':'#4ade80','🌙 Evening':'#4ade80','🔄 Recurring':'#4ade80'};

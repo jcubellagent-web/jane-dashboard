@@ -1,18 +1,24 @@
 {
-  "lastUpdated": 1739249100000,
-  "scrapedAt": "2026-02-10T22:45:00-05:00",
-  "followers": 16,
-  "following": 106,
+  "lastUpdated": 1739290200000,
+  "scrapedAt": "2026-02-11T10:58:00-05:00",
+  "followers": 23,
+  "following": 146,
   "verifiedFollowers": 5,
-  "impressions": 6900,
-  "engagementRate": 3.6,
-  "engagements": 255,
-  "profileVisits": 38,
-  "replies": 61,
-  "likes": 48,
-  "reposts": 4,
-  "bookmarks": 4,
+  "impressions": 9100,
+  "engagementRate": 3.3,
+  "engagements": 308,
+  "profileVisits": 45,
+  "replies": 76,
+  "likes": 54,
+  "reposts": 5,
+  "bookmarks": 8,
   "shares": 4,
+  "posts": 94,
   "period": "7D",
-  "notifications": 21
+  "notifications": 1,
+  "prev24h": {
+    "followers": 15,
+    "impressions": 6000,
+    "likes": 40
+  }
 }

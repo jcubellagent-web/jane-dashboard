@@ -891,15 +891,6 @@
         <div id="mm-subagent-labels" class="mm-subagent-label-wrap"></div>
     </div>
 
-    <!-- Recurring Jobs Widget -->
-    <div class="card" id="cron-widget" style="padding:0.4rem 0.6rem;font-size:11px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.3rem;">
-            <span style="font-weight:600;color:var(--text-dim);letter-spacing:0.5px;font-size:10px;text-transform:uppercase;">📋 Recurring Jobs</span>
-            <span id="cron-updated" style="font-size:9px;color:var(--text-dim);"></span>
-        </div>
-        <div id="cron-list" style="line-height:1.5;color:rgba(255,255,255,0.55);"></div>
-    </div>
-
     <!-- Jane's Mind -->
     <div class="card mind-card" id="mind-card">
         <div class="mind-header">
@@ -923,6 +914,15 @@
                 <div class="mind-steps" id="mind-steps"></div>
             </div>
         </div>
+    </div>
+
+    <!-- Recurring Jobs Widget -->
+    <div class="card" id="cron-widget" style="padding:0.3rem 0.6rem;font-size:11px;cursor:pointer;transition:all 0.25s ease;" onclick="toggleCronWidget()">
+        <div id="cron-bar" style="display:flex;align-items:center;justify-content:space-between;">
+            <span style="color:rgba(255,255,255,0.45);font-size:10px;">📋 <span id="cron-summary">Loading…</span></span>
+            <span id="cron-chevron" style="color:rgba(255,255,255,0.25);font-size:10px;transition:transform 0.25s ease;">▾</span>
+        </div>
+        <div id="cron-list" style="max-height:0;overflow:hidden;transition:max-height 0.3s ease;line-height:1.5;color:rgba(255,255,255,0.55);margin-top:0;"></div>
     </div>
 
     <!-- Ticker Strip -->
@@ -2126,20 +2126,39 @@
         </svg>
     </a>
 <script>
-// Cron schedule widget
+// Cron schedule widget — collapsible
+var cronExpanded=false;
+function toggleCronWidget(){
+    cronExpanded=!cronExpanded;
+    const list=document.getElementById('cron-list');
+    const chev=document.getElementById('cron-chevron');
+    if(cronExpanded){list.style.maxHeight=list.scrollHeight+'px';list.style.marginTop='0.3rem';chev.style.transform='rotate(180deg)';}
+    else{list.style.maxHeight='0';list.style.marginTop='0';chev.style.transform='';}
+}
 (function(){
-    const groupColors = {'🌅 Morning':'#fbbf24','☀️ Midday':'#fb923c','🌙 Evening':'#818cf8','🔄 Recurring':'#4ade80'};
+    const groupColors={'🌅 Morning':'#fbbf24','☀️ Midday':'#fb923c','🌙 Evening':'#818cf8','🔄 Recurring':'#4ade80'};
     fetch('cron-schedule.json?_='+Date.now()).then(r=>r.json()).then(d=>{
+        let total=0,nextJob=null;
+        const now=new Date();
+        d.groups.forEach(g=>{total+=g.jobs.length;
+            g.jobs.forEach(j=>{
+                const m=j.time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+                if(m&&!nextJob){let h=parseInt(m[1]),mi=parseInt(m[2]);if(m[3].toUpperCase()==='PM'&&h!==12)h+=12;if(m[3].toUpperCase()==='AM'&&h===12)h=0;
+                    const t=new Date(now);t.setHours(h,mi,0,0);if(t>now)nextJob=j;}
+            });
+        });
+        const summ=total+' Jobs'+(nextJob?' · Next: '+nextJob.name+' '+nextJob.time:'');
+        document.getElementById('cron-summary').textContent=summ;
         const el=document.getElementById('cron-list');
         let h='';
         d.groups.forEach(g=>{
             const c=groupColors[g.label]||'#888';
-            h+=`<div style="margin-bottom:0.25rem;"><span style="color:${c};font-size:10px;font-weight:600;">${g.label}</span>`;
-            g.jobs.forEach(j=>{h+=`<div style="padding-left:0.6rem;">• ${j.name} <span style="color:rgba(255,255,255,0.3);">— ${j.time}</span></div>`;});
+            h+=`<div style="margin-bottom:0.2rem;"><span style="color:${c};font-size:10px;font-weight:600;">${g.label}</span>`;
+            g.jobs.forEach(j=>{h+=`<div style="padding-left:0.6rem;font-size:10px;">• ${j.name} <span style="color:rgba(255,255,255,0.3);">— ${j.time}</span></div>`;});
             h+='</div>';
         });
         el.innerHTML=h;
-    }).catch(()=>{document.getElementById('cron-list').textContent='Failed to load schedule';});
+    }).catch(()=>{document.getElementById('cron-summary').textContent='Failed to load';});
 })();
 </script>
 </body>

@@ -2271,35 +2271,31 @@ const server = http.createServer((req, res) => {
     }
 
     if (req.url === '/api/push/test' && req.method === 'POST') {
-        // Quick test notification
-        const fakeReq = { url: '/api/push/send', method: 'POST', headers: req.headers, on: (ev, cb) => {
-            if (ev === 'data') cb(JSON.stringify({ title: '🧪 Test from Jane', body: 'Push notifications are working!', tag: 'test' }));
-            if (ev === 'end') cb();
-        }};
-        // Re-route to send handler above — simpler to just inline it
-        try {
-            const vapidPath = path.join(WORKSPACE, '.secrets', 'vapid-keys.json');
-            const keys = JSON.parse(fs.readFileSync(vapidPath, 'utf8'));
-            const subsFile = path.join(ROOT, 'push-subscriptions.json');
-            if (!fs.existsSync(subsFile)) {
+        (async () => {
+            try {
+                const vapidPath = path.join(WORKSPACE, '.secrets', 'vapid-keys.json');
+                const keys = JSON.parse(fs.readFileSync(vapidPath, 'utf8'));
+                const subsFile = path.join(ROOT, 'push-subscriptions.json');
+                if (!fs.existsSync(subsFile)) {
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ ok: true, sent: 0, message: 'No subscribers' }));
+                    return;
+                }
+                const webpush = require('web-push');
+                webpush.setVapidDetails('mailto:jcubellagent@gmail.com', keys.publicKey, keys.privateKey);
+                const subs = JSON.parse(fs.readFileSync(subsFile, 'utf8'));
+                const payload = JSON.stringify({ title: '\ud83e\uddea Test from Jane', body: 'Push notifications are working!', tag: 'test' });
+                let sent = 0;
+                for (const sub of subs) {
+                    try { await webpush.sendNotification(sub, payload); sent++; } catch(e) {}
+                }
                 res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ ok: true, sent: 0, message: 'No subscribers' }));
-                return;
+                res.end(JSON.stringify({ ok: true, sent }));
+            } catch(e) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: e.message }));
             }
-            const webpush = require('web-push');
-            webpush.setVapidDetails('mailto:jcubellagent@gmail.com', keys.publicKey, keys.privateKey);
-            const subs = JSON.parse(fs.readFileSync(subsFile, 'utf8'));
-            const payload = JSON.stringify({ title: '\ud83e\uddea Test from Jane', body: 'Push notifications are working!', tag: 'test' });
-            let sent = 0;
-            for (const sub of subs) {
-                try { await webpush.sendNotification(sub, payload); sent++; } catch(e) {}
-            }
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ ok: true, sent }));
-        } catch(e) {
-            res.writeHead(500, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: e.message }));
-        }
+        })();
         return;
     }
 

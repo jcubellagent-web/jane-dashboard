@@ -109,10 +109,10 @@
         .status-slim-pill.dim { color: var(--text-dim); }
         .status-slim-divider { color: rgba(255,255,255,0.2); font-size: 0.5rem; }
 
-        /* Main Layout — Mind dominant, X sidebar */
+        /* Main Layout — Mind dominant, X large sidebar */
         .main-container {
             display: grid;
-            grid-template-columns: 1fr 380px;
+            grid-template-columns: 1fr 520px;
             gap: 1rem;
             padding: 1rem 2rem;
             height: calc(100vh - 56px - 32px);
@@ -184,13 +184,14 @@
             overflow: hidden;
         }
 
-        /* Brain Map */
+        /* Brain Map — LARGE focal point */
         .brain-map-container {
             flex-shrink: 0;
-            width: 260px;
+            width: 420px;
             position: relative;
             display: flex;
             align-items: center;
+            justify-content: center;
         }
         .brain-map-container svg { width: 100%; height: 100%; }
 
@@ -371,16 +372,16 @@
             overflow-y: auto; flex: 1; min-height: 0;
         }
         .x-tweet-item {
-            padding: 0.5rem 0.6rem; background: rgba(255,255,255,0.03);
+            padding: 0.75rem 0.8rem; background: rgba(255,255,255,0.03);
             border-radius: 8px; border-left: 2px solid rgba(255,255,255,0.08);
         }
         .x-tweet-item:first-child { border-left-color: #4ade80; }
         .x-tweet-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
-        .x-tweet-text { font-size: 0.8rem; color: rgba(255,255,255,0.8); line-height: 1.45; white-space: pre-wrap; }
+        .x-tweet-text { font-size: 0.95rem; color: rgba(255,255,255,0.85); line-height: 1.5; white-space: pre-wrap; }
         .x-tweet-stat { font-size: 0.7rem; color: rgba(255,255,255,0.3); }
 
-        /* Sorare Widget */
-        .card-sorare { padding: 0.75rem 1rem; background: linear-gradient(135deg, rgba(255,215,0,0.03) 0%, transparent 50%); }
+        /* Sorare Widget — hidden on desktop, mobile only */
+        .card-sorare { padding: 0.75rem 1rem; background: linear-gradient(135deg, rgba(255,215,0,0.03) 0%, transparent 50%); display: none; }
         .sorare-status-bar {
             display: flex; justify-content: space-between; align-items: center;
             padding: 0.4rem 0.6rem; background: rgba(255,215,0,0.08);

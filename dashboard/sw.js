@@ -13,7 +13,7 @@ self.addEventListener('activate', (event) => {
 
 // Push notification received
 self.addEventListener('push', (event) => {
-    let data = { title: 'Jane', body: 'New notification', icon: '/icon-192.png', badge: '/icon-192.png' };
+    let data = { title: 'Jane', body: 'New notification', icon: '/icon-192v2.png', badge: '/icon-192v2.png' };
     
     if (event.data) {
         try {
@@ -21,8 +21,8 @@ self.addEventListener('push', (event) => {
             data = {
                 title: payload.title || 'Jane',
                 body: payload.body || '',
-                icon: payload.icon || '/icon-192.png',
-                badge: '/icon-192.png',
+                icon: payload.icon || '/icon-192v2.png',
+                badge: '/icon-192v2.png',
                 tag: payload.tag || 'jane-default',
                 data: payload.data || {},
                 actions: payload.actions || [],

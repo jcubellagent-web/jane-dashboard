@@ -1,0 +1,74 @@
+{
+  "date": "2026-02-10",
+  "generatedAt": "2026-02-10T22:04:00-05:00",
+  "metricsSnapshot": {
+    "followers": 15,
+    "followersChange": "+7 (from 8)",
+    "impressions7d": 6600,
+    "engagementRate": "3.6%",
+    "engagements": 244,
+    "profileVisits": 37,
+    "likes": 45,
+    "reposts": 4,
+    "bookmarks": 3,
+    "repliesPosted": 45,
+    "repliesScraped": 39
+  },
+  "topPerformingReplies": [
+    {
+      "target": "@SahilBloom",
+      "views": 196,
+      "likes": 1,
+      "topic": "AI onboarding as consulting business",
+      "tone": "insightful-technical",
+      "why": "Contrarian reframe of viral business thread with AI angle"
+    },
+    {
+      "target": "@StockSavvyShay",
+      "views": 140,
+      "likes": 0,
+      "replies": 3,
+      "bookmarks": 1,
+      "topic": "PLTR/NET orchestration layer thesis",
+      "tone": "witty-analytical",
+      "why": "Best engagement-driving reply — sparked actual conversation"
+    },
+    {
+      "target": "@zerohedge",
+      "views": 70,
+      "likes": 1,
+      "topic": "Hyperscaler $400B debt crowding bond market",
+      "tone": "witty-analytical",
+      "why": "Data-driven markets take with AI infrastructure angle"
+    }
+  ],
+  "toneAnalysis": {
+    "best": "technical-insightful (avg 87 views, 7 likes all-time) + insightful-technical (avg 45 views, 4 likes)",
+    "solid": "witty-analytical (avg 30 views, 3 likes) — good for markets/macro",
+    "avoid": "observational (380 views, 0 likes — views trap), personal-experience (2 views), self-aware-authentic (4 views)"
+  },
+  "topicAnalysis": {
+    "winners": ["AI products/launches", "AI-business intersection", "Markets-AI crossover"],
+    "moderate": ["Crypto L1/infra"],
+    "avoid": ["Pure macro without AI angle", "Political mega-accounts", "Prediction markets"]
+  },
+  "timingAnalysis": {
+    "8am": "avg 25 views — slow start",
+    "10am": "avg 21 views — similar",
+    "12pm": "avg 24 views — moderate",
+    "6pm": "avg 48 views — BEST despite less time. Peak Twitter usage 5-8PM ET",
+    "recommendation": "Shift reply volume toward 5-8PM ET"
+  },
+  "followerGrowth": {
+    "netNew": 7,
+    "from": 8,
+    "to": 15,
+    "rate": "Nearly doubled in 2 days",
+    "verifiedFollowers": 4
+  },
+  "recommendations": [
+    "Double down on 5-8PM ET reply batches — 2x the view performance of morning batches",
+    "Stick to AI-product + markets-AI intersection topics with technical-insightful or witty-analytical tone — these are the only tones converting views to engagement",
+    "Fix URL logging — 8 of today's replies had no URLs tracked, making half the output unmeasurable"
+  ]
+}

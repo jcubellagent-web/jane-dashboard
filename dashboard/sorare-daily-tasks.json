@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1770708800000,
+  "lastUpdated": 1770778914071,
   "tasks": [
     {
       "id": "free-common-packs",
@@ -14,8 +14,8 @@
       "name": "Complete Daily Missions",
       "description": "Check sidebar for daily tasks — XP, Essence, Gems",
       "frequency": "daily",
-      "done": false,
-      "doneAt": null
+      "done": true,
+      "doneAt": "2026-02-11T02:55:12.050Z"
     },
     {
       "id": "weekly-missions",
@@ -302,36 +302,240 @@
       {
         "name": "Limited Champion #1 — Jokić MVP",
         "players": [
-          {"name": "Nikola Jokić", "position": "C", "note": "MVP — L10 avg 63, 3 games"},
-          {"name": "Derrick White", "position": "G", "note": "L10 avg 33, 2 games"},
-          {"name": "Payton Pritchard", "position": "G", "note": "L10 avg 32, 2 games"},
-          {"name": "Tre Johnson", "position": "G", "note": "L10 avg 25, 3 games (GTD)"},
-          {"name": "Keldon Johnson", "position": "G/F", "note": "L10 avg 24, 2 games"}
+          {
+            "name": "Nikola Jokić",
+            "position": "C",
+            "note": "MVP — L10 avg 63, 3 games"
+          },
+          {
+            "name": "Derrick White",
+            "position": "G",
+            "note": "L10 avg 33, 2 games"
+          },
+          {
+            "name": "Payton Pritchard",
+            "position": "G",
+            "note": "L10 avg 32, 2 games"
+          },
+          {
+            "name": "Tre Johnson",
+            "position": "G",
+            "note": "L10 avg 25, 3 games (GTD)"
+          },
+          {
+            "name": "Keldon Johnson",
+            "position": "G/F",
+            "note": "L10 avg 24, 2 games"
+          }
         ],
         "strategy": "Jokić MVP carry + BOS backcourt duo + WAS/SAS role players. Cap: 114/120"
       },
       {
         "name": "Limited Champion #2 — Ant Edwards MVP",
         "players": [
-          {"name": "Anthony Edwards", "position": "G", "note": "MVP — L10 avg 47, 2 games"},
-          {"name": "Derrick White", "position": "G", "note": "L10 avg 33, 2 games"},
-          {"name": "Payton Pritchard", "position": "G", "note": "L10 avg 32, 2 games"},
-          {"name": "Deandre Ayton", "position": "C", "note": "L10 avg 25, 2 games"},
-          {"name": "Will Riley", "position": "F", "note": "L10 avg 25, 3 games"}
+          {
+            "name": "Anthony Edwards",
+            "position": "G",
+            "note": "MVP — L10 avg 47, 2 games"
+          },
+          {
+            "name": "Derrick White",
+            "position": "G",
+            "note": "L10 avg 33, 2 games"
+          },
+          {
+            "name": "Payton Pritchard",
+            "position": "G",
+            "note": "L10 avg 32, 2 games"
+          },
+          {
+            "name": "Deandre Ayton",
+            "position": "C",
+            "note": "L10 avg 25, 2 games"
+          },
+          {
+            "name": "Will Riley",
+            "position": "F",
+            "note": "L10 avg 25, 3 games"
+          }
         ],
         "strategy": "Ant MVP + BOS duo + LAL/WAS value plays. Cap: 115/120"
       },
       {
         "name": "Limited Champion #3 — Jaylen Brown MVP",
         "players": [
-          {"name": "Jaylen Brown", "position": "G/F", "note": "MVP — L10 avg 46, 2 games"},
-          {"name": "Cooper Flagg", "position": "F", "note": "L10 avg 43, 2 games"},
-          {"name": "Brandon Miller", "position": "F", "note": "L10 avg 35, 3 games"},
-          {"name": "Zion Williamson", "position": "F", "note": "L10 avg 33, 2 games"},
-          {"name": "Sion James", "position": "G", "note": "L10 avg 9, 3 games"}
+          {
+            "name": "Jaylen Brown",
+            "position": "G/F",
+            "note": "MVP — L10 avg 46, 2 games"
+          },
+          {
+            "name": "Cooper Flagg",
+            "position": "F",
+            "note": "L10 avg 43, 2 games"
+          },
+          {
+            "name": "Brandon Miller",
+            "position": "F",
+            "note": "L10 avg 35, 3 games"
+          },
+          {
+            "name": "Zion Williamson",
+            "position": "F",
+            "note": "L10 avg 33, 2 games"
+          },
+          {
+            "name": "Sion James",
+            "position": "G",
+            "note": "L10 avg 9, 3 games"
+          }
         ],
         "strategy": "Brown MVP + Flagg/Miller/Zion upside stack. Cap: 120/120 (maxed)"
       }
     ]
+  },
+  "activeGames": {
+    "fixture": "nba-10-13-feb-2026",
+    "gameWeek": 33,
+    "apiGameWeek": 88,
+    "startDate": "2026-02-10T00:00:00Z",
+    "endDate": "2026-02-13T04:47:00Z",
+    "status": "live",
+    "totalLineups": 8587,
+    "lastChecked": "2026-02-11T03:01:54Z",
+    "lineups": [
+      {
+        "name": "Team 1 — Ant Edwards",
+        "leaderboard": "Limited Champion",
+        "ranking": 3858,
+        "score": 149.03,
+        "eligibleForReward": true,
+        "liveGames": 1,
+        "completedGames": 4,
+        "scheduledGames": 0,
+        "players": [
+          {
+            "name": "Anthony Edwards",
+            "team": "Timberwolves",
+            "score": 53.76,
+            "status": "done"
+          },
+          {
+            "name": "Cooper Flagg",
+            "team": "Mavericks",
+            "score": 22.311,
+            "status": "live"
+          },
+          {
+            "name": "Brandon Miller",
+            "team": "Hornets",
+            "score": 42.619,
+            "status": "done"
+          },
+          {
+            "name": "Kentavious Caldwell-Pope",
+            "team": "Grizzlies",
+            "score": 22.896,
+            "status": "done"
+          },
+          {
+            "name": "Sion James",
+            "team": "Hornets",
+            "score": 7.452,
+            "status": "done"
+          }
+        ]
+      },
+      {
+        "name": "Team 2 — Jokić",
+        "leaderboard": "Limited Champion",
+        "ranking": 4956,
+        "score": 133.71,
+        "eligibleForReward": false,
+        "liveGames": 0,
+        "completedGames": 5,
+        "scheduledGames": 0,
+        "players": [
+          {
+            "name": "Nikola Jokić",
+            "team": "Nuggets",
+            "score": 58.053,
+            "status": "done"
+          },
+          {
+            "name": "Lauri Markkanen",
+            "team": "Jazz",
+            "score": 30.264,
+            "status": "done"
+          },
+          {
+            "name": "Jusuf Nurkić",
+            "team": "Jazz",
+            "score": 37.842,
+            "status": "done"
+          },
+          {
+            "name": "John Konchar",
+            "team": "Grizzlies",
+            "score": 3.24,
+            "status": "done"
+          },
+          {
+            "name": "Jalen Pickett",
+            "team": "Nuggets",
+            "score": 4.32,
+            "status": "done"
+          }
+        ]
+      },
+      {
+        "name": "Team 3 — Bam/Zion",
+        "leaderboard": "Limited Champion",
+        "ranking": 7500,
+        "score": 86.99,
+        "eligibleForReward": false,
+        "liveGames": 1,
+        "completedGames": 3,
+        "scheduledGames": 1,
+        "players": [
+          {
+            "name": "Bam Adebayo",
+            "team": "Heat",
+            "score": 39.585,
+            "status": "done"
+          },
+          {
+            "name": "Zion Williamson",
+            "team": "Pelicans",
+            "score": 34.56,
+            "status": "done"
+          },
+          {
+            "name": "Keldon Johnson",
+            "team": "Spurs",
+            "score": 0.0,
+            "status": "scheduled"
+          },
+          {
+            "name": "Klay Thompson",
+            "team": "Mavericks",
+            "score": 0.0,
+            "status": "live"
+          },
+          {
+            "name": "Patrick Williams",
+            "team": "Bulls",
+            "score": 12.852,
+            "status": "done"
+          }
+        ]
+      }
+    ],
+    "rewardThresholds": {
+      "note": "Team 1 eligible for reward at rank 3858/8587. Teams 2 & 3 need to climb significantly.",
+      "team1_rewardEligible": true,
+      "team2_rewardEligible": false,
+      "team3_rewardEligible": false
+    }
   }
 }

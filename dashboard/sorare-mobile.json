@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1770707019648,
+  "lastUpdated": 1770778894531,
   "gwOffset": 55,
   "activeFixture": {
     "slug": "nba-10-13-feb-2026",
@@ -13,112 +13,127 @@
         "entries": [
           {
             "id": "So5Lineup:bdb6e096-9437-4323-9058-e191e54a1c06",
-            "ranking": 3608,
-            "score": 126.72,
+            "ranking": 3858,
+            "score": 149.03,
             "players": [
               {
                 "name": "Anthony Edwards",
                 "team": "Minnesota Timberwolves",
                 "score": 53.76,
-                "rarity": "limited"
+                "rarity": "limited",
+                "status": "done"
               },
               {
                 "name": "Cooper Flagg",
                 "team": "Dallas Mavericks",
-                "score": 0.0,
-                "rarity": "limited"
+                "score": 22.311,
+                "rarity": "limited",
+                "status": "live"
               },
               {
                 "name": "Brandon Miller",
                 "team": "Charlotte Hornets",
                 "score": 42.619,
-                "rarity": "limited"
+                "rarity": "limited",
+                "status": "done"
               },
               {
                 "name": "Kentavious Caldwell-Pope",
                 "team": "Memphis Grizzlies",
                 "score": 22.896,
-                "rarity": "limited"
+                "rarity": "limited",
+                "status": "done"
               },
               {
                 "name": "Sion James",
                 "team": "Charlotte Hornets",
                 "score": 7.452,
-                "rarity": "limited"
+                "rarity": "limited",
+                "status": "done"
               }
             ]
           },
           {
             "id": "So5Lineup:8a9f6876-cefd-47cc-b8ab-809b1451c799",
-            "ranking": 3171,
+            "ranking": 4956,
             "score": 133.71,
             "players": [
               {
                 "name": "Nikola Jokić",
                 "team": "Denver Nuggets",
                 "score": 58.053,
-                "rarity": "limited"
+                "rarity": "limited",
+                "status": "done"
               },
               {
                 "name": "Lauri Markkanen",
                 "team": "Utah Jazz",
                 "score": 30.264,
-                "rarity": "limited"
+                "rarity": "limited",
+                "status": "done"
               },
               {
                 "name": "Jusuf Nurkić",
                 "team": "Utah Jazz",
                 "score": 37.842,
-                "rarity": "limited"
+                "rarity": "limited",
+                "status": "done"
               },
               {
                 "name": "John Konchar",
                 "team": "Memphis Grizzlies",
                 "score": 3.24,
-                "rarity": "limited"
+                "rarity": "limited",
+                "status": "done"
               },
               {
                 "name": "Jalen Pickett",
                 "team": "Denver Nuggets",
                 "score": 4.32,
-                "rarity": "limited"
+                "rarity": "limited",
+                "status": "done"
               }
             ]
           },
           {
             "id": "So5Lineup:59461755-382f-4c7d-92d0-ef720f25b837",
-            "ranking": 6075,
+            "ranking": 7500,
             "score": 86.99,
             "players": [
               {
                 "name": "Bam Adebayo",
                 "team": "Miami Heat",
                 "score": 39.585,
-                "rarity": "limited"
+                "rarity": "limited",
+                "status": "done"
               },
               {
                 "name": "Zion Williamson",
                 "team": "New Orleans Pelicans",
                 "score": 34.56,
-                "rarity": "limited"
+                "rarity": "limited",
+                "status": "done"
               },
               {
                 "name": "Keldon Johnson",
                 "team": "San Antonio Spurs",
                 "score": 0.0,
-                "rarity": "limited"
+                "rarity": "limited",
+                "status": "scheduled"
               },
               {
                 "name": "Klay Thompson",
                 "team": "Dallas Mavericks",
                 "score": 0.0,
-                "rarity": "limited"
+                "rarity": "limited",
+                "status": "live"
               },
               {
                 "name": "Patrick Williams",
                 "team": "Chicago Bulls",
                 "score": 12.852,
-                "rarity": "limited"
+                "rarity": "limited",
+                "status": "done"
               }
             ]
           }
@@ -141,11 +156,42 @@
             "ranking": null,
             "score": 0,
             "players": [
-              {"name": "Nikola Jokić", "team": "Denver Nuggets", "score": 0, "rarity": "limited", "role": "MVP", "l10avg": 63},
-              {"name": "Derrick White", "team": "Boston Celtics", "score": 0, "rarity": "limited", "l10avg": 33},
-              {"name": "Payton Pritchard", "team": "Boston Celtics", "score": 0, "rarity": "limited", "l10avg": 32},
-              {"name": "Tre Johnson", "team": "Washington Wizards", "score": 0, "rarity": "limited", "l10avg": 25},
-              {"name": "Keldon Johnson", "team": "San Antonio Spurs", "score": 0, "rarity": "limited", "l10avg": 24}
+              {
+                "name": "Nikola Jokić",
+                "team": "Denver Nuggets",
+                "score": 0,
+                "rarity": "limited",
+                "role": "MVP",
+                "l10avg": 63
+              },
+              {
+                "name": "Derrick White",
+                "team": "Boston Celtics",
+                "score": 0,
+                "rarity": "limited",
+                "l10avg": 33
+              },
+              {
+                "name": "Payton Pritchard",
+                "team": "Boston Celtics",
+                "score": 0,
+                "rarity": "limited",
+                "l10avg": 32
+              },
+              {
+                "name": "Tre Johnson",
+                "team": "Washington Wizards",
+                "score": 0,
+                "rarity": "limited",
+                "l10avg": 25
+              },
+              {
+                "name": "Keldon Johnson",
+                "team": "San Antonio Spurs",
+                "score": 0,
+                "rarity": "limited",
+                "l10avg": 24
+              }
             ]
           },
           {
@@ -153,11 +199,42 @@
             "ranking": null,
             "score": 0,
             "players": [
-              {"name": "Anthony Edwards", "team": "Minnesota Timberwolves", "score": 0, "rarity": "limited", "role": "MVP", "l10avg": 47},
-              {"name": "Derrick White", "team": "Boston Celtics", "score": 0, "rarity": "limited", "l10avg": 33},
-              {"name": "Payton Pritchard", "team": "Boston Celtics", "score": 0, "rarity": "limited", "l10avg": 32},
-              {"name": "Deandre Ayton", "team": "Los Angeles Lakers", "score": 0, "rarity": "limited", "l10avg": 25},
-              {"name": "Will Riley", "team": "Washington Wizards", "score": 0, "rarity": "limited", "l10avg": 25}
+              {
+                "name": "Anthony Edwards",
+                "team": "Minnesota Timberwolves",
+                "score": 0,
+                "rarity": "limited",
+                "role": "MVP",
+                "l10avg": 47
+              },
+              {
+                "name": "Derrick White",
+                "team": "Boston Celtics",
+                "score": 0,
+                "rarity": "limited",
+                "l10avg": 33
+              },
+              {
+                "name": "Payton Pritchard",
+                "team": "Boston Celtics",
+                "score": 0,
+                "rarity": "limited",
+                "l10avg": 32
+              },
+              {
+                "name": "Deandre Ayton",
+                "team": "Los Angeles Lakers",
+                "score": 0,
+                "rarity": "limited",
+                "l10avg": 25
+              },
+              {
+                "name": "Will Riley",
+                "team": "Washington Wizards",
+                "score": 0,
+                "rarity": "limited",
+                "l10avg": 25
+              }
             ]
           },
           {
@@ -165,11 +242,42 @@
             "ranking": null,
             "score": 0,
             "players": [
-              {"name": "Jaylen Brown", "team": "Boston Celtics", "score": 0, "rarity": "limited", "role": "MVP", "l10avg": 46},
-              {"name": "Cooper Flagg", "team": "Dallas Mavericks", "score": 0, "rarity": "limited", "l10avg": 43},
-              {"name": "Brandon Miller", "team": "Charlotte Hornets", "score": 0, "rarity": "limited", "l10avg": 35},
-              {"name": "Zion Williamson", "team": "New Orleans Pelicans", "score": 0, "rarity": "limited", "l10avg": 33},
-              {"name": "Sion James", "team": "Charlotte Hornets", "score": 0, "rarity": "limited", "l10avg": 9}
+              {
+                "name": "Jaylen Brown",
+                "team": "Boston Celtics",
+                "score": 0,
+                "rarity": "limited",
+                "role": "MVP",
+                "l10avg": 46
+              },
+              {
+                "name": "Cooper Flagg",
+                "team": "Dallas Mavericks",
+                "score": 0,
+                "rarity": "limited",
+                "l10avg": 43
+              },
+              {
+                "name": "Brandon Miller",
+                "team": "Charlotte Hornets",
+                "score": 0,
+                "rarity": "limited",
+                "l10avg": 35
+              },
+              {
+                "name": "Zion Williamson",
+                "team": "New Orleans Pelicans",
+                "score": 0,
+                "rarity": "limited",
+                "l10avg": 33
+              },
+              {
+                "name": "Sion James",
+                "team": "Charlotte Hornets",
+                "score": 0,
+                "rarity": "limited",
+                "l10avg": 9
+              }
             ]
           }
         ]

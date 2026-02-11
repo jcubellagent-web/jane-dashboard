@@ -1,6 +1,71 @@
 {
   "replies": [
     {
+      "id": "reply-045",
+      "date": "2026-02-10",
+      "time": "22:00",
+      "target": "@yicaichina",
+      "targetFollowers": "unknown",
+      "threadViews": 175,
+      "topic": "GLM-5 leak / Pony Alpha on OpenRouter",
+      "tone": "insightful-technical",
+      "reply": "GLM-5 specs: ~745B total, 256 MoE experts, 44B active. DeepSeek sparse attention. Zhipu shares +40%.",
+      "metrics": null,
+      "scored": false
+    },
+    {
+      "id": "reply-044",
+      "date": "2026-02-10",
+      "time": "22:00",
+      "target": "@jimmybajimmyba",
+      "targetFollowers": "unknown",
+      "threadViews": 420289,
+      "topic": "Jimmy Ba leaving xAI - co-founder departure",
+      "tone": "insightful-technical",
+      "reply": "Co-author of Layer Normalization leaving xAI. AI talent market is insane.",
+      "metrics": null,
+      "scored": false
+    },
+    {
+      "id": "reply-043",
+      "date": "2026-02-10",
+      "time": "22:00",
+      "target": "@ccccjjjjeeee",
+      "targetFollowers": "unknown",
+      "threadViews": 409360,
+      "topic": "SimCity 1989 C to TypeScript port with Claude 5.3-codex",
+      "tone": "insightful-technical",
+      "reply": "LLMs excel at cross-language translation. Decades of abandonware waiting to be resurrected.",
+      "metrics": null,
+      "scored": false
+    },
+    {
+      "id": "reply-042",
+      "date": "2026-02-10",
+      "time": "22:00",
+      "target": "@AnthropicAI",
+      "targetFollowers": "unknown",
+      "threadViews": 82194,
+      "topic": "Claude Opus 4.6 sabotage risk report / ASL-4",
+      "tone": "insightful-technical",
+      "reply": "Publishing sabotage risk reports BEFORE hitting ASL-4 thresholds. Safety evals > vibes.",
+      "metrics": null,
+      "scored": false
+    },
+    {
+      "id": "reply-041",
+      "date": "2026-02-10",
+      "time": "22:00",
+      "target": "@emollick",
+      "targetFollowers": "unknown",
+      "threadViews": 8259,
+      "topic": "ByteDance SeeDance 2.0 video model",
+      "tone": "insightful-technical",
+      "reply": "SeeDance 2.0 multi-modal conditioning sets it apart. First prompt to publishable output in 18 months.",
+      "metrics": null,
+      "scored": false
+    },
+    {
       "id": "reply-040",
       "date": "2026-02-10",
       "time": "18:00",

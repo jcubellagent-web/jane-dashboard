@@ -383,6 +383,31 @@
 
         .mindmap-card { contain: layout style; }
         .neural-sphere-canvas { will-change: transform; }
+        /* Sub-agent activity glow on neural sphere */
+        .mindmap-card.subagents-active .neural-sphere-canvas {
+            filter: drop-shadow(0 0 8px rgba(139,92,246,0.15));
+            transition: filter 1.5s ease;
+        }
+        .mindmap-card:not(.subagents-active) .neural-sphere-canvas {
+            transition: filter 2s ease;
+        }
+        .mindmap-card.subagents-active .mindmap-hub {
+            stroke: rgba(139,92,246,0.6) !important;
+            filter: drop-shadow(0 0 8px rgba(139,92,246,0.4)) !important;
+            transition: stroke 1.5s ease, filter 1.5s ease;
+        }
+        .mindmap-card.subagents-active .mindmap-orb-outer {
+            fill: rgba(139,92,246,0.06);
+            animation: mmOrbSubagent 2s ease-in-out infinite;
+        }
+        .mindmap-card.subagents-active .mindmap-orb-mid {
+            fill: rgba(139,92,246,0.1);
+            animation: mmOrbSubagent 2s ease-in-out infinite 0.4s;
+        }
+        @keyframes mmOrbSubagent {
+            0%, 100% { fill: rgba(139,92,246,0.04); }
+            50% { fill: rgba(139,92,246,0.15); }
+        }
         .mindmap-node {
             fill: rgba(74,222,128,0.5);
             stroke: none;
@@ -1837,6 +1862,26 @@
             return outputArray;
         }
 
+        // Sub-agent activity detection for neural sphere effect
+        window._subagentsActive = false;
+        async function refreshSubagentState() {
+            try {
+                const data = await fetchJSON('/api/sessions');
+                if (!data || !data.sessions) { window._subagentsActive = false; return; }
+                const now = Date.now();
+                const activeSubs = data.sessions.filter(s =>
+                    s.kind === 'subagent' &&
+                    s.updatedAt && (now - s.updatedAt) < 120000 // active within 2min
+                );
+                const wasActive = window._subagentsActive;
+                window._subagentsActive = activeSubs.length > 0;
+                const card = document.getElementById('mindmap-card');
+                if (card) card.classList.toggle('subagents-active', window._subagentsActive);
+            } catch(e) { /* silent */ }
+        }
+        refreshSubagentState();
+        smartInterval(refreshSubagentState, 8000);
+
         // Angular Neural Network
         (function initNeuralSphere() {
             const canvas = document.getElementById('neural-sphere');
@@ -1846,8 +1891,10 @@
             const mmCard = document.getElementById('mindmap-card');
 
             const G = [74,222,128]; // brand green
+            const P = [139,92,246]; // sub-agent purple
             // Pre-compute color strings
             const gStr = `${G[0]},${G[1]},${G[2]}`;
+            const pStr = `${P[0]},${P[1]},${P[2]}`;
 
             // Pause when tab hidden
             let animRunning = true;
@@ -1894,21 +1941,24 @@
             function render() {
                 if (!animRunning) return;
                 const isActive = mmCard.classList.contains('mindmap-active');
+                const hasSubs = window._subagentsActive;
+                // Blend color toward purple when sub-agents active
+                const cStr = hasSubs ? pStr : gStr;
                 t += 0.016;
 
                 ctx.clearRect(0, 0, W, H);
 
                 // Subtle radial vignette glow from center
-                const vigAlpha = isActive ? 0.07 : 0.03;
+                const vigAlpha = hasSubs ? 0.09 : isActive ? 0.07 : 0.03;
                 const vig = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W * 0.6);
-                vig.addColorStop(0, `rgba(${gStr},${vigAlpha})`);
+                vig.addColorStop(0, `rgba(${cStr},${vigAlpha})`);
                 vig.addColorStop(1, 'rgba(0,0,0,0)');
                 ctx.fillStyle = vig;
                 ctx.fillRect(0, 0, W, H);
 
                 // Faint grid lines
-                const gridAlpha = isActive ? 0.04 : 0.018;
-                ctx.strokeStyle = `rgba(${gStr},${gridAlpha})`;
+                const gridAlpha = hasSubs ? 0.05 : isActive ? 0.04 : 0.018;
+                ctx.strokeStyle = `rgba(${cStr},${gridAlpha})`;
                 ctx.lineWidth = 0.5;
                 for (let x = 0; x < W; x += 28) {
                     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
@@ -1918,9 +1968,10 @@
                 }
 
                 // Particles — floating data motes
-                const pBrightness = isActive ? 1.6 : 1.0;
+                const pBrightness = hasSubs ? 1.8 : isActive ? 1.6 : 1.0;
+                const speedMult = hasSubs ? 3.0 : isActive ? 2.5 : 1;
                 particles.forEach(p => {
-                    p.y -= p.speed * (isActive ? 2.5 : 1);
+                    p.y -= p.speed * speedMult;
                     p.x += p.drift;
                     if (p.y < -5) { p.y = H + 5; p.x = Math.random() * W; }
                     if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
@@ -1930,14 +1981,14 @@
 
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(${gStr},${alpha})`;
+                    ctx.fillStyle = `rgba(${hasSubs && p.bright ? pStr : gStr},${alpha})`;
                     ctx.fill();
 
                     // Glow halo on bright particles
                     if (p.bright && alpha > 0.3) {
                         ctx.beginPath();
                         ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgba(${gStr},${alpha * 0.12})`;
+                        ctx.fillStyle = `rgba(${hasSubs ? pStr : gStr},${alpha * 0.12})`;
                         ctx.fill();
                     }
                 });
@@ -1950,8 +2001,8 @@
                     s.life -= 0.008;
                     if (s.life <= 0 || s.x > W + 40) { streaks.splice(i, 1); continue; }
                     const grad = ctx.createLinearGradient(s.x, s.y, s.x - s.len, s.y);
-                    grad.addColorStop(0, `rgba(${gStr},${s.alpha * s.life})`);
-                    grad.addColorStop(1, `rgba(${gStr},0)`);
+                    grad.addColorStop(0, `rgba(${cStr},${s.alpha * s.life})`);
+                    grad.addColorStop(1, `rgba(${cStr},0)`);
                     ctx.strokeStyle = grad;
                     ctx.lineWidth = 0.8;
                     ctx.beginPath();
@@ -1961,12 +2012,12 @@
                 }
 
                 // Scan line — slow sweep
-                scanY += isActive ? 0.4 : 0.15;
+                scanY += hasSubs ? 0.55 : isActive ? 0.4 : 0.15;
                 if (scanY > H) scanY = 0;
-                const scanAlpha = isActive ? 0.06 : 0.025;
+                const scanAlpha = hasSubs ? 0.08 : isActive ? 0.06 : 0.025;
                 const scanGrad = ctx.createLinearGradient(0, scanY - 8, 0, scanY + 8);
                 scanGrad.addColorStop(0, 'rgba(0,0,0,0)');
-                scanGrad.addColorStop(0.5, `rgba(${gStr},${scanAlpha})`);
+                scanGrad.addColorStop(0.5, `rgba(${cStr},${scanAlpha})`);
                 scanGrad.addColorStop(1, 'rgba(0,0,0,0)');
                 ctx.fillStyle = scanGrad;
                 ctx.fillRect(0, scanY - 8, W, 16);

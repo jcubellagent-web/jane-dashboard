@@ -917,14 +917,14 @@
     </div>
 
     <!-- Today's Jobs Widget -->
-    <div class="card" id="cron-widget" style="padding:0;font-size:11px;cursor:pointer;transition:all 0.25s ease;border:1px solid rgba(57,255,20,0.15);overflow:hidden;" onclick="toggleCronWidget()">
+    <div class="card" id="cron-widget" style="padding:0;font-size:11px;cursor:pointer;transition:all 0.25s ease;border:1px solid rgba(74,222,128,0.15);overflow:hidden;" onclick="toggleCronWidget()">
         <div id="cron-bar" style="display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0.6rem;">
-            <svg width="16" height="16" viewBox="0 0 24 24" style="filter:drop-shadow(0 0 4px #39ff14);animation:cronSpin 8s linear infinite;"><rect x="4" y="8" width="16" height="12" rx="3" fill="none" stroke="#39ff14" stroke-width="1.5"/><circle cx="9" cy="14" r="1.5" fill="#39ff14"/><circle cx="15" cy="14" r="1.5" fill="#39ff14"/><line x1="12" y1="5" x2="12" y2="8" stroke="#39ff14" stroke-width="1.5"/><circle cx="12" cy="4" r="1.5" fill="#39ff14"/><line x1="2" y1="13" x2="4" y2="13" stroke="#39ff14" stroke-width="1.5"/><line x1="20" y1="13" x2="22" y2="13" stroke="#39ff14" stroke-width="1.5"/></svg>
-            <style>@keyframes cronSpin{0%,100%{filter:drop-shadow(0 0 4px #39ff14)}50%{filter:drop-shadow(0 0 8px #39ff14) brightness(1.2)}}</style>
-            <span style="color:#39ff14;font-weight:600;font-size:11px;letter-spacing:0.3px;opacity:0.85;">Today's Jobs:</span>
-            <span id="cron-count" style="color:#39ff14;font-weight:900;font-size:13px;margin-left:auto;">--</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" style="filter:drop-shadow(0 0 4px var(--accent));animation:cronSpin 8s linear infinite;"><rect x="4" y="8" width="16" height="12" rx="3" fill="none" stroke="var(--accent)" stroke-width="1.5"/><circle cx="9" cy="14" r="1.5" fill="var(--accent)"/><circle cx="15" cy="14" r="1.5" fill="var(--accent)"/><line x1="12" y1="5" x2="12" y2="8" stroke="var(--accent)" stroke-width="1.5"/><circle cx="12" cy="4" r="1.5" fill="var(--accent)"/><line x1="2" y1="13" x2="4" y2="13" stroke="var(--accent)" stroke-width="1.5"/><line x1="20" y1="13" x2="22" y2="13" stroke="var(--accent)" stroke-width="1.5"/></svg>
+            <style>@keyframes cronSpin{0%,100%{filter:drop-shadow(0 0 4px #4ade80)}50%{filter:drop-shadow(0 0 8px #4ade80) brightness(1.2)}}</style>
+            <span style="color:var(--accent);font-weight:600;font-size:11px;letter-spacing:0.3px;opacity:0.85;">Today's Jobs:</span>
+            <span id="cron-count" style="color:var(--accent);font-weight:900;font-size:13px;margin-left:auto;">--</span>
             <span id="cron-hint" style="color:rgba(255,255,255,0.2);font-size:8px;font-style:italic;">tap to expand</span>
-            <span id="cron-chevron" style="color:rgba(57,255,20,0.4);font-size:9px;transition:transform 0.25s ease;">▾</span>
+            <span id="cron-chevron" style="color:rgba(74,222,128,0.4);font-size:9px;transition:transform 0.25s ease;">▾</span>
         </div>
         <div id="cron-list" style="max-height:0;overflow:hidden;transition:max-height 0.4s ease;padding:0 0.6rem;"></div>
     </div>
@@ -2150,7 +2150,7 @@ function toggleCronWidget(){
     }
 }
 (function(){
-    const groupColors={'🌅 Morning':'#fbbf24','☀️ Midday':'#fb923c','🌙 Evening':'#818cf8','🔄 Recurring':'#4ade80'};
+    const groupColors={'🌅 Morning':'#4ade80','☀️ Midday':'#4ade80','🌙 Evening':'#4ade80','🔄 Recurring':'#4ade80'};
     fetch('cron-schedule.json?_='+Date.now()).then(r=>r.json()).then(d=>{
         let total=0, doneCount=0, nextJob=null;
         const now=new Date();
@@ -2174,12 +2174,12 @@ function toggleCronWidget(){
             g.jobs.forEach(j=>{
                 const isDone=j.done;
                 const isNext=(!isDone && nextJob && j.name===nextJob.name && j.time===nextJob.time);
-                const bg=isNext?'rgba(57,255,20,0.08)':'transparent';
-                const border=isNext?'border-left:2px solid #39ff14;padding-left:0.4rem;':'padding-left:0.5rem;';
+                const bg=isNext?'rgba(74,222,128,0.08)':'transparent';
+                const border=isNext?'border-left:2px solid #4ade80;padding-left:0.4rem;':'padding-left:0.5rem;';
                 const nameStyle=isDone?'text-decoration:line-through;color:rgba(255,255,255,0.25);':'color:rgba(255,255,255,0.7);';
-                const timeStyle=isDone?'color:rgba(255,255,255,0.15);':'color:rgba(255,255,255,0.3);';
+                const timeStyle=isDone?'color:rgba(255,255,255,0.15);':'color:rgba(255,255,255,0.6);';
                 const icon=isDone?'✅':'';
-                const nextBadge=isNext?'<span style="font-size:7px;background:rgba(57,255,20,0.2);color:#39ff14;padding:0.05rem 0.25rem;border-radius:3px;font-weight:600;margin-left:0.3rem;">NEXT</span>':'';
+                const nextBadge=isNext?'<span style="font-size:7px;background:rgba(74,222,128,0.2);color:#4ade80;padding:0.05rem 0.25rem;border-radius:3px;font-weight:600;margin-left:0.3rem;">NEXT</span>':'';
                 h+=`<div style="display:flex;align-items:center;gap:0.3rem;font-size:10px;padding:0.12rem 0;${border}background:${bg};border-radius:2px;">`;
                 h+=`<span style="${timeStyle}font-size:9px;min-width:52px;">${j.time}</span>`;
                 h+=`<span style="${nameStyle}">${isDone?icon+' ':''}${j.name}${nextBadge}</span>`;

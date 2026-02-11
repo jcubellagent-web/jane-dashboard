@@ -2393,13 +2393,26 @@ function showGanttTooltip(bar,e){
         window._lastCronData=d;
     }).catch(()=>{document.getElementById('cron-count').textContent='!';});
 })();
-// Re-fetch and re-render Gantt every 15 minutes
-setInterval(()=>{
-    fetch('cron-schedule.json?_='+Date.now()).then(r=>r.json()).then(d=>{
-        window._lastCronData=d;
-        buildGantt(d);
-    }).catch(()=>{});
-},15*60*1000);
+// Gantt refresh: NOW line every 60s, full re-fetch every 10 min. Pauses when tab hidden.
+(function(){
+    let lastFetch=Date.now();
+    const FETCH_INTERVAL=10*60*1000, TICK_INTERVAL=60*1000;
+    function tick(){
+        if(document.hidden)return;
+        const now=Date.now();
+        if(now-lastFetch>FETCH_INTERVAL){
+            lastFetch=now;
+            fetch('cron-schedule.json?_='+now).then(r=>r.json()).then(d=>{
+                window._lastCronData=d;
+                buildGantt(d);
+            }).catch(()=>{});
+        } else if(window._lastCronData){
+            buildGantt(window._lastCronData);
+        }
+    }
+    setInterval(tick,TICK_INTERVAL);
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick();});
+})();
 </script>
 </body>
 </html>

@@ -1,22 +1,16 @@
 /**
  * Dashboard API Helper
- * Handles communication with OpenClaw Gateway
+ * Handles communication with OpenClaw Gateway via server-side proxy
+ * (Tokens are kept server-side — see /api/gateway/* endpoints in server.js)
  */
-
-const GATEWAY_URL = 'http://127.0.0.1:18789';
-const GATEWAY_TOKEN = '47cf46ba8962b26d18a3d690d80a3e109f57e2525b8f6941';
-const HOOK_TOKEN = '5c8d56dd45438059dddecbedb8a7123abaf72721153dc95d';
 
 /**
- * Send a message to Jane via the webhook
+ * Send a message to Jane via the server proxy
  */
 async function sendToJane(message, options = {}) {
-    const response = await fetch(`${GATEWAY_URL}/hooks/agent`, {
+    const response = await fetch('/api/gateway/hook', {
         method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${HOOK_TOKEN}`,
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             message: message,
             name: options.name || 'Dashboard',
@@ -38,12 +32,9 @@ async function sendToJane(message, options = {}) {
  * Wake Jane with a system event
  */
 async function wakeJane(text, mode = 'now') {
-    const response = await fetch(`${GATEWAY_URL}/hooks/wake`, {
+    const response = await fetch('/api/gateway/wake', {
         method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${HOOK_TOKEN}`,
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text, mode })
     });
 
@@ -55,14 +46,10 @@ async function wakeJane(text, mode = 'now') {
 }
 
 /**
- * Get session history (requires gateway auth)
+ * Get session history via server proxy
  */
 async function getSessionHistory(sessionKey = 'agent:main:main', limit = 20) {
-    const response = await fetch(`${GATEWAY_URL}/api/sessions/${encodeURIComponent(sessionKey)}/history?limit=${limit}`, {
-        headers: {
-            'Authorization': `Bearer ${GATEWAY_TOKEN}`
-        }
-    });
+    const response = await fetch(`/api/gateway/sessions/${encodeURIComponent(sessionKey)}/history?limit=${limit}`);
 
     if (!response.ok) {
         throw new Error(`Failed to get history: ${response.status}`);
@@ -72,14 +59,10 @@ async function getSessionHistory(sessionKey = 'agent:main:main', limit = 20) {
 }
 
 /**
- * Get gateway status
+ * Get gateway status via server proxy
  */
 async function getGatewayStatus() {
-    const response = await fetch(`${GATEWAY_URL}/api/status`, {
-        headers: {
-            'Authorization': `Bearer ${GATEWAY_TOKEN}`
-        }
-    });
+    const response = await fetch('/api/gateway/status');
 
     if (!response.ok) {
         throw new Error(`Failed to get status: ${response.status}`);
@@ -94,10 +77,7 @@ if (typeof window !== 'undefined') {
         sendToJane,
         wakeJane,
         getSessionHistory,
-        getGatewayStatus,
-        GATEWAY_URL,
-        GATEWAY_TOKEN,
-        HOOK_TOKEN
+        getGatewayStatus
     };
 }
 
@@ -107,9 +87,6 @@ if (typeof module !== 'undefined' && module.exports) {
         sendToJane,
         wakeJane,
         getSessionHistory,
-        getGatewayStatus,
-        GATEWAY_URL,
-        GATEWAY_TOKEN,
-        HOOK_TOKEN
+        getGatewayStatus
     };
 }

@@ -1,14 +1,137 @@
 {
-  "lastUpdated": "2026-02-03T23:41:00-05:00",
-  "jobs": [
+  "lastUpdated": "2026-02-11T08:45:00-05:00",
+  "todaysJobs": [
     {
-      "id": "penguin-price-alert",
-      "name": "🐧 PENGUIN Alerts",
-      "icon": "🐧",
-      "schedule": "Every 30 min",
-      "enabled": true,
-      "nextRun": "2026-02-03T23:59:58-05:00",
-      "status": "ok"
+      "id": "overnight-follows",
+      "name": "🔗 X Overnight Follows",
+      "schedule": "2-7 AM hourly",
+      "status": "done",
+      "completedAt": "2026-02-11T07:00:00-05:00",
+      "note": "6 batches ran overnight"
+    },
+    {
+      "id": "x-engagement-feedback",
+      "name": "📊 X Engagement Feedback Loop",
+      "schedule": "Every 3h",
+      "status": "done",
+      "completedAt": "2026-02-11T07:40:00-05:00",
+      "note": "StockSavvyShay reply hit 445 views — all-time best! 19 followers"
+    },
+    {
+      "id": "x-stats-scrape",
+      "name": "📈 X Stats Scrape",
+      "schedule": "Every 30m",
+      "status": "done",
+      "completedAt": "2026-02-11T07:48:00-05:00",
+      "note": "8.6K impressions, 19 followers, 3.2% engagement"
+    },
+    {
+      "id": "sorare-injury-monitor",
+      "name": "🏀 Sorare Injury Monitor",
+      "schedule": "Every 6h",
+      "status": "done",
+      "completedAt": "2026-02-11T05:29:00-05:00",
+      "note": "Klay OUT (rest), Nurkić intermittent rest. No action needed (lineups locked)"
+    },
+    {
+      "id": "sorare-gw34-check",
+      "name": "🏀 Sorare GW34 Lineup Check",
+      "schedule": "Every 6h",
+      "status": "done",
+      "completedAt": "2026-02-11T04:49:00-05:00",
+      "note": "3 lineups already set for GW34"
+    },
+    {
+      "id": "pre-brief-fetch",
+      "name": "📰 Pre-Brief Data Fetch",
+      "schedule": "8:00 AM",
+      "status": "done",
+      "completedAt": "2026-02-11T08:00:00-05:00",
+      "note": "Newsletters + API data cached for daily brief"
+    },
+    {
+      "id": "daily-brief",
+      "name": "🌅 Daily Brief Thread (8:30 AM)",
+      "schedule": "8:30 AM",
+      "status": "running",
+      "note": "Should be posting now"
+    },
+    {
+      "id": "x-replies-10am",
+      "name": "💬 X Reply Cycle (10 AM)",
+      "schedule": "10:00 AM",
+      "status": "upcoming",
+      "nextRun": "2026-02-11T10:00:00-05:00"
+    },
+    {
+      "id": "sorare-daily-tasks",
+      "name": "🏀 Sorare Daily Tasks",
+      "schedule": "10:07 AM",
+      "status": "upcoming",
+      "nextRun": "2026-02-11T10:07:00-05:00"
+    },
+    {
+      "id": "x-update-1230",
+      "name": "📰 X Update Brief (12:30 PM)",
+      "schedule": "12:30 PM",
+      "status": "upcoming",
+      "nextRun": "2026-02-11T12:30:00-05:00"
+    },
+    {
+      "id": "x-replies-2pm",
+      "name": "💬 X Reply Cycle (2 PM)",
+      "schedule": "2:00 PM",
+      "status": "upcoming",
+      "nextRun": "2026-02-11T14:00:00-05:00"
+    },
+    {
+      "id": "x-update-430",
+      "name": "📰 X Update Brief (4:30 PM)",
+      "schedule": "4:30 PM",
+      "status": "upcoming",
+      "nextRun": "2026-02-11T16:30:00-05:00"
+    },
+    {
+      "id": "x-replies-6pm",
+      "name": "💬 X Reply Cycle (6 PM)",
+      "schedule": "6:00 PM",
+      "status": "upcoming",
+      "nextRun": "2026-02-11T18:00:00-05:00"
+    },
+    {
+      "id": "x-update-6pm",
+      "name": "📰 X Update Brief (6:00 PM)",
+      "schedule": "6:00 PM",
+      "status": "upcoming",
+      "nextRun": "2026-02-11T18:00:00-05:00"
+    },
+    {
+      "id": "x-recap",
+      "name": "📋 X Daily Recap (7:15 PM)",
+      "schedule": "7:15 PM",
+      "status": "upcoming",
+      "nextRun": "2026-02-11T19:15:00-05:00"
+    },
+    {
+      "id": "x-replies-8pm",
+      "name": "💬 X Reply Cycle (8 PM)",
+      "schedule": "8:00 PM",
+      "status": "upcoming",
+      "nextRun": "2026-02-11T20:00:00-05:00"
+    },
+    {
+      "id": "x-growth-report",
+      "name": "📊 X Growth Report",
+      "schedule": "10:00 PM",
+      "status": "upcoming",
+      "nextRun": "2026-02-11T22:00:00-05:00"
+    },
+    {
+      "id": "x-replies-10pm",
+      "name": "💬 X Reply Cycle (10 PM)",
+      "schedule": "10:00 PM",
+      "status": "upcoming",
+      "nextRun": "2026-02-11T22:00:00-05:00"
     }
   ]
 }

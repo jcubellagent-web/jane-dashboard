@@ -927,13 +927,8 @@
             <span id="cron-chevron" style="color:rgba(74,222,128,0.4);font-size:9px;transition:transform 0.25s ease;">▾</span>
         </div>
         <div id="cron-expanded" style="max-height:0;overflow:hidden;transition:max-height 0.4s ease;">
-            <div id="cron-pages" style="display:flex;transition:transform 0.3s ease;width:200%;align-items:flex-start;" ontouchstart="cronTouchStart(event)" ontouchmove="cronTouchMove(event)" ontouchend="cronTouchEnd(event)">
-                <div id="cron-list" style="width:50%;padding:0 0.6rem;box-sizing:border-box;"></div>
-                <div id="cron-gantt" style="width:50%;padding:0.3rem 0.6rem;box-sizing:border-box;min-height:280px;"></div>
-            </div>
-            <div id="cron-dots" style="display:flex;justify-content:center;gap:6px;padding:0.3rem 0;">
-                <span class="cron-dot active" onclick="cronGoPage(0)" style="width:6px;height:6px;border-radius:50%;background:var(--accent);transition:all 0.2s;cursor:pointer;"></span>
-                <span class="cron-dot" onclick="cronGoPage(1)" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all 0.2s;cursor:pointer;"></span>
+            <div id="cron-pages" style="width:100%;">
+                <div id="cron-list" style="width:100%;padding:0 0.6rem;box-sizing:border-box;"></div>
             </div>
         </div>
     </div>
@@ -2149,8 +2144,7 @@ function toggleCronWidget(e){
     const hint=document.getElementById('cron-hint');
     if(cronExpanded){
         const list=document.getElementById('cron-list');
-        const gantt=document.getElementById('cron-gantt');
-        const maxH=Math.max(list.scrollHeight,gantt.scrollHeight,300)+60;
+        const maxH=Math.max(list.scrollHeight,300)+60;
         exp.style.maxHeight=maxH+'px';
         chev.style.transform='rotate(180deg)';
         hint.textContent='tap to collapse';
@@ -2158,27 +2152,19 @@ function toggleCronWidget(e){
         exp.style.maxHeight='0';
         chev.style.transform='';
         hint.textContent='tap to expand';
-        cronGoPage(0);
     }
 }
-function cronGoPage(p){
-    cronPage=p;
-    document.getElementById('cron-pages').style.transform=`translateX(-${p*50}%)`;
-    document.querySelectorAll('.cron-dot').forEach((d,i)=>{
-        d.style.background=i===p?'var(--accent)':'rgba(255,255,255,0.2)';
-    });
-}
-function cronTouchStart(e){cronTouchX=e.touches[0].clientX;}
-function cronTouchMove(e){e.preventDefault();}
+function cronGoPage(p){}
+function cronTouchStart(e){}
+function cronTouchMove(e){}
 function cronTouchEnd(e){
-    if(cronTouchX===null)return;
     const dx=e.changedTouches[0].clientX-cronTouchX;
     cronTouchX=null;
     if(Math.abs(dx)<30)return;
     if(dx<0&&cronPage<1)cronGoPage(1);
     if(dx>0&&cronPage>0)cronGoPage(0);
 }
-function buildGantt(data){
+function buildGantt(data){return; // Gantt chart removed
     const now=new Date(), nowH=now.getHours()+now.getMinutes()/60;
     const typeColors={
         thread:{bg:'#4ade80',text:'#0a2e14',label:'Thread Posts'},

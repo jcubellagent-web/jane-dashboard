@@ -8,12 +8,12 @@
     },
     "replies": {
       "planned": 48,
-      "completed": 27,
+      "completed": 32,
       "cadence": "5-6 every 2 hours",
       "schedule": ["08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00"]
     },
     "totalPlanned": 52,
-    "totalCompleted": 31
+    "totalCompleted": 36
   },
   "todayActual": {
     "date": "2026-02-10",
@@ -23,10 +23,10 @@
     },
     "replies": {
       "planned": 48,
-      "completed": 27
+      "completed": 32
     },
     "totalPlanned": 52,
-    "totalCompleted": 31
+    "totalCompleted": 36
   },
   "lastUpdated": 1770764400000
 }

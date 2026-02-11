@@ -11,6 +11,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0a0a0f">
+    <link rel="dns-prefetch" href="https://assets.coingecko.com">
     <style>
         :root {
             --bg: #0a0a0f;
@@ -20,7 +21,8 @@
             --text: rgba(255,255,255,0.9);
             --text-dim: rgba(255,255,255,0.4);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        .card { contain: content; }
         body {
             background: var(--bg);
             color: var(--text);
@@ -87,6 +89,7 @@
             padding: 0.5rem 0.75rem;
             margin-bottom: 0.5rem;
             transition: border-color 0.4s ease, box-shadow 0.4s ease;
+            will-change: auto;
         }
         .card.glow {
             border-color: rgba(74,222,128,0.2);
@@ -378,6 +381,8 @@
         }
         .mindmap-svg { position: relative; z-index: 1; }
 
+        .mindmap-card { contain: layout style; }
+        .neural-sphere-canvas { will-change: transform; }
         .mindmap-node {
             fill: rgba(74,222,128,0.5);
             stroke: none;
@@ -885,10 +890,10 @@
     <!-- Ticker Strip -->
     <div class="card" id="ticker-strip" style="padding:0.4rem 0.6rem;overflow:hidden;">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:0.3rem;" id="ticker-row">
-            <span class="tk" id="tk-btc"><img src="https://assets.coingecko.com/coins/images/1/small/bitcoin.png" class="tk-logo"> <span class="tk-c">--%</span></span>
-            <span class="tk" id="tk-eth"><img src="https://assets.coingecko.com/coins/images/279/small/ethereum.png" class="tk-logo"> <span class="tk-c">--%</span></span>
-            <span class="tk" id="tk-sol"><img src="https://assets.coingecko.com/coins/images/4128/small/solana.png" class="tk-logo"> <span class="tk-c">--%</span></span>
-            <span class="tk" id="tk-ndaq"><img src="https://www.nasdaq.com/sites/acquia.prod/files/2020/09/24/nasdaq.jpg" class="tk-logo" style="border-radius:3px;object-fit:cover;"> <span class="tk-c">--%</span></span>
+            <span class="tk" id="tk-btc"><img src="https://assets.coingecko.com/coins/images/1/small/bitcoin.png" class="tk-logo" loading="lazy"> <span class="tk-c">--%</span></span>
+            <span class="tk" id="tk-eth"><img src="https://assets.coingecko.com/coins/images/279/small/ethereum.png" class="tk-logo" loading="lazy"> <span class="tk-c">--%</span></span>
+            <span class="tk" id="tk-sol"><img src="https://assets.coingecko.com/coins/images/4128/small/solana.png" class="tk-logo" loading="lazy"> <span class="tk-c">--%</span></span>
+            <span class="tk" id="tk-ndaq"><img src="https://www.nasdaq.com/sites/acquia.prod/files/2020/09/24/nasdaq.jpg" class="tk-logo" loading="lazy" style="border-radius:3px;object-fit:cover;"> <span class="tk-c">--%</span></span>
             <span class="tk tk-placeholder" id="tk-slot5"><span style="width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,0.08);display:inline-block;vertical-align:middle;"></span> <span class="tk-c" style="color:rgba(255,255,255,0.15);">--%</span></span>
             <span class="tk tk-placeholder" id="tk-slot6"><span style="width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,0.08);display:inline-block;vertical-align:middle;"></span> <span class="tk-c" style="color:rgba(255,255,255,0.15);">--%</span></span>
         </div>
@@ -1483,7 +1488,7 @@
                         line.style.stroke = color;
                     }
                     // Flow dots start after line finishes drawing (400ms delay)
-                    const burstCount = 4 + Math.floor(Math.random()*4);
+                    const burstCount = 2 + Math.floor(Math.random()*3);
                     for (let b = 0; b < burstCount; b++) {
                         const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
                         const r = 0.8;
@@ -1720,33 +1725,51 @@
         refreshXStats();
         refreshTweetFeed();
         refreshSorare();
-        setInterval(refreshStatus, 30000);
-        setInterval(refreshMind, 5000);
-        setInterval(refreshTicker, 60000);
-        setInterval(refreshXStats, 60000);
-        setInterval(refreshTweetFeed, 120000);
-        setInterval(refreshSorare, 300000);
+        // Smart intervals — pause when tab hidden
+        const _intervals = [];
+        function smartInterval(fn, ms) {
+            const id = setInterval(() => { if (!document.hidden) fn(); }, ms);
+            _intervals.push(id);
+        }
+        smartInterval(refreshStatus, 30000);
+        smartInterval(refreshMind, 5000);
+        smartInterval(refreshTicker, 60000);
+        smartInterval(refreshXStats, 60000);
+        smartInterval(refreshTweetFeed, 120000);
+        smartInterval(refreshSorare, 300000);
+        // Refresh stale data when tab becomes visible again
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) { refreshStatus(); refreshMind(); }
+        });
 
         // WebSocket for real-time push updates
         (function initWebSocket() {
             const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            let ws;
+            let ws, retryDelay = 1000;
+            // Debounce WS-triggered refreshes
+            const wsPending = {};
+            function wsRefresh(key, fn) {
+                if (wsPending[key]) return;
+                wsPending[key] = true;
+                requestAnimationFrame(() => { wsPending[key] = false; fn(); });
+            }
             function connect() {
                 ws = new WebSocket(proto + '//' + location.host);
+                ws.onopen = () => { retryDelay = 1000; };
                 ws.onmessage = (e) => {
                     try {
                         const msg = JSON.parse(e.data);
                         if (msg.type === 'fileChange') {
                             const k = msg.key;
-                            if (k === 'x-stats') refreshXStats();
-                            else if (k === 'x-tweets' || k === 'x-thread-history') refreshTweetFeed();
-                            else if (k === 'mind') refreshMind();
-                            else if (k === 'sessions') refreshStatus();
-                            else if (k === 'sorare-mobile' || k === 'sorare') refreshSorare();
+                            if (k === 'x-stats') wsRefresh(k, refreshXStats);
+                            else if (k === 'x-tweets' || k === 'x-thread-history') wsRefresh('tweets', refreshTweetFeed);
+                            else if (k === 'mind') wsRefresh(k, refreshMind);
+                            else if (k === 'sessions') wsRefresh(k, refreshStatus);
+                            else if (k === 'sorare-mobile' || k === 'sorare') wsRefresh('sorare', refreshSorare);
                         }
                     } catch(err) {}
                 };
-                ws.onclose = () => setTimeout(connect, 3000);
+                ws.onclose = () => { setTimeout(connect, retryDelay); retryDelay = Math.min(retryDelay * 1.5, 30000); };
                 ws.onerror = () => ws.close();
             }
             connect();
@@ -1828,14 +1851,24 @@
         (function initNeuralSphere() {
             const canvas = document.getElementById('neural-sphere');
             if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+            const ctx = canvas.getContext('2d', { alpha: true });
             const W = canvas.width, H = canvas.height;
+            const mmCard = document.getElementById('mindmap-card');
 
             const G = [74,222,128]; // brand green
+            // Pre-compute color strings
+            const gStr = `${G[0]},${G[1]},${G[2]}`;
+
+            // Pause when tab hidden
+            let animRunning = true;
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) { animRunning = false; }
+                else { animRunning = true; requestAnimationFrame(render); }
+            });
 
             // Data particles — floating upward like data streams
             const particles = [];
-            for (let i = 0; i < 80; i++) {
+            for (let i = 0; i < 50; i++) {
                 particles.push({
                     x: Math.random() * W,
                     y: Math.random() * H,
@@ -1851,8 +1884,7 @@
 
             // Streaks — fast horizontal data lines
             const streaks = [];
-            function spawnStreak() {
-                const isActive = document.getElementById('mindmap-card')?.classList.contains('mindmap-active');
+            function spawnStreak(isActive) {
                 if (Math.random() > (isActive ? 0.03 : 0.008)) return;
                 streaks.push({
                     x: -20,
@@ -1870,7 +1902,8 @@
             let t = 0;
 
             function render() {
-                const isActive = document.getElementById('mindmap-card')?.classList.contains('mindmap-active');
+                if (!animRunning) return;
+                const isActive = mmCard.classList.contains('mindmap-active');
                 t += 0.016;
 
                 ctx.clearRect(0, 0, W, H);
@@ -1878,14 +1911,14 @@
                 // Subtle radial vignette glow from center
                 const vigAlpha = isActive ? 0.07 : 0.03;
                 const vig = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W * 0.6);
-                vig.addColorStop(0, `rgba(${G[0]},${G[1]},${G[2]},${vigAlpha})`);
+                vig.addColorStop(0, `rgba(${gStr},${vigAlpha})`);
                 vig.addColorStop(1, 'rgba(0,0,0,0)');
                 ctx.fillStyle = vig;
                 ctx.fillRect(0, 0, W, H);
 
                 // Faint grid lines
                 const gridAlpha = isActive ? 0.04 : 0.018;
-                ctx.strokeStyle = `rgba(${G[0]},${G[1]},${G[2]},${gridAlpha})`;
+                ctx.strokeStyle = `rgba(${gStr},${gridAlpha})`;
                 ctx.lineWidth = 0.5;
                 for (let x = 0; x < W; x += 28) {
                     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
@@ -1907,28 +1940,28 @@
 
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(${G[0]},${G[1]},${G[2]},${alpha})`;
+                    ctx.fillStyle = `rgba(${gStr},${alpha})`;
                     ctx.fill();
 
                     // Glow halo on bright particles
                     if (p.bright && alpha > 0.3) {
                         ctx.beginPath();
                         ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgba(${G[0]},${G[1]},${G[2]},${alpha * 0.12})`;
+                        ctx.fillStyle = `rgba(${gStr},${alpha * 0.12})`;
                         ctx.fill();
                     }
                 });
 
                 // Data streaks
-                spawnStreak();
+                spawnStreak(isActive);
                 for (let i = streaks.length - 1; i >= 0; i--) {
                     const s = streaks[i];
                     s.x += s.speed * (isActive ? 2 : 1);
                     s.life -= 0.008;
                     if (s.life <= 0 || s.x > W + 40) { streaks.splice(i, 1); continue; }
                     const grad = ctx.createLinearGradient(s.x, s.y, s.x - s.len, s.y);
-                    grad.addColorStop(0, `rgba(${G[0]},${G[1]},${G[2]},${s.alpha * s.life})`);
-                    grad.addColorStop(1, `rgba(${G[0]},${G[1]},${G[2]},0)`);
+                    grad.addColorStop(0, `rgba(${gStr},${s.alpha * s.life})`);
+                    grad.addColorStop(1, `rgba(${gStr},0)`);
                     ctx.strokeStyle = grad;
                     ctx.lineWidth = 0.8;
                     ctx.beginPath();
@@ -1943,7 +1976,7 @@
                 const scanAlpha = isActive ? 0.06 : 0.025;
                 const scanGrad = ctx.createLinearGradient(0, scanY - 8, 0, scanY + 8);
                 scanGrad.addColorStop(0, 'rgba(0,0,0,0)');
-                scanGrad.addColorStop(0.5, `rgba(${G[0]},${G[1]},${G[2]},${scanAlpha})`);
+                scanGrad.addColorStop(0.5, `rgba(${gStr},${scanAlpha})`);
                 scanGrad.addColorStop(1, 'rgba(0,0,0,0)');
                 ctx.fillStyle = scanGrad;
                 ctx.fillRect(0, scanY - 8, W, 16);

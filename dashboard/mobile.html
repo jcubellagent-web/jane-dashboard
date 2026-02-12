@@ -629,13 +629,11 @@
             0% { opacity: 1; transform: translateY(0); }
             100% { opacity: 0; transform: translateY(-5px); }
         }
-        .mm-subagent-sat {
-            animation: mmSubFadeIn 0.8s ease-out forwards, mmOrbit 6s linear 0.8s infinite;
-            transform-origin: 80px 45px;
-        }
-        .mm-subagent-sat.done {
-            animation: mmSubFadeOut 1.5s ease-out forwards;
-        }
+        .sa-lobster { position:absolute; width:18px; height:18px; pointer-events:auto; cursor:pointer; transition: opacity 1s ease-out; }
+        .sa-lobster.fade-out { opacity:0; }
+        .sa-lobster svg { width:100%; height:100%; }
+        .sa-lobster-label { position:absolute; top:100%; left:50%; transform:translateX(-50%); font-size:7px; font-weight:600; text-align:center; max-width:60px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:1px; pointer-events:none; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
+        @keyframes saFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-3px); } }
         .mm-subagent-label-wrap {
             position: absolute;
             right: 0.3rem;
@@ -918,9 +916,10 @@
             <circle cx="80" cy="45" r="12" class="mindmap-hub-ring"/>
             <circle cx="80" cy="45" r="9" class="mindmap-hub"/>
             <image href="icon-192v2.png" x="73" y="38" width="14" height="14" opacity="0.7"/>
-            <!-- Sub-agent satellites -->
+            <!-- Sub-agent satellites (legacy, unused) -->
             <g id="mm-subagents"></g>
         </svg>
+        <div id="sa-orbit-mobile" style="position:absolute;inset:0;pointer-events:none;"></div>
         <div id="mm-subagent-labels" class="mm-subagent-label-wrap"></div>
     </div>
 
@@ -1324,33 +1323,26 @@
             window._mmModel = data.model || 'opus';
             refreshMindMap(isActive, data.steps);
 
-            // Sub-agent satellites — only re-render if data changed
-            const saContainer = document.getElementById('mm-subagents');
-            const saLabels = document.getElementById('mm-subagent-labels');
+            // Sub-agent lobster satellites
             const subs = data.subAgents || [];
+            const saLabels = document.getElementById('mm-subagent-labels');
             const saKey = JSON.stringify(subs);
             if (saKey !== window._lastSubAgentKey) {
                 window._lastSubAgentKey = saKey;
+                updateSubagentLobsters(subs);
+                // Labels
                 if (subs.length > 0) {
-                    let svgHtml = '';
                     let labelHtml = '';
-                    subs.forEach((sa, i) => {
-                        const isActive = sa.status === 'active';
+                    subs.forEach((sa) => {
                         const isDone = sa.status === 'done';
-                        const color = isActive ? '#8b5cf6' : '#4ade80';
-                        const satClass = isDone ? 'mm-subagent-sat done' : 'mm-subagent-sat';
-                        svgHtml += `<circle cx="80" cy="45" r="3" fill="${color}" class="${satClass}" style="animation-delay:${i*-2.5}s;"/>`;
                         const doneClass = isDone ? ' done' : '';
                         labelHtml += `<span class="mm-subagent-label${doneClass}"><span class="dot"></span>${esc(sa.label)}</span>`;
                     });
-                    saContainer.innerHTML = svgHtml;
                     saLabels.innerHTML = labelHtml;
-                    // Auto-remove done sub-agents after fade
                     if (subs.every(s => s.status === 'done')) {
-                        setTimeout(() => { saContainer.innerHTML = ''; saLabels.innerHTML = ''; window._lastSubAgentKey = '[]'; }, 2000);
+                        setTimeout(() => { saLabels.innerHTML = ''; window._lastSubAgentKey = '[]'; }, 2000);
                     }
                 } else {
-                    saContainer.innerHTML = '';
                     saLabels.innerHTML = '';
                 }
             }
@@ -1472,6 +1464,45 @@
             }
             if (regions.size === 0) regions.set(0, 'opus');
             return regions;
+        }
+
+        const SA_COLORS = ['#06b6d4','#f97316','#a855f7','#ec4899','#84cc16','#eab308','#ef4444','#14b8a6'];
+        const SA_LOBSTER_PATH = 'M60 10C30 10 15 35 15 55C15 75 30 95 45 100L45 110 55 110 55 100C55 100 60 102 65 100L65 110 75 110 75 100C90 95 105 75 105 55C105 35 90 10 60 10Z M20 45C5 40 0 50 5 60C10 70 20 65 25 55C28 48 25 45 20 45Z M100 45C115 40 120 50 115 60C110 70 100 65 95 55C92 48 95 45 100 45Z';
+        const SA_ANTENNA = '<path d="M45 15Q35 5 30 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M75 15Q85 5 90 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>';
+        const SA_EYES = '<circle cx="45" cy="35" r="6" fill="#050810"/><circle cx="75" cy="35" r="6" fill="#050810"/><circle cx="46" cy="34" r="2.5" fill="#00e5cc"/><circle cx="76" cy="34" r="2.5" fill="#00e5cc"/>';
+
+        function updateSubagentLobsters(subAgents) {
+            const orbit = document.getElementById('sa-orbit-mobile');
+            if (!orbit) return;
+            const active = (subAgents||[]).filter(s => s.status === 'active' || s.status === 'running');
+            const activeIds = new Set(active.map(s => s.id || s.label));
+            // fade out removed
+            orbit.querySelectorAll('.sa-lobster').forEach(el => {
+                if (!activeIds.has(el.dataset.saId)) { el.classList.add('fade-out'); setTimeout(() => el.remove(), 1000); }
+            });
+            if (!active.length) return;
+            const rect = orbit.getBoundingClientRect();
+            const cx = rect.width / 2, cy = rect.height / 2;
+            const radius = Math.min(cx, cy) * 0.55;
+            active.forEach((s, i) => {
+                const id = s.id || s.label || 'sa-'+i;
+                const color = SA_COLORS[i % SA_COLORS.length];
+                const angle = (2 * Math.PI * i / active.length) - Math.PI/2;
+                const x = cx + radius * Math.cos(angle) - 9;
+                const y = cy + radius * Math.sin(angle) - 9;
+                let el = orbit.querySelector(`[data-sa-id="${id}"]`);
+                if (!el) {
+                    el = document.createElement('div');
+                    el.className = 'sa-lobster';
+                    el.dataset.saId = id;
+                    const lbl = s.label || s.id || 'sub-agent';
+                    el.innerHTML = `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><path d="${SA_LOBSTER_PATH}" fill="${color}"/>${SA_ANTENNA.replace(/currentColor/g, color)}${SA_EYES}</svg><div class="sa-lobster-label" style="color:${color}">${lbl}</div>`;
+                    orbit.appendChild(el);
+                }
+                const delay = (i * 0.5) % 3;
+                el.style.cssText = `left:${x}px;top:${y}px;animation:saFloat 3s ${delay}s ease-in-out infinite;filter:drop-shadow(0 0 5px ${color});`;
+                el.classList.remove('fade-out');
+            });
         }
 
         function refreshMindMap(isActive, steps) {

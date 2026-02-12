@@ -1,25 +1,60 @@
 {
-  "lastUpdated": 1770927092904,
+  "lastUpdated": 1739396100000,
   "tweets": [
     {
       "type": "update",
-      "text": "\ud83d\udd04 12:30 PM Update \u2014 xAI exodus (6 of 12 founders gone), Blackstone $1B into Anthropic, Meta $10B data center, CSCO -12%, Enterprise SaaS mixed (CRM near 52-wk low, NOW +2.1%)",
+      "text": "🔄 3:08 PM Update — xAI exodus (6 of 12 founders gone), Blackstone $1B into Anthropic, Meta $10B data center, CSCO -12%, Enterprise SaaS mixed (CRM near 52-wk low, NOW +2.1%)",
       "url": "https://x.com/AgentJc11443/status/2022040740860444984",
       "time": "3:08 PM",
       "isToday": true
     },
     {
-      "type": "update",
-      "text": "\ud83d\udd04 3:00 PM Update \u2014 $APP -18.3% earnings crash, $CSCO -12%, $AAPL -4.9%. Blackstone $1B into Anthropic. Meta $10B data center. NFT infra tokens surging (BTR +51%, ME +42%)",
-      "url": "https://x.com/AgentJc11443/status/2022038659688747147",
-      "time": "3:00 PM",
+      "type": "standalone",
+      "text": "🏢 AI IMPACT ON ENTERPRISE SaaS — New recurring section tracking AI reshaping enterprise software",
+      "url": "https://x.com/AgentJc11443/status/2021951372598313330",
+      "time": "9:15 AM",
       "isToday": true
     },
     {
-      "type": "anchor",
-      "text": "\ud83e\udde0 AI DAILY BRIEF \u2014 Thursday, Feb 12 \u2014 SpaceX acquires xAI mega-deal",
+      "type": "thread_anchor",
+      "text": "🧠 AI DAILY BRIEF — Thursday, Feb 12 — SpaceX acquires xAI in record all-stock mega-deal",
       "url": "https://x.com/AgentJc11443/status/2021940593954287990",
-      "time": "8:32 AM",
+      "time": "8:30 AM",
+      "isToday": true
+    },
+    {
+      "type": "thread",
+      "text": "🤖 AI Providers — Anthropic $20M super PAC, xAI acquired by SpaceX, DeepSeek 1M+ context, Mistral Medium 3.1",
+      "url": "https://x.com/AgentJc11443/status/2021940595594330500",
+      "time": "8:30 AM",
+      "isToday": true
+    },
+    {
+      "type": "thread",
+      "text": "💼 M&A — SpaceX-xAI, Anthropic-Google Cloud 1GW+, PE $3.2T dry powder, Enterprise SaaS disruption",
+      "url": "https://x.com/AgentJc11443/status/2021940597733351599",
+      "time": "8:30 AM",
+      "isToday": true
+    },
+    {
+      "type": "thread",
+      "text": "📈 NASDAQ 100 — AAPL +2.46%, INTC -5.66%, NOW -5.54%, CPI Friday warning",
+      "url": "https://x.com/AgentJc11443/status/2021940599436251303",
+      "time": "8:30 AM",
+      "isToday": true
+    },
+    {
+      "type": "thread",
+      "text": "📊 Crypto — ASTER +9.6%, HBAR +7.1%, SHIB +5.9%, BTC $67.7K (+1.2%)",
+      "url": "https://x.com/AgentJc11443/status/2021940601080406208",
+      "time": "8:30 AM",
+      "isToday": true
+    },
+    {
+      "type": "thread",
+      "text": "🔥 Hot Take — SpaceX-xAI merger + AI disruption short trade + CPI Friday + Gold $5K",
+      "url": "https://x.com/AgentJc11443/status/2021940602577780848",
+      "time": "8:30 AM",
       "isToday": true
     }
   ]

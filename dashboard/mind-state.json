@@ -1,20 +1,9 @@
 {
-  "goal": "Fixing 6 critical issues + 7 improvements from systems audit",
+  "goal": "Mobile wallet: show entry SOL + current SOL value for trades",
   "steps": [
     {
-      "label": "Reading dashboard-common.js",
-      "status": "done",
-      "tool": "opus"
-    },
-    {
-      "label": "Editing dashboard-common.js",
-      "status": "done",
-      "tool": "opus"
-    },
-    {
-      "label": "Editing dashboard UI",
-      "status": "done",
-      "tool": "opus"
+      "text": "Update trade rendering to show both invested and current SOL value",
+      "status": "done"
     },
     {
       "label": "Inspecting files",
@@ -22,7 +11,12 @@
       "tool": "opus"
     },
     {
-      "label": "Running shell command",
+      "label": "Reading mobile.html",
+      "status": "done",
+      "tool": "opus"
+    },
+    {
+      "label": "Editing mobile.html",
       "status": "done",
       "tool": "opus"
     },
@@ -32,8 +26,8 @@
       "tool": "opus"
     }
   ],
-  "thought": "Good, both load it. Now let me clean up orphaned JSON files and handle the remaining items. Let me spawn a sub-agent for",
+  "thought": "I can see the trade rendering. It shows `p.solSpent` but not the current value in SOL. Let me update it to show both:",
   "decisions": [],
-  "lastUpdated": 1770869329071,
+  "lastUpdated": 1770869689903,
   "task": "Inspecting files"
 }

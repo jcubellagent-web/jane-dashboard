@@ -1944,11 +1944,12 @@
                                 const pnlColor = pnl >= 0 ? '#4ade80' : '#ef4444';
                                 const entryMcap = p.mcapAtEntry || 0;
                                 const curMcap = p.currentMcap || entryMcap;
-                                const sol = p.solSpent ? p.solSpent.toFixed(2) + ' SOL' : '';
+                                const entrySol = p.solSpent ? p.solSpent.toFixed(2) : '0';
+                                const currentSol = p.solSpent ? (p.solSpent * (1 + pnl / 100)).toFixed(2) : '0';
                                 return '<div style="display:flex;align-items:center;justify-content:space-between;padding:0.2rem 0;border-bottom:1px solid rgba(255,255,255,0.04);">' +
                                     '<span style="font-size:0.6rem;font-weight:700;color:var(--text);min-width:50px;">' + esc(p.token || p.symbol) + '</span>' +
                                     '<span style="font-size:0.5rem;color:var(--text-dim);">' + fmtMcap(entryMcap) + ' → ' + fmtMcap(curMcap) + '</span>' +
-                                    '<span style="font-size:0.5rem;color:var(--text-dim);">' + esc(sol) + '</span>' +
+                                    '<span style="font-size:0.5rem;color:var(--text-dim);">' + entrySol + ' → <span style="color:' + pnlColor + ';font-weight:600;">' + currentSol + '</span> SOL</span>' +
                                     '<span style="font-size:0.6rem;font-weight:700;color:' + pnlColor + ';min-width:40px;text-align:right;">' + (pnl >= 0 ? '+' : '') + pnl.toFixed(1) + '%</span></div>';
                             }).join('');
                     } else {

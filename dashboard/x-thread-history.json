@@ -6,15 +6,18 @@
       "tweets": [
         {
           "text": "\ud83d\udd04 6:00 PM Update \u2014 Matt Shumer's \"Something Big Is Happening\" essay going mega-viral. Compares AI to Feb 2020 pre-COVID, predicts 50% entry-level white-collar jobs gone within 5 years.",
-          "time": "6:00 PM"
+          "time": "6:00 PM",
+          "timestamp": "2026-02-11T18:00:00-05:00"
         },
         {
           "text": "\ud83d\udcc8 NASDAQ 100 Close \u2014 QQQ +0.27% flat. $MU +9.94% (Morgan Stanley PT \u2191 $450, HBM demand through 2027). Red: $CRM -4.4% (layoffs), $COIN -5.7%, $MSTR -5.2%.",
-          "time": "6:00 PM"
+          "time": "6:00 PM",
+          "timestamp": "2026-02-11T18:00:00-05:00"
         },
         {
           "text": "\ud83d\udcca Crypto \u2014 Risk-off continues. BTC $67,349 (-1.9%), ETH $1,951 (-3.1%), SOL $79 (-3.8%). BERA +111% trending #1 on CoinGecko. Plus Coinbase Agentic Wallets launch and Anthropic's electricity cost commitment.",
-          "time": "6:00 PM"
+          "time": "6:00 PM",
+          "timestamp": "2026-02-11T18:00:00-05:00"
         }
       ]
     },
@@ -24,11 +27,13 @@
       "tweets": [
         {
           "text": "\ud83d\udd04 4:30 PM Update \u2014 NASDAQ 100 closing bell: QQQ -2.15%. Top gainers: $ON +5.64%, $MCHP +5.06%. Losers: $SHOP -6.70%, $COIN -5.73%.",
-          "time": "4:30 PM"
+          "time": "4:30 PM",
+          "timestamp": "2026-02-11T16:30:00-05:00"
         },
         {
           "text": "New since 12:30 PM: Trump chip tariff carve-out (FT), Station F European AI accelerator, Microsoft superconducting power lines, Salesforce ~1K layoffs, $650B AI capex plans, Bloomberg AI disruption trade widening.",
-          "time": "4:30 PM"
+          "time": "4:30 PM",
+          "timestamp": "2026-02-11T16:30:00-05:00"
         }
       ]
     },

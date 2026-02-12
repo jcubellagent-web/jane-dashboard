@@ -657,7 +657,18 @@ function handleRequest(req, res) {
                 { name: 'Alpha Signal', detail: 'models & papers', active: true },
                 { name: 'Morning Brew', detail: 'markets & biz', active: true },
                 { name: 'The Crypto Advisor', detail: 'Substack', active: true },
-                { name: 'Doomberg', detail: 'Substack', active: true }
+                { name: 'Doomberg', detail: 'Substack', active: true },
+                { name: 'The Batch', detail: 'deeplearning.ai / Andrew Ng', active: true },
+                { name: 'Import AI', detail: 'AI policy & research', active: true },
+                { name: "Ben's Bites", detail: 'daily AI products & startups', active: true },
+                { name: 'Stratechery', detail: 'tech strategy analysis', active: true },
+                { name: 'The Daily Upside', detail: 'Wall Street & deal flow', active: true },
+                { name: 'Chartr', detail: 'data-driven market charts', active: true },
+                { name: 'Bankless', detail: 'DeFi & crypto analysis', active: true },
+                { name: 'The Defiant', detail: 'DeFi news & on-chain data', active: true },
+                { name: 'Milk Road', detail: 'quick-hit crypto news', active: true },
+                { name: 'SaaStr', detail: 'enterprise SaaS metrics', active: true },
+                { name: 'Meritech Capital', detail: 'public SaaS comps', active: false }
             ]
         };
         res.writeHead(200, { 'Content-Type': 'application/json' });

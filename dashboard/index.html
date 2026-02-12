@@ -1406,7 +1406,17 @@
                     ]);
                     if (!data) return;
                     const container = document.getElementById('wallet-content');
-                    const totalUsd = (data.evm?.totalUsd||0) + (data.solana?.totalUsd||0);
+                    let totalUsd = (data.evm?.totalUsd||0) + (data.solana?.totalUsd||0);
+                    // Include open trade values in total balance
+                    if (tradesData?.openPositions) {
+                        tradesData.openPositions.forEach(p => {
+                            const val = (p.currentPrice||p.entryPrice||0) * (p.amount||0);
+                            if (val > 0) totalUsd += val;
+                        });
+                    }
+                    if (tradesData?.budget?.realizedPnl) {
+                        totalUsd += tradesData.budget.realizedPnl;
+                    }
 
                     document.getElementById('wallet-total-bal').textContent = '$' + totalUsd.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
 

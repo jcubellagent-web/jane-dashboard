@@ -1,91 +1,90 @@
 {
-  "lastUpdated": 1770902905068,
+  "lastUpdated": 1739374380000,
   "tasks": [
     {
       "id": "free-common-packs",
       "name": "Open Free Common Packs",
-      "description": "Claim free Common card packs (Regular + Benched types)",
+      "description": "Already claimed earlier today. Next pack in ~14h.",
       "frequency": "daily",
       "done": true,
-      "doneAt": "2026-02-11T15:46:00.000Z"
+      "doneAt": "2026-02-12T16:07:00.000Z"
     },
     {
       "id": "daily-missions",
       "name": "Complete Daily Missions",
-      "description": "Check sidebar for daily tasks \u2014 XP, Essence, Gems",
+      "description": "Three-Pointers Picker (MIL vs OKC): SGA is OUT, only eligible card. Rebounds Picker: no eligible Limited cards from today's teams. Cannot complete either mission.",
       "frequency": "daily",
-      "done": true,
-      "doneAt": "2026-02-11T02:55:12.050Z"
+      "done": false,
+      "doneAt": null,
+      "note": "Need Limited cards from today's game teams to participate"
     },
     {
       "id": "set-lineups",
-      "name": "Set Lineups for GW34 \u2705",
-      "description": "3 Limited Champion lineups already submitted (Joki\u0107 / Ant / Brown MVPs)",
+      "name": "GW33 Lineups (Live)",
+      "description": "3 Champion lineups active. L2: 6,239th/169pts (proj 5,039th), 27pts to reward. Klay Thompson plays at 10 PM tonight.",
       "frequency": "per-gameweek",
       "done": true,
-      "doneAt": "2026-02-10T07:23:00Z"
+      "doneAt": "2026-02-12T16:13:00.000Z"
     },
     {
       "id": "scrap-duplicates",
-      "name": "Scrap Duplicate Commons \u2705",
-      "description": "Scrapped 5 duplicate commons from Legacy Set: Bismack Biyombo (5), John Collins (30), Isaiah Collier (60), Donovan Mitchell (120), Jalen Brunson (200) = 415 Essence earned. ~20+ more duplicates remain for future scrapping.",
+      "name": "Scrap Duplicate Commons",
+      "description": "0 duplicate commons found — all clean.",
       "frequency": "daily",
       "done": true,
-      "doneAt": "2026-02-11T21:05:00.000Z"
+      "doneAt": "2026-02-12T16:13:00.000Z"
     },
     {
       "id": "claim-rewards",
       "name": "Claim GW33 Rewards",
-      "description": "GW33 still LIVE (Feb 10-13). Currently ranked 7,521st/8,587 with 99 pts. Projected 500 Essence reward. Cannot claim until GW ends (~Feb 13). Will need to check back.",
+      "description": "GW33 still LIVE — 3 games tonight (OKC/MIL 7:30, UTA/POR 9:00, LAL/DAL 10:00). Cannot claim until GW ends.",
       "frequency": "per-gameweek",
       "done": false,
       "doneAt": null,
-      "note": "GW33 not finished yet \u2014 games still in progress through Feb 13"
+      "note": "GW33 not finished — last games tonight"
     },
     {
       "id": "gw34-lineups",
       "name": "Set GW34 Lineups (Feb 19-22)",
-      "description": "3 Limited Champion lineups set. L3 updated: Nurki\u0107 replaced Cooper Flagg (OUT).",
+      "description": "3 Limited Champion lineups already set. 7d 7h until start.",
       "frequency": "weekly",
       "done": true,
       "doneAt": "2026-02-12T13:28:25.000Z"
-    }
-  ],
-  "removedTasks": [
-    {
-      "id": "claim-rewards",
-      "reason": "GW33 still live (ends Feb 13) \u2014 no rewards to claim yet"
     },
     {
-      "id": "weekly-missions",
-      "reason": "Can't automate \u2014 requires gameplay decisions Josh needs to make"
+      "id": "wheel-spin",
+      "name": "Spin the Wheel",
+      "description": "No wheel tickets available (0 tickets).",
+      "frequency": "daily",
+      "done": false,
+      "doneAt": null,
+      "note": "Need to earn tickets first"
     },
     {
-      "id": "essence-crafting",
-      "reason": "Requires 1,000 Essence minimum \u2014 need to check balance first"
-    },
-    {
-      "id": "collection-bonuses",
-      "reason": "Long-term goal, not a daily task"
-    },
-    {
-      "id": "hot-streaks",
-      "reason": "Passive tracking, no action needed \u2014 GW33 still in progress"
-    },
-    {
-      "id": "card-sealing",
-      "reason": "Strategic decision Josh should make, not a daily auto-task"
+      "id": "essence-mission",
+      "name": "Claim 500 WNTR Essence Mission",
+      "description": "Claimed earlier today. Essence at 2.9K.",
+      "frequency": "daily",
+      "done": true,
+      "doneAt": "2026-02-12T16:07:00.000Z"
     }
   ],
   "activeGames": {
     "fixture": "nba-10-13-feb-2026",
     "gameWeek": 33,
     "status": "live",
-    "note": "GW33 still in progress \u2014 currently ranked 7521st/8587 with 99 pts, projected 500 Essence reward"
+    "note": "GW33 live — L2: 6239th/169pts (proj 5,039th, 27pts to reward). Last games tonight Feb 12."
   },
   "upcomingLineups": {
     "gameWeek": 34,
     "startDate": "2026-02-21T00:00:00Z",
     "status": "3 lineups already set"
+  },
+  "balances": {
+    "essence": "2.9K",
+    "wntrEssence": "2K",
+    "gems": 5,
+    "cash": "$26",
+    "eth": "0.0003 ETH"
   }
 }

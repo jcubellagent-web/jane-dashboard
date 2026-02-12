@@ -1,36 +1,60 @@
 {
-  "goal": "Change dashboard hard refresh shortcut to left+right arrow keys",
+  "goal": "Sorare card shopping — spending $26 on Limited cards",
   "tasks": [
     {
-      "label": "Add left+right arrow key shortcut to dashboard",
+      "label": "Research best card purchases",
       "status": "active"
     },
     {
-      "label": "Audio issue: gateway restarted, testing",
-      "status": "done"
+      "label": "Buy cards and complete daily missions",
+      "status": "pending"
     }
   ],
-  "thought": "No keyboard listener exists yet. Let me add one at the bottom of the script section:",
-  "lastUpdated": 1770908729160,
-  "task": "Inspecting files",
+  "thought": "I see the schedule filter dialog. Let me select \"Feb 12\" to filter for today's games.",
+  "decisions": [
+    {
+      "text": "🦞 Sub-agent: Sorare card shopping — browsing market for best value Limited cards",
+      "time": "11:17",
+      "icon": "browser"
+    }
+  ],
+  "subAgents": [
+    {
+      "id": "sorare-card-shopping",
+      "label": "Sorare Shopping",
+      "status": "active"
+    }
+  ],
+  "lastUpdated": 1770913132733,
+  "task": "Browser automation",
   "steps": [
     {
-      "label": "Inspecting files",
+      "label": "Browser automation",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Inspecting files",
+      "label": "Browser automation",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Editing dashboard UI",
+      "label": "Browser automation",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Running shell command",
+      "label": "Browser automation",
+      "status": "done",
+      "tool": "opus"
+    },
+    {
+      "label": "Browser automation",
+      "status": "done",
+      "tool": "opus"
+    },
+    {
+      "label": "Browser automation",
       "status": "active",
       "tool": "opus"
     }

@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-12T14:45:00.000Z",
+  "lastUpdated": "2026-02-12T15:55:44.477Z",
   "budget": {
     "totalSol": 1.5,
     "deployedSol": 0.7,
@@ -13,9 +13,9 @@
       "mint": "jkAWzPumRhJE2KyqVy4kB7m9KwXBeSEXnFAGoWtpump",
       "chain": "solana",
       "entryPrice": 0.002363,
-      "currentPrice": 0.002203,
-      "pnlPct": -6.77,
-      "entryPriceSOL": 2.955e-05,
+      "currentPrice": 0.00228,
+      "pnlPct": -3.51,
+      "entryPriceSOL": 0.00002955,
       "solSpent": 0.7,
       "tokensReceived": 23694946991,
       "entryTimestamp": "2026-02-12T00:49:30Z",
@@ -25,10 +25,10 @@
       "stopLossUsd": 0.001654,
       "stopLossPct": -30,
       "mcapAtEntry": 2331770,
-      "currentMcap": 2203613,
+      "currentMcap": 2280317,
       "liquidityAtEntry": 148109,
-      "currentLiquidity": 145407.19,
-      "priceUpdatedAt": "2026-02-12T14:45:00.000Z",
+      "currentLiquidity": 147178.45,
+      "priceUpdatedAt": "2026-02-12T15:55:44.477Z",
       "status": "open",
       "notes": "AI-themed memecoin. GigaChad vibes per Josh. Min TP +70%, full autonomy to ride higher if ripping. SL -30% unchanged. Will use judgment on exit based on momentum/volume."
     }

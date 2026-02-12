@@ -1502,10 +1502,13 @@
                                 const pnl = p.currentPrice && p.entryPrice ? ((p.currentPrice - p.entryPrice) / p.entryPrice * 100) : (p.pnlPct || 0);
                                 const pnlClass = pnl >= 0 ? 'green' : 'red';
                                 const solSpent = p.solSpent ? p.solSpent.toFixed(2) + ' SOL' : '';
+                                const fmtMcap = (v) => v >= 1e6 ? '$' + (v/1e6).toFixed(1) + 'M' : v >= 1e3 ? '$' + (v/1e3).toFixed(0) + 'K' : '$' + v;
+                                const entryMcap = p.mcapAtEntry || 0;
+                                const curMcap = p.currentMcap || entryMcap;
                                 return `<div class="trades-pos-row">
                                     <span class="trades-pos-token">${p.token||p.symbol}</span>
-                                    <span class="trades-pos-meta">Entry: $${Number(p.entryPrice||0).toFixed(6)}</span>
-                                    <span class="trades-pos-meta">Now: $${Number(p.currentPrice||p.entryPrice||0).toFixed(6)}</span>
+                                    <span class="trades-pos-meta">Entry MCap: ${fmtMcap(entryMcap)}</span>
+                                    <span class="trades-pos-meta">Now: ${fmtMcap(curMcap)}</span>
                                     <span class="trades-pos-meta">${solSpent}</span>
                                     <span class="trades-pos-pnl ${pnlClass}">${pnl >= 0 ? '+' : ''}${pnl.toFixed(1)}%</span>
                                 </div>`;
@@ -1536,9 +1539,11 @@
                                 const pnl = p.currentPrice && p.entryPrice ? ((p.currentPrice - p.entryPrice) / p.entryPrice * 100) : (p.pnlPct || 0);
                                 const pnlClass = pnl >= 0 ? 'green' : 'red';
                                 const curPrice = p.currentPrice || p.entryPrice || 0;
+                                const fmtMc = (v) => v >= 1e6 ? '$' + (v/1e6).toFixed(1) + 'M' : v >= 1e3 ? '$' + (v/1e3).toFixed(0) + 'K' : '$' + v;
+                                const cMcap = p.currentMcap || p.mcapAtEntry || 0;
                                 return `<div class="wallet-compact-trade">
                                     <span class="wct-token">${p.token||p.symbol}</span>
-                                    <span class="wct-prices">$${Number(p.entryPrice||0).toFixed(4)} → $${Number(curPrice).toFixed(4)}</span>
+                                    <span class="wct-prices">${fmtMc(p.mcapAtEntry||0)} → ${fmtMc(cMcap)}</span>
                                     <span class="wct-pnl ${pnlClass}">${pnl >= 0 ? '+' : ''}${pnl.toFixed(1)}%</span>
                                 </div>`;
                             }).join('');

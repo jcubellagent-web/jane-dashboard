@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-12T00:49:30Z",
+  "lastUpdated": "2026-02-12T02:05:00Z",
   "budget": {
     "totalSol": 1.5,
     "deployedSol": 0.7,
@@ -13,6 +13,8 @@
       "mint": "jkAWzPumRhJE2KyqVy4kB7m9KwXBeSEXnFAGoWtpump",
       "chain": "solana",
       "entryPrice": 0.002363,
+      "currentPrice": 0.002296,
+      "pnlPct": -2.8,
       "entryPriceSOL": 0.00002955,
       "solSpent": 0.7,
       "tokensReceived": 23694946991,
@@ -23,7 +25,10 @@
       "takeProfitPct": 100,
       "stopLossPct": -30,
       "mcapAtEntry": 2331770,
+      "currentMcap": 2295951,
       "liquidityAtEntry": 148109,
+      "currentLiquidity": 147234,
+      "priceUpdatedAt": "2026-02-12T02:05:00Z",
       "status": "open",
       "notes": "AI-themed memecoin with website, Twitter (@claudeonsolana), Telegram. Moderate 24h gain, good entry on dip. 5-day old token showing staying power."
     }

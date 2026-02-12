@@ -1,22 +1,28 @@
 {
-  "goal": "Mobile wallet: show entry SOL + current SOL value for trades",
+  "goal": "Overnight maintenance — memory updates, housekeeping",
   "steps": [
     {
-      "text": "Update trade rendering to show both invested and current SOL value",
-      "status": "done"
-    },
-    {
-      "label": "Inspecting files",
+      "label": "Reading 2026-02-11.md",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Reading mobile.html",
+      "label": "Editing 2026-02-11.md",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Editing mobile.html",
+      "label": "Reading MEMORY.md",
+      "status": "done",
+      "tool": "opus"
+    },
+    {
+      "label": "Editing MEMORY.md",
+      "status": "done",
+      "tool": "opus"
+    },
+    {
+      "label": "Editing MEMORY.md",
       "status": "done",
       "tool": "opus"
     },
@@ -26,8 +32,8 @@
       "tool": "opus"
     }
   ],
-  "thought": "I can see the trade rendering. It shows `p.solSpent` but not the current value in SOL. Let me update it to show both:",
+  "thought": "Now update MEMORY.md with the key new things:",
   "decisions": [],
-  "lastUpdated": 1770869689903,
+  "lastUpdated": 1770870353917,
   "task": "Inspecting files"
 }

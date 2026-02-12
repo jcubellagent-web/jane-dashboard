@@ -20,6 +20,9 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - Mobile ticker: API key for NASDAQ is `nasdaq` not `ndaq`
 - NASDAQ 100 movers for X threads ONLY, not mobile dashboard
 - **NEVER auto-post ad hoc tweets** — always send draft for Josh's approval first
+- **Systems thinking**: Every change must consider upstream/downstream/cross-platform impacts. No fixing one thing and breaking two others.
+- **Mobile idle state**: Must consider active sub-agents, not just task != null
+- **Mind-state goal specificity**: Never say "managing background process" — always describe the actual task
 - Push notifications: BE AGGRESSIVE — send for every direct reply, cron completions, alerts, sub-agent results. Skip heartbeats only. Josh will say if it's too much.
 - Check for active sub-agents before setting mind-state to idle
 
@@ -80,4 +83,23 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - HuggingFace: JaneAgentAI, FLUX approved (can't run locally)
 - Twilio: +1 (518) 741-3592, scripts in `scripts/check-sms.sh`
 
-_Last updated: 2026-02-10_
+## Sorare Strategy
+- GW33: 7,521st / 8,587 (bottom quartile) — need to target upper quartile
+- New approach: high-ceiling MVPs, contrarian picks, spread across games, accept variance
+- Feedback loop: `dashboard/sorare-gw-history.json` tracks each GW's results
+- Strategy doc: `memory/sorare-lineup-strategy.md`
+
+## Systems Audit (Feb 11)
+- Full audit completed, report at `memory/systems-audit-feb11.md`
+- 10 orphaned JSON files archived to `dashboard/_archive/`
+- Video files removed from git, .gitignore'd
+- `dashboard-common.js` has spinButton/fetchJSON/esc — still room for more JS dedup
+- Both platforms now unified on icons, X stats deltas, API fallbacks
+
+## Brain SVG Architecture
+- Desktop: tall diamond (scaleY 1.4), 8 capability nodes, lobster sub-agents orbiting
+- Mobile: diamond node layout (no stretch), 8 capability nodes, lobster sub-agents
+- Model key: Opus, Sonnet, Whisper, Ollama, Qwen (no Browser)
+- Dart-out line animation on activation, breathing idle state
+
+_Last updated: 2026-02-11_

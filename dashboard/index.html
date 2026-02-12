@@ -1953,6 +1953,22 @@
         document.addEventListener('mousemove',resetCursorTimer);
         document.addEventListener('mousedown',resetCursorTimer);
         resetCursorTimer();
+
+        // Hard refresh: left + right arrow keys pressed simultaneously
+        const arrowState = { left: false, right: false };
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft') arrowState.left = true;
+            if (e.key === 'ArrowRight') arrowState.right = true;
+            if (arrowState.left && arrowState.right) {
+                arrowState.left = false;
+                arrowState.right = false;
+                location.reload(true);
+            }
+        });
+        document.addEventListener('keyup', e => {
+            if (e.key === 'ArrowLeft') arrowState.left = false;
+            if (e.key === 'ArrowRight') arrowState.right = false;
+        });
     </script>
 </body>
 </html>

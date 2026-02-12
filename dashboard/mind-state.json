@@ -1,4 +1,17 @@
 {
+  "goal": "Change dashboard hard refresh shortcut to left+right arrow keys",
+  "tasks": [
+    {
+      "label": "Add left+right arrow key shortcut to dashboard",
+      "status": "active"
+    },
+    {
+      "label": "Audio issue: gateway restarted, testing",
+      "status": "done"
+    }
+  ],
+  "thought": "No keyboard listener exists yet. Let me add one at the bottom of the script section:",
+  "lastUpdated": 1770908729160,
   "task": "Inspecting files",
   "steps": [
     {
@@ -12,26 +25,14 @@
       "tool": "opus"
     },
     {
-      "label": "Reading dashboard code",
-      "status": "done",
-      "tool": "opus"
-    },
-    {
       "label": "Editing dashboard UI",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Editing dashboard UI",
-      "status": "done",
-      "tool": "opus"
-    },
-    {
-      "label": "Inspecting files",
+      "label": "Running shell command",
       "status": "active",
       "tool": "opus"
     }
-  ],
-  "thought": "Now do the same for the standalone decisions block:",
-  "lastUpdated": 1770907976075
+  ]
 }

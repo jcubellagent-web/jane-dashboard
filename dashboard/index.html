@@ -405,59 +405,94 @@
         .sorare-summary-value { font-weight: 700; color: #ffd700; }
         .sorare-summary-label { font-size: 0.55rem; color: var(--text-dim); text-transform: uppercase; }
 
-        /* Coinbase Wallet Widget */
-        .wallet-toggle {
-            display: flex; align-items: center; justify-content: space-between;
-            cursor: pointer; padding: 0.5rem 0.75rem;
+        /* Coinbase Wallet Widget — Modern Card UI */
+        .wallet-card {
+            background: linear-gradient(135deg, rgba(0,82,255,0.12) 0%, rgba(0,82,255,0.03) 100%);
+            border: 1px solid rgba(0,82,255,0.25);
+            border-radius: 12px;
+            overflow: hidden;
         }
-        .wallet-toggle-title {
-            font-size: 0.8rem; font-weight: 700; color: #3b82f6;
+        .wallet-header {
+            display: flex; align-items: center; justify-content: space-between;
+            cursor: pointer; padding: 0.75rem 1rem;
+            transition: background 0.2s;
+        }
+        .wallet-header:hover { background: rgba(0,82,255,0.06); }
+        .wallet-header-left {
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .wallet-cb-logo {
+            width: 28px; height: 28px; border-radius: 8px;
+            background: #0052FF; display: flex; align-items: center; justify-content: center;
+            font-weight: 900; color: #fff; font-size: 0.75rem; flex-shrink: 0;
+        }
+        .wallet-header-info { display: flex; flex-direction: column; }
+        .wallet-header-title { font-size: 0.8rem; font-weight: 700; color: var(--text); }
+        .wallet-header-bal { font-size: 1.3rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+        .wallet-arrow {
+            font-size: 0.55rem; color: rgba(255,255,255,0.4); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+        }
+        .wallet-body {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
+            padding: 0 1rem;
+        }
+        .wallet-body.open {
+            max-height: 500px;
+            padding: 0 1rem 0.75rem;
+        }
+        .wallet-chains { display: flex; flex-direction: column; gap: 0.5rem; }
+        .wallet-chain-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px; padding: 0.6rem 0.75rem;
+            transition: border-color 0.2s;
+        }
+        .wallet-chain-card:hover { border-color: rgba(0,82,255,0.35); }
+        .wallet-chain-top {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 0.35rem;
+        }
+        .wallet-chain-id {
             display: flex; align-items: center; gap: 0.4rem;
         }
-        .wallet-arrow { font-size: 0.6rem; color: var(--text-dim); transition: transform 0.3s; }
-        .wallet-body { display: none; padding: 0.5rem 0.75rem 0.75rem; }
-        .wallet-body.open { display: block; }
-        .wallet-chain { margin-bottom: 0.5rem; }
-        .wallet-chain:last-child { margin-bottom: 0; }
-        .wallet-chain-header {
-            display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 0.25rem;
+        .wallet-chain-icon {
+            width: 22px; height: 22px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.65rem; font-weight: 800; flex-shrink: 0;
         }
-        .wallet-chain-name {
-            font-size: 0.7rem; font-weight: 700; color: var(--text);
-            text-transform: uppercase; letter-spacing: 0.05em;
-        }
-        .wallet-chain-total {
-            font-size: 0.75rem; font-weight: 700; color: #3b82f6;
-        }
+        .wallet-chain-icon.base { background: #0052FF; color: #fff; }
+        .wallet-chain-icon.solana { background: linear-gradient(135deg, #9945FF, #14F195); color: #fff; }
+        .wallet-chain-label { font-size: 0.72rem; font-weight: 700; color: var(--text); }
+        .wallet-chain-usd { font-size: 0.75rem; font-weight: 700; color: #0052FF; }
         .wallet-addr-row {
             display: flex; align-items: center; gap: 0.3rem;
-            font-family: 'SF Mono', monospace; font-size: 0.65rem; color: var(--text-dim);
+            font-family: 'SF Mono', monospace; font-size: 0.62rem; color: rgba(255,255,255,0.35);
             margin-bottom: 0.3rem;
         }
         .wallet-copy-btn {
-            background: none; border: none; color: var(--text-dim); cursor: pointer;
-            font-size: 0.6rem; padding: 1px 4px; border-radius: 3px;
+            background: none; border: 1px solid rgba(255,255,255,0.1); color: var(--text-dim); cursor: pointer;
+            font-size: 0.55rem; padding: 2px 6px; border-radius: 4px; transition: all 0.2s;
         }
-        .wallet-copy-btn:hover { color: var(--accent); background: rgba(74,222,128,0.1); }
+        .wallet-copy-btn:hover { color: #0052FF; border-color: rgba(0,82,255,0.4); background: rgba(0,82,255,0.08); }
         .wallet-token-row {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0.2rem 0; font-size: 0.7rem;
+            padding: 0.25rem 0; font-size: 0.7rem;
         }
-        .wallet-token-name { color: var(--text); font-weight: 500; }
-        .wallet-token-bal { color: var(--text-dim); font-variant-numeric: tabular-nums; }
-        .wallet-token-usd { color: #3b82f6; font-weight: 600; font-variant-numeric: tabular-nums; }
-        .wallet-empty { font-size: 0.65rem; color: var(--text-dim); font-style: italic; padding: 0.2rem 0; }
-        .wallet-total-bar {
+        .wallet-token-left { display: flex; align-items: center; gap: 0.35rem; }
+        .wallet-token-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+        .wallet-token-dot.sol { background: linear-gradient(135deg, #9945FF, #14F195); }
+        .wallet-token-dot.eth { background: #627EEA; }
+        .wallet-token-name { color: var(--text); font-weight: 600; }
+        .wallet-token-amt { color: var(--text-dim); font-variant-numeric: tabular-nums; font-size: 0.65rem; }
+        .wallet-token-usd { color: #0052FF; font-weight: 700; font-variant-numeric: tabular-nums; }
+        .wallet-empty { font-size: 0.62rem; color: rgba(255,255,255,0.25); font-style: italic; padding: 0.15rem 0; }
+        .wallet-footer {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0.4rem 0.5rem; margin-top: 0.4rem;
-            background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2);
-            border-radius: 6px; font-size: 0.75rem;
+            padding-top: 0.4rem; margin-top: 0.35rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
         }
-        .wallet-total-label { color: var(--text-dim); font-weight: 600; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 0.05em; }
-        .wallet-total-value { color: #3b82f6; font-weight: 700; font-size: 0.85rem; }
-        .wallet-updated { font-size: 0.55rem; color: var(--text-dim); opacity: 0.6; }
-        .wallet-divider { border-top: 1px solid rgba(255,255,255,0.05); margin: 0.35rem 0; }
+        .wallet-updated { font-size: 0.52rem; color: rgba(255,255,255,0.25); }
 
         /* Scrollbar */
         ::-webkit-scrollbar { width: 5px; }
@@ -590,18 +625,20 @@
                 </div>
             </div>
 
-            <!-- Coinbase Wallet — collapsible -->
-            <div class="card" style="padding:0;">
-                <div class="wallet-toggle" id="wallet-toggle">
-                    <span class="wallet-toggle-title">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#3b82f6"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-                        Coinbase Wallet
-                        <span class="last-refresh" id="wallet-refresh">--</span>
-                    </span>
+            <!-- Coinbase Wallet — modern card -->
+            <div class="wallet-card">
+                <div class="wallet-header" id="wallet-toggle">
+                    <div class="wallet-header-left">
+                        <div class="wallet-cb-logo">CB</div>
+                        <div class="wallet-header-info">
+                            <span class="wallet-header-title">Coinbase Wallet</span>
+                            <span class="wallet-header-bal" id="wallet-total-bal">$0.00</span>
+                        </div>
+                    </div>
                     <span class="wallet-arrow" id="wallet-arrow">▶</span>
                 </div>
                 <div class="wallet-body" id="wallet-body">
-                    <div id="wallet-content"><span class="wallet-empty">Loading...</span></div>
+                    <div class="wallet-chains" id="wallet-content"><span class="wallet-empty">Loading...</span></div>
                 </div>
             </div>
 
@@ -1221,20 +1258,37 @@
                     const container = document.getElementById('wallet-content');
                     const totalUsd = (data.evm?.totalUsd||0) + (data.solana?.totalUsd||0);
 
-                    function renderChain(chain, label) {
+                    // Update header balance
+                    document.getElementById('wallet-total-bal').textContent = '$' + totalUsd.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+
+                    function renderChainCard(chain, label, iconClass, network) {
                         if (!chain) return '';
                         const addrTrunc = truncAddr(chain.address);
                         const balRows = (chain.balances||[]).length > 0
-                            ? chain.balances.map(b => `<div class="wallet-token-row"><span class="wallet-token-name">${b.symbol||b.token||'?'}</span><span class="wallet-token-bal">${b.amount!=null?Number(b.amount).toLocaleString(undefined,{maximumFractionDigits:6}):''}</span><span class="wallet-token-usd">${b.usd!=null?'$'+Number(b.usd).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}):''}</span></div>`).join('')
+                            ? chain.balances.map(b => {
+                                const sym = (b.symbol||b.token||'?').toLowerCase();
+                                const dotClass = sym === 'sol' ? 'sol' : 'eth';
+                                return `<div class="wallet-token-row">
+                                    <div class="wallet-token-left">
+                                        <span class="wallet-token-dot ${dotClass}"></span>
+                                        <span class="wallet-token-name">${b.symbol||b.token||'?'}</span>
+                                        <span class="wallet-token-amt">${b.amount!=null?Number(b.amount).toLocaleString(undefined,{maximumFractionDigits:6}):''}</span>
+                                    </div>
+                                    <span class="wallet-token-usd">${(b.usdValue||b.usd)!=null?'$'+Number(b.usdValue||b.usd).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}):''}</span>
+                                </div>`;
+                            }).join('')
                             : '<div class="wallet-empty">No tokens</div>';
-                        return `<div class="wallet-chain">
-                            <div class="wallet-chain-header">
-                                <span class="wallet-chain-name">${label} (${chain.network||''})</span>
-                                <span class="wallet-chain-total">$${Number(chain.totalUsd||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
+                        return `<div class="wallet-chain-card">
+                            <div class="wallet-chain-top">
+                                <div class="wallet-chain-id">
+                                    <div class="wallet-chain-icon ${iconClass}">${iconClass==='base'?'B':'S'}</div>
+                                    <span class="wallet-chain-label">${label}${network?' · '+network:''}</span>
+                                </div>
+                                <span class="wallet-chain-usd">$${Number(chain.totalUsd||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
                             </div>
                             <div class="wallet-addr-row">
                                 <span>${addrTrunc}</span>
-                                <button class="wallet-copy-btn" onclick="event.stopPropagation();navigator.clipboard.writeText('${chain.address}');this.textContent='✓';setTimeout(()=>this.textContent='📋',1500)" title="Copy address">📋</button>
+                                <button class="wallet-copy-btn" onclick="event.stopPropagation();navigator.clipboard.writeText('${chain.address}');this.textContent='✓';setTimeout(()=>this.textContent='📋',1200)" title="Copy">📋</button>
                             </div>
                             ${balRows}
                         </div>`;
@@ -1243,16 +1297,14 @@
                     let updated = '';
                     if (data.lastUpdated) {
                         const d = new Date(data.lastUpdated);
-                        updated = `<div class="wallet-updated">Updated: ${d.toLocaleDateString()} ${d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div>`;
+                        updated = `<div class="wallet-footer"><span class="wallet-updated">Updated ${d.toLocaleDateString()} ${d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span></div>`;
                     }
 
-                    container.innerHTML = renderChain(data.evm, 'EVM') +
-                        '<div class="wallet-divider"></div>' +
-                        renderChain(data.solana, 'Solana') +
-                        `<div class="wallet-total-bar"><span class="wallet-total-label">Total Value</span><span class="wallet-total-value">$${totalUsd.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</span></div>` +
+                    container.innerHTML =
+                        renderChainCard(data.evm, 'EVM', 'base', data.evm?.network) +
+                        renderChainCard(data.solana, 'Solana', 'solana', null) +
                         updated;
 
-                    document.getElementById('wallet-refresh').textContent = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
                 } catch(e) { console.error('Wallet:', e); }
             };
             if (btn) return spinButton(btn, doRefresh());

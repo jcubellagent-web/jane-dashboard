@@ -800,7 +800,10 @@
         async function refreshXStats(btn) {
             const doRefresh = async () => {
                 try {
-                    const data = await fetchWithTimeout('/x-stats.json', 5000);
+                    const [data, baseline] = await Promise.all([
+                        fetchWithTimeout('/x-stats.json', 5000),
+                        fetchWithTimeout('/x-stats-daily-baseline.json', 5000).catch(() => null)
+                    ]);
                     if (!data) return;
                     const fmt = v => v >= 1000 ? (v/1000).toFixed(1)+'K' : String(v);
                     const set = (id, val) => { const el = document.querySelector('#'+id+' .x-strip-val'); if(el) el.textContent = val; };
@@ -808,7 +811,7 @@
                     set('x-followers', fmt(data.followers||0));
                     set('x-impressions', fmt(data.impressions||0));
                     set('x-likes', fmt(data.likes||0));
-                    const prev = data.prev24h || {};
+                    const base = baseline || {};
                     const showDelta = (id, current, previous) => {
                         const el = document.getElementById(id);
                         if (!el || previous == null) { if(el) el.textContent=''; return; }
@@ -817,9 +820,21 @@
                         else if (diff < 0) { el.textContent = fmt(diff); el.className='x-strip-delta down'; }
                         else { el.textContent = '—'; el.className='x-strip-delta flat'; }
                     };
-                    showDelta('x-d-followers', data.followers, prev.followers);
-                    showDelta('x-d-impressions', data.impressions, prev.impressions);
-                    showDelta('x-d-likes', data.likes, prev.likes);
+                    showDelta('x-d-followers', data.followers, base.followers);
+                    showDelta('x-d-impressions', data.impressions, base.impressions);
+                    showDelta('x-d-likes', data.likes, base.likes);
+                    // Engagement delta
+                    const engEl = document.getElementById('x-engagement');
+                    if (engEl && base.engagementRate) {
+                        const curEng = parseFloat(data.engagementRate) || 0;
+                        const baseEng = parseFloat(base.engagementRate) || 0;
+                        const engDiff = (curEng - baseEng).toFixed(1);
+                        let deltaSpan = engEl.querySelector('.x-strip-delta');
+                        if (!deltaSpan) { deltaSpan = document.createElement('span'); deltaSpan.className = 'x-strip-delta'; engEl.appendChild(deltaSpan); }
+                        if (engDiff > 0) { deltaSpan.textContent = '+'+engDiff+'%'; deltaSpan.className = 'x-strip-delta up'; }
+                        else if (engDiff < 0) { deltaSpan.textContent = engDiff+'%'; deltaSpan.className = 'x-strip-delta down'; }
+                        else { deltaSpan.textContent = '—'; deltaSpan.className = 'x-strip-delta flat'; }
+                    }
                     const el = document.getElementById('x-refresh');
                     if (el) el.textContent = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
                 } catch(e) { console.error('X stats:', e); }
@@ -1332,7 +1347,7 @@
         // Auto-refresh
         setInterval(refreshMind, 5000);
         setInterval(()=>{ refreshSystem(); }, 30000);
-        setInterval(refreshXStats, 30000);
+        setInterval(refreshXStats, 900000);
         setInterval(refreshDesktopTweetFeed, 60000);
         setInterval(refreshSorare, 300000);
         setInterval(refreshConnections, 600000);

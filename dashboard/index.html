@@ -671,7 +671,7 @@
                     <img src="icon-192.png" alt="Jane" class="mind-logo">
                     <span class="thinking-title">Jane's Mind</span>
                     <span class="thinking-status" id="mind-status">● Active</span>
-                    <button class="refresh-btn" onclick="refreshMind()" style="margin-left:auto;">↻</button>
+                    <button class="refresh-btn" onclick="refreshMind(this)" style="margin-left:auto;">↻</button>
                 </div>
                 <div class="subagent-box" id="subagent-box"></div>
                 <div class="mind-model-legend" id="mind-model-legend">
@@ -1363,7 +1363,8 @@
             }
         }
 
-        async function refreshMind() {
+        async function refreshMind(btn) {
+            const doRefresh = async () => {
             try {
                 const data = await fetchWithTimeout('/api/mind', 5000);
                 if (!data) return;
@@ -1377,6 +1378,9 @@
                 document.getElementById('mind-status').textContent = isActive ? '● Active' : '○ Idle';
                 document.getElementById('mind-status').style.color = isActive ? 'var(--accent)' : 'var(--text-dim)';
             } catch(e) {}
+            };
+            if (btn) return spinButton(btn, doRefresh());
+            return doRefresh();
         }
 
         // ===== COINBASE WALLET + TRADES (merged) =====

@@ -707,7 +707,7 @@
             <div class="card card-x">
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
                     <div style="display:flex;align-items:center;gap:8px;">
-                        <img id="x-profile-pic" src="x-pfp.jpg" alt="X" style="width:28px;height:28px;border-radius:50%;border:2px solid var(--accent);object-fit:cover;">
+                        <img id="x-profile-pic" src="x-pfp.jpg" alt="X" style="width:52px;height:52px;border-radius:50%;border:2px solid var(--accent);object-fit:cover;">
                         <span style="font-weight:600;font-size:0.95rem;">JCAgentleman</span>
                         <span class="last-refresh" id="x-refresh">--</span>
                     </div>
@@ -950,13 +950,14 @@
                 pinnedThread = todayThreads[0];
             }
 
-            // Render order: today's updates (newest first) → pinned morning brief → older threads
-            const ordered = [...todayUpdates];
+            // Render order: pinned morning brief → today's updates (newest first) → older threads
+            const ordered = [];
             if (pinnedThread) ordered.push(pinnedThread);
+            ordered.push(...todayUpdates);
             ordered.push(...olderThreads);
 
             ordered.forEach((thread, tIdx) => {
-                const isPinned = thread === pinnedThread && todayUpdates.length > 0;
+                const isPinned = thread === pinnedThread;
                 // Thread date header
                 const header = document.createElement('div');
                 header.style.cssText = 'font-size:0.7rem;font-weight:600;color:#4ade80;padding:0.4rem 0 0.2rem;' + (tIdx > 0 ? 'border-top:1px solid rgba(255,255,255,0.06);margin-top:0.5rem;padding-top:0.6rem;' : '');

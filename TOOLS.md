@@ -6,6 +6,7 @@ _How-to details and implementation notes archived in `memory/reference.md`._
 
 ## Browser
 - Jupiter Wallet: "never lock", password `11111111`, extension `chrome-extension://iledlaeogohbilgbfhmbgkgmpplbfboh/popup.html`
+- Sorare Wallet: password `JCAgent123!!!` (same as account), unlocks in `#wallet` iframe, re-locks after each purchase
 - Browser Relay Extension: `gmdionclnanmnnflmpildiladafkhhmm` — toggle via `chrome://extensions`
 
 ## Accounts & Credentials

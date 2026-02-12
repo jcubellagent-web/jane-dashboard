@@ -88,6 +88,14 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - HuggingFace: JaneAgentAI, FLUX approved (can't run locally)
 - Twilio: +1 (518) 741-3592, scripts in `scripts/check-sms.sh`
 
+## Sorare
+- **Wallet password**: `JCAgent123!!!` (NOT `11111111` which is Jupiter wallet)
+- **NBA collection**: 52 Limited cards after Feb 12 shopping spree (10 new for $26.23, $0.24 left)
+- Centers filled: Vučević + Sabonis added (now 5 true C). Stars: KD, Curry, DeRozan, MPJ, Amen Thompson
+- Buy flow: "Buy now" → "Confirm and Pay now" → password in `#wallet` iframe → 2FA only on first purchase
+- Player slug format: `firstname-lastname-YYYYMMDD`
+- Manager Sales much cheaper than Instant Buy (50-75% less)
+
 ## Sorare Strategy
 - GW33: 7,521st / 8,587 (bottom quartile) — need to target upper quartile
 - New approach: high-ceiling MVPs, contrarian picks, spread across games, accept variance

@@ -294,23 +294,13 @@
         .waiting-dots::after { content:''; animation: dots 1.5s steps(4,end) infinite; }
         @keyframes dots { 0%,20%{content:'';} 40%{content:'.';} 60%{content:'..';} 80%,100%{content:'...';} }
 
-        /* Sub-agents section in mind */
-        .ops-sessions-header {
-            display: flex; align-items: center; gap: 0.4rem;
-            font-size: 0.65rem; color: var(--text-dim); margin-bottom: 0.4rem;
-            text-transform: uppercase; letter-spacing: 0.05em;
-        }
-        .ops-sessions-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-        .ops-session-tag {
-            display: inline-flex; align-items: center; gap: 0.3rem;
-            padding: 0.2rem 0.5rem; background: rgba(74,222,128,0.1);
-            border: 1px solid rgba(74,222,128,0.2); border-radius: 4px;
-            font-size: 0.7rem; color: var(--text);
-        }
-        .ops-session-tag.active { background: rgba(74,222,128,0.2); border-color: rgba(74,222,128,0.4); }
-        .ops-session-tag.idle { opacity: 0.6; }
-        .ops-session-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-        .ops-session-tag.idle .ops-session-dot { background: var(--text-dim); }
+        /* Sub-agent satellite animation on brain */
+        @keyframes subagentOrbit1 { 0%{transform:rotate(0deg) translateX(55px) rotate(0deg)} 100%{transform:rotate(360deg) translateX(55px) rotate(-360deg)} }
+        @keyframes subagentOrbit2 { 0%{transform:rotate(120deg) translateX(70px) rotate(-120deg)} 100%{transform:rotate(480deg) translateX(70px) rotate(-480deg)} }
+        @keyframes subagentOrbit3 { 0%{transform:rotate(240deg) translateX(45px) rotate(-240deg)} 100%{transform:rotate(600deg) translateX(45px) rotate(-600deg)} }
+        @keyframes subagentPulse { 0%,100%{opacity:0.6;r:3} 50%{opacity:1;r:4.5} }
+        .subagent-satellite { transform-origin: 100px 190px; }
+        .subagent-satellite circle { animation: subagentPulse 2s ease-in-out infinite; }
 
         /* Connected Accounts — collapsible */
         .conn-toggle {
@@ -578,6 +568,7 @@
                                 <circle cx="100" cy="190" r="18" fill="#0a0a0a" stroke="rgba(74,222,128,0.4)" stroke-width="1" id="brain-hub" class="brain-hub"/>
                                 <image href="icon-192.png" x="86" y="176" width="28" height="28" id="brain-hub-label" opacity="0.8"/>
                             </g>
+                            <g id="brain-subagent-satellites"></g>
                         </svg>
                     </div>
                     <!-- Info Panel -->
@@ -594,15 +585,7 @@
                             <div class="mind-section-label">ACTIONS &amp; TOOLS</div>
                             <div class="mind-steps" id="mind-steps"></div>
                         </div>
-                        <div class="mind-section">
-                            <div class="ops-sessions-header">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--accent)"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-                                Sub-Agents
-                            </div>
-                            <div class="ops-sessions-list" id="ops-sessions-list">
-                                <span style="opacity:0.5;font-size:0.65rem;">No active sessions</span>
-                            </div>
-                        </div>
+                        <!-- sub-agents visualized as brain satellites -->
                     </div>
                 </div>
             </div>
@@ -763,30 +746,23 @@
             } catch(e) { console.error('System:', e); }
         }
 
-        // ===== SESSIONS / SUB-AGENTS =====
-        async function refreshAgents() {
-            try {
-                const data = _cachedSessions || await fetchWithTimeout('/api/sessions');
-                const container = document.getElementById('ops-sessions-list');
-                if (!data?.sessions?.length) {
-                    container.innerHTML = '<span style="opacity:0.5;font-size:0.65rem;">No active sessions</span>';
-                    return;
-                }
-                container.innerHTML = data.sessions.map(s => {
-                    const isActive = s.status === 'active';
-                    let name = s.displayName;
-                    if (!name) {
-                        const parts = s.key.split(':');
-                        if (parts.includes('cron')) name = 'Cron Job';
-                        else if (parts.includes('dashboard')) name = 'Dashboard';
-                        else if (parts.includes('spawn')) name = 'Sub-Agent';
-                        else name = parts[parts.length-1];
-                        if (name.match(/^[0-9a-f]{8}-/i)) name = 'Background';
-                    }
-                    const shortName = name.length > 15 ? name.substring(0,15) + '...' : name;
-                    return `<div class="ops-session-tag ${isActive?'active':'idle'}" title="${s.key}"><span class="ops-session-dot"></span><span>${shortName}</span></div>`;
-                }).join('');
-            } catch(e) { console.error('Sessions:', e); }
+        // ===== SUB-AGENT BRAIN SATELLITES =====
+        const subagentOrbitAnimations = [
+            'subagentOrbit1 6s linear infinite',
+            'subagentOrbit2 8s linear infinite',
+            'subagentOrbit3 5s linear infinite',
+        ];
+        function updateSubagentSatellites(subAgents) {
+            const g = document.getElementById('brain-subagent-satellites');
+            if (!g) return;
+            const active = (subAgents||[]).filter(s => s.status === 'active');
+            if (!active.length) { g.innerHTML = ''; return; }
+            g.innerHTML = active.slice(0,3).map((sa, i) => {
+                const anim = subagentOrbitAnimations[i % 3];
+                return `<g class="subagent-satellite" style="animation:${anim}">
+                    <circle cx="100" cy="190" r="3.5" fill="rgba(74,222,128,0.8)" stroke="rgba(74,222,128,0.4)" stroke-width="0.5"/>
+                </g>`;
+            }).join('');
         }
 
         // ===== X STATS =====
@@ -1193,6 +1169,7 @@
                 const staleMs = 30*60*1000;
                 const isStale = lastUpdated && (new Date()-lastUpdated) > staleMs;
                 updateMind(data.task, data.steps||[], data.thought || (isStale ? 'Monitoring...' : 'Ready for your next request.'));
+                updateSubagentSatellites(data.subAgents);
                 const hasActiveStep = (data.steps||[]).some(s=>s.status==='active');
                 const isActive = !isStale && (data.task || hasActiveStep);
                 document.getElementById('mind-status').textContent = isActive ? '● Active' : '○ Idle';
@@ -1264,7 +1241,7 @@
             const mainBtn = document.getElementById('refresh-all-btn');
             if (mainBtn) mainBtn.classList.add('spinning');
             document.querySelectorAll('.refresh-btn').forEach(btn=>btn.classList.add('spinning'));
-            refreshSystem(); refreshAgents(); refreshXStats(); refreshDesktopTweetFeed();
+            refreshSystem(); refreshXStats(); refreshDesktopTweetFeed();
             refreshConnections(); refreshSorare(); refreshMind(); refreshWallet();
             setTimeout(() => {
                 if (mainBtn) mainBtn.classList.remove('spinning');
@@ -1280,12 +1257,12 @@
         refreshDesktopTweetFeed().catch(e=>console.warn('Tweets:',e.message));
         refreshConnections().catch(e=>console.warn('Connections:',e.message));
         refreshSorare().catch(e=>console.warn('Sorare:',e.message));
-        refreshAgents().catch(e=>console.warn('Agents:',e.message));
+
         refreshWallet().catch(e=>console.warn('Wallet:',e.message));
 
         // Auto-refresh
         setInterval(refreshMind, 5000);
-        setInterval(()=>{ refreshSystem(); refreshAgents(); }, 30000);
+        setInterval(()=>{ refreshSystem(); }, 30000);
         setInterval(refreshXStats, 30000);
         setInterval(refreshDesktopTweetFeed, 60000);
         setInterval(refreshSorare, 300000);
@@ -1309,7 +1286,7 @@
                         if (k==='x-tweets'||k==='x-thread-history'||k==='x-latest-tweets') wsRefresh('x-tweets', refreshDesktopTweetFeed);
                         else if (k==='x-stats') wsRefresh('x-stats', refreshXStats);
                         else if (k==='mind') refreshMind();
-                        else if (k==='sessions') refreshAgents();
+                        else if (k==='sessions') refreshMind();
                         else if (k==='sorare'||k==='sorare-mobile') refreshSorare();
                         else if (k==='coinbase-wallet') refreshWallet();
                     }

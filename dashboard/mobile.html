@@ -370,6 +370,7 @@
         .mindmap-svg {
             width: 280px;
             height: 160px;
+            transform: scaleX(1.4);
         }
         /* Neural sphere canvas */
         .neural-sphere-canvas {
@@ -862,13 +863,13 @@
         <span class="mindmap-header">MIND MAP</span>
         <div style="position:absolute;top:0.4rem;right:0.75rem;display:flex;gap:0.4rem;align-items:center;">
             <span class="mm-legend-dot" id="mm-dot-opus" style="color:#4ade80;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Opus</span></span>
+            <span class="mm-legend-dot" id="mm-dot-sonnet" style="color:#a78bfa;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Sonnet</span></span>
             <span class="mm-legend-dot" id="mm-dot-whisper" style="color:#facc15;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Whisper</span></span>
             <span class="mm-legend-dot" id="mm-dot-ollama" style="color:#f97316;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Ollama</span></span>
-            <span class="mm-legend-dot" id="mm-dot-browser" style="color:#3b82f6;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Browser</span></span>
             <span class="mm-legend-dot" id="mm-dot-qwen" style="color:#ec4899;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Qwen</span></span>
         </div>
         <canvas id="neural-sphere" class="neural-sphere-canvas" width="280" height="210"></canvas>
-        <svg class="mindmap-svg" viewBox="0 -8 160 110" xmlns="http://www.w3.org/2000/svg">
+        <svg class="mindmap-svg" viewBox="-30 -8 220 110" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <radialGradient id="mmGlow" cx="50%" cy="50%" r="50%">
                     <stop offset="0%" stop-color="rgba(74,222,128,0.12)"/>

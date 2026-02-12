@@ -1,19 +1,15 @@
 {
-  "goal": "Sorare card shopping — spending $26 on Limited cards",
+  "goal": "Sorare card shopping",
   "tasks": [
     {
-      "label": "Research best card purchases",
+      "label": "Sub-agent browsing Sorare market",
       "status": "active"
-    },
-    {
-      "label": "Buy cards and complete daily missions",
-      "status": "pending"
     }
   ],
-  "thought": "I see the schedule filter dialog. Let me select \"Feb 12\" to filter for today's games.",
+  "thought": "The dialog is still open. Let me close it first.",
   "decisions": [
     {
-      "text": "🦞 Sub-agent: Sorare card shopping — browsing market for best value Limited cards",
+      "text": "🦞 Sub-agent: Sorare Shopping — browsing market for best value Limited cards ($26 budget)",
       "time": "11:17",
       "icon": "browser"
     }
@@ -25,7 +21,7 @@
       "status": "active"
     }
   ],
-  "lastUpdated": 1770913132733,
+  "lastUpdated": 1770913265988,
   "task": "Browser automation",
   "steps": [
     {

@@ -1607,7 +1607,13 @@
                 }
                 const indicators = { done:'✓', active:'●', pending:'○' };
                 const container = document.getElementById('mind-steps');
-                let html = mindState.steps.map(step => {
+                // Deduplicate consecutive steps with same label
+                const dedupedSteps = mindState.steps.reduce((acc, step) => {
+                    if (!acc.length || (step.text||step.label||'') !== (acc[acc.length-1].text||acc[acc.length-1].label||'')) acc.push(step);
+                    else acc[acc.length-1] = step; // keep latest status
+                    return acc;
+                }, []);
+                let html = dedupedSteps.map(step => {
                     const s=step.status||'pending', ind=indicators[s]||'○';
                     const text=step.text||step.label||'';
                     const tool=step.tool||'';

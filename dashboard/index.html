@@ -257,26 +257,22 @@
         .brain-idle #brain-hub { animation: sciHubPulse 5s ease-in-out infinite; }
         .brain-idle .brain-node-circle { animation: sciNodePulse 3.5s ease-in-out infinite; }
         .brain-idle #brain-node-0 { animation-delay:0s; }
-        .brain-idle #brain-node-1 { animation-delay:0.6s; }
-        .brain-idle #brain-node-2 { animation-delay:1.2s; }
-        .brain-idle #brain-node-3 { animation-delay:1.8s; }
-        .brain-idle #brain-node-4 { animation-delay:2.4s; }
-        .brain-idle #brain-node-5 { animation-delay:3s; }
-        .brain-idle #brain-node-6 { animation-delay:3.6s; }
-        .brain-idle #brain-node-7 { animation-delay:4.2s; }
-        .brain-idle #brain-node-8 { animation-delay:4.8s; }
-        .brain-idle #brain-node-9 { animation-delay:5.4s; }
+        .brain-idle #brain-node-1 { animation-delay:0.5s; }
+        .brain-idle #brain-node-2 { animation-delay:1s; }
+        .brain-idle #brain-node-3 { animation-delay:1.5s; }
+        .brain-idle #brain-node-4 { animation-delay:2s; }
+        .brain-idle #brain-node-5 { animation-delay:2.5s; }
+        .brain-idle #brain-node-6 { animation-delay:3s; }
+        .brain-idle #brain-node-7 { animation-delay:3.5s; }
         .brain-idle .brain-line { animation: sciLinePulse 3.5s ease-in-out infinite; }
         .brain-idle #brain-line-0 { animation-delay:0s; }
-        .brain-idle #brain-line-1 { animation-delay:0.6s; }
-        .brain-idle #brain-line-2 { animation-delay:1.2s; }
-        .brain-idle #brain-line-3 { animation-delay:1.8s; }
-        .brain-idle #brain-line-4 { animation-delay:2.4s; }
-        .brain-idle #brain-line-5 { animation-delay:3s; }
-        .brain-idle #brain-line-6 { animation-delay:3.6s; }
-        .brain-idle #brain-line-7 { animation-delay:4.2s; }
-        .brain-idle #brain-line-8 { animation-delay:4.8s; }
-        .brain-idle #brain-line-9 { animation-delay:5.4s; }
+        .brain-idle #brain-line-1 { animation-delay:0.5s; }
+        .brain-idle #brain-line-2 { animation-delay:1s; }
+        .brain-idle #brain-line-3 { animation-delay:1.5s; }
+        .brain-idle #brain-line-4 { animation-delay:2s; }
+        .brain-idle #brain-line-5 { animation-delay:2.5s; }
+        .brain-idle #brain-line-6 { animation-delay:3s; }
+        .brain-idle #brain-line-7 { animation-delay:3.5s; }
         .brain-idle .brain-node-label { animation: sciLabelPulse 3.5s ease-in-out infinite, labelFloat 6s ease-in-out infinite; }
         @keyframes labelFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-2px); } }
 
@@ -1318,15 +1314,13 @@
 
         var brainRegions = [
             { name:'Reasoning', dx:0, dy:-80 },
-            { name:'Coding', dx:47, dy:-65 },
-            { name:'Research', dx:76, dy:-25 },
-            { name:'Communication', dx:76, dy:25 },
-            { name:'Content', dx:47, dy:65 },
-            { name:'Markets', dx:0, dy:80 },
-            { name:'Gaming', dx:-47, dy:65 },
-            { name:'Browsing', dx:-76, dy:25 },
-            { name:'Listening', dx:-76, dy:-25 },
-            { name:'Memory', dx:-47, dy:-65 }
+            { name:'Coding', dx:68, dy:-50 },
+            { name:'Research', dx:80, dy:10 },
+            { name:'Communication', dx:55, dy:62 },
+            { name:'Content', dx:0, dy:80 },
+            { name:'Markets', dx:-55, dy:62 },
+            { name:'Browsing', dx:-80, dy:10 },
+            { name:'Memory', dx:-68, dy:-50 }
         ];
         var brainToolColors = {
             'opus':'#4ade80','claude':'#4ade80','sonnet':'#8b5cf6',
@@ -1346,12 +1340,12 @@
         var brainToolToRegions = {
             'opus':['Reasoning'],'claude':['Reasoning'],'sonnet':['Reasoning'],
             'ollama':['Coding','Reasoning'],'qwen':['Coding'],
-            'whisper':['Listening'],'tts':['Listening'],
+            'whisper':['Communication'],'tts':['Communication'],
             'web_search':['Research'],'web_fetch':['Research'],'browser':['Browsing'],
             'exec':['Coding'],'read':['Memory'],'write':['Memory'],'edit':['Memory','Coding'],
             'message':['Communication'],'sessions_spawn':['Reasoning'],'sessions_send':['Communication'],
             'trading':['Markets'],'kalshi':['Markets'],'memecoins':['Markets'],
-            'sorare':['Gaming'],
+            'sorare':['Markets'],
             'x':['Content'],'twitter':['Content'],
             'gmail':['Communication'],'email':['Communication'],
             'finnhub':['Markets'],'coingecko':['Markets'],'ticker':['Markets'],

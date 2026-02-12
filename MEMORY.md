@@ -5,6 +5,7 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 ---
 
 ## Josh Rules (IMPORTANT)
+- **INSTANT REACTION**: On EVERY message (voice or text), update mind-state.json as the VERY FIRST action — before transcription, before processing. The desktop brain must light up the moment Josh sends something.
 - Ask "desktop, mobile, or both?" before dashboard changes
 - Commit to git frequently — lost work from uncommitted changes before
 - Keep him in the loop during long operations; spawn sub-agents for heavy tasks

@@ -118,11 +118,6 @@ Cohere, Stability AI, Inflection, AI21, Perplexity, Hugging Face, Databricks, Ru
 
 ### Update Thread Format
 1. Quote-tweet the morning anchor post
-2. Only include sections with actual changes:
-   - New model releases or provider news
-   - New M&A deals or updates to existing ones
-   - Market movers (if markets are open / significant moves)
-   - Crypto movers (if significant moves)
-   - Breaking news or hot takes
-3. Use as many tweets as needed — could be 1 tweet or 5, depending on what's new
-4. If nothing has changed at all, skip that update entirely (don't post filler)
+2. **ALWAYS include ALL sections** (NASDAQ, Crypto, Enterprise SaaS, AI/M&A news). For sections with no changes since the last update, still show the latest data but tag with "📌 No major changes since [time]" at the top of that section.
+3. Use as many tweets as needed to cover all sections
+4. Only skip the entire update if literally nothing has changed across ALL sections AND markets are closed

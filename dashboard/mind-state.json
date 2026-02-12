@@ -1,28 +1,14 @@
 {
-  "goal": "Fixed Today's Jobs accuracy",
+  "goal": "Updating brief crons — always show all sections, tag unchanged as 'nothing new'",
   "steps": [
-    {
-      "text": "Audited all cron run timestamps against Feb 12",
-      "status": "done"
-    },
-    {
-      "text": "Fixed: X Replies 12PM marked done, 12:30PM brief unmarked (didn't fire today)",
-      "status": "done"
-    },
-    {
-      "text": "Investigating: 12:30 PM brief skipped today",
-      "status": "active"
-    }
+    {"text": "Update 4:30 PM brief cron prompt", "status": "active"},
+    {"text": "Update 12:30 PM and 6:00 PM brief cron prompts", "status": "pending"},
+    {"text": "Update thread template", "status": "pending"}
   ],
   "decisions": [
-    {
-      "text": "12:30 PM Update Brief cron skipped Feb 12 — last ran Feb 11, next shows Feb 13",
-      "time": "2:59 PM",
-      "icon": "⚠️",
-      "model": "opus"
-    }
+    {"text": "Josh wants all sections included even if unchanged — tag with 'nothing new' + show latest", "time": "3:16 PM", "icon": "📝", "model": "opus"}
   ],
-  "thought": "Jobs widget now accurate. 12:30 PM brief may have been missed today — investigating.",
-  "lastUpdated": 1770926367739,
+  "thought": "Updating all update brief crons to always include every section",
+  "lastUpdated": 1739395560000,
   "subAgents": []
 }

@@ -1113,17 +1113,20 @@
                     div.className = 'x-tweet-item';
                     if (i === 0) div.style.borderLeftColor = '#4ade80';
                     let timeDisplay = '';
-                    if (tweet.timestamp) {
-                        const t = new Date(tweet.timestamp);
-                        if (!isNaN(t.getTime())) {
+                    const rawTime = tweet.timestamp || tweet.time || '';
+                    if (rawTime) {
+                        const t = new Date(rawTime);
+                        if (!isNaN(t.getTime()) && rawTime.includes('T')) {
+                            // ISO timestamp — format as relative or readable
                             const mins = Math.round((Date.now()-t.getTime())/60000);
                             if (mins<1) timeDisplay='just now';
                             else if (mins<60) timeDisplay=mins+'m ago';
                             else if (mins<1440) timeDisplay=Math.round(mins/60)+'h ago';
                             else timeDisplay=t.toLocaleDateString([],{month:'short',day:'numeric'})+' '+t.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
-                        } else { timeDisplay = tweet.time || ''; }
-                    } else if (tweet.time) {
-                        timeDisplay = tweet.time;
+                        } else {
+                            // Already human-readable like "8:30 AM"
+                            timeDisplay = rawTime;
+                        }
                     }
                     const threadNum = tweet.threadNum ? '<span style="color:#4ade80;font-weight:600;font-size:0.65rem;margin-right:4px;">'+tweet.threadNum+'</span>' : '';
                     div.innerHTML = '<div class="x-tweet-meta">'+

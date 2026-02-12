@@ -774,6 +774,18 @@
                 </div>
             </div>
 
+            <!-- Today's Jobs — collapsible -->
+            <div class="card" style="padding:0;" id="todays-jobs-card">
+                <div id="jobs-toggle" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:0.5rem 0.75rem;">
+                    <span style="font-size:0.8rem;font-weight:700;color:#4ade80;display:flex;align-items:center;gap:6px;">
+                        🤖 Today's Jobs
+                        <span id="jobs-count" style="font-size:0.7rem;font-weight:600;color:rgba(255,255,255,0.5);margin-left:4px;">--</span>
+                    </span>
+                    <span id="jobs-arrow" style="font-size:0.6rem;color:rgba(255,255,255,0.4);transition:transform 0.2s;">▶</span>
+                </div>
+                <div id="jobs-body" style="display:none;padding:0 0.75rem 0.6rem;"></div>
+            </div>
+
             <!-- Connected Accounts — collapsible dropdown -->
             <div class="card" style="padding:0;">
                 <div class="conn-toggle" id="conn-toggle">
@@ -1119,6 +1131,81 @@
             if (btn) return spinButton(btn, doRefresh());
             return doRefresh();
         }
+
+        // ===== TODAY'S JOBS =====
+        const jobsGroupColors = {'🌅 Morning':'#f59e0b','☀️ Midday':'#3b82f6','🌙 Evening':'#8b5cf6','🔄 Recurring':'#6b7280'};
+        function renderJobs(data) {
+            if (!data || !data.groups) return;
+            let total=0, done=0;
+            const allJobs = [];
+            data.groups.forEach(g => g.jobs.forEach(j => { total++; if(j.done) done++; allJobs.push({...j, group:g.label}); }));
+            document.getElementById('jobs-count').textContent = `${done}/${total}`;
+            // find next upcoming
+            const now = new Date();
+            let nextJob = null;
+            for (const g of data.groups) {
+                if (g.label === '🔄 Recurring') continue;
+                for (const j of g.jobs) {
+                    if (!j.done) { nextJob = j; break; }
+                }
+                if (nextJob) break;
+            }
+            let html = '';
+            data.groups.forEach(g => {
+                const color = jobsGroupColors[g.label] || '#888';
+                html += `<div style="margin-top:0.4rem;margin-bottom:0.2rem;font-size:10px;font-weight:700;color:${color};letter-spacing:0.03em;">${g.label}</div>`;
+                g.jobs.forEach(j => {
+                    const isNext = j === nextJob;
+                    const dim = j.done ? 'opacity:0.45;' : '';
+                    const strike = j.done ? 'text-decoration:line-through;' : '';
+                    const border = isNext ? 'border-left:2px solid #4ade80;padding-left:6px;' : 'padding-left:8px;';
+                    const badge = isNext ? '<span style="background:#4ade80;color:#000;font-size:9px;font-weight:800;padding:1px 4px;border-radius:3px;margin-left:6px;">NEXT</span>' : '';
+                    const status = j.done ? ' ✅' : '';
+                    const timeStr = j.nextRun ? `<span style="color:rgba(255,255,255,0.35);font-size:10px;margin-left:6px;">next: ${j.nextRun}</span>` : `<span style="color:rgba(255,255,255,0.3);font-size:10px;margin-left:6px;">${j.time}</span>`;
+                    html += `<div style="display:flex;align-items:center;${dim}${border}margin:2px 0;"><span style="font-size:11px;color:rgba(255,255,255,0.85);${strike}">${j.name}${status}</span>${badge}${timeStr}</div>`;
+                });
+            });
+            document.getElementById('jobs-body').innerHTML = html;
+        }
+        async function fetchJobs() {
+            try {
+                const data = await fetchWithTimeout('/api/file?path=cron-schedule.json', 5000);
+                renderJobs(data);
+            } catch(e) { console.error('Jobs fetch:', e); }
+        }
+        fetchJobs();
+        setInterval(fetchJobs, 60000);
+        document.getElementById('jobs-toggle').addEventListener('click', () => {
+            const body = document.getElementById('jobs-body');
+            const arrow = document.getElementById('jobs-arrow');
+            const isOpen = body.style.display === 'none';
+            body.style.display = isOpen ? 'block' : 'none';
+            arrow.style.transform = isOpen ? 'rotate(90deg)' : '';
+        });
+        // WebSocket update for cron-schedule
+        if (typeof originalWsOnMessage === 'undefined') {
+            var originalWsOnMessage = null;
+            const _origWsSetup = window.addEventListener;
+        }
+        (function() {
+            const origParse = JSON.parse;
+            const _addWsHandler = setInterval(() => {
+                if (window.ws && window.ws.readyState === 1) {
+                    const origHandler = window.ws.onmessage;
+                    if (origHandler && !origHandler._jobsPatched) {
+                        window.ws.onmessage = function(ev) {
+                            try {
+                                const msg = JSON.parse(ev.data);
+                                if (msg.type === 'cron-schedule' && msg.data) renderJobs(msg.data);
+                            } catch(e) {}
+                            if (origHandler) origHandler.call(this, ev);
+                        };
+                        window.ws.onmessage._jobsPatched = true;
+                        clearInterval(_addWsHandler);
+                    }
+                }
+            }, 2000);
+        })();
 
         // Connected Accounts toggle
         document.getElementById('conn-toggle').addEventListener('click', () => {

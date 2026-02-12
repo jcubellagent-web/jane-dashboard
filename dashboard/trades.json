@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-12T02:05:00Z",
+  "lastUpdated": "2026-02-12T02:15:00Z",
   "budget": {
     "totalSol": 1.5,
     "deployedSol": 0.7,
@@ -13,9 +13,9 @@
       "mint": "jkAWzPumRhJE2KyqVy4kB7m9KwXBeSEXnFAGoWtpump",
       "chain": "solana",
       "entryPrice": 0.002363,
-      "currentPrice": 0.002296,
-      "pnlPct": -2.8,
-      "entryPriceSOL": 0.00002955,
+      "currentPrice": 0.002327,
+      "pnlPct": -1.5,
+      "entryPriceSOL": 2.955e-05,
       "solSpent": 0.7,
       "tokensReceived": 23694946991,
       "entryTimestamp": "2026-02-12T00:49:30Z",
@@ -25,17 +25,22 @@
       "takeProfitPct": 100,
       "stopLossPct": -30,
       "mcapAtEntry": 2331770,
-      "currentMcap": 2295951,
+      "currentMcap": 2327428,
       "liquidityAtEntry": 148109,
-      "currentLiquidity": 147234,
-      "priceUpdatedAt": "2026-02-12T02:05:00Z",
+      "currentLiquidity": 147956,
+      "priceUpdatedAt": "2026-02-12T02:15:00Z",
       "status": "open",
       "notes": "AI-themed memecoin with website, Twitter (@claudeonsolana), Telegram. Moderate 24h gain, good entry on dip. 5-day old token showing staying power."
     }
   ],
   "closedPositions": [],
   "research": {
-    "passed": ["HTC - no socials/community, 7000% pump = dump risk", "SHARK - thin liquidity $67K, under $300K mcap, volume dying"],
-    "selected": ["CLAUDE - real community infrastructure, moderate gains, good liquidity"]
+    "passed": [
+      "HTC - no socials/community, 7000% pump = dump risk",
+      "SHARK - thin liquidity $67K, under $300K mcap, volume dying"
+    ],
+    "selected": [
+      "CLAUDE - real community infrastructure, moderate gains, good liquidity"
+    ]
   }
 }

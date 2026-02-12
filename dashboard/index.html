@@ -933,7 +933,7 @@
         function updateSubagentSatellites(subAgents) {
             const orbit = document.getElementById('sa-orbit');
             if (!orbit) return;
-            const active = (subAgents||[]).filter(s => s.status === 'active');
+            const active = (subAgents||[]).filter(s => s.status === 'active' || s.status === 'running');
             const activeIds = new Set(active.map(s => s.id || s.label));
             // fade out removed
             orbit.querySelectorAll('.sa-lobster').forEach(el => {

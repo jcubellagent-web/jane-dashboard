@@ -568,9 +568,6 @@
     <div class="status-bar">
         <img src="icon-192.png" alt="Jane">
         <span class="status-slim-label">Jane</span>
-        <span class="status-slim-pill" id="jane-model-slim">Model: --</span>
-        <span class="status-slim-pill green" id="plan-slim">Plan: Max</span>
-        <span class="status-slim-divider">·</span>
         <span class="status-slim-pill dim" id="jane-age-slim">Age: --</span>
         <span class="status-slim-divider">·</span>
         <span class="status-slim-pill" id="cpu-slim">CPU: --%</span>
@@ -796,11 +793,6 @@
                 _cachedSessions = sessions;
                 if (sessions?.sessions?.length) {
                     const main = sessions.sessions.find(s => s.kind === 'main') || sessions.sessions[0];
-                    if (main?.model) {
-                        const formatted = main.model.split('/').pop().replace('claude-','').replace(/-/g,' ').replace('4 5','4.5').replace('4 6','4.6');
-                        const el = document.getElementById('jane-model-slim');
-                        if (el) el.textContent = 'Model: ' + formatted;
-                    }
                 }
                 if (system) {
                     document.getElementById('cpu-slim').textContent = 'CPU: ' + (system.cpu||0) + '%';

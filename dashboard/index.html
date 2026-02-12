@@ -835,6 +835,7 @@
                     <span class="x-strip-stat" id="x-engagement"><span class="x-strip-val" style="color:#4ade80;">--</span> <span class="x-strip-lbl">Engagement</span></span>
                     <span class="x-strip-stat" id="x-likes"><span class="x-strip-val">--</span> <span class="x-strip-lbl">likes</span> <span class="x-strip-delta" id="x-d-likes"></span></span>
                 </div>
+                <div id="x-content-plan" style="font-size:0.65rem;color:rgba(255,255,255,0.45);padding:0.2rem 0.5rem;"></div>
                 <!-- Tweet Feed -->
                 <div class="x-tweet-feed" id="dt-tweet-feed"></div>
             </div>
@@ -872,7 +873,7 @@
     <div id="night-mode-overlay" class="night-mode-overlay" onclick="exitNightMode()">
         <div class="eink-time" id="eink-time">12:00</div>
         <div class="eink-ampm" id="eink-ampm">AM</div>
-        <div class="eink-date" id="eink-date">Wednesday, February 5</div>
+        <div class="eink-date" id="eink-date">—</div>
         <div class="eink-hint">tap anywhere to exit</div>
         <div class="bouncing-logo" id="bouncing-logo"><img src="icon-192.png" alt="Jane"></div>
     </div>
@@ -968,10 +969,7 @@
         async function refreshXStats(btn) {
             const doRefresh = async () => {
                 try {
-                    const [data, baseline] = await Promise.all([
-                        fetchWithTimeout('/x-stats.json', 5000),
-                        fetchWithTimeout('/x-stats-daily-baseline.json', 5000).catch(() => null)
-                    ]);
+                    const data = await fetchWithTimeout('/x-stats.json', 5000);
                     if (!data) return;
                     const fmt = v => v >= 1000 ? (v/1000).toFixed(1)+'K' : String(v);
                     const set = (id, val) => { const el = document.querySelector('#'+id+' .x-strip-val'); if(el) el.textContent = val; };
@@ -979,7 +977,7 @@
                     set('x-followers', fmt(data.followers||0));
                     set('x-impressions', fmt(data.impressions||0));
                     set('x-likes', fmt(data.likes||0));
-                    const base = baseline || {};
+                    const base = data.prev24h || {};
                     const showDelta = (id, current, previous) => {
                         const el = document.getElementById(id);
                         if (!el || previous == null) { if(el) el.textContent=''; return; }
@@ -1003,6 +1001,19 @@
                         else if (engDiff < 0) { deltaSpan.textContent = engDiff+'%'; deltaSpan.className = 'x-strip-delta down'; }
                         else { deltaSpan.textContent = '—'; deltaSpan.className = 'x-strip-delta flat'; }
                     }
+                    // Content plan indicator
+                    try {
+                        const plan = await fetchWithTimeout('/x-content-plan.json', 5000);
+                        if (plan) {
+                            let threads = {}, replies = {};
+                            if (plan.plan) { threads = plan.plan.threads || {}; replies = plan.plan.replies || {}; }
+                            else if (plan.rolling24h) { threads = plan.rolling24h.originalTweets || {}; replies = plan.rolling24h.replies || {}; }
+                            const cpEl = document.getElementById('x-content-plan');
+                            if (cpEl) {
+                                cpEl.textContent = 'Threads: '+(threads.completed||0)+'/'+(threads.planned||0)+' · Replies: '+(replies.completed||0)+'/'+(replies.planned||0);
+                            }
+                        }
+                    } catch(e) {}
                     const el = document.getElementById('x-refresh');
                     if (el) el.textContent = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
                 } catch(e) { console.error('X stats:', e); }

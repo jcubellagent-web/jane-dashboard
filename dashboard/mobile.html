@@ -980,6 +980,32 @@
         </div>
     </div>
 
+    <!-- Coinbase Wallet + Trades -->
+    <div class="card" id="wallet-card" style="padding:0.5rem 0.75rem;">
+        <div id="wallet-header" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="toggleWalletCard()">
+            <div style="display:flex;align-items:center;gap:0.4rem;">
+                <svg width="20" height="20" viewBox="0 0 28 28" style="flex-shrink:0;"><circle cx="14" cy="14" r="14" fill="#0052FF"/><path d="M14 5.6c-4.64 0-8.4 3.76-8.4 8.4s3.76 8.4 8.4 8.4 8.4-3.76 8.4-8.4-3.76-8.4-8.4-8.4zm-1.68 5.04h3.36c.56 0 1.01.45 1.01 1.01v4.7c0 .56-.45 1.01-1.01 1.01h-3.36c-.56 0-1.01-.45-1.01-1.01v-4.7c0-.56.45-1.01 1.01-1.01z" fill="#fff"/></svg>
+                <div>
+                    <div style="font-size:0.65rem;font-weight:700;color:rgba(255,255,255,0.85);">COINBASE WALLET</div>
+                    <div id="wallet-total" style="font-size:1rem;font-weight:800;color:#fff;">$--</div>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.4rem;">
+                <button id="wallet-refresh-btn" onclick="event.stopPropagation();refreshWallet(this)" style="background:none;border:none;color:var(--accent);font-size:0.8rem;cursor:pointer;padding:0.2rem;">↻</button>
+                <span id="wallet-chevron" style="font-size:0.6rem;color:rgba(255,255,255,0.4);transition:transform 0.2s;">▼</span>
+            </div>
+        </div>
+        <!-- Chain balances (always visible) -->
+        <div id="wallet-chains" style="display:flex;gap:0.5rem;margin-top:0.4rem;"></div>
+        <!-- Active trades (always visible) -->
+        <div id="wallet-trades" style="margin-top:0.4rem;"></div>
+        <!-- Expanded details -->
+        <div id="wallet-expanded" style="display:none;margin-top:0.4rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:0.4rem;">
+            <div id="wallet-budget" style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.3rem;"></div>
+            <div id="wallet-closed" style="font-size:0.55rem;color:var(--text-dim);"></div>
+        </div>
+    </div>
+
     <!-- X/Twitter — Unified Widget -->
     <div class="card" id="tweet-feed" style="padding:0.5rem 0.6rem;overflow:hidden;">
         <!-- Stats bar (always visible) -->
@@ -1030,8 +1056,8 @@
 
         async function refreshStatus() {
             const [sessions, system] = await Promise.all([
-                fetchJSON('/api/sessions'),
-                fetchJSON('/api/system')
+                fetchJSON('/api/sessions').then(r => r, () => fetchJSON('/sessions.json')).catch(() => null),
+                fetchJSON('/api/system').then(r => r, () => fetchJSON('/system-status.json')).catch(() => null)
             ]);
 
             if (sessions?.sessions?.length) {
@@ -1117,7 +1143,7 @@
         }
 
         async function refreshTicker() {
-            const data = await fetchJSON('/api/ticker');
+            const data = await fetchJSON('/api/ticker').then(r => r, () => fetchJSON('/ticker.json')).catch(() => null);
             if (!data) return;
             tickerData = data;
             if (tickerExpanded) renderTickerPrices(data);
@@ -1996,7 +2022,7 @@
         window._subagentsActive = false;
         async function refreshSubagentState() {
             try {
-                const data = await fetchJSON('/api/sessions');
+                const data = await fetchJSON('/api/sessions').then(r => r, () => fetchJSON('/sessions.json')).catch(() => null);
                 if (!data || !data.sessions) { window._subagentsActive = false; return; }
                 const now = Date.now();
                 const activeSubs = data.sessions.filter(s =>

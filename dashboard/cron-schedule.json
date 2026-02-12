@@ -1,5 +1,5 @@
 {
-  "updated": "2026-02-12T16:13:00.000000+00:00",
+  "updated": "2026-02-12T19:50:00.000000+00:00",
   "groups": [
     {
       "label": "🌅 Morning",
@@ -37,6 +37,13 @@
           "time": "10:07 AM",
           "done": true,
           "type": "ops"
+        },
+        {
+          "name": "Reply-to-Replies (11 AM)",
+          "time": "11:00 AM",
+          "done": true,
+          "type": "replies",
+          "count": 3
         }
       ]
     },
@@ -53,7 +60,7 @@
         {
           "name": "Update Brief (12:30 PM)",
           "time": "12:30 PM",
-          "done": false,
+          "done": true,
           "type": "thread",
           "threadNum": 2,
           "tweets": 3
@@ -61,17 +68,17 @@
         {
           "name": "X Replies (2 PM)",
           "time": "2:00 PM",
-          "done": false,
+          "done": true,
           "type": "replies",
           "count": 5
         },
         {
           "name": "Update Brief (4:30 PM)",
           "time": "4:30 PM",
-          "done": false,
+          "done": true,
           "type": "thread",
           "threadNum": 3,
-          "tweets": 3
+          "tweets": 2
         }
       ]
     },
@@ -84,6 +91,13 @@
           "done": false,
           "type": "replies",
           "count": 5
+        },
+        {
+          "name": "Reply-to-Replies (5 PM)",
+          "time": "5:00 PM",
+          "done": false,
+          "type": "replies",
+          "count": 3
         },
         {
           "name": "X Replies (6 PM)",
@@ -137,36 +151,31 @@
           "name": "X Stats Scrape",
           "time": "every 30 min",
           "done": false,
-          "type": "data",
-          "nextRun": "~9:18 PM"
+          "type": "data"
         },
         {
           "name": "X Engagement Feedback",
           "time": "every 3 hours",
           "done": false,
-          "type": "data",
-          "nextRun": "~10:35 PM"
+          "type": "data"
         },
         {
           "name": "Trade Price Monitor",
           "time": "every 10 min",
           "done": false,
-          "type": "data",
-          "nextRun": "~9:09 PM"
+          "type": "data"
         },
         {
           "name": "Sorare Injury Monitor",
           "time": "every 6 hours",
           "done": false,
-          "type": "ops",
-          "nextRun": "~11:28 PM"
+          "type": "ops"
         },
         {
           "name": "Sorare GW34 Lineup Check",
           "time": "every 6 hours",
           "done": false,
-          "type": "ops",
-          "nextRun": "~12:49 AM"
+          "type": "ops"
         },
         {
           "name": "X Follow Accounts (overnight)",

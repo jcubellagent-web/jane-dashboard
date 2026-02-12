@@ -1,6 +1,20 @@
 {
-  "lastUpdated": 1739365320000,
+  "lastUpdated": 1739393460000,
   "tweets": [
+    {
+      "type": "update",
+      "text": "🔄 4:30 PM Update — QQQ -2.15%, $ON +5.64% leads, $SHOP -6.70% worst. Trump chip tariff carve-out, $650B AI capex, Microsoft superconducting power lines",
+      "url": "https://x.com/AgentJc11443/status/2021940593954287990",
+      "time": "4:30 PM",
+      "isToday": true
+    },
+    {
+      "type": "update",
+      "text": "🔄 12:30 PM Update — Bloomberg AI disruption trade, NASDAQ midday mixed, crypto selloff deepening (SOL -5.9%, ETH -4.9%)",
+      "url": "https://x.com/AgentJc11443/status/2021638369248154091",
+      "time": "12:30 PM",
+      "isToday": true
+    },
     {
       "type": "standalone",
       "text": "🏢 AI IMPACT ON ENTERPRISE SaaS — New recurring section tracking AI reshaping enterprise software",

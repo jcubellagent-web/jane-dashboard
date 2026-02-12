@@ -370,6 +370,49 @@
         .conn-arrow { font-size: 0.6rem; color: var(--text-dim); transition: transform 0.3s; }
         .conn-body { display: none; padding: 0.5rem 0.75rem 0.75rem; }
         .conn-body.open { display: block; }
+
+        /* Pop-up overlay panels */
+        .popup-backdrop {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 500;
+            backdrop-filter: blur(4px);
+        }
+        .popup-backdrop.active { display: block; }
+        .popup-panel {
+            position: fixed;
+            top: 50%; left: 25%;
+            transform: translate(-50%, -50%);
+            z-index: 501;
+            width: min(480px, 90vw);
+            max-height: 70vh;
+            overflow-y: auto;
+            background: rgba(20, 20, 20, 0.98);
+            border: 1px solid rgba(74, 222, 128, 0.4);
+            border-radius: 16px;
+            box-shadow: 0 16px 64px rgba(0,0,0,0.8), 0 0 30px rgba(74,222,128,0.15);
+            display: none;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(74,222,128,0.3) transparent;
+        }
+        .popup-panel.active { display: block; }
+        .popup-panel .popup-close {
+            position: sticky; top: 0;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.75rem 0.75rem 0.5rem;
+            background: rgba(20,20,20,0.98);
+            z-index: 1;
+            border-bottom: 1px solid rgba(74,222,128,0.1);
+        }
+        .popup-close-btn {
+            background: none; border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.6); cursor: pointer;
+            padding: 0.15rem 0.5rem; border-radius: 6px; font-size: 0.7rem;
+            transition: all 0.2s;
+        }
+        .popup-close-btn:hover { color: #fff; border-color: rgba(74,222,128,0.5); }
         .conn-section-title {
             font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em;
             color: var(--text-dim); margin-bottom: 0.25rem; font-weight: 600;
@@ -666,6 +709,40 @@
     </div>
 
     <!-- Main Grid -->
+    <!-- Pop-up backdrop -->
+    <div class="popup-backdrop" id="popup-backdrop"></div>
+    <!-- Pop-up panels for Wallet, Jobs, Accounts -->
+    <div class="popup-panel" id="wallet-popup">
+        <div class="popup-close">
+            <span style="font-size:0.85rem;font-weight:700;color:#4ade80;flex:1;padding-left:0.25rem;">
+                <svg style="display:inline-block;vertical-align:middle;width:14px;height:14px;margin-right:4px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="3"/><path d="M16 12h2v4h-2z" fill="#4ade80"/><path d="M6 6V4a2 2 0 012-2h8a2 2 0 012 2v2"/></svg>
+                MyWallet
+            </span>
+            <button class="popup-close-btn" onclick="closePopup('wallet')">✕</button>
+        </div>
+        <div id="wallet-popup-content" style="padding:0 1rem 0.75rem;"></div>
+    </div>
+    <div class="popup-panel" id="jobs-popup">
+        <div class="popup-close">
+            <span style="font-size:0.85rem;font-weight:700;color:#4ade80;flex:1;padding-left:0.25rem;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#4ade80" style="display:inline-block;vertical-align:middle;margin-right:4px;"><rect x="4" y="8" width="16" height="12" rx="3"/><circle cx="9" cy="14" r="1.5" fill="#1a1a2e"/><circle cx="15" cy="14" r="1.5" fill="#1a1a2e"/><line x1="12" y1="5" x2="12" y2="8" stroke="#4ade80" stroke-width="2"/><circle cx="12" cy="4" r="2" fill="#4ade80"/></svg>
+                Today's Jobs
+            </span>
+            <button class="popup-close-btn" onclick="closePopup('jobs')">✕</button>
+        </div>
+        <div id="jobs-popup-content" style="padding:0 0.75rem 0.6rem;"></div>
+    </div>
+    <div class="popup-panel" id="conn-popup">
+        <div class="popup-close">
+            <span style="font-size:0.85rem;font-weight:700;color:#4ade80;flex:1;padding-left:0.25rem;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#4ade80" style="display:inline-block;vertical-align:middle;margin-right:4px;"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+                Connected Accounts
+            </span>
+            <button class="popup-close-btn" onclick="closePopup('conn')">✕</button>
+        </div>
+        <div id="conn-popup-content" style="padding:0.5rem 0.75rem 0.75rem;"></div>
+    </div>
+
     <main class="main-container">
         <!-- LEFT: Jane's Mind + Connected Accounts -->
         <div class="left-column">
@@ -1227,11 +1304,7 @@
         fetchJobs();
         setInterval(fetchJobs, 60000);
         document.getElementById('jobs-toggle').addEventListener('click', () => {
-            const body = document.getElementById('jobs-body');
-            const arrow = document.getElementById('jobs-arrow');
-            const isOpen = body.style.display === 'none';
-            body.style.display = isOpen ? 'block' : 'none';
-            arrow.style.transform = isOpen ? 'rotate(90deg)' : '';
+            openPopup('jobs');
         });
         // WebSocket update for cron-schedule
         if (typeof originalWsOnMessage === 'undefined') {
@@ -1260,10 +1333,7 @@
 
         // Connected Accounts toggle
         document.getElementById('conn-toggle').addEventListener('click', () => {
-            const body = document.getElementById('conn-body');
-            const arrow = document.getElementById('conn-arrow');
-            const isOpen = body.classList.toggle('open');
-            arrow.style.transform = isOpen ? 'rotate(90deg)' : '';
+            openPopup('conn');
         });
 
         // ===== SORARE =====
@@ -1685,10 +1755,7 @@
 
         // ===== COINBASE WALLET + TRADES (merged) =====
         document.getElementById('wallet-toggle').addEventListener('click', () => {
-            const body = document.getElementById('wallet-body');
-            const arrow = document.getElementById('wallet-arrow');
-            const isOpen = body.classList.toggle('open');
-            arrow.style.transform = isOpen ? 'rotate(90deg)' : '';
+            openPopup('wallet');
         });
 
         function truncAddr(addr) {
@@ -1921,6 +1988,46 @@
             ws.onclose = () => setTimeout(connectWS, 1000);
             ws.onerror = () => ws.close();
         })();
+
+        // ===== POP-UP PANEL SYSTEM =====
+        function openPopup(type) {
+            const backdrop = document.getElementById('popup-backdrop');
+            const popup = document.getElementById(type + '-popup');
+            const popupContent = document.getElementById(type + '-popup-content');
+
+            // Clone content into popup
+            if (type === 'wallet') {
+                const src = document.getElementById('wallet-body');
+                popupContent.innerHTML = src.innerHTML;
+            } else if (type === 'jobs') {
+                const src = document.getElementById('jobs-body');
+                popupContent.innerHTML = src.innerHTML;
+            } else if (type === 'conn') {
+                const src = document.getElementById('conn-body');
+                popupContent.innerHTML = src.innerHTML;
+            }
+
+            backdrop.classList.add('active');
+            popup.classList.add('active');
+        }
+        function closePopup(type) {
+            const backdrop = document.getElementById('popup-backdrop');
+            const popup = document.getElementById(type + '-popup');
+            backdrop.classList.remove('active');
+            popup.classList.remove('active');
+        }
+        // Close on backdrop click
+        document.getElementById('popup-backdrop').addEventListener('click', () => {
+            document.querySelectorAll('.popup-panel.active').forEach(p => p.classList.remove('active'));
+            document.getElementById('popup-backdrop').classList.remove('active');
+        });
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.popup-panel.active').forEach(p => p.classList.remove('active'));
+                document.getElementById('popup-backdrop').classList.remove('active');
+            }
+        });
 
         // Night Mode
         let bouncingAnimation=null, bounceX=50, bounceY=50, bounceVX=1.5, bounceVY=1;

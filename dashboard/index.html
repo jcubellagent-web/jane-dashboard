@@ -438,6 +438,41 @@
         .sorare-summary-value { font-weight: 700; color: #ffd700; }
         .sorare-summary-label { font-size: 0.55rem; color: var(--text-dim); text-transform: uppercase; }
 
+        /* Active Trades Widget */
+        .trades-card {
+            background: linear-gradient(135deg, rgba(74,222,128,0.10) 0%, rgba(74,222,128,0.02) 100%);
+            border: 1px solid rgba(74,222,128,0.25); border-radius: 12px; overflow: hidden;
+        }
+        .trades-header {
+            display: flex; align-items: center; justify-content: space-between;
+            cursor: pointer; padding: 0.65rem 1rem; transition: background 0.2s;
+        }
+        .trades-header:hover { background: rgba(74,222,128,0.06); }
+        .trades-header-left { display: flex; align-items: center; gap: 0.5rem; }
+        .trades-header-title { font-size: 0.8rem; font-weight: 700; color: var(--text); }
+        .trades-header-budget { font-size: 0.7rem; color: var(--accent); font-weight: 600; }
+        .trades-arrow { font-size: 0.7rem; color: var(--text-dim); transition: transform 0.2s; }
+        .trades-arrow.open { transform: rotate(90deg); }
+        .trades-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; padding: 0 1rem; }
+        .trades-body.open { max-height: 600px; padding: 0.5rem 1rem 0.75rem; }
+        .trades-budget-bar { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; font-size: 0.65rem; }
+        .trades-budget-pill { padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 600; }
+        .trades-section-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); font-weight: 600; margin-bottom: 0.3rem; }
+        .trades-pos-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.35rem 0.5rem; background: rgba(255,255,255,0.03);
+            border-radius: 6px; margin-bottom: 0.25rem; font-size: 0.72rem;
+        }
+        .trades-pos-token { font-weight: 700; color: var(--text); min-width: 60px; }
+        .trades-pos-pnl { font-weight: 700; min-width: 50px; text-align: right; }
+        .trades-pos-pnl.green { color: var(--green); }
+        .trades-pos-pnl.red { color: var(--red); }
+        .trades-pos-meta { color: var(--text-dim); font-size: 0.6rem; }
+        .trades-closed-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.25rem 0.5rem; font-size: 0.65rem; opacity: 0.7;
+        }
+
         /* Coinbase Wallet Widget — Modern Card UI */
         .wallet-card {
             background: linear-gradient(135deg, rgba(0,82,255,0.12) 0%, rgba(0,82,255,0.03) 100%);
@@ -683,6 +718,28 @@
                 </div>
                 <div class="wallet-body" id="wallet-body">
                     <div class="wallet-chains" id="wallet-content"><span class="wallet-empty">Loading...</span></div>
+                </div>
+            </div>
+
+            <!-- Active Trades Widget -->
+            <div class="trades-card">
+                <div class="trades-header" id="trades-toggle">
+                    <div class="trades-header-left">
+                        <span class="trades-header-title">🎯 Active Trades</span>
+                        <span class="trades-header-budget" id="trades-budget">$0 / $0</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:0.4rem;">
+                        <span class="last-refresh" id="trades-refresh">--</span>
+                        <button class="refresh-btn" onclick="refreshTrades(this)">↻</button>
+                        <span class="trades-arrow" id="trades-arrow">▶</span>
+                    </div>
+                </div>
+                <div class="trades-body" id="trades-body">
+                    <div class="trades-budget-bar" id="trades-budget-bar"></div>
+                    <div class="trades-section-label">Open Positions</div>
+                    <div id="trades-open"><span style="color:var(--text-dim);font-size:0.75rem;">No open positions</span></div>
+                    <div class="trades-section-label" style="margin-top:0.6rem;">Closed Trades</div>
+                    <div id="trades-closed"><span style="color:var(--text-dim);font-size:0.75rem;">No closed trades</span></div>
                 </div>
             </div>
 
@@ -1364,13 +1421,77 @@
             return doRefresh();
         }
 
+        // ===== ACTIVE TRADES =====
+        document.getElementById('trades-toggle').addEventListener('click', () => {
+            const body = document.getElementById('trades-body');
+            const arrow = document.getElementById('trades-arrow');
+            body.classList.toggle('open');
+            arrow.classList.toggle('open');
+        });
+
+        async function refreshTrades(btn) {
+            const doRefresh = async () => {
+                try {
+                    const data = await fetchWithTimeout('/trades.json', 5000);
+                    if (!data) return;
+                    const b = data.budget || {};
+                    document.getElementById('trades-budget').textContent =
+                        '$' + (b.deployed||0).toFixed(2) + ' / $' + (b.total||0).toFixed(2) + ' SOL';
+                    // Budget bar
+                    const bar = document.getElementById('trades-budget-bar');
+                    const pnlColor = (b.realizedPnl||0) >= 0 ? 'var(--green)' : 'var(--red)';
+                    bar.innerHTML = `
+                        <span class="trades-budget-pill" style="background:rgba(74,222,128,0.15);color:var(--green);">Avail: ${(b.available||0).toFixed(2)}</span>
+                        <span class="trades-budget-pill" style="background:rgba(255,255,255,0.06);color:var(--text);">Deployed: ${(b.deployed||0).toFixed(2)}</span>
+                        <span class="trades-budget-pill" style="background:rgba(255,255,255,0.06);color:${pnlColor};">P&L: ${(b.realizedPnl||0) >= 0 ? '+' : ''}${(b.realizedPnl||0).toFixed(3)}</span>
+                    `;
+                    // Open positions
+                    const openEl = document.getElementById('trades-open');
+                    if (data.openPositions && data.openPositions.length) {
+                        openEl.innerHTML = data.openPositions.map(p => {
+                            const pnl = p.currentPrice && p.entryPrice ? ((p.currentPrice - p.entryPrice) / p.entryPrice * 100) : (p.pnlPct || 0);
+                            const pnlClass = pnl >= 0 ? 'green' : 'red';
+                            return `<div class="trades-pos-row">
+                                <span class="trades-pos-token">${p.token||p.symbol}</span>
+                                <span class="trades-pos-meta">Entry: $${Number(p.entryPrice||0).toFixed(6)}</span>
+                                <span class="trades-pos-meta">Now: $${Number(p.currentPrice||0).toFixed(6)}</span>
+                                <span class="trades-pos-meta">TP:${p.tpPct||'+100'}% SL:${p.slPct||'-30'}%</span>
+                                <span class="trades-pos-pnl ${pnlClass}">${pnl >= 0 ? '+' : ''}${pnl.toFixed(1)}%</span>
+                            </div>`;
+                        }).join('');
+                    } else {
+                        openEl.innerHTML = '<span style="color:var(--text-dim);font-size:0.75rem;">No open positions</span>';
+                    }
+                    // Closed trades
+                    const closedEl = document.getElementById('trades-closed');
+                    if (data.closedTrades && data.closedTrades.length) {
+                        closedEl.innerHTML = data.closedTrades.slice(-5).reverse().map(t => {
+                            const pnl = t.pnlPct || 0;
+                            const pnlClass = pnl >= 0 ? 'green' : 'red';
+                            return `<div class="trades-closed-row">
+                                <span>${t.token||t.symbol}</span>
+                                <span class="trades-pos-pnl ${pnlClass}">${pnl >= 0 ? '+' : ''}${pnl.toFixed(1)}%</span>
+                                <span style="color:var(--text-dim)">${t.closedAt ? new Date(t.closedAt).toLocaleDateString() : ''}</span>
+                            </div>`;
+                        }).join('');
+                    } else {
+                        closedEl.innerHTML = '<span style="color:var(--text-dim);font-size:0.75rem;">No closed trades yet</span>';
+                    }
+                    const el = document.getElementById('trades-refresh');
+                    if (el) el.textContent = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+                } catch(e) { console.error('Trades:', e); }
+            };
+            if (btn) return spinButton(btn, doRefresh());
+            return doRefresh();
+        }
+
         // ===== REFRESH ALL =====
         function refreshAll() {
             const mainBtn = document.getElementById('refresh-all-btn');
             if (mainBtn) mainBtn.classList.add('spinning');
             document.querySelectorAll('.refresh-btn').forEach(btn=>btn.classList.add('spinning'));
             refreshSystem(); refreshXStats(); refreshDesktopTweetFeed();
-            refreshConnections(); refreshSorare(); refreshMind(); refreshWallet();
+            refreshConnections(); refreshSorare(); refreshMind(); refreshWallet(); refreshTrades();
             setTimeout(() => {
                 if (mainBtn) mainBtn.classList.remove('spinning');
                 document.querySelectorAll('.refresh-btn').forEach(btn=>btn.classList.remove('spinning'));
@@ -1387,6 +1508,7 @@
         refreshSorare().catch(e=>console.warn('Sorare:',e.message));
 
         refreshWallet().catch(e=>console.warn('Wallet:',e.message));
+        refreshTrades().catch(e=>console.warn('Trades:',e.message));
 
         // Auto-refresh
         setInterval(refreshMind, 5000);
@@ -1396,6 +1518,7 @@
         setInterval(refreshSorare, 300000);
         setInterval(refreshConnections, 600000);
         setInterval(refreshWallet, 300000);
+        setInterval(refreshTrades, 60000);
 
         // WebSocket
         (function connectWS() {
@@ -1417,6 +1540,7 @@
                         else if (k==='sessions') refreshMind();
                         else if (k==='sorare'||k==='sorare-mobile') refreshSorare();
                         else if (k==='coinbase-wallet') refreshWallet();
+                        else if (k==='trades') refreshTrades();
                     }
                     if (msg.type==='update') handleWidget(msg.widget);
                     else if (msg.type==='batch'&&msg.updates) msg.updates.forEach(u=>handleWidget(u.widget));

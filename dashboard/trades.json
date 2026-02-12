@@ -1,0 +1,7 @@
+{
+  "budget": { "total": 1.5, "deployed": 0, "available": 1.5, "realizedPnl": 0 },
+  "openPositions": [],
+  "closedTrades": [],
+  "rules": { "minMcap": 150000, "extraDdThreshold": 300000, "defaultTpPct": 100, "defaultSlPct": -30 },
+  "lastUpdated": 1739321000000
+}

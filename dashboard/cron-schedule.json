@@ -1,5 +1,5 @@
 {
-  "updated": "2026-02-12T20:11:32.925133+00:00",
+  "updated": "2026-02-12T21:33:00.000000+00:00",
   "groups": [
     {
       "label": "\ud83c\udf05 Morning",
@@ -75,10 +75,10 @@
         {
           "name": "Update Brief (4:30 PM)",
           "time": "4:30 PM",
-          "done": false,
+          "done": true,
           "type": "thread",
           "threadNum": 3,
-          "tweets": 2
+          "tweets": 4
         }
       ]
     },
@@ -88,7 +88,7 @@
         {
           "name": "X Replies (4 PM)",
           "time": "4:00 PM",
-          "done": false,
+          "done": true,
           "type": "replies",
           "count": 5
         },

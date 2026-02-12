@@ -3,7 +3,7 @@
     "date": "2026-02-12",
     "threads": {
       "planned": 5,
-      "completed": 3,
+      "completed": 4,
       "schedule": [
         "08:30",
         "12:30",
@@ -25,7 +25,7 @@
         {
           "time": "16:30",
           "name": "Update Brief #2",
-          "status": "upcoming"
+          "status": "done"
         },
         {
           "time": "18:00",
@@ -41,7 +41,7 @@
     },
     "replies": {
       "planned": 40,
-      "completed": 15,
+      "completed": 21,
       "cadence": "5 every 2 hours",
       "schedule": [
         "08:00",
@@ -55,6 +55,6 @@
       ]
     },
     "totalPlanned": 45,
-    "totalCompleted": 17
+    "totalCompleted": 24
   }
 }

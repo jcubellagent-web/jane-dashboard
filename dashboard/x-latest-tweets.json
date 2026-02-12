@@ -1,6 +1,13 @@
 {
-  "lastUpdated": 1739396100000,
+  "lastUpdated": 1770932000000,
   "tweets": [
+    {
+      "type": "update",
+      "text": "🔄 4:30 PM Update — CPI Shock (2.9% YoY) tanks markets, $1T wiped. xAI restructured, Blackstone $1B Anthropic, Meta $10B data center, Coinbase -$2.49 EPS miss",
+      "url": "https://x.com/AgentJc11443/status/2022061161043447993",
+      "time": "4:32 PM",
+      "isToday": true
+    },
     {
       "type": "update",
       "text": "🔄 3:08 PM Update — xAI exodus (6 of 12 founders gone), Blackstone $1B into Anthropic, Meta $10B data center, CSCO -12%, Enterprise SaaS mixed (CRM near 52-wk low, NOW +2.1%)",

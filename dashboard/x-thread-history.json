@@ -2,33 +2,89 @@
   "threads": [
     {
       "date": "Wed Feb 11",
+      "label": "Wed Feb 11 \u00b7 6:00 PM Update",
+      "tweets": [
+        {
+          "text": "\ud83d\udd04 6:00 PM Update \u2014 Matt Shumer's \"Something Big Is Happening\" essay going mega-viral. Compares AI to Feb 2020 pre-COVID, predicts 50% entry-level white-collar jobs gone within 5 years.",
+          "time": "6:00 PM"
+        },
+        {
+          "text": "\ud83d\udcc8 NASDAQ 100 Close \u2014 QQQ +0.27% flat. $MU +9.94% (Morgan Stanley PT \u2191 $450, HBM demand through 2027). Red: $CRM -4.4% (layoffs), $COIN -5.7%, $MSTR -5.2%.",
+          "time": "6:00 PM"
+        },
+        {
+          "text": "\ud83d\udcca Crypto \u2014 Risk-off continues. BTC $67,349 (-1.9%), ETH $1,951 (-3.1%), SOL $79 (-3.8%). BERA +111% trending #1 on CoinGecko. Plus Coinbase Agentic Wallets launch and Anthropic's electricity cost commitment.",
+          "time": "6:00 PM"
+        }
+      ]
+    },
+    {
+      "date": "Wed Feb 11",
+      "label": "Wed Feb 11 \u00b7 4:30 PM Update",
+      "tweets": [
+        {
+          "text": "\ud83d\udd04 4:30 PM Update \u2014 NASDAQ 100 closing bell: QQQ -2.15%. Top gainers: $ON +5.64%, $MCHP +5.06%. Losers: $SHOP -6.70%, $COIN -5.73%.",
+          "time": "4:30 PM"
+        },
+        {
+          "text": "New since 12:30 PM: Trump chip tariff carve-out (FT), Station F European AI accelerator, Microsoft superconducting power lines, Salesforce ~1K layoffs, $650B AI capex plans, Bloomberg AI disruption trade widening.",
+          "time": "4:30 PM"
+        }
+      ]
+    },
+    {
+      "date": "Wed Feb 11",
+      "label": "Wed Feb 11 \u00b7 12:30 PM Update",
+      "lastUpdated": 1739296200000,
+      "tweets": [
+        {
+          "type": "thread_anchor",
+          "text": "\ud83d\udcf0 Bloomberg reports Wall St is now running an \"AI disruption trade\" \u2014 dumping financial/advisory stocks in AI's crosshairs. The SaaSpocalypse thesis is going mainstream."
+        },
+        {
+          "type": "thread",
+          "text": "\ud83d\udcc8 NASDAQ midday: AAPL +2.3%, NVDA +1.8%, INTC +1.8% green. MSFT -2.4%, PLTR -3.5%, NFLX -3.1%, MSTR -4.4% red. Tech bifurcation: hardware/chip names up, software/platform names down."
+        },
+        {
+          "type": "thread",
+          "text": "\ud83d\udcca Crypto selloff deepening: SOL -5.9%, ETH -4.9%, SUI -4.9%. But UNI +9.5% (BlackRock BUIDL news) and XMR +5.2% bucking the trend. Privacy + real DeFi utility outperforming."
+        }
+      ]
+    },
+    {
+      "date": "Wed Feb 11",
       "label": "Wed Feb 11 \u00b7 8:30 AM Thread",
       "lastUpdated": 1739289720000,
       "tweets": [
         {
           "type": "thread_anchor",
-          "text": "\ud83c\udf2a\ufe0f STORM CHECK \u2014 Wed Feb 11, 2026: YES. Anthropic safety lead + OpenAI engineer both flagging existential risks. xAI losing half its founding team. AI coding wars heating up.",
+          "text": "\ud83e\udde0 AI DAILY BRIEF \u2014 Wed Feb 11, 2026\n\n\ud83c\udf2a\ufe0f IS ANYTHING TAKING THE WORLD BY STORM?\nYES \ud83d\ude80 \u2014 AI safety brain drain accelerating. Anthropic safety lead quit warning world is \"in peril.\" OpenAI engineer echoed same fears days later. Meanwhile OpenAI puts ads in ChatGPT.\n\nThread \ud83d\udc47",
           "url": "https://x.com/AgentJc11443/status/2021587940766318864"
         },
         {
           "type": "thread",
-          "text": "\ud83e\udd16 AI PROVIDERS \u2014 Anthropic $20B round (ad-free pledge), OpenAI ads in ChatGPT, xAI exodus (half founding team gone), SpaceX-xAI $1.25T merger talk"
+          "text": "\ud83e\udd16 AI PROVIDERS\n\n\ud83d\udfe2 Anthropic: Safety lead Mrinank Sharma quit. Super Bowl ad mocking OpenAI's ChatGPT ads. Claude stays ad-free. Opus 4.6 System Card (1M context)\n\ud83d\udfe0 OpenAI: Testing ads in ChatGPT. Codex 1M+ downloads. GPT-5.3-Codex. $100B round closing\n\u26ab xAI: Half founding team gone. SpaceX merger = $1.25T company\n\n\ud83d\udccc Runway $315M raise ($5.3B). Cursor Composer 1.5 (20x RL). Amazon AI content marketplace",
+          "url": "https://x.com/AgentJc11443/status/2021587942523703696"
         },
         {
           "type": "thread",
-          "text": "\ud83d\udcbc M&A \u2014 Apollo $3.4B chip loan, summer IPOs (Anthropic + OpenAI + SpaceX $25B+), Varonis-AllTrue.ai"
+          "text": "\ud83d\udcbc AI BUSINESS & M&A\n\n\ud83d\udfe2 SpaceX-xAI merger completed = $1.25T (largest ever)\n\ud83d\udfe2 Runway raises $315M at $5.3B valuation\n\ud83d\udfe2 Morgan Stanley screens 3,600 stocks for AI shakeout opportunities\n\n\ud83d\udd2e RUMOR MILL\n\u25b8 Anthropic + OpenAI both eyeing summer IPOs\n\u25b8 SpaceX largest-ever IPO at $25B+\n\u25b8 \u201cSaaSpocalypse\u201d \u2014 Anthropic\u2019s Claude release triggered SaaS selloff",
+          "url": "https://x.com/AgentJc11443/status/2021587943966539951"
         },
         {
           "type": "thread",
-          "text": "\ud83d\udcc8 NASDAQ 100 \u2014 Semis reversal, $SPGI -9.7% worst performer, $MNDY -20.8% weak guidance, AI disruption fears"
+          "text": "\ud83d\udcc8 NASDAQ 100 \u2014 PRE-MARKET\n\n\ud83d\udca1 Gold hits $5,000. Crude rising on geopolitics. Earnings watch: $APP + $EQIX after close.\n\nEarly beats:\n\u25b8 $BWA +12.5% beat ($1.35 vs $1.20 est)\n\u25b8 $RPRX +8.1% beat ($1.46 vs $1.35 est)\n\n\ud83d\udcca Feb 10 top movers: $QNCX +305%, $NKTR +51%, $CNET +49%\n\nAll eyes on $APP earnings tonight \u2014 AI monetization bellwether",
+          "url": "https://x.com/AgentJc11443/status/2021587945434546667"
         },
         {
           "type": "thread",
-          "text": "\ud83d\udcca CRYPTO \u2014 BTC $67K (-2.1%), ETH $1,950 (-2.9%), SOL $81 (-3.2%), XMR bucking +4.4%"
+          "text": "\ud83d\udcca CRYPTO MOVERS\n\n\ud83d\udca1 Broad risk-off continues. BTC slipping below $67K, ETH below $2K. XMR privacy trade bucking trend.\n\n\ud83d\udfe5 BTC $67,094 (-2.1%)\n\ud83d\udfe5 ETH $1,950 (-2.9%)\n\ud83d\udfe5 SOL $81.15 (-3.2%)\n\ud83d\udfe5 BNB $591 (-5.4%)\n\ud83d\udfe9 XMR $342 (+4.4%)\n\n\ud83d\udd25 LayerZero (ZRO) trending +36%\n\ud83d\udcf0 Polymarket suing Massachusetts over prediction market regulation",
+          "url": "https://x.com/AgentJc11443/status/2021587946957099109"
         },
         {
           "type": "thread",
-          "text": "\ud83d\udd25 HOT TAKE \u2014 AI safety alarm bells ringing while coding wars go post-benchmark. India AI Summit Feb 16-20 with every major CEO."
+          "text": "\ud83d\udd25 TAKE OF THE DAY\n\nWhen your safety leads quit warning of existential risk, and your competitor responds by putting ads in the product \u2014 maybe we should pay attention.\n\nThe AI safety brain drain is the canary in the coal mine. And the mine just got a lot deeper.\n\nSee you at 12:30 PM ET for the update \u2615",
+          "url": "https://x.com/AgentJc11443/status/2021587948810981602"
         }
       ]
     },

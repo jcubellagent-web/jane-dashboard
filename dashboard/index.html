@@ -187,7 +187,7 @@
         /* Brain Map — LARGE focal point */
         .brain-map-container {
             flex-shrink: 0;
-            width: 420px;
+            width: 580px;
             position: relative;
             display: flex;
             align-items: center;
@@ -1001,16 +1001,17 @@
             'ollama':'#f97316','stable-diffusion':'#ec4899','sd':'#ec4899','image':'#ec4899',
             'default':'rgba(74,222,128,0.3)'
         };
-        var brainToolToRegion = {
-            'opus':'Reasoning','claude':'Reasoning','sonnet':'Reasoning','ollama':'Reasoning',
-            'whisper':'Language','tts':'Language',
-            'web_search':'Web','web_fetch':'Web','browser':'Web',
-            'exec':'Code','read':'Code','write':'Code','edit':'Code',
-            'memory_search':'Memory','memory_get':'Memory',
-            'message':'Social','sessions_spawn':'Social','sessions_send':'Social',
-            'trading':'Market','kalshi':'Market','sorare':'Market','memecoins':'Market',
-            'cron':'Data','session_status':'Data','sessions_list':'Data',
-            'stable-diffusion':'Web','sd':'Web','image':'Web'
+        var brainToolToRegions = {
+            'opus':['Reasoning','Code','Language'],'claude':['Reasoning','Code','Language'],'sonnet':['Reasoning','Code','Language'],
+            'ollama':['Reasoning'],
+            'whisper':['Language'],'tts':['Language'],
+            'web_search':['Web'],'web_fetch':['Web'],'browser':['Web','Social'],
+            'exec':['Code'],'read':['Code'],'write':['Code'],'edit':['Code'],
+            'memory_search':['Memory'],'memory_get':['Memory'],
+            'message':['Social'],'sessions_spawn':['Social'],'sessions_send':['Social'],
+            'trading':['Market','Data'],'kalshi':['Market','Data'],'sorare':['Market'],'memecoins':['Market'],
+            'cron':['Data'],'session_status':['Data'],'sessions_list':['Data'],
+            'stable-diffusion':['Web'],'sd':['Web'],'image':['Web']
         };
         var activeRegions = new Set();
 
@@ -1058,7 +1059,7 @@
             const label = document.getElementById('brain-label-'+idx);
             if (node) { node.setAttribute('fill',color); node.setAttribute('fill-opacity','0.8'); node.setAttribute('filter','drop-shadow(0 0 6px '+color+')'); node.setAttribute('r','5'); }
             if (line) { line.setAttribute('stroke',color); line.setAttribute('stroke-opacity','0.6'); }
-            if (label) { label.setAttribute('fill','rgba(255,255,255,1)'); label.setAttribute('font-size','6'); }
+            if (label) { label.setAttribute('fill',color); label.setAttribute('font-size','7'); label.style.filter='drop-shadow(0 0 6px '+color+') drop-shadow(0 0 12px '+color+')'; }
             activeRegions.add(regionName);
             spawnPulseDot(idx, color);
         }
@@ -1068,7 +1069,7 @@
                 const node=document.getElementById('brain-node-'+i), line=document.getElementById('brain-line-'+i), label=document.getElementById('brain-label-'+i);
                 if (node) { node.setAttribute('fill','rgba(74,222,128,0.3)'); node.setAttribute('fill-opacity','1'); node.setAttribute('r','2.5'); node.setAttribute('filter','none'); }
                 if (line) { line.setAttribute('stroke','rgba(74,222,128,0.08)'); line.setAttribute('stroke-opacity','1'); }
-                if (label) { label.setAttribute('fill','rgba(255,255,255,0.5)'); }
+                if (label) { label.setAttribute('fill','rgba(74,222,128,0.5)'); label.style.filter='none'; }
             });
             activeRegions.clear();
             document.getElementById('brain-pulses').innerHTML = '';
@@ -1100,11 +1101,11 @@
             return brainToolColors['default'];
         }
 
-        function getToolRegion(tool) {
-            if (!tool) return null;
+        function getToolRegions(tool) {
+            if (!tool) return [];
             const t = tool.toLowerCase();
-            for (const [key,region] of Object.entries(brainToolToRegion)) { if (t.includes(key)) return region; }
-            return 'Reasoning';
+            for (const [key,regions] of Object.entries(brainToolToRegions)) { if (t.includes(key)) return regions; }
+            return ['Reasoning'];
         }
 
         function updateMind(task, steps, thought) {
@@ -1133,17 +1134,19 @@
                 if (hasActive || mindState.task) {
                     mindState.steps.forEach(step => {
                         if (step.status==='active'||step.status==='done') {
-                            const region=getToolRegion(step.tool||''), color=getToolColor(step.tool||'');
-                            if (region) activateBrainRegion(region, color);
+                            const regions=getToolRegions(step.tool||''), color=getToolColor(step.tool||'');
+                            regions.forEach(r => activateBrainRegion(r, color));
                         }
                     });
                 }
                 document.getElementById('brain-pulses').innerHTML='';
                 mindState.steps.forEach(step => {
                     if (step.status==='active') {
-                        const region=getToolRegion(step.tool||''), color=getToolColor(step.tool||'');
-                        const idx=brainRegions.findIndex(r=>r.name===region);
-                        if (idx!==-1) spawnPulseDot(idx, color);
+                        const regions=getToolRegions(step.tool||''), color=getToolColor(step.tool||'');
+                        regions.forEach(r => {
+                            const idx=brainRegions.findIndex(br=>br.name===r);
+                            if (idx!==-1) spawnPulseDot(idx, color);
+                        });
                     }
                 });
 

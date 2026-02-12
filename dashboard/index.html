@@ -1033,19 +1033,19 @@
                 }
             });
 
-            // Find pinned thread (earliest today = last in array since threads are newest-first)
+            // Find pinned thread — latest today (recap replaces morning brief once posted)
             let pinnedThread = null;
             const todayUpdates = [];
             if (todayThreads.length > 1) {
-                // Threads are newest first; last one is the earliest (morning brief)
-                pinnedThread = todayThreads[todayThreads.length - 1];
-                todayUpdates.push(...todayThreads.slice(0, todayThreads.length - 1));
+                // Threads are newest first; first one is the latest (recap once posted)
+                pinnedThread = todayThreads[0];
+                todayUpdates.push(...todayThreads.slice(1));
             } else if (todayThreads.length === 1) {
-                // Only one thread today - it's the pinned morning brief
+                // Only one thread today — pin it (morning brief before recap posts)
                 pinnedThread = todayThreads[0];
             }
 
-            // Render order: pinned morning brief → today's updates (newest first) → older threads
+            // Render order: pinned (latest = recap or morning brief) → other today → older
             const ordered = [];
             if (pinnedThread) ordered.push(pinnedThread);
             ordered.push(...todayUpdates);

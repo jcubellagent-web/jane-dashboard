@@ -1315,7 +1315,8 @@
             const dot = document.getElementById('mind-dot');
             const content = document.getElementById('mind-content');
             const sections = document.getElementById('mind-sections');
-            const isActive = data.task != null;
+            const hasActiveSubs = (data.subAgents || []).some(s => s.status === 'active');
+            const isActive = data.task != null || hasActiveSubs;
 
             card.classList.toggle('active', isActive);
             card.classList.toggle('glow', isActive);

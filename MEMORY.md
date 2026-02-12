@@ -12,6 +12,9 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - Stays up late — don't nag about sleep
 - Mind-state widget: always descriptive goals, detailed `thought` text
 - Mind goal must reflect REAL task, not "processing voice message"
+- Desktop dashboard: neon flat SVG icons ONLY — no emojis. Terminal/hacker aesthetic.
+- Decision Log replaces "Actions & Tools" — show reasoning, not just tool names
+- NEVER use "layoffs" in X posts — use "restructured", "transformed", "transitioned"
 - Desktop = index.html, Mobile = mobile.html — separate codebases
 - API routes fail from external IPs on mobile — use static JSON files
 - Mobile ticker: API key for NASDAQ is `nasdaq` not `ndaq`
@@ -20,8 +23,14 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - Push notifications: BE AGGRESSIVE — send for every direct reply, cron completions, alerts, sub-agent results. Skip heartbeats only. Josh will say if it's too much.
 - Check for active sub-agents before setting mind-state to idle
 
+## mfer #9581
+- Josh owns mfer #9581 (Sartoshi collection) — our X PFP
+- OpenSea: `0x79fcdef22feed20eddacbb2587640e45491b757f/9581`, owned by JcubNFT-Vault
+- mfer community engagement: 1-2 replies per X cycle, slightly looser crypto scope
+- Followed: @wild_w_mfer, @0xmakaveli, @HeresMyEth (mferGPT builder)
+
 ## X/Twitter (@AgentJc11443)
-- Premium ✅, ~15 followers (doubled in 2 days), AI news feed bot (rebranded Feb 9)
+- Premium ✅, ~27 followers, AI news feed bot (rebranded Feb 9)
 - **BANNED TOPICS**: crypto-security, wallet security, agent security
 - Content plan: `dashboard/x-content-plan.json`
 - X API Free = post only; analytics via browser scraping
@@ -31,6 +40,8 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - All thread jobs do data refresh before posting (Finnhub, CoinGecko, arXiv, SEC EDGAR, etc.)
 - Winning formula: technical-insightful tone, AI-product topics, 5-8PM posting window
 - News sources: arXiv, SEC EDGAR, DeFi Llama, TechCrunch, @DeItaone, @_akhaliq
+- Enterprise SaaS section: tracks $CRM, $NOW, $WDAY + others — workforce transformation, AI revenue, winners/losers
+- Economic calendar check in pre-brief cron (Finnhub API) — never miss NFP, CPI, FOMC, etc.
 
 ## Coinbase Agentic Wallet
 - EVM (Base): `0xe8f6f50c79d24ef271764447E46f66f1Ef4Cae8F`
@@ -42,7 +53,8 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 
 ## Trading
 - First memecoin run: +$13.10 (+50.8%) — taking profits works
-- Strategy: "moderately safe" tokens, strong community, 1-2 week holds
+- Strategy: "moderately safe" tokens, strong community, 1-2 week holds, min +70% TP (ride higher if ripping), -30% SL
+- CLAUDE token: "GigaChad vibes" per Josh — full autonomy to ride
 - Wallet: `ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L`
 
 ## Key APIs

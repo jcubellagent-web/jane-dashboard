@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0f172a">
+    <title>ProjectFlow | AI-Powered PM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        :root {
+            --bg: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.8);
+            --bg-card-hover: rgba(30, 41, 59, 0.95);
+            --accent: #3b82f6;
+            --accent-green: #22c55e;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-purple: #a855f7;
+            --text: #f1f5f9;
+            --text-dim: #94a3b8;
+            --border: rgba(148, 163, 184, 0.1);
+        }
+        
+        html {
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            height: 100%;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 1rem;
+            padding-bottom: 100px;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-purple));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo-text span {
+            color: var(--accent);
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        /* Greeting */
+        .greeting {
+            margin-bottom: 1.5rem;
+        }
+        
+        .greeting h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .greeting p {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+        
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-value.green { color: var(--accent-green); }
+        .stat-value.amber { color: var(--accent-amber); }
+        .stat-value.blue { color: var(--accent); }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Section Title */
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .section-title h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .see-all {
+            color: var(--accent);
+            font-size: 0.85rem;
+            text-decoration: none;
+        }
+        
+        /* Project Cards */
+        .projects {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        
+        .project-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+        
+        .project-card:active {
+            transform: scale(0.98);
+            background: var(--bg-card-hover);
+        }
+        
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .project-info h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .project-info p {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+        
+        .project-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-active {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--accent-green);
+        }
+        
+        .status-review {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent-amber);
+        }
+        
+        .status-planning {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--accent);
+        }
+        
+        .progress-section {
+            margin-bottom: 1rem;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-fill.green { background: var(--accent-green); }
+        .progress-fill.amber { background: var(--accent-amber); }
+        .progress-fill.blue { background: var(--accent); }
+        
+        .project-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .team-avatars {
+            display: flex;
+        }
+        
+        .team-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid var(--bg);
+            margin-left: -8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+        
+        .team-avatar:first-child { margin-left: 0; }
+        .team-avatar.a1 { background: linear-gradient(135deg, #f472b6, #c084fc); }
+        .team-avatar.a2 { background: linear-gradient(135deg, #60a5fa, #34d399); }
+        .team-avatar.a3 { background: linear-gradient(135deg, #fbbf24, #f97316); }
+        .team-avatar.a4 { background: linear-gradient(135deg, #a78bfa, #6366f1); }
+        .team-avatar.more { background: var(--bg-card); border-color: var(--border); color: var(--text-dim); }
+        
+        .due-date {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        
+        /* Tasks Section */
+        .tasks {
+            margin-bottom: 2rem;
+        }
+        
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .task-item {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border: 1px solid var(--border);
+        }
+        
+        .task-checkbox {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .task-checkbox.checked {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+        }
+        
+        .task-checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .task-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .task-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+        
+        .task-item.completed .task-title {
+            text-decoration: line-through;
+            color: var(--text-dim);
+        }
+        
+        .task-meta {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .task-priority {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .priority-high { background: var(--accent-red); }
+        .priority-medium { background: var(--accent-amber); }
+        .priority-low { background: var(--accent-green); }
+        
+        /* AI Insights */
+        .ai-insights {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(168, 85, 247, 0.15));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 16px;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .ai-icon {
+            font-size: 1.25rem;
+        }
+        
+        .ai-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        .ai-content {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--text);
+        }
+        
+        .ai-suggestion {
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+        
+        .ai-suggestion strong {
+            color: var(--accent-green);
+        }
+        
+        /* Activity Feed */
+        .activity {
+            margin-bottom: 2rem;
+        }
+        
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .activity-item {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+        
+        .activity-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .activity-content {
+            flex: 1;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .activity-item:last-child .activity-content {
+            border-bottom: none;
+        }
+        
+        .activity-text {
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .activity-text strong {
+            font-weight: 600;
+        }
+        
+        .activity-time {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            padding: 0.75rem 1rem;
+            padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 0.7rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .action-btn.active {
+            color: var(--accent);
+        }
+        
+        .action-btn .icon {
+            font-size: 1.25rem;
+        }
+        
+        .add-btn {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-purple));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            border: none;
+            margin-top: -20px;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .project-card, .task-item, .activity-item {
+            animation: fadeIn 0.4s ease forwards;
+        }
+        
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+        
+        /* Powered By Footer */
+        .powered-by {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-dim);
+            font-size: 0.75rem;
+        }
+        
+        .powered-by span {
+            color: var(--accent);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">📊</div>
+                <div class="logo-text">Project<span>Flow</span></div>
+            </div>
+            <div class="user-avatar">JC</div>
+        </header>
+        
+        <!-- Greeting -->
+        <div class="greeting">
+            <h1>Good morning, Josh! 👋</h1>
+            <p>You have 4 tasks due today across 3 projects</p>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-value green">12</div>
+                <div class="stat-label">Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value amber">7</div>
+                <div class="stat-label">In Progress</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value blue">3</div>
+                <div class="stat-label">Projects</div>
+            </div>
+        </div>
+        
+        <!-- AI Insights -->
+        <div class="ai-insights">
+            <div class="ai-header">
+                <span class="ai-icon">🤖</span>
+                <span class="ai-title">AI Insights</span>
+            </div>
+            <div class="ai-content">
+                Based on current velocity, the <strong>Q1 Product Launch</strong> is trending 2 days ahead of schedule.
+                <div class="ai-suggestion">
+                    <strong>Suggestion:</strong> Consider pulling forward the API Integration task to maintain momentum.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Projects -->
+        <div class="section-title">
+            <h2>Active Projects</h2>
+            <a href="#" class="see-all">See all →</a>
+        </div>
+        
+        <div class="projects">
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-info">
+                        <h3>Q1 Product Launch</h3>
+                        <p>Marketing • 8 team members</p>
+                    </div>
+                    <span class="project-status status-active">Active</span>
+                </div>
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span>Progress</span>
+                        <span>78%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill green" style="width: 78%"></div>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <div class="team-avatars">
+                        <div class="team-avatar a1">SK</div>
+                        <div class="team-avatar a2">MJ</div>
+                        <div class="team-avatar a3">AR</div>
+                        <div class="team-avatar more">+5</div>
+                    </div>
+                    <div class="due-date">📅 Feb 15</div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-info">
+                        <h3>Mobile App Redesign</h3>
+                        <p>Engineering • 5 team members</p>
+                    </div>
+                    <span class="project-status status-review">Review</span>
+                </div>
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span>Progress</span>
+                        <span>45%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill amber" style="width: 45%"></div>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <div class="team-avatars">
+                        <div class="team-avatar a4">TL</div>
+                        <div class="team-avatar a1">KP</div>
+                        <div class="team-avatar more">+3</div>
+                    </div>
+                    <div class="due-date">📅 Mar 1</div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-info">
+                        <h3>API Integration</h3>
+                        <p>Backend • 3 team members</p>
+                    </div>
+                    <span class="project-status status-planning">Planning</span>
+                </div>
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span>Progress</span>
+                        <span>15%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill blue" style="width: 15%"></div>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <div class="team-avatars">
+                        <div class="team-avatar a2">DV</div>
+                        <div class="team-avatar a3">RM</div>
+                        <div class="team-avatar a4">JC</div>
+                    </div>
+                    <div class="due-date">📅 Mar 20</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tasks -->
+        <div class="tasks">
+            <div class="section-title">
+                <h2>Today's Tasks</h2>
+                <a href="#" class="see-all">See all →</a>
+            </div>
+            
+            <div class="task-list">
+                <div class="task-item">
+                    <div class="task-checkbox" onclick="this.classList.toggle('checked')"></div>
+                    <div class="task-content">
+                        <div class="task-title">Review landing page mockups</div>
+                        <div class="task-meta">
+                            <span>Q1 Product Launch</span>
+                            <span>• Due 2pm</span>
+                        </div>
+                    </div>
+                    <div class="task-priority priority-high"></div>
+                </div>
+                
+                <div class="task-item">
+                    <div class="task-checkbox" onclick="this.classList.toggle('checked')"></div>
+                    <div class="task-content">
+                        <div class="task-title">Finalize API documentation</div>
+                        <div class="task-meta">
+                            <span>API Integration</span>
+                            <span>• Due 5pm</span>
+                        </div>
+                    </div>
+                    <div class="task-priority priority-medium"></div>
+                </div>
+                
+                <div class="task-item completed">
+                    <div class="task-checkbox checked"></div>
+                    <div class="task-content">
+                        <div class="task-title">Team standup meeting</div>
+                        <div class="task-meta">
+                            <span>Daily</span>
+                            <span>• 9:30am</span>
+                        </div>
+                    </div>
+                    <div class="task-priority priority-low"></div>
+                </div>
+                
+                <div class="task-item">
+                    <div class="task-checkbox" onclick="this.classList.toggle('checked')"></div>
+                    <div class="task-content">
+                        <div class="task-title">Push notification testing</div>
+                        <div class="task-meta">
+                            <span>Mobile App Redesign</span>
+                            <span>• Due EOD</span>
+                        </div>
+                    </div>
+                    <div class="task-priority priority-medium"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Activity -->
+        <div class="activity">
+            <div class="section-title">
+                <h2>Recent Activity</h2>
+            </div>
+            
+            <div class="activity-list">
+                <div class="activity-item">
+                    <div class="activity-avatar a1">SK</div>
+                    <div class="activity-content">
+                        <div class="activity-text"><strong>Sarah K.</strong> completed "Design system updates"</div>
+                        <div class="activity-time">15 minutes ago</div>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-avatar a2">MJ</div>
+                    <div class="activity-content">
+                        <div class="activity-text"><strong>Mike J.</strong> commented on "API endpoints"</div>
+                        <div class="activity-time">1 hour ago</div>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-avatar a4">TL</div>
+                    <div class="activity-content">
+                        <div class="activity-text"><strong>Tom L.</strong> moved "User auth" to Review</div>
+                        <div class="activity-time">2 hours ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="powered-by">
+            Built in 30 seconds by <span>Jane 🦾</span><br>
+            Your AI-powered assistant
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation -->
+    <nav class="quick-actions">
+        <button class="action-btn active">
+            <span class="icon">🏠</span>
+            Home
+        </button>
+        <button class="action-btn">
+            <span class="icon">📁</span>
+            Projects
+        </button>
+        <button class="add-btn">+</button>
+        <button class="action-btn">
+            <span class="icon">💬</span>
+            Chat
+        </button>
+        <button class="action-btn">
+            <span class="icon">👤</span>
+            Profile
+        </button>
+    </nav>
+    
+    <script>
+        // Update greeting based on time
+        const hour = new Date().getHours();
+        let greeting = 'Good morning';
+        if (hour >= 12 && hour < 17) greeting = 'Good afternoon';
+        else if (hour >= 17) greeting = 'Good evening';
+        document.querySelector('.greeting h1').textContent = `${greeting}, Josh! 👋`;
+        
+        // Simulate real-time update
+        setTimeout(() => {
+            const insights = document.querySelector('.ai-content');
+            insights.innerHTML = `
+                Team velocity increased by <strong>15%</strong> this sprint! 🚀
+                <div class="ai-suggestion">
+                    <strong>Insight:</strong> Task completion rate peaks between 10am-12pm. Schedule important work during this window.
+                </div>
+            `;
+        }, 8000);
+    </script>
+</body>
+</html>

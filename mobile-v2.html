@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0f1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Jane 🦾</title>
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <style>
+        /* ========================================
+           CSS Reset & Variables
+           ======================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        :root {
+            --bg: #0a0f1a;
+            --bg-card: rgba(255,255,255,0.04);
+            --bg-elevated: rgba(255,255,255,0.08);
+            --accent: #4ade80;
+            --accent-blue: #60a5fa;
+            --accent-purple: #a78bfa;
+            --text: #f1f5f9;
+            --text-dim: #64748b;
+            --text-muted: #475569;
+            --green: #22c55e;
+            --amber: #f59e0b;
+            --red: #ef4444;
+            --border: rgba(255,255,255,0.06);
+            --skeleton: rgba(255,255,255,0.08);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --safe-top: env(safe-area-inset-top);
+            --safe-bottom: env(safe-area-inset-bottom);
+        }
+        
+        /* ========================================
+           Base Styles
+           ======================================== */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: var(--safe-top) 0 var(--safe-bottom) 0;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .container {
+            max-width: 430px;
+            margin: 0 auto;
+            padding: 1rem;
+            padding-bottom: calc(6rem + var(--safe-bottom));
+        }
+        
+        /* ========================================
+           Header
+           ======================================== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+        }
+        
+        .brand-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--text), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header-time {
+            text-align: right;
+        }
+        
+        .time-display {
+            font-size: 1.2rem;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .date-display {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-top: 2px;
+        }
+        
+        /* ========================================
+           Card Base
+           ======================================== */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+            transition: background 0.2s ease;
+        }
+        
+        .card:active {
+            background: var(--bg-elevated);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .card-icon {
+            font-size: 1.1rem;
+        }
+        
+        .card-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            flex: 1;
+        }
+        
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        
+        .card-timestamp {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .refresh-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .refresh-btn:active {
+            background: var(--bg-elevated);
+            transform: scale(0.95);
+        }
+        
+        .refresh-btn.spinning {
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* ========================================
+           Skeleton Loading
+           ======================================== */
+        .skeleton {
+            background: linear-gradient(90deg, 
+                var(--skeleton) 25%, 
+                rgba(255,255,255,0.12) 50%, 
+                var(--skeleton) 75%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 6px;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .skeleton-text {
+            height: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skeleton-text.short {
+            width: 60%;
+        }
+        
+        .skeleton-text.medium {
+            width: 80%;
+        }
+        
+        .skeleton-value {
+            height: 2rem;
+            width: 120px;
+            margin-bottom: 0.25rem;
+        }
+        
+        /* ========================================
+           Error States
+           ======================================== */
+        .error-state {
+            text-align: center;
+            padding: 1rem;
+            color: var(--text-dim);
+        }
+        
+        .error-state .error-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .error-state .error-message {
+            font-size: 0.8rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .retry-btn {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+        
+        /* ========================================
+           Hero Widget: PENGUIN
+           ======================================== */
+        .hero-card {
+            background: linear-gradient(135deg, 
+                rgba(74, 222, 128, 0.1), 
+                rgba(96, 165, 250, 0.1)
+            );
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            padding: 1.25rem;
+        }
+        
+        .hero-title {
+            font-size: 0.7rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        
+        .hero-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            font-variant-numeric: tabular-nums;
+            line-height: 1.1;
+        }
+        
+        .hero-value.positive { color: var(--green); }
+        .hero-value.negative { color: var(--red); }
+        
+        .hero-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-top: 0.25rem;
+        }
+        
+        .hero-details {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .hero-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .hero-detail-label {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .hero-detail-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        /* ========================================
+           Status Bar Widget
+           ======================================== */
+        .status-grid {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            background: var(--bg-elevated);
+            border-radius: var(--radius-sm);
+        }
+        
+        .status-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .status-label {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .status-value {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+        
+        .status-value.online { color: var(--green); }
+        .status-value.warning { color: var(--amber); }
+        .status-value.error { color: var(--red); }
+        
+        /* ========================================
+           Jane Widget (Merged)
+           ======================================== */
+        .section-divider {
+            font-size: 0.6rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0.75rem 0 0.4rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            margin-bottom: 0.3rem;
+            font-size: 0.8rem;
+        }
+        
+        .list-icon {
+            font-size: 1rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .list-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .list-title {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .list-subtitle {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+        }
+        
+        .list-meta {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            text-align: right;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            flex-shrink: 0;
+        }
+        
+        .status-dot.idle { background: var(--amber); }
+        .status-dot.error { background: var(--red); }
+        
+        /* ========================================
+           Prediction Markets
+           ======================================== */
+        .pm-list {
+            max-height: 420px;
+            overflow-y: auto;
+            margin: 0 -0.5rem;
+            padding: 0 0.5rem;
+        }
+        
+        .pm-category {
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0.6rem 0 0.3rem;
+            padding: 0.2rem 0;
+        }
+        
+        .pm-category:first-child { margin-top: 0; }
+        
+        .pm-item {
+            padding: 0.6rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            margin-bottom: 0.3rem;
+        }
+        
+        .pm-question {
+            font-size: 0.75rem;
+            line-height: 1.35;
+            margin-bottom: 0.4rem;
+        }
+        
+        .pm-odds {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .pm-odd {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.06);
+        }
+        
+        .pm-odd.fav { color: var(--green); }
+        .pm-odd.dog { color: var(--text-dim); }
+        .pm-odd.yes { color: var(--green); }
+        .pm-odd.no { color: var(--red); }
+        
+        .pm-pinned {
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            background: rgba(74, 222, 128, 0.05);
+        }
+        
+        /* ========================================
+           Bubble Map
+           ======================================== */
+        .bubble-container {
+            position: relative;
+            height: 200px;
+            overflow: visible;
+        }
+        
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            padding: 0.4rem;
+            line-height: 1.1;
+            user-select: none;
+        }
+        
+        .bubble:active {
+            transform: scale(1.1);
+        }
+        
+        .bubble.lg { width: 72px; height: 72px; font-size: 0.6rem; }
+        .bubble.md { width: 56px; height: 56px; font-size: 0.55rem; }
+        .bubble.sm { width: 44px; height: 44px; font-size: 0.5rem; }
+        
+        .bubble.work { background: linear-gradient(135deg, rgba(96,165,250,0.25), rgba(59,130,246,0.35)); color: #93c5fd; }
+        .bubble.sports { background: linear-gradient(135deg, rgba(74,222,128,0.25), rgba(34,197,94,0.35)); color: #86efac; }
+        .bubble.crypto { background: linear-gradient(135deg, rgba(251,191,36,0.25), rgba(245,158,11,0.35)); color: #fcd34d; }
+        .bubble.content { background: linear-gradient(135deg, rgba(244,114,182,0.25), rgba(236,72,153,0.35)); color: #f9a8d4; }
+        .bubble.tech { background: linear-gradient(135deg, rgba(167,139,250,0.25), rgba(139,92,246,0.35)); color: #c4b5fd; }
+        .bubble.life { background: linear-gradient(135deg, rgba(45,212,191,0.25), rgba(20,184,166,0.35)); color: #5eead4; }
+        
+        .bubble-tooltip {
+            position: fixed;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.75rem;
+            max-width: 240px;
+            z-index: 100;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+        }
+        
+        .bubble-tooltip.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .bubble-tooltip h4 {
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .bubble-tooltip p {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            line-height: 1.4;
+        }
+        
+        /* ========================================
+           Metrics Grid
+           ======================================== */
+        .metrics-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+        
+        .metric-box {
+            background: var(--bg-elevated);
+            border-radius: var(--radius-sm);
+            padding: 0.75rem;
+            text-align: center;
+        }
+        
+        .metric-icon {
+            font-size: 1.25rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .metric-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .metric-label {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+        
+        /* ========================================
+           Completed Tasks
+           ======================================== */
+        .completed-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0;
+            font-size: 0.8rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .completed-item:last-child { border-bottom: none; }
+        
+        .completed-icon { font-size: 0.85rem; }
+        
+        .completed-text {
+            flex: 1;
+            color: var(--text-dim);
+        }
+        
+        .completed-check {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+        
+        /* ========================================
+           Chat FAB & Overlay
+           ======================================== */
+        .chat-fab {
+            position: fixed;
+            bottom: calc(24px + var(--safe-bottom));
+            right: 24px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            color: #000;
+            border: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            box-shadow: 0 4px 24px rgba(74, 222, 128, 0.4);
+            z-index: 1000;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chat-fab:active {
+            transform: scale(0.95);
+        }
+        
+        .chat-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .chat-overlay.open {
+            transform: translateY(0);
+        }
+        
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: calc(var(--safe-top) + 1rem) 1rem 1rem;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .chat-header h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .chat-close {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--red);
+            color: white;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        
+        .chat-msg {
+            max-width: 85%;
+            padding: 0.75rem 1rem;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .chat-msg.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            color: #000;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .chat-msg.jane {
+            align-self: flex-start;
+            background: var(--bg-card);
+            border-bottom-left-radius: 4px;
+        }
+        
+        .chat-msg .msg-time {
+            font-size: 0.6rem;
+            opacity: 0.7;
+            margin-top: 0.25rem;
+        }
+        
+        .chat-input-area {
+            padding: 1rem;
+            padding-bottom: calc(1rem + var(--safe-bottom));
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+        }
+        
+        .chat-input-row {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 0.9rem 1rem;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 1rem;
+            resize: none;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .chat-send {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            color: #000;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+        
+        .chat-send:disabled { opacity: 0.5; }
+        
+        /* ========================================
+           Footer
+           ======================================== */
+        .footer {
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 0.5rem;
+        }
+        
+        .version-info {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+        
+        .force-refresh {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+        
+        .force-refresh:active {
+            background: var(--bg-elevated);
+        }
+        
+        /* ========================================
+           Connected Accounts
+           ======================================== */
+        .accounts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.4rem;
+        }
+        
+        .account-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            font-size: 0.6rem;
+            gap: 0.25rem;
+        }
+        
+        .account-item .account-icon { font-size: 1.15rem; }
+        .account-item .account-name { color: var(--text-dim); }
+        
+        /* ========================================
+           Animations
+           ======================================== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease forwards;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .pulse { animation: pulse 2s ease-in-out infinite; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="brand">
+                <img src="icon-192.png" alt="Jane" class="brand-icon">
+                <span class="brand-name">JANE</span>
+            </div>
+            <div class="header-time">
+                <div class="time-display" id="time">--:--</div>
+                <div class="date-display" id="date">---</div>
+            </div>
+        </header>
+        
+        <!-- Hero: PENGUIN Tracker -->
+        <section class="card hero-card" id="penguin-widget">
+            <div class="card-header">
+                <span class="card-icon">🐧</span>
+                <span class="card-title">PENGUIN TRACKER</span>
+                <div class="card-meta">
+                    <span class="card-timestamp" id="penguin-ts">--</span>
+                    <button class="refresh-btn" onclick="refreshWidget('penguin')" title="Refresh">↻</button>
+                </div>
+            </div>
+            <div id="penguin-content">
+                <div class="hero-title">ALL HAIL THE PENGUIN 🐧</div>
+                <div class="hero-value skeleton skeleton-value"></div>
+                <div class="hero-subtitle skeleton skeleton-text short"></div>
+            </div>
+        </section>
+        
+        <!-- Mac Mini Status -->
+        <section class="card" id="mac-widget">
+            <div class="card-header">
+                <span class="card-icon">🖥️</span>
+                <span class="card-title">Mac Mini</span>
+                <div class="card-meta">
+                    <span class="card-timestamp" id="mac-ts">--</span>
+                    <button class="refresh-btn" onclick="refreshWidget('mac')" title="Refresh">↻</button>
+                </div>
+            </div>
+            <div class="status-grid" id="mac-content">
+                <div class="status-item">
+                    <div class="status-label">Status</div>
+                    <div class="status-value skeleton" style="height:1rem;width:3rem;margin:4px auto 0"></div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Uptime</div>
+                    <div class="status-value skeleton" style="height:1rem;width:3rem;margin:4px auto 0"></div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">CPU</div>
+                    <div class="status-value skeleton" style="height:1rem;width:2rem;margin:4px auto 0"></div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">RAM</div>
+                    <div class="status-value skeleton" style="height:1rem;width:2rem;margin:4px auto 0"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Jane + Tasks + Agents + Cron (Merged) -->
+        <section class="card" id="jane-widget">
+            <div class="card-header">
+                <span class="card-icon">🦾</span>
+                <span class="card-title">Jane</span>
+                <div class="card-meta">
+                    <span class="card-timestamp" id="jane-ts">--</span>
+                    <button class="refresh-btn" onclick="refreshWidget('jane')" title="Refresh">↻</button>
+                </div>
+            </div>
+            
+            <!-- Jane Summary -->
+            <div class="status-grid" id="jane-summary">
+                <div class="status-item">
+                    <div class="status-label">Model</div>
+                    <div class="status-value" id="jane-model">Opus</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Session</div>
+                    <div class="status-value" id="jane-session">Main</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Active</div>
+                    <div class="status-value online" id="jane-active">Now</div>
+                </div>
+            </div>
+            
+            <!-- Live Agents -->
+            <div class="section-divider">🤖 Live Agents</div>
+            <div id="agents-list">
+                <div class="list-item">
+                    <span class="list-icon skeleton" style="width:24px;height:24px;border-radius:50%"></span>
+                    <div class="list-content">
+                        <div class="skeleton skeleton-text short"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cron Jobs -->
+            <div class="section-divider">⏰ Recurring Jobs</div>
+            <div id="cron-list">
+                <div class="list-item">
+                    <span class="list-icon skeleton" style="width:24px;height:24px;border-radius:50%"></span>
+                    <div class="list-content">
+                        <div class="skeleton skeleton-text short"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Active Tasks -->
+            <div class="section-divider">📋 Active Tasks</div>
+            <div id="tasks-list">
+                <div class="list-item">
+                    <span class="list-icon skeleton" style="width:24px;height:24px;border-radius:50%"></span>
+                    <div class="list-content">
+                        <div class="skeleton skeleton-text short"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Connected Accounts -->
+        <section class="card">
+            <div class="card-header">
+                <span class="card-icon">🔗</span>
+                <span class="card-title">Connected Accounts</span>
+            </div>
+            <div class="accounts-grid">
+                <div class="account-item"><span class="account-icon">💬</span><span class="account-name">WhatsApp</span></div>
+                <div class="account-item"><span class="account-icon">📧</span><span class="account-name">Gmail</span></div>
+                <div class="account-item"><span class="account-icon">🎵</span><span class="account-name">TikTok</span></div>
+                <div class="account-item"><span class="account-icon">𝕏</span><span class="account-name">X</span></div>
+                <div class="account-item"><span class="account-icon">◎</span><span class="account-name">Solana</span></div>
+                <div class="account-item"><span class="account-icon">🏀</span><span class="account-name">Sorare</span></div>
+            </div>
+        </section>
+        
+        <!-- Prediction Markets -->
+        <section class="card" id="predictions-widget">
+            <div class="card-header">
+                <span class="card-icon">📊</span>
+                <span class="card-title">Prediction Markets</span>
+                <div class="card-meta">
+                    <span class="card-timestamp" id="pm-ts">--</span>
+                    <button class="refresh-btn" onclick="refreshWidget('predictions')" title="Refresh">↻</button>
+                </div>
+            </div>
+            <div class="pm-list" id="pm-list">
+                <div class="pm-item">
+                    <div class="skeleton skeleton-text medium"></div>
+                    <div class="pm-odds" style="margin-top:0.4rem">
+                        <div class="skeleton" style="width:60px;height:1.2rem"></div>
+                        <div class="skeleton" style="width:60px;height:1.2rem"></div>
+                    </div>
+                </div>
+                <div class="pm-item">
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="pm-odds" style="margin-top:0.4rem">
+                        <div class="skeleton" style="width:60px;height:1.2rem"></div>
+                        <div class="skeleton" style="width:60px;height:1.2rem"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- What I Know (Bubble Map) -->
+        <section class="card" id="brain-widget">
+            <div class="card-header">
+                <span class="card-icon">🧠</span>
+                <span class="card-title">What I Know</span>
+                <div class="card-meta">
+                    <span class="card-timestamp" id="brain-ts">--</span>
+                    <button class="refresh-btn" onclick="refreshWidget('brain')" title="Refresh">↻</button>
+                </div>
+            </div>
+            <div class="bubble-container" id="bubble-map"></div>
+        </section>
+        
+        <!-- Metrics -->
+        <section class="card" id="metrics-widget">
+            <div class="card-header">
+                <span class="card-icon">📈</span>
+                <span class="card-title">Metrics</span>
+                <div class="card-meta">
+                    <span class="card-timestamp" id="metrics-ts">--</span>
+                    <button class="refresh-btn" onclick="refreshWidget('metrics')" title="Refresh">↻</button>
+                </div>
+            </div>
+            <div class="metrics-row">
+                <div class="metric-box">
+                    <div class="metric-icon">🎵</div>
+                    <div class="metric-value" id="tiktok-val">--</div>
+                    <div class="metric-label">TikTok</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-icon">🐧</div>
+                    <div class="metric-value" id="penguin-small">--</div>
+                    <div class="metric-label">PENGUIN</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Completed Today -->
+        <section class="card" id="completed-widget">
+            <div class="card-header">
+                <span class="card-icon">✅</span>
+                <span class="card-title">Completed Today</span>
+                <div class="card-meta">
+                    <span class="card-timestamp" id="completed-ts">--</span>
+                    <button class="refresh-btn" onclick="refreshWidget('completed')" title="Refresh">↻</button>
+                </div>
+            </div>
+            <div id="completed-list">
+                <div class="skeleton skeleton-text medium" style="margin:0.5rem 0"></div>
+                <div class="skeleton skeleton-text" style="margin:0.5rem 0"></div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="version-info">v2.0 • <span id="last-refresh">--</span></div>
+            <button class="force-refresh" onclick="forceRefresh()">🔄 Force Refresh</button>
+        </div>
+    </div>
+    
+    <!-- Chat FAB -->
+    <button class="chat-fab" onclick="openChat()" aria-label="Chat with Jane">💬</button>
+    
+    <!-- Chat Overlay -->
+    <div class="chat-overlay" id="chat-overlay">
+        <div class="chat-header">
+            <h2>🦾 Jane</h2>
+            <button class="chat-close" onclick="closeChat()">✕</button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="chat-msg jane">Hey Josh! 👋 What's up?<div class="msg-time">Just now</div></div>
+        </div>
+        <div class="chat-input-area">
+            <div class="chat-input-row">
+                <textarea class="chat-input" id="chat-input" placeholder="Type a message..." rows="1"></textarea>
+                <button class="chat-send" onclick="sendMessage()" id="send-btn">➤</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bubble Tooltip -->
+    <div class="bubble-tooltip" id="bubble-tooltip">
+        <h4><span id="tt-icon"></span> <span id="tt-title"></span></h4>
+        <p id="tt-text"></p>
+    </div>
+    
+    <script>
+    /* ========================================
+       API Layer - Clean Data Fetching
+       ======================================== */
+    const API = {
+        cache: new Map(),
+        inflight: new Map(),
+        
+        async fetch(endpoint, opts = {}) {
+            const { cacheTTL = 0, retries = 2, timeout = 8000 } = opts;
+            const url = `${location.origin}${endpoint}`;
+            
+            // Check cache
+            if (cacheTTL > 0) {
+                const cached = this.cache.get(endpoint);
+                if (cached && Date.now() - cached.ts < cacheTTL) {
+                    return cached.data;
+                }
+            }
+            
+            // Dedupe in-flight
+            if (this.inflight.has(endpoint)) {
+                return this.inflight.get(endpoint);
+            }
+            
+            const request = this._fetchWithRetry(url, retries, timeout);
+            this.inflight.set(endpoint, request);
+            
+            try {
+                const data = await request;
+                if (cacheTTL > 0) {
+                    this.cache.set(endpoint, { data, ts: Date.now() });
+                }
+                return data;
+            } finally {
+                this.inflight.delete(endpoint);
+            }
+        },
+        
+        async _fetchWithRetry(url, retries, timeout) {
+            let lastErr;
+            for (let i = 0; i <= retries; i++) {
+                try {
+                    const ctrl = new AbortController();
+                    const timer = setTimeout(() => ctrl.abort(), timeout);
+                    const res = await fetch(url, { signal: ctrl.signal });
+                    clearTimeout(timer);
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    return await res.json();
+                } catch (err) {
+                    lastErr = err;
+                    if (i < retries) {
+                        await new Promise(r => setTimeout(r, 1000 * (i + 1))); // Backoff
+                    }
+                }
+            }
+            throw lastErr;
+        }
+    };
+    
+    /* ========================================
+       State Management
+       ======================================== */
+    const State = {
+        penguin: { data: null, loading: true, error: null, ts: null },
+        mac: { data: null, loading: true, error: null, ts: null },
+        jane: { data: null, loading: true, error: null, ts: null },
+        predictions: { data: null, loading: true, error: null, ts: null },
+        metrics: { data: null, loading: true, error: null, ts: null },
+        completed: { data: null, loading: true, error: null, ts: null },
+        brain: { data: null, loading: false, error: null, ts: null }
+    };
+    
+    function updateState(widget, updates) {
+        Object.assign(State[widget], updates);
+        render(widget);
+    }
+    
+    /* ========================================
+       Renderers
+       ======================================== */
+    function render(widget) {
+        const s = State[widget];
+        const tsEl = document.getElementById(`${widget}-ts`);
+        if (tsEl && s.ts) {
+            tsEl.textContent = formatTime(s.ts);
+        }
+        
+        switch (widget) {
+            case 'penguin': renderPenguin(s); break;
+            case 'mac': renderMac(s); break;
+            case 'jane': renderJane(s); break;
+            case 'predictions': renderPredictions(s); break;
+            case 'metrics': renderMetrics(s); break;
+            case 'completed': renderCompleted(s); break;
+            case 'brain': renderBrain(s); break;
+        }
+    }
+    
+    function renderPenguin(s) {
+        const el = document.getElementById('penguin-content');
+        if (s.loading && !s.data) {
+            el.innerHTML = `
+                <div class="hero-title">ALL HAIL THE PENGUIN 🐧</div>
+                <div class="hero-value skeleton skeleton-value"></div>
+                <div class="hero-subtitle skeleton skeleton-text short"></div>
+            `;
+            return;
+        }
+        
+        if (s.error && !s.data) {
+            el.innerHTML = `
+                <div class="error-state">
+                    <div class="error-icon">🐧💔</div>
+                    <div class="error-message">Couldn't fetch PENGUIN data</div>
+                    <button class="retry-btn" onclick="loadPenguin()">Retry</button>
+                </div>
+            `;
+            return;
+        }
+        
+        const d = s.data;
+        const valueClass = d.pnlPercent >= 0 ? 'positive' : 'negative';
+        const arrow = d.pnlPercent >= 0 ? '↗' : '↘';
+        
+        el.innerHTML = `
+            <div class="hero-title">ALL HAIL THE PENGUIN 🐧</div>
+            <div class="hero-value ${valueClass}">$${d.usdValue.toFixed(2)}</div>
+            <div class="hero-subtitle">${d.balance.toLocaleString()} PENGUIN</div>
+            <div class="hero-details">
+                <div class="hero-detail">
+                    <div class="hero-detail-label">Price</div>
+                    <div class="hero-detail-value">$${d.price.toFixed(6)}</div>
+                </div>
+                <div class="hero-detail">
+                    <div class="hero-detail-label">24h</div>
+                    <div class="hero-detail-value" style="color:${d.pnlPercent >= 0 ? 'var(--green)' : 'var(--red)'}">${d.pnlPercent >= 0 ? '+' : ''}${d.pnlPercent.toFixed(1)}% ${arrow}</div>
+                </div>
+            </div>
+        `;
+    }
+    
+    function renderMac(s) {
+        const el = document.getElementById('mac-content');
+        if (s.loading && !s.data) return; // Keep skeleton
+        
+        if (s.error && !s.data) {
+            el.innerHTML = `
+                <div class="status-item"><div class="status-label">Status</div><div class="status-value online">Online</div></div>
+                <div class="status-item"><div class="status-label">Uptime</div><div class="status-value">--</div></div>
+                <div class="status-item"><div class="status-label">CPU</div><div class="status-value">--</div></div>
+                <div class="status-item"><div class="status-label">RAM</div><div class="status-value">--</div></div>
+            `;
+            return;
+        }
+        
+        const d = s.data;
+        el.innerHTML = `
+            <div class="status-item"><div class="status-label">Status</div><div class="status-value online">Online</div></div>
+            <div class="status-item"><div class="status-label">Uptime</div><div class="status-value">${d.uptime || '--'}</div></div>
+            <div class="status-item"><div class="status-label">CPU</div><div class="status-value">${d.cpu || '--'}%</div></div>
+            <div class="status-item"><div class="status-label">RAM</div><div class="status-value">${d.memory || '--'}%</div></div>
+        `;
+    }
+    
+    function renderJane(s) {
+        if (s.loading && !s.data) return;
+        
+        const data = s.data || {};
+        
+        // Agents
+        const agentsList = document.getElementById('agents-list');
+        const agents = data.agents || [];
+        if (agents.length > 0) {
+            agentsList.innerHTML = agents.slice(0, 3).map(a => `
+                <div class="list-item">
+                    <span class="list-icon">${a.icon || '🤖'}</span>
+                    <div class="list-content">
+                        <div class="list-title">${a.name}</div>
+                        <div class="list-subtitle">${a.detail || ''}</div>
+                    </div>
+                    <div class="status-dot ${a.status || ''}"></div>
+                </div>
+            `).join('');
+        } else {
+            agentsList.innerHTML = `
+                <div class="list-item">
+                    <span class="list-icon">🦾</span>
+                    <div class="list-content">
+                        <div class="list-title">Jane (Main)</div>
+                        <div class="list-subtitle">Active</div>
+                    </div>
+                    <div class="status-dot"></div>
+                </div>
+            `;
+        }
+        
+        // Cron
+        const cronList = document.getElementById('cron-list');
+        const crons = data.crons || [];
+        if (crons.length > 0) {
+            cronList.innerHTML = crons.slice(0, 3).map(c => `
+                <div class="list-item">
+                    <span class="list-icon">${c.icon || '⏰'}</span>
+                    <div class="list-content">
+                        <div class="list-title">${c.name}</div>
+                        <div class="list-subtitle">${c.schedule || ''}</div>
+                    </div>
+                    <div class="list-meta">${c.next || ''}</div>
+                </div>
+            `).join('');
+        } else {
+            cronList.innerHTML = `<div class="list-item"><span class="list-icon">📭</span><div class="list-content"><div class="list-title">No recurring jobs</div></div></div>`;
+        }
+        
+        // Tasks
+        const tasksList = document.getElementById('tasks-list');
+        const tasks = data.tasks || [];
+        if (tasks.length > 0) {
+            tasksList.innerHTML = tasks.slice(0, 4).map(t => `
+                <div class="list-item">
+                    <span class="list-icon">${t.icon || '📌'}</span>
+                    <div class="list-content">
+                        <div class="list-title">${t.task}</div>
+                        <div class="list-subtitle">${t.detail || ''}</div>
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            tasksList.innerHTML = `<div class="list-item"><span class="list-icon">✨</span><div class="list-content"><div class="list-title">No active tasks</div></div></div>`;
+        }
+    }
+    
+    function renderPredictions(s) {
+        const el = document.getElementById('pm-list');
+        if (s.loading && !s.data) return;
+        
+        if (s.error && !s.data) {
+            el.innerHTML = `<div class="pm-item"><div class="pm-question">⚠️ Polymarket unavailable</div></div>`;
+            return;
+        }
+        
+        const markets = s.data?.markets || [];
+        if (markets.length === 0) {
+            el.innerHTML = `<div class="pm-item"><div class="pm-question">No active markets</div></div>`;
+            return;
+        }
+        
+        // Categorize
+        const cats = { sports: [], politics: [], finance: [], other: [] };
+        markets.forEach(m => {
+            const cat = categorize(m.question || '');
+            cats[cat].push(m);
+        });
+        
+        let html = '';
+        const labels = { sports: '🏈 Sports', politics: '🏛️ Geopolitics', finance: '💰 Finance', other: '📊 Other' };
+        
+        ['sports', 'politics', 'finance', 'other'].forEach(cat => {
+            if (cats[cat].length === 0) return;
+            html += `<div class="pm-category">${labels[cat]}</div>`;
+            cats[cat].forEach(m => {
+                const pinned = m.isPinned ? 'pm-pinned' : '';
+                let odds = '';
+                
+                if (m.teams?.favorite && m.teams?.underdog) {
+                    odds = `<span class="pm-odd fav">${m.teams.favorite.name} ${m.teams.favorite.odds}%</span>
+                            <span class="pm-odd dog">${m.teams.underdog.name} ${m.teams.underdog.odds}%</span>`;
+                } else if (m.teams?.team1 && m.teams?.team2) {
+                    const t1 = m.teams.team1, t2 = m.teams.team2;
+                    const c1 = t1.odds >= t2.odds ? 'fav' : 'dog';
+                    const c2 = t2.odds >= t1.odds ? 'fav' : 'dog';
+                    odds = `<span class="pm-odd ${c1}">${t1.name} ${t1.odds}%</span>
+                            <span class="pm-odd ${c2}">${t2.name} ${t2.odds}%</span>`;
+                } else {
+                    odds = `<span class="pm-odd yes">Yes ${m.yesOdds || 50}%</span>
+                            <span class="pm-odd no">No ${m.noOdds || 50}%</span>`;
+                }
+                
+                html += `
+                    <div class="pm-item ${pinned}">
+                        <div class="pm-question">${m.question}</div>
+                        <div class="pm-odds">${odds}</div>
+                    </div>
+                `;
+            });
+        });
+        
+        el.innerHTML = html;
+    }
+    
+    function categorize(q) {
+        const ql = q.toLowerCase();
+        const sports = ['super bowl','nfl','nba','nhl','mlb','vs','win the','🏈','game','playoff','championship',
+            'lakers','celtics','warriors','chiefs','eagles','bills','seahawks','patriots','cowboys',
+            'manchester','liverpool','barcelona','real madrid','bayern','arsenal','chelsea','milan',
+            'tennis','golf','f1','boxing','ufc','mma'];
+        const politics = ['trump','biden','president','government','congress','iran','war','russia','china',
+            'election','shutdown','tariff'];
+        const finance = ['bitcoin','crypto','btc','eth','solana','price of','stock','ipo','acquired',
+            'ai','openai','google','apple','company'];
+        
+        if (sports.some(k => ql.includes(k))) return 'sports';
+        if (politics.some(k => ql.includes(k))) return 'politics';
+        if (finance.some(k => ql.includes(k))) return 'finance';
+        return 'other';
+    }
+    
+    function renderMetrics(s) {
+        if (s.loading && !s.data) return;
+        const d = s.data || {};
+        document.getElementById('tiktok-val').textContent = d.tiktok?.toLocaleString() || '--';
+        document.getElementById('penguin-small').textContent = d.penguinUsd ? `$${d.penguinUsd.toFixed(2)}` : '--';
+    }
+    
+    function renderCompleted(s) {
+        const el = document.getElementById('completed-list');
+        if (s.loading && !s.data) return;
+        
+        const items = s.data?.completed || [];
+        if (items.length === 0) {
+            el.innerHTML = `<div class="completed-item" style="justify-content:center;color:var(--text-dim)">Nothing completed yet today</div>`;
+            return;
+        }
+        
+        el.innerHTML = items.slice(0, 6).map(t => `
+            <div class="completed-item">
+                <span class="completed-icon">${t.icon || '✓'}</span>
+                <span class="completed-text">${t.task}</span>
+                <span class="completed-check">✓</span>
+            </div>
+        `).join('');
+    }
+    
+    function renderBrain(s) {
+        const el = document.getElementById('bubble-map');
+        
+        // Static bubble data based on Josh's profile
+        const bubbles = [
+            { id: 'nasdaq', label: 'Nasdaq', cat: 'work', size: 'lg', x: 5, y: 10, title: 'Nasdaq', desc: 'Your employer - trading technology and market data. Series 66 certified.' },
+            { id: 'patriots', label: 'Patriots', cat: 'sports', size: 'lg', x: 90, y: 5, title: 'Patriots Fan', desc: 'HUGE Patriots fan 🏈 You follow Drake Maye, use #gopats!' },
+            { id: 'solana', label: 'Solana', cat: 'crypto', size: 'lg', x: 185, y: 15, title: 'Solana', desc: 'Main crypto chain - we trade memecoins on Jupiter. ALL IN on PENGUIN 🐧' },
+            { id: 'tiktok', label: 'TikTok', cat: 'content', size: 'lg', x: 15, y: 120, title: 'TikTok Creator', desc: '@degencollector - you create pack opening videos!' },
+            { id: 's66', label: 'S66', cat: 'work', size: 'sm', x: 65, y: 75, title: 'Series 66', desc: 'NASAA certification - financial industry expertise.' },
+            { id: 'cards', label: 'Cards', cat: 'sports', size: 'md', x: 140, y: 70, title: 'Sports Cards', desc: 'Panini NFT collector - TikTok content about pack openings.' },
+            { id: 'memes', label: 'Memes', cat: 'crypto', size: 'md', x: 230, y: 80, title: 'Memecoins', desc: 'We made +$13 (+50.8%) on first trading run! WOJAK, pippin.' },
+            { id: '3d', label: '3D Print', cat: 'tech', size: 'md', x: 150, y: 135, title: '3D Printing', desc: 'Bambu A1 with AMS. Gold and black filaments.' },
+            { id: 'explorer', label: 'Explorer', cat: 'life', size: 'md', x: 230, y: 140, title: 'Early Adopter', desc: 'Here for fun and to learn - NFA disclaimer always.' },
+            { id: 'panini', label: 'Panini', cat: 'content', size: 'sm', x: 95, y: 145, title: 'Panini NFTs', desc: 'Digital sports collectibles - tokenized cards.' },
+            { id: 'sorare', label: 'Sorare', cat: 'sports', size: 'sm', x: 295, y: 155, title: 'Sorare NBA', desc: 'Fantasy NBA on blockchain - username jcubnft.' },
+        ];
+        
+        el.innerHTML = bubbles.map(b => `
+            <div class="bubble ${b.size} ${b.cat}" 
+                 style="left:${b.x}px;top:${b.y}px" 
+                 onclick="showBubbleTip(this, '${b.title}', '${b.desc.replace(/'/g, "\\'")}', '${b.cat}')"
+            >${b.label}</div>
+        `).join('');
+        
+        updateState('brain', { ts: Date.now() });
+    }
+    
+    /* ========================================
+       Data Loaders
+       ======================================== */
+    async function loadPenguin() {
+        updateState('penguin', { loading: true, error: null });
+        
+        try {
+            const wallet = 'ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L';
+            const mint = '8Jx8AAHj86wbQgUTjGuj6GTTL5Ps3cqxKRTvpaJApump';
+            
+            // Fetch balance from Solana RPC
+            const balRes = await fetch('https://solana-rpc.publicnode.com', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    jsonrpc: '2.0', id: 1,
+                    method: 'getTokenAccountsByOwner',
+                    params: [wallet, { mint }, { encoding: 'jsonParsed' }]
+                })
+            });
+            const balData = await balRes.json();
+            let balance = 0;
+            if (balData.result?.value?.[0]) {
+                balance = parseFloat(balData.result.value[0].account.data.parsed.info.tokenAmount.uiAmount) || 0;
+            }
+            
+            // Fetch price from DexScreener
+            const priceRes = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${mint}`);
+            const priceData = await priceRes.json();
+            let price = 0, pnlPercent = 0;
+            if (priceData.pairs?.[0]) {
+                price = parseFloat(priceData.pairs[0].priceUsd) || 0;
+                pnlPercent = parseFloat(priceData.pairs[0].priceChange?.h24) || 0;
+            }
+            
+            const usdValue = balance * price;
+            
+            updateState('penguin', {
+                data: { balance, price, usdValue, pnlPercent },
+                loading: false,
+                ts: Date.now()
+            });
+            
+            // Also update small penguin metric
+            updateState('metrics', {
+                data: { ...State.metrics.data, penguinUsd: usdValue },
+                ts: Date.now()
+            });
+            
+        } catch (err) {
+            console.error('PENGUIN error:', err);
+            updateState('penguin', { loading: false, error: err.message });
+        }
+    }
+    
+    async function loadMac() {
+        updateState('mac', { loading: true, error: null });
+        try {
+            const data = await API.fetch('/api/system', { cacheTTL: 30000 });
+            updateState('mac', { data, loading: false, ts: Date.now() });
+        } catch (err) {
+            updateState('mac', { loading: false, error: err.message, ts: Date.now() });
+        }
+    }
+    
+    async function loadJane() {
+        updateState('jane', { loading: true, error: null });
+        try {
+            const [sessRes, cronRes, tasksRes] = await Promise.all([
+                API.fetch('/api/sessions', { cacheTTL: 15000 }).catch(() => ({ sessions: [] })),
+                API.fetch('/api/cron', { cacheTTL: 60000 }).catch(() => ({ jobs: [] })),
+                API.fetch('/api/tasks', { cacheTTL: 30000 }).catch(() => ({ inProgress: [], completed: [] }))
+            ]);
+            
+            // Parse agents
+            const twoHoursAgo = Date.now() - 7200000;
+            const agents = (sessRes.sessions || [])
+                .filter(s => s.updatedAt > twoHoursAgo)
+                .slice(0, 3)
+                .map(s => ({
+                    name: s.displayName || s.key?.split(':').pop() || 'Agent',
+                    icon: s.key?.includes(':main:main') ? '🦾' : (s.key?.includes(':cron:') ? '⏰' : '🤖'),
+                    detail: `${s.channel || 'session'} • ${s.totalTokens ? Math.round(s.totalTokens/1000)+'k' : '--'}`,
+                    status: ''
+                }));
+            
+            // Parse crons
+            const crons = (cronRes.jobs || []).map(j => ({
+                name: j.name,
+                icon: j.icon || '⏰',
+                schedule: j.schedule,
+                next: j.nextRun ? formatTime(new Date(j.nextRun)) : '--'
+            }));
+            
+            // Parse tasks
+            const tasks = tasksRes.inProgress || [];
+            
+            updateState('jane', {
+                data: { agents, crons, tasks },
+                loading: false,
+                ts: Date.now()
+            });
+            
+            // Also update completed
+            updateState('completed', {
+                data: { completed: tasksRes.completed || [] },
+                loading: false,
+                ts: Date.now()
+            });
+            
+        } catch (err) {
+            updateState('jane', { loading: false, error: err.message, ts: Date.now() });
+        }
+    }
+    
+    async function loadPredictions() {
+        updateState('predictions', { loading: true, error: null });
+        try {
+            const data = await API.fetch('/api/predictions', { cacheTTL: 60000, timeout: 10000 });
+            updateState('predictions', { data, loading: false, ts: Date.now() });
+        } catch (err) {
+            updateState('predictions', { loading: false, error: err.message, ts: Date.now() });
+        }
+    }
+    
+    async function loadMetrics() {
+        updateState('metrics', { loading: true });
+        try {
+            const tiktok = await API.fetch('/api/tiktok', { cacheTTL: 120000 }).catch(() => ({}));
+            const followers = tiktok.followers || tiktok.profile?.followers || null;
+            updateState('metrics', {
+                data: { ...State.metrics.data, tiktok: followers },
+                loading: false,
+                ts: Date.now()
+            });
+        } catch (err) {
+            updateState('metrics', { loading: false, ts: Date.now() });
+        }
+    }
+    
+    /* ========================================
+       Widget Refresh
+       ======================================== */
+    async function refreshWidget(name) {
+        const btn = event?.target;
+        if (btn) btn.classList.add('spinning');
+        
+        try {
+            switch (name) {
+                case 'penguin': await loadPenguin(); break;
+                case 'mac': await loadMac(); break;
+                case 'jane': await loadJane(); break;
+                case 'predictions': await loadPredictions(); break;
+                case 'metrics': await loadMetrics(); await loadPenguin(); break;
+                case 'completed': await loadJane(); break;
+                case 'brain': renderBrain(State.brain); break;
+            }
+        } finally {
+            if (btn) setTimeout(() => btn.classList.remove('spinning'), 500);
+        }
+    }
+    
+    /* ========================================
+       Utilities
+       ======================================== */
+    function formatTime(date) {
+        if (!date) return '--';
+        const d = new Date(date);
+        return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase();
+    }
+    
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('time').textContent = now.toLocaleTimeString('en-US', {
+            hour: 'numeric', minute: '2-digit', hour12: true
+        }).toLowerCase();
+        document.getElementById('date').textContent = now.toLocaleDateString('en-US', {
+            weekday: 'short', month: 'short', day: 'numeric'
+        });
+    }
+    
+    function showBubbleTip(el, title, desc, cat) {
+        const tt = document.getElementById('bubble-tooltip');
+        document.getElementById('tt-title').textContent = title;
+        document.getElementById('tt-text').textContent = desc;
+        document.getElementById('tt-icon').textContent = { work: '💼', sports: '🏈', crypto: '◎', content: '🎵', tech: '🖨️', life: '🚀' }[cat] || '📌';
+        
+        const rect = el.getBoundingClientRect();
+        let top = rect.bottom + 8;
+        let left = rect.left + rect.width/2 - 120;
+        
+        if (left < 10) left = 10;
+        if (left + 240 > window.innerWidth) left = window.innerWidth - 250;
+        if (top + 100 > window.innerHeight) top = rect.top - 100;
+        
+        tt.style.top = top + 'px';
+        tt.style.left = left + 'px';
+        tt.classList.add('show');
+        
+        setTimeout(() => {
+            document.addEventListener('click', () => tt.classList.remove('show'), { once: true });
+        }, 10);
+    }
+    
+    /* ========================================
+       Chat
+       ======================================== */
+    function openChat() {
+        document.getElementById('chat-overlay').classList.add('open');
+        loadChatHistory();
+        document.getElementById('chat-input').focus();
+    }
+    
+    function closeChat() {
+        document.getElementById('chat-overlay').classList.remove('open');
+    }
+    
+    async function loadChatHistory() {
+        try {
+            const data = await API.fetch('/api/chat/history', { cacheTTL: 5000 });
+            const el = document.getElementById('chat-messages');
+            if (data.messages?.length > 0) {
+                el.innerHTML = data.messages.map(m => `
+                    <div class="chat-msg ${m.role === 'user' ? 'user' : 'jane'}">
+                        ${m.content}
+                        <div class="msg-time">${formatTime(m.timestamp)}</div>
+                    </div>
+                `).join('');
+                el.scrollTop = el.scrollHeight;
+            }
+        } catch (err) { /* ignore */ }
+    }
+    
+    async function sendMessage() {
+        const input = document.getElementById('chat-input');
+        const msg = input.value.trim();
+        if (!msg) return;
+        
+        const btn = document.getElementById('send-btn');
+        btn.disabled = true;
+        
+        const el = document.getElementById('chat-messages');
+        el.innerHTML += `<div class="chat-msg user">${msg}<div class="msg-time">Now</div></div>`;
+        el.innerHTML += `<div class="chat-msg jane" id="typing"><em>Jane is typing...</em></div>`;
+        el.scrollTop = el.scrollHeight;
+        input.value = '';
+        
+        try {
+            const res = await fetch('/api/chat/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: msg })
+            });
+            
+            document.getElementById('typing')?.remove();
+            
+            if (res.ok) {
+                el.innerHTML += `<div class="chat-msg jane">Message sent! I'll respond via WhatsApp 📱<div class="msg-time">Now</div></div>`;
+            } else {
+                el.innerHTML += `<div class="chat-msg jane">Failed to send. Try again?<div class="msg-time">Now</div></div>`;
+            }
+        } catch (err) {
+            document.getElementById('typing')?.remove();
+            el.innerHTML += `<div class="chat-msg jane">Network error. Check connection.<div class="msg-time">Now</div></div>`;
+        }
+        
+        el.scrollTop = el.scrollHeight;
+        btn.disabled = false;
+    }
+    
+    document.getElementById('chat-input')?.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+    
+    /* ========================================
+       WebSocket
+       ======================================== */
+    function initWS() {
+        const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const ws = new WebSocket(`${proto}//${location.host}`);
+        
+        ws.onmessage = e => {
+            try {
+                const msg = JSON.parse(e.data);
+                if (msg.type === 'update') {
+                    if (msg.widget === 'tasks') loadJane();
+                    if (msg.widget === 'trading') loadPenguin();
+                    if (msg.widget === 'tiktok') loadMetrics();
+                }
+            } catch { /* ignore */ }
+        };
+        
+        ws.onclose = () => setTimeout(initWS, 5000);
+        ws.onerror = () => ws.close();
+    }
+    
+    /* ========================================
+       Force Refresh
+       ======================================== */
+    async function forceRefresh() {
+        if ('serviceWorker' in navigator) {
+            const regs = await navigator.serviceWorker.getRegistrations();
+            for (const r of regs) await r.unregister();
+        }
+        if ('caches' in window) {
+            const names = await caches.keys();
+            for (const n of names) await caches.delete(n);
+        }
+        location.reload(true);
+    }
+    
+    /* ========================================
+       Init
+       ======================================== */
+    function init() {
+        updateClock();
+        setInterval(updateClock, 1000);
+        
+        // Priority loading: PENGUIN first!
+        loadPenguin();
+        
+        // Then the rest
+        setTimeout(() => {
+            loadMac();
+            loadJane();
+            loadPredictions();
+            loadMetrics();
+            renderBrain(State.brain);
+        }, 100);
+        
+        // Refresh intervals
+        setInterval(loadPenguin, 30000);      // PENGUIN every 30s
+        setInterval(loadMac, 60000);           // Mac every 1m
+        setInterval(loadJane, 30000);          // Jane every 30s
+        setInterval(loadPredictions, 120000);  // Markets every 2m
+        setInterval(loadMetrics, 300000);      // TikTok every 5m
+        
+        // WebSocket for real-time
+        initWS();
+        
+        // Last refresh timestamp
+        document.getElementById('last-refresh').textContent = formatTime(new Date());
+    }
+    
+    init();
+    </script>
+</body>
+</html>

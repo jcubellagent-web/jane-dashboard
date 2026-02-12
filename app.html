@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0a0f1a">
+    <title>Jane</title>
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(r => r.forEach(reg => reg.unregister()));
+            caches.keys().then(names => names.forEach(n => caches.delete(n)));
+        }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        :root {
+            --bg: #0a0f1a;
+            --card: rgba(255,255,255,0.06);
+            --accent: #4ade80;
+            --accent-blue: #60a5fa;
+            --text: #f1f5f9;
+            --text-dim: #64748b;
+            --green: #22c55e;
+            --amber: #f59e0b;
+            --red: #ef4444;
+            --border: rgba(255,255,255,0.1);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) calc(80px + env(safe-area-inset-bottom)) env(safe-area-inset-left);
+        }
+        
+        .container {
+            max-width: 430px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .brand { display: flex; align-items: center; gap: 0.5rem; }
+        .brand-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .brand-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .brand-name { font-size: 1.25rem; font-weight: 700; }
+        .header-right { display: flex; align-items: center; gap: 1rem; }
+        .header-time { font-size: 1.1rem; font-weight: 600; color: var(--text-dim); }
+        
+        /* Hamburger Menu */
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .menu-btn span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .menu-btn.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+        .menu-btn.active span:nth-child(2) { opacity: 0; }
+        .menu-btn.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+        
+        /* Menu Overlay */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 998;
+        }
+        .menu-overlay.open { opacity: 1; visibility: visible; }
+        
+        /* Slide Menu */
+        .slide-menu {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
+            height: 100%;
+            background: var(--bg);
+            border-left: 1px solid var(--border);
+            padding: 1.5rem;
+            padding-top: calc(1.5rem + env(safe-area-inset-top));
+            transition: right 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+        }
+        .slide-menu.open { right: 0; }
+        .menu-header {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .menu-section {
+            margin-bottom: 1.5rem;
+        }
+        .menu-section-title {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 0.25rem;
+        }
+        .menu-item:hover, .menu-item:active { background: rgba(255,255,255,0.08); }
+        .menu-item.active { background: rgba(74,222,128,0.15); color: var(--accent); }
+        .menu-item.danger { color: var(--red); }
+        .menu-item-icon { font-size: 1.1rem; width: 24px; text-align: center; }
+        .menu-item-text { flex: 1; font-size: 0.9rem; }
+        .menu-item-badge {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+            background: var(--accent);
+            color: #000;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        /* Edit Mode */
+        body.edit-mode .widget {
+            border: 2px dashed var(--accent);
+            position: relative;
+        }
+        body.edit-mode .widget::before {
+            content: '⋮⋮';
+            position: absolute;
+            top: 50%;
+            left: -20px;
+            transform: translateY(-50%);
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+        .widget-delete {
+            display: none;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--red);
+            color: white;
+            border: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+        body.edit-mode .widget-delete { display: flex; }
+        body.edit-mode .widget { position: relative; }
+        
+        /* Night Mode */
+        body.night-mode { filter: brightness(0.7) saturate(0.85); }
+        
+        /* Widget Card */
+        .widget {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            min-height: 80px;
+        }
+        .widget.loading { opacity: 0.7; }
+        .widget.error { border: 1px solid var(--amber); }
+        .widget-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .widget-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+        .widget-icon.green { background: rgba(34,197,94,0.15); }
+        .widget-icon.blue { background: rgba(96,165,250,0.15); }
+        .widget-icon.purple { background: rgba(168,85,247,0.15); }
+        .widget-icon.amber { background: rgba(245,158,11,0.15); }
+        .widget-icon.pink { background: rgba(236,72,153,0.15); }
+        .widget-icon.jane { background: transparent; }
+        
+        /* TikTok Widget */
+        .tiktok-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .tiktok-stat {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 0.75rem;
+            text-align: center;
+        }
+        .tiktok-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .tiktok-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin: 0.25rem 0;
+        }
+        .tiktok-stat-change {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .tiktok-stat-change.green { color: var(--green); }
+        .tiktok-stat-change.red { color: var(--red); }
+        
+        .tiktok-videos {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .tiktok-video-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0.75rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+        }
+        .tiktok-video-title {
+            flex: 1;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .tiktok-video-views {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            white-space: nowrap;
+        }
+        .widget-title { font-size: 1rem; font-weight: 600; flex: 1; }
+        .widget-badge {
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+        .widget-badge.green { background: rgba(34,197,94,0.2); color: var(--green); }
+        .widget-badge.amber { background: rgba(245,158,11,0.2); color: var(--amber); }
+        .widget-badge.red { background: rgba(239,68,68,0.2); color: var(--red); }
+        
+        /* Progress Bar */
+        .progress-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .progress-row:last-child { margin-bottom: 0; }
+        .progress-label {
+            width: 70px;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0 0.75rem;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        .progress-fill.green { background: linear-gradient(90deg, #22c55e, #4ade80); }
+        .progress-fill.amber { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .progress-fill.red { background: linear-gradient(90deg, #ef4444, #f87171); }
+        .progress-value {
+            width: 45px;
+            text-align: right;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        /* Info Row */
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.85rem;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: var(--text-dim); }
+        .info-value { font-weight: 500; }
+        .info-value.green { color: var(--green); }
+        .info-value.amber { color: var(--amber); }
+        
+        /* Stat Grid */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+        .stat-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+        .stat-value.green { color: var(--green); }
+        .stat-label {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+        
+        /* Account Grid */
+        .account-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+        .account-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 0.75rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            border-left: 3px solid var(--green);
+        }
+        .account-item.offline { border-left-color: var(--red); opacity: 0.6; }
+        .account-icon { font-size: 1.1rem; }
+        .account-info { flex: 1; min-width: 0; }
+        .account-name { font-size: 0.75rem; font-weight: 600; }
+        .account-handle { font-size: 0.65rem; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        /* Prediction Item */
+        .prediction-item {
+            padding: 0.75rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+        }
+        .prediction-item:last-child { margin-bottom: 0; }
+        .prediction-q { 
+            font-size: 0.8rem; 
+            line-height: 1.3; 
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+        .prediction-odds-row {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .prediction-odds {
+            flex: 1;
+            text-align: center;
+            padding: 0.4rem 0.5rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+        }
+        .prediction-odds .odds-label {
+            font-weight: 400;
+            opacity: 0.8;
+        }
+        .prediction-odds .odds-value {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        .prediction-odds.yes { background: rgba(34,197,94,0.15); color: var(--green); }
+        .prediction-odds.no { background: rgba(239,68,68,0.15); color: var(--red); }
+        
+        /* Sports matchup */
+        .prediction-matchup {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+        .prediction-team {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+        }
+        .prediction-team.favorite { background: rgba(34,197,94,0.12); }
+        .prediction-team.underdog { background: rgba(239,68,68,0.08); }
+        .team-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+        .team-odds {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .prediction-team.favorite .team-odds { color: var(--green); }
+        .prediction-team.underdog .team-odds { color: var(--text-dim); }
+        .prediction-vs {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            font-weight: 600;
+        }
+        
+        /* Prediction Categories */
+        .prediction-category {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .prediction-category:first-child { margin-top: 0; }
+        .prediction-category-icon {
+            font-size: 0.9rem;
+        }
+        .prediction-category-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-dim);
+        }
+        .prediction-category.sports .prediction-category-label { color: var(--green); }
+        .prediction-category.politics .prediction-category-label { color: #f97316; }
+        .prediction-category.finance .prediction-category-label { color: var(--accent-blue); }
+        .prediction-category.other .prediction-category-label { color: var(--text-dim); }
+        
+        /* Wallet Widget */
+        .wallet-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .wallet-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 0.75rem;
+            text-align: center;
+        }
+        .wallet-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+        .wallet-balance {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .wallet-usd {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .wallet-total {
+            background: linear-gradient(135deg, rgba(74,222,128,0.1), rgba(96,165,250,0.1));
+            border-radius: 12px;
+            padding: 0.75rem;
+            text-align: center;
+            border: 1px solid rgba(74,222,128,0.2);
+        }
+        .wallet-total-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+        .wallet-total-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .wallet-total-usd {
+            font-size: 1rem;
+            color: var(--green);
+            font-weight: 700;
+        }
+        .wallet-token {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0.75rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+        }
+        .wallet-token-icon {
+            font-size: 1.5rem;
+        }
+        .wallet-token-info {
+            flex: 1;
+        }
+        .wallet-token-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .wallet-token-amount {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+        .wallet-token-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--green);
+        }
+        
+        /* Brain Item */
+        .brain-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            font-size: 0.8rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .brain-item:last-child { border-bottom: none; }
+        .brain-icon { color: var(--accent); }
+        .brain-text { flex: 1; color: var(--text-dim); }
+        .brain-date { font-size: 0.7rem; color: var(--text-dim); }
+        
+        /* Quick Stats Row */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .quick-stat {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .quick-stat-icon { font-size: 1.5rem; }
+        .quick-stat-info { flex: 1; }
+        .quick-stat-value { font-size: 1.4rem; font-weight: 700; }
+        .quick-stat-label { font-size: 0.7rem; color: var(--text-dim); }
+        
+        /* Chat FAB */
+        .chat-fab {
+            position: fixed;
+            bottom: calc(20px + env(safe-area-inset-bottom));
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(74,222,128,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        .chat-fab.hidden { transform: scale(0); opacity: 0; pointer-events: none; }
+        
+        /* Chat Panel */
+        .chat-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        .chat-panel.open { transform: translateY(0); }
+        
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            padding-top: calc(1rem + env(safe-area-inset-top));
+            background: rgba(255,255,255,0.05);
+            border-bottom: 1px solid var(--border);
+        }
+        .chat-header-left { display: flex; align-items: center; gap: 0.75rem; }
+        .chat-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .chat-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .chat-header-info { display: flex; flex-direction: column; }
+        .chat-header-name { font-size: 1.1rem; font-weight: 600; }
+        .chat-header-status { font-size: 0.75rem; color: var(--text-dim); }
+        .chat-header-status.online { color: var(--green); }
+        .chat-close {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+        .chat-close:hover { opacity: 1; }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .chat-empty {
+            text-align: center;
+            color: var(--text-dim);
+            padding: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .chat-msg {
+            max-width: 85%;
+            padding: 0.75rem 1rem;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+        .chat-msg.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            color: #000;
+            border-bottom-right-radius: 4px;
+        }
+        .chat-msg.assistant {
+            align-self: flex-start;
+            background: rgba(255,255,255,0.1);
+            color: var(--text);
+            border-bottom-left-radius: 4px;
+        }
+        .chat-msg.system {
+            align-self: center;
+            background: transparent;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            padding: 0.5rem;
+        }
+        .chat-msg-time {
+            font-size: 0.65rem;
+            opacity: 0.6;
+            margin-top: 0.25rem;
+        }
+        .chat-msg.user .chat-msg-time { text-align: right; }
+        
+        .chat-typing {
+            align-self: flex-start;
+            padding: 0.75rem 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 18px;
+            display: none;
+        }
+        .chat-typing.visible { display: flex; gap: 4px; align-items: center; }
+        .chat-typing span {
+            width: 8px;
+            height: 8px;
+            background: var(--text-dim);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+        .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+            30% { transform: translateY(-4px); opacity: 1; }
+        }
+        
+        .chat-input-area {
+            display: flex;
+            gap: 0.75rem;
+            padding: 1rem;
+            padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+            background: rgba(255,255,255,0.03);
+            border-top: 1px solid var(--border);
+        }
+        .chat-input {
+            flex: 1;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 0.75rem 1.25rem;
+            color: var(--text);
+            font-size: 1rem;
+            outline: none;
+        }
+        .chat-input:focus { border-color: var(--accent); }
+        .chat-input::placeholder { color: var(--text-dim); }
+        .chat-send {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: none;
+            color: #000;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="brand">
+                <div class="brand-icon"><img src="icon-192.png" alt="Jane"></div>
+                <span class="brand-name">JANE</span>
+            </div>
+            <div class="header-right">
+                <div class="header-time" id="current-time">--:--</div>
+                <button class="menu-btn" id="menu-btn" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </header>
+        
+        <!-- Menu Overlay -->
+        <div class="menu-overlay" id="menu-overlay" onclick="toggleMenu()"></div>
+        
+        <!-- Slide Menu -->
+        <div class="slide-menu" id="slide-menu">
+            <div class="menu-header">⚙️ Settings</div>
+            
+            <div class="menu-section">
+                <div class="menu-section-title">Layout</div>
+                <div class="menu-item" onclick="toggleEditMode()">
+                    <span class="menu-item-icon">✏️</span>
+                    <span class="menu-item-text">Edit Widgets</span>
+                </div>
+                <div class="menu-item" onclick="resetLayout()">
+                    <span class="menu-item-icon">↩️</span>
+                    <span class="menu-item-text">Reset to Default</span>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <div class="menu-section-title">Actions</div>
+                <div class="menu-item" onclick="refreshAll()">
+                    <span class="menu-item-icon">🔄</span>
+                    <span class="menu-item-text">Refresh Data</span>
+                </div>
+                <div class="menu-item" onclick="requestTikTokUpdate()">
+                    <span class="menu-item-icon">🎵</span>
+                    <span class="menu-item-text">Update TikTok Stats</span>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <div class="menu-section-title">Quick Links</div>
+                <div class="menu-item" onclick="window.open('/', '_self')">
+                    <span class="menu-item-icon">🖥️</span>
+                    <span class="menu-item-text">Desktop Dashboard</span>
+                </div>
+                <div class="menu-item" onclick="window.open('https://polymarket.com', '_blank')">
+                    <span class="menu-item-icon">📊</span>
+                    <span class="menu-item-text">Polymarket</span>
+                </div>
+                <div class="menu-item" onclick="window.open('https://jup.ag', '_blank')">
+                    <span class="menu-item-icon">◎</span>
+                    <span class="menu-item-text">Jupiter Exchange</span>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <div class="menu-section-title">Display</div>
+                <div class="menu-item" onclick="toggleNightMode()">
+                    <span class="menu-item-icon">🌙</span>
+                    <span class="menu-item-text">Night Mode</span>
+                    <span class="menu-item-badge" id="night-badge">OFF</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 1. Mac Mini Status -->
+        <div class="widget" id="mac-widget">
+            <div class="widget-header">
+                <div class="widget-icon green">🖥️</div>
+                <div class="widget-title">Mac Mini</div>
+                <span class="widget-badge green" id="mac-badge">Healthy</span>
+            </div>
+            <div class="progress-row">
+                <span class="progress-label">CPU</span>
+                <div class="progress-bar"><div class="progress-fill green" id="cpu-bar" style="width: 0%"></div></div>
+                <span class="progress-value" id="cpu-val">--%</span>
+            </div>
+            <div class="progress-row">
+                <span class="progress-label">Memory</span>
+                <div class="progress-bar"><div class="progress-fill green" id="mem-bar" style="width: 0%"></div></div>
+                <span class="progress-value" id="mem-val">--%</span>
+            </div>
+            <div class="progress-row">
+                <span class="progress-label">Disk</span>
+                <div class="progress-bar"><div class="progress-fill green" id="disk-bar" style="width: 0%"></div></div>
+                <span class="progress-value" id="disk-val">--%</span>
+            </div>
+            <div class="info-row" style="margin-top: 0.75rem;">
+                <span class="info-label">Uptime</span>
+                <span class="info-value" id="mac-uptime">--</span>
+            </div>
+        </div>
+        
+        <!-- 2. Jane Status -->
+        <div class="widget" id="jane-widget">
+            <div class="widget-header">
+                <div class="widget-icon jane"><img src="icon-192.png" alt="Jane" style="width:28px;height:28px;border-radius:6px;"></div>
+                <div class="widget-title">Jane</div>
+                <span class="widget-badge green" id="jane-badge">Active</span>
+            </div>
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="jane-model">Opus</div>
+                    <div class="stat-label">Model</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="jane-session">Main</div>
+                    <div class="stat-label">Session</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value green" id="jane-tasks">0</div>
+                    <div class="stat-label">Tasks</div>
+                </div>
+            </div>
+            <div class="info-row" style="margin-top: 0.75rem;">
+                <span class="info-label">Last Active</span>
+                <span class="info-value green" id="jane-active">Loading...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Channel</span>
+                <span class="info-value" id="jane-channel">--</span>
+            </div>
+        </div>
+        
+        <!-- 3. Connected Accounts -->
+        <div class="widget">
+            <div class="widget-header">
+                <div class="widget-icon purple">🔗</div>
+                <div class="widget-title">Connected Accounts</div>
+            </div>
+            <div class="account-grid">
+                <div class="account-item">
+                    <span class="account-icon">💬</span>
+                    <div class="account-info">
+                        <div class="account-name">WhatsApp</div>
+                        <div class="account-handle">+1 717-575-9384</div>
+                    </div>
+                </div>
+                <div class="account-item">
+                    <span class="account-icon">📧</span>
+                    <div class="account-info">
+                        <div class="account-name">Gmail</div>
+                        <div class="account-handle">jcubellagent@gmail.com</div>
+                    </div>
+                </div>
+                <div class="account-item">
+                    <span class="account-icon">🎵</span>
+                    <div class="account-info">
+                        <div class="account-name">TikTok</div>
+                        <div class="account-handle">@degencollector</div>
+                    </div>
+                </div>
+                <div class="account-item">
+                    <span class="account-icon">𝕏</span>
+                    <div class="account-info">
+                        <div class="account-name">X / Twitter</div>
+                        <div class="account-handle">@AgentJc11443</div>
+                    </div>
+                </div>
+                <div class="account-item">
+                    <span class="account-icon">◎</span>
+                    <div class="account-info">
+                        <div class="account-name">Solana</div>
+                        <div class="account-handle">ExgSre...YK6L</div>
+                    </div>
+                </div>
+                <div class="account-item">
+                    <span class="account-icon">⚽</span>
+                    <div class="account-info">
+                        <div class="account-name">Sorare</div>
+                        <div class="account-handle">jcubnft</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 4. Prediction Markets -->
+        <div class="widget">
+            <div class="widget-header">
+                <div class="widget-icon amber">📊</div>
+                <div class="widget-title">Prediction Markets</div>
+            </div>
+            <div id="predictions-list">
+                <div class="prediction-item">
+                    <span class="prediction-q">Loading predictions...</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 5. Second Brain -->
+        <div class="widget">
+            <div class="widget-header">
+                <div class="widget-icon pink">🧠</div>
+                <div class="widget-title">Second Brain</div>
+            </div>
+            <div class="stat-grid" style="margin-bottom: 0.75rem;">
+                <div class="stat-item">
+                    <div class="stat-value green" id="brain-notes">--</div>
+                    <div class="stat-label">Notes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value green" id="brain-captures">--</div>
+                    <div class="stat-label">Articles</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value green" id="brain-links">--</div>
+                    <div class="stat-label">Projects</div>
+                </div>
+            </div>
+            <div id="brain-recent">
+                <div class="brain-item">
+                    <span class="brain-icon">📝</span>
+                    <span class="brain-text">No recent captures</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TikTok Widget -->
+        <div class="widget" id="tiktok-widget">
+            <div class="widget-header">
+                <div class="widget-icon pink">🎵</div>
+                <div class="widget-title">TikTok</div>
+                <span class="widget-badge green" id="tiktok-badge">@degencollector</span>
+            </div>
+            <div class="tiktok-stats-grid">
+                <div class="tiktok-stat">
+                    <div class="tiktok-stat-value" id="tiktok-followers">--</div>
+                    <div class="tiktok-stat-label">Followers</div>
+                    <div class="tiktok-stat-change green" id="tiktok-followers-change">--</div>
+                </div>
+                <div class="tiktok-stat">
+                    <div class="tiktok-stat-value" id="tiktok-likes">--</div>
+                    <div class="tiktok-stat-label">Likes</div>
+                    <div class="tiktok-stat-change green" id="tiktok-likes-change">--</div>
+                </div>
+                <div class="tiktok-stat">
+                    <div class="tiktok-stat-value" id="tiktok-views">--</div>
+                    <div class="tiktok-stat-label">Views</div>
+                    <div class="tiktok-stat-change" id="tiktok-views-label">Total</div>
+                </div>
+            </div>
+            <div class="tiktok-videos" id="tiktok-videos">
+                <div class="tiktok-video-item">Loading videos...</div>
+            </div>
+        </div>
+        
+        <!-- Wallet Widget -->
+        <div class="widget">
+            <div class="widget-header">
+                <div class="widget-icon amber">◎</div>
+                <div class="widget-title">Shared Wallet</div>
+            </div>
+            <div class="wallet-grid">
+                <div class="wallet-item" style="grid-column: 1 / -1; text-align: center;">
+                    <div class="wallet-balance" id="jane-sol" style="font-size: 1.5rem;">-- SOL</div>
+                    <div class="wallet-usd" id="jane-usd" style="font-size: 1.1rem;">$--</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Trading -->
+        <div class="widget">
+            <div class="widget-header">
+                <div class="widget-icon green">📈</div>
+                <div class="widget-title">Trading</div>
+            </div>
+            <div id="trading-content">
+                <div class="info-row">
+                    <span class="info-label">Status</span>
+                    <span class="info-value">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Chat FAB -->
+    <button class="chat-fab" id="chat-fab" onclick="toggleChat()">💬</button>
+    
+    <!-- Chat Panel -->
+    <div class="chat-panel" id="chat-panel">
+        <div class="chat-header">
+            <div class="chat-header-left">
+                <div class="chat-avatar"><img src="icon-192.png" alt="Jane" style="width:100%;height:100%;border-radius:50%;"></div>
+                <div class="chat-header-info">
+                    <div class="chat-header-name">Jane</div>
+                    <div class="chat-header-status" id="chat-status">Connecting...</div>
+                </div>
+            </div>
+            <button class="chat-close" onclick="toggleChat()">✕</button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="chat-empty">Loading messages...</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chat-input" placeholder="Message Jane..." autocomplete="off">
+            <button class="chat-send" id="chat-send" onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+    
+    <script>
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('en-US', { 
+                hour: 'numeric', minute: '2-digit', hour12: true 
+            }).toLowerCase();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+        
+        // Fetch Mac Status
+        async function fetchMac() {
+            try {
+                const res = await fetch('/api/system');
+                const data = await res.json();
+                
+                const cpu = data.cpu || 0;
+                const mem = data.memory || 0;
+                const disk = data.disk || 0;
+                
+                document.getElementById('cpu-val').textContent = cpu + '%';
+                document.getElementById('mem-val').textContent = mem + '%';
+                document.getElementById('disk-val').textContent = disk + '%';
+                document.getElementById('cpu-bar').style.width = cpu + '%';
+                document.getElementById('mem-bar').style.width = mem + '%';
+                document.getElementById('disk-bar').style.width = disk + '%';
+                document.getElementById('mac-uptime').textContent = data.uptime || '--';
+                
+                // Color coding
+                const cpuBar = document.getElementById('cpu-bar');
+                const memBar = document.getElementById('mem-bar');
+                const diskBar = document.getElementById('disk-bar');
+                
+                cpuBar.className = 'progress-fill ' + (cpu > 90 ? 'red' : cpu > 70 ? 'amber' : 'green');
+                memBar.className = 'progress-fill ' + (mem > 95 ? 'red' : mem > 85 ? 'amber' : 'green');
+                diskBar.className = 'progress-fill ' + (disk > 90 ? 'red' : disk > 80 ? 'amber' : 'green');
+                
+                // Badge
+                const badge = document.getElementById('mac-badge');
+                if (cpu > 90 || mem > 95 || disk > 90) {
+                    badge.textContent = 'Critical';
+                    badge.className = 'widget-badge red';
+                } else if (cpu > 70 || mem > 85 || disk > 80) {
+                    badge.textContent = 'Elevated';
+                    badge.className = 'widget-badge amber';
+                } else {
+                    badge.textContent = 'Healthy';
+                    badge.className = 'widget-badge green';
+                }
+            } catch (e) {
+                document.getElementById('mac-badge').textContent = 'Online';
+            }
+        }
+        
+        // Fetch Jane Status
+        async function fetchJane() {
+            const modelEl = document.getElementById('jane-model');
+            const sessionEl = document.getElementById('jane-session');
+            const tasksEl = document.getElementById('jane-tasks');
+            const activeEl = document.getElementById('jane-active');
+            const channelEl = document.getElementById('jane-channel');
+            const badge = document.getElementById('jane-badge');
+            
+            try {
+                const [sessRes, taskRes] = await Promise.all([
+                    fetch('/api/sessions').catch(() => null),
+                    fetch('/api/tasks').catch(() => null)
+                ]);
+                
+                // Tasks
+                if (taskRes && taskRes.ok) {
+                    const tasks = await taskRes.json();
+                    tasksEl.textContent = (tasks.inProgress || []).length;
+                } else {
+                    tasksEl.textContent = '0';
+                }
+                
+                // Sessions
+                if (sessRes && sessRes.ok) {
+                    const data = await sessRes.json();
+                    const sessions = data.sessions || [];
+                    const main = sessions.find(s => s.kind === 'main') || sessions[0];
+                    
+                    if (main) {
+                        // Model
+                        if (main.model) {
+                            const model = main.model.split('/').pop().replace('claude-', '').split('-')[0];
+                            modelEl.textContent = model.charAt(0).toUpperCase() + model.slice(1);
+                        } else {
+                            modelEl.textContent = 'Opus';
+                        }
+                        
+                        // Session type
+                        sessionEl.textContent = main.kind === 'main' ? 'Main' : 'Sub';
+                        
+                        // Channel
+                        channelEl.textContent = main.channel ? main.channel.charAt(0).toUpperCase() + main.channel.slice(1) : 'Ready';
+                        
+                        // Last activity
+                        if (main.lastActivity) {
+                            const mins = Math.floor((Date.now() - new Date(main.lastActivity)) / 60000);
+                            activeEl.textContent = mins < 1 ? 'Just now' : mins < 60 ? mins + 'm ago' : Math.floor(mins/60) + 'h ago';
+                            
+                            // Update badge based on activity
+                            if (mins > 240) {
+                                badge.textContent = '💤 Sleeping';
+                                badge.className = 'widget-badge red';
+                            } else if (mins > 60) {
+                                badge.textContent = '😴 Idle';
+                                badge.className = 'widget-badge amber';
+                            } else {
+                                badge.textContent = 'Active';
+                                badge.className = 'widget-badge green';
+                            }
+                        } else {
+                            activeEl.textContent = 'Unknown';
+                        }
+                    } else {
+                        // No session found - show offline state
+                        modelEl.textContent = 'Opus';
+                        sessionEl.textContent = '--';
+                        activeEl.textContent = 'Offline';
+                        channelEl.textContent = '--';
+                        badge.textContent = '⚠️ Offline';
+                        badge.className = 'widget-badge red';
+                    }
+                } else {
+                    // API failed - show error state but keep previous values visible
+                    badge.textContent = '⚠️ Error';
+                    badge.className = 'widget-badge amber';
+                }
+            } catch (e) {
+                console.error('Jane fetch error:', e);
+                // Don't blank out - just update badge
+                badge.textContent = '⚠️ Error';
+                badge.className = 'widget-badge amber';
+            }
+        }
+        
+        // Fetch Predictions
+        async function fetchPredictions() {
+            try {
+                const res = await fetch('/api/predictions');
+                if (!res.ok) return;
+                const data = await res.json();
+                
+                let markets = data.markets || [];
+                if (markets.length === 0) return;
+                
+                // Categorize markets
+                const categories = {
+                    sports: { icon: '🏆', label: 'Sports', items: [] },
+                    politics: { icon: '🏛️', label: 'Politics', items: [] },
+                    finance: { icon: '💹', label: 'Business & Finance', items: [] },
+                    other: { icon: '🔮', label: 'Other', items: [] }
+                };
+                
+                markets.forEach(m => {
+                    const q = (m.question || '').toLowerCase();
+                    const slug = (m.slug || '').toLowerCase();
+                    
+                    if (m.isSportsMatch || m.isPinned || 
+                        /nba|nfl|nhl|mlb|super.?bowl|win.*game|vs\.|match|team|league|playoff/i.test(q + slug)) {
+                        categories.sports.items.push(m);
+                    } else if (/trump|biden|election|president|congress|senate|vote|governor|democrat|republican|iran|ukraine|russia|china|war|strike|tariff/i.test(q)) {
+                        categories.politics.items.push(m);
+                    } else if (/bitcoin|btc|eth|crypto|stock|price|market|nasdaq|acquire|ipo|company|tesla|apple|google|openai|ai\b/i.test(q)) {
+                        categories.finance.items.push(m);
+                    } else {
+                        categories.other.items.push(m);
+                    }
+                });
+                
+                // Render function for a single market
+                const renderMarket = (m) => {
+                    const yesOdds = m.yesOdds || 50;
+                    const noOdds = m.noOdds || (100 - yesOdds);
+                    const q = (m.question || '').replace(/🏈|⚽|🏀|🏒/g, '').trim();
+                    
+                    // Sports matchup with teams
+                    if (m.isSportsMatch && m.teams) {
+                        const t1 = m.teams.team1 || m.teams.favorite || {};
+                        const t2 = m.teams.team2 || m.teams.underdog || {};
+                        const t1Fav = (t1.odds || 50) >= (t2.odds || 50);
+                        
+                        return `<div class="prediction-item">
+                            <div class="prediction-matchup">
+                                <div class="prediction-team ${t1Fav ? 'favorite' : 'underdog'}">
+                                    <div class="team-name">${t1.name || 'Team 1'}</div>
+                                    <div class="team-odds">${t1.odds || yesOdds}%</div>
+                                </div>
+                                <div class="prediction-vs">VS</div>
+                                <div class="prediction-team ${!t1Fav ? 'favorite' : 'underdog'}">
+                                    <div class="team-name">${t2.name || 'Team 2'}</div>
+                                    <div class="team-odds">${t2.odds || noOdds}%</div>
+                                </div>
+                            </div>
+                        </div>`;
+                    }
+                    
+                    // Super Bowl special case
+                    if (m.isPinned && m.teams) {
+                        const fav = m.teams.favorite || {};
+                        const dog = m.teams.underdog || {};
+                        return `<div class="prediction-item">
+                            <div class="prediction-q">🏆 Super Bowl LX</div>
+                            <div class="prediction-matchup">
+                                <div class="prediction-team favorite">
+                                    <div class="team-name">${fav.name || 'Favorite'}</div>
+                                    <div class="team-odds">${fav.odds || yesOdds}%</div>
+                                </div>
+                                <div class="prediction-vs">VS</div>
+                                <div class="prediction-team underdog">
+                                    <div class="team-name">${dog.name || 'Underdog'}</div>
+                                    <div class="team-odds">${dog.odds || noOdds}%</div>
+                                </div>
+                            </div>
+                        </div>`;
+                    }
+                    
+                    // Regular yes/no prediction
+                    const shortQ = q.substring(0, 45);
+                    return `<div class="prediction-item">
+                        <div class="prediction-q">${shortQ}${q.length > 45 ? '...' : ''}</div>
+                        <div class="prediction-odds-row">
+                            <div class="prediction-odds yes">
+                                <div class="odds-label">Yes</div>
+                                <div class="odds-value">${yesOdds}%</div>
+                            </div>
+                            <div class="prediction-odds no">
+                                <div class="odds-label">No</div>
+                                <div class="odds-value">${noOdds}%</div>
+                            </div>
+                        </div>
+                    </div>`;
+                };
+                
+                // Build HTML with category headers
+                let html = '';
+                const order = ['sports', 'finance', 'politics', 'other'];
+                
+                order.forEach(catKey => {
+                    const cat = categories[catKey];
+                    if (cat.items.length > 0) {
+                        html += `<div class="prediction-category ${catKey}">
+                            <span class="prediction-category-icon">${cat.icon}</span>
+                            <span class="prediction-category-label">${cat.label}</span>
+                        </div>`;
+                        // Show max 2 per category
+                        html += cat.items.slice(0, 2).map(renderMarket).join('');
+                    }
+                });
+                
+                document.getElementById('predictions-list').innerHTML = html;
+                
+            } catch (e) { console.error('Predictions error:', e); }
+        }
+        
+        // Fetch Second Brain
+        async function fetchBrain() {
+            try {
+                const res = await fetch('/api/mindmap');
+                if (!res.ok) return;
+                const data = await res.json();
+                
+                // API returns topics with counts
+                const topics = data.topics || {};
+                const notes = topics.notes || 0;
+                const articles = topics.articles || 0;
+                const projects = topics.projects || 0;
+                const total = Object.values(topics).reduce((a, b) => a + b, 0);
+                
+                document.getElementById('brain-notes').textContent = notes;
+                document.getElementById('brain-captures').textContent = articles;
+                document.getElementById('brain-links').textContent = projects;
+                
+                // Show topic breakdown
+                document.getElementById('brain-recent').innerHTML = `
+                    <div class="brain-item">
+                        <span class="brain-icon">📚</span>
+                        <span class="brain-text">Articles: ${articles}</span>
+                    </div>
+                    <div class="brain-item">
+                        <span class="brain-icon">💡</span>
+                        <span class="brain-text">Ideas: ${topics.ideas || 0}</span>
+                    </div>
+                    <div class="brain-item">
+                        <span class="brain-icon">👥</span>
+                        <span class="brain-text">People: ${topics.people || 0}</span>
+                    </div>
+                `;
+            } catch (e) { console.error('Brain error:', e); }
+        }
+        
+        // Fetch TikTok
+        async function fetchTikTok() {
+            try {
+                const res = await fetch('/api/tiktok');
+                const data = await res.json();
+                
+                // Profile stats
+                const followers = data.followers || data.profile?.followers || 0;
+                const likes = data.likes || data.profile?.likes || 0;
+                
+                document.getElementById('tiktok-followers').textContent = followers.toLocaleString();
+                document.getElementById('tiktok-likes').textContent = likes.toLocaleString();
+                
+                // Calculate total views from videos
+                const videos = data.videos || [];
+                const totalViews = videos.reduce((sum, v) => sum + (v.views || 0), 0);
+                document.getElementById('tiktok-views').textContent = totalViews.toLocaleString();
+                
+                // Calculate changes from history
+                const history = data.history || [];
+                if (history.length >= 2) {
+                    const prev = history[history.length - 2];
+                    const followerChange = followers - (prev.followers || followers);
+                    const likeChange = likes - (prev.likes || likes);
+                    
+                    const fChangeEl = document.getElementById('tiktok-followers-change');
+                    const lChangeEl = document.getElementById('tiktok-likes-change');
+                    
+                    if (followerChange !== 0) {
+                        fChangeEl.textContent = (followerChange > 0 ? '+' : '') + followerChange + ' today';
+                        fChangeEl.className = 'tiktok-stat-change ' + (followerChange >= 0 ? 'green' : 'red');
+                    } else {
+                        fChangeEl.textContent = 'No change';
+                        fChangeEl.className = 'tiktok-stat-change';
+                    }
+                    
+                    if (likeChange !== 0) {
+                        lChangeEl.textContent = (likeChange > 0 ? '+' : '') + likeChange + ' today';
+                        lChangeEl.className = 'tiktok-stat-change ' + (likeChange >= 0 ? 'green' : 'red');
+                    } else {
+                        lChangeEl.textContent = 'No change';
+                        lChangeEl.className = 'tiktok-stat-change';
+                    }
+                }
+                
+                // Render videos
+                const videosEl = document.getElementById('tiktok-videos');
+                if (videos.length > 0) {
+                    videosEl.innerHTML = videos.slice(0, 4).map(v => `
+                        <div class="tiktok-video-item" onclick="window.open('${v.url}', '_blank')">
+                            <span>📹</span>
+                            <span class="tiktok-video-title">${v.title || 'Untitled'}</span>
+                            <span class="tiktok-video-views">${(v.views || 0).toLocaleString()} 👁️</span>
+                        </div>
+                    `).join('');
+                } else {
+                    videosEl.innerHTML = '<div class="tiktok-video-item">No videos yet</div>';
+                }
+                
+            } catch (e) {
+                console.error('TikTok fetch error:', e);
+            }
+        }
+        
+        // Fetch SOL Wallets (live from RPC)
+        async function fetchSol() {
+            try {
+                const res = await fetch('/api/wallet');
+                if (!res.ok) throw new Error('Wallet API failed');
+                
+                const data = await res.json();
+                
+                const janeBal = data.jane?.balance || 0;
+                const janeUsd = data.jane?.usd || 0;
+                
+                // Shared wallet (Jane's)
+                document.getElementById('jane-sol').textContent = janeBal.toFixed(4) + ' SOL';
+                document.getElementById('jane-usd').textContent = '$' + janeUsd.toFixed(2);
+                
+            } catch (e) {
+                console.error('Wallet fetch error:', e);
+                document.getElementById('jane-sol').textContent = '0.584 SOL';
+            }
+        }
+        
+        // Fetch Trading
+        async function fetchTrading() {
+            try {
+                const res = await fetch('/api/trading');
+                if (!res.ok) return;
+                const data = await res.json();
+                
+                const open = (data.positions || []).filter(p => p.status === 'open' || !p.status);
+                const content = document.getElementById('trading-content');
+                
+                if (open.length === 0) {
+                    const realized = data.summary?.totalRealizedPnL || 0;
+                    const pct = data.summary?.totalRealizedPercent || 0;
+                    const isPos = realized >= 0;
+                    content.innerHTML = `
+                        <div class="info-row">
+                            <span class="info-label">Open Positions</span>
+                            <span class="info-value">None</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Realized P&L</span>
+                            <span class="info-value ${isPos ? 'green' : ''}">${isPos ? '+' : ''}$${realized.toFixed(2)} (${isPos ? '+' : ''}${pct.toFixed(1)}%)</span>
+                        </div>
+                    `;
+                } else {
+                    content.innerHTML = open.map(p => `
+                        <div class="info-row">
+                            <span class="info-label">${p.symbol || p.token}</span>
+                            <span class="info-value ${p.pnlPercent >= 0 ? 'green' : ''}">${p.pnlPercent >= 0 ? '+' : ''}${p.pnlPercent?.toFixed(1)}%</span>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) {}
+        }
+        
+        // Menu Functions
+        function toggleMenu() {
+            document.getElementById('menu-btn').classList.toggle('active');
+            document.getElementById('menu-overlay').classList.toggle('open');
+            document.getElementById('slide-menu').classList.toggle('open');
+        }
+        
+        function toggleEditMode() {
+            document.body.classList.toggle('edit-mode');
+            toggleMenu();
+            if (document.body.classList.contains('edit-mode')) {
+                showToast('Edit mode: Drag to reorder, tap X to hide');
+            } else {
+                showToast('Edit mode off');
+            }
+        }
+        
+        function resetLayout() {
+            localStorage.removeItem('jane-mobile-layout');
+            localStorage.removeItem('jane-mobile-hidden');
+            toggleMenu();
+            showToast('Layout reset! Refreshing...');
+            setTimeout(() => location.reload(), 1000);
+        }
+        
+        function refreshAll() {
+            toggleMenu();
+            showToast('Refreshing all data...');
+            fetchMac();
+            fetchJane();
+            fetchPredictions();
+            fetchBrain();
+            fetchTikTok();
+            fetchSol();
+            fetchTrading();
+            setTimeout(() => showToast('Data refreshed!'), 500);
+        }
+        
+        function requestTikTokUpdate() {
+            toggleMenu();
+            fetch('/api/tiktok-request-update').then(() => {
+                showToast('TikTok update requested! Jane will check on next heartbeat.');
+            }).catch(() => {
+                showToast('Request sent');
+            });
+        }
+        
+        function toggleNightMode() {
+            const isNight = document.body.classList.toggle('night-mode');
+            localStorage.setItem('jane-night-mode', isNight ? 'on' : 'off');
+            document.getElementById('night-badge').textContent = isNight ? 'ON' : 'OFF';
+        }
+        
+        function showToast(msg) {
+            let toast = document.getElementById('toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast';
+                toast.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.9);color:white;padding:0.75rem 1.5rem;border-radius:25px;font-size:0.85rem;z-index:9999;opacity:0;transition:opacity 0.3s;';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            setTimeout(() => toast.style.opacity = '0', 2500);
+        }
+        
+        // Check saved states
+        if (localStorage.getItem('jane-night-mode') === 'on') {
+            document.body.classList.add('night-mode');
+            document.getElementById('night-badge').textContent = 'ON';
+        }
+        
+        // Init
+        fetchMac();
+        fetchJane();
+        fetchPredictions();
+        fetchBrain();
+        fetchTikTok();
+        fetchSol();
+        fetchTrading();
+        
+        // Refresh
+        setInterval(fetchMac, 60000);
+        setInterval(fetchJane, 30000);
+        setInterval(fetchPredictions, 120000);
+        setInterval(fetchBrain, 120000);
+        setInterval(fetchTikTok, 300000);
+        setInterval(fetchSol, 60000);
+        setInterval(fetchTrading, 30000);
+        
+        // ==================== CHAT ====================
+        let chatWs = null;
+        let chatOpen = false;
+        let chatMessages = [];
+        let chatReconnectTimer = null;
+        let chatPollTimer = null;
+        let isLocal = false;
+        
+        function toggleChat() {
+            chatOpen = !chatOpen;
+            document.getElementById('chat-panel').classList.toggle('open', chatOpen);
+            document.getElementById('chat-fab').classList.toggle('hidden', chatOpen);
+            
+            if (chatOpen) {
+                initChat();
+                document.getElementById('chat-input').focus();
+            } else {
+                // Stop polling when closed
+                if (chatPollTimer) {
+                    clearInterval(chatPollTimer);
+                    chatPollTimer = null;
+                }
+            }
+        }
+        
+        function initChat() {
+            const host = window.location.hostname;
+            isLocal = host === 'localhost' || host === '127.0.0.1' || host.startsWith('192.168.');
+            
+            const statusEl = document.getElementById('chat-status');
+            statusEl.textContent = 'Connecting...';
+            statusEl.classList.remove('online');
+            
+            // Try WebSocket first if local, otherwise use HTTP API
+            if (isLocal) {
+                connectChatWs();
+            } else {
+                // For tunnel access, use HTTP API with polling
+                statusEl.textContent = 'Ready';
+                statusEl.classList.add('online');
+                fetchChatHistory();
+                // Poll for new messages every 3 seconds
+                if (!chatPollTimer) {
+                    chatPollTimer = setInterval(fetchChatHistory, 3000);
+                }
+            }
+        }
+        
+        function connectChatWs() {
+            if (chatWs && chatWs.readyState === WebSocket.OPEN) return;
+            
+            const statusEl = document.getElementById('chat-status');
+            
+            try {
+                chatWs = new WebSocket('ws://127.0.0.1:18789');
+                
+                chatWs.onopen = () => {
+                    statusEl.textContent = 'Online';
+                    statusEl.classList.add('online');
+                    chatWs.send(JSON.stringify({ type: 'chat.history', data: { limit: 50 } }));
+                };
+                
+                chatWs.onmessage = (event) => {
+                    try {
+                        handleChatWsMessage(JSON.parse(event.data));
+                    } catch (e) {}
+                };
+                
+                chatWs.onclose = () => {
+                    statusEl.textContent = 'Reconnecting...';
+                    statusEl.classList.remove('online');
+                    if (chatOpen && !chatReconnectTimer) {
+                        chatReconnectTimer = setTimeout(() => {
+                            chatReconnectTimer = null;
+                            connectChatWs();
+                        }, 3000);
+                    }
+                };
+                
+                chatWs.onerror = () => {
+                    // Fall back to HTTP mode
+                    statusEl.textContent = 'Ready (HTTP)';
+                    statusEl.classList.add('online');
+                    fetchChatHistory();
+                };
+            } catch (e) {
+                // Fall back to HTTP
+                statusEl.textContent = 'Ready';
+                statusEl.classList.add('online');
+                fetchChatHistory();
+            }
+        }
+        
+        function handleChatWsMessage(msg) {
+            const type = msg.type || msg.kind;
+            
+            if (type === 'chat.history') {
+                chatMessages = msg.data?.messages || msg.messages || [];
+                renderChatMessages();
+            } else if (type === 'chat.message' || type === 'message') {
+                const data = msg.data || msg;
+                chatMessages.push({
+                    role: data.role || 'assistant',
+                    content: data.content || data.text || data.message,
+                    timestamp: data.timestamp || Date.now()
+                });
+                renderChatMessages();
+                hideTyping();
+            } else if (type === 'chat.typing') {
+                showTyping();
+            }
+        }
+        
+        async function fetchChatHistory() {
+            try {
+                const res = await fetch('/api/chat/history');
+                if (res.ok) {
+                    const data = await res.json();
+                    const newMessages = data.messages || [];
+                    if (newMessages.length !== chatMessages.length) {
+                        chatMessages = newMessages;
+                        renderChatMessages();
+                    }
+                }
+            } catch (e) {}
+        }
+        
+        function renderChatMessages() {
+            const container = document.getElementById('chat-messages');
+            
+            if (chatMessages.length === 0) {
+                container.innerHTML = '<div class="chat-empty">No messages yet. Say hi! 👋</div>';
+                return;
+            }
+            
+            container.innerHTML = chatMessages.map(m => {
+                const role = m.role || 'assistant';
+                const content = m.content || m.text || m.message || '';
+                const time = m.timestamp ? new Date(m.timestamp).toLocaleTimeString('en-US', { 
+                    hour: 'numeric', minute: '2-digit', hour12: true 
+                }) : '';
+                
+                if (role === 'system' || role === 'tool') return '';
+                
+                const formatted = content
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/`(.*?)`/g, '<code>$1</code>')
+                    .replace(/\n/g, '<br>');
+                
+                return `<div class="chat-msg ${role}">
+                    <div class="chat-msg-content">${formatted}</div>
+                    ${time ? `<div class="chat-msg-time">${time}</div>` : ''}
+                </div>`;
+            }).join('') + '<div class="chat-typing" id="chat-typing"><span></span><span></span><span></span></div>';
+            
+            scrollToBottom();
+        }
+        
+        function scrollToBottom() {
+            const container = document.getElementById('chat-messages');
+            setTimeout(() => container.scrollTop = container.scrollHeight, 50);
+        }
+        
+        function showTyping() {
+            const el = document.getElementById('chat-typing');
+            if (el) el.classList.add('visible');
+        }
+        
+        function hideTyping() {
+            const el = document.getElementById('chat-typing');
+            if (el) el.classList.remove('visible');
+        }
+        
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            
+            if (!text) return;
+            
+            // Add to local messages immediately
+            chatMessages.push({
+                role: 'user',
+                content: text,
+                timestamp: Date.now()
+            });
+            renderChatMessages();
+            input.value = '';
+            showTyping();
+            
+            // Send via WebSocket if available, otherwise HTTP API
+            if (chatWs && chatWs.readyState === WebSocket.OPEN) {
+                chatWs.send(JSON.stringify({
+                    type: 'chat.send',
+                    data: { message: text, channel: 'webchat' }
+                }));
+            } else {
+                // Use HTTP API (works over tunnel)
+                try {
+                    const res = await fetch('/api/chat/send', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: text })
+                    });
+                    const data = await res.json();
+                    
+                    if (data.queued) {
+                        showToast('📨 Message queued for Jane');
+                    }
+                    
+                    // Poll for response
+                    setTimeout(fetchChatHistory, 1000);
+                    setTimeout(fetchChatHistory, 3000);
+                    setTimeout(fetchChatHistory, 6000);
+                    setTimeout(() => hideTyping(), 10000);
+                    
+                } catch (e) {
+                    showToast('Failed to send message');
+                    hideTyping();
+                }
+            }
+        }
+        
+        // Handle Enter key
+        document.getElementById('chat-input').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

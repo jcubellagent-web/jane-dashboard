@@ -682,13 +682,9 @@
                 <div class="mind-model-legend" id="mind-model-legend">
                     <span class="model-dot" style="--dot-color:#4ade80">● Opus</span>
                     <span class="model-dot" style="--dot-color:#facc15">● Whisper</span>
-                    <span class="model-dot" style="--dot-color:#3b82f6">● Browser</span>
                     <span class="model-dot" style="--dot-color:#f97316">● Ollama</span>
-                    <span class="model-dot" style="--dot-color:#1d9bf0">● X</span>
-                    <span class="model-dot" style="--dot-color:#ffd700">● Sorare</span>
-                    <span class="model-dot" style="--dot-color:#a855f7">● DexScreener</span>
-                    <span class="model-dot" style="--dot-color:#25d366">● WhatsApp</span>
-                    <span class="model-dot" style="--dot-color:#06b6d4">● Finnhub</span>
+                    <span class="model-dot" style="--dot-color:#3b82f6">● Browser</span>
+                    <span class="model-dot" style="--dot-color:#ec4899">● Qwen</span>
                 </div>
                 <div class="mind-body" style="flex-direction: row-reverse;">
                     <!-- Brain Map SVG -->
@@ -1321,46 +1317,48 @@
         let mindState = { task: null, steps: [], thought: 'Ready for your next request.' };
 
         var brainRegions = [
-            { name:'Opus', dx:0, dy:-80 },
-            { name:'Whisper', dx:47, dy:-65 },
-            { name:'Browser', dx:76, dy:-25 },
-            { name:'Ollama', dx:76, dy:25 },
-            { name:'X/Twitter', dx:47, dy:65 },
-            { name:'Sorare', dx:0, dy:80 },
-            { name:'DexScreener', dx:-47, dy:65 },
-            { name:'Gmail', dx:-76, dy:25 },
-            { name:'WhatsApp', dx:-76, dy:-25 },
-            { name:'Finnhub', dx:-47, dy:-65 }
+            { name:'Reasoning', dx:0, dy:-80 },
+            { name:'Coding', dx:47, dy:-65 },
+            { name:'Research', dx:76, dy:-25 },
+            { name:'Communication', dx:76, dy:25 },
+            { name:'Content', dx:47, dy:65 },
+            { name:'Markets', dx:0, dy:80 },
+            { name:'Gaming', dx:-47, dy:65 },
+            { name:'Browsing', dx:-76, dy:25 },
+            { name:'Listening', dx:-76, dy:-25 },
+            { name:'Memory', dx:-47, dy:-65 }
         ];
         var brainToolColors = {
             'opus':'#4ade80','claude':'#4ade80','sonnet':'#8b5cf6',
-            'whisper':'#facc15',
+            'whisper':'#facc15','tts':'#facc15',
             'browser':'#3b82f6','web_search':'#3b82f6','web_fetch':'#3b82f6',
             'ollama':'#f97316',
-            'x':'#1d9bf0','twitter':'#1d9bf0',
-            'sorare':'#ffd700',
-            'dexscreener':'#a855f7','trading':'#a855f7','memecoins':'#a855f7','kalshi':'#a855f7',
-            'gmail':'#ef4444','email':'#ef4444',
-            'whatsapp':'#25d366','message':'#25d366',
-            'finnhub':'#06b6d4','coingecko':'#06b6d4','ticker':'#06b6d4',
+            'qwen':'#ec4899',
+            'x':'#4ade80','twitter':'#4ade80',
+            'sorare':'#4ade80',
+            'dexscreener':'#4ade80','trading':'#4ade80','memecoins':'#4ade80','kalshi':'#4ade80',
+            'gmail':'#4ade80','email':'#4ade80',
+            'whatsapp':'#4ade80','message':'#4ade80',
+            'finnhub':'#4ade80','coingecko':'#4ade80','ticker':'#4ade80',
             'stable-diffusion':'#ec4899','sd':'#ec4899','image':'#ec4899',
             'default':'rgba(74,222,128,0.3)'
         };
         var brainToolToRegions = {
-            'opus':['Opus'],'claude':['Opus'],'sonnet':['Opus'],
-            'ollama':['Ollama'],
-            'whisper':['Whisper'],'tts':['Whisper'],
-            'web_search':['Browser'],'web_fetch':['Browser'],'browser':['Browser'],
-            'exec':['Opus'],'read':['Opus'],'write':['Opus'],'edit':['Opus'],
-            'message':['WhatsApp'],'sessions_spawn':['Opus'],'sessions_send':['WhatsApp'],
-            'trading':['DexScreener'],'kalshi':['DexScreener'],'memecoins':['DexScreener'],
-            'sorare':['Sorare'],
-            'x':['X/Twitter'],'twitter':['X/Twitter'],
-            'gmail':['Gmail'],'email':['Gmail'],
-            'finnhub':['Finnhub'],'coingecko':['Finnhub'],'ticker':['Finnhub'],
-            'stable-diffusion':['Browser'],'sd':['Browser'],'image':['Browser'],
-            'cron':['Opus'],'session_status':['Opus'],'sessions_list':['Opus'],
-            'memory_search':['Opus'],'memory_get':['Opus']
+            'opus':['Reasoning'],'claude':['Reasoning'],'sonnet':['Reasoning'],
+            'ollama':['Coding','Reasoning'],'qwen':['Coding'],
+            'whisper':['Listening'],'tts':['Listening'],
+            'web_search':['Research'],'web_fetch':['Research'],'browser':['Browsing'],
+            'exec':['Coding'],'read':['Memory'],'write':['Memory'],'edit':['Memory','Coding'],
+            'message':['Communication'],'sessions_spawn':['Reasoning'],'sessions_send':['Communication'],
+            'trading':['Markets'],'kalshi':['Markets'],'memecoins':['Markets'],
+            'sorare':['Gaming'],
+            'x':['Content'],'twitter':['Content'],
+            'gmail':['Communication'],'email':['Communication'],
+            'finnhub':['Markets'],'coingecko':['Markets'],'ticker':['Markets'],
+            'stable-diffusion':['Content'],'sd':['Content'],'image':['Content'],
+            'cron':['Reasoning'],'session_status':['Reasoning'],'sessions_list':['Reasoning'],
+            'memory_search':['Memory'],'memory_get':['Memory'],
+            'whatsapp':['Communication']
         };
         var activeRegions = new Set();
 

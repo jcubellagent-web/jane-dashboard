@@ -865,9 +865,9 @@
         <div style="position:absolute;top:0.4rem;right:0.75rem;display:flex;gap:0.4rem;align-items:center;">
             <span class="mm-legend-dot" id="mm-dot-opus" style="color:#4ade80;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Opus</span></span>
             <span class="mm-legend-dot" id="mm-dot-whisper" style="color:#facc15;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Whisper</span></span>
-            <span class="mm-legend-dot" id="mm-dot-browser" style="color:#3b82f6;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Browser</span></span>
             <span class="mm-legend-dot" id="mm-dot-ollama" style="color:#f97316;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Ollama</span></span>
-            <span class="mm-legend-dot" id="mm-dot-x" style="color:#1d9bf0;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">X</span></span>
+            <span class="mm-legend-dot" id="mm-dot-browser" style="color:#3b82f6;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Browser</span></span>
+            <span class="mm-legend-dot" id="mm-dot-qwen" style="color:#ec4899;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Qwen</span></span>
         </div>
         <canvas id="neural-sphere" class="neural-sphere-canvas" width="280" height="210"></canvas>
         <svg class="mindmap-svg" viewBox="0 -8 160 110" xmlns="http://www.w3.org/2000/svg">
@@ -903,16 +903,16 @@
                 <circle cx="57" cy="11" r="2.5" class="mindmap-node" data-node="9"/>
             </g>
             <g id="mm-labels">
-                <text x="80" y="-3" class="mindmap-label" data-node="0">OPUS</text>
-                <text x="113" y="8" class="mindmap-label" data-node="1">WHISPER</text>
-                <text x="130" y="25" class="mindmap-label" data-node="2">BROWSER</text>
-                <text x="130" y="67" class="mindmap-label" data-node="3">OLLAMA</text>
-                <text x="113" y="88" class="mindmap-label" data-node="4">X/TWITTER</text>
-                <text x="80" y="95" class="mindmap-label" data-node="5">SORARE</text>
-                <text x="45" y="88" class="mindmap-label" data-node="6">DEXSCREENER</text>
-                <text x="30" y="67" class="mindmap-label" data-node="7">GMAIL</text>
-                <text x="30" y="25" class="mindmap-label" data-node="8">WHATSAPP</text>
-                <text x="45" y="8" class="mindmap-label" data-node="9">FINNHUB</text>
+                <text x="80" y="-3" class="mindmap-label" data-node="0">REASONING</text>
+                <text x="113" y="8" class="mindmap-label" data-node="1">CODING</text>
+                <text x="130" y="25" class="mindmap-label" data-node="2">RESEARCH</text>
+                <text x="130" y="67" class="mindmap-label" data-node="3">COMMUNICATION</text>
+                <text x="113" y="88" class="mindmap-label" data-node="4">CONTENT</text>
+                <text x="80" y="95" class="mindmap-label" data-node="5">MARKETS</text>
+                <text x="45" y="88" class="mindmap-label" data-node="6">GAMING</text>
+                <text x="30" y="67" class="mindmap-label" data-node="7">BROWSING</text>
+                <text x="30" y="25" class="mindmap-label" data-node="8">LISTENING</text>
+                <text x="45" y="8" class="mindmap-label" data-node="9">MEMORY</text>
             </g>
             <g id="mm-pulses">
                 <g id="mm-flow-container"></g>
@@ -1406,34 +1406,37 @@
         // Regions: 0=REASONING, 1=CODE, 2=WEB, 3=SOCIAL, 4=DATA, 5=MARKET, 6=MEMORY, 7=LANGUAGE
         // Regions: 0=OPUS, 1=WHISPER, 2=BROWSER, 3=OLLAMA, 4=X/TWITTER, 5=SORARE, 6=DEXSCREENER, 7=GMAIL, 8=WHATSAPP, 9=FINNHUB
         const keywordToRegions = {
-            // Opus (0) — reasoning, code, exec
+            // Reasoning (0)
             reason: [0], analy: [0], think: [0], strateg: [0], plan: [0], evaluat: [0], decision: [0],
-            code: [0], script: [0], build: [0], edit: [0], function: [0], debug: [0], implement: [0],
-            shell: [0], command: [0], commit: [0], ' run': [0], css: [0], html: [0], svg: [0],
-            exec: [0], read: [0], write: [0], memory: [0],
-            // Whisper (1)
-            transcri: [1], voice: [1], audio: [1], speech: [1], tts: [1], whisper: [1],
-            // Browser (2)
-            'web search': [2], 'web fetch': [2], browser: [2], scrape: [2], crawl: [2], url: [2], website: [2],
-            'searching': [2], 'fetching': [2], image: [2],
-            // Ollama (3)
-            ollama: [3], 'local llm': [3],
-            // X/Twitter (4)
+            opus: [0], claude: [0], sonnet: [0],
+            // Coding (1)
+            code: [1], script: [1], build: [1], function: [1], debug: [1], implement: [1],
+            shell: [1], command: [1], commit: [1], css: [1], html: [1], svg: [1],
+            exec: [1], ollama: [1], qwen: [1], 'local llm': [1],
+            // Research (2)
+            'web search': [2], 'web fetch': [2], scrape: [2], crawl: [2], url: [2], website: [2],
+            'searching': [2], 'fetching': [2], research: [2],
+            // Communication (3)
+            whatsapp: [3], message: [3], gmail: [3], email: [3], inbox: [3], newsletter: [3],
+            notification: [3], alert: [3],
+            // Content (4)
             tweet: [4], 'post': [4], reply: [4], 'x timeline': [4], '@': [4], thread: [4], engag: [4], twitter: [4],
-            // Sorare (5)
-            sorare: [5], lineup: [5], 'game week': [5], crafting: [5],
-            // DexScreener (6)
-            dexscreener: [6], trad: [6], swap: [6], jupiter: [6], memecoin: [6], kalshi: [6], defi: [6], token: [6],
-            // Gmail (7)
-            gmail: [7], email: [7], inbox: [7], newsletter: [7],
-            // WhatsApp (8)
-            whatsapp: [8], message: [8],
-            // Finnhub/CoinGecko (9)
-            finnhub: [9], coingecko: [9], market: [9], price: [9], ticker: [9], solana: [9], bitcoin: [9],
+            image: [4], 'stable-diffusion': [4], creative: [4],
+            // Markets (5)
+            finnhub: [5], coingecko: [5], market: [5], price: [5], ticker: [5], solana: [5], bitcoin: [5],
+            dexscreener: [5], trad: [5], swap: [5], jupiter: [5], memecoin: [5], kalshi: [5], defi: [5], token: [5],
+            // Gaming (6)
+            sorare: [6], lineup: [6], 'game week': [6], crafting: [6], fantasy: [6],
+            // Browsing (7)
+            browser: [7], automat: [7], navigate: [7],
+            // Listening (8)
+            transcri: [8], voice: [8], audio: [8], speech: [8], tts: [8], whisper: [8],
+            // Memory (9)
+            read: [9], write: [9], edit: [9], memory: [9], file: [9], dashboard: [9], context: [9],
         };
 
         // Model/tool name normalization (tool field → canonical tool)
-        const modelNames = new Set(['opus','claude','sonnet','whisper','ollama','sd','browser','web_search','web_fetch','x','twitter','sorare','dexscreener','gmail','email','whatsapp','message','finnhub','coingecko','ticker']);
+        const modelNames = new Set(['opus','claude','sonnet','whisper','ollama','qwen','sd','browser','web_search','web_fetch','x','twitter','sorare','dexscreener','gmail','email','whatsapp','message','finnhub','coingecko','ticker']);
 
         function getActiveRegions(steps) {
             const regions = new Map(); // regionIndex → model name
@@ -1467,7 +1470,7 @@
                 }
                 // Default: if tool is a known model/tool, map to its natural region
                 if (!matched) {
-                    const modelRegion = {opus:0, claude:0, sonnet:0, whisper:1, ollama:3, browser:2, web_search:2, web_fetch:2, x:4, twitter:4, sorare:5, dexscreener:6, gmail:7, email:7, whatsapp:8, message:8, finnhub:9, coingecko:9, ticker:9, sd:2}[model];
+                    const modelRegion = {opus:0, claude:0, sonnet:0, whisper:8, ollama:1, qwen:1, browser:7, web_search:2, web_fetch:2, x:4, twitter:4, sorare:6, dexscreener:5, gmail:3, email:3, whatsapp:3, message:3, finnhub:5, coingecko:5, ticker:5, sd:4}[model];
                     if (modelRegion !== undefined) regions.set(modelRegion, model);
                     else regions.set(0, model);
                 }
@@ -1482,9 +1485,9 @@
             card.classList.toggle('mindmap-idle', !isActive);
 
             // Update model legend — highlight all active models
-            const modelMap = {opus:'mm-dot-opus', whisper:'mm-dot-whisper', browser:'mm-dot-browser', ollama:'mm-dot-ollama', x:'mm-dot-x'};
-            const colorMap = {opus:'#4ade80', claude:'#4ade80', sonnet:'#8b5cf6', whisper:'#facc15', browser:'#3b82f6', ollama:'#f97316', x:'#1d9bf0', twitter:'#1d9bf0', sorare:'#ffd700', dexscreener:'#a855f7', gmail:'#ef4444', whatsapp:'#25d366', finnhub:'#06b6d4', coingecko:'#06b6d4', sd:'#ec4899'};
-            const classMap = {sonnet:'lit-sonnet', whisper:'lit-whisper', browser:'lit-browser', ollama:'lit-ollama', x:'lit-x', twitter:'lit-x', sorare:'lit-sorare', dexscreener:'lit-dex', gmail:'lit-gmail', whatsapp:'lit-whatsapp', finnhub:'lit-finnhub', coingecko:'lit-finnhub', sd:'lit-sd'};
+            const modelMap = {opus:'mm-dot-opus', whisper:'mm-dot-whisper', browser:'mm-dot-browser', ollama:'mm-dot-ollama', qwen:'mm-dot-qwen'};
+            const colorMap = {opus:'#4ade80', claude:'#4ade80', sonnet:'#8b5cf6', whisper:'#facc15', browser:'#3b82f6', ollama:'#f97316', qwen:'#ec4899', x:'#4ade80', twitter:'#4ade80', sorare:'#4ade80', dexscreener:'#4ade80', gmail:'#4ade80', whatsapp:'#4ade80', finnhub:'#4ade80', coingecko:'#4ade80', sd:'#ec4899'};
+            const classMap = {sonnet:'lit-sonnet', whisper:'lit-whisper', browser:'lit-browser', ollama:'lit-ollama', qwen:'lit-sd', x:'lit', twitter:'lit', sorare:'lit', dexscreener:'lit', gmail:'lit', whatsapp:'lit', finnhub:'lit', coingecko:'lit', sd:'lit-sd'};
             document.querySelectorAll('.mm-legend-dot').forEach(d => d.style.opacity = '0.35');
             if (isActive && window._mmModel) {
                 const el = document.getElementById(modelMap[window._mmModel]);

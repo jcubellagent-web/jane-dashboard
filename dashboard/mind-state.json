@@ -1,77 +1,53 @@
 {
+  "goal": "Brain capability nodes + model key updated",
   "task": null,
   "steps": [
     {
-      "label": "Editing dashboard UI",
+      "label": "Transcribe audio",
+      "status": "done",
+      "tool": "whisper"
+    },
+    {
+      "label": "Update brain nodes to capabilities (both platforms)",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Editing dashboard UI",
+      "label": "Pull Qwen2.5-Coder:7b to Mini #2",
+      "status": "pending"
+    },
+    {
+      "label": "Add Qwen to brain model key + color",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Editing dashboard UI",
+      "label": "Commit changes",
       "status": "done",
-      "tool": "opus"
-    },
-    {
-      "label": "Running Python script",
-      "status": "done",
-      "tool": "opus"
-    },
-    {
-      "label": "Running shell command",
-      "status": "done",
-      "tool": "opus"
-    },
-    {
-      "label": "Inspecting files",
-      "status": "done",
-      "tool": "opus"
-    }
-  ],
-  "thought": "Reply sent. Idle — waiting for Josh.",
-  "subAgents": [
-    {
-      "label": "neon-icons-sweep",
-      "status": "running",
       "tool": "opus"
     }
   ],
   "decisions": [
     {
-      "time": "9:26 PM",
-      "icon": "🎨",
-      "text": "Sweeping all emojis → neon flat SVG icons across entire desktop dashboard. Terminal aesthetic."
+      "time": "10:37p",
+      "text": "Josh approved capability-based nodes + wants Qwen2.5-Coder downloaded to Mini #2",
+      "icon": "brain",
+      "model": "opus"
     },
     {
-      "time": "9:24 PM",
-      "icon": "📈",
-      "text": "Updated CLAUDE TP to min +70% — full autonomy to ride higher if ripping"
+      "time": "10:38p",
+      "text": "Brain key should only show models actually in use — Opus, Whisper, Ollama, Browser, Qwen",
+      "icon": "thought",
+      "model": "opus"
     },
     {
-      "time": "9:22 PM",
-      "icon": "🧠",
-      "text": "Replaced Actions & Tools with Decision Log"
-    },
-    {
-      "time": "9:17 PM",
-      "icon": "🦞",
-      "text": "Sub-agent lobsters approved"
-    },
-    {
-      "time": "9:14 PM",
-      "icon": "🔧",
-      "text": "Fixed Today's Jobs fetch path"
-    },
-    {
-      "time": "9:08 PM",
-      "icon": "📊",
-      "text": "Switched memecoin display to market cap"
+      "time": "10:38p",
+      "text": "Replaced 10 tool nodes with 10 capability nodes: Reasoning, Coding, Research, Communication, Content, Markets, Gaming, Browsing, Listening, Memory",
+      "icon": "wrench",
+      "model": "opus"
     }
   ],
-  "lastUpdated": 1770863345746,
-  "lastTask": "Neon flat icons sweep"
+  "subAgents": [],
+  "thought": "Brain capability nodes and model key updated on both desktop and mobile dashboards",
+  "lastUpdated": 1739331500000
 }

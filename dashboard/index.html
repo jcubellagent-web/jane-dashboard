@@ -446,10 +446,11 @@
             display: flex; align-items: center; gap: 0.5rem;
         }
         .wallet-cb-logo {
-            width: 28px; height: 28px; border-radius: 8px;
+            width: 28px; height: 28px; border-radius: 50%;
             background: #0052FF; display: flex; align-items: center; justify-content: center;
-            font-weight: 900; color: #fff; font-size: 0.75rem; flex-shrink: 0;
+            flex-shrink: 0; padding: 4px;
         }
+        .wallet-cb-logo svg { width: 100%; height: 100%; }
         .wallet-header-info { display: flex; flex-direction: column; }
         .wallet-header-title { font-size: 0.8rem; font-weight: 700; color: var(--text); }
         .wallet-header-bal { font-size: 1.3rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
@@ -660,9 +661,9 @@
             <div class="wallet-card">
                 <div class="wallet-header" id="wallet-toggle">
                     <div class="wallet-header-left">
-                        <div class="wallet-cb-logo">CB</div>
+                        <div class="wallet-cb-logo"><svg viewBox="0 0 1024 1024" fill="none"><circle cx="512" cy="512" r="512" fill="#0052FF"/><path d="M512 192c-176.7 0-320 143.3-320 320s143.3 320 320 320 320-143.3 320-320-143.3-320-320-320zm-80 400c-44.2 0-80-35.8-80-80s35.8-80 80-80h160c44.2 0 80 35.8 80 80s-35.8 80-80 80h-160z" fill="#fff"/></svg></div>
                         <div class="wallet-header-info">
-                            <span class="wallet-header-title">Coinbase Wallet</span>
+                            <span class="wallet-header-title">🦾 MyWallet</span>
                             <span class="wallet-header-bal" id="wallet-total-bal">$0.00</span>
                         </div>
                     </div>

@@ -215,17 +215,17 @@
         .brain-idle .sci-ring:nth-child(2) { animation-delay:0.8s; }
         .brain-idle .sci-ring:nth-child(3) { animation-delay:1.6s; }
         .sci-scan-ring { fill:none; stroke:rgba(74,222,128,0.2); stroke-width:0.8; transform-origin:100px 190px; }
-        .sci-orbit-1, .sci-orbit-2, .sci-orbit-3, .sci-orbit-4, .sci-orbit-5 { display:none; }
-        .sci-orbit-1-disabled { stroke-dasharray:25 603; }
+        .sci-orbit-1 { stroke-dasharray:25 603; opacity:0.12; }
+        .brain-active .sci-orbit-1, .brain-active .sci-orbit-2, .brain-active .sci-orbit-3, .brain-active .sci-orbit-4, .brain-active .sci-orbit-5 { opacity:0.35; }
         .brain-idle .sci-orbit-1 { animation: sciRingScan 8s linear infinite; }
         .brain-active .sci-orbit-1 { animation: sciRingScan 3s linear infinite; stroke:rgba(74,222,128,0.35); }
-        .sci-orbit-2 { stroke-dasharray:20 295; }
+        .sci-orbit-2 { stroke-dasharray:20 295; opacity:0.10; }
         .brain-idle .sci-orbit-2 { animation: sciRingScanReverse 6s linear infinite; }
         .brain-active .sci-orbit-2 { animation: sciRingScanReverse 2.5s linear infinite; stroke:rgba(74,222,128,0.35); }
-        .sci-orbit-3 { stroke-dasharray:15 236; }
+        .sci-orbit-3 { stroke-dasharray:15 236; opacity:0.12; }
         .brain-idle .sci-orbit-3 { animation: sciRingScan 5s linear infinite; }
         .brain-active .sci-orbit-3 { animation: sciRingScan 2s linear infinite; stroke:rgba(74,222,128,0.4); }
-        .sci-orbit-4 { stroke-dasharray:35 719; }
+        .sci-orbit-4 { stroke-dasharray:35 719; opacity:0.10; }
         .brain-idle .sci-orbit-4 { animation: sciRingScanReverse 10s linear infinite; }
         .brain-active .sci-orbit-4 { animation: sciRingScanReverse 4s linear infinite; stroke:rgba(74,222,128,0.3); }
         .sci-orbit-5 { stroke-dasharray:18 385; }
@@ -251,7 +251,32 @@
         .brain-idle #brain-line-5 { animation-delay:3s; }
         .brain-idle #brain-line-6 { animation-delay:3.6s; }
         .brain-idle #brain-line-7 { animation-delay:4.2s; }
-        .brain-idle .brain-node-label { animation: sciLabelPulse 3.5s ease-in-out infinite; }
+        .brain-idle .brain-node-label { animation: sciLabelPulse 3.5s ease-in-out infinite, labelFloat 6s ease-in-out infinite; }
+        @keyframes labelFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-2px); } }
+
+        /* Pulse waves */
+        @keyframes pulseWaveExpand { 0% { r:20; opacity:0.12; stroke-width:0.8; } 100% { r:140; opacity:0; stroke-width:0.2; } }
+        .brain-idle .pulse-wave { animation: pulseWaveExpand 6s ease-out infinite; }
+        .brain-idle .pulse-wave-2 { animation-delay:2s; }
+        .brain-idle .pulse-wave-3 { animation-delay:4s; }
+        .brain-active .pulse-wave { animation: pulseWaveExpand 3s ease-out infinite; stroke:rgba(74,222,128,0.15); }
+        .brain-active .pulse-wave-2 { animation-delay:1s; }
+        .brain-active .pulse-wave-3 { animation-delay:2s; }
+
+        /* Center brain glow pulse */
+        @keyframes brainCenterGlow { 0%,100% { filter:drop-shadow(0 0 4px rgba(74,222,128,0.1)); } 50% { filter:drop-shadow(0 0 16px rgba(74,222,128,0.25)); } }
+        .brain-idle #brain-hub-group { animation: brainCenterGlow 4s ease-in-out infinite; }
+
+        /* Hex grid fade */
+        @keyframes hexFade { 0%,100% { opacity:0.4; } 50% { opacity:0.8; } }
+        .hex-bg { animation: hexFade 8s ease-in-out infinite; }
+
+        /* Dim idle orbit rings */
+        .brain-idle .sci-orbit-1 { opacity:0.10; }
+        .brain-idle .sci-orbit-2 { opacity:0.08; }
+        .brain-idle .sci-orbit-3 { opacity:0.12; }
+        .brain-idle .sci-orbit-4 { opacity:0.08; }
+        .brain-idle .sci-orbit-5 { opacity:0.10; }
         @keyframes sciHubLogoPulse { 0%,100% { opacity:0.6; } 50% { opacity:1; } }
         .brain-idle #brain-hub-label { animation: sciHubLogoPulse 3.5s ease-in-out infinite; }
         .brain-active #brain-hub-label { opacity:1!important; filter:drop-shadow(0 0 4px rgba(74,222,128,0.4)); }
@@ -590,11 +615,20 @@
                             <circle cx="100" cy="190" r="120" class="sci-ring"/>
                             <line x1="100" y1="60" x2="100" y2="320" stroke="rgba(74,222,128,0.03)" stroke-width="0.5"/>
                             <line x1="10" y1="190" x2="190" y2="190" stroke="rgba(74,222,128,0.03)" stroke-width="0.5"/>
-                            <circle cx="100" cy="190" r="100" class="sci-scan-ring sci-orbit-hidden-1"/>
-                            <circle cx="100" cy="190" r="50" class="sci-scan-ring sci-orbit-hidden-2"/>
-                            <circle cx="100" cy="190" r="40" class="sci-scan-ring sci-orbit-hidden-3"/>
-                            <circle cx="100" cy="190" r="120" class="sci-scan-ring sci-orbit-hidden-4"/>
-                            <circle cx="100" cy="190" r="64" class="sci-scan-ring sci-orbit-hidden-5"/>
+                            <circle cx="100" cy="190" r="100" class="sci-scan-ring sci-orbit-1"/>
+                            <circle cx="100" cy="190" r="50" class="sci-scan-ring sci-orbit-2"/>
+                            <circle cx="100" cy="190" r="40" class="sci-scan-ring sci-orbit-3"/>
+                            <circle cx="100" cy="190" r="120" class="sci-scan-ring sci-orbit-4"/>
+                            <circle cx="100" cy="190" r="64" class="sci-scan-ring sci-orbit-5"/>
+                            <!-- Pulse waves radiating from center -->
+                            <circle cx="100" cy="190" r="30" class="pulse-wave pulse-wave-1" fill="none" stroke="rgba(74,222,128,0.08)" stroke-width="0.5"/>
+                            <circle cx="100" cy="190" r="30" class="pulse-wave pulse-wave-2" fill="none" stroke="rgba(74,222,128,0.06)" stroke-width="0.5"/>
+                            <circle cx="100" cy="190" r="30" class="pulse-wave pulse-wave-3" fill="none" stroke="rgba(74,222,128,0.04)" stroke-width="0.5"/>
+                            <!-- Hex grid background pattern -->
+                            <pattern id="hexGrid" width="20" height="17.32" patternUnits="userSpaceOnUse" patternTransform="translate(100,190)">
+                                <path d="M10 0 L20 5.77 L20 11.55 L10 17.32 L0 11.55 L0 5.77 Z" fill="none" stroke="rgba(74,222,128,0.03)" stroke-width="0.3"/>
+                            </pattern>
+                            <circle cx="100" cy="190" r="130" fill="url(#hexGrid)" class="hex-bg"/>
                             <g id="brain-lines"></g>
                             <g id="brain-pulses"></g>
                             <g id="brain-nodes"></g>
@@ -933,13 +967,17 @@
                     div.className = 'x-tweet-item';
                     if (i === 0) div.style.borderLeftColor = isPinned ? '#f59e0b' : '#4ade80';
                     let timeDisplay = '';
-                    if (tweet.time) {
-                        const t = new Date(tweet.time);
-                        const mins = Math.round((Date.now()-t.getTime())/60000);
-                        if (mins<1) timeDisplay='just now';
-                        else if (mins<60) timeDisplay=mins+'m ago';
-                        else if (mins<1440) timeDisplay=Math.round(mins/60)+'h ago';
-                        else timeDisplay=t.toLocaleDateString([],{month:'short',day:'numeric'})+' '+t.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+                    if (tweet.timestamp) {
+                        const t = new Date(tweet.timestamp);
+                        if (!isNaN(t.getTime())) {
+                            const mins = Math.round((Date.now()-t.getTime())/60000);
+                            if (mins<1) timeDisplay='just now';
+                            else if (mins<60) timeDisplay=mins+'m ago';
+                            else if (mins<1440) timeDisplay=Math.round(mins/60)+'h ago';
+                            else timeDisplay=t.toLocaleDateString([],{month:'short',day:'numeric'})+' '+t.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+                        } else { timeDisplay = tweet.time || ''; }
+                    } else if (tweet.time) {
+                        timeDisplay = tweet.time;
                     }
                     const threadNum = tweet.threadNum ? '<span style="color:#4ade80;font-weight:600;font-size:0.65rem;margin-right:4px;">'+tweet.threadNum+'</span>' : '';
                     div.innerHTML = '<div class="x-tweet-meta">'+

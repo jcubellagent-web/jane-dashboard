@@ -497,29 +497,30 @@
 
         /* Coinbase Wallet Widget — Modern Card UI */
         .wallet-card {
-            background: linear-gradient(135deg, rgba(0,82,255,0.12) 0%, rgba(0,82,255,0.03) 100%);
-            border: 1px solid rgba(0,82,255,0.25);
+            background: var(--card);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 12px;
             overflow: hidden;
+            padding: 0;
         }
         .wallet-header {
             display: flex; align-items: center; justify-content: space-between;
-            cursor: pointer; padding: 0.75rem 1rem;
+            cursor: pointer; padding: 0.5rem 0.75rem;
             transition: background 0.2s;
         }
-        .wallet-header:hover { background: rgba(0,82,255,0.06); }
+        .wallet-header:hover { background: rgba(74,222,128,0.04); }
         .wallet-header-left {
             display: flex; align-items: center; gap: 0.5rem;
         }
         .wallet-cb-logo {
-            width: 28px; height: 28px; border-radius: 50%;
-            background: #0052FF; display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; padding: 4px;
+            width: 20px; height: 20px; border-radius: 50%;
+            background: #4ade80; display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; padding: 3px;
         }
         .wallet-cb-logo svg { width: 100%; height: 100%; }
-        .wallet-header-info { display: flex; flex-direction: column; }
-        .wallet-header-title { font-size: 0.8rem; font-weight: 700; color: var(--text); }
-        .wallet-header-bal { font-size: 1.3rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+        .wallet-header-info { display: flex; align-items: center; gap: 0.5rem; }
+        .wallet-header-title { font-size: 0.8rem; font-weight: 700; color: #4ade80; }
+        .wallet-header-bal { font-size: 0.85rem; font-weight: 700; color: #fff; }
         .wallet-arrow {
             font-size: 0.55rem; color: rgba(255,255,255,0.4); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
         }
@@ -555,7 +556,7 @@
             border-radius: 10px; padding: 0.6rem 0.75rem;
             transition: border-color 0.2s;
         }
-        .wallet-chain-card:hover { border-color: rgba(0,82,255,0.35); }
+        .wallet-chain-card:hover { border-color: rgba(74,222,128,0.35); }
         .wallet-chain-top {
             display: flex; align-items: center; justify-content: space-between;
             margin-bottom: 0.35rem;
@@ -568,7 +569,7 @@
             display: flex; align-items: center; justify-content: center;
             font-size: 0.65rem; font-weight: 800; flex-shrink: 0;
         }
-        .wallet-chain-icon.base { background: #0052FF; color: #fff; }
+        .wallet-chain-icon.base { background: #4ade80; color: #0a0a0a; }
         .wallet-chain-icon.solana { background: linear-gradient(135deg, #9945FF, #14F195); color: #fff; }
         .wallet-chain-label { font-size: 0.72rem; font-weight: 700; color: var(--text); }
         .wallet-chain-usd { font-size: 0.75rem; font-weight: 700; color: #0052FF; }
@@ -751,7 +752,7 @@
             <div class="wallet-card">
                 <div class="wallet-header" id="wallet-toggle">
                     <div class="wallet-header-left">
-                        <div class="wallet-cb-logo"><svg viewBox="0 0 1024 1024" fill="none"><circle cx="512" cy="512" r="512" fill="#0052FF"/><path d="M512 192c-176.7 0-320 143.3-320 320s143.3 320 320 320 320-143.3 320-320-143.3-320-320-320zm-80 400c-44.2 0-80-35.8-80-80s35.8-80 80-80h160c44.2 0 80 35.8 80 80s-35.8 80-80 80h-160z" fill="#fff"/></svg></div>
+                        <div class="wallet-cb-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="3"/><path d="M16 12h2v4h-2z" fill="#0a0a0a"/><path d="M6 6V4a2 2 0 012-2h8a2 2 0 012 2v2"/></svg></div>
                         <div class="wallet-header-info">
                             <span class="wallet-header-title"><svg style="display:inline-block;vertical-align:middle;width:14px;height:14px;margin-right:4px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="3"/><path d="M16 12h2v4h-2z" fill="#4ade80"/><path d="M6 6V4a2 2 0 012-2h8a2 2 0 012 2v2"/></svg> MyWallet</span>
                             <span class="wallet-header-bal" id="wallet-total-bal">$0.00</span>

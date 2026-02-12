@@ -327,8 +327,8 @@
             font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;
             letter-spacing: 1.2px; margin-bottom: 0.4rem; font-weight: 600;
         }
-        .mind-task-text { color: var(--accent); font-weight: 600; font-size: 1.4rem; line-height: 1.4; }
-        .mind-thought-text { color: var(--accent); font-size: 1.15rem; font-style: italic; line-height: 1.4; min-height: 120px; max-height: 200px; overflow-y: auto; }
+        .mind-task-text { color: var(--accent); font-weight: 700; font-size: 1.6rem; line-height: 1.3; min-height: 2rem; }
+        .mind-thought-text { color: var(--accent); font-size: 1.15rem; font-style: italic; line-height: 1.4; min-height: 160px; max-height: 280px; overflow-y: auto; }
         .mind-steps { display: flex; flex-direction: column; gap: 0.3rem; }
         .mind-step {
             display: flex; align-items: center; gap: 0.5rem;
@@ -734,9 +734,9 @@
                             <div class="mind-section-label">THINKING &amp; DECISIONS</div>
                             <div class="mind-thought-text" id="mind-thought-text">Ready for your next request.</div>
                         </div>
-                        <div class="mind-section">
-                            <div class="mind-section-label">DECISION LOG</div>
-                            <div class="mind-steps" id="mind-steps" style="max-height:180px;overflow-y:auto;font-size:0.75rem;"></div>
+                        <div class="mind-section" style="margin-top:0.5rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:0.5rem;">
+                            <div class="mind-section-label" style="font-size:0.6rem;opacity:0.4;">DECISION LOG</div>
+                            <div class="mind-steps" id="mind-steps" style="max-height:120px;overflow-y:auto;font-size:0.7rem;"></div>
                         </div>
                         <!-- sub-agent indicator -->
                     </div>

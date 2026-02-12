@@ -527,9 +527,25 @@
             padding: 0 1rem;
         }
         .wallet-body.open {
-            max-height: 500px;
+            max-height: 800px;
             padding: 0 1rem 0.75rem;
         }
+        /* Compact trades summary — visible when collapsed */
+        .wallet-trades-compact {
+            padding: 0 1rem 0.5rem;
+            display: flex; flex-direction: column; gap: 2px;
+        }
+        .wallet-trades-compact:empty { padding: 0; }
+        .wallet-compact-trade {
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 0.68rem; padding: 0.2rem 0.4rem;
+            background: rgba(255,255,255,0.02); border-radius: 4px;
+        }
+        .wallet-compact-trade .wct-token { font-weight: 700; color: var(--text); min-width: 50px; }
+        .wallet-compact-trade .wct-prices { color: var(--text-dim); }
+        .wallet-compact-trade .wct-pnl { font-weight: 700; min-width: 45px; text-align: right; }
+        .wallet-compact-trade .wct-pnl.green { color: var(--green); }
+        .wallet-compact-trade .wct-pnl.red { color: var(--red); }
         .wallet-chains { display: flex; flex-direction: column; gap: 0.5rem; }
         .wallet-chain-card {
             background: rgba(255,255,255,0.04);
@@ -727,7 +743,7 @@
                 </div>
             </div>
 
-            <!-- Coinbase Wallet — modern card -->
+            <!-- Coinbase Wallet + Trades — merged card -->
             <div class="wallet-card">
                 <div class="wallet-header" id="wallet-toggle">
                     <div class="wallet-header-left">
@@ -737,30 +753,21 @@
                             <span class="wallet-header-bal" id="wallet-total-bal">$0.00</span>
                         </div>
                     </div>
-                    <span class="wallet-arrow" id="wallet-arrow">▶</span>
+                    <div style="display:flex;align-items:center;gap:0.4rem;">
+                        <button class="refresh-btn" onclick="event.stopPropagation();refreshWallet(this)">↻</button>
+                        <span class="wallet-arrow" id="wallet-arrow">▶</span>
+                    </div>
                 </div>
+                <!-- Compact trades visible when collapsed -->
+                <div class="wallet-trades-compact" id="wallet-trades-compact"></div>
                 <div class="wallet-body" id="wallet-body">
                     <div class="wallet-chains" id="wallet-content"><span class="wallet-empty">Loading...</span></div>
-                </div>
-            </div>
-
-            <!-- Active Trades Widget -->
-            <div class="trades-card">
-                <div class="trades-header" id="trades-toggle">
-                    <div class="trades-header-left">
-                        <span class="trades-header-title">🎯 Active Trades</span>
-                        <span class="trades-header-budget" id="trades-budget">$0 / $0</span>
-                    </div>
-                    <div style="display:flex;align-items:center;gap:0.4rem;">
-                        <span class="last-refresh" id="trades-refresh">--</span>
-                        <button class="refresh-btn" onclick="refreshTrades(this)">↻</button>
-                        <span class="trades-arrow" id="trades-arrow">▶</span>
-                    </div>
-                </div>
-                <div class="trades-body" id="trades-body">
-                    <div class="trades-budget-bar" id="trades-budget-bar"></div>
-                    <div class="trades-section-label">Open Positions</div>
+                    <!-- Budget bar -->
+                    <div class="trades-budget-bar" id="trades-budget-bar" style="margin-top:0.5rem;"></div>
+                    <!-- Open Positions -->
+                    <div class="trades-section-label" style="margin-top:0.5rem;">Open Positions</div>
                     <div id="trades-open"><span style="color:var(--text-dim);font-size:0.75rem;">No open positions</span></div>
+                    <!-- Closed Trades -->
                     <div class="trades-section-label" style="margin-top:0.6rem;">Closed Trades</div>
                     <div id="trades-closed"><span style="color:var(--text-dim);font-size:0.75rem;">No closed trades</span></div>
                 </div>
@@ -1370,7 +1377,7 @@
             } catch(e) {}
         }
 
-        // ===== COINBASE WALLET =====
+        // ===== COINBASE WALLET + TRADES (merged) =====
         document.getElementById('wallet-toggle').addEventListener('click', () => {
             const body = document.getElementById('wallet-body');
             const arrow = document.getElementById('wallet-arrow');
@@ -1383,41 +1390,62 @@
             return addr.slice(0,6) + '…' + addr.slice(-4);
         }
 
+        function formatSolAmount(symbol, amount) {
+            // SOL amounts should NOT have $ prefix
+            const sym = (symbol||'').toUpperCase();
+            if (sym === 'SOL') return Number(amount).toLocaleString(undefined,{maximumFractionDigits:6}) + ' SOL';
+            return '$' + Number(amount).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+        }
+
         async function refreshWallet(btn) {
             const doRefresh = async () => {
                 try {
-                    const data = await fetchWithTimeout('/coinbase-wallet.json', 5000);
+                    const [data, tradesData] = await Promise.all([
+                        fetchWithTimeout('/coinbase-wallet.json', 5000),
+                        fetchWithTimeout('/trades.json', 5000).catch(()=>null)
+                    ]);
                     if (!data) return;
                     const container = document.getElementById('wallet-content');
                     const totalUsd = (data.evm?.totalUsd||0) + (data.solana?.totalUsd||0);
 
-                    // Update header balance
                     document.getElementById('wallet-total-bal').textContent = '$' + totalUsd.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
 
                     function renderChainCard(chain, label, iconClass, network) {
                         if (!chain) return '';
                         const addrTrunc = truncAddr(chain.address);
+                        const isSolanaChain = iconClass === 'solana';
                         const balRows = (chain.balances||[]).length > 0
                             ? chain.balances.map(b => {
-                                const sym = (b.symbol||b.token||'?').toLowerCase();
-                                const dotClass = sym === 'sol' ? 'sol' : 'eth';
+                                const sym = (b.symbol||b.token||'?');
+                                const symLower = sym.toLowerCase();
+                                const dotClass = symLower === 'sol' ? 'sol' : 'eth';
+                                const isSol = symLower === 'sol';
+                                const usdVal = (b.usdValue||b.usd);
+                                const amtDisplay = b.amount!=null ? Number(b.amount).toLocaleString(undefined,{maximumFractionDigits:6}) : '';
+                                // For SOL: show amount as "X SOL" with USD in parens; for others show $ value
+                                const usdDisplay = isSol
+                                    ? (usdVal!=null ? '($'+Number(usdVal).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})+')' : '')
+                                    : (usdVal!=null ? '$'+Number(usdVal).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) : '');
                                 return `<div class="wallet-token-row">
                                     <div class="wallet-token-left">
                                         <span class="wallet-token-dot ${dotClass}"></span>
-                                        <span class="wallet-token-name">${b.symbol||b.token||'?'}</span>
-                                        <span class="wallet-token-amt">${b.amount!=null?Number(b.amount).toLocaleString(undefined,{maximumFractionDigits:6}):''}</span>
+                                        <span class="wallet-token-name">${sym}</span>
+                                        <span class="wallet-token-amt">${amtDisplay}${isSol?' SOL':''}</span>
                                     </div>
-                                    <span class="wallet-token-usd">${(b.usdValue||b.usd)!=null?'$'+Number(b.usdValue||b.usd).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}):''}</span>
+                                    <span class="wallet-token-usd">${usdDisplay}</span>
                                 </div>`;
                             }).join('')
                             : '<div class="wallet-empty">No tokens</div>';
+                        const chainUsdDisplay = isSolanaChain
+                            ? Number(chain.totalUsd||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})
+                            : Number(chain.totalUsd||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
                         return `<div class="wallet-chain-card">
                             <div class="wallet-chain-top">
                                 <div class="wallet-chain-id">
                                     <div class="wallet-chain-icon ${iconClass}">${iconClass==='base'?'B':'S'}</div>
                                     <span class="wallet-chain-label">${label}${network?' · '+network:''}</span>
                                 </div>
-                                <span class="wallet-chain-usd">$${Number(chain.totalUsd||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
+                                <span class="wallet-chain-usd">$${chainUsdDisplay}</span>
                             </div>
                             <div class="wallet-addr-row">
                                 <span>${addrTrunc}</span>
@@ -1438,75 +1466,77 @@
                         renderChainCard(data.solana, 'Solana', 'solana', null) +
                         updated;
 
+                    // === Trades section (merged) ===
+                    if (tradesData) {
+                        const b = tradesData.budget || {};
+                        // Budget bar
+                        const bar = document.getElementById('trades-budget-bar');
+                        const pnlColor = (b.realizedPnl||0) >= 0 ? 'var(--green)' : 'var(--red)';
+                        bar.innerHTML = `
+                            <span class="trades-budget-pill" style="background:rgba(74,222,128,0.15);color:var(--green);">Avail: ${(b.availableSol||b.available||0).toFixed(2)} SOL</span>
+                            <span class="trades-budget-pill" style="background:rgba(255,255,255,0.06);color:var(--text);">Deployed: ${(b.deployedSol||b.deployed||0).toFixed(2)} SOL</span>
+                            <span class="trades-budget-pill" style="background:rgba(255,255,255,0.06);color:${pnlColor};">P&L: ${(b.realizedPnl||0) >= 0 ? '+' : ''}${(b.realizedPnl||0).toFixed(3)} SOL</span>
+                        `;
+                        // Open positions
+                        const openEl = document.getElementById('trades-open');
+                        const positions = tradesData.openPositions || [];
+                        if (positions.length) {
+                            openEl.innerHTML = positions.map(p => {
+                                const pnl = p.currentPrice && p.entryPrice ? ((p.currentPrice - p.entryPrice) / p.entryPrice * 100) : (p.pnlPct || 0);
+                                const pnlClass = pnl >= 0 ? 'green' : 'red';
+                                const solSpent = p.solSpent ? p.solSpent.toFixed(2) + ' SOL' : '';
+                                return `<div class="trades-pos-row">
+                                    <span class="trades-pos-token">${p.token||p.symbol}</span>
+                                    <span class="trades-pos-meta">Entry: $${Number(p.entryPrice||0).toFixed(6)}</span>
+                                    <span class="trades-pos-meta">Now: $${Number(p.currentPrice||p.entryPrice||0).toFixed(6)}</span>
+                                    <span class="trades-pos-meta">${solSpent}</span>
+                                    <span class="trades-pos-pnl ${pnlClass}">${pnl >= 0 ? '+' : ''}${pnl.toFixed(1)}%</span>
+                                </div>`;
+                            }).join('');
+                        } else {
+                            openEl.innerHTML = '<span style="color:var(--text-dim);font-size:0.75rem;">No open positions</span>';
+                        }
+                        // Closed trades
+                        const closedEl = document.getElementById('trades-closed');
+                        const closed = tradesData.closedPositions || tradesData.closedTrades || [];
+                        if (closed.length) {
+                            closedEl.innerHTML = closed.slice(-5).reverse().map(t => {
+                                const pnl = t.pnlPct || 0;
+                                const pnlClass = pnl >= 0 ? 'green' : 'red';
+                                return `<div class="trades-closed-row">
+                                    <span>${t.token||t.symbol}</span>
+                                    <span class="trades-pos-pnl ${pnlClass}">${pnl >= 0 ? '+' : ''}${pnl.toFixed(1)}%</span>
+                                    <span style="color:var(--text-dim)">${t.closedAt ? new Date(t.closedAt).toLocaleDateString() : ''}</span>
+                                </div>`;
+                            }).join('');
+                        } else {
+                            closedEl.innerHTML = '<span style="color:var(--text-dim);font-size:0.75rem;">No closed trades yet</span>';
+                        }
+                        // Compact trades for collapsed view
+                        const compactEl = document.getElementById('wallet-trades-compact');
+                        if (positions.length) {
+                            compactEl.innerHTML = positions.map(p => {
+                                const pnl = p.currentPrice && p.entryPrice ? ((p.currentPrice - p.entryPrice) / p.entryPrice * 100) : (p.pnlPct || 0);
+                                const pnlClass = pnl >= 0 ? 'green' : 'red';
+                                const curPrice = p.currentPrice || p.entryPrice || 0;
+                                return `<div class="wallet-compact-trade">
+                                    <span class="wct-token">${p.token||p.symbol}</span>
+                                    <span class="wct-prices">$${Number(p.entryPrice||0).toFixed(4)} → $${Number(curPrice).toFixed(4)}</span>
+                                    <span class="wct-pnl ${pnlClass}">${pnl >= 0 ? '+' : ''}${pnl.toFixed(1)}%</span>
+                                </div>`;
+                            }).join('');
+                        } else {
+                            compactEl.innerHTML = '';
+                        }
+                    }
                 } catch(e) { console.error('Wallet:', e); }
             };
             if (btn) return spinButton(btn, doRefresh());
             return doRefresh();
         }
 
-        // ===== ACTIVE TRADES =====
-        document.getElementById('trades-toggle').addEventListener('click', () => {
-            const body = document.getElementById('trades-body');
-            const arrow = document.getElementById('trades-arrow');
-            body.classList.toggle('open');
-            arrow.classList.toggle('open');
-        });
-
-        async function refreshTrades(btn) {
-            const doRefresh = async () => {
-                try {
-                    const data = await fetchWithTimeout('/trades.json', 5000);
-                    if (!data) return;
-                    const b = data.budget || {};
-                    document.getElementById('trades-budget').textContent =
-                        '$' + (b.deployed||0).toFixed(2) + ' / $' + (b.total||0).toFixed(2) + ' SOL';
-                    // Budget bar
-                    const bar = document.getElementById('trades-budget-bar');
-                    const pnlColor = (b.realizedPnl||0) >= 0 ? 'var(--green)' : 'var(--red)';
-                    bar.innerHTML = `
-                        <span class="trades-budget-pill" style="background:rgba(74,222,128,0.15);color:var(--green);">Avail: ${(b.available||0).toFixed(2)}</span>
-                        <span class="trades-budget-pill" style="background:rgba(255,255,255,0.06);color:var(--text);">Deployed: ${(b.deployed||0).toFixed(2)}</span>
-                        <span class="trades-budget-pill" style="background:rgba(255,255,255,0.06);color:${pnlColor};">P&L: ${(b.realizedPnl||0) >= 0 ? '+' : ''}${(b.realizedPnl||0).toFixed(3)}</span>
-                    `;
-                    // Open positions
-                    const openEl = document.getElementById('trades-open');
-                    if (data.openPositions && data.openPositions.length) {
-                        openEl.innerHTML = data.openPositions.map(p => {
-                            const pnl = p.currentPrice && p.entryPrice ? ((p.currentPrice - p.entryPrice) / p.entryPrice * 100) : (p.pnlPct || 0);
-                            const pnlClass = pnl >= 0 ? 'green' : 'red';
-                            return `<div class="trades-pos-row">
-                                <span class="trades-pos-token">${p.token||p.symbol}</span>
-                                <span class="trades-pos-meta">Entry: $${Number(p.entryPrice||0).toFixed(6)}</span>
-                                <span class="trades-pos-meta">Now: $${Number(p.currentPrice||0).toFixed(6)}</span>
-                                <span class="trades-pos-meta">TP:${p.tpPct||'+100'}% SL:${p.slPct||'-30'}%</span>
-                                <span class="trades-pos-pnl ${pnlClass}">${pnl >= 0 ? '+' : ''}${pnl.toFixed(1)}%</span>
-                            </div>`;
-                        }).join('');
-                    } else {
-                        openEl.innerHTML = '<span style="color:var(--text-dim);font-size:0.75rem;">No open positions</span>';
-                    }
-                    // Closed trades
-                    const closedEl = document.getElementById('trades-closed');
-                    if (data.closedTrades && data.closedTrades.length) {
-                        closedEl.innerHTML = data.closedTrades.slice(-5).reverse().map(t => {
-                            const pnl = t.pnlPct || 0;
-                            const pnlClass = pnl >= 0 ? 'green' : 'red';
-                            return `<div class="trades-closed-row">
-                                <span>${t.token||t.symbol}</span>
-                                <span class="trades-pos-pnl ${pnlClass}">${pnl >= 0 ? '+' : ''}${pnl.toFixed(1)}%</span>
-                                <span style="color:var(--text-dim)">${t.closedAt ? new Date(t.closedAt).toLocaleDateString() : ''}</span>
-                            </div>`;
-                        }).join('');
-                    } else {
-                        closedEl.innerHTML = '<span style="color:var(--text-dim);font-size:0.75rem;">No closed trades yet</span>';
-                    }
-                    const el = document.getElementById('trades-refresh');
-                    if (el) el.textContent = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-                } catch(e) { console.error('Trades:', e); }
-            };
-            if (btn) return spinButton(btn, doRefresh());
-            return doRefresh();
-        }
+        // Alias for backward compat with WS handler
+        function refreshTrades() { return refreshWallet(); }
 
         // ===== REFRESH ALL =====
         function refreshAll() {
@@ -1514,7 +1544,7 @@
             if (mainBtn) mainBtn.classList.add('spinning');
             document.querySelectorAll('.refresh-btn').forEach(btn=>btn.classList.add('spinning'));
             refreshSystem(); refreshXStats(); refreshDesktopTweetFeed();
-            refreshConnections(); refreshSorare(); refreshMind(); refreshWallet(); refreshTrades();
+            refreshConnections(); refreshSorare(); refreshMind(); refreshWallet();
             setTimeout(() => {
                 if (mainBtn) mainBtn.classList.remove('spinning');
                 document.querySelectorAll('.refresh-btn').forEach(btn=>btn.classList.remove('spinning'));
@@ -1531,7 +1561,6 @@
         refreshSorare().catch(e=>console.warn('Sorare:',e.message));
 
         refreshWallet().catch(e=>console.warn('Wallet:',e.message));
-        refreshTrades().catch(e=>console.warn('Trades:',e.message));
 
         // Auto-refresh
         setInterval(refreshMind, 5000);
@@ -1540,8 +1569,7 @@
         setInterval(refreshDesktopTweetFeed, 60000);
         setInterval(refreshSorare, 300000);
         setInterval(refreshConnections, 600000);
-        setInterval(refreshWallet, 300000);
-        setInterval(refreshTrades, 60000);
+        setInterval(refreshWallet, 60000);
 
         // WebSocket
         (function connectWS() {

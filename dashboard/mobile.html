@@ -1330,21 +1330,7 @@
             if (saKey !== window._lastSubAgentKey) {
                 window._lastSubAgentKey = saKey;
                 updateSubagentLobsters(subs);
-                // Labels
-                if (subs.length > 0) {
-                    let labelHtml = '';
-                    subs.forEach((sa) => {
-                        const isDone = sa.status === 'done';
-                        const doneClass = isDone ? ' done' : '';
-                        labelHtml += `<span class="mm-subagent-label${doneClass}"><span class="dot"></span>${esc(sa.label)}</span>`;
-                    });
-                    saLabels.innerHTML = labelHtml;
-                    if (subs.every(s => s.status === 'done')) {
-                        setTimeout(() => { saLabels.innerHTML = ''; window._lastSubAgentKey = '[]'; }, 2000);
-                    }
-                } else {
-                    saLabels.innerHTML = '';
-                }
+                saLabels.innerHTML = ''; // lobsters have their own labels
             }
 
             if (!isActive) {

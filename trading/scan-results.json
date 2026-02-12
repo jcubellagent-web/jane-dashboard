@@ -1,0 +1,60 @@
+{
+  "scannedAt": "2026-02-12T00:45:25.230Z",
+  "totalScanned": 20,
+  "totalFiltered": 3,
+  "filters": {
+    "minMcap": 150000,
+    "minVol24h": 50000,
+    "priceChangePositive": true
+  },
+  "shortlist": [
+    {
+      "token": "SHARK",
+      "name": "Greenland Shark",
+      "address": "63Z3Q7JX3SBGDiiwqqnPTVvHcuUk6ixkzsYQbKzhpump",
+      "chain": "solana",
+      "mcap": 332031,
+      "volume24h": 1565767.29,
+      "priceUsd": 0.0003321,
+      "priceChange24h": 489,
+      "priceChange1h": -18.13,
+      "liquidity": 67217.88,
+      "pairAddress": "6jqjEFzcisQokMJNiEG3YWFocdmZtUZtd6gxLr9GNuGK",
+      "dexId": "pumpswap",
+      "source": "dexscreener",
+      "score": 70
+    },
+    {
+      "token": "HTC",
+      "name": "HTC",
+      "address": "HTCiQqiJa4e2L7aB5heTVgb2FYJyWDr6XdgsHwr3MpLR",
+      "chain": "solana",
+      "mcap": 4883403,
+      "volume24h": 1682471.6,
+      "priceUsd": 0.004883,
+      "priceChange24h": 6889,
+      "priceChange1h": 14.91,
+      "liquidity": 265707.85,
+      "pairAddress": "G83Esm6ap9Jdq11gKCdkbC82cLzd1YU9DHnpQeCXxKoH",
+      "dexId": "meteora",
+      "source": "dexscreener",
+      "score": 44.3
+    },
+    {
+      "token": "CLAUDE",
+      "name": "make no mistakes",
+      "address": "jkAWzPumRhJE2KyqVy4kB7m9KwXBeSEXnFAGoWtpump",
+      "chain": "solana",
+      "mcap": 2327274,
+      "volume24h": 552890.76,
+      "priceUsd": 0.002327,
+      "priceChange24h": 61.91,
+      "priceChange1h": -10.37,
+      "liquidity": 147861.95,
+      "pairAddress": "4N65QRbhXMZiZYodCkj2BztPmou417nTuJCSJHT4uRMZ",
+      "dexId": "pumpswap",
+      "source": "dexscreener",
+      "score": 27.1
+    }
+  ]
+}

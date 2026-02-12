@@ -1,22 +1,12 @@
 {
-  "lastUpdated": 1739386091000,
+  "lastUpdated": 1770933260000,
   "sessions": [
-    {"key": "agent:main:main", "label": "Main (WhatsApp)", "model": "claude-opus-4-6", "updatedAt": 1770919794414},
-    {"key": "agent:main:cron:7983e0d4", "label": "Trade Price Monitor", "model": "claude-opus-4-6", "updatedAt": 1770919530356},
-    {"key": "agent:main:cron:db53eb61", "label": "X Stats Scrape", "model": "claude-opus-4-6", "updatedAt": 1770918668777},
-    {"key": "agent:main:cron:19dd811e", "label": "Sorare Injury Monitor", "model": "claude-opus-4-6", "updatedAt": 1770913730488},
-    {"key": "agent:main:cron:9b853133", "label": "Sorare Daily Tasks", "model": "claude-opus-4-6", "updatedAt": 1770912825663},
-    {"key": "agent:main:cron:422844f1", "label": "X Reply-to-Replies", "model": "claude-opus-4-6", "updatedAt": 1770912000171},
-    {"key": "agent:main:cron:1923f8f4", "label": "X Engagement Feedback", "model": "claude-opus-4-6", "updatedAt": 1770910505181},
-    {"key": "agent:main:cron:9c34768e", "label": "X Reply Engagement", "model": "claude-opus-4-6", "updatedAt": 1770908740582},
-    {"key": "agent:main:cron:0e741aa3", "label": "Daily Brief 8:30AM", "model": "claude-opus-4-6", "updatedAt": 1770903000022},
-    {"key": "agent:main:cron:57f61a2c", "label": "Sorare GW34 Lineup", "model": "claude-opus-4-6", "updatedAt": 1770902546353},
-    {"key": "agent:main:cron:7514d3d2", "label": "Pre-Brief Data Fetch", "model": "claude-opus-4-6", "updatedAt": 1770901500284},
-    {"key": "agent:main:cron:d44219b7", "label": "X Follow Accounts", "model": "claude-opus-4-6", "updatedAt": 1770897600019},
-    {"key": "agent:main:cron:b4c78a63", "label": "X Growth Report", "model": "claude-opus-4-6", "updatedAt": 1770865500236},
-    {"key": "agent:main:cron:f7ebf2a2", "label": "X Daily Recap 7:30PM", "model": "claude-opus-4-6", "updatedAt": 1770859168351},
-    {"key": "agent:main:cron:5a564af3", "label": "X Update Brief 6PM", "model": "claude-opus-4-6", "updatedAt": 1770851100271},
-    {"key": "agent:main:cron:35e0a42c", "label": "X Update Brief 3PM", "model": "claude-opus-4-6", "updatedAt": 1770845400034},
-    {"key": "agent:main:cron:429d4536", "label": "X Update Brief 12:30PM", "model": "claude-opus-4-6", "updatedAt": 1770831000025}
+    {"key": "agent:main:main", "model": "claude-opus-4-6", "tokens": 199674, "context": 200000, "channel": "whatsapp"},
+    {"key": "agent:main:cron:db53eb61", "label": "X Stats Scrape", "tokens": 22261, "lastRun": 1770933084797},
+    {"key": "agent:main:cron:7983e0d4", "label": "Trade Price Monitor", "tokens": 21072, "lastRun": 1770932744960},
+    {"key": "agent:main:cron:35e0a42c", "label": "X Update Brief 4:30 PM", "tokens": 109365, "lastRun": 1770932107478},
+    {"key": "agent:main:cron:9c34768e", "label": "X Reply Engagement", "tokens": 64074, "lastRun": 1770930251988},
+    {"key": "agent:main:subagent:5d16e061", "label": "Delete & Redo 4:30 Brief", "tokens": 109512, "aborted": true},
+    {"key": "agent:main:subagent:99379e05", "label": "Sorare GW34 Optimizer", "tokens": 129718, "paused": true}
   ]
 }

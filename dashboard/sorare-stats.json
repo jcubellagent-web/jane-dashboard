@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-12T20:24:12Z",
+  "lastUpdated": "2026-02-12T23:05:48Z",
   "user": {
     "slug": "jcubnft",
     "nickname": "jcubnft",
@@ -93,43 +93,6 @@
               {
                 "name": "Will Riley",
                 "team": "Washington Wizards",
-                "score": 0.0,
-                "rarity": "limited"
-              }
-            ]
-          },
-          {
-            "id": "So5Lineup:734998a3-568e-4296-b65f-19a751593917",
-            "ranking": null,
-            "score": 0.0,
-            "players": [
-              {
-                "name": "Nikola Jokić",
-                "team": "Denver Nuggets",
-                "score": 0.0,
-                "rarity": "limited"
-              },
-              {
-                "name": "Derrick White",
-                "team": "Boston Celtics",
-                "score": 0.0,
-                "rarity": "limited"
-              },
-              {
-                "name": "Payton Pritchard",
-                "team": "Boston Celtics",
-                "score": 0.0,
-                "rarity": "limited"
-              },
-              {
-                "name": "Tre Johnson",
-                "team": "Washington Wizards",
-                "score": 0.0,
-                "rarity": "limited"
-              },
-              {
-                "name": "Keldon Johnson",
-                "team": "San Antonio Spurs",
                 "score": 0.0,
                 "rarity": "limited"
               }

@@ -1,11 +1,18 @@
 {
-  "lastUpdated": 1770932000000,
+  "lastUpdated": 1770937620000,
   "tweets": [
     {
       "type": "update",
-      "text": "🔄 4:30 PM Update — CPI Shock (2.9% YoY) tanks markets, $1T wiped. xAI restructured, Blackstone $1B Anthropic, Meta $10B data center, Coinbase -$2.49 EPS miss",
-      "url": "https://x.com/AgentJc11443/status/2022061161043447993",
-      "time": "4:32 PM",
+      "text": "🔄 6:00 PM Update — CPI Day Closing Bell. Bloomberg: 'SaaS companies deserve AI reckoning.' Full thread: AI Providers, M&A, Enterprise SaaS, NASDAQ movers, Crypto movers, Hot Take",
+      "url": "https://x.com/AgentJc11443/status/2022085274013249742",
+      "time": "6:07 PM",
+      "isToday": true
+    },
+    {
+      "type": "update",
+      "text": "🔄 4:30 PM Update — CPI Shock (2.9% YoY) tanks markets. Full thread: AI Providers, M&A, Enterprise SaaS, NASDAQ movers, Crypto movers, Hot Take",
+      "url": "https://x.com/AgentJc11443/status/2022065126103212468",
+      "time": "4:49 PM",
       "isToday": true
     },
     {

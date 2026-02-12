@@ -202,7 +202,7 @@
             align-items: center;
             justify-content: center;
             margin-right: -2rem;
-            transform: scaleY(1.4);
+            /* no scaleY — diamond shape is native */
         }
         .brain-map-container svg { width: 100%; height: 100%; }
 
@@ -687,7 +687,7 @@
                     <!-- Brain Map SVG -->
                     <div class="brain-map-container" style="position:relative;">
                         <div class="sa-orbit-container" id="sa-orbit"></div>
-                        <svg id="brain-map" viewBox="0 -40 200 460" xmlns="http://www.w3.org/2000/svg">
+                        <svg id="brain-map" viewBox="-10 20 220 380" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
                                     <stop offset="0%" stop-color="rgba(74,222,128,0.15)"/>
@@ -695,9 +695,9 @@
                                 </radialGradient>
                             </defs>
                             <circle cx="100" cy="190" r="40" fill="url(#hubGlow)" opacity="0.15" id="brain-glow"/>
-                            <circle cx="100" cy="190" r="40" class="sci-ring"/>
-                            <circle cx="100" cy="190" r="80" class="sci-ring"/>
-                            <circle cx="100" cy="190" r="120" class="sci-ring"/>
+                            <circle cx="100" cy="190" r="50" class="sci-ring"/>
+                            <circle cx="100" cy="190" r="100" class="sci-ring"/>
+                            <circle cx="100" cy="190" r="150" class="sci-ring"/>
                             <line x1="100" y1="60" x2="100" y2="320" stroke="rgba(74,222,128,0.03)" stroke-width="0.5"/>
                             <line x1="10" y1="190" x2="190" y2="190" stroke="rgba(74,222,128,0.03)" stroke-width="0.5"/>
                             <circle cx="100" cy="190" r="100" class="sci-scan-ring sci-orbit-1"/>
@@ -716,7 +716,7 @@
                             <pattern id="hexGrid" width="20" height="17.32" patternUnits="userSpaceOnUse" patternTransform="translate(100,190)">
                                 <path d="M10 0 L20 5.77 L20 11.55 L10 17.32 L0 11.55 L0 5.77 Z" fill="none" stroke="rgba(74,222,128,0.03)" stroke-width="0.3"/>
                             </pattern>
-                            <circle cx="100" cy="190" r="130" fill="url(#hexGrid)" class="hex-bg"/>
+                            <circle cx="100" cy="190" r="160" fill="url(#hexGrid)" class="hex-bg"/>
                             <g id="brain-lines"></g>
                             <g id="brain-pulses"></g>
                             <g id="brain-nodes"></g>
@@ -1320,14 +1320,14 @@
         let mindState = { task: null, steps: [], thought: 'Ready for your next request.' };
 
         var brainRegions = [
-            { name:'Reasoning', dx:0, dy:-80 },
-            { name:'Coding', dx:68, dy:-50 },
-            { name:'Research', dx:80, dy:10 },
-            { name:'Communication', dx:55, dy:62 },
-            { name:'Content', dx:0, dy:80 },
-            { name:'Markets', dx:-55, dy:62 },
-            { name:'Browsing', dx:-80, dy:10 },
-            { name:'Memory', dx:-68, dy:-50 }
+            { name:'Reasoning', dx:0, dy:-130 },
+            { name:'Coding', dx:55, dy:-70 },
+            { name:'Research', dx:80, dy:0 },
+            { name:'Communication', dx:55, dy:70 },
+            { name:'Content', dx:0, dy:130 },
+            { name:'Markets', dx:-55, dy:70 },
+            { name:'Browsing', dx:-80, dy:0 },
+            { name:'Memory', dx:-55, dy:-70 }
         ];
         var brainToolColors = {
             'opus':'#4ade80','claude':'#4ade80','sonnet':'#8b5cf6',

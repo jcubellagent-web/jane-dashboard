@@ -41,6 +41,17 @@ Thread 👇
 ▸ [Interesting hypothetical] (🤖 hypothetical)
 ▸ [Interesting hypothetical] (🤖 hypothetical)
 
+## Tweet 3.5 (AI Impact on Enterprise SaaS)
+🏢 AI IMPACT ON ENTERPRISE SaaS
+
+Tracking how enterprise software giants are responding to the AI wave.
+
+▸ $CRM (Salesforce): [latest — layoffs, Agentforce updates, earnings, strategy shifts]
+▸ $NOW (ServiceNow): [latest — AI partnerships, revenue growth, platform plays]
+▸ $WDAY (Workday): [latest — AI monetization, analyst sentiment, strategic moves]
+
+📊 [One sharp pattern or insight tying it together — who's winning, who's restructuring]
+
 ## Tweet 4 (NASDAQ 100 Movers)
 📈 NASDAQ 100 — TOP MOVERS
 

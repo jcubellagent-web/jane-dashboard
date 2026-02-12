@@ -1,11 +1,1 @@
-{
-  "lastUpdated": 1770861000000,
-  "sessions": [
-    {"key": "agent:main:main", "kind": "main", "model": "claude-opus-4-6", "totalTokens": 180492, "lastChannel": "whatsapp"},
-    {"key": "enterprise-saas-tweet", "kind": "subagent", "status": "done", "result": "Tweet posted"},
-    {"key": "daily-recap-manual", "kind": "subagent", "status": "done", "result": "6-tweet recap thread posted"},
-    {"key": "Cron: X Stats Scrape", "kind": "cron", "status": "done", "result": "26 followers, 11K impressions"},
-    {"key": "Cron: X Daily Recap", "kind": "cron", "status": "done", "result": "Already posted"},
-    {"key": "Cron: Sorare GW34 Lineup Check", "kind": "cron", "status": "done", "result": "All 3 lineups set"}
-  ]
-}
+{"sessions": [{"label": "neon-icons-sweep", "status": "completed", "model": "opus"}, {"label": "Trade Price Monitor", "status": "running", "model": "opus"}, {"label": "X Stats Scrape", "status": "running", "model": "opus"}], "lastUpdated": 1770868098633}

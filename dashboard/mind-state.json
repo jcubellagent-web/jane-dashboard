@@ -1,53 +1,39 @@
 {
-  "goal": "Brain capability nodes + model key updated",
-  "task": null,
+  "goal": "Fixing mobile brain — revert SVG stretch, arrange nodes in diamond pattern",
   "steps": [
     {
-      "label": "Transcribe audio",
-      "status": "done",
-      "tool": "whisper"
-    },
-    {
-      "label": "Update brain nodes to capabilities (both platforms)",
+      "label": "Editing mobile.html",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Pull Qwen2.5-Coder:7b to Mini #2",
-      "status": "pending"
-    },
-    {
-      "label": "Add Qwen to brain model key + color",
+      "label": "Inspecting files",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Commit changes",
+      "label": "Inspecting files",
       "status": "done",
+      "tool": "opus"
+    },
+    {
+      "label": "Reading mobile.html",
+      "status": "done",
+      "tool": "opus"
+    },
+    {
+      "label": "Inspecting files",
+      "status": "done",
+      "tool": "opus"
+    },
+    {
+      "label": "Inspecting files",
+      "status": "active",
       "tool": "opus"
     }
   ],
-  "decisions": [
-    {
-      "time": "10:37p",
-      "text": "Josh approved capability-based nodes + wants Qwen2.5-Coder downloaded to Mini #2",
-      "icon": "brain",
-      "model": "opus"
-    },
-    {
-      "time": "10:38p",
-      "text": "Brain key should only show models actually in use — Opus, Whisper, Ollama, Browser, Qwen",
-      "icon": "thought",
-      "model": "opus"
-    },
-    {
-      "time": "10:38p",
-      "text": "Replaced 10 tool nodes with 10 capability nodes: Reasoning, Coding, Research, Communication, Content, Markets, Gaming, Browsing, Listening, Memory",
-      "icon": "wrench",
-      "model": "opus"
-    }
-  ],
-  "subAgents": [],
-  "thought": "Brain capability nodes and model key updated on both desktop and mobile dashboards",
-  "lastUpdated": 1739331500000
+  "thought": "Those are just base64 icons, not related. The JS dynamically reads node positions from the SVG `cx`/`cy` attributes, so ",
+  "decisions": [],
+  "lastUpdated": 1770868260880,
+  "task": "Inspecting files"
 }

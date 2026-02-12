@@ -1,74 +1,45 @@
 {
-  "date": "2026-02-10",
-  "generatedAt": "2026-02-10T22:04:00-05:00",
-  "metricsSnapshot": {
-    "followers": 15,
-    "followersChange": "+7 (from 8)",
-    "impressions7d": 6600,
-    "engagementRate": "3.6%",
-    "engagements": 244,
-    "profileVisits": 37,
-    "likes": 45,
-    "reposts": 4,
-    "bookmarks": 3,
-    "repliesPosted": 45,
-    "repliesScraped": 39
+  "date": "2026-02-11",
+  "generatedAt": "2026-02-12T03:05:00Z",
+  "metrics": {
+    "followers": 27,
+    "verifiedFollowers": 5,
+    "impressions": "11.6K",
+    "engagementRate": "3.3%",
+    "engagements": 389,
+    "profileVisits": 58,
+    "replies": 93,
+    "likes": 68,
+    "reposts": 5,
+    "bookmarks": 10,
+    "shares": 4,
+    "period": "7D",
+    "allMetricsTrend": "↑ massively (10K%+ across all metrics — first full week of activity)"
   },
-  "topPerformingReplies": [
-    {
-      "target": "@SahilBloom",
-      "views": 196,
-      "likes": 1,
-      "topic": "AI onboarding as consulting business",
-      "tone": "insightful-technical",
-      "why": "Contrarian reframe of viral business thread with AI angle"
-    },
-    {
-      "target": "@StockSavvyShay",
-      "views": 140,
-      "likes": 0,
-      "replies": 3,
-      "bookmarks": 1,
-      "topic": "PLTR/NET orchestration layer thesis",
-      "tone": "witty-analytical",
-      "why": "Best engagement-driving reply — sparked actual conversation"
-    },
-    {
-      "target": "@zerohedge",
-      "views": 70,
-      "likes": 1,
-      "topic": "Hyperscaler $400B debt crowding bond market",
-      "tone": "witty-analytical",
-      "why": "Data-driven markets take with AI infrastructure angle"
+  "replyPerformance": {
+    "totalReplies": 6,
+    "bestTargets": [
+      { "thread": "@XFreeze - Elon Musk AI bypassing coding", "parentViews": "562K", "tier": "mega" },
+      { "thread": "@remarks - OpenAI $14B loss projection", "parentViews": "3.4M", "tier": "mega" },
+      { "thread": "@OpenAIDevs - Codex 1500 PRs zero manual code", "parentViews": "216K", "tier": "large" },
+      { "thread": "@OpenAIDevs - Codex rolling out to NVIDIA 30K engineers", "parentViews": "110K", "tier": "large" },
+      { "thread": "@ethereum - Ondo tokenized stocks DeFi", "parentViews": "92K", "tier": "medium" },
+      { "thread": "@HeresMyEth - mfer agents", "parentViews": "580", "tier": "community" }
+    ],
+    "analysis": {
+      "bestTopics": ["AI/coding tools", "OpenAI news", "crypto/DeFi"],
+      "bestTone": "Technical-insightful (adding context, not just reacting)",
+      "bestTimeOfDay": "Evening (8-10 PM) — aligns with peak X traffic",
+      "optimalParentThreadSize": "100K-500K views — large enough for exposure, small enough to not get buried"
     }
-  ],
-  "toneAnalysis": {
-    "best": "technical-insightful (avg 87 views, 7 likes all-time) + insightful-technical (avg 45 views, 4 likes)",
-    "solid": "witty-analytical (avg 30 views, 3 likes) — good for markets/macro",
-    "avoid": "observational (380 views, 0 likes — views trap), personal-experience (2 views), self-aware-authentic (4 views)"
-  },
-  "topicAnalysis": {
-    "winners": ["AI products/launches", "AI-business intersection", "Markets-AI crossover"],
-    "moderate": ["Crypto L1/infra"],
-    "avoid": ["Pure macro without AI angle", "Political mega-accounts", "Prediction markets"]
-  },
-  "timingAnalysis": {
-    "8am": "avg 25 views — slow start",
-    "10am": "avg 21 views — similar",
-    "12pm": "avg 24 views — moderate",
-    "6pm": "avg 48 views — BEST despite less time. Peak Twitter usage 5-8PM ET",
-    "recommendation": "Shift reply volume toward 5-8PM ET"
   },
   "followerGrowth": {
-    "netNew": 7,
-    "from": 8,
-    "to": 15,
-    "rate": "Nearly doubled in 2 days",
-    "verifiedFollowers": 4
+    "current": 27,
+    "note": "First full week — all 27 followers are net new. 5 verified. Strong ratio for a new account."
   },
   "recommendations": [
-    "Double down on 5-8PM ET reply batches — 2x the view performance of morning batches",
-    "Stick to AI-product + markets-AI intersection topics with technical-insightful or witty-analytical tone — these are the only tones converting views to engagement",
-    "Fix URL logging — 8 of today's replies had no URLs tracked, making half the output unmeasurable"
+    "Double down on OpenAI/AI coding tool threads — they're the highest volume AND most engaged vertical right now",
+    "Target more 100K-500K view threads for replies; the 3.4M thread is great for impressions but replies get buried. Sweet spot is 100K-300K where your reply can stay visible.",
+    "Add 1-2 original insight tweets per day (not threads, not replies) — short takes on breaking AI news. This builds your own content library and gives followers something to RT."
   ]
 }

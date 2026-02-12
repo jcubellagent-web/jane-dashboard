@@ -15,7 +15,7 @@ _How-to details and implementation notes archived in `memory/reference.md`._
 | Sorare | jcubell16@gmail.com / jcubnft | JCAgent123!!! / wallet same |
 | Sorare wallet | 0x2890B67B... | same as account |
 | Gmail | jcubellagent@gmail.com | `.secrets/gmail.txt` |
-| X/Twitter | @AgentJc11443 | via Gmail |
+| X/Twitter | @AgentJc11443 | JCAgent123!!! / `.secrets/x_password.txt` |
 | Claude API | — | `.secrets/claude_api_key.txt` |
 | GitHub | jcubellagent-web | `.secrets/github_token.txt` (exp Mar 9 2026) |
 | Substack | jcubellagent@gmail.com | magic link |

@@ -1365,9 +1365,15 @@
             brainRegions.forEach((region,i) => {
                 const x=cx+region.dx, y=cy+region.dy;
                 region.x=x; region.y=y;
+                // Compute line from hub edge to node edge
+                const hubR=18, nodeR=2.5;
+                const dist = Math.sqrt(region.dx*region.dx + region.dy*region.dy);
+                const ux=region.dx/dist, uy=region.dy/dist;
+                const lx1=cx+ux*hubR, ly1=cy+uy*hubR;
+                const lx2=x-ux*nodeR, ly2=y-uy*nodeR;
                 const line = document.createElementNS('http://www.w3.org/2000/svg','line');
-                line.setAttribute('x1',cx); line.setAttribute('y1',cy);
-                line.setAttribute('x2',x); line.setAttribute('y2',y);
+                line.setAttribute('x1',lx1); line.setAttribute('y1',ly1);
+                line.setAttribute('x2',lx2); line.setAttribute('y2',ly2);
                 line.setAttribute('stroke','rgba(74,222,128,0.08)'); line.setAttribute('stroke-width','0.5');
                 line.setAttribute('stroke-dasharray','2 3'); line.setAttribute('id','brain-line-'+i);
                 line.classList.add('brain-line');
@@ -1386,7 +1392,20 @@
                 circle.classList.add('brain-node-circle');
                 nodesG.appendChild(circle);
                 const label = document.createElementNS('http://www.w3.org/2000/svg','text');
-                label.setAttribute('x',x); label.setAttribute('y', y+(y<cy?-12:16));
+                // Position label outside the shape based on node direction
+                let lx=x, ly=y, anchor='middle';
+                if (Math.abs(region.dx) > Math.abs(region.dy)) {
+                    // Primarily left/right
+                    ly = y + 3; // vertically center
+                    if (region.dx > 0) { lx = x + 8; anchor = 'start'; }
+                    else { lx = x - 8; anchor = 'end'; }
+                } else {
+                    // Primarily top/bottom
+                    if (region.dy < 0) { ly = y - 10; }
+                    else { ly = y + 14; }
+                }
+                label.setAttribute('x', lx); label.setAttribute('y', ly);
+                label.setAttribute('text-anchor', anchor);
                 label.textContent = region.name;
                 label.classList.add('brain-node-label'); label.setAttribute('id','brain-label-'+i);
                 nodesG.appendChild(label);
@@ -1426,7 +1445,10 @@
             const pulsesG = document.getElementById('brain-pulses');
             const r = brainRegions[idx];
             const cx=100, cy=190;
-            const x1=cx, y1=cy, x2=r.x, y2=r.y;
+            const hubR=18, nodeR=2.5;
+            const ddist = Math.sqrt(r.dx*r.dx + r.dy*r.dy);
+            const ux=r.dx/ddist, uy=r.dy/ddist;
+            const x1=cx+ux*hubR, y1=cy+uy*hubR, x2=r.x-ux*nodeR, y2=r.y-uy*nodeR;
             const line = document.getElementById('brain-line-'+idx);
 
             // Line shoot-out animation (only on first activation)

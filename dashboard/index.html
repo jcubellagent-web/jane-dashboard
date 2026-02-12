@@ -1615,10 +1615,14 @@
                     const dotsClass=(s==='active'&&text.toLowerCase().includes('waiting'))?' waiting-dots':'';
                     return `<div class="mind-step ${s}"><span class="step-indicator">${ind}</span><span class="${dotsClass}">${text}</span>${badge}</div>`;
                 }).join('');
-                // Append decisions log
+                // Append decisions log (deduplicated — consecutive entries with same text collapse)
                 if (mindState.decisions && mindState.decisions.length) {
+                    const deduped = mindState.decisions.reduce((acc, d) => {
+                        if (!acc.length || (d.text||'') !== (acc[acc.length-1].text||'')) acc.push(d);
+                        return acc;
+                    }, []);
                     html += '<div style="border-top:1px solid rgba(255,255,255,0.06);margin-top:0.4rem;padding-top:0.4rem;">';
-                    html += mindState.decisions.slice(-8).reverse().map(d => {
+                    html += deduped.slice(-8).reverse().map(d => {
                         const time = d.time || '';
                         const icon = resolveDecisionIcon(d.icon);
                         const mColor = d.model ? getToolColor(d.model) : 'rgba(255,255,255,0.5)';
@@ -1632,9 +1636,13 @@
                 container.innerHTML = html;
                 container.scrollTop = container.scrollHeight;
             } else if (mindState.decisions && mindState.decisions.length) {
-                // No active steps but decisions exist — show just decisions
+                // No active steps but decisions exist — show just decisions (deduplicated)
                 const container = document.getElementById('mind-steps');
-                container.innerHTML = mindState.decisions.slice(-8).reverse().map(d => {
+                const deduped2 = mindState.decisions.reduce((acc, d) => {
+                    if (!acc.length || (d.text||'') !== (acc[acc.length-1].text||'')) acc.push(d);
+                    return acc;
+                }, []);
+                container.innerHTML = deduped2.slice(-8).reverse().map(d => {
                     const time = d.time || '';
                     const icon = resolveDecisionIcon(d.icon);
                     const mColor = d.model ? getToolColor(d.model) : 'rgba(255,255,255,0.5)';

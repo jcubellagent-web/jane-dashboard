@@ -264,6 +264,8 @@
         .brain-idle #brain-node-5 { animation-delay:3s; }
         .brain-idle #brain-node-6 { animation-delay:3.6s; }
         .brain-idle #brain-node-7 { animation-delay:4.2s; }
+        .brain-idle #brain-node-8 { animation-delay:4.8s; }
+        .brain-idle #brain-node-9 { animation-delay:5.4s; }
         .brain-idle .brain-line { animation: sciLinePulse 3.5s ease-in-out infinite; }
         .brain-idle #brain-line-0 { animation-delay:0s; }
         .brain-idle #brain-line-1 { animation-delay:0.6s; }
@@ -273,6 +275,8 @@
         .brain-idle #brain-line-5 { animation-delay:3s; }
         .brain-idle #brain-line-6 { animation-delay:3.6s; }
         .brain-idle #brain-line-7 { animation-delay:4.2s; }
+        .brain-idle #brain-line-8 { animation-delay:4.8s; }
+        .brain-idle #brain-line-9 { animation-delay:5.4s; }
         .brain-idle .brain-node-label { animation: sciLabelPulse 3.5s ease-in-out infinite, labelFloat 6s ease-in-out infinite; }
         @keyframes labelFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-2px); } }
 
@@ -677,10 +681,14 @@
                 <!-- subagent lobsters rendered inside brain-map-container -->
                 <div class="mind-model-legend" id="mind-model-legend">
                     <span class="model-dot" style="--dot-color:#4ade80">● Opus</span>
-                    <span class="model-dot" style="--dot-color:#8b5cf6">● Sonnet</span>
                     <span class="model-dot" style="--dot-color:#facc15">● Whisper</span>
+                    <span class="model-dot" style="--dot-color:#3b82f6">● Browser</span>
                     <span class="model-dot" style="--dot-color:#f97316">● Ollama</span>
-                    <span class="model-dot" style="--dot-color:#ec4899">● Stable Diffusion</span>
+                    <span class="model-dot" style="--dot-color:#1d9bf0">● X</span>
+                    <span class="model-dot" style="--dot-color:#ffd700">● Sorare</span>
+                    <span class="model-dot" style="--dot-color:#a855f7">● DexScreener</span>
+                    <span class="model-dot" style="--dot-color:#25d366">● WhatsApp</span>
+                    <span class="model-dot" style="--dot-color:#06b6d4">● Finnhub</span>
                 </div>
                 <div class="mind-body" style="flex-direction: row-reverse;">
                     <!-- Brain Map SVG -->
@@ -1313,31 +1321,46 @@
         let mindState = { task: null, steps: [], thought: 'Ready for your next request.' };
 
         var brainRegions = [
-            { name:'Reasoning', dx:0, dy:-155 },
-            { name:'Code', dx:55, dy:-110 },
-            { name:'Web', dx:80, dy:-40 },
-            { name:'Social', dx:55, dy:30 },
-            { name:'Data', dx:0, dy:155 },
-            { name:'Market', dx:-55, dy:30 },
-            { name:'Memory', dx:-80, dy:-40 },
-            { name:'Language', dx:-55, dy:-110 }
+            { name:'Opus', dx:0, dy:-80 },
+            { name:'Whisper', dx:47, dy:-65 },
+            { name:'Browser', dx:76, dy:-25 },
+            { name:'Ollama', dx:76, dy:25 },
+            { name:'X/Twitter', dx:47, dy:65 },
+            { name:'Sorare', dx:0, dy:80 },
+            { name:'DexScreener', dx:-47, dy:65 },
+            { name:'Gmail', dx:-76, dy:25 },
+            { name:'WhatsApp', dx:-76, dy:-25 },
+            { name:'Finnhub', dx:-47, dy:-65 }
         ];
         var brainToolColors = {
-            'opus':'#4ade80','claude':'#4ade80','sonnet':'#8b5cf6','whisper':'#facc15',
-            'ollama':'#f97316','stable-diffusion':'#ec4899','sd':'#ec4899','image':'#ec4899',
+            'opus':'#4ade80','claude':'#4ade80','sonnet':'#8b5cf6',
+            'whisper':'#facc15',
+            'browser':'#3b82f6','web_search':'#3b82f6','web_fetch':'#3b82f6',
+            'ollama':'#f97316',
+            'x':'#1d9bf0','twitter':'#1d9bf0',
+            'sorare':'#ffd700',
+            'dexscreener':'#a855f7','trading':'#a855f7','memecoins':'#a855f7','kalshi':'#a855f7',
+            'gmail':'#ef4444','email':'#ef4444',
+            'whatsapp':'#25d366','message':'#25d366',
+            'finnhub':'#06b6d4','coingecko':'#06b6d4','ticker':'#06b6d4',
+            'stable-diffusion':'#ec4899','sd':'#ec4899','image':'#ec4899',
             'default':'rgba(74,222,128,0.3)'
         };
         var brainToolToRegions = {
-            'opus':['Reasoning','Code','Language'],'claude':['Reasoning','Code','Language'],'sonnet':['Reasoning','Code','Language'],
-            'ollama':['Reasoning'],
-            'whisper':['Language'],'tts':['Language'],
-            'web_search':['Web'],'web_fetch':['Web'],'browser':['Web','Social'],
-            'exec':['Code'],'read':['Code'],'write':['Code'],'edit':['Code'],
-            'memory_search':['Memory'],'memory_get':['Memory'],
-            'message':['Social'],'sessions_spawn':['Social'],'sessions_send':['Social'],
-            'trading':['Market','Data'],'kalshi':['Market','Data'],'sorare':['Market'],'memecoins':['Market'],
-            'cron':['Data'],'session_status':['Data'],'sessions_list':['Data'],
-            'stable-diffusion':['Web'],'sd':['Web'],'image':['Web']
+            'opus':['Opus'],'claude':['Opus'],'sonnet':['Opus'],
+            'ollama':['Ollama'],
+            'whisper':['Whisper'],'tts':['Whisper'],
+            'web_search':['Browser'],'web_fetch':['Browser'],'browser':['Browser'],
+            'exec':['Opus'],'read':['Opus'],'write':['Opus'],'edit':['Opus'],
+            'message':['WhatsApp'],'sessions_spawn':['Opus'],'sessions_send':['WhatsApp'],
+            'trading':['DexScreener'],'kalshi':['DexScreener'],'memecoins':['DexScreener'],
+            'sorare':['Sorare'],
+            'x':['X/Twitter'],'twitter':['X/Twitter'],
+            'gmail':['Gmail'],'email':['Gmail'],
+            'finnhub':['Finnhub'],'coingecko':['Finnhub'],'ticker':['Finnhub'],
+            'stable-diffusion':['Browser'],'sd':['Browser'],'image':['Browser'],
+            'cron':['Opus'],'session_status':['Opus'],'sessions_list':['Opus'],
+            'memory_search':['Opus'],'memory_get':['Opus']
         };
         var activeRegions = new Set();
 
@@ -1401,24 +1424,87 @@
             document.getElementById('brain-pulses').innerHTML = '';
         }
 
-        function spawnPulseDot(idx, color) {
+        // Track which lines are currently active to avoid re-animating
+        var _activeLines = new Set();
+        // Continuous flow dot spawner interval
+        var _flowIntervals = {};
+
+        function spawnFlowBurst(idx, color) {
             const pulsesG = document.getElementById('brain-pulses');
             const r = brainRegions[idx];
             const cx=100, cy=190;
-            const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
-            dot.setAttribute('r','1.5'); dot.setAttribute('fill',color); dot.setAttribute('opacity','0.8');
-            const animX = document.createElementNS('http://www.w3.org/2000/svg','animate');
-            animX.setAttribute('attributeName','cx'); animX.setAttribute('from',cx); animX.setAttribute('to',r.x);
-            animX.setAttribute('dur','1.2s'); animX.setAttribute('repeatCount','indefinite');
-            const animY = document.createElementNS('http://www.w3.org/2000/svg','animate');
-            animY.setAttribute('attributeName','cy'); animY.setAttribute('from',cy); animY.setAttribute('to',r.y);
-            animY.setAttribute('dur','1.2s'); animY.setAttribute('repeatCount','indefinite');
-            const animO = document.createElementNS('http://www.w3.org/2000/svg','animate');
-            animO.setAttribute('attributeName','opacity'); animO.setAttribute('values','0.9;0.9;0');
-            animO.setAttribute('keyTimes','0;0.7;1'); animO.setAttribute('dur','1.2s'); animO.setAttribute('repeatCount','indefinite');
-            dot.appendChild(animX); dot.appendChild(animY); dot.appendChild(animO);
-            pulsesG.appendChild(dot);
+            const x1=cx, y1=cy, x2=r.x, y2=r.y;
+            const line = document.getElementById('brain-line-'+idx);
+
+            // Line shoot-out animation (only on first activation)
+            if (!_activeLines.has(idx) && line) {
+                _activeLines.add(idx);
+                const len = Math.sqrt((x2-x1)**2 + (y2-y1)**2);
+                line.setAttribute('stroke-dasharray', len+' '+len);
+                line.setAttribute('stroke-dashoffset', len);
+                line.setAttribute('stroke', color);
+                line.setAttribute('stroke-opacity', '0.6');
+                line.setAttribute('stroke-width', '1');
+                let shootStart = null;
+                const shootDuration = 400;
+                (function animShoot(ts) {
+                    if (!shootStart) shootStart = ts;
+                    const t = Math.min((ts - shootStart) / shootDuration, 1);
+                    const eased = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+                    line.setAttribute('stroke-dashoffset', len * (1 - eased));
+                    if (t < 1) requestAnimationFrame(animShoot);
+                    else { line.setAttribute('stroke-dashoffset', '0'); line.removeAttribute('stroke-dasharray'); }
+                })(performance.now());
+            }
+
+            // Burst of flow dots
+            const burstCount = 2 + Math.floor(Math.random()*3);
+            for (let b = 0; b < burstCount; b++) {
+                const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+                const dotR = 1.2 + Math.random()*0.8;
+                dot.setAttribute('r', dotR);
+                dot.setAttribute('cx', x1);
+                dot.setAttribute('cy', y1);
+                dot.setAttribute('fill', color);
+                dot.setAttribute('opacity', '0');
+                dot.setAttribute('filter', 'drop-shadow(0 0 '+dotR+'px '+color+')');
+                pulsesG.appendChild(dot);
+                const duration = 800 + Math.random()*1000;
+                const delay = _activeLines.has(idx) ? b * (80 + Math.random()*120) : 400 + b * (80 + Math.random()*120);
+                const wobbleX = (Math.random()-0.5)*8;
+                const wobbleY = (Math.random()-0.5)*8;
+                let start = null;
+                (function animBurst(ts) {
+                    if (!start) start = ts;
+                    const elapsed = ts - start - delay;
+                    if (elapsed < 0) { requestAnimationFrame(animBurst); return; }
+                    const t = Math.min(elapsed / duration, 1);
+                    const eased = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+                    const wx = wobbleX * Math.sin(t * Math.PI);
+                    const wy = wobbleY * Math.sin(t * Math.PI);
+                    dot.setAttribute('cx', x1 + (x2-x1)*eased + wx);
+                    dot.setAttribute('cy', y1 + (y2-y1)*eased + wy);
+                    dot.setAttribute('opacity', t < 0.1 ? String(t*10) : t > 0.75 ? String((1-t)*4) : '0.85');
+                    if (t < 1) requestAnimationFrame(animBurst);
+                    else { try { pulsesG.removeChild(dot); } catch(e){} }
+                })(performance.now());
+            }
         }
+
+        function startContinuousFlow(idx, color) {
+            if (_flowIntervals[idx]) return;
+            spawnFlowBurst(idx, color);
+            _flowIntervals[idx] = setInterval(() => spawnFlowBurst(idx, color), 1800 + Math.random()*800);
+        }
+
+        function stopAllFlows() {
+            Object.keys(_flowIntervals).forEach(k => { clearInterval(_flowIntervals[k]); delete _flowIntervals[k]; });
+            _activeLines.clear();
+            document.getElementById('brain-pulses').innerHTML = '';
+        }
+
+        // Legacy alias
+        function spawnPulseDot(idx, color) { spawnFlowBurst(idx, color); }
 
         function getToolColor(tool) {
             if (!tool) return brainToolColors['default'];
@@ -1445,6 +1531,7 @@
             if (thought !== undefined) { mindState.thought = thought; document.getElementById('mind-thought-text').textContent = thought; }
 
             resetBrainRegions();
+            stopAllFlows();
             const hasActive = mindState.steps && mindState.steps.some(s=>s.status==='active');
             const hub = document.getElementById('brain-hub');
             const brainSvg = document.getElementById('brain-map');
@@ -1465,13 +1552,12 @@
                         }
                     });
                 }
-                document.getElementById('brain-pulses').innerHTML='';
                 mindState.steps.forEach(step => {
                     if (step.status==='active') {
                         const regions=getToolRegions(step.tool||''), color=getToolColor(step.tool||'');
                         regions.forEach(r => {
                             const idx=brainRegions.findIndex(br=>br.name===r);
-                            if (idx!==-1) spawnPulseDot(idx, color);
+                            if (idx!==-1) startContinuousFlow(idx, color);
                         });
                     }
                 });

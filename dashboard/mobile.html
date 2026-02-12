@@ -427,6 +427,9 @@
         .mindmap-idle .mindmap-node:nth-child(5) { animation-delay: 2s; }
         .mindmap-idle .mindmap-node:nth-child(6) { animation-delay: 2.5s; }
         .mindmap-idle .mindmap-node:nth-child(7) { animation-delay: 3s; }
+        .mindmap-idle .mindmap-node:nth-child(8) { animation-delay: 3.5s; }
+        .mindmap-idle .mindmap-node:nth-child(9) { animation-delay: 4s; }
+        .mindmap-idle .mindmap-node:nth-child(10) { animation-delay: 4.5s; }
         @keyframes mmNodeBreathe {
             0%, 100% { fill: rgba(74,222,128,0.08); stroke: rgba(74,222,128,0.2); }
             50% { fill: rgba(74,222,128,0.2); stroke: rgba(74,222,128,0.5); }
@@ -453,6 +456,34 @@
         .mindmap-active .mindmap-node.lit-sd {
             fill: #ec4899;
             filter: drop-shadow(0 0 4px rgba(236,72,153,0.6));
+        }
+        .mindmap-active .mindmap-node.lit-browser {
+            fill: #3b82f6;
+            filter: drop-shadow(0 0 4px rgba(59,130,246,0.6));
+        }
+        .mindmap-active .mindmap-node.lit-x {
+            fill: #1d9bf0;
+            filter: drop-shadow(0 0 4px rgba(29,155,240,0.6));
+        }
+        .mindmap-active .mindmap-node.lit-sorare {
+            fill: #ffd700;
+            filter: drop-shadow(0 0 4px rgba(255,215,0,0.6));
+        }
+        .mindmap-active .mindmap-node.lit-dex {
+            fill: #a855f7;
+            filter: drop-shadow(0 0 4px rgba(168,85,247,0.6));
+        }
+        .mindmap-active .mindmap-node.lit-gmail {
+            fill: #ef4444;
+            filter: drop-shadow(0 0 4px rgba(239,68,68,0.6));
+        }
+        .mindmap-active .mindmap-node.lit-whatsapp {
+            fill: #25d366;
+            filter: drop-shadow(0 0 4px rgba(37,211,102,0.6));
+        }
+        .mindmap-active .mindmap-node.lit-finnhub {
+            fill: #06b6d4;
+            filter: drop-shadow(0 0 4px rgba(6,182,212,0.6));
         }
         .mindmap-line {
             stroke: transparent;
@@ -833,10 +864,10 @@
         <span class="mindmap-header">MIND MAP</span>
         <div style="position:absolute;top:0.4rem;right:0.75rem;display:flex;gap:0.4rem;align-items:center;">
             <span class="mm-legend-dot" id="mm-dot-opus" style="color:#4ade80;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Opus</span></span>
-            <span class="mm-legend-dot" id="mm-dot-sonnet" style="color:#8b5cf6;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Sonnet</span></span>
             <span class="mm-legend-dot" id="mm-dot-whisper" style="color:#facc15;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Whisper</span></span>
+            <span class="mm-legend-dot" id="mm-dot-browser" style="color:#3b82f6;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Browser</span></span>
             <span class="mm-legend-dot" id="mm-dot-ollama" style="color:#f97316;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">Ollama</span></span>
-            <span class="mm-legend-dot" id="mm-dot-sd" style="color:#ec4899;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">SD</span></span>
+            <span class="mm-legend-dot" id="mm-dot-x" style="color:#1d9bf0;font-size:0.5rem;opacity:0.35;">● <span style="font-size:0.45rem;color:white;">X</span></span>
         </div>
         <canvas id="neural-sphere" class="neural-sphere-canvas" width="280" height="210"></canvas>
         <svg class="mindmap-svg" viewBox="0 -8 160 110" xmlns="http://www.w3.org/2000/svg">
@@ -848,34 +879,40 @@
                 </radialGradient>
             </defs>
             <g id="mm-lines">
-                <line x1="80.0" y1="36.0" x2="80.0" y2="7.5" class="mindmap-line" data-node="0"/>
-                <line x1="86.9" y1="39.3" x2="118.1" y2="13.6" class="mindmap-line" data-node="1"/>
-                <line x1="88.8" y1="43.2" x2="142.5" y2="32.5" class="mindmap-line" data-node="2"/>
-                <line x1="86.9" y1="50.7" x2="118.1" y2="76.4" class="mindmap-line" data-node="3"/>
-                <line x1="80.0" y1="54.0" x2="80.0" y2="82.5" class="mindmap-line" data-node="4"/>
-                <line x1="73.1" y1="50.7" x2="41.9" y2="76.4" class="mindmap-line" data-node="5"/>
-                <line x1="71.2" y1="43.2" x2="17.5" y2="32.5" class="mindmap-line" data-node="6"/>
-                <line x1="73.1" y1="39.3" x2="41.9" y2="13.6" class="mindmap-line" data-node="7"/>
+                <line x1="80.0" y1="36.0" x2="80.0" y2="7.0" class="mindmap-line" data-node="0"/>
+                <line x1="86.9" y1="39.3" x2="103.0" y2="13.0" class="mindmap-line" data-node="1"/>
+                <line x1="88.8" y1="43.2" x2="118.0" y2="29.0" class="mindmap-line" data-node="2"/>
+                <line x1="88.8" y1="48.0" x2="118.0" y2="61.0" class="mindmap-line" data-node="3"/>
+                <line x1="86.9" y1="50.7" x2="103.0" y2="77.0" class="mindmap-line" data-node="4"/>
+                <line x1="80.0" y1="54.0" x2="80.0" y2="83.0" class="mindmap-line" data-node="5"/>
+                <line x1="73.1" y1="50.7" x2="57.0" y2="77.0" class="mindmap-line" data-node="6"/>
+                <line x1="71.2" y1="48.0" x2="42.0" y2="61.0" class="mindmap-line" data-node="7"/>
+                <line x1="71.2" y1="43.2" x2="42.0" y2="29.0" class="mindmap-line" data-node="8"/>
+                <line x1="73.1" y1="39.3" x2="57.0" y2="13.0" class="mindmap-line" data-node="9"/>
             </g>
             <g id="mm-nodes">
                 <circle cx="80" cy="5" r="2.5" class="mindmap-node" data-node="0"/>
-                <circle cx="120" cy="12" r="2.5" class="mindmap-node" data-node="1"/>
-                <circle cx="145" cy="32" r="2.5" class="mindmap-node" data-node="2"/>
-                <circle cx="120" cy="78" r="2.5" class="mindmap-node" data-node="3"/>
-                <circle cx="80" cy="85" r="2.5" class="mindmap-node" data-node="4"/>
-                <circle cx="40" cy="78" r="2.5" class="mindmap-node" data-node="5"/>
-                <circle cx="15" cy="32" r="2.5" class="mindmap-node" data-node="6"/>
-                <circle cx="40" cy="12" r="2.5" class="mindmap-node" data-node="7"/>
+                <circle cx="103" cy="11" r="2.5" class="mindmap-node" data-node="1"/>
+                <circle cx="118" cy="27" r="2.5" class="mindmap-node" data-node="2"/>
+                <circle cx="118" cy="63" r="2.5" class="mindmap-node" data-node="3"/>
+                <circle cx="103" cy="79" r="2.5" class="mindmap-node" data-node="4"/>
+                <circle cx="80" cy="85" r="2.5" class="mindmap-node" data-node="5"/>
+                <circle cx="57" cy="79" r="2.5" class="mindmap-node" data-node="6"/>
+                <circle cx="42" cy="63" r="2.5" class="mindmap-node" data-node="7"/>
+                <circle cx="42" cy="27" r="2.5" class="mindmap-node" data-node="8"/>
+                <circle cx="57" cy="11" r="2.5" class="mindmap-node" data-node="9"/>
             </g>
             <g id="mm-labels">
-                <text x="80" y="-4" class="mindmap-label" data-node="0">REASONING</text>
-                <text x="120" y="4" class="mindmap-label" data-node="1">CODE</text>
-                <text x="145" y="24" class="mindmap-label" data-node="2">WEB</text>
-                <text x="120" y="88" class="mindmap-label" data-node="3">SOCIAL</text>
-                <text x="80" y="96" class="mindmap-label" data-node="4">DATA</text>
-                <text x="40" y="88" class="mindmap-label" data-node="5">MARKET</text>
-                <text x="15" y="24" class="mindmap-label" data-node="6">MEMORY</text>
-                <text x="40" y="4" class="mindmap-label" data-node="7">LANGUAGE</text>
+                <text x="80" y="-3" class="mindmap-label" data-node="0">OPUS</text>
+                <text x="113" y="8" class="mindmap-label" data-node="1">WHISPER</text>
+                <text x="130" y="25" class="mindmap-label" data-node="2">BROWSER</text>
+                <text x="130" y="67" class="mindmap-label" data-node="3">OLLAMA</text>
+                <text x="113" y="88" class="mindmap-label" data-node="4">X/TWITTER</text>
+                <text x="80" y="95" class="mindmap-label" data-node="5">SORARE</text>
+                <text x="45" y="88" class="mindmap-label" data-node="6">DEXSCREENER</text>
+                <text x="30" y="67" class="mindmap-label" data-node="7">GMAIL</text>
+                <text x="30" y="25" class="mindmap-label" data-node="8">WHATSAPP</text>
+                <text x="45" y="8" class="mindmap-label" data-node="9">FINNHUB</text>
             </g>
             <g id="mm-pulses">
                 <g id="mm-flow-container"></g>
@@ -1333,8 +1370,8 @@
             content.style.display = 'none';
             sections.style.display = '';
 
-            // Model color map
-            const modelColors = {opus:'#4ade80', claude:'#4ade80', sonnet:'#8b5cf6', whisper:'#facc15', ollama:'#f97316', sd:'#ec4899'};
+            // Model/tool color map
+            const modelColors = {opus:'#4ade80', claude:'#4ade80', sonnet:'#8b5cf6', whisper:'#facc15', ollama:'#f97316', browser:'#3b82f6', x:'#1d9bf0', twitter:'#1d9bf0', sorare:'#ffd700', dexscreener:'#a855f7', gmail:'#ef4444', whatsapp:'#25d366', finnhub:'#06b6d4', coingecko:'#06b6d4', sd:'#ec4899'};
             const activeColor = modelColors[(data.model||'').toLowerCase()] || 'var(--accent)';
 
             // Goal / Objective — colored by active model
@@ -1367,33 +1404,36 @@
         // Regions: 0=REASONING, 1=CODE, 2=WEB, 3=SOCIAL, 4=DATA, 5=MARKET, 6=MEMORY, 7=LANGUAGE
         // Keyword → brain region mapping
         // Regions: 0=REASONING, 1=CODE, 2=WEB, 3=SOCIAL, 4=DATA, 5=MARKET, 6=MEMORY, 7=LANGUAGE
+        // Regions: 0=OPUS, 1=WHISPER, 2=BROWSER, 3=OLLAMA, 4=X/TWITTER, 5=SORARE, 6=DEXSCREENER, 7=GMAIL, 8=WHATSAPP, 9=FINNHUB
         const keywordToRegions = {
-            // Reasoning (0)
-            reason: [0], analy: [0], think: [0], strateg: [0], plan: [0], evaluat: [0], decision: [0], assess: [0],
-            // Code (1)
-            code: [1], script: [1], compil: [1], build: [1], edit: [1], function: [1], debug: [1], implement: [1],
-            shell: [1], command: [1], commit: [1], ' run': [1], css: [1], html: [1], svg: [1], widget: [1],
-            // Web (2)
+            // Opus (0) — reasoning, code, exec
+            reason: [0], analy: [0], think: [0], strateg: [0], plan: [0], evaluat: [0], decision: [0],
+            code: [0], script: [0], build: [0], edit: [0], function: [0], debug: [0], implement: [0],
+            shell: [0], command: [0], commit: [0], ' run': [0], css: [0], html: [0], svg: [0],
+            exec: [0], read: [0], write: [0], memory: [0],
+            // Whisper (1)
+            transcri: [1], voice: [1], audio: [1], speech: [1], tts: [1], whisper: [1],
+            // Browser (2)
             'web search': [2], 'web fetch': [2], browser: [2], scrape: [2], crawl: [2], url: [2], website: [2],
-            'searching': [2], 'fetching': [2],
-            // Social (3)
-            social: [3], tweet: [3], 'post': [3], reply: [3], discord: [3], whatsapp: [3], engag: [3],
-            'x timeline': [3], '@': [3], thread: [3],
-            // Data (4)
-            'json': [4], 'file': [4], dashboard: [4], 'writing to': [4], 'reading': [4], dataset: [4], updat: [4],
-            // Market (5)
-            market: [5], trad: [5], swap: [5], jupiter: [5], solana: [5], sorare: [5], kalshi: [5], price: [5],
-            defi: [5], token: [5], wallet: [5], portfolio: [5],
-            // Memory (6)
-            memory: [6], recall: [6], remember: [6], knowledge: [6], embed: [6],
-            // Language (7)
-            transcri: [7], voice: [7], audio: [7], speech: [7], tts: [7], whisper: [7],
-            // Image
-            image: [1,4], avatar: [1,4], render: [1,4], 'stable diffusion': [1,4],
+            'searching': [2], 'fetching': [2], image: [2],
+            // Ollama (3)
+            ollama: [3], 'local llm': [3],
+            // X/Twitter (4)
+            tweet: [4], 'post': [4], reply: [4], 'x timeline': [4], '@': [4], thread: [4], engag: [4], twitter: [4],
+            // Sorare (5)
+            sorare: [5], lineup: [5], 'game week': [5], crafting: [5],
+            // DexScreener (6)
+            dexscreener: [6], trad: [6], swap: [6], jupiter: [6], memecoin: [6], kalshi: [6], defi: [6], token: [6],
+            // Gmail (7)
+            gmail: [7], email: [7], inbox: [7], newsletter: [7],
+            // WhatsApp (8)
+            whatsapp: [8], message: [8],
+            // Finnhub/CoinGecko (9)
+            finnhub: [9], coingecko: [9], market: [9], price: [9], ticker: [9], solana: [9], bitcoin: [9],
         };
 
-        // Model name normalization (tool field → canonical model)
-        const modelNames = new Set(['opus','claude','sonnet','whisper','ollama','sd']);
+        // Model/tool name normalization (tool field → canonical tool)
+        const modelNames = new Set(['opus','claude','sonnet','whisper','ollama','sd','browser','web_search','web_fetch','x','twitter','sorare','dexscreener','gmail','email','whatsapp','message','finnhub','coingecko','ticker']);
 
         function getActiveRegions(steps) {
             const regions = new Map(); // regionIndex → model name
@@ -1425,9 +1465,9 @@
                         }
                     }
                 }
-                // Default: if tool is a known model, map to its natural region
+                // Default: if tool is a known model/tool, map to its natural region
                 if (!matched) {
-                    const modelRegion = {opus:0, claude:0, sonnet:0, whisper:7, ollama:7, sd:1}[model];
+                    const modelRegion = {opus:0, claude:0, sonnet:0, whisper:1, ollama:3, browser:2, web_search:2, web_fetch:2, x:4, twitter:4, sorare:5, dexscreener:6, gmail:7, email:7, whatsapp:8, message:8, finnhub:9, coingecko:9, ticker:9, sd:2}[model];
                     if (modelRegion !== undefined) regions.set(modelRegion, model);
                     else regions.set(0, model);
                 }
@@ -1442,9 +1482,9 @@
             card.classList.toggle('mindmap-idle', !isActive);
 
             // Update model legend — highlight all active models
-            const modelMap = {opus:'mm-dot-opus', sonnet:'mm-dot-sonnet', whisper:'mm-dot-whisper', ollama:'mm-dot-ollama', sd:'mm-dot-sd'};
-            const colorMap = {opus:'#4ade80', claude:'#4ade80', sonnet:'#8b5cf6', whisper:'#facc15', ollama:'#f97316', sd:'#ec4899'};
-            const classMap = {sonnet:'lit-sonnet', whisper:'lit-whisper', ollama:'lit-ollama', sd:'lit-sd'};
+            const modelMap = {opus:'mm-dot-opus', whisper:'mm-dot-whisper', browser:'mm-dot-browser', ollama:'mm-dot-ollama', x:'mm-dot-x'};
+            const colorMap = {opus:'#4ade80', claude:'#4ade80', sonnet:'#8b5cf6', whisper:'#facc15', browser:'#3b82f6', ollama:'#f97316', x:'#1d9bf0', twitter:'#1d9bf0', sorare:'#ffd700', dexscreener:'#a855f7', gmail:'#ef4444', whatsapp:'#25d366', finnhub:'#06b6d4', coingecko:'#06b6d4', sd:'#ec4899'};
+            const classMap = {sonnet:'lit-sonnet', whisper:'lit-whisper', browser:'lit-browser', ollama:'lit-ollama', x:'lit-x', twitter:'lit-x', sorare:'lit-sorare', dexscreener:'lit-dex', gmail:'lit-gmail', whatsapp:'lit-whatsapp', finnhub:'lit-finnhub', coingecko:'lit-finnhub', sd:'lit-sd'};
             document.querySelectorAll('.mm-legend-dot').forEach(d => d.style.opacity = '0.35');
             if (isActive && window._mmModel) {
                 const el = document.getElementById(modelMap[window._mmModel]);

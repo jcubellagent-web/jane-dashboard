@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1739295900000,
+  "lastUpdated": 1770902898871,
   "gwOffset": 55,
   "activeFixture": {
     "slug": "nba-10-13-feb-2026",
@@ -147,139 +147,140 @@
   "upcomingFixture": {
     "slug": "nba-21-23-feb-2026",
     "gameWeek": 34,
-    "apiGameWeek": 90,
-    "startDate": "2026-02-20T00:00:00Z",
-    "endDate": "2026-02-23T04:01:30Z",
+    "apiGameWeek": 89,
+    "startDate": "2026-02-19T00:00:00Z",
+    "endDate": "2026-02-22T04:47:00Z",
     "lineups": [
       {
         "leaderboard": "Limited Champion",
         "entries": [
           {
-            "id": "pending-gw34-lineup-1",
+            "id": "gw34-lineup-1",
             "ranking": null,
-            "score": 0,
+            "score": null,
             "players": [
               {
                 "name": "Nikola Joki\u0107",
                 "team": "Denver Nuggets",
-                "score": 0,
+                "score": null,
                 "rarity": "limited",
-                "role": "MVP",
-                "l10avg": 63
+                "tenGameAvg": 63,
+                "role": "MVP"
               },
               {
                 "name": "Derrick White",
                 "team": "Boston Celtics",
-                "score": 0,
+                "score": null,
                 "rarity": "limited",
-                "l10avg": 33
+                "tenGameAvg": 33
               },
               {
                 "name": "Payton Pritchard",
                 "team": "Boston Celtics",
-                "score": 0,
+                "score": null,
                 "rarity": "limited",
-                "l10avg": 32
+                "tenGameAvg": 32
               },
               {
                 "name": "Tre Johnson",
                 "team": "Washington Wizards",
-                "score": 0,
+                "score": null,
                 "rarity": "limited",
-                "l10avg": 25
+                "tenGameAvg": 25
               },
               {
                 "name": "Keldon Johnson",
                 "team": "San Antonio Spurs",
-                "score": 0,
+                "score": null,
                 "rarity": "limited",
-                "l10avg": 24
+                "tenGameAvg": 24
               }
             ]
           },
           {
-            "id": "pending-gw34-lineup-2",
+            "id": "gw34-lineup-2",
             "ranking": null,
-            "score": 0,
+            "score": null,
             "players": [
               {
                 "name": "Anthony Edwards",
                 "team": "Minnesota Timberwolves",
-                "score": 0,
+                "score": null,
                 "rarity": "limited",
-                "role": "MVP",
-                "l10avg": 47
+                "tenGameAvg": 47,
+                "role": "MVP"
               },
               {
                 "name": "Derrick White",
                 "team": "Boston Celtics",
-                "score": 0,
+                "score": null,
                 "rarity": "limited",
-                "l10avg": 33
+                "tenGameAvg": 33
               },
               {
                 "name": "Payton Pritchard",
                 "team": "Boston Celtics",
-                "score": 0,
+                "score": null,
                 "rarity": "limited",
-                "l10avg": 32
+                "tenGameAvg": 32
               },
               {
                 "name": "Deandre Ayton",
-                "team": "Los Angeles Lakers",
-                "score": 0,
+                "team": "Portland Trail Blazers",
+                "score": null,
                 "rarity": "limited",
-                "l10avg": 25
+                "tenGameAvg": 25,
+                "status": "GTD"
               },
               {
                 "name": "Will Riley",
                 "team": "Washington Wizards",
-                "score": 0,
+                "score": null,
                 "rarity": "limited",
-                "l10avg": 25
+                "tenGameAvg": 25
               }
             ]
           },
           {
-            "id": "pending-gw34-lineup-3",
+            "id": "gw34-lineup-3",
             "ranking": null,
-            "score": 0,
+            "score": null,
             "players": [
               {
                 "name": "Jaylen Brown",
                 "team": "Boston Celtics",
-                "score": 0,
+                "score": null,
                 "rarity": "limited",
-                "role": "MVP",
-                "l10avg": 46
+                "tenGameAvg": 46,
+                "role": "MVP"
               },
               {
-                "name": "Cooper Flagg",
-                "team": "Dallas Mavericks",
-                "score": 0,
+                "name": "Jusuf Nurki\u0107",
+                "team": "Phoenix Suns",
+                "score": null,
                 "rarity": "limited",
-                "l10avg": 43
+                "tenGameAvg": 43
               },
               {
                 "name": "Brandon Miller",
                 "team": "Charlotte Hornets",
-                "score": 0,
+                "score": null,
                 "rarity": "limited",
-                "l10avg": 35
+                "tenGameAvg": 35
               },
               {
                 "name": "Zion Williamson",
                 "team": "New Orleans Pelicans",
-                "score": 0,
+                "score": null,
                 "rarity": "limited",
-                "l10avg": 33
+                "tenGameAvg": 33
               },
               {
                 "name": "Sion James",
                 "team": "Charlotte Hornets",
-                "score": 0,
+                "score": null,
                 "rarity": "limited",
-                "l10avg": 9
+                "tenGameAvg": 9
               }
             ]
           }

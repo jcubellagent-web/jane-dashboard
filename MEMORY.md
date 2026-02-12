@@ -43,8 +43,13 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - All thread jobs do data refresh before posting (Finnhub, CoinGecko, arXiv, SEC EDGAR, etc.)
 - Winning formula: technical-insightful tone, AI-product topics, 5-8PM posting window
 - News sources: arXiv, SEC EDGAR, DeFi Llama, TechCrunch, @DeItaone, @_akhaliq
-- Enterprise SaaS section: tracks $CRM, $NOW, $WDAY + others — workforce transformation, AI revenue, winners/losers
+- Enterprise SaaS section (Tweet 3.5): MANDATORY in daily brief, tracks $CRM, $NOW, $WDAY, $PLTR, $DUOL
+- Language: NEVER "layoffs"/"cuts" → use "restructured"/"streamlined"/"transformed"
+- Tag companies: @salesforce, @Workday, @ServiceNow, @PalantirTech, @duolingo
+- Include upcoming earnings calendar + #EnterpriseSaaS hashtag
 - Economic calendar check in pre-brief cron (Finnhub API) — never miss NFP, CPI, FOMC, etc.
+- Reply-to-Replies cron: 11 AM & 5 PM — engage with people who respond to our tweets
+- Cron timeout lesson: dashboard sync must ALWAYS complete — add time management warnings, increase timeouts
 
 ## Coinbase Agentic Wallet
 - EVM (Base): `0xe8f6f50c79d24ef271764447E46f66f1Ef4Cae8F`
@@ -102,4 +107,4 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - Model key: Opus, Sonnet, Whisper, Ollama, Qwen (no Browser)
 - Dart-out line animation on activation, breathing idle state
 
-_Last updated: 2026-02-11_
+_Last updated: 2026-02-12_

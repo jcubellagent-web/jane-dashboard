@@ -1,108 +1,25 @@
 {
   "plan": {
-    "date": "2026-02-11",
+    "date": "2026-02-12",
     "threads": {
       "planned": 5,
-      "completed": 5,
-      "schedule": [
-        "08:30",
-        "12:30",
-        "16:30",
-        "18:00",
-        "19:15"
-      ],
+      "completed": 1,
+      "schedule": ["08:30", "12:30", "16:30", "18:00", "19:15"],
       "details": [
-        {
-          "time": "08:30",
-          "name": "Daily Morning Brief",
-          "status": "done"
-        },
-        {
-          "time": "12:30",
-          "name": "Update Brief #1",
-          "status": "done"
-        },
-        {
-          "time": "16:30",
-          "name": "Update Brief #2",
-          "status": "done"
-        },
-        {
-          "time": "18:00",
-          "name": "Update Brief #3",
-          "status": "done"
-        },
-        {
-          "time": "19:15",
-          "name": "Daily Recap",
-          "status": "done"
-        }
+        {"time": "08:30", "name": "Daily Morning Brief", "status": "done"},
+        {"time": "12:30", "name": "Update Brief #1", "status": "upcoming"},
+        {"time": "16:30", "name": "Update Brief #2", "status": "upcoming"},
+        {"time": "18:00", "name": "Update Brief #3", "status": "upcoming"},
+        {"time": "19:15", "name": "Daily Recap", "status": "upcoming"}
       ]
     },
     "replies": {
       "planned": 40,
-      "completed": 32,
+      "completed": 0,
       "cadence": "5 every 2 hours",
-      "schedule": [
-        "08:00",
-        "10:00",
-        "12:00",
-        "14:00",
-        "16:00",
-        "18:00",
-        "20:00",
-        "22:00"
-      ],
-      "details": [
-        {
-          "time": "08:00",
-          "count": 5,
-          "status": "done"
-        },
-        {
-          "time": "10:00",
-          "count": 5,
-          "status": "done"
-        },
-        {
-          "time": "10:45",
-          "count": 5,
-          "status": "done",
-          "note": "Strategic engagement"
-        },
-        {
-          "time": "12:00",
-          "count": 5,
-          "status": "done"
-        },
-        {
-          "time": "14:00",
-          "count": 5,
-          "status": "upcoming"
-        },
-        {
-          "time": "16:00",
-          "count": 5,
-          "status": "upcoming"
-        },
-        {
-          "time": "18:00",
-          "count": 5,
-          "status": "upcoming"
-        },
-        {
-          "time": "20:00",
-          "count": 6,
-          "status": "done"
-        },
-        {
-          "time": "22:00",
-          "count": 6,
-          "status": "done"
-        }
-      ]
+      "schedule": ["08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00"]
     },
     "totalPlanned": 45,
-    "totalCompleted": 34
+    "totalCompleted": 1
   }
 }

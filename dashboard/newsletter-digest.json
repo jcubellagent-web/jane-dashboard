@@ -1,53 +1,53 @@
 {
-  "date": "2026-02-11",
-  "fetchedAt": "2026-02-11T08:10:00-05:00",
+  "date": "2026-02-12",
+  "fetchedAt": "2026-02-12T13:06:00Z",
   "newsletters": {
-    "tldr_ai": {
-      "date": "2026-02-10",
-      "subject": "Codex vs Claude Code 👨‍💻, AI killing SaaS ⚡, Cursor Composer 1.5 🤖",
+    "morningBrew": {
+      "subject": "☕️ Not so dry",
+      "date": "2026-02-12 5:41 AM",
       "headlines": [
-        "OpenAI's Codex app hits 1M+ downloads in first week — limits may be coming to free/Go users",
-        "Sam Altman touts ChatGPT's reaccelerating growth (10%+ monthly) as OpenAI closes in on $100B funding",
-        "OpenAI's GPT-5.3-Codex model released, Codex grew 50%",
-        "OpenAI testing ads in ChatGPT — sponsored content in user flows",
-        "Cursor releases Composer 1.5 — 20x RL scaling, big coding improvement",
-        "Claude Opus 4.6 System Card: 1M token context, Agent Teams in Claude Code, safety concerns about self-assessment",
-        "Opus 4.6 vs Codex 5.3: post-benchmark era — frontier models converging, benchmarks no longer distinguish",
-        "The SaaSpocalypse: Anthropic's AI release led to massive SaaS market selloff",
-        "ClawSec: Security Skill Suite for OpenClaw AI agents (GitHub)",
-        "Recursive Language Models (RLMs) mitigate context rot",
-        "AI Doesn't Reduce Work — It Intensifies It (HBR)",
-        "John Carmack muses fiber as L2 cache for AI data streaming",
-        "Inference is the New Sales & Marketing Spend"
+        "Things are looking up for the labor market",
+        "Stronger-than-anticipated US jobs report spurred Treasury slide, traders pared Fed rate cut bets"
       ]
     },
-    "alpha_signal": {
-      "date": "2026-02-10",
+    "alphaSignal": {
+      "subject": "🚨 Anthropic Opus 4.6 sabotage behaviors + Harvard AI workload study",
+      "date": "2026-02-11 1:58 PM",
+      "headlines": [
+        "Agent manipulation and authentication theft documented in 6 controlled tests",
+        "Harvard 8-month AI workload field study results",
+        "Anthropic releases Cowork for Windows",
+        "Mistral updates"
+      ]
+    },
+    "tldrAI": {
+      "subject": "xAI co-founders leave 👋, OpenAI device delayed 🔗, agent skills guide 🛠️✨",
+      "date": "2026-02-11 9:20 AM",
+      "headlines": [
+        "xAI co-founder Tony Wu and Jimmy Ba both announced departures",
+        "OpenAI hardware device delayed",
+        "Agent skills guide"
+      ]
+    },
+    "tldrCrypto": {
+      "subject": "Memecoins leading market 🤡, zkEVM is the new Merge 💽, Base Agents 🔵",
+      "date": "2026-02-11 8:09 AM",
+      "headlines": [
+        "Bitcoin range-bound below $70,000",
+        "Speculative/AI tokens driving market gains",
+        "zkEVM positioned as next major Ethereum upgrade",
+        "Base chain agent ecosystem growing"
+      ]
+    },
+    "alphaSignalPrev": {
       "subject": "🚨 OpenAI adds ChatGPT ads, Stanford explains LLM reasoning failures",
+      "date": "2026-02-10 12:32 PM",
       "headlines": [
         "OpenAI free tier gets ads beside responses",
-        "Alibaba's Qwen-Image-2.0 unifies image generation and editing",
-        "Stanford catalogs 4 types of LLM reasoning failures",
-        "Taxonomy explains benchmark gaps between models"
-      ]
-    },
-    "tldr_crypto": {
-      "date": "2026-02-10",
-      "subject": "Polymarket sues Massachusetts 🧑‍⚖️, Hyperliquid vs CME 💥, Ethereum's next Merge 🚀",
-      "headlines": [
-        "Polymarket filed federal lawsuit against Massachusetts — argues prediction markets are federally regulated derivatives",
-        "Hyperliquid vs CME competition heating up",
-        "Ethereum's next Merge upgrade incoming"
-      ]
-    },
-    "morning_brew": {
-      "date": "2026-02-11",
-      "subject": "☕️ That's a wrap",
-      "headlines": [
-        "Big changes coming for environmental rules",
-        "AT&T Connected Car featured sponsor"
+        "Alibaba Qwen-Image-2.0 unifies generation and editing",
+        "Stanford catalogs 4 LLM reasoning failure types"
       ]
     }
   },
-  "missing_newsletters": ["The Rundown AI", "TLDR Tech", "Substack digests (Crypto Advisor, Doomberg)"]
+  "noNewslettersToday": ["TLDR Tech", "The Rundown AI", "Substack digests (Crypto Advisor, Doomberg)"]
 }

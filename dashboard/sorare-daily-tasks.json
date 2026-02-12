@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1739307900000,
+  "lastUpdated": 1770902905068,
   "tasks": [
     {
       "id": "free-common-packs",
@@ -12,22 +12,22 @@
     {
       "id": "daily-missions",
       "name": "Complete Daily Missions",
-      "description": "Check sidebar for daily tasks — XP, Essence, Gems",
+      "description": "Check sidebar for daily tasks \u2014 XP, Essence, Gems",
       "frequency": "daily",
       "done": true,
       "doneAt": "2026-02-11T02:55:12.050Z"
     },
     {
       "id": "set-lineups",
-      "name": "Set Lineups for GW34 ✅",
-      "description": "3 Limited Champion lineups already submitted (Jokić / Ant / Brown MVPs)",
+      "name": "Set Lineups for GW34 \u2705",
+      "description": "3 Limited Champion lineups already submitted (Joki\u0107 / Ant / Brown MVPs)",
       "frequency": "per-gameweek",
       "done": true,
       "doneAt": "2026-02-10T07:23:00Z"
     },
     {
       "id": "scrap-duplicates",
-      "name": "Scrap Duplicate Commons ✅",
+      "name": "Scrap Duplicate Commons \u2705",
       "description": "Scrapped 5 duplicate commons from Legacy Set: Bismack Biyombo (5), John Collins (30), Isaiah Collier (60), Donovan Mitchell (120), Jalen Brunson (200) = 415 Essence earned. ~20+ more duplicates remain for future scrapping.",
       "frequency": "daily",
       "done": true,
@@ -40,21 +40,29 @@
       "frequency": "per-gameweek",
       "done": false,
       "doneAt": null,
-      "note": "GW33 not finished yet — games still in progress through Feb 13"
+      "note": "GW33 not finished yet \u2014 games still in progress through Feb 13"
+    },
+    {
+      "id": "gw34-lineups",
+      "name": "Set GW34 Lineups (Feb 19-22)",
+      "description": "3 Limited Champion lineups set. L3 updated: Nurki\u0107 replaced Cooper Flagg (OUT).",
+      "frequency": "weekly",
+      "done": true,
+      "doneAt": "2026-02-12T13:28:25.000Z"
     }
   ],
   "removedTasks": [
     {
       "id": "claim-rewards",
-      "reason": "GW33 still live (ends Feb 13) — no rewards to claim yet"
+      "reason": "GW33 still live (ends Feb 13) \u2014 no rewards to claim yet"
     },
     {
       "id": "weekly-missions",
-      "reason": "Can't automate — requires gameplay decisions Josh needs to make"
+      "reason": "Can't automate \u2014 requires gameplay decisions Josh needs to make"
     },
     {
       "id": "essence-crafting",
-      "reason": "Requires 1,000 Essence minimum — need to check balance first"
+      "reason": "Requires 1,000 Essence minimum \u2014 need to check balance first"
     },
     {
       "id": "collection-bonuses",
@@ -62,7 +70,7 @@
     },
     {
       "id": "hot-streaks",
-      "reason": "Passive tracking, no action needed — GW33 still in progress"
+      "reason": "Passive tracking, no action needed \u2014 GW33 still in progress"
     },
     {
       "id": "card-sealing",
@@ -73,7 +81,7 @@
     "fixture": "nba-10-13-feb-2026",
     "gameWeek": 33,
     "status": "live",
-    "note": "GW33 still in progress — currently ranked 7521st/8587 with 99 pts, projected 500 Essence reward"
+    "note": "GW33 still in progress \u2014 currently ranked 7521st/8587 with 99 pts, projected 500 Essence reward"
   },
   "upcomingLineups": {
     "gameWeek": 34,

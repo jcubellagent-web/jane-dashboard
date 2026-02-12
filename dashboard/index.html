@@ -1172,7 +1172,7 @@
             if (!data || !data.groups) return;
             let total=0, done=0;
             const allJobs = [];
-            data.groups.forEach(g => g.jobs.forEach(j => { total++; if(j.done) done++; allJobs.push({...j, group:g.label}); }));
+            data.groups.forEach(g => g.jobs.forEach(j => { if(g.label !== '🔄 Recurring') { total++; if(j.done) done++; } allJobs.push({...j, group:g.label}); }));
             document.getElementById('jobs-count').textContent = `${done}/${total}`;
             // find next upcoming
             const now = new Date();

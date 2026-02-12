@@ -671,6 +671,7 @@
                     <img src="icon-192.png" alt="Jane" class="mind-logo">
                     <span class="thinking-title">Jane's Mind</span>
                     <span class="thinking-status" id="mind-status">● Active</span>
+                    <button class="refresh-btn" onclick="refreshMind()" style="margin-left:auto;">↻</button>
                 </div>
                 <div class="subagent-box" id="subagent-box"></div>
                 <div class="mind-model-legend" id="mind-model-legend">
@@ -781,6 +782,7 @@
                         Connected Accounts
                         <span class="last-refresh" id="connections-refresh">--</span>
                     </span>
+                    <button class="refresh-btn" onclick="event.stopPropagation();refreshConnections(this)" style="margin-left:auto;margin-right:8px;">↻</button>
                     <span class="conn-arrow" id="conn-arrow">▶</span>
                 </div>
                 <div class="conn-body" id="conn-body">
@@ -808,7 +810,7 @@
                         <span style="font-weight:600;font-size:0.95rem;">JCAgentleman</span>
                         <span class="last-refresh" id="x-refresh">--</span>
                     </div>
-                    <button class="refresh-btn" onclick="refreshXStats(this)">↻</button>
+                    <button class="refresh-btn" onclick="refreshXStats(this);refreshDesktopTweetFeed()">↻</button>
                 </div>
                 <!-- Stats Strip -->
                 <div class="x-stats-strip">

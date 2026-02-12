@@ -15,6 +15,24 @@ Update `/dashboard/mind-state.json` with:
 
 If idle for 5+ minutes, the widget auto-shows "Idle" state.
 
+## X Brief Safety Net (CRITICAL)
+Every heartbeat, check if a scheduled brief was MISSED:
+1. Read `/dashboard/cron-schedule.json`
+2. Get current time in ET
+3. For each brief job (Update Brief 12:30 PM, 4:30 PM, 6:00 PM, Daily Recap 7:15 PM):
+   - If the job's scheduled time has passed (by 15+ minutes) AND `done` is still `false` → **the cron missed**
+   - Manually trigger it: use `sessions_send` to the brief's session key with a message to run now
+   - Alert Josh on WhatsApp: "⚠️ [Brief name] missed its schedule — manually triggering now"
+4. Also check the morning brief (8:30 AM) and pre-brief (8:00 AM) the same way
+
+**Brief cron IDs for manual trigger:**
+- 12:30 PM: `agent:main:cron:429d4536-9d5f-45b5-87c6-3b44b547f721`
+- 4:30 PM: `agent:main:cron:35e0a42c-3c02-45da-b566-acf0f15784bc`
+- 6:00 PM: `agent:main:cron:5a564af3-f963-4fc3-9199-8f39a99196ad`
+- 7:15 PM Recap: `agent:main:cron:f7ebf2a2-e764-4286-95d7-8f0c1fcd0356`
+- 8:30 AM Morning: `agent:main:cron:0e741aa3-27ba-4170-996f-148b98270e70`
+- 8:00 AM Pre-Brief: `agent:main:cron:7514d3d2-dff9-4828-aed5-070b709fc53a`
+
 ## Context Overflow Prevention
 If context feels heavy (long conversation, many tool calls), proactively:
 1. Use `/new` or suggest it to Josh before hitting limits

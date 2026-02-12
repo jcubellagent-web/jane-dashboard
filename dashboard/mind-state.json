@@ -1,14 +1,36 @@
 {
-  "goal": "Updating brief crons — always show all sections, tag unchanged as 'nothing new'",
+  "goal": "Adding heartbeat safety net for missed briefs",
   "steps": [
-    {"text": "Update 4:30 PM brief cron prompt", "status": "active"},
-    {"text": "Update 12:30 PM and 6:00 PM brief cron prompts", "status": "pending"},
-    {"text": "Update thread template", "status": "pending"}
+    {
+      "text": "Add brief monitoring to HEARTBEAT.md",
+      "status": "done"
+    },
+    {
+      "label": "Reading HEARTBEAT.md",
+      "status": "done",
+      "tool": "opus"
+    },
+    {
+      "label": "Editing HEARTBEAT.md",
+      "status": "done",
+      "tool": "opus"
+    },
+    {
+      "label": "Inspecting files",
+      "status": "active",
+      "tool": "opus"
+    }
   ],
   "decisions": [
-    {"text": "Josh wants all sections included even if unchanged — tag with 'nothing new' + show latest", "time": "3:16 PM", "icon": "📝", "model": "opus"}
+    {
+      "text": "Adding missed-brief detection — heartbeat will catch and re-trigger within 15 min",
+      "time": "3:23 PM",
+      "icon": "🛡️",
+      "model": "opus"
+    }
   ],
-  "thought": "Updating all update brief crons to always include every section",
-  "lastUpdated": 1739395560000,
-  "subAgents": []
+  "thought": "Adding safety net to catch any missed briefs",
+  "lastUpdated": 1770927848048,
+  "subAgents": [],
+  "task": "Reading HEARTBEAT.md"
 }

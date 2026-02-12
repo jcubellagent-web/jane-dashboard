@@ -629,7 +629,7 @@ function handleRequest(req, res) {
             dataSources: [
                 { name: '@DeItaone', detail: 'breaking financial news', icon: icons.twitter, active: true },
                 { name: '@_akhaliq', detail: 'AI papers & research', icon: icons.twitter, active: true },
-                { name: 'Finnhub', detail: 'real-time stocks, 60/min', icon: icons.finnhub, active: true },
+                { name: 'Finnhub', detail: 'stocks + economic calendar', icon: icons.finnhub, active: true },
                 { name: 'Alpha Vantage', detail: 'NASDAQ movers, sentiment', icon: icons.alphavantage, active: true },
                 { name: 'CoinGecko', detail: 'crypto prices, 10k/mo', icon: icons.coingecko, active: true },
                 { name: 'Kalshi', detail: 'prediction markets', icon: icons.kalshi, active: true },

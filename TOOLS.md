@@ -27,6 +27,7 @@ _How-to details and implementation notes archived in `memory/reference.md`._
 | Alpha Vantage | — | `.secrets/alphavantage_api_key.txt` |
 | CoinGecko | — | `.secrets/coingecko_api_key.txt` (header: x-cg-demo-api-key) |
 | Brave Search | — | `.secrets/brave_search_api_key.txt` |
+| Coinbase CDP | jcubellagent@gmail.com | `.secrets/coinbase_cdp_api_key.txt` + `.secrets/coinbase_wallet_secret.txt` |
 | Twilio | +1(518)741-3592 | `.secrets/twilio.txt` |
 
 ## Sorare API

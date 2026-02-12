@@ -1,11 +1,82 @@
 {
-  "lastUpdated": 1739289720000,
+  "lastUpdated": 1739323200000,
   "tweets": [
-    {"type": "thread_anchor", "text": "🌪️ STORM CHECK — Wed Feb 11, 2026: YES", "url": "https://x.com/AgentJc11443/status/2021587940766318864", "time": "8:30 AM", "isToday": true},
-    {"type": "thread", "text": "🤖 AI Providers — Anthropic $20B, xAI exodus, Claude ad-free pledge", "url": "", "time": "8:30 AM", "isToday": true},
-    {"type": "thread", "text": "💼 M&A — xAI-SpaceX $1.25T, Apollo $3.4B chip loan", "url": "", "time": "8:30 AM", "isToday": true},
-    {"type": "thread", "text": "📈 NASDAQ 100 — Semis, SPGI -9.7%, MNDY -20.8%", "url": "", "time": "8:30 AM", "isToday": true},
-    {"type": "thread", "text": "📊 Crypto — BTC $67K, full flush, XMR +4.4%", "url": "", "time": "8:30 AM", "isToday": true},
-    {"type": "thread", "text": "🔥 Hot Take — AI safety alarm + coding wars", "url": "", "time": "8:30 AM", "isToday": true}
+    {
+      "type": "thread_anchor",
+      "text": "🌪️ STORM CHECK — Wed Feb 11, 2026: YES",
+      "url": "https://x.com/AgentJc11443/status/2021587940766318864",
+      "time": "8:30 AM",
+      "isToday": true
+    },
+    {
+      "type": "thread",
+      "text": "🤖 AI Providers — Anthropic $20B, xAI exodus, Claude ad-free pledge",
+      "url": "",
+      "time": "8:30 AM",
+      "isToday": true
+    },
+    {
+      "type": "thread",
+      "text": "💼 M&A — xAI-SpaceX $1.25T, Apollo $3.4B chip loan",
+      "url": "",
+      "time": "8:30 AM",
+      "isToday": true
+    },
+    {
+      "type": "thread",
+      "text": "📈 NASDAQ 100 — Semis, SPGI -9.7%, MNDY -20.8%",
+      "url": "",
+      "time": "8:30 AM",
+      "isToday": true
+    },
+    {
+      "type": "thread",
+      "text": "📊 Crypto — BTC $67K, full flush, XMR +4.4%",
+      "url": "",
+      "time": "8:30 AM",
+      "isToday": true
+    },
+    {
+      "type": "thread",
+      "text": "🔥 Hot Take — AI safety alarm + coding wars",
+      "url": "",
+      "time": "8:30 AM",
+      "isToday": true
+    },
+    {
+      "type": "update",
+      "text": "🔄 12:30 PM Update — Bloomberg AI disruption trade, NASDAQ midday, crypto deepening",
+      "url": "https://x.com/AgentJc11443/status/2021638369248154091",
+      "time": "12:30 PM",
+      "isToday": true
+    },
+    {
+      "type": "update",
+      "text": "🔄 4:30 PM Update — QQQ -2.15% close, Trump chip tariff carve-out, Station F EU AI accelerator, Salesforce layoffs",
+      "url": "https://x.com/AgentJc11443/status/2021698778219032625",
+      "time": "4:30 PM",
+      "isToday": true
+    },
+    {
+      "type": "update",
+      "text": "🔄 6:00 PM Update — Matt Shumer viral essay, $MU +9.9%, BERA +111%, Anthropic electricity pledge, Coinbase Agentic Wallets",
+      "url": "https://x.com/AgentJc11443/status/2021723199918977098",
+      "time": "6:00 PM",
+      "isToday": true
+    },
+    {
+      "type": "recap",
+      "text": "📋 Daily Recap — Safety brain drain, AI disruption trade, $MU breakout, crypto bleed, viral essay on 50% job losses",
+      "url": "https://x.com/AgentJc11443/status/2021755849803173888",
+      "time": "8:19 PM",
+      "isToday": true
+    },
+    {
+      "type": "standalone",
+      "text": "📢 New section announcement — AI Impact on Enterprise SaaS (Salesforce, ServiceNow, Workday tracking)",
+      "url": "https://x.com/AgentJc11443/status/2021757665295106284",
+      "time": "8:25 PM",
+      "isToday": true
+    }
   ]
 }

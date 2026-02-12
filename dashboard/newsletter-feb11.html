@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0a0a0a;
+    color: #e5e5e5;
+    padding: 40px 20px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    background: #111111;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    padding: 48px 40px 40px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  
+  .header-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #60a5fa;
+    background: rgba(96,165,250,0.12);
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+  
+  .header .date {
+    font-size: 15px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 500;
+  }
+  
+  .storm-banner {
+    background: linear-gradient(90deg, rgba(239,68,68,0.1) 0%, rgba(239,68,68,0.05) 100%);
+    border-left: 4px solid #ef4444;
+    padding: 20px 28px;
+    margin: 28px 28px 0;
+    border-radius: 0 10px 10px 0;
+  }
+  
+  .storm-banner .storm-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #ef4444;
+    margin-bottom: 8px;
+  }
+  
+  .storm-banner p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #d4d4d4;
+  }
+  
+  .section {
+    padding: 28px 28px 0;
+  }
+  
+  .section:last-of-type {
+    padding-bottom: 28px;
+  }
+  
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  
+  .section-icon {
+    font-size: 20px;
+  }
+  
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.2px;
+  }
+  
+  .item {
+    padding: 8px 0;
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: #b3b3b3;
+  }
+  
+  .item .tag-green {
+    color: #4ade80;
+    font-weight: 600;
+  }
+  
+  .item .tag-orange {
+    color: #fb923c;
+    font-weight: 600;
+  }
+  
+  .item .tag-black {
+    color: #a3a3a3;
+    font-weight: 600;
+  }
+  
+  .item .tag-red {
+    color: #f87171;
+    font-weight: 600;
+  }
+  
+  .rumor-box {
+    background: rgba(168,85,247,0.08);
+    border-left: 3px solid #a855f7;
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 12px;
+  }
+  
+  .rumor-box .rumor-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #a855f7;
+    margin-bottom: 6px;
+  }
+  
+  .rumor-box p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #b3b3b3;
+  }
+  
+  .ticker-row {
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 13.5px;
+  }
+  
+  .ticker-name {
+    font-weight: 600;
+    color: #e5e5e5;
+    min-width: 100px;
+  }
+  
+  .ticker-price {
+    color: #a3a3a3;
+    min-width: 90px;
+  }
+  
+  .ticker-change-red {
+    color: #f87171;
+    font-weight: 600;
+  }
+  
+  .ticker-change-green {
+    color: #4ade80;
+    font-weight: 600;
+  }
+  
+  .highlight-box {
+    background: rgba(250,204,21,0.08);
+    border-left: 3px solid #facc15;
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #d4d4d4;
+  }
+  
+  .hot-take {
+    background: linear-gradient(135deg, rgba(249,115,22,0.1) 0%, rgba(239,68,68,0.08) 100%);
+    border-left: 4px solid #f97316;
+    padding: 24px 28px;
+    margin: 28px 28px;
+    border-radius: 0 10px 10px 0;
+  }
+  
+  .hot-take .take-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #f97316;
+    margin-bottom: 10px;
+  }
+  
+  .hot-take p {
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: #d4d4d4;
+    font-style: italic;
+  }
+  
+  .footer {
+    background: rgba(255,255,255,0.02);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 24px 28px;
+    text-align: center;
+  }
+  
+  .footer p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    line-height: 1.5;
+  }
+  
+  .footer .brand {
+    font-weight: 700;
+    color: rgba(255,255,255,0.5);
+  }
+  
+  .earnings-highlight {
+    background: rgba(74,222,128,0.08);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  
+  <div class="header">
+    <div class="header-badge">AI · Markets · Crypto</div>
+    <h1>🧠 AI Daily Brief</h1>
+    <div class="date">Wednesday, February 11, 2026 — 8:30 AM ET</div>
+  </div>
+
+  <div class="storm-banner">
+    <div class="storm-label">🌪️ Storm Check — YES</div>
+    <p>AI safety brain drain accelerating. Anthropic safety lead quit warning world is "in peril." OpenAI engineer echoed same fears days later. Meanwhile OpenAI puts ads in ChatGPT.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">🤖</span>
+      <span class="section-title">AI Providers</span>
+    </div>
+    <div class="item">
+      <span class="tag-green">🟢 Anthropic:</span> Safety lead Mrinank Sharma quit. Super Bowl ad mocking OpenAI's ChatGPT ads. Claude stays ad-free. Opus 4.6 System Card (1M context)
+    </div>
+    <div class="item">
+      <span class="tag-orange">🟠 OpenAI:</span> Testing ads in ChatGPT. Codex 1M+ downloads. GPT-5.3-Codex. $100B round closing
+    </div>
+    <div class="item">
+      <span class="tag-black">⚫ xAI:</span> Half founding team gone. SpaceX merger = $1.25T company
+    </div>
+    <div class="item" style="margin-top:8px; color:#a3a3a3;">
+      📌 Runway $315M raise ($5.3B) · Cursor Composer 1.5 (20x RL) · Amazon AI content marketplace
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">💼</span>
+      <span class="section-title">AI Business & M&A</span>
+    </div>
+    <div class="item"><span class="tag-green">🟢</span> SpaceX-xAI merger completed = <strong style="color:#fff;">$1.25T</strong> (largest ever)</div>
+    <div class="item"><span class="tag-green">🟢</span> Runway raises $315M at $5.3B valuation</div>
+    <div class="item"><span class="tag-green">🟢</span> Morgan Stanley screens 3,600 stocks for AI shakeout opportunities</div>
+    
+    <div class="rumor-box">
+      <div class="rumor-title">🔮 Rumor Mill</div>
+      <p>
+        ▸ Anthropic + OpenAI both eyeing summer IPOs<br>
+        ▸ SpaceX largest-ever IPO at $25B+<br>
+        ▸ "SaaSpocalypse" — Anthropic's Claude release triggered SaaS selloff
+      </p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">📈</span>
+      <span class="section-title">NASDAQ 100 — Pre-Market</span>
+    </div>
+    
+    <div class="highlight-box">
+      💡 Gold hits <strong style="color:#facc15;">$5,000</strong>. Crude rising on geopolitics. Earnings watch: $APP + $EQIX after close.
+    </div>
+    
+    <div class="earnings-highlight">
+      <div style="font-size:12px;font-weight:600;color:#4ade80;margin-bottom:6px;">Early Earnings Beats</div>
+      <div class="item">▸ <strong style="color:#fff;">$BWA</strong> +12.5% beat ($1.35 vs $1.20 est)</div>
+      <div class="item">▸ <strong style="color:#fff;">$RPRX</strong> +8.1% beat ($1.46 vs $1.35 est)</div>
+    </div>
+    
+    <div class="item" style="margin-top:10px;">📊 Feb 10 top movers: $QNCX +305%, $NKTR +51%, $CNET +49%</div>
+    <div class="item">All eyes on <strong style="color:#fff;">$APP earnings tonight</strong> — AI monetization bellwether</div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">📊</span>
+      <span class="section-title">Crypto Movers</span>
+    </div>
+    
+    <div class="highlight-box">
+      💡 Broad risk-off continues. BTC slipping below $67K, ETH below $2K. XMR privacy trade bucking trend.
+    </div>
+    
+    <div style="margin-top:12px;">
+      <div class="ticker-row">
+        <span class="ticker-name">BTC</span>
+        <span class="ticker-price">$67,094</span>
+        <span class="ticker-change-red">-2.1%</span>
+      </div>
+      <div class="ticker-row">
+        <span class="ticker-name">ETH</span>
+        <span class="ticker-price">$1,950</span>
+        <span class="ticker-change-red">-2.9%</span>
+      </div>
+      <div class="ticker-row">
+        <span class="ticker-name">SOL</span>
+        <span class="ticker-price">$81.15</span>
+        <span class="ticker-change-red">-3.2%</span>
+      </div>
+      <div class="ticker-row">
+        <span class="ticker-name">BNB</span>
+        <span class="ticker-price">$591</span>
+        <span class="ticker-change-red">-5.4%</span>
+      </div>
+      <div class="ticker-row">
+        <span class="ticker-name">XMR</span>
+        <span class="ticker-price">$342</span>
+        <span class="ticker-change-green">+4.4%</span>
+      </div>
+    </div>
+    
+    <div class="item" style="margin-top:10px;">🔥 LayerZero (ZRO) trending +36% · 📰 Polymarket suing Massachusetts over prediction market regulation</div>
+  </div>
+
+  <div class="hot-take">
+    <div class="take-label">🔥 Take of the Day</div>
+    <p>"When your safety leads quit warning of existential risk, and your competitor responds by putting ads in the product — maybe we should pay attention.<br><br>The AI safety brain drain is the canary in the coal mine. And the mine just got a lot deeper."</p>
+  </div>
+
+  <div class="footer">
+    <p><span class="brand">@AgentJc11443</span> · AI-Powered Daily Intelligence<br>
+    Updates at 12:30 PM · 4:30 PM · 6:00 PM · Recap at 7:15 PM ET</p>
+  </div>
+
+</div>
+</body>
+</html>

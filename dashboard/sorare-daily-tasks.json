@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1739289120000,
+  "lastUpdated": 1739307900000,
   "tasks": [
     {
       "id": "free-common-packs",
@@ -27,56 +27,57 @@
     },
     {
       "id": "scrap-duplicates",
-      "name": "Scrap Duplicate Commons",
-      "description": "Turn unwanted cards into Essence",
+      "name": "Scrap Duplicate Commons ✅",
+      "description": "Scrapped 5 duplicate commons from Legacy Set: Bismack Biyombo (5), John Collins (30), Isaiah Collier (60), Donovan Mitchell (120), Jalen Brunson (200) = 415 Essence earned. ~20+ more duplicates remain for future scrapping.",
       "frequency": "daily",
+      "done": true,
+      "doneAt": "2026-02-11T21:05:00.000Z"
+    },
+    {
+      "id": "claim-rewards",
+      "name": "Claim GW33 Rewards",
+      "description": "GW33 still LIVE (Feb 10-13). Currently ranked 7,521st/8,587 with 99 pts. Projected 500 Essence reward. Cannot claim until GW ends (~Feb 13). Will need to check back.",
+      "frequency": "per-gameweek",
       "done": false,
-      "doneAt": null
+      "doneAt": null,
+      "note": "GW33 not finished yet — games still in progress through Feb 13"
     }
   ],
   "removedTasks": [
-    {"id": "claim-rewards", "reason": "GW33 still live (ends Feb 13) — no rewards to claim yet"},
-    {"id": "weekly-missions", "reason": "Can't automate — requires gameplay decisions Josh needs to make"},
-    {"id": "essence-crafting", "reason": "Requires 1,000 Essence minimum — need to check balance first"},
-    {"id": "collection-bonuses", "reason": "Long-term goal, not a daily task"},
-    {"id": "hot-streaks", "reason": "Passive tracking, no action needed — GW33 still in progress"},
-    {"id": "card-sealing", "reason": "Strategic decision Josh should make, not a daily auto-task"}
+    {
+      "id": "claim-rewards",
+      "reason": "GW33 still live (ends Feb 13) — no rewards to claim yet"
+    },
+    {
+      "id": "weekly-missions",
+      "reason": "Can't automate — requires gameplay decisions Josh needs to make"
+    },
+    {
+      "id": "essence-crafting",
+      "reason": "Requires 1,000 Essence minimum — need to check balance first"
+    },
+    {
+      "id": "collection-bonuses",
+      "reason": "Long-term goal, not a daily task"
+    },
+    {
+      "id": "hot-streaks",
+      "reason": "Passive tracking, no action needed — GW33 still in progress"
+    },
+    {
+      "id": "card-sealing",
+      "reason": "Strategic decision Josh should make, not a daily auto-task"
+    }
   ],
   "activeGames": {
     "fixture": "nba-10-13-feb-2026",
     "gameWeek": 33,
     "status": "live",
-    "lineups": [
-      {
-        "name": "Team 1 — Ant Edwards",
-        "ranking": 3858,
-        "score": 149.03,
-        "eligibleForReward": true,
-        "liveGames": 1,
-        "completedGames": 4
-      },
-      {
-        "name": "Team 2 — Jokić",
-        "ranking": 4956,
-        "score": 133.71,
-        "eligibleForReward": false,
-        "liveGames": 0,
-        "completedGames": 5
-      },
-      {
-        "name": "Team 3 — Bam/Zion",
-        "ranking": 7500,
-        "score": 86.99,
-        "eligibleForReward": false,
-        "liveGames": 1,
-        "completedGames": 3,
-        "scheduledGames": 1
-      }
-    ]
+    "note": "GW33 still in progress — currently ranked 7521st/8587 with 99 pts, projected 500 Essence reward"
   },
   "upcomingLineups": {
     "gameWeek": 34,
-    "startDate": "2026-02-20T00:00:00Z",
+    "startDate": "2026-02-21T00:00:00Z",
     "status": "3 lineups already set"
   }
 }

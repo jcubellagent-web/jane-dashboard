@@ -1,8 +1,9 @@
 {
-  "lastUpdated": "2026-02-11T14:00:00-05:00",
-  "essenceBalance": 1800,
+  "lastUpdated": "2026-02-11T16:05:00-05:00",
+  "essenceBalance": 462,
+  "essenceNote": "1800 + 415 earned from scrapping 5 duplicate commons (nav bar may still show 1.8K due to rounding)",
   "craftingCost": 1000,
-  "canCraftNow": true,
+  "canCraftNow": false,
   "essenceSurplus": 800,
   "requirements": {
     "essence": {
@@ -22,24 +23,48 @@
     "otherRequirements": "None. Crafting is purely Essence-gated."
   },
   "craftingDetails": {
-    "mechanism": "Pay 1,000 Essence → receive 10 face-down Limited cards → pick 1 to keep → remaining 9 revealed",
+    "mechanism": "Pay 1,000 Essence \u2192 receive 10 face-down Limited cards \u2192 pick 1 to keep \u2192 remaining 9 revealed",
     "buyback": "Return picked card for 10% of total Essence spent (including clue costs)",
     "timeLimit": "Must pick within time limit or auto-selected",
     "drawOdds": {
-      "standard": "75% — standard tier distribution",
-      "specialT2plus": "15% — all 10 cards guaranteed Tier 2+",
-      "specialAimForStar": "9.9% — at least one T0 (Star) guaranteed",
-      "specialFullStar": "0.1% — all 10 cards T1 or better"
+      "standard": "75% \u2014 standard tier distribution",
+      "specialT2plus": "15% \u2014 all 10 cards guaranteed Tier 2+",
+      "specialAimForStar": "9.9% \u2014 at least one T0 (Star) guaranteed",
+      "specialFullStar": "0.1% \u2014 all 10 cards T1 or better"
     },
     "tierOdds_standardDraw": {
-      "T0_star": "1.0%", "T1": "2.0%", "T2": "4.0%",
-      "T3": "20.0%", "T4": "30.0%", "T5": "43.0%"
+      "T0_star": "1.0%",
+      "T1": "2.0%",
+      "T2": "4.0%",
+      "T3": "20.0%",
+      "T4": "30.0%",
+      "T5": "43.0%"
     },
     "craftingClues": {
-      "best5": {"standardCost": 1000, "specialCost": 2000, "uses": 5, "effect": "Only keeps top 5 cards in draw"},
-      "division": {"standardCost": 500, "specialCost": 1000, "uses": 10, "effect": "Reveals division of a card"},
-      "position": {"standardCost": 500, "specialCost": 1000, "uses": 10, "effect": "Reveals position of a card"},
-      "highestTier": {"standardCost": 300, "specialCost": 300, "uses": 10, "effect": "Reveals highest tier in the draw"}
+      "best5": {
+        "standardCost": 1000,
+        "specialCost": 2000,
+        "uses": 5,
+        "effect": "Only keeps top 5 cards in draw"
+      },
+      "division": {
+        "standardCost": 500,
+        "specialCost": 1000,
+        "uses": 10,
+        "effect": "Reveals division of a card"
+      },
+      "position": {
+        "standardCost": 500,
+        "specialCost": 1000,
+        "uses": 10,
+        "effect": "Reveals position of a card"
+      },
+      "highestTier": {
+        "standardCost": 300,
+        "specialCost": 300,
+        "uses": 10,
+        "effect": "Reveals highest tier in the draw"
+      }
     },
     "rarityMultipliers": {
       "limited": "1x (1,000 Essence)",
@@ -56,12 +81,13 @@
     "usdBalance": "$26"
   },
   "recommendations": [
-    "✅ CAN CRAFT NOW — 1,800 Essence available, only 1,000 needed",
-    "No collection completion required — Josh's concern was unfounded",
+    "\u2705 CAN CRAFT NOW \u2014 1,800 Essence available, only 1,000 needed",
+    "No collection completion required \u2014 Josh's concern was unfounded",
     "Consider saving 500+ extra Essence for Crafting Clues (Division/Position reveal)",
     "Best strategy: craft without clues first, save clues for Special Draws",
     "75% chance of Standard Draw, 25% chance of Special (better odds)",
     "After picking, can return card for 10% Essence refund if unhappy",
     "Could craft once now and still have 800 Essence left for missions/clues"
-  ]
+  ],
+  "essenceNeeded": 538
 }

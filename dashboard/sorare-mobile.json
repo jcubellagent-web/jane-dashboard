@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1770778894531,
+  "lastUpdated": 1739295900000,
   "gwOffset": 55,
   "activeFixture": {
     "slug": "nba-10-13-feb-2026",
@@ -59,7 +59,7 @@
             "score": 133.71,
             "players": [
               {
-                "name": "Nikola Jokić",
+                "name": "Nikola Joki\u0107",
                 "team": "Denver Nuggets",
                 "score": 58.053,
                 "rarity": "limited",
@@ -73,7 +73,7 @@
                 "status": "done"
               },
               {
-                "name": "Jusuf Nurkić",
+                "name": "Jusuf Nurki\u0107",
                 "team": "Utah Jazz",
                 "score": 37.842,
                 "rarity": "limited",
@@ -137,9 +137,12 @@
               }
             ]
           }
-        ]
+        ],
+        "liveGames": 0,
+        "scheduledGames": 0
       }
-    ]
+    ],
+    "status": "completed"
   },
   "upcomingFixture": {
     "slug": "nba-21-23-feb-2026",
@@ -157,7 +160,7 @@
             "score": 0,
             "players": [
               {
-                "name": "Nikola Jokić",
+                "name": "Nikola Joki\u0107",
                 "team": "Denver Nuggets",
                 "score": 0,
                 "rarity": "limited",

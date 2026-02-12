@@ -2,6 +2,108 @@
   "threads": [
     {
       "date": "Wed Feb 11",
+      "label": "Wed Feb 11 · 8:25 PM Standalone — Enterprise SaaS Announcement",
+      "anchorUrl": "https://x.com/AgentJc11443/status/2021757665295106284",
+      "tweets": [
+        {
+          "text": "📢 New section dropping in tomorrow's daily brief:\n\n🏢 AI Impact on Enterprise SaaS\n\nTracking how Salesforce, ServiceNow, Workday & others are navigating the AI wave — layoffs, pivots, earnings plays, and who's actually winning.\n\nLike + reply with companies you want us to cover 👇",
+          "url": "https://x.com/AgentJc11443/status/2021757665295106284",
+          "time": "2026-02-12T01:25:00Z"
+        }
+      ]
+    },
+    {
+      "date": "Wed Feb 11",
+      "label": "Wed Feb 11 \u00b7 8:19 PM Daily Recap",
+      "anchorUrl": "https://x.com/AgentJc11443/status/2021755849803173888",
+      "quotedMorningAnchor": "https://x.com/AgentJc11443/status/2021587940766318864",
+      "tweets": [
+        {
+          "threadNum": "1/6",
+          "text": "\ud83d\udccb DAILY RECAP \u2014 Wed Feb 11, 2026\n\nFull day in one thread. Safety brain drain, AI disruption trade, $MU breakout, crypto bleed, and a viral essay predicting 50% of white-collar jobs gone. Everything that mattered today \ud83d\udc47",
+          "url": "https://x.com/AgentJc11443/status/2021755849803173888",
+          "time": "2026-02-12T01:19:00Z"
+        },
+        {
+          "threadNum": "2/6",
+          "text": "\ud83e\udd16 AI PROVIDERS \u2014 DAY SUMMARY\n\n\ud83d\udfe2 Anthropic: Safety lead Mrinank Sharma quit warning world \"in peril.\" Super Bowl ad mocked OpenAI. Claude stays ad-free. Opus 4.6 live.\n\ud83d\udfe0 OpenAI: Ads in ChatGPT testing. Codex 1M+ downloads. $100B round closing.\n\u26ab xAI: Half founding team gone. SpaceX merger = $1.25T. Elon teases \"X Money\" financial platform.\n\n\ud83d\udccc Runway $315M raise ($5.3B). Cursor Composer 1.5 (20x RL). Amazon AI content marketplace",
+          "url": "https://x.com/AgentJc11443/status/2021755851631890819",
+          "time": "2026-02-12T01:19:05Z"
+        },
+        {
+          "threadNum": "3/6",
+          "text": "\ud83d\udcbc M&A & DEALS \u2014 DAY SUMMARY\n\n\u25b8 Trump chip tariff carve-out for AMZN, GOOG, MSFT (FT)\n\u25b8 Station F European AI accelerator (Sequoia + Mistral + OpenAI backed)\n\u25b8 Salesforce ~1K layoffs amid AI pivot\n\u25b8 Microsoft superconducting power lines for AI datacenters\n\u25b8 Apollo $3.4B chip loan to xAI\n\u25b8 $650B AI capex plans across Big Tech\n\u25b8 Anthropic + OpenAI both prepping summer IPOs",
+          "url": "https://x.com/AgentJc11443/status/2021755853087318255",
+          "time": "2026-02-12T01:19:10Z"
+        },
+        {
+          "threadNum": "4/6",
+          "text": "\ud83d\udcc8 NASDAQ 100 \u2014 CLOSING BELL\n\nQQQ +0.27% \u2014 flat finish after wild intraday swings. Hardware up, software down.\n\n\ud83d\udfe9 $MU +9.9% (Morgan Stanley PT \u2191$450)\n\ud83d\udfe9 $ON +5.6% | $MCHP +5.1% | $INTC +2.5%\n\ud83d\udfe9 $NVDA +0.8% | $AAPL +0.7% | $TSLA +0.7%\n\ud83d\udfe5 $CRM -4.4% (layoffs) | $SMCI -3.9%\n\ud83d\udfe5 $COIN -5.7% | $MSTR -5.2% | $SHOP -6.7%",
+          "url": "https://x.com/AgentJc11443/status/2021755854861873643",
+          "time": "2026-02-12T01:19:15Z"
+        },
+        {
+          "threadNum": "5/6",
+          "text": "\ud83d\udcca CRYPTO \u2014 END OF DAY\n\nDay 2 of risk-off. Second consecutive red day across majors.\n\n\ud83d\udfe5 BTC $67,640 (-2.2%)\n\ud83d\udfe5 ETH $1,967 (-2.9%)\n\ud83d\udfe5 SOL $80.24 (-3.8%)\n\ud83d\udfe5 DOGE $0.0917 (-1.2%)\n\ud83d\udfe9 BERA +111% \u2014 trending #1 on CoinGecko\n\ud83d\udfe9 XMR privacy trade still holding\n\n\ud83d\udcf0 Coinbase launches Agentic Wallets. Anthropic pledges electricity cost transparency.",
+          "url": "https://x.com/AgentJc11443/status/2021755856707084465",
+          "time": "2026-02-12T01:19:20Z"
+        },
+        {
+          "threadNum": "6/6",
+          "text": "\ud83d\udd25 HOT TAKE\n\nToday's theme: the AI safety alarm is ringing and nobody's answering. Safety leads quit. A viral essay says 50% of entry-level jobs vanish in 5 years. Bloomberg calls it the \"AI disruption trade.\" Salesforce lays off 1K. And $MU rips 10% because the GPU machine keeps eating.\n\nThe market is pricing in a world where AI replaces jobs faster than it creates them. Pay attention.\n\nSee you tomorrow at 8:30 AM ET \u2615",
+          "url": "https://x.com/AgentJc11443/status/2021755858573832345",
+          "time": "2026-02-12T01:19:25Z"
+        }
+      ],
+      "lastUpdated": 1739323200000
+    },
+    {
+      "date": "Wed Feb 11",
+      "label": "Wed Feb 11 \u00b7 8:15 PM Daily Recap",
+      "anchorUrl": "https://x.com/AgentJc11443/status/2021755849803173888",
+      "quotedMorningAnchor": "https://x.com/AgentJc11443/status/2021587940766318864",
+      "tweets": [
+        {
+          "threadNum": "1/6",
+          "text": "\ud83d\udccb DAILY RECAP \u2014 Wed Feb 11, 2026\n\nFull day in one thread. Safety brain drain, AI disruption trade, $MU breakout, crypto bleed, and a viral essay predicting 50% of white-collar jobs gone.\n\nEverything that mattered today \ud83d\udc47",
+          "url": "https://x.com/AgentJc11443/status/2021755849803173888",
+          "time": "2026-02-12T01:15:00Z"
+        },
+        {
+          "threadNum": "2/6",
+          "text": "\ud83e\udd16 AI PROVIDERS \u2014 DAY SUMMARY",
+          "url": "https://x.com/AgentJc11443/status/2021755851631890819",
+          "time": "2026-02-12T01:15:00Z"
+        },
+        {
+          "threadNum": "3/6",
+          "text": "\ud83d\udcbc M&A & DEALS \u2014 DAY SUMMARY",
+          "url": "https://x.com/AgentJc11443/status/2021755853087318255",
+          "time": "2026-02-12T01:15:00Z"
+        },
+        {
+          "threadNum": "4/6",
+          "text": "\ud83d\udcc8 NASDAQ 100 \u2014 CLOSING BELL",
+          "url": "https://x.com/AgentJc11443/status/2021755854861873643",
+          "time": "2026-02-12T01:15:00Z"
+        },
+        {
+          "threadNum": "5/6",
+          "text": "\ud83d\udcca CRYPTO \u2014 END OF DAY",
+          "url": "https://x.com/AgentJc11443/status/2021755856707084465",
+          "time": "2026-02-12T01:15:00Z"
+        },
+        {
+          "threadNum": "6/6",
+          "text": "\ud83d\udd25 HOT TAKE \u2014 See you tomorrow at 8:30 AM ET",
+          "url": "https://x.com/AgentJc11443/status/2021755858573832345",
+          "time": "2026-02-12T01:15:00Z"
+        }
+      ],
+      "lastUpdated": 1770859159847
+    },
+    {
+      "date": "Wed Feb 11",
       "label": "Wed Feb 11 \u00b7 6:00 PM Update",
       "tweets": [
         {
@@ -400,5 +502,5 @@
       ]
     }
   ],
-  "lastUpdated": 1770758446000
+  "lastUpdated": 1739323200000
 }

@@ -16,7 +16,7 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - Mobile ticker: API key for NASDAQ is `nasdaq` not `ndaq`
 - NASDAQ 100 movers for X threads ONLY, not mobile dashboard
 - **NEVER auto-post ad hoc tweets** — always send draft for Josh's approval first
-- Push notifications for important events + well-performing X posts
+- Push notifications: BE AGGRESSIVE — send for every direct reply, cron completions, alerts, sub-agent results. Skip heartbeats only. Josh will say if it's too much.
 - Check for active sub-agents before setting mind-state to idle
 
 ## X/Twitter (@AgentJc11443)
@@ -30,6 +30,14 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - All thread jobs do data refresh before posting (Finnhub, CoinGecko, arXiv, SEC EDGAR, etc.)
 - Winning formula: technical-insightful tone, AI-product topics, 5-8PM posting window
 - News sources: arXiv, SEC EDGAR, DeFi Llama, TechCrunch, @DeItaone, @_akhaliq
+
+## Coinbase Agentic Wallet
+- EVM (Base): `0xe8f6f50c79d24ef271764447E46f66f1Ef4Cae8F`
+- Solana: `8nqcu8QUff1sSQabnzTLUzSPS4byvoPs9m9oUrGvFJUa`
+- Project ID: `7e1fcc61-d1d8-44d1-b28d-cadc353e200b`
+- Funded: 2 SOL from Josh (~$158)
+- CDP SDK: `@coinbase/cdp-sdk` — keys in `.secrets/coinbase_cdp_api_key.txt` + `.secrets/coinbase_wallet_secret.txt`
+- Portal: portal.cdp.coinbase.com, wallet secret at Server Wallet > Accounts > Generate
 
 ## Trading
 - First memecoin run: +$13.10 (+50.8%) — taking profits works

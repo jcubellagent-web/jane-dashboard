@@ -1,103 +1,119 @@
 {
-  "date": "2026-02-10",
-  "fetchedAt": "2026-02-10T08:05:00-05:00",
-  "finnhub": {
-    "topNews": [
-      "Spotify stock rallies — adds 28M users",
-      "TSMC numbers reveal strong AI story",
-      "Coca-Cola rare sales miss despite volume/price growth",
-      "Gold analyst targets $12,000 — not just possible, the 'right price'",
-      "Alphabet launches landmark 100-year bond in UK",
-      "CVS Health turnaround paying off",
-      "BP halts stock buybacks as profit slumps",
-      "AstraZeneca profit climbs on cancer/heart drug demand"
+  "date": "2026-02-11",
+  "fetchedAt": "2026-02-11T08:10:00-05:00",
+  "markets": {
+    "finnhub_news": [
+      {"headline": "Morgan Stanley poured through 3,600 stocks — best opportunities from AI shakeout", "source": "MarketWatch"},
+      {"headline": "Gold and silver rallying again ahead of payrolls report — gold hit $5,000", "source": "MarketWatch"},
+      {"headline": "Crude moves higher as Netanyahu visits Washington — India shying from Russian oil", "source": "MarketWatch"},
+      {"headline": "AI losers sell-off so steep that famed activist investor sprung into action — fears of Anthropic's Claude plug-ins", "source": "MarketWatch"}
+    ],
+    "earnings_today": [
+      {"symbol": "APP", "epsEstimate": 2.97, "revenueEstimate": 1618135645, "hour": "amc"},
+      {"symbol": "EQIX", "epsEstimate": 3.93, "revenueEstimate": 2510035441, "hour": "amc"},
+      {"symbol": "AUR", "epsEstimate": -0.12, "hour": "amc"},
+      {"symbol": "IRBT", "epsEstimate": -0.73, "hour": "amc"},
+      {"symbol": "BWA", "epsActual": 1.35, "epsEstimate": 1.20, "beat": true},
+      {"symbol": "RPRX", "epsActual": 1.46, "epsEstimate": 1.35, "beat": true}
+    ],
+    "top_gainers_feb10": [
+      {"ticker": "QNCX", "change": "+305.9%", "volume": "1.47B"},
+      {"ticker": "JZXN", "change": "+89.7%", "volume": "76.2M"},
+      {"ticker": "EVMN", "change": "+70.5%", "volume": "15.9M"},
+      {"ticker": "NKTR", "change": "+51.1%", "price": "$56.00"},
+      {"ticker": "CNET", "change": "+48.6%", "volume": "22.1M"},
+      {"ticker": "FGL", "change": "+52.6%"}
     ]
   },
-  "alphaVantage": {
-    "topGainers": [
-      {"ticker": "EZRAW", "price": 0.01, "change": "+525.0%"},
-      {"ticker": "CCHH", "price": 1.35, "change": "+135.2%"},
-      {"ticker": "BRLS", "price": 1.53, "change": "+134.3%"},
-      {"ticker": "VAL+", "price": 9.54, "change": "+119.3%"},
-      {"ticker": "SQFTW", "price": 0.0275, "change": "+102.2%"}
-    ],
-    "topLosers": [
-      {"ticker": "KD", "price": 10.58, "change": "-54.9%", "note": "Kyndryl Holdings — notable name"},
-      {"ticker": "RDACU", "price": 3.81, "change": "-55.7%"},
-      {"ticker": "RVSNW", "price": 0.0317, "change": "-58.3%"}
-    ],
-    "mostActive": [
-      {"ticker": "SOXS", "price": 1.805, "volume": "420M", "note": "Semiconductor bear 3x ETF — heavy volume"},
-      {"ticker": "NVDA", "price": 190.04, "volume": "195M"},
-      {"ticker": "RIG", "price": 5.705, "volume": "181M"}
-    ]
-  },
-  "coinGecko": {
-    "trending": [
-      {"name": "Bitcoin", "symbol": "BTC", "rank": 1, "change24h": "-0.87%"},
-      {"name": "BankrCoin", "symbol": "BNKR", "rank": 245, "change24h": "+41.0%"},
-      {"name": "LayerZero", "symbol": "ZRO", "rank": 121, "change24h": "+4.0%"},
-      {"name": "Aster", "symbol": "ASTER", "rank": 49, "change24h": "+5.7%"},
-      {"name": "Solana", "symbol": "SOL", "rank": 7, "change24h": "-0.35%"},
-      {"name": "Pudgy Penguins", "symbol": "PENGU", "rank": 112, "change24h": "-2.5%"},
-      {"name": "Ethereum", "symbol": "ETH", "rank": 2, "change24h": "-1.4%"},
-      {"name": "Monad", "symbol": "MON", "rank": 192, "change24h": "-5.0%"}
-    ],
-    "topByMarketCap": [
-      {"symbol": "BTC", "price": 68476, "change24h": "-0.88%", "mcap": "$1,370B"},
-      {"symbol": "ETH", "price": 2007, "change24h": "-1.21%", "mcap": "$242B"},
-      {"symbol": "XRP", "price": 1.41, "change24h": "+0.02%", "mcap": "$86B"},
-      {"symbol": "BNB", "price": 624, "change24h": "-0.35%", "mcap": "$85B"},
-      {"symbol": "SOL", "price": 83.87, "change24h": "-0.13%", "mcap": "$48B"},
-      {"symbol": "DOGE", "price": 0.0929, "change24h": "-1.23%", "mcap": "$16B"},
-      {"symbol": "ADA", "price": 0.262, "change24h": "-0.78%", "mcap": "$9.7B"},
-      {"symbol": "LEO", "price": 8.60, "change24h": "+3.06%", "mcap": "$7.9B"},
-      {"symbol": "BCH", "price": 526, "change24h": "+1.94%", "mcap": "$10.5B"}
-    ]
-  },
-  "webSearch": {
-    "aiProviders": {
-      "anthropic": [
-        "Anthropic closing in on $20B funding round (TechCrunch)",
-        "Anthropic aired 2 Super Bowl LX commercials — 'A Time and a Place' campaign skewering AI ads",
-        "Anthropic pledges to keep Claude ad-free, contrasting with OpenAI",
-        "Anthropic's ad 'won the AI Super Bowl' per Business Insider",
-        "Daniela Amodei calls AGI concept 'outdated'"
-      ],
-      "openai": [
-        "OpenAI starts testing ads in ChatGPT for Free and Go users (NBC News)",
-        "OpenAI reportedly assembling $100B fundraising round",
-        "OpenAI and Anthropic picking public fights (Axios)",
-        "Anthropic's new tools deepen selloff in software stocks"
-      ],
-      "google": [
-        "Alphabet raises $20B in bonds, planning 100-year bonds for $185B AI infra spend",
-        "Google DeepMind CEO says AGI needs 'world models'",
-        "Big Tech's AI spend in 2026: Meta, MSFT, GOOG, AMZN commit $650B total"
-      ],
-      "xai": [
-        "Musk merges xAI + SpaceX — $1.25 TRILLION combined valuation (biggest merger ever)",
-        "xAI raised $20B Series E ($7.5B equity) in Jan 2026",
-        "SpaceX-xAI deal rationale: move datacenters into space"
-      ],
-      "meta": [
-        "Big Tech AI spend: Meta part of $650B commitment across big four"
-      ],
-      "mistral": [],
-      "deepseek": []
+  "crypto": {
+    "prices": {
+      "BTC": {"price": 67094, "change_24h": -2.1},
+      "ETH": {"price": 1950.45, "change_24h": -2.9},
+      "SOL": {"price": 81.15, "change_24h": -3.2},
+      "XRP": {"price": 1.37, "change_24h": -2.5},
+      "BNB": {"price": 591.16, "change_24h": -5.4},
+      "DOGE": {"price": 0.0899, "change_24h": -3.2},
+      "ADA": {"price": 0.254, "change_24h": -3.0},
+      "LINK": {"price": 8.28, "change_24h": -2.5},
+      "HYPE": {"price": 28.93, "change_24h": -1.6},
+      "XMR": {"price": 342.26, "change_24h": 4.4}
     },
-    "mAndA": [
-      {"deal": "SpaceX acquires xAI", "value": "$1.25T combined", "status": "COMPLETED", "source": "CNBC"},
-      {"deal": "Varonis acquires AllTrue.ai", "value": "undisclosed", "status": "COMPLETED", "focus": "AI security across enterprise"},
-      {"deal": "Publicis earmarks €900M for AI acquisitions in 2026", "status": "PLANNED", "source": "Reuters"},
-      {"deal": "MrBeast's company buying Step (teen banking app)", "status": "ANNOUNCED", "source": "Morning Brew"}
+    "trending": ["LayerZero (ZRO) +36%", "Bitcoin", "Trending on CoinGecko"],
+    "market_mood": "Red day across crypto — BTC below $67K, ETH below $2K, broad -2% to -5% drawdown. XMR bucking trend +4.4%."
+  },
+  "ai_news": {
+    "top_stories": [
+      {
+        "headline": "Anthropic Super Bowl ad mocks OpenAI's ChatGPT ad plans — pledges Claude will stay ad-free",
+        "source": "LA Times / Axios",
+        "significance": "high"
+      },
+      {
+        "headline": "Half of xAI's founding team has now left — SpaceX acquisition of xAI creating $1.25T company, IPO pending",
+        "source": "TechCrunch / Reuters",
+        "significance": "high"
+      },
+      {
+        "headline": "Anthropic safety lead Mrinank Sharma quits — says world is 'in peril' from rapid AI development",
+        "source": "Tribune India / India Today",
+        "significance": "high"
+      },
+      {
+        "headline": "OpenAI engineer echoes existential AI threat concerns days after Anthropic safety lead quit",
+        "source": "India Today",
+        "significance": "high"
+      },
+      {
+        "headline": "India AI Impact Summit 2026 (Feb 16-20): Pichai, Altman, Huang, Amodei, Hassabis, Gates all attending",
+        "source": "Multiple sources",
+        "significance": "medium"
+      },
+      {
+        "headline": "Cisco Silicon One G300 AI chip launching 2026; Runway raises $315M at $5.3B valuation",
+        "source": "Analytics Insight",
+        "significance": "medium"
+      },
+      {
+        "headline": "Amazon follows Microsoft with publisher content marketplace for AI training",
+        "source": "WinBuzzer",
+        "significance": "medium"
+      },
+      {
+        "headline": "Alphabet raises $32B in debt for AI capex",
+        "source": "SF Business Times",
+        "significance": "medium"
+      },
+      {
+        "headline": "OpenAI executive dismissed amid discrimination allegations following chatbot policy dispute",
+        "source": "NextBigWhat",
+        "significance": "medium"
+      },
+      {
+        "headline": "Morgan Stanley identifies best stock opportunities from AI shakeout — market demanding proof of ROE",
+        "source": "MarketWatch",
+        "significance": "medium"
+      }
     ],
-    "aiNewsGeneral": [
-      "AI gold rush: tech firms embracing 72-hour work weeks (BBC)",
-      "Apple plans major Siri AI revamp",
-      "GTA 6 skips generative AI",
-      "AI dominated Super Bowl 60 ads",
-      "Only 15% of Indian firms have AI in production"
+    "provider_updates": {
+      "anthropic": "Super Bowl ad campaign mocking OpenAI's ad plans; Claude pledged ad-free; Safety lead Mrinank Sharma resigned citing AI peril; Claude Opus 4.6 system card analysis raising safety concerns",
+      "openai": "ChatGPT testing ads in free tier; Codex app 1M+ downloads first week; GPT-5.3-Codex released; closing in on $100B funding; executive dismissed amid discrimination allegations; 10%+ monthly growth",
+      "google_deepmind": "Alphabet raised $32B in debt for capex; Demis Hassabis attending India AI Summit",
+      "meta_ai": "Personalization push making AI hard to avoid across Meta apps; Alexandr Wang attending India AI Summit",
+      "xai": "Half of founding team has left; SpaceX acquisition creating $1.25T company; IPO planned for later 2026; data centers in space ambitions",
+      "mistral": "No major breaking news this cycle",
+      "deepseek": "No major breaking news this cycle"
+    },
+    "ma_deals": [
+      {
+        "deal": "SpaceX acquires xAI — $1.25 trillion combined valuation (largest merger in history)",
+        "date": "2026-02-02",
+        "details": "SpaceX valued at $1T, xAI at $250B; IPO pending; data centers in space"
+      },
+      {
+        "trend": "AI M&A paradox: deal volumes at 8-year plateau but total capital deployed reaching records — tech giants paying billions for AI talent",
+        "source": "Financial Content",
+        "date": "2026-02-06"
+      }
     ]
   }
 }

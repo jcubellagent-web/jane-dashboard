@@ -1,39 +1,11 @@
 {
-  "lastUpdated": 1770781100000,
-  "activeSessions": [
-    {
-      "key": "agent:main:main",
-      "channel": "whatsapp",
-      "model": "claude-opus-4-6",
-      "tokens": 182058
-    }
-  ],
-  "recentSubagents": [
-    {
-      "key": "agent:main:subagent:598d1727-2f94-494a-a962-5410841dc9e6",
-      "label": "redesign-jobs-widget",
-      "status": "completed",
-      "updatedAt": 1770780926018
-    },
-    {
-      "key": "agent:main:subagent:0ebb61fb-b8aa-4722-afc1-60da365ae497",
-      "label": "systems-thinking-research",
-      "status": "completed",
-      "updatedAt": 1770779899112
-    }
-  ],
-  "recentCrons": [
-    {
-      "label": "X Engagement Feedback Loop",
-      "updatedAt": 1770780905181
-    },
-    {
-      "label": "X Reply Engagement Cycle",
-      "updatedAt": 1770778800018
-    },
-    {
-      "label": "X Stats Scrape",
-      "updatedAt": 1770780068768
-    }
+  "lastUpdated": 1770861000000,
+  "sessions": [
+    {"key": "agent:main:main", "kind": "main", "model": "claude-opus-4-6", "totalTokens": 180492, "lastChannel": "whatsapp"},
+    {"key": "enterprise-saas-tweet", "kind": "subagent", "status": "done", "result": "Tweet posted"},
+    {"key": "daily-recap-manual", "kind": "subagent", "status": "done", "result": "6-tweet recap thread posted"},
+    {"key": "Cron: X Stats Scrape", "kind": "cron", "status": "done", "result": "26 followers, 11K impressions"},
+    {"key": "Cron: X Daily Recap", "kind": "cron", "status": "done", "result": "Already posted"},
+    {"key": "Cron: Sorare GW34 Lineup Check", "kind": "cron", "status": "done", "result": "All 3 lineups set"}
   ]
 }

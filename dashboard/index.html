@@ -387,14 +387,14 @@
             flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden;
         }
         .x-stats-strip {
-            display: flex; align-items: center; justify-content: space-between;
-            gap: 0.5rem; padding: 0.5rem 0.6rem; margin-bottom: 0.5rem;
-            background: rgba(255,255,255,0.02); border-radius: 8px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: space-evenly;
+            gap: 1rem; padding: 0.7rem 1rem; margin-bottom: 0.5rem;
+            background: rgba(255,255,255,0.03); border-radius: 8px; flex-shrink: 0;
         }
-        .x-strip-stat { font-size: 0.75rem; display: flex; align-items: center; gap: 0.2rem; }
-        .x-strip-val { color: rgba(255,255,255,0.9); font-weight: 700; font-variant-numeric: tabular-nums; }
-        .x-strip-lbl { color: rgba(255,255,255,0.35); font-weight: 500; font-size: 0.65rem; }
-        .x-strip-delta { font-size: 0.6rem; font-weight: 600; }
+        .x-strip-stat { font-size: 0.9rem; display: flex; flex-direction: column; align-items: center; gap: 0.15rem; }
+        .x-strip-val { color: rgba(255,255,255,0.95); font-weight: 700; font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+        .x-strip-lbl { color: rgba(255,255,255,0.4); font-weight: 500; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.03em; }
+        .x-strip-delta { font-size: 0.7rem; font-weight: 600; }
         .x-strip-delta.up { color: #4ade80; }
         .x-strip-delta.down { color: #ef4444; }
         .x-strip-delta.flat { color: rgba(255,255,255,0.2); }
@@ -826,9 +826,9 @@
                 </div>
                 <!-- Stats Strip -->
                 <div class="x-stats-strip">
-                    <span class="x-strip-stat" id="x-engagement"><span class="x-strip-val" style="color:#4ade80;">--</span> <span class="x-strip-lbl">eng</span></span>
-                    <span class="x-strip-stat" id="x-followers"><span class="x-strip-val">--</span> <span class="x-strip-lbl">flw</span> <span class="x-strip-delta" id="x-d-followers"></span></span>
-                    <span class="x-strip-stat" id="x-impressions"><span class="x-strip-val">--</span> <span class="x-strip-lbl">views</span> <span class="x-strip-delta" id="x-d-impressions"></span></span>
+                    <span class="x-strip-stat" id="x-followers"><span class="x-strip-val">--</span> <span class="x-strip-lbl">Followers</span> <span class="x-strip-delta" id="x-d-followers"></span></span>
+                    <span class="x-strip-stat" id="x-impressions"><span class="x-strip-val">--</span> <span class="x-strip-lbl">Impressions</span> <span class="x-strip-delta" id="x-d-impressions"></span></span>
+                    <span class="x-strip-stat" id="x-engagement"><span class="x-strip-val" style="color:#4ade80;">--</span> <span class="x-strip-lbl">Engagement</span></span>
                     <span class="x-strip-stat" id="x-likes"><span class="x-strip-val">--</span> <span class="x-strip-lbl">likes</span> <span class="x-strip-delta" id="x-d-likes"></span></span>
                 </div>
                 <!-- Tweet Feed -->

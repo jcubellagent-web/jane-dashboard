@@ -20,3 +20,9 @@ Thumbs.db
 # *.mp4
 # *.mov
 trading/node_modules/
+
+# Video/audio assets (too large for git)
+video_edit/*.mp4
+video_edit/*.mp3
+video_edit/*.mov
+video_edit/*.wav

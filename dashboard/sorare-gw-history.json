@@ -1,0 +1,18 @@
+[
+  {
+    "gw": "GW33",
+    "dates": "Feb 10-13, 2026",
+    "status": "live",
+    "rank": 7521,
+    "totalEntrants": 8587,
+    "percentile": 87.6,
+    "lineups": [
+      {"mvp": "Nikola Jokić", "players": ["Derrick White", "Payton Pritchard", "Tre Johnson", "Keldon Johnson"]},
+      {"mvp": "Anthony Edwards", "players": ["Derrick White", "Payton Pritchard", "Deandre Ayton", "Will Riley"]},
+      {"mvp": "Jaylen Brown", "players": ["Cooper Flagg", "Brandon Miller", "Zion Williamson", "Sion James"]}
+    ],
+    "totalScore": null,
+    "topQuartileThreshold": null,
+    "lessons": "Pending — will analyze after GW closes"
+  }
+]

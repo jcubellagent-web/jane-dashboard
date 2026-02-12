@@ -894,12 +894,7 @@
         setInterval(updateTime, 1000);
         updateTime();
 
-        // Helper: spin button during refresh
-        function spinButton(btn, promise) {
-            btn.classList.add('spinning');
-            const minSpin = new Promise(r => setTimeout(r, 800));
-            return Promise.all([promise, minSpin]).finally(() => btn.classList.remove('spinning'));
-        }
+        // spinButton defined in dashboard-common.js
 
         // ===== SYSTEM STATUS =====
         let _cachedSessions = null;

@@ -47,7 +47,7 @@ const fetchJSON = fetchWithTimeout;
 function spinButton(btn, promise) {
     if (!btn) return promise;
     btn.classList.add('spinning');
-    const minSpinTime = new Promise(r => setTimeout(r, 300));
+    const minSpinTime = new Promise(r => setTimeout(r, 800));
     return Promise.all([promise, minSpinTime]).finally(() => btn.classList.remove('spinning'));
 }
 

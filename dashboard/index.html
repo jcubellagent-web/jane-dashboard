@@ -206,7 +206,20 @@
         .brain-map-container svg { width: 100%; height: 100%; }
 
         /* Brain animations */
+        /* Breathing scale for idle */
+        @keyframes brainBreathe { 0%,100% { transform:scale(1.0); } 50% { transform:scale(1.02); } }
+        @keyframes brainActivePulse { 0% { transform:scale(1.0); } 15% { transform:scale(1.035); } 30% { transform:scale(1.025); } 50% { transform:scale(1.03); } 100% { transform:scale(1.03); } }
+        @keyframes sonarPing { 0% { r:15; opacity:0.35; stroke-width:2; } 100% { r:160; opacity:0; stroke-width:0.3; } }
+        @keyframes hubGlowIdle { 0%,100% { filter:drop-shadow(0 0 3px rgba(74,222,128,0.08)); } 50% { filter:drop-shadow(0 0 10px rgba(74,222,128,0.2)); } }
+        @keyframes hubGlowActive { 0%,100% { filter:drop-shadow(0 0 8px rgba(74,222,128,0.5)); } 50% { filter:drop-shadow(0 0 22px rgba(74,222,128,0.8)); } }
+        .brain-map-container { transition: transform 0.3s ease-out; }
+        .brain-idle .brain-map-container { animation: brainBreathe 4s ease-in-out infinite; }
+        .brain-active .brain-map-container { animation: brainActivePulse 0.4s ease-out forwards; }
         .brain-idle svg { filter: drop-shadow(0 0 4px rgba(74,222,128,0.1)); }
+        .brain-active .sonar-ping { animation: sonarPing 1.5s ease-out infinite; stroke: rgba(74,222,128,0.25); }
+        .brain-active .sonar-ping-2 { animation: sonarPing 1.5s ease-out infinite 0.5s; stroke: rgba(74,222,128,0.18); }
+        .brain-active .sonar-ping-3 { animation: sonarPing 1.5s ease-out infinite 1s; stroke: rgba(74,222,128,0.12); }
+        .brain-idle .sonar-ping, .brain-idle .sonar-ping-2, .brain-idle .sonar-ping-3 { opacity:0; animation:none; }
         @keyframes sciPulse { 0%,100% { opacity:0.15; transform:scale(0.97); } 50% { opacity:0.35; transform:scale(1.08); } }
         @keyframes sciHubPulse { 0%,100% { filter:drop-shadow(0 0 3px rgba(74,222,128,0.15)); stroke-opacity:0.3; } 50% { filter:drop-shadow(0 0 12px rgba(74,222,128,0.5)); stroke-opacity:0.8; } }
         @keyframes hubOuterSpin { 0% { transform:rotate(0deg); } 100% { transform:rotate(360deg); } }
@@ -274,7 +287,9 @@
 
         /* Center brain glow pulse */
         @keyframes brainCenterGlow { 0%,100% { filter:drop-shadow(0 0 4px rgba(74,222,128,0.1)); } 50% { filter:drop-shadow(0 0 16px rgba(74,222,128,0.25)); } }
+        @keyframes brainCenterGlowActive { 0%,100% { filter:drop-shadow(0 0 10px rgba(74,222,128,0.4)); } 50% { filter:drop-shadow(0 0 28px rgba(74,222,128,0.7)); } }
         .brain-idle #brain-hub-group { animation: brainCenterGlow 4s ease-in-out infinite; }
+        .brain-active #brain-hub-group { animation: brainCenterGlowActive 1.5s ease-in-out infinite; }
 
         /* Hex grid fade */
         @keyframes hexFade { 0%,100% { opacity:0.4; } 50% { opacity:0.8; } }
@@ -290,7 +305,7 @@
         .brain-idle #brain-hub-label { animation: sciHubLogoPulse 3.5s ease-in-out infinite; }
         .brain-active #brain-hub-label { opacity:1!important; filter:drop-shadow(0 0 4px rgba(74,222,128,0.4)); }
         .brain-active svg { filter: drop-shadow(0 0 12px rgba(74,222,128,0.3)); }
-        .brain-active #brain-hub { stroke-opacity:1!important; stroke-width:1.5px!important; filter:drop-shadow(0 0 12px rgba(74,222,128,0.6)); }
+        .brain-active #brain-hub { stroke-opacity:1!important; stroke-width:1.5px!important; filter:drop-shadow(0 0 18px rgba(74,222,128,0.8)) drop-shadow(0 0 6px rgba(74,222,128,0.4)); }
         .brain-active #brain-glow { opacity:0.25; }
         .brain-node-circle { transition: all 0.4s ease; }
         .brain-node-label { font-size:8px; font-family:'SF Mono',monospace; letter-spacing:0.8px; text-transform:uppercase; fill:rgba(74,222,128,0.5); text-anchor:middle; pointer-events:none; }
@@ -674,6 +689,9 @@
                             <circle cx="100" cy="190" r="30" class="pulse-wave pulse-wave-1" fill="none" stroke="rgba(74,222,128,0.08)" stroke-width="0.5"/>
                             <circle cx="100" cy="190" r="30" class="pulse-wave pulse-wave-2" fill="none" stroke="rgba(74,222,128,0.06)" stroke-width="0.5"/>
                             <circle cx="100" cy="190" r="30" class="pulse-wave pulse-wave-3" fill="none" stroke="rgba(74,222,128,0.04)" stroke-width="0.5"/>
+                            <circle cx="100" cy="190" r="15" class="sonar-ping" fill="none" stroke="rgba(74,222,128,0.25)" stroke-width="1.5"/>
+                            <circle cx="100" cy="190" r="15" class="sonar-ping sonar-ping-2" fill="none" stroke="rgba(74,222,128,0.18)" stroke-width="1.2"/>
+                            <circle cx="100" cy="190" r="15" class="sonar-ping sonar-ping-3" fill="none" stroke="rgba(74,222,128,0.12)" stroke-width="1"/>
                             <!-- Hex grid background pattern -->
                             <pattern id="hexGrid" width="20" height="17.32" patternUnits="userSpaceOnUse" patternTransform="translate(100,190)">
                                 <path d="M10 0 L20 5.77 L20 11.55 L10 17.32 L0 11.55 L0 5.77 Z" fill="none" stroke="rgba(74,222,128,0.03)" stroke-width="0.3"/>

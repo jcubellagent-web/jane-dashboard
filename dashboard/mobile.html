@@ -1889,11 +1889,101 @@
             }
         }
 
+        // Wallet card toggle
+        let walletExpanded = false;
+        function toggleWalletCard() {
+            walletExpanded = !walletExpanded;
+            document.getElementById('wallet-expanded').style.display = walletExpanded ? '' : 'none';
+            document.getElementById('wallet-chevron').style.transform = walletExpanded ? 'rotate(180deg)' : '';
+        }
+
+        async function refreshWallet(btn) {
+            const doRefresh = async () => {
+                try {
+                    const [data, tradesData] = await Promise.all([
+                        fetchJSON('/coinbase-wallet.json'),
+                        fetchJSON('/trades.json').catch(() => null)
+                    ]);
+                    if (!data) return;
+                    let totalUsd = (data.evm?.totalUsd || 0) + (data.solana?.totalUsd || 0);
+                    if (tradesData?.openPositions) {
+                        tradesData.openPositions.forEach(p => {
+                            const val = (p.currentPrice || p.entryPrice || 0) * (p.amount || 0);
+                            if (val > 0) totalUsd += val;
+                        });
+                    }
+                    if (tradesData?.budget?.realizedPnl) totalUsd += tradesData.budget.realizedPnl;
+                    document.getElementById('wallet-total').textContent = '$' + totalUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                    const chainsEl = document.getElementById('wallet-chains');
+                    const truncA = a => a ? a.slice(0, 6) + '…' + a.slice(-4) : '';
+                    function chainHtml(chain, label, symbol) {
+                        if (!chain) return '';
+                        const usd = '$' + Number(chain.totalUsd || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        const mainBal = (chain.balances || []).find(b => (b.symbol || '').toLowerCase() === symbol.toLowerCase());
+                        const amt = mainBal ? Number(mainBal.amount || 0).toLocaleString(undefined, { maximumFractionDigits: 4 }) + ' ' + symbol.toUpperCase() : '';
+                        return '<div style="flex:1;background:rgba(255,255,255,0.04);border-radius:8px;padding:0.35rem 0.5rem;">' +
+                            '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+                            '<span style="font-size:0.6rem;font-weight:600;color:rgba(255,255,255,0.7);">' + esc(label) + '</span>' +
+                            '<span style="font-size:0.65rem;font-weight:700;color:var(--accent);">' + usd + '</span></div>' +
+                            '<div style="font-size:0.5rem;color:var(--text-dim);margin-top:0.15rem;">' + esc(amt) + '</div>' +
+                            '<div style="display:flex;align-items:center;gap:0.2rem;margin-top:0.15rem;">' +
+                            '<span style="font-size:0.45rem;color:rgba(255,255,255,0.3);">' + truncA(chain.address) + '</span>' +
+                            '<button onclick="event.stopPropagation();navigator.clipboard.writeText(\'' + (chain.address || '') + '\');this.textContent=\'✓\';setTimeout(()=>this.textContent=\'📋\',1000)" style="background:none;border:none;font-size:0.5rem;cursor:pointer;padding:0;">📋</button>' +
+                            '</div></div>';
+                    }
+                    chainsEl.innerHTML = chainHtml(data.solana, 'Solana', 'SOL') + chainHtml(data.evm, 'Base', 'ETH');
+
+                    const tradesEl = document.getElementById('wallet-trades');
+                    const positions = tradesData?.openPositions || [];
+                    const fmtMcap = v => v >= 1e6 ? '$' + (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? '$' + (v / 1e3).toFixed(0) + 'K' : '$' + v;
+                    if (positions.length) {
+                        tradesEl.innerHTML = '<div style="font-size:0.5rem;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.2rem;">Active Trades</div>' +
+                            positions.map(p => {
+                                const pnl = p.currentPrice && p.entryPrice ? ((p.currentPrice - p.entryPrice) / p.entryPrice * 100) : (p.pnlPct || 0);
+                                const pnlColor = pnl >= 0 ? '#4ade80' : '#ef4444';
+                                const entryMcap = p.mcapAtEntry || 0;
+                                const curMcap = p.currentMcap || entryMcap;
+                                const sol = p.solSpent ? p.solSpent.toFixed(2) + ' SOL' : '';
+                                return '<div style="display:flex;align-items:center;justify-content:space-between;padding:0.2rem 0;border-bottom:1px solid rgba(255,255,255,0.04);">' +
+                                    '<span style="font-size:0.6rem;font-weight:700;color:var(--text);min-width:50px;">' + esc(p.token || p.symbol) + '</span>' +
+                                    '<span style="font-size:0.5rem;color:var(--text-dim);">' + fmtMcap(entryMcap) + ' → ' + fmtMcap(curMcap) + '</span>' +
+                                    '<span style="font-size:0.5rem;color:var(--text-dim);">' + esc(sol) + '</span>' +
+                                    '<span style="font-size:0.6rem;font-weight:700;color:' + pnlColor + ';min-width:40px;text-align:right;">' + (pnl >= 0 ? '+' : '') + pnl.toFixed(1) + '%</span></div>';
+                            }).join('');
+                    } else {
+                        tradesEl.innerHTML = '<div style="font-size:0.55rem;color:var(--text-dim);margin-top:0.2rem;">No open positions</div>';
+                    }
+
+                    if (tradesData?.budget) {
+                        const b = tradesData.budget;
+                        const pc = (b.realizedPnl || 0) >= 0 ? '#4ade80' : '#ef4444';
+                        document.getElementById('wallet-budget').innerHTML =
+                            '<span style="font-size:0.5rem;padding:0.1rem 0.3rem;border-radius:4px;background:rgba(74,222,128,0.15);color:#4ade80;font-weight:600;">Avail: ' + (b.availableSol || b.available || 0).toFixed(2) + ' SOL</span>' +
+                            '<span style="font-size:0.5rem;padding:0.1rem 0.3rem;border-radius:4px;background:rgba(255,255,255,0.06);color:var(--text);">Deployed: ' + (b.deployedSol || b.deployed || 0).toFixed(2) + ' SOL</span>' +
+                            '<span style="font-size:0.5rem;padding:0.1rem 0.3rem;border-radius:4px;background:rgba(255,255,255,0.06);color:' + pc + ';">P&L: ' + ((b.realizedPnl || 0) >= 0 ? '+' : '') + (b.realizedPnl || 0).toFixed(3) + ' SOL</span>';
+                    }
+                    const closed = tradesData?.closedPositions || tradesData?.closedTrades || [];
+                    if (closed.length) {
+                        document.getElementById('wallet-closed').innerHTML = '<div style="font-size:0.5rem;font-weight:700;color:var(--text-dim);text-transform:uppercase;margin-bottom:0.2rem;">Closed</div>' +
+                            closed.slice(-3).reverse().map(t => {
+                                const pnl = t.pnlPct || 0;
+                                const c = pnl >= 0 ? '#4ade80' : '#ef4444';
+                                return '<div style="display:flex;justify-content:space-between;padding:0.1rem 0;"><span style="font-size:0.55rem;">' + esc(t.token || t.symbol) + '</span><span style="font-size:0.55rem;color:' + c + ';font-weight:700;">' + (pnl >= 0 ? '+' : '') + pnl.toFixed(1) + '%</span></div>';
+                            }).join('');
+                    }
+                } catch (e) { console.error('Wallet:', e); }
+            };
+            if (btn) return spinButton(btn, doRefresh());
+            return doRefresh();
+        }
+
         refreshStatus();
         refreshMind();
         refreshTicker();
         refreshXStats();
         refreshTweetFeed();
+        refreshWallet();
         refreshSorare();
         // Smart intervals — pause when tab hidden
         const _intervals = [];
@@ -1903,6 +1993,7 @@
         smartInterval(refreshTicker, 60000);
         smartInterval(refreshXStats, 60000);
         smartInterval(refreshTweetFeed, 120000);
+        smartInterval(refreshWallet, 60000);
         smartInterval(refreshSorare, 300000);
         // Refresh stale data when tab becomes visible again
         document.addEventListener('visibilitychange', () => {
@@ -1927,7 +2018,8 @@
                     try {
                         const msg = JSON.parse(e.data);
                         function handleWidgetUpdate(k) {
-                            if (k === 'x-stats') wsRefresh(k, refreshXStats);
+                            if (k === 'coinbase-wallet' || k === 'trades') wsRefresh('wallet', refreshWallet);
+                            else if (k === 'x-stats') wsRefresh(k, refreshXStats);
                             else if (k === 'x-tweets' || k === 'x-thread-history') wsRefresh('tweets', refreshTweetFeed);
                             else if (k === 'mind') wsRefresh(k, refreshMind);
                             else if (k === 'sessions') wsRefresh(k, refreshStatus);

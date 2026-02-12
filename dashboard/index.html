@@ -544,9 +544,12 @@
     <!-- Header -->
     <header class="header">
         <div class="header-left">
-            <div>
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+                <span style="font-size:2rem;">🦞</span>
+                <div>
                 <div class="header-time" id="current-time">--:--</div>
                 <div class="header-date" id="current-date">---</div>
+                </div>
             </div>
             <button class="night-mode-btn" onclick="toggleNightMode()">NIGHT<br>MODE</button>
             <button class="refresh-all-btn" id="refresh-all-btn" onclick="refreshAll()" title="Refresh all widgets">↻</button>

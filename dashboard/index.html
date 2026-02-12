@@ -294,13 +294,11 @@
         .waiting-dots::after { content:''; animation: dots 1.5s steps(4,end) infinite; }
         @keyframes dots { 0%,20%{content:'';} 40%{content:'.';} 60%{content:'..';} 80%,100%{content:'...';} }
 
-        /* Sub-agent satellite animation on brain */
-        @keyframes subagentOrbit1 { 0%{transform:rotate(0deg) translateX(55px) rotate(0deg)} 100%{transform:rotate(360deg) translateX(55px) rotate(-360deg)} }
-        @keyframes subagentOrbit2 { 0%{transform:rotate(120deg) translateX(70px) rotate(-120deg)} 100%{transform:rotate(480deg) translateX(70px) rotate(-480deg)} }
-        @keyframes subagentOrbit3 { 0%{transform:rotate(240deg) translateX(45px) rotate(-240deg)} 100%{transform:rotate(600deg) translateX(45px) rotate(-600deg)} }
-        @keyframes subagentPulse { 0%,100%{opacity:0.6;r:3} 50%{opacity:1;r:4.5} }
-        .subagent-satellite { transform-origin: 100px 190px; }
-        .subagent-satellite circle { animation: subagentPulse 2s ease-in-out infinite; }
+        /* Sub-agent indicator badge */
+        .subagent-indicator { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); display:none; z-index:10; text-align:center; }
+        .subagent-indicator.active { display:block; }
+        .subagent-badge { display:inline-flex; align-items:center; gap:4px; background:rgba(34,211,238,0.12); border:1px solid rgba(34,211,238,0.3); border-radius:12px; padding:2px 10px; font-size:11px; color:#22d3ee; white-space:nowrap; }
+        .subagent-label { display:block; font-size:9px; color:rgba(34,211,238,0.6); margin-top:2px; max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:center; }
 
         /* Connected Accounts — collapsible */
         .conn-toggle {
@@ -603,8 +601,11 @@
                                 <circle cx="100" cy="190" r="18" fill="#0a0a0a" stroke="rgba(74,222,128,0.4)" stroke-width="1" id="brain-hub" class="brain-hub"/>
                                 <image href="icon-192.png" x="86" y="176" width="28" height="28" id="brain-hub-label" opacity="0.8"/>
                             </g>
-                            <g id="brain-subagent-satellites"></g>
                         </svg>
+                    <div class="subagent-indicator" id="subagent-indicator">
+                        <div class="subagent-badge" id="subagent-badge"></div>
+                        <div class="subagent-label" id="subagent-label"></div>
+                    </div>
                     </div>
                     <!-- Info Panel -->
                     <div class="mind-info">
@@ -620,7 +621,7 @@
                             <div class="mind-section-label">ACTIONS &amp; TOOLS</div>
                             <div class="mind-steps" id="mind-steps"></div>
                         </div>
-                        <!-- sub-agents visualized as brain satellites -->
+                        <!-- sub-agent indicator -->
                     </div>
                 </div>
             </div>
@@ -784,22 +785,17 @@
         }
 
         // ===== SUB-AGENT BRAIN SATELLITES =====
-        const subagentOrbitAnimations = [
-            'subagentOrbit1 6s linear infinite',
-            'subagentOrbit2 8s linear infinite',
-            'subagentOrbit3 5s linear infinite',
-        ];
         function updateSubagentSatellites(subAgents) {
-            const g = document.getElementById('brain-subagent-satellites');
-            if (!g) return;
+            const el = document.getElementById('subagent-indicator');
+            const badge = document.getElementById('subagent-badge');
+            const label = document.getElementById('subagent-label');
+            if (!el) return;
             const active = (subAgents||[]).filter(s => s.status === 'active');
-            if (!active.length) { g.innerHTML = ''; return; }
-            g.innerHTML = active.slice(0,3).map((sa, i) => {
-                const anim = subagentOrbitAnimations[i % 3];
-                return `<g class="subagent-satellite" style="animation:${anim}">
-                    <circle cx="100" cy="190" r="3.5" fill="rgba(74,222,128,0.8)" stroke="rgba(74,222,128,0.4)" stroke-width="0.5"/>
-                </g>`;
-            }).join('');
+            if (!active.length) { el.classList.remove('active'); return; }
+            el.classList.add('active');
+            const count = active.length;
+            badge.textContent = count === 1 ? '🔧 1 sub-agent active' : `🔧 ${count} sub-agents active`;
+            label.textContent = active.map(s => s.label || s.id || '').filter(Boolean).join(', ');
         }
 
         // ===== X STATS =====

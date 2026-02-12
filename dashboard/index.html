@@ -345,15 +345,14 @@
         .waiting-dots::after { content:''; animation: dots 1.5s steps(4,end) infinite; }
         @keyframes dots { 0%,20%{content:'';} 40%{content:'.';} 60%{content:'..';} 80%,100%{content:'...';} }
 
-        /* Sub-agent indicator — dotted box top-right */
-        .subagent-box { display:none; margin-top:6px; }
-        .subagent-box.active { display:flex; flex-direction:column; gap:4px; }
-        .subagent-box-item { display:flex; align-items:center; gap:8px; font-size:0.75rem; color:rgba(255,255,255,0.85); padding:5px 10px; background:rgba(34,211,238,0.06); border-left:2px solid #22d3ee; border-radius:0 6px 6px 0; }
-        .subagent-box-item .sa-icon { width:14px; height:14px; flex-shrink:0; animation: saSpin 3s linear infinite; }
-        @keyframes saSpin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
-        .subagent-box-item .sa-label { font-weight:600; letter-spacing:0.02em; }
-        .subagent-box-item .sa-pulse { width:6px; height:6px; border-radius:50%; background:#22d3ee; animation: saPulse 1.5s ease-in-out infinite; margin-left:auto; }
-        @keyframes saPulse { 0%,100% { opacity:0.3; } 50% { opacity:1; } }
+        /* Sub-agent lobsters orbiting brain */
+        .sa-orbit-container { position:absolute; inset:0; pointer-events:none; z-index:10; }
+        .sa-lobster { position:absolute; width:22px; height:22px; pointer-events:auto; cursor:pointer; transition: opacity 1s ease-out; }
+        .sa-lobster.fade-out { opacity:0; }
+        .sa-lobster svg { width:100%; height:100%; }
+        .sa-lobster-tooltip { position:absolute; top:100%; left:50%; transform:translateX(-50%); white-space:nowrap; font-size:0.6rem; color:rgba(255,255,255,0.9); background:rgba(0,0,0,0.8); padding:2px 6px; border-radius:4px; opacity:0; transition:opacity 0.2s; pointer-events:none; margin-top:2px; }
+        .sa-lobster:hover .sa-lobster-tooltip { opacity:1; }
+        @keyframes saFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-4px); } }
 
         /* Connected Accounts — collapsible */
         .conn-toggle {
@@ -673,7 +672,7 @@
                     <span class="thinking-status" id="mind-status">● Active</span>
                     <button class="refresh-btn" onclick="refreshMind(this)" style="margin-left:auto;">↻</button>
                 </div>
-                <div class="subagent-box" id="subagent-box"></div>
+                <!-- subagent lobsters rendered inside brain-map-container -->
                 <div class="mind-model-legend" id="mind-model-legend">
                     <span class="model-dot" style="--dot-color:#4ade80">● Opus</span>
                     <span class="model-dot" style="--dot-color:#8b5cf6">● Sonnet</span>
@@ -683,7 +682,8 @@
                 </div>
                 <div class="mind-body" style="flex-direction: row-reverse;">
                     <!-- Brain Map SVG -->
-                    <div class="brain-map-container">
+                    <div class="brain-map-container" style="position:relative;">
+                        <div class="sa-orbit-container" id="sa-orbit"></div>
                         <svg id="brain-map" viewBox="0 0 200 380" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
@@ -924,17 +924,44 @@
             } catch(e) { console.error('System:', e); }
         }
 
-        // ===== SUB-AGENT BRAIN SATELLITES =====
+        // ===== SUB-AGENT LOBSTERS ORBITING BRAIN =====
+        const SA_COLORS = ['#06b6d4','#f97316','#a855f7','#ec4899','#84cc16','#eab308','#ef4444','#14b8a6'];
+        const SA_LOBSTER_PATH = 'M60 10C30 10 15 35 15 55C15 75 30 95 45 100L45 110 55 110 55 100C55 100 60 102 65 100L65 110 75 110 75 100C90 95 105 75 105 55C105 35 90 10 60 10Z M20 45C5 40 0 50 5 60C10 70 20 65 25 55C28 48 25 45 20 45Z M100 45C115 40 120 50 115 60C110 70 100 65 95 55C92 48 95 45 100 45Z';
+        const SA_ANTENNA = '<path d="M45 15Q35 5 30 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M75 15Q85 5 90 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>';
+        const SA_EYES = '<circle cx="45" cy="35" r="6" fill="#050810"/><circle cx="75" cy="35" r="6" fill="#050810"/><circle cx="46" cy="34" r="2.5" fill="#00e5cc"/><circle cx="76" cy="34" r="2.5" fill="#00e5cc"/>';
+        let _prevSaIds = new Set();
         function updateSubagentSatellites(subAgents) {
-            const box = document.getElementById('subagent-box');
-            if (!box) return;
+            const orbit = document.getElementById('sa-orbit');
+            if (!orbit) return;
             const active = (subAgents||[]).filter(s => s.status === 'active');
-            if (!active.length) { box.classList.remove('active'); box.innerHTML = ''; return; }
-            box.classList.add('active');
-            box.innerHTML = active.map(s => {
-                const lbl = s.label || s.id || 'sub-agent';
-                return `<div class="subagent-box-item"><svg class="sa-icon" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span class="sa-label">${lbl}</span><span class="sa-pulse"></span></div>`;
-            }).join('');
+            const activeIds = new Set(active.map(s => s.id || s.label));
+            // fade out removed
+            orbit.querySelectorAll('.sa-lobster').forEach(el => {
+                if (!activeIds.has(el.dataset.saId)) { el.classList.add('fade-out'); setTimeout(() => el.remove(), 1000); }
+            });
+            if (!active.length) { _prevSaIds = activeIds; return; }
+            const rect = orbit.getBoundingClientRect();
+            const cx = rect.width / 2, cy = rect.height / 2;
+            const radius = Math.min(cx, cy) * 0.75;
+            active.forEach((s, i) => {
+                const id = s.id || s.label || 'sa-'+i;
+                const color = SA_COLORS[i % SA_COLORS.length];
+                const angle = (2 * Math.PI * i / active.length) - Math.PI/2;
+                const x = cx + radius * Math.cos(angle) - 11;
+                const y = cy + radius * Math.sin(angle) - 11;
+                let el = orbit.querySelector(`[data-sa-id="${id}"]`);
+                if (!el) {
+                    el = document.createElement('div');
+                    el.className = 'sa-lobster';
+                    el.dataset.saId = id;
+                    el.innerHTML = `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><path d="${SA_LOBSTER_PATH}" fill="${color}"/>${SA_ANTENNA.replace(/currentColor/g, color)}${SA_EYES}</svg><div class="sa-lobster-tooltip">${s.label || s.id || 'sub-agent'}</div>`;
+                    orbit.appendChild(el);
+                }
+                const delay = (i * 0.5) % 3;
+                el.style.cssText = `left:${x}px;top:${y}px;animation:saFloat 3s ${delay}s ease-in-out infinite;filter:drop-shadow(0 0 6px ${color});`;
+                el.classList.remove('fade-out');
+            });
+            _prevSaIds = activeIds;
         }
 
         // ===== X STATS =====

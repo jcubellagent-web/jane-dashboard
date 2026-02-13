@@ -1,18 +1,18 @@
 {
-  "lastUpdated": 1739374380000,
+  "lastUpdated": 1739456820000,
   "tasks": [
     {
       "id": "free-common-packs",
       "name": "Open Free Common Packs",
-      "description": "Already claimed earlier today. Next pack in ~14h.",
+      "description": "Claimed free pack, scrapped all 3 commons for ~42 Essence. Next pack in ~16h.",
       "frequency": "daily",
       "done": true,
-      "doneAt": "2026-02-12T16:07:00.000Z"
+      "doneAt": "2026-02-13T15:10:00.000Z"
     },
     {
       "id": "daily-missions",
       "name": "Complete Daily Missions",
-      "description": "Three-Pointers Picker (MIL vs OKC): SGA is OUT, only eligible card. Rebounds Picker: no eligible Limited cards from today's teams. Cannot complete either mission.",
+      "description": "Point Picker missions available (Limited and Classic Rising Stars) but require Limited cards from today's specific game teams. Cannot complete without matching cards.",
       "frequency": "daily",
       "done": false,
       "doneAt": null,
@@ -20,71 +20,63 @@
     },
     {
       "id": "set-lineups",
-      "name": "GW33 Lineups (Live)",
-      "description": "3 Champion lineups active. L2: 6,239th/169pts (proj 5,039th), 27pts to reward. Klay Thompson plays at 10 PM tonight.",
+      "name": "GW34 Lineups Set",
+      "description": "2 Champion lineups set for GW34 (Feb 19-22). ⚠️ Deandre Ayton is OUT in lineup 1 — may need replacement.",
       "frequency": "per-gameweek",
       "done": true,
-      "doneAt": "2026-02-12T16:13:00.000Z"
+      "doneAt": "2026-02-13T15:10:00.000Z",
+      "note": "ALERT: Deandre Ayton listed as OUT in lineup 1"
     },
     {
       "id": "scrap-duplicates",
       "name": "Scrap Duplicate Commons",
-      "description": "0 duplicate commons found — all clean.",
+      "description": "Scrapped 3 commons from free pack for ~42 Essence. No other duplicates to scrap.",
       "frequency": "daily",
       "done": true,
-      "doneAt": "2026-02-12T16:13:00.000Z"
+      "doneAt": "2026-02-13T15:10:00.000Z"
     },
     {
       "id": "claim-rewards",
       "name": "Claim GW33 Rewards",
-      "description": "GW33 still LIVE — 3 games tonight (OKC/MIL 7:30, UTA/POR 9:00, LAL/DAL 10:00). Cannot claim until GW ends.",
+      "description": "GW33 ended. All 3 lineups fell short of rewards: L1 6,220th (175pts, 29pts short), L2 5,996th (179pts, 25pts short), L3 6,105th (177pts, 27pts short). No rewards to claim.",
       "frequency": "per-gameweek",
-      "done": false,
-      "doneAt": null,
-      "note": "GW33 not finished — last games tonight"
-    },
-    {
-      "id": "gw34-lineups",
-      "name": "Set GW34 Lineups (Feb 19-22)",
-      "description": "3 Limited Champion lineups already set. 7d 7h until start.",
-      "frequency": "weekly",
       "done": true,
-      "doneAt": "2026-02-12T13:28:25.000Z"
+      "doneAt": "2026-02-13T15:10:00.000Z",
+      "note": "No rewards earned — all lineups ~25-29pts below threshold"
     },
     {
       "id": "wheel-spin",
       "name": "Spin the Wheel",
-      "description": "No wheel tickets available (0 tickets).",
+      "description": "Spun the wheel with 1 ticket earned from daily pack. Won 200 Essence!",
       "frequency": "daily",
-      "done": false,
-      "doneAt": null,
-      "note": "Need to earn tickets first"
+      "done": true,
+      "doneAt": "2026-02-13T15:10:00.000Z"
     },
     {
       "id": "essence-mission",
-      "name": "Claim 500 WNTR Essence Mission",
-      "description": "Claimed earlier today. Essence at 2.9K.",
+      "name": "Daily Essence Update",
+      "description": "Essence now at 3.1K (up from 2.9K). Gained ~242 Essence today (42 from scraps + 200 from wheel).",
       "frequency": "daily",
       "done": true,
-      "doneAt": "2026-02-12T16:07:00.000Z"
+      "doneAt": "2026-02-13T15:10:00.000Z"
     }
   ],
   "activeGames": {
-    "fixture": "nba-10-13-feb-2026",
-    "gameWeek": 33,
-    "status": "live",
-    "note": "GW33 live — L2: 6239th/169pts (proj 5,039th, 27pts to reward). Last games tonight Feb 12."
+    "fixture": "nba-14-14-feb-2026",
+    "gameWeek": 34,
+    "status": "upcoming",
+    "note": "GW34 starts Feb 19. Daily competitions available for tonight's games."
   },
   "upcomingLineups": {
     "gameWeek": 34,
-    "startDate": "2026-02-21T00:00:00Z",
-    "status": "3 lineups already set"
+    "startDate": "2026-02-19T00:00:00Z",
+    "status": "2 lineups set — Ayton OUT in lineup 1, needs swap"
   },
   "balances": {
-    "essence": "2.9K",
+    "essence": "3.1K",
     "wntrEssence": "2K",
     "gems": 5,
-    "cash": "$26",
+    "cash": "$97",
     "eth": "0.0003 ETH"
   }
 }

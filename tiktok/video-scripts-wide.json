@@ -1,0 +1,22 @@
+[
+  {
+    "title": "X Thread Intro — Market Update Sample (Widescreen)",
+    "script": "GM. Markets are moving. CPI just came in cooler than expected at 2.4 percent. S and P up half a percent. Solana ripping 10 percent. And enterprise SaaS? All green across the board. Salesforce, ServiceNow, Palantir, all climbing. Here's your full breakdown. Thread below.",
+    "lines": [
+      {"text": "GM. Markets are moving. 📊", "time": 0.0, "color": "accent"},
+      {"text": "", "time": 2.5},
+      {"text": "CPI: 2.4% — cooler than expected", "time": 2.7, "color": "highlight"},
+      {"text": "S&P 500 +0.49%", "time": 5.0, "color": "white"},
+      {"text": "", "time": 6.5},
+      {"text": "SOL +9.9% 🚀", "time": 6.7, "color": "accent"},
+      {"text": "", "time": 8.5},
+      {"text": "Enterprise SaaS: ALL GREEN", "time": 8.7, "color": "highlight"},
+      {"text": "$CRM $NOW $PLTR 📈", "time": 10.5, "color": "accent"},
+      {"text": "", "time": 12.5},
+      {"text": "Full breakdown 🧵👇", "time": 12.7, "color": "highlight"}
+    ],
+    "output": "v4-thread-intro-wide.mp4",
+    "palette": "midnight",
+    "bg_variation": 3
+  }
+]

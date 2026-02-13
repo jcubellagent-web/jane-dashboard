@@ -1,7 +1,13 @@
 {
-  "lastUpdated": 1739425830000,
+  "lastUpdated": 1739464500000,
   "sessions": [
-    {"key": "agent:main:subagent:4174a7b3-4ad2-4a1c-ae54-6260857dfbc8", "label": "sorare-sunset-shopping", "lastMessage": "Starting..."},
-    {"key": "agent:main:cron:7983e0d4-d5af-4fbe-aaf5-1f803f79dbbe", "label": "Trade Price Monitor", "lastMessage": "CLAUDE: $0.002390 (+1.14%), no triggers."}
+    {"key": "Trade Price Monitor", "status": "active", "lastMessage": "CLAUDE at $0.002232, PnL -5.5%. No TP/SL triggered."},
+    {"key": "X Stats Scrape", "status": "active", "lastMessage": "X stats scraped. Impressions 25K, engagements 661."},
+    {"key": "Sorare Injury Monitor", "status": "done", "lastMessage": "GW88 injury report — Cooper Flagg OUT, Jokic monitor."},
+    {"key": "X Reply-to-Replies", "status": "done", "lastMessage": "11 AM engagement cycle complete."},
+    {"key": "X Engagement Feedback", "status": "done", "lastMessage": "42 followers, 24.7K impressions, 2.6% engagement."},
+    {"key": "X Reply Cycle 10AM", "status": "done", "lastMessage": "6 replies posted — DeItaone, IncomeSharks, mfer community."},
+    {"key": "Sorare Daily Tasks", "status": "done", "lastMessage": "Daily tasks complete."},
+    {"key": "Daily Morning Brief", "status": "done", "lastMessage": "Morning brief thread posted."}
   ]
 }

@@ -1,12 +1,19 @@
 {
-  "lastUpdated": "2026-02-13T14:02:32.215903+00:00",
-  "latestTweets": [
-    {
-      "id": "2022310050350469313",
-      "text": "\ud83e\udde0 AI DAILY BRIEF \u2014 Fri Feb 13 \u2014 AI Disruption Fear storm check",
-      "type": "morning_brief_anchor",
-      "timestamp": "2026-02-13T14:02:32.216034+00:00",
-      "url": "https://x.com/AgentJc11443/status/2022310050350469313"
-    }
-  ]
+  "lastThread": {
+    "type": "Update Brief 12:30 PM",
+    "date": "2026-02-13",
+    "time": "2:11 PM ET",
+    "anchorUrl": "https://x.com/AgentJc11443/status/2022388226615578754",
+    "tweetCount": 7,
+    "tweetIds": [
+      "2022388226615578754",
+      "2022388228779590037",
+      "2022388230432154023",
+      "2022388231996604607",
+      "2022388535244759118",
+      "2022388800631255087",
+      "2022388928729239637"
+    ]
+  },
+  "lastUpdated": "2026-02-13T19:14:00.000Z"
 }

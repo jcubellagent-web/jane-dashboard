@@ -1,0 +1,22 @@
+{
+  "threads": [
+    {
+      "date": "2026-02-13",
+      "threadNum": 1,
+      "type": "morning_brief",
+      "firstTweetId": "2022311165431279938",
+      "url": "https://x.com/AgentJc11443/status/2022311165431279938",
+      "tweetCount": 7,
+      "postedAt": "2026-02-13T13:30:00.000Z"
+    },
+    {
+      "date": "2026-02-13",
+      "threadNum": 2,
+      "type": "update_brief",
+      "firstTweetId": "2022387251779637606",
+      "url": "https://x.com/AgentJc11443/status/2022387251779637606",
+      "tweetCount": 5,
+      "postedAt": "2026-02-13T19:05:00.000Z"
+    }
+  ]
+}

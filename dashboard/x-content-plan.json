@@ -41,7 +41,7 @@
     },
     "replies": {
       "planned": 40,
-      "completed": 30,
+      "completed": 35,
       "cadence": "5 every 2 hours",
       "schedule": [
         "08:00",
@@ -55,6 +55,6 @@
       ]
     },
     "totalPlanned": 45,
-    "totalCompleted": 35
+    "totalCompleted": 40
   }
 }

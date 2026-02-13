@@ -2026,6 +2026,7 @@
                             else if (k === 'mind') wsRefresh(k, refreshMind);
                             else if (k === 'sessions') wsRefresh(k, refreshStatus);
                             else if (k === 'sorare-mobile' || k === 'sorare') wsRefresh('sorare', refreshSorare);
+                            else if (k === 'cron-schedule') fetchCronSchedule();
                         }
                         if (msg.type === 'update' || msg.type === 'fileChange') {
                             handleWidgetUpdate(msg.widget || msg.key);
@@ -2568,66 +2569,58 @@ function showGanttTooltip(bar,e){
     if(parseInt(tip.style.top)<0)tip.style.top=(rect.bottom+8)+'px';
     setTimeout(()=>{tip.style.display='none';},2500);
 }
-(function(){
+// Cron schedule rendering + auto-refresh
+function renderCronSchedule(d){
     const groupColors={'🌅 Morning':'#4ade80','☀️ Midday':'#4ade80','🌙 Evening':'#4ade80','🔄 Recurring':'#4ade80'};
-    fetch('cron-schedule.json?_='+Date.now()).then(r=>r.json()).then(d=>{
-        let total=0, doneCount=0, nextJob=null;
-        const now=new Date();
-        d.groups.forEach(g=>{
-            g.jobs.forEach(j=>{
-                if(g.label !== '🔄 Recurring') { total++; if(j.done) doneCount++; }
-                if(!j.done && !nextJob){
-                    const m=j.time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
-                    if(m){let h=parseInt(m[1]),mi=parseInt(m[2]);if(m[3].toUpperCase()==='PM'&&h!==12)h+=12;if(m[3].toUpperCase()==='AM'&&h===12)h=0;
-                        const t=new Date(now);t.setHours(h,mi,0,0);if(t>now)nextJob=j;}
-                }
-            });
+    let total=0, doneCount=0, nextJob=null;
+    const now=new Date();
+    d.groups.forEach(g=>{
+        g.jobs.forEach(j=>{
+            if(g.label !== '🔄 Recurring') { total++; if(j.done) doneCount++; }
+            if(!j.done && !nextJob){
+                const m=j.time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+                if(m){let h=parseInt(m[1]),mi=parseInt(m[2]);if(m[3].toUpperCase()==='PM'&&h!==12)h+=12;if(m[3].toUpperCase()==='AM'&&h===12)h=0;
+                    const t=new Date(now);t.setHours(h,mi,0,0);if(t>now)nextJob=j;}
+            }
         });
-        document.getElementById('cron-count').textContent=doneCount+'/'+total;
-        const el=document.getElementById('cron-list');
-        let h='';
-        d.groups.forEach(g=>{
-            const c=groupColors[g.label]||'#888';
-            h+=`<div style="margin-top:0.35rem;margin-bottom:0.15rem;"><span style="color:${c};font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">${g.label}</span></div>`;
-            g.jobs.forEach(j=>{
-                const isDone=j.done;
-                const isNext=(!isDone && nextJob && j.name===nextJob.name && j.time===nextJob.time);
-                const bg=isNext?'rgba(74,222,128,0.08)':'transparent';
-                const border=isNext?'border-left:2px solid #4ade80;padding-left:0.4rem;':'padding-left:0.5rem;';
-                const nameStyle=isDone?'text-decoration:line-through;color:rgba(255,255,255,0.25);':'color:rgba(255,255,255,0.7);';
-                const timeStyle=isDone?'color:rgba(255,255,255,0.15);':'color:rgba(255,255,255,0.6);';
-                const icon=isDone?'✅':'';
-                const nextBadge=isNext?'<span style="font-size:7px;background:rgba(74,222,128,0.2);color:#4ade80;padding:0.05rem 0.25rem;border-radius:3px;font-weight:600;margin-left:0.3rem;">NEXT</span>':'';
-                h+=`<div style="display:flex;align-items:center;gap:0.3rem;font-size:10px;padding:0.12rem 0;${border}background:${bg};border-radius:2px;">`;
-                h+=`<span style="${timeStyle}font-size:9px;min-width:52px;">${j.time}</span>`;
-                h+=`<span style="${nameStyle}">${isDone?icon+' ':''}${j.name}${nextBadge}</span>`;
-                h+=`</div>`;
-            });
+    });
+    document.getElementById('cron-count').textContent=doneCount+'/'+total;
+    const el=document.getElementById('cron-list');
+    let h='';
+    d.groups.forEach(g=>{
+        const c=groupColors[g.label]||'#888';
+        h+=`<div style="margin-top:0.35rem;margin-bottom:0.15rem;"><span style="color:${c};font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">${g.label}</span></div>`;
+        g.jobs.forEach(j=>{
+            const isDone=j.done;
+            const isNext=(!isDone && nextJob && j.name===nextJob.name && j.time===nextJob.time);
+            const bg=isNext?'rgba(74,222,128,0.08)':'transparent';
+            const border=isNext?'border-left:2px solid #4ade80;padding-left:0.4rem;':'padding-left:0.5rem;';
+            const nameStyle=isDone?'text-decoration:line-through;color:rgba(255,255,255,0.25);':'color:rgba(255,255,255,0.7);';
+            const timeStyle=isDone?'color:rgba(255,255,255,0.15);':'color:rgba(255,255,255,0.6);';
+            const icon=isDone?'✅':'';
+            const nextBadge=isNext?'<span style="font-size:7px;background:rgba(74,222,128,0.2);color:#4ade80;padding:0.05rem 0.25rem;border-radius:3px;font-weight:600;margin-left:0.3rem;">NEXT</span>':'';
+            h+=`<div style="display:flex;align-items:center;gap:0.3rem;font-size:10px;padding:0.12rem 0;${border}background:${bg};border-radius:2px;">`;
+            h+=`<span style="${timeStyle}font-size:9px;min-width:52px;">${j.time}</span>`;
+            h+=`<span style="${nameStyle}">${isDone?icon+' ':''}${j.name}${nextBadge}</span>`;
+            h+=`</div>`;
         });
-        el.innerHTML=h;
-        buildGantt(d);
-        window._lastCronData=d;
-    }).catch(()=>{document.getElementById('cron-count').textContent='!';});
-})();
-// Gantt refresh: NOW line every 60s, full re-fetch every 10 min. Pauses when tab hidden.
+    });
+    el.innerHTML=h;
+    buildGantt(d);
+    window._lastCronData=d;
+}
+function fetchCronSchedule(){
+    fetch('cron-schedule.json?_='+Date.now()).then(r=>r.json()).then(renderCronSchedule).catch(()=>{document.getElementById('cron-count').textContent='!';});
+}
+fetchCronSchedule();
+// Poll every 60s + WebSocket push for instant updates
+setInterval(()=>{ if(!document.hidden) fetchCronSchedule(); }, 60000);
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) fetchCronSchedule(); });
+// WebSocket cron-schedule updates handled via batch handler in main WS setup above
+// Gantt NOW-line refresh every 60s
 (function(){
-    let lastFetch=Date.now();
-    const FETCH_INTERVAL=10*60*1000, TICK_INTERVAL=60*1000;
-    function tick(){
-        if(document.hidden)return;
-        const now=Date.now();
-        if(now-lastFetch>FETCH_INTERVAL){
-            lastFetch=now;
-            fetch('cron-schedule.json?_='+now).then(r=>r.json()).then(d=>{
-                window._lastCronData=d;
-                buildGantt(d);
-            }).catch(()=>{});
-        } else if(window._lastCronData){
-            buildGantt(window._lastCronData);
-        }
-    }
-    setInterval(tick,TICK_INTERVAL);
-    document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick();});
+    function tick(){ if(!document.hidden && window._lastCronData) buildGantt(window._lastCronData); }
+    setInterval(tick,60000);
 })();
 </script>
 </body>

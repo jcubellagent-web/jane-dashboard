@@ -2856,7 +2856,8 @@ const WATCHED_FILES = {
     'x-plan': path.join(ROOT, 'x-plan.json'),
     'briefing': path.join(ROOT, 'briefing.json'),
     'x-tweets': path.join(ROOT, 'x-latest-tweets.json'),
-    'x-thread-history': path.join(ROOT, 'x-thread-history.json')
+    'x-thread-history': path.join(ROOT, 'x-thread-history.json'),
+    'cron-schedule': path.join(ROOT, 'cron-schedule.json')
 };
 
 // Batched WebSocket updates — collect rapid file changes and send as one broadcast

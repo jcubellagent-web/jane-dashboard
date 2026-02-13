@@ -1277,30 +1277,7 @@
         document.getElementById('jobs-toggle').addEventListener('click', () => {
             openPopup('jobs');
         });
-        // WebSocket update for cron-schedule
-        if (typeof originalWsOnMessage === 'undefined') {
-            var originalWsOnMessage = null;
-            const _origWsSetup = window.addEventListener;
-        }
-        (function() {
-            const origParse = JSON.parse;
-            const _addWsHandler = setInterval(() => {
-                if (window.ws && window.ws.readyState === 1) {
-                    const origHandler = window.ws.onmessage;
-                    if (origHandler && !origHandler._jobsPatched) {
-                        window.ws.onmessage = function(ev) {
-                            try {
-                                const msg = JSON.parse(ev.data);
-                                if (msg.type === 'cron-schedule' && msg.data) renderJobs(msg.data);
-                            } catch(e) {}
-                            if (origHandler) origHandler.call(this, ev);
-                        };
-                        window.ws.onmessage._jobsPatched = true;
-                        clearInterval(_addWsHandler);
-                    }
-                }
-            }, 2000);
-        })();
+        // WebSocket cron-schedule updates handled via batch handler in main WS setup
 
         // Connected Accounts toggle
         document.getElementById('conn-toggle').addEventListener('click', () => {
@@ -1951,6 +1928,7 @@
                         else if (k==='sorare'||k==='sorare-mobile') refreshSorare();
                         else if (k==='coinbase-wallet') refreshWallet();
                         else if (k==='trades') refreshTrades();
+                        else if (k==='cron-schedule') fetchJobs();
                     }
                     if (msg.type==='update') handleWidget(msg.widget);
                     else if (msg.type==='batch'&&msg.updates) msg.updates.forEach(u=>handleWidget(u.widget));

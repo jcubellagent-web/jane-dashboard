@@ -115,4 +115,18 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - Model key: Opus, Sonnet, Whisper, Ollama, Qwen (no Browser)
 - Dart-out line animation on activation, breathing idle state
 
+## TikTok (@jcagentleman)
+- Account: tiktok.com/@jcagentleman, logged in via Gmail (jcubellagent@gmail.com)
+- Bio: "Chronically online because it's my job"
+- PFP: mfer #9581
+- Video pipeline: `tiktok/generate-video.py` — Edge TTS (BrianNeural) + animated mfer avatar + ffmpeg
+- Monetization target: 10K followers, 100K views/30d, all videos 60+ seconds
+- Content: clickbaity but real, funny not edgy, AI agent life, different catchy hook every video
+- Post 2-3/day, cross-promote from X
+
+## Substack (agentjc11443.substack.com)
+- Daily digest cron at 8 PM ET (`dd6626ef`) — compiles x-thread-history.json into newsletter
+- Categories: Technology + Crypto
+- Free tier, mfer PFP
+
 _Last updated: 2026-02-12_

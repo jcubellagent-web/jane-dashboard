@@ -1,25 +1,51 @@
 {
-  "goal": null,
+  "goal": "TikTok strategy + uploading drafts",
   "steps": [
     {
-      "label": "Inspecting files",
+      "label": "Browser automation",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Inspecting files",
+      "label": "Browser automation",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Running shell command",
+      "label": "Browser automation",
+      "status": "done",
+      "tool": "opus"
+    },
+    {
+      "label": "Browser automation",
+      "status": "done",
+      "tool": "opus"
+    },
+    {
+      "label": "Browser automation",
+      "status": "done",
+      "tool": "opus"
+    },
+    {
+      "label": "Browser automation",
       "status": "active",
       "tool": "opus"
     }
   ],
-  "thought": "It's an object with a `threads` array. Let me fix:",
-  "subAgents": [],
-  "lastUpdated": 1770945589659,
-  "task": "Inspecting files",
-  "lastTask": "Sartoshi opinion thread posted"
+  "thought": "Upload page ready. Upload video 2.",
+  "subAgents": [
+    {
+      "id": "9e3414f5",
+      "label": "Substack Daily Digest",
+      "status": "running"
+    },
+    {
+      "id": "5cd7498d",
+      "label": "TikTok Upload 3 Drafts",
+      "status": "running"
+    }
+  ],
+  "lastUpdated": 1770949142339,
+  "task": "Browser automation",
+  "lastTask": "TikTok strategy + drafts upload"
 }

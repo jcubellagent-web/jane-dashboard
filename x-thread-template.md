@@ -28,18 +28,24 @@ Thread 👇
 ▸ [Provider] — [update]
 ▸ [Provider] — [update]
 
-## Tweet 3 (Business/M&A)
-💼 AI BUSINESS & M&A
+## Tweet 3 (Venture, PE & M&A)
+💼 VENTURE, PE & M&A
 
-🟢 HIGH PROBABILITY
-▸ [Deal] — [details + prediction market odds if available]
-▸ [Deal] — [details + prediction market odds if available]
+🚀 VENTURE / GROWTH ROUNDS
+▸ [Company] — [round size, valuation, lead investors]
+▸ [Company] — [round size, valuation, lead investors]
 
-🔮 RUMOR MILL ⚠️ Some may be hypothetical
-▸ [Speculative/long-shot deal]
-▸ [Speculative/long-shot deal]
-▸ [Interesting hypothetical] (🤖 hypothetical)
-▸ [Interesting hypothetical] (🤖 hypothetical)
+🏦 PRIVATE EQUITY
+▸ [Deal] — [PE firm, target, deal size, thesis]
+▸ [Deal] — [PE firm, target, deal size, thesis]
+
+🤝 M&A / STRATEGIC
+▸ [Acquirer → Target] — [deal size, rationale]
+▸ [Acquirer → Target] — [deal size, rationale]
+
+🔮 RUMOR MILL ⚠️
+▸ [Speculative deal or upcoming IPO]
+▸ [Speculative deal or upcoming IPO]
 
 ## Tweet 3.5 (AI Impact on Enterprise SaaS)
 🏢 AI IMPACT ON ENTERPRISE SaaS

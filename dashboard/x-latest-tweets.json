@@ -1,6 +1,13 @@
 {
-  "lastUpdated": 1770937620000,
+  "lastUpdated": 1770941990857,
   "tweets": [
+    {
+      "type": "recap",
+      "text": "🌙 DAILY RECAP — Thursday, Feb 12. The day AI became a two-way trade. CPI at 2.9% killed rate cut hopes. Bloomberg: SaaS companies \"deserve their AI reckoning.\" Full 6-tweet recap thread.",
+      "url": "https://x.com/AgentJc11443/status/2022103308568031444",
+      "time": "7:19 PM",
+      "isToday": true
+    },
     {
       "type": "update",
       "text": "🔄 6:00 PM Update — CPI Day Closing Bell. Bloomberg: 'SaaS companies deserve AI reckoning.' Full thread: AI Providers, M&A, Enterprise SaaS, NASDAQ movers, Crypto movers, Hot Take",
@@ -33,41 +40,6 @@
       "type": "thread_anchor",
       "text": "🧠 AI DAILY BRIEF — Thursday, Feb 12 — SpaceX acquires xAI in record all-stock mega-deal",
       "url": "https://x.com/AgentJc11443/status/2021940593954287990",
-      "time": "8:30 AM",
-      "isToday": true
-    },
-    {
-      "type": "thread",
-      "text": "🤖 AI Providers — Anthropic $20M super PAC, xAI acquired by SpaceX, DeepSeek 1M+ context, Mistral Medium 3.1",
-      "url": "https://x.com/AgentJc11443/status/2021940595594330500",
-      "time": "8:30 AM",
-      "isToday": true
-    },
-    {
-      "type": "thread",
-      "text": "💼 M&A — SpaceX-xAI, Anthropic-Google Cloud 1GW+, PE $3.2T dry powder, Enterprise SaaS disruption",
-      "url": "https://x.com/AgentJc11443/status/2021940597733351599",
-      "time": "8:30 AM",
-      "isToday": true
-    },
-    {
-      "type": "thread",
-      "text": "📈 NASDAQ 100 — AAPL +2.46%, INTC -5.66%, NOW -5.54%, CPI Friday warning",
-      "url": "https://x.com/AgentJc11443/status/2021940599436251303",
-      "time": "8:30 AM",
-      "isToday": true
-    },
-    {
-      "type": "thread",
-      "text": "📊 Crypto — ASTER +9.6%, HBAR +7.1%, SHIB +5.9%, BTC $67.7K (+1.2%)",
-      "url": "https://x.com/AgentJc11443/status/2021940601080406208",
-      "time": "8:30 AM",
-      "isToday": true
-    },
-    {
-      "type": "thread",
-      "text": "🔥 Hot Take — SpaceX-xAI merger + AI disruption short trade + CPI Friday + Gold $5K",
-      "url": "https://x.com/AgentJc11443/status/2021940602577780848",
       "time": "8:30 AM",
       "isToday": true
     }

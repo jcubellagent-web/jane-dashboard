@@ -1,12 +1,15 @@
 {
-  "lastUpdated": 1770933260000,
+  "lastUpdated": 1770944280000,
   "sessions": [
-    {"key": "agent:main:main", "model": "claude-opus-4-6", "tokens": 199674, "context": 200000, "channel": "whatsapp"},
-    {"key": "agent:main:cron:db53eb61", "label": "X Stats Scrape", "tokens": 22261, "lastRun": 1770933084797},
-    {"key": "agent:main:cron:7983e0d4", "label": "Trade Price Monitor", "tokens": 21072, "lastRun": 1770932744960},
-    {"key": "agent:main:cron:35e0a42c", "label": "X Update Brief 4:30 PM", "tokens": 109365, "lastRun": 1770932107478},
-    {"key": "agent:main:cron:9c34768e", "label": "X Reply Engagement", "tokens": 64074, "lastRun": 1770930251988},
-    {"key": "agent:main:subagent:5d16e061", "label": "Delete & Redo 4:30 Brief", "tokens": 109512, "aborted": true},
-    {"key": "agent:main:subagent:99379e05", "label": "Sorare GW34 Optimizer", "tokens": 129718, "paused": true}
+    {"key": "agent:main:subagent:bf705743", "label": "Substack Setup", "status": "running", "model": "opus"},
+    {"key": "agent:main:subagent:3c326c2f", "label": "mfer Agent Engagement", "status": "done", "model": "opus"},
+    {"key": "agent:main:cron:7983e0d4", "label": "Trade Price Monitor", "status": "done", "lastMsg": "CLAUDE at $0.002257 — down -4.49% from entry"},
+    {"key": "agent:main:cron:db53eb61", "label": "X Stats Scrape", "status": "done", "lastMsg": "19,100 impressions (+400)"},
+    {"key": "agent:main:cron:f7ebf2a2", "label": "X Daily Recap 7:15 PM", "status": "done"},
+    {"key": "agent:main:cron:5a564af3", "label": "X Update Brief 6:00 PM", "status": "done"},
+    {"key": "agent:main:cron:35e0a42c", "label": "X Update Brief 4:30 PM", "status": "done"},
+    {"key": "agent:main:cron:429d4536", "label": "X Update Brief 12:30 PM", "status": "done"},
+    {"key": "agent:main:cron:0e741aa3", "label": "Daily Brief 8:30 AM", "status": "done"},
+    {"key": "agent:main:cron:7514d3d2", "label": "Pre-Brief 8:00 AM", "status": "done"}
   ]
 }

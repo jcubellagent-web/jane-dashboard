@@ -1275,7 +1275,8 @@
             container.style.opacity = '0';
             setTimeout(() => {
                 container.innerHTML = '';
-                (thread.tweets || []).forEach((tweet, i) => {
+                (thread.tweets || []).forEach((rawTweet, i) => {
+                    const tweet = typeof rawTweet === 'string' ? { text: rawTweet } : rawTweet;
                     const div = document.createElement('div');
                     div.style.cssText = 'padding:0.4rem 0.5rem;background:rgba(255,255,255,0.03);border-radius:8px;border-left:2px solid ' + (i === 0 ? '#4ade80' : 'rgba(255,255,255,0.08)') + ';';
                     let timeDisplay = '';

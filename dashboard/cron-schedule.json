@@ -1,5 +1,5 @@
 {
-  "updated": "2026-02-13T03:01:00.000Z",
+  "updated": "2026-02-13T05:10:00.000Z",
   "groups": [
     {
       "label": "🌅 Morning",
@@ -7,41 +7,47 @@
         {
           "name": "Pre-Brief Data Fetch",
           "time": "8:00 AM",
-          "done": true,
+          "done": false,
           "type": "data"
         },
         {
           "name": "Daily Morning Brief",
           "time": "8:30 AM",
-          "done": true,
+          "done": false,
           "type": "thread",
           "threadNum": 1,
-          "tweets": 6
+          "tweets": 7
         },
         {
           "name": "X Replies (8 AM)",
           "time": "8:00 AM",
-          "done": true,
+          "done": false,
           "type": "replies",
           "count": 5
         },
         {
+          "name": "TikTok Batch 1 (Morning)",
+          "time": "7:00 AM",
+          "done": false,
+          "type": "ops"
+        },
+        {
           "name": "X Replies (10 AM)",
           "time": "10:00 AM",
-          "done": true,
+          "done": false,
           "type": "replies",
           "count": 5
         },
         {
           "name": "Sorare Daily Tasks",
-          "time": "10:07 AM",
-          "done": true,
+          "time": "10:00 AM",
+          "done": false,
           "type": "ops"
         },
         {
           "name": "Reply-to-Replies (11 AM)",
           "time": "11:00 AM",
-          "done": true,
+          "done": false,
           "type": "replies",
           "count": 3
         }
@@ -53,29 +59,35 @@
         {
           "name": "X Replies (12 PM)",
           "time": "12:00 PM",
-          "done": true,
+          "done": false,
           "type": "replies",
           "count": 5
         },
         {
+          "name": "TikTok Batch 2 (Lunch)",
+          "time": "12:00 PM",
+          "done": false,
+          "type": "ops"
+        },
+        {
           "name": "Update Brief (12:30 PM)",
           "time": "12:30 PM",
-          "done": true,
+          "done": false,
           "type": "thread",
           "threadNum": 2,
-          "tweets": 3
+          "tweets": 7
         },
         {
           "name": "X Replies (2 PM)",
           "time": "2:00 PM",
-          "done": true,
+          "done": false,
           "type": "replies",
           "count": 5
         },
         {
           "name": "Update Brief (4:30 PM)",
           "time": "4:30 PM",
-          "done": true,
+          "done": false,
           "type": "thread",
           "threadNum": 3,
           "tweets": 7
@@ -88,7 +100,7 @@
         {
           "name": "X Replies (4 PM)",
           "time": "4:00 PM",
-          "done": true,
+          "done": false,
           "type": "replies",
           "count": 5
         },
@@ -102,32 +114,50 @@
         {
           "name": "X Replies (6 PM)",
           "time": "6:00 PM",
-          "done": true,
+          "done": false,
           "type": "replies",
           "count": 5
         },
         {
           "name": "Update Brief (6:00 PM)",
           "time": "6:00 PM",
-          "done": true,
+          "done": false,
           "type": "thread",
           "threadNum": 4,
-          "tweets": 3
+          "tweets": 7
+        },
+        {
+          "name": "TikTok Batch 3 (Prime Time)",
+          "time": "7:00 PM",
+          "done": false,
+          "type": "ops"
         },
         {
           "name": "Daily Recap",
           "time": "7:15 PM",
-          "done": true,
+          "done": false,
           "type": "thread",
           "threadNum": 5,
-          "tweets": 6
+          "tweets": 7
         },
         {
           "name": "X Replies (8 PM)",
           "time": "8:00 PM",
-          "done": true,
+          "done": false,
           "type": "replies",
-          "count": 6
+          "count": 5
+        },
+        {
+          "name": "Substack Daily Digest",
+          "time": "8:00 PM",
+          "done": false,
+          "type": "ops"
+        },
+        {
+          "name": "TikTok Batch 4 (Late Night)",
+          "time": "9:00 PM",
+          "done": false,
+          "type": "ops"
         },
         {
           "name": "X Growth Report",
@@ -138,7 +168,7 @@
         {
           "name": "X Replies (10 PM)",
           "time": "10:00 PM",
-          "done": true,
+          "done": false,
           "type": "replies",
           "count": 5
         }
@@ -172,14 +202,8 @@
           "type": "ops"
         },
         {
-          "name": "Sorare GW34 Lineup Check",
-          "time": "every 6 hours",
-          "done": false,
-          "type": "ops"
-        },
-        {
-          "name": "X Follow Accounts (overnight)",
-          "time": "2-7 AM",
+          "name": "TikTok Community Engagement",
+          "time": "2x daily",
           "done": false,
           "type": "ops"
         }

@@ -1,25 +1,11 @@
 {
-  "task": "Heartbeat — monitoring morning brief sub-agent",
+  "task": "Android emulator setup + dashboard fix",
   "steps": [
-    {
-      "label": "Morning brief sub-agent running",
-      "status": "done"
-    },
-    {
-      "label": "Waiting for Josh's next items",
-      "status": "pending"
-    },
-    {
-      "label": "Browser automation",
-      "status": "done",
-      "tool": "opus"
-    },
-    {
-      "label": "Browser automation",
-      "status": "active",
-      "tool": "opus"
-    }
+    {"label": "Emulator running, TikTok installed", "status": "done"},
+    {"label": "Fix dashboard thought text cutoff", "status": "done"},
+    {"label": "Sign into TikTok via Google", "status": "active"},
+    {"label": "Test video upload workflow", "status": "pending"}
   ],
-  "thought": "Morning brief spawned, checking on sub-agents and dashboard status",
-  "lastUpdated": 1770991352418
+  "thought": "Fixed mind widget overflow — signing into TikTok on emulator now",
+  "lastUpdated": 1739454700000
 }

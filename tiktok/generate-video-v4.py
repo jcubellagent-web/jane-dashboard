@@ -253,7 +253,23 @@ def draw_scan_line(draw, frame_num, palette):
             draw.line([(0, y), (WIDTH, y)], fill=palette["accent"][:3], width=1)
 
 
+import re as _re
+_EMOJI_RE = _re.compile(
+    "[\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF"
+    "\U0001F1E0-\U0001F1FF\U00002702-\U000027B0\U000024C2-\U0001F251"
+    "\U0001F900-\U0001F9FF\U0001FA00-\U0001FA6F\U0001FA70-\U0001FAFF"
+    "\U00002600-\U000026FF\U0000FE00-\U0000FE0F\U0000200D\U00002B50"
+    "\U00002B55\U000023F0-\U000023FA\U0000231A-\U0000231B\U000025AA-\U000025FE"
+    "\U00002934-\U00002935\U00002190-\U000021FF\U0000203C\U00002049"
+    "\U000020E3\U00003030\U0000303D\U00003297\U00003299]+", _re.UNICODE)
+
+def strip_emoji(text):
+    return _EMOJI_RE.sub('', text).strip()
+
 def draw_text_with_glow(draw, pos, text, font, color, glow_color=None, glow_radius=2):
+    text = strip_emoji(text)
+    if not text:
+        return
     x, y = pos
     if glow_color:
         for dx in range(-glow_radius, glow_radius + 1):

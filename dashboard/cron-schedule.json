@@ -1,14 +1,27 @@
 {
-  "updated": "2026-02-13T05:10:00.000Z",
+  "updated": "2026-02-13T05:24:00.000Z",
   "groups": [
     {
       "label": "🌅 Morning",
       "jobs": [
         {
+          "name": "TikTok Batch 1 (Morning)",
+          "time": "7:00 AM",
+          "done": false,
+          "type": "ops"
+        },
+        {
           "name": "Pre-Brief Data Fetch",
           "time": "8:00 AM",
           "done": false,
           "type": "data"
+        },
+        {
+          "name": "X Replies (8 AM)",
+          "time": "8:00 AM",
+          "done": false,
+          "type": "replies",
+          "count": 5
         },
         {
           "name": "Daily Morning Brief",
@@ -19,15 +32,8 @@
           "tweets": 7
         },
         {
-          "name": "X Replies (8 AM)",
-          "time": "8:00 AM",
-          "done": false,
-          "type": "replies",
-          "count": 5
-        },
-        {
-          "name": "TikTok Batch 1 (Morning)",
-          "time": "7:00 AM",
+          "name": "Sorare Daily Tasks",
+          "time": "9:30 AM",
           "done": false,
           "type": "ops"
         },
@@ -37,12 +43,6 @@
           "done": false,
           "type": "replies",
           "count": 5
-        },
-        {
-          "name": "Sorare Daily Tasks",
-          "time": "10:00 AM",
-          "done": false,
-          "type": "ops"
         },
         {
           "name": "Reply-to-Replies (11 AM)",

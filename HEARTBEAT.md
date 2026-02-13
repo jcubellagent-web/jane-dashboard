@@ -33,6 +33,15 @@ Every heartbeat, check if a scheduled brief was MISSED:
 - 8:30 AM Morning: `agent:main:cron:0e741aa3-27ba-4170-996f-148b98270e70`
 - 8:00 AM Pre-Brief: `agent:main:cron:7514d3d2-dff9-4828-aed5-070b709fc53a`
 
+## Cron Schedule Auto-Sync (EVERY HEARTBEAT)
+Check if any scheduled cron jobs have completed since last sync:
+1. Read `/dashboard/cron-schedule.json` 
+2. For each job that's `"done": false` and its scheduled time has passed:
+   - Check if the corresponding cron session exists and completed (via sessions_list or cron state)
+   - If completed, set `"done": true` in cron-schedule.json
+3. Write updated file back
+This ensures the dashboard always reflects actual completion status, even if the cron agent's own "DASHBOARD SYNC" step failed.
+
 ## Context Overflow Prevention
 If context feels heavy (long conversation, many tool calls), proactively:
 1. Use `/new` or suggest it to Josh before hitting limits

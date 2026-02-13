@@ -1,8 +1,8 @@
 {
-  "updated": "2026-02-13T15:25:00.000Z",
+  "updated": "2026-02-13T16:30:00.000Z",
   "groups": [
     {
-      "label": "🌅 Morning",
+      "label": "\ud83c\udf05 Morning",
       "jobs": [
         {
           "name": "TikTok Batch 1 (Manual/Optional)",
@@ -15,7 +15,7 @@
           "time": "8:00 AM",
           "done": false,
           "type": "data",
-          "note": "Missed — rate limited"
+          "note": "Missed \u2014 rate limited"
         },
         {
           "name": "X Replies (8 AM)",
@@ -23,7 +23,7 @@
           "done": false,
           "type": "replies",
           "count": 5,
-          "note": "Missed — rate limited"
+          "note": "Missed \u2014 rate limited"
         },
         {
           "name": "Daily Morning Brief",
@@ -49,14 +49,14 @@
         {
           "name": "Reply-to-Replies (11 AM)",
           "time": "11:00 AM",
-          "done": false,
+          "done": true,
           "type": "replies",
           "count": 3
         }
       ]
     },
     {
-      "label": "☀️ Midday",
+      "label": "\u2600\ufe0f Midday",
       "jobs": [
         {
           "name": "X Replies (12 PM)",
@@ -97,7 +97,7 @@
       ]
     },
     {
-      "label": "🌙 Evening",
+      "label": "\ud83c\udf19 Evening",
       "jobs": [
         {
           "name": "X Replies (4 PM)",
@@ -177,7 +177,7 @@
       ]
     },
     {
-      "label": "🔄 Recurring",
+      "label": "\ud83d\udd04 Recurring",
       "jobs": [
         {
           "name": "X Stats Scrape",

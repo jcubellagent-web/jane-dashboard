@@ -36,9 +36,14 @@ _How-to details and implementation notes archived in `memory/reference.md`._
 - **PitchBook News** — pitchbook.com/news (PE deals, exits, fund raises)
 - **TechCrunch Venture** — techcrunch.com/category/venture
 - **SEC EDGAR** — Full-text search for 8-K, S-1, DEFM14A (M&A disclosures, IPOs)
+- **Fortune Term Sheet** — fortune.com/newsletter/termsheet (daily PE/VC deals recap)
+- **DealBook (NYT)** — nytimes.com/section/dealbook (M&A, PE, VC scoops)
 - **PE Hub** — pehub.com (PE transactions)
 - **Axios Pro Rata** — axios.com/pro-rata (deals roundup)
 - **Reuters M&A** — reuters.com/markets/deals
+- **DeFi Llama Raises** — defillama.com/raises (crypto/web3 funding rounds, real-time)
+- **CB Insights** — cbinsights.com/research (AI deal tracking, funding visualizations)
+- **Carta Blog** — carta.com/blog (private market valuations, secondary trends)
 - **Web search** — "AI venture funding" / "private equity AI" / "tech M&A" queries
 
 ## Sorare API

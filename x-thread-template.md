@@ -117,10 +117,14 @@ Tracking how enterprise software giants are responding to the AI wave.
 - **Crunchbase News** — news.crunchbase.com (deal flow, round tracking)
 - **PitchBook News** — pitchbook.com/news (PE deals, fund raises, exits)
 - **SEC EDGAR** — Full-text search for 8-K, S-1, DEFM14A filings (M&A disclosures, IPO filings)
-- **Fortune Term Sheet** — newsletter/RSS for daily deal roundups
+- **Fortune Term Sheet** — fortune.com/newsletter/termsheet (daily deals roundup, PE/VC recap)
+- **DealBook (NYT)** — nytimes.com/section/dealbook (M&A, PE, VC scoops)
 - **PE Hub** — pehub.com (private equity transactions, fundraising)
 - **Axios Pro Rata** — axios.com/pro-rata (deals, venture, PE coverage)
 - **Reuters M&A** — reuters.com/markets/deals (strategic acquisitions, deal valuations)
+- **DeFi Llama Raises** — defillama.com/raises (real-time crypto/web3 funding tracker)
+- **CB Insights** — cbinsights.com/research (AI deal tracking, funding data)
+- **Carta Blog** — carta.com/blog (private market valuations, secondary market trends)
 - **Web Search** — "AI startup funding" / "private equity AI deal" / "tech M&A" queries for breaking deals
 
 ## Wildcard Slots (rotate daily, 2-3 if noteworthy)

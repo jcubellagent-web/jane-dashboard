@@ -1,8 +1,8 @@
 {
-  "task": "Updating Venture/PE data sources for X thread template",
+  "task": "Adding free VC/PE data sources to all thread crons",
   "steps": [
     {
-      "label": "Editing x-thread-template.md",
+      "label": "Managing cron jobs",
       "status": "done",
       "tool": "opus"
     },
@@ -12,18 +12,18 @@
       "tool": "opus"
     },
     {
-      "label": "Editing TOOLS.md",
+      "label": "Managing cron jobs",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Listing sessions",
+      "label": "Managing cron jobs",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Inspecting files",
-      "status": "active",
+      "label": "Managing cron jobs",
+      "status": "done",
       "tool": "opus"
     },
     {
@@ -32,6 +32,6 @@
       "tool": "opus"
     }
   ],
-  "thought": "No missed briefs — 4:30 PM is next. All crons operational. Let me write sessions.json and finalize:",
-  "lastUpdated": 1771011396386
+  "thought": "All done. Committing:",
+  "lastUpdated": 1771012038766
 }

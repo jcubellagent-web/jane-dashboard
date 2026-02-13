@@ -59,6 +59,17 @@ _How-to details and implementation notes archived in `memory/reference.md`._
 - Workflow: `video_edit/PACK_OPENING_WORKFLOW.md`
 - Get floor prices from `https://nft.paniniamerica.net/marketplace/nfts.html`
 
+## Browser Serialization
+- **Lock script:** `scripts/browser-lock.sh`
+- **Rule:** Only ONE sub-agent may use the browser at a time
+- Before browser work: `bash scripts/browser-lock.sh acquire "task-label" 300`
+- After browser work: `bash scripts/browser-lock.sh release`
+- Check status: `bash scripts/browser-lock.sh status`
+- Lock uses `/tmp/openclaw-browser-lock` (mkdir-based, atomic)
+- Timeout default: 300s (5 min) — adjust per task
+- **Priority order:** X/Twitter tasks first, then Sorare, then other browser tasks
+- API-only tasks (no browser) can run in parallel — no lock needed
+
 ## Model Usage
 - Default Opus for conversations, Sonnet for sub-agents/background
 - Minimize screenshots, use snapshots; cache API results

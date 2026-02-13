@@ -647,7 +647,17 @@ function handleRequest(req, res) {
                 { name: 'TechCrunch RSS', detail: 'startup funding & launches', icon: icons.techcrunch, active: true },
                 { name: 'arXiv RSS', detail: 'cs.AI + cs.CL papers', icon: icons.arxiv, active: true },
                 { name: 'Hacker News', detail: 'tech news', icon: icons.hackernews, active: true },
-                { name: 'Fear & Greed Index', detail: 'crypto sentiment', icon: icons.coingecko, active: true }
+                { name: 'Fear & Greed Index', detail: 'crypto sentiment', icon: icons.coingecko, active: true },
+                { name: 'Crunchbase News', detail: 'VC deal flow & rounds', icon: icons.techcrunch, active: true },
+                { name: 'PitchBook News', detail: 'PE deals, exits, fund raises', icon: icons.finnhub, active: true },
+                { name: 'Fortune Term Sheet', detail: 'daily PE/VC deals recap', icon: icons.hackernews, active: true },
+                { name: 'DealBook (NYT)', detail: 'M&A, PE, VC scoops', icon: icons.hackernews, active: true },
+                { name: 'DeFi Llama Raises', detail: 'crypto/web3 funding rounds', icon: icons.dexscreener, active: true },
+                { name: 'CB Insights', detail: 'AI deal tracking & data', icon: icons.techcrunch, active: true },
+                { name: 'Carta Blog', detail: 'private market valuations', icon: icons.finnhub, active: true },
+                { name: 'Axios Pro Rata', detail: 'VC/PE deals roundup', icon: icons.hackernews, active: true },
+                { name: 'PE Hub', detail: 'PE transactions', icon: icons.finnhub, active: true },
+                { name: 'Reuters M&A', detail: 'strategic acquisitions', icon: icons.hackernews, active: true }
             ],
             newsletters: [
                 { name: 'TLDR AI', detail: 'daily AI digest', active: true },

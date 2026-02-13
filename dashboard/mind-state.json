@@ -1,28 +1,28 @@
 {
-  "task": "Transcribing audio via Whisper",
+  "task": "Adding missing VC/PE sources to dashboard Connected Accounts",
   "steps": [
     {
-      "label": "Transcribing audio via Whisper",
-      "status": "done",
-      "tool": "whisper"
-    },
-    {
-      "label": "Reading MEMORY.md",
+      "label": "Inspecting files",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Reading MEMORY.md",
+      "label": "Inspecting files",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Editing MEMORY.md",
+      "label": "Inspecting files",
       "status": "done",
       "tool": "opus"
     },
     {
-      "label": "Editing MEMORY.md",
+      "label": "Inspecting files",
+      "status": "done",
+      "tool": "opus"
+    },
+    {
+      "label": "Editing dashboard server",
       "status": "done",
       "tool": "opus"
     },
@@ -32,6 +32,6 @@
       "tool": "opus"
     }
   ],
-  "thought": "Also need to update the X/Twitter section in MEMORY.md to reference the news sources:",
-  "lastUpdated": 1771012120265
+  "thought": "Good — I need generic icons for the new sources. I'll use existing ones where they make sense (e.g., `techcrunch` for Te",
+  "lastUpdated": 1771012380744
 }

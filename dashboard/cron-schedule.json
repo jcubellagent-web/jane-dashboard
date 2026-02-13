@@ -1,8 +1,8 @@
 {
-  "updated": "2026-02-12T23:10:00.000000+00:00",
+  "updated": "2026-02-13T01:01:00.000Z",
   "groups": [
     {
-      "label": "\ud83c\udf05 Morning",
+      "label": "🌅 Morning",
       "jobs": [
         {
           "name": "Pre-Brief Data Fetch",
@@ -48,7 +48,7 @@
       ]
     },
     {
-      "label": "\u2600\ufe0f Midday",
+      "label": "☀️ Midday",
       "jobs": [
         {
           "name": "X Replies (12 PM)",
@@ -83,7 +83,7 @@
       ]
     },
     {
-      "label": "\ud83c\udf19 Evening",
+      "label": "🌙 Evening",
       "jobs": [
         {
           "name": "X Replies (4 PM)",
@@ -117,7 +117,7 @@
         {
           "name": "Daily Recap",
           "time": "7:15 PM",
-          "done": false,
+          "done": true,
           "type": "thread",
           "threadNum": 5,
           "tweets": 6
@@ -125,7 +125,7 @@
         {
           "name": "X Replies (8 PM)",
           "time": "8:00 PM",
-          "done": false,
+          "done": true,
           "type": "replies",
           "count": 6
         },
@@ -145,7 +145,7 @@
       ]
     },
     {
-      "label": "\ud83d\udd04 Recurring",
+      "label": "🔄 Recurring",
       "jobs": [
         {
           "name": "X Stats Scrape",

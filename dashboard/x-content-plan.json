@@ -3,7 +3,7 @@
     "date": "2026-02-12",
     "threads": {
       "planned": 5,
-      "completed": 5,
+      "completed": 6,
       "schedule": [
         "08:30",
         "12:30",
@@ -35,13 +35,13 @@
         {
           "time": "19:15",
           "name": "Daily Recap",
-          "status": "upcoming"
+          "status": "done"
         }
       ]
     },
     "replies": {
       "planned": 40,
-      "completed": 26,
+      "completed": 30,
       "cadence": "5 every 2 hours",
       "schedule": [
         "08:00",
@@ -55,6 +55,6 @@
       ]
     },
     "totalPlanned": 45,
-    "totalCompleted": 30
+    "totalCompleted": 35
   }
 }

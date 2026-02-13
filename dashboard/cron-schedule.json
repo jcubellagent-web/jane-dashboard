@@ -1,11 +1,11 @@
 {
-  "updated": "2026-02-13T05:24:00.000Z",
+  "updated": "2026-02-13T14:02:27.171304+00:00",
   "groups": [
     {
-      "label": "🌅 Morning",
+      "label": "\ud83c\udf05 Morning",
       "jobs": [
         {
-          "name": "TikTok Batch 1 (Morning)",
+          "name": "TikTok Batch 1 (Manual/Optional)",
           "time": "7:00 AM",
           "done": false,
           "type": "ops"
@@ -54,7 +54,7 @@
       ]
     },
     {
-      "label": "☀️ Midday",
+      "label": "\u2600\ufe0f Midday",
       "jobs": [
         {
           "name": "X Replies (12 PM)",
@@ -95,7 +95,7 @@
       ]
     },
     {
-      "label": "🌙 Evening",
+      "label": "\ud83c\udf19 Evening",
       "jobs": [
         {
           "name": "X Replies (4 PM)",
@@ -175,7 +175,7 @@
       ]
     },
     {
-      "label": "🔄 Recurring",
+      "label": "\ud83d\udd04 Recurring",
       "jobs": [
         {
           "name": "X Stats Scrape",

@@ -1,15 +1,7 @@
 {
-  "lastUpdated": 1770944280000,
+  "lastUpdated": 1739425830000,
   "sessions": [
-    {"key": "agent:main:subagent:bf705743", "label": "Substack Setup", "status": "running", "model": "opus"},
-    {"key": "agent:main:subagent:3c326c2f", "label": "mfer Agent Engagement", "status": "done", "model": "opus"},
-    {"key": "agent:main:cron:7983e0d4", "label": "Trade Price Monitor", "status": "done", "lastMsg": "CLAUDE at $0.002257 — down -4.49% from entry"},
-    {"key": "agent:main:cron:db53eb61", "label": "X Stats Scrape", "status": "done", "lastMsg": "19,100 impressions (+400)"},
-    {"key": "agent:main:cron:f7ebf2a2", "label": "X Daily Recap 7:15 PM", "status": "done"},
-    {"key": "agent:main:cron:5a564af3", "label": "X Update Brief 6:00 PM", "status": "done"},
-    {"key": "agent:main:cron:35e0a42c", "label": "X Update Brief 4:30 PM", "status": "done"},
-    {"key": "agent:main:cron:429d4536", "label": "X Update Brief 12:30 PM", "status": "done"},
-    {"key": "agent:main:cron:0e741aa3", "label": "Daily Brief 8:30 AM", "status": "done"},
-    {"key": "agent:main:cron:7514d3d2", "label": "Pre-Brief 8:00 AM", "status": "done"}
+    {"key": "agent:main:subagent:4174a7b3-4ad2-4a1c-ae54-6260857dfbc8", "label": "sorare-sunset-shopping", "lastMessage": "Starting..."},
+    {"key": "agent:main:cron:7983e0d4-d5af-4fbe-aaf5-1f803f79dbbe", "label": "Trade Price Monitor", "lastMessage": "CLAUDE: $0.002390 (+1.14%), no triggers."}
   ]
 }

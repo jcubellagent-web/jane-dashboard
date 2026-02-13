@@ -1,25 +1,13 @@
 {
-  "goal": "TikTok strategy + uploading drafts",
+  "task": "Heartbeat — monitoring morning brief sub-agent",
   "steps": [
     {
-      "label": "Browser automation",
-      "status": "done",
-      "tool": "opus"
+      "label": "Morning brief sub-agent running",
+      "status": "done"
     },
     {
-      "label": "Browser automation",
-      "status": "done",
-      "tool": "opus"
-    },
-    {
-      "label": "Browser automation",
-      "status": "done",
-      "tool": "opus"
-    },
-    {
-      "label": "Browser automation",
-      "status": "done",
-      "tool": "opus"
+      "label": "Waiting for Josh's next items",
+      "status": "pending"
     },
     {
       "label": "Browser automation",
@@ -32,20 +20,6 @@
       "tool": "opus"
     }
   ],
-  "thought": "Upload page ready. Upload video 2.",
-  "subAgents": [
-    {
-      "id": "9e3414f5",
-      "label": "Substack Daily Digest",
-      "status": "running"
-    },
-    {
-      "id": "5cd7498d",
-      "label": "TikTok Upload 3 Drafts",
-      "status": "running"
-    }
-  ],
-  "lastUpdated": 1770949142339,
-  "task": "Browser automation",
-  "lastTask": "TikTok strategy + drafts upload"
+  "thought": "Morning brief spawned, checking on sub-agents and dashboard status",
+  "lastUpdated": 1770991352418
 }

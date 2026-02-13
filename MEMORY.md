@@ -129,4 +129,15 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - Categories: Technology + Crypto
 - Free tier, mfer PFP
 
+## TikTok Upload Automation (KNOWN ISSUE)
+- **Playwright setInputFiles DOES NOT WORK** with TikTok Studio — React's custom onChange handler ignores it
+- **Hashtags must be entered via autocomplete** in TikTok's editor to become clickable links — plain text `#hashtag` stays unlinked
+- **No emulators installed** — need Android Studio + SDK for mobile TikTok automation (TODO)
+- **Workaround**: Send videos + captions to Josh via WhatsApp for manual upload from phone
+- **Browser tool evaluate timeout**: 20s fixed — can't fetch large files in-page
+
+## TikTok Account Auth
+- Login: "Continue with Google" → jcubellagent@gmail.com
+- Josh's phone (+17175759384) added as 2FA on the Google account
+
 _Last updated: 2026-02-12_

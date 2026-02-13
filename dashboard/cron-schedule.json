@@ -1,8 +1,8 @@
 {
-  "updated": "2026-02-13T14:02:27.171304+00:00",
+  "updated": "2026-02-13T15:25:00.000Z",
   "groups": [
     {
-      "label": "\ud83c\udf05 Morning",
+      "label": "🌅 Morning",
       "jobs": [
         {
           "name": "TikTok Batch 1 (Manual/Optional)",
@@ -14,19 +14,21 @@
           "name": "Pre-Brief Data Fetch",
           "time": "8:00 AM",
           "done": false,
-          "type": "data"
+          "type": "data",
+          "note": "Missed — rate limited"
         },
         {
           "name": "X Replies (8 AM)",
           "time": "8:00 AM",
           "done": false,
           "type": "replies",
-          "count": 5
+          "count": 5,
+          "note": "Missed — rate limited"
         },
         {
           "name": "Daily Morning Brief",
           "time": "8:30 AM",
-          "done": false,
+          "done": true,
           "type": "thread",
           "threadNum": 1,
           "tweets": 7
@@ -34,13 +36,13 @@
         {
           "name": "Sorare Daily Tasks",
           "time": "9:30 AM",
-          "done": false,
+          "done": true,
           "type": "ops"
         },
         {
           "name": "X Replies (10 AM)",
           "time": "10:00 AM",
-          "done": false,
+          "done": true,
           "type": "replies",
           "count": 5
         },
@@ -54,7 +56,7 @@
       ]
     },
     {
-      "label": "\u2600\ufe0f Midday",
+      "label": "☀️ Midday",
       "jobs": [
         {
           "name": "X Replies (12 PM)",
@@ -95,7 +97,7 @@
       ]
     },
     {
-      "label": "\ud83c\udf19 Evening",
+      "label": "🌙 Evening",
       "jobs": [
         {
           "name": "X Replies (4 PM)",
@@ -175,12 +177,12 @@
       ]
     },
     {
-      "label": "\ud83d\udd04 Recurring",
+      "label": "🔄 Recurring",
       "jobs": [
         {
           "name": "X Stats Scrape",
           "time": "every 30 min",
-          "done": false,
+          "done": true,
           "type": "data"
         },
         {
@@ -192,7 +194,7 @@
         {
           "name": "Trade Price Monitor",
           "time": "every 10 min",
-          "done": false,
+          "done": true,
           "type": "data"
         },
         {

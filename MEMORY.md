@@ -42,7 +42,8 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - Schedule: 8AM pre-fetch, 8:30AM brief, 12:30PM/4:30PM/6PM updates, 7:15PM recap
 - All thread jobs do data refresh before posting (Finnhub, CoinGecko, arXiv, SEC EDGAR, etc.)
 - Winning formula: technical-insightful tone, AI-product topics, 5-8PM posting window
-- News sources: arXiv, SEC EDGAR, DeFi Llama, TechCrunch, @DeItaone, @_akhaliq
+- News sources: arXiv, SEC EDGAR, DeFi Llama Raises, TechCrunch, @DeItaone, @_akhaliq
+- VC/PE sources: Crunchbase, PitchBook, Fortune Term Sheet, DealBook (NYT), CB Insights, Carta Blog, Axios Pro Rata, PE Hub, Reuters M&A
 - Enterprise SaaS section (Tweet 3.5): MANDATORY in daily brief, tracks $CRM, $NOW, $WDAY, $PLTR, $DUOL
 - Language: NEVER "layoffs"/"cuts" → use "restructured"/"streamlined"/"transformed"
 - Tag companies: @salesforce, @Workday, @ServiceNow, @PalantirTech, @duolingo
@@ -70,6 +71,8 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - Kalshi: RSA-PSS signing, script `scripts/kalshi-api.js`
 - Market data: Finnhub (60/min), Alpha Vantage (25/day), CoinGecko (10k/mo)
 - Keys in `.secrets/` — see TOOLS.md for details
+- News sources: arXiv, SEC EDGAR, DeFi Llama, TechCrunch, @DeItaone, @_akhaliq
+- VC/PE/M&A sources: See TOOLS.md "VC/PE/M&A Data Sources (Connected)" — 13 sources total
 
 ## Dual Mac Mini Setup
 - Mini #1 (jc_agent): Main OpenClaw host, 16GB

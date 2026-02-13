@@ -112,6 +112,17 @@ Tracking how enterprise software giants are responding to the AI wave.
 - xAI (Grok)
 - DeepSeek
 
+## Venture, PE & M&A Data Sources
+- **TechCrunch Venture** — techcrunch.com/category/venture (funding rounds, valuations)
+- **Crunchbase News** — news.crunchbase.com (deal flow, round tracking)
+- **PitchBook News** — pitchbook.com/news (PE deals, fund raises, exits)
+- **SEC EDGAR** — Full-text search for 8-K, S-1, DEFM14A filings (M&A disclosures, IPO filings)
+- **Fortune Term Sheet** — newsletter/RSS for daily deal roundups
+- **PE Hub** — pehub.com (private equity transactions, fundraising)
+- **Axios Pro Rata** — axios.com/pro-rata (deals, venture, PE coverage)
+- **Reuters M&A** — reuters.com/markets/deals (strategic acquisitions, deal valuations)
+- **Web Search** — "AI startup funding" / "private equity AI deal" / "tech M&A" queries for breaking deals
+
 ## Wildcard Slots (rotate daily, 2-3 if noteworthy)
 Cohere, Stability AI, Inflection, AI21, Perplexity, Hugging Face, Databricks, Runway, Midjourney, etc.
 

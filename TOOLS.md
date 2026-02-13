@@ -31,6 +31,16 @@ _How-to details and implementation notes archived in `memory/reference.md`._
 | Coinbase CDP | jcubellagent@gmail.com | `.secrets/coinbase_cdp_api_key.txt` + `.secrets/coinbase_wallet_secret.txt` |
 | Twilio | +1(518)741-3592 | `.secrets/twilio.txt` |
 
+## VC/PE/M&A Data Sources (Connected)
+- **Crunchbase News** — news.crunchbase.com (funding rounds, deal flow)
+- **PitchBook News** — pitchbook.com/news (PE deals, exits, fund raises)
+- **TechCrunch Venture** — techcrunch.com/category/venture
+- **SEC EDGAR** — Full-text search for 8-K, S-1, DEFM14A (M&A disclosures, IPOs)
+- **PE Hub** — pehub.com (PE transactions)
+- **Axios Pro Rata** — axios.com/pro-rata (deals roundup)
+- **Reuters M&A** — reuters.com/markets/deals
+- **Web search** — "AI venture funding" / "private equity AI" / "tech M&A" queries
+
 ## Sorare API
 - Endpoint: `https://api.sorare.com/graphql`
 - Headers: `Authorization: Bearer <token>`, `JWT-AUD: jane-dashboard`

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-02-14T07:58:00.000Z",
+  "updated": "2026-02-14T15:05:00.000Z",
   "groups": [
     {
       "label": "\ud83c\udf05 Morning",
@@ -7,13 +7,13 @@
         {
           "name": "Pre-Brief Data Fetch",
           "time": "7:30 AM",
-          "done": false,
+          "done": true,
           "type": "data"
         },
         {
           "name": "Daily Morning Brief",
           "time": "8:00 AM",
-          "done": false,
+          "done": true,
           "type": "thread",
           "threadNum": 1
         },
@@ -26,7 +26,7 @@
         {
           "name": "X Replies (10 AM)",
           "time": "10:00 AM",
-          "done": false,
+          "done": true,
           "type": "replies"
         }
       ]
@@ -114,5 +114,6 @@
         }
       ]
     }
-  ]
+  ],
+  "lastUpdated": 1771074360180
 }

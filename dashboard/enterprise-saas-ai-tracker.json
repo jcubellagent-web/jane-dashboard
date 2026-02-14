@@ -1,6 +1,6 @@
 {
   "description": "Running tracker of public statements by large software companies quantifying AI's impact",
-  "lastUpdated": "2026-02-14T04:10:00Z",
+  "lastUpdated": "2026-02-14T12:30:00Z",
   "statements": [
     {
       "company": "Salesforce",
@@ -8,7 +8,9 @@
       "date": "2026-02-12",
       "source": "Q4 FY26 Earnings Call",
       "statement": "Agentforce deployed to 1,000+ enterprise customers; AI-attributed revenue growing 'faster than any product in company history'",
-      "metrics": ["1,000+ Agentforce customers"],
+      "metrics": [
+        "1,000+ Agentforce customers"
+      ],
       "category": "adoption"
     },
     {
@@ -17,7 +19,9 @@
       "date": "2026-01-15",
       "source": "Blog Post / Press Release",
       "statement": "AI-generated content now covers 80%+ of new course material; reduced content creation costs significantly while expanding language offerings",
-      "metrics": ["80%+ AI-generated content"],
+      "metrics": [
+        "80%+ AI-generated content"
+      ],
       "category": "productivity"
     },
     {
@@ -26,9 +30,59 @@
       "date": "2026-02-03",
       "source": "Q4 2025 Earnings",
       "statement": "AIP platform drove commercial revenue growth of 54% YoY; US commercial revenue up 64%",
-      "metrics": ["54% commercial revenue growth", "64% US commercial growth"],
+      "metrics": [
+        "54% commercial revenue growth",
+        "64% US commercial growth"
+      ],
+      "category": "revenue"
+    },
+    {
+      "company": "ServiceNow",
+      "ticker": "NOW",
+      "date": "2026-01-29",
+      "source": "Q4 2025 Earnings / Forbes",
+      "statement": "AI adoption tied to workflows scaling faster than standalone copilots; guided to high end of 20% subscription revenue growth for 2026, 32% non-GAAP operating margin, 36% FCF margin",
+      "metrics": [
+        "20% subscription revenue growth guidance",
+        "32% operating margin",
+        "36% FCF margin"
+      ],
+      "category": "guidance"
+    },
+    {
+      "company": "Palantir",
+      "ticker": "PLTR",
+      "date": "2026-02-02",
+      "source": "Q4 2025 Earnings / CNBC",
+      "statement": "FY2026 revenue guidance $7.18-7.20B vs $6.22B consensus \u2014 61% projected revenue surge driven by AIP platform; Q1 guidance $1.53-1.54B vs $1.45B consensus",
+      "metrics": [
+        "FY2026 guidance $7.18-7.20B",
+        "61% revenue surge projected",
+        "Q1 $1.53-1.54B guidance"
+      ],
+      "category": "guidance"
+    },
+    {
+      "company": "Salesforce",
+      "ticker": "CRM",
+      "date": "2026-02-13",
+      "source": "Pre-Q4 FY26 analyst notes / Yahoo Finance",
+      "statement": "Agentforce token consumption rising; Wall Street bullish ahead of FQ4 2026 earnings. Prior quarter: $900M data cloud + AI ARR (up 120% YoY), 5,000+ Agentforce deals, RPO jumped 11% to $63.4B",
+      "metrics": [
+        "$900M AI ARR (120% YoY)",
+        "5,000+ Agentforce deals",
+        "$63.4B RPO"
+      ],
       "category": "revenue"
     }
   ],
-  "categories": ["revenue", "adoption", "productivity", "headcount", "cost_savings", "bookings", "guidance"]
+  "categories": [
+    "revenue",
+    "adoption",
+    "productivity",
+    "headcount",
+    "cost_savings",
+    "bookings",
+    "guidance"
+  ]
 }

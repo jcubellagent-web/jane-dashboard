@@ -1,14 +1,4 @@
 {
-  "lastUpdated": 1739515346000,
-  "sessions": [
-    {"key": "agent:main:main", "label": "Main Session", "status": "active", "model": "claude-opus-4-6"},
-    {"key": "agent:main:cron:7983e0d4", "label": "Trade Price Monitor", "status": "ok", "model": "claude-sonnet-4-5"},
-    {"key": "agent:main:cron:db53eb61", "label": "X Stats Scrape", "status": "ok", "model": "claude-opus-4-6"},
-    {"key": "agent:main:cron:1923f8f4", "label": "X Engagement Feedback", "status": "ok", "model": "claude-opus-4-6"},
-    {"key": "agent:main:cron:422844f1", "label": "X Reply-to-Replies (~5PM)", "status": "ok", "model": "claude-opus-4-6"},
-    {"key": "agent:main:cron:9c34768e", "label": "X Reply Engagement (2h)", "status": "ok", "model": "claude-opus-4-6"},
-    {"key": "agent:main:cron:57f61a2c", "label": "Sorare GW34 Lineup", "status": "ok", "model": "claude-opus-4-6"},
-    {"key": "agent:main:cron:dd6626ef", "label": "Substack Digest", "status": "ok", "model": "claude-opus-4-6"},
-    {"key": "agent:main:cron:311acb43", "label": "Midnight Reset", "status": "pending", "model": "claude-sonnet-4-5"}
-  ]
+  "lastUpdated": 1771060000000,
+  "activeSessions": 20
 }

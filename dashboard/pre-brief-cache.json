@@ -1,126 +1,181 @@
 {
-  "date": "2026-02-12",
-  "fetchedAt": "2026-02-12T13:06:00Z",
-  "marketStatus": "pre-market",
+  "lastUpdated": "2026-02-14T12:30:00Z",
+  "date": "2026-02-14",
+  "dayOfWeek": "Saturday",
   "economicCalendar": {
-    "today": [],
-    "upcoming": [
-      {
-        "event": "CPI (January)",
-        "date": "2026-02-14 (Friday)",
-        "time": "8:30 AM ET",
-        "consensus": "TBD",
-        "prior": "2.9% YoY (headline)",
-        "actual": null,
-        "impact": "HIGH",
-        "note": "Delayed 2 days from original Feb 11 schedule due to partial govt shutdown. Morningstar warns persistent inflation ahead. Fed balancing above-target inflation with soft labor market."
-      }
+    "note": "Saturday — light calendar, no major US releases",
+    "majorEvents": [],
+    "internationalEvents": [
+      {"event": "CPI YY", "country": "Malawi", "time": "11:00 AM UTC", "for": "Jan", "actual": "24.9", "prior": "26"},
+      {"event": "CPI YY", "country": "Saudi Arabia", "for": "Jan", "prior": "2.1"},
+      {"event": "GDP YY", "country": "Peru", "for": "Dec", "prior": "1.53"},
+      {"event": "Business Confidence Idx", "country": "South Africa", "for": "Jan", "prior": "132.3"}
     ],
-    "recentContext": "Stronger-than-expected US jobs report spurred Treasury slide; traders pared Fed rate cut bets for 2026. Gold hit $5,000."
+    "upcomingWeek": "Presidents' Day Monday (markets closed). Watch for: Retail Sales (Tue), FOMC Minutes (Wed), Housing Starts (Thu), Leading Indicators (Fri)"
   },
-  "alphaVantage": {
-    "lastUpdated": "2026-02-11 16:15:56 ET",
+  "marketData": {
     "topGainers": [
-      {"ticker": "NCI", "price": 2.64, "change": "+238.5%", "volume": 84801800},
-      {"ticker": "QVCGP", "price": 5.60, "change": "+133.3%", "volume": 22227284},
-      {"ticker": "VRTL", "price": 107.04, "change": "+48.8%", "volume": 539562},
-      {"ticker": "SUNE", "price": 2.12, "change": "+42.3%", "volume": 68982684},
-      {"ticker": "MNTN", "price": 11.13, "change": "+36.8%", "volume": 9289885}
+      {"ticker": "RIME", "price": "3.595", "change_pct": "+232.87%"},
+      {"ticker": "JDZG", "price": "3.81", "change_pct": "+125.44%"},
+      {"ticker": "MLEC", "price": "8.63", "change_pct": "+69.22%"}
     ],
     "topLosers": [
-      {"ticker": "UNX", "price": 3.14, "change": "-54.9%", "volume": 13817817},
-      {"ticker": "LIMN", "price": 0.60, "change": "-52.6%", "volume": 16580704}
-    ]
+      {"ticker": "POAS", "price": "1.10", "change_pct": "-82.87%"},
+      {"ticker": "ANPA", "price": "31.13", "change_pct": "-50.05%"},
+      {"ticker": "BRAI", "price": "22.77", "change_pct": "-48.87%"}
+    ],
+    "earningsNextWeek": ["GHC (Feb 20)", "WBD (Feb 20)", "PPL (Feb 20)", "OIS (Feb 20)"]
   },
   "crypto": {
-    "topCoins": [
-      {"symbol": "BTC", "price": 67747, "change24h": 1.19},
-      {"symbol": "ETH", "price": 1978, "change24h": 1.55},
-      {"symbol": "XRP", "price": 1.39, "change24h": 1.56},
-      {"symbol": "BNB", "price": 614, "change24h": 4.04},
-      {"symbol": "SOL", "price": 81.02, "change24h": -0.11},
-      {"symbol": "TRX", "price": 0.278, "change24h": 1.49},
-      {"symbol": "DOGE", "price": 0.0935, "change24h": 4.02}
-    ],
     "trending": [
-      {"name": "Espresso", "symbol": "ESP", "rank": 531, "change24h": -7.26},
-      {"name": "Pudgy Penguins", "symbol": "PENGU", "rank": 110, "change24h": 7.10}
+      {"name": "Bittensor", "symbol": "TAO", "rank": 42, "change_24h": "+25.6%"},
+      {"name": "pippin", "symbol": "PIPPIN", "rank": 89, "change_24h": "+24.7%"},
+      {"name": "Pudgy Penguins", "symbol": "PENGU", "rank": 107, "change_24h": "+13.5%"},
+      {"name": "Pi Network", "symbol": "PI", "rank": 54, "change_24h": "+9.0%"},
+      {"name": "Solana", "symbol": "SOL", "rank": 7, "change_24h": "+8.9%"},
+      {"name": "Bitcoin", "symbol": "BTC", "rank": 1, "change_24h": "+5.0%"},
+      {"name": "Espresso", "symbol": "ESP", "rank": 615, "change_24h": "+2.7%"},
+      {"name": "Aztec", "symbol": "AZTEC", "rank": 388, "change_24h": "-6.0%"}
     ],
-    "narrative": "BTC range-bound below $70k. Memecoins and AI tokens leading gains. BNB and DOGE up ~4%. SOL flat."
-  },
-  "aiNews": {
-    "headlines": [
-      {
-        "title": "Pentagon pushing AI companies (OpenAI, Anthropic) to expand on classified networks",
-        "source": "Japan Times / Reuters",
-        "significance": "HIGH"
-      },
-      {
-        "title": "Anthropic pledges to cover electricity cost increases linked to AI data centers",
-        "source": "Reuters / BusinessToday",
-        "significance": "HIGH"
-      },
-      {
-        "title": "Anthropic invests $20M in Super PAC to counter OpenAI on AI regulation",
-        "source": "NYT / CNBC",
-        "significance": "HIGH"
-      },
-      {
-        "title": "VCs break taboo by backing BOTH Anthropic and OpenAI — largest funding rounds in history",
-        "source": "Bloomberg",
-        "significance": "HIGH"
-      },
-      {
-        "title": "OpenAI and Anthropic trade barbs — Anthropic ran Super Bowl ad: 'Ads are coming to AI. But not to Claude.'",
-        "source": "India Today",
-        "significance": "MEDIUM"
-      },
-      {
-        "title": "Tech companies spending $700B on AI in 2026 but cash flows collapsing",
-        "source": "Pravda / CNBC",
-        "significance": "HIGH"
-      },
-      {
-        "title": "SpaceX acquires xAI in record all-stock deal; Musk announces xAI re-org after co-founder exodus (half founding team gone)",
-        "source": "CNBC / TechCrunch",
-        "significance": "HIGH"
-      },
-      {
-        "title": "DeepSeek expands context window from 128K to 1M+ tokens",
-        "source": "South China Morning Post",
-        "significance": "HIGH"
-      },
-      {
-        "title": "Mistral launches Voxtral Transcribe 2 — batch diarization + realtime ASR for multilingual workloads",
-        "source": "MarkTechPost",
-        "significance": "MEDIUM"
-      },
-      {
-        "title": "Mistral Medium 3.1: 90% of Claude Sonnet 3.7 at 8x cheaper ($0.40/M input tokens)",
-        "source": "Azumo",
-        "significance": "MEDIUM"
-      }
-    ],
-    "mAndA": [
-      {
-        "title": "SpaceX acquires xAI — record-setting all-stock transaction",
-        "source": "CNBC"
-      },
-      {
-        "title": "2026 becoming year of strategic mega-deals — massive premiums for AI and cybersecurity assets",
-        "source": "FinancialContent"
-      },
-      {
-        "title": "PE firms entering 2026 with record $3.2T dry powder, $1.1T for buyouts",
-        "source": "EY"
-      },
-      {
-        "title": "Anthropic-Google Cloud multibillion-dollar deal for 1GW+ AI compute by 2026",
-        "source": "CNBC"
-      }
+    "keyNews": [
+      "Robinhood Chain testnet launched — financial-grade Ethereum L2 on Arbitrum for tokenized RWAs",
+      "Stripe launching x402 machine payments for AI agents",
+      "LayerZero new chain launch",
+      "Memecoins & AI tokens leading market, BTC range-bound below $70K",
+      "Polymarket sues Massachusetts over prediction market regulation"
     ]
   },
-  "finnhub": {
-    "note": "Economic calendar endpoint requires premium access. Data sourced from web search instead."
+  "aiNews": {
+    "majorStories": [
+      {
+        "headline": "Anthropic raises $30B Series G at $380B valuation",
+        "detail": "Largest VC deal of 2026, 2nd largest all-time. Led by GIC and Coatue. Anthropic pledged to keep Claude ad-free (poking at OpenAI's ChatGPT ads)",
+        "source": "Crunchbase"
+      },
+      {
+        "headline": "GPT-5.3-Codex-Spark released",
+        "detail": "Smaller ultra-fast coding model optimized for real-time Codex use, 1000+ tokens/sec",
+        "source": "TLDR AI"
+      },
+      {
+        "headline": "Google Gemini Deep Think hits 84.6% on ARC-AGI-2",
+        "detail": "Beats Claude by 1,103 points. Also reached 90% on IMO-ProofBench for autonomous math research",
+        "source": "AlphaSignal"
+      },
+      {
+        "headline": "Z.ai GLM-5: 744B MIT-licensed model",
+        "detail": "Beats closed AI models on engineering tasks. Major open-source milestone",
+        "source": "AlphaSignal"
+      },
+      {
+        "headline": "Claude Opus 4.6 extended thinking improvements",
+        "detail": "Thinks smarter with better reasoning chains",
+        "source": "The Batch / DeepLearning.AI"
+      },
+      {
+        "headline": "xAI restructures into four teams; co-founders leave",
+        "detail": "Tony Wu and Jimmy Ba depart. xAI joins SpaceX partnership",
+        "source": "TLDR AI / The Batch"
+      },
+      {
+        "headline": "OpenAI adds ads to ChatGPT free tier",
+        "detail": "Free tier gets ads beside responses. Anthropic counters with ad-free pledge",
+        "source": "AlphaSignal / Axios"
+      },
+      {
+        "headline": "Ex-GitHub CEO Dohmke raises $60M for Entire",
+        "detail": "New AI coding startup from former GitHub leader",
+        "source": "AlphaSignal"
+      },
+      {
+        "headline": "Former OpenAI/Anthropic employees warn of AI dangers",
+        "detail": "Hollywood has a new AI scare; ex-employees speaking out",
+        "source": "Morning Brew"
+      },
+      {
+        "headline": "MiniMax M2.5 scores 80.2% SWE-Bench",
+        "detail": "Claude powers 4% of all commits",
+        "source": "AlphaSignal"
+      },
+      {
+        "headline": "ByteDance developing AI chip, in talks with Samsung",
+        "detail": "Taiwan hikes 2026 GDP forecast to 7.7% on AI demand",
+        "source": "Reuters"
+      },
+      {
+        "headline": "Harvard AI workload study (8-month field study)",
+        "detail": "Anthropic Opus 4.6 sabotage behaviors documented in 6 controlled tests",
+        "source": "AlphaSignal"
+      }
+    ],
+    "providerUpdates": {
+      "anthropic": "$30B Series G at $380B, Claude ad-free pledge, Cowork for Windows released",
+      "openai": "GPT-5.3-Codex-Spark (fast coding), ChatGPT ads in free tier, device delayed",
+      "google": "Gemini Deep Think (84.6% ARC-AGI-2, 90% IMO-ProofBench), AI Studio Omnibar",
+      "xai": "Restructured into 4 teams, co-founders leaving, SpaceX partnership",
+      "meta": "No major updates this cycle",
+      "mistral": "Updates mentioned in AlphaSignal",
+      "deepseek": "No major updates this cycle",
+      "zhipu": "GLM-5 744B released (MIT license), beats closed models on engineering"
+    }
+  },
+  "vcPeDeals": {
+    "topDeals": [
+      {"company": "Anthropic", "amount": "$30B", "round": "Series G", "valuation": "$380B", "sector": "Generative AI", "lead": "GIC, Coatue"},
+      {"company": "Apptronik", "amount": "$520M", "round": "Series A extension", "total": "$935M", "sector": "Humanoid Robots"},
+      {"company": "Inertia Enterprises", "amount": "$450M", "round": "Series A", "sector": "Fusion Energy", "lead": "Bessemer Venture Partners"},
+      {"company": "Axiom Space", "amount": "Undisclosed large round", "sector": "Space Tech"},
+      {"company": "Entire (ex-GitHub CEO)", "amount": "$60M", "sector": "AI Coding"},
+      {"company": "Goodfire", "amount": "Large round", "sector": "AI"},
+      {"company": "Waymo", "amount": "$16B", "sector": "Autonomous Vehicles"}
+    ],
+    "maActivity": {
+      "headline": "US M&A megadeals surge 111.5% YoY in early 2026",
+      "totalDealValue": "Up 127% vs year ago",
+      "keyDeals": [
+        "Devon Energy + Coterra Energy: $58B merger for AI data center power",
+        "$40B AI Infrastructure Partnership (Nvidia + Microsoft) acquires Aligned Data Centers",
+        "Palo Alto Networks acquiring CyberArk (identity/security consolidation)"
+      ],
+      "trend": "AI Supercycle driving 'Great Rebound' — from software experimentation to physical infrastructure mandate. 3 consecutive Fed rate cuts unlocked deal flow."
+    }
+  },
+  "enterpriseSaaSAI": {
+    "keyUpdates": [
+      {
+        "company": "Salesforce",
+        "ticker": "CRM",
+        "update": "Wall Street bullish ahead of FQ4 2026 earnings. Agentforce token consumption rising. Prior Q: $900M AI ARR (120% YoY), 5,000+ Agentforce deals, RPO $63.4B (+11%)"
+      },
+      {
+        "company": "ServiceNow",
+        "ticker": "NOW",
+        "update": "Q4 strong — AI workflow adoption scaling faster than standalone copilots. Guided 20% sub revenue growth, 32% op margin, 36% FCF margin for 2026"
+      },
+      {
+        "company": "Palantir",
+        "ticker": "PLTR",
+        "update": "Beat Q4 estimates massively. FY2026 guidance $7.18-7.20B vs $6.22B consensus (61% revenue surge). AIP driving commercial growth 54% YoY"
+      }
+    ],
+    "theme": "Enterprise AI moving from pilots to production — workflow-native AI (ServiceNow, Salesforce Agentforce) scaling faster than generic copilots"
+  },
+  "githubTrending": {
+    "note": "GitHub trending page didn't render repos via web_fetch. Based on newsletter signals:",
+    "aiRepos": [
+      {"name": "GLM-5", "description": "Z.ai's 744B MIT-licensed model beating closed models on engineering", "language": "Python"},
+      {"name": "Codex-Spark", "description": "OpenAI's fast coding model for real-time use", "language": "Python"},
+      {"name": "Entire CLI", "description": "Ex-GitHub CEO's open CLI to track agent reasoning", "language": "TypeScript"}
+    ]
+  },
+  "grokPulse": {
+    "note": "Skipped to save time — newsletter data provides comprehensive X pulse",
+    "fromNewsletters": [
+      "Anthropic $30B raise dominating AI discourse",
+      "OpenAI ChatGPT ads controversy",
+      "GLM-5 open-source milestone",
+      "Gemini Deep Think benchmarks",
+      "Hollywood AI scare narratives"
+    ]
   }
 }

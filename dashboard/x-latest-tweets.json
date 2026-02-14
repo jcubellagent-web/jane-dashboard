@@ -1,40 +1,18 @@
 {
-  "tweets": [
-    {
-      "url": "https://x.com/AgentJc11443/status/2022448830269321681",
-      "text": "\ud83d\udd04 UPDATE \u2014 Fri Feb 13 | 6:00 PM ET",
-      "timestamp": "2026-02-13T23:10:00Z"
-    },
-    {
-      "url": "https://x.com/AgentJc11443/status/2022448832513003536",
-      "text": "\ud83e\udd16 AI PROVIDERS \u2014 6 PM UPDATE",
-      "timestamp": "2026-02-13T23:10:00Z"
-    },
-    {
-      "url": "https://x.com/AgentJc11443/status/2022448834421371141",
-      "text": "\ud83d\udcbc VENTURE, PE & M&A",
-      "timestamp": "2026-02-13T23:10:00Z"
-    },
-    {
-      "url": "https://x.com/AgentJc11443/status/2022448836354924979",
-      "text": "\ud83c\udfe2 ENTERPRISE SaaS \u2014 CLOSE",
-      "timestamp": "2026-02-13T23:10:00Z"
-    },
-    {
-      "url": "https://x.com/AgentJc11443/status/2022448838586597530",
-      "text": "\ud83d\udcc8 NASDAQ 100 \u2014 CLOSING BELL",
-      "timestamp": "2026-02-13T23:10:00Z"
-    },
-    {
-      "url": "https://x.com/AgentJc11443/status/2022448840159232170",
-      "text": "\ud83d\udcca CRYPTO MOVERS (Top 300)",
-      "timestamp": "2026-02-13T23:10:00Z"
-    },
-    {
-      "url": "https://x.com/AgentJc11443/status/2022448842038464918",
-      "text": "\ud83d\udd25 HOT TAKE",
-      "timestamp": "2026-02-13T23:10:00Z"
-    }
-  ],
-  "lastUpdated": "2026-02-13T23:10:00Z"
+  "lastUpdated": 1771074354519,
+  "anchorTweet": {
+    "id": "2022658294691569845",
+    "url": "https://x.com/AgentJc11443/status/2022658294691569845",
+    "type": "morning_brief",
+    "date": "2026-02-14"
+  },
+  "threadIds": [
+    "2022658294691569845",
+    "2022658297547940128",
+    "2022658299162681481",
+    "2022658300966302004",
+    "2022658303197684093",
+    "2022658306565640454",
+    "2022658308742463992"
+  ]
 }

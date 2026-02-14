@@ -1,0 +1,209 @@
+{
+  "hackerNews": [
+    {
+      "id": 47017138,
+      "title": "News publishers limit Internet Archive access due to AI scraping concerns",
+      "url": "https://www.niemanlab.org/2026/01/news-publishers-limit-internet-archive-access-due-to-ai-scraping-concerns/",
+      "score": 219,
+      "by": "ninjagoo",
+      "time": 1771094792,
+      "descendants": 123
+    },
+    {
+      "id": 47015294,
+      "title": "My smart sleep mask broadcasts users' brainwaves to an open MQTT broker",
+      "url": "https://aimilios.bearblog.dev/reverse-engineering-sleep-mask/",
+      "score": 251,
+      "by": "minimalthinker",
+      "time": 1771083347,
+      "descendants": 114
+    },
+    {
+      "id": 47012553,
+      "title": "OpenAI should build Slack",
+      "url": "https://www.latent.space/p/ainews-why-openai-should-build-slack",
+      "score": 22,
+      "by": "swyx",
+      "time": 1771055413,
+      "descendants": 15
+    },
+    {
+      "id": 47018405,
+      "title": "Colored Petri Nets, LLMs, and distributed applications",
+      "url": "https://blog.sao.dev/cpns-llms-distributed-apps/",
+      "score": 5,
+      "by": "stuartaxelowen",
+      "time": 1771103288,
+      "descendants": 0
+    },
+    {
+      "id": 47009327,
+      "title": "IBM tripling entry-level jobs after finding the limits of AI adoption",
+      "url": "https://fortune.com/2026/02/13/tech-giant-ibm-tripling-gen-z-entry-level-hiring-according-to-chro-rewriting-jobs-ai-era/",
+      "score": 51,
+      "by": "WhatsTheBigIdea",
+      "time": 1771025649,
+      "descendants": 15
+    },
+    {
+      "id": 46965462,
+      "title": "Fun with Algebraic Effects – From Toy Examples to Hardcaml Simulations",
+      "url": "https://blog.janestreet.com/fun-with-algebraic-effects-hardcaml/",
+      "score": 42,
+      "by": "weinzierl",
+      "time": 1770751653,
+      "descendants": 1
+    },
+    {
+      "id": 47007896,
+      "title": "15× vs. ~1.37×: Recalculating GPT-5.3-Codex-Spark on SWE-Bench Pro",
+      "url": "https://twitter.com/nvanlandschoot/status/2022385829596078100",
+      "score": 4,
+      "by": "nvanlandschoot",
+      "time": 1771017164,
+      "descendants": 2
+    },
+    {
+      "id": 47009949,
+      "title": "An AI agent published a hit piece on me – more things have happened",
+      "url": "https://theshamblog.com/an-ai-agent-published-a-hit-piece-on-me-part-2/",
+      "score": 563,
+      "by": "scottshambaugh",
+      "time": 1771029473,
+      "descendants": 494
+    },
+    {
+      "id": 47002633,
+      "title": "Safe YOLO Mode: Running LLM agents in vms with Libvirt and Virsh",
+      "url": "https://www.metachris.dev/2026/02/safe-yolo-mode-running-llm-agents-in-vms-with-libvirt-and-virsh/",
+      "score": 8,
+      "by": "metachris",
+      "time": 1770990284,
+      "descendants": 2
+    },
+    {
+      "id": 47006587,
+      "title": "Show HN: GitHub \"Lines Viewed\" extension to keep you sane reviewing long AI PRs",
+      "url": "https://chromewebstore.google.com/detail/github-lines-viewed/npledcbofpmjjammgkkoeaehbphhdopi",
+      "score": 4,
+      "by": "somesortofthing",
+      "time": 1771010385,
+      "descendants": 0
+    }
+  ],
+  "huggingfaceTrending": [
+    {
+      "id": "zai-org/GLM-5",
+      "author": "zai-org",
+      "name": "GLM-5",
+      "description": "",
+      "likes": 1121,
+      "downloads": 66826,
+      "tags": [
+        "transformers",
+        "safetensors",
+        "glm_moe_dsa",
+        "text-generation",
+        "conversational"
+      ],
+      "pipeline_tag": "text-generation"
+    },
+    {
+      "id": "MiniMaxAI/MiniMax-M2.5",
+      "author": "MiniMaxAI",
+      "name": "MiniMax-M2.5",
+      "description": "",
+      "likes": 512,
+      "downloads": 6091,
+      "tags": [
+        "transformers",
+        "safetensors",
+        "minimax_m2",
+        "text-generation",
+        "conversational"
+      ],
+      "pipeline_tag": "text-generation"
+    },
+    {
+      "id": "openbmb/MiniCPM-SALA",
+      "author": "openbmb",
+      "name": "MiniCPM-SALA",
+      "description": "",
+      "likes": 422,
+      "downloads": 2569,
+      "tags": [
+        "transformers",
+        "safetensors",
+        "minicpm_sala",
+        "text-generation",
+        "conversational"
+      ],
+      "pipeline_tag": "text-generation"
+    },
+    {
+      "id": "moonshotai/Kimi-K2.5",
+      "author": "moonshotai",
+      "name": "Kimi-K2.5",
+      "description": "",
+      "likes": 2160,
+      "downloads": 725856,
+      "tags": [
+        "transformers",
+        "safetensors",
+        "kimi_k25",
+        "feature-extraction",
+        "compressed-tensors"
+      ],
+      "pipeline_tag": "image-text-to-text"
+    },
+    {
+      "id": "Qwen/Qwen3-Coder-Next",
+      "author": "Qwen",
+      "name": "Qwen3-Coder-Next",
+      "description": "",
+      "likes": 857,
+      "downloads": 249228,
+      "tags": [
+        "transformers",
+        "safetensors",
+        "qwen3_next",
+        "text-generation",
+        "conversational"
+      ],
+      "pipeline_tag": "text-generation"
+    }
+  ],
+  "productHunt": [],
+  "fredData": {
+    "GDP": {
+      "name": "Gross Domestic Product",
+      "value": "31098.027",
+      "date": "2025-07-01"
+    },
+    "UNRATE": {
+      "name": "Unemployment Rate",
+      "value": "4.3",
+      "date": "2026-01-01"
+    },
+    "CPIAUCSL": {
+      "name": "Consumer Price Index (Inflation)",
+      "value": "326.588",
+      "date": "2026-01-01"
+    },
+    "FEDFUNDS": {
+      "name": "Federal Funds Rate",
+      "value": "3.64",
+      "date": "2026-01-01"
+    },
+    "T10Y2Y": {
+      "name": "10Y-2Y Treasury Yield Spread",
+      "value": "0.64",
+      "date": "2026-02-13"
+    },
+    "PAYEMS": {
+      "name": "Nonfarm Payrolls",
+      "value": "158627",
+      "date": "2026-01-01"
+    }
+  }
+}

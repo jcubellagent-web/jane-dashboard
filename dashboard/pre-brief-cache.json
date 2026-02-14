@@ -3,42 +3,133 @@
   "date": "2026-02-14",
   "dayOfWeek": "Saturday",
   "economicCalendar": {
-    "note": "Saturday — light calendar, no major US releases",
+    "note": "Saturday \u2014 light calendar, no major US releases",
     "majorEvents": [],
     "internationalEvents": [
-      {"event": "CPI YY", "country": "Malawi", "time": "11:00 AM UTC", "for": "Jan", "actual": "24.9", "prior": "26"},
-      {"event": "CPI YY", "country": "Saudi Arabia", "for": "Jan", "prior": "2.1"},
-      {"event": "GDP YY", "country": "Peru", "for": "Dec", "prior": "1.53"},
-      {"event": "Business Confidence Idx", "country": "South Africa", "for": "Jan", "prior": "132.3"}
+      {
+        "event": "CPI YY",
+        "country": "Malawi",
+        "time": "11:00 AM UTC",
+        "for": "Jan",
+        "actual": "24.9",
+        "prior": "26"
+      },
+      {
+        "event": "CPI YY",
+        "country": "Saudi Arabia",
+        "for": "Jan",
+        "prior": "2.1"
+      },
+      {
+        "event": "GDP YY",
+        "country": "Peru",
+        "for": "Dec",
+        "prior": "1.53"
+      },
+      {
+        "event": "Business Confidence Idx",
+        "country": "South Africa",
+        "for": "Jan",
+        "prior": "132.3"
+      }
     ],
     "upcomingWeek": "Presidents' Day Monday (markets closed). Watch for: Retail Sales (Tue), FOMC Minutes (Wed), Housing Starts (Thu), Leading Indicators (Fri)"
   },
   "marketData": {
     "topGainers": [
-      {"ticker": "RIME", "price": "3.595", "change_pct": "+232.87%"},
-      {"ticker": "JDZG", "price": "3.81", "change_pct": "+125.44%"},
-      {"ticker": "MLEC", "price": "8.63", "change_pct": "+69.22%"}
+      {
+        "ticker": "RIME",
+        "price": "3.595",
+        "change_pct": "+232.87%"
+      },
+      {
+        "ticker": "JDZG",
+        "price": "3.81",
+        "change_pct": "+125.44%"
+      },
+      {
+        "ticker": "MLEC",
+        "price": "8.63",
+        "change_pct": "+69.22%"
+      }
     ],
     "topLosers": [
-      {"ticker": "POAS", "price": "1.10", "change_pct": "-82.87%"},
-      {"ticker": "ANPA", "price": "31.13", "change_pct": "-50.05%"},
-      {"ticker": "BRAI", "price": "22.77", "change_pct": "-48.87%"}
+      {
+        "ticker": "POAS",
+        "price": "1.10",
+        "change_pct": "-82.87%"
+      },
+      {
+        "ticker": "ANPA",
+        "price": "31.13",
+        "change_pct": "-50.05%"
+      },
+      {
+        "ticker": "BRAI",
+        "price": "22.77",
+        "change_pct": "-48.87%"
+      }
     ],
-    "earningsNextWeek": ["GHC (Feb 20)", "WBD (Feb 20)", "PPL (Feb 20)", "OIS (Feb 20)"]
+    "earningsNextWeek": [
+      "GHC (Feb 20)",
+      "WBD (Feb 20)",
+      "PPL (Feb 20)",
+      "OIS (Feb 20)"
+    ]
   },
   "crypto": {
     "trending": [
-      {"name": "Bittensor", "symbol": "TAO", "rank": 42, "change_24h": "+25.6%"},
-      {"name": "pippin", "symbol": "PIPPIN", "rank": 89, "change_24h": "+24.7%"},
-      {"name": "Pudgy Penguins", "symbol": "PENGU", "rank": 107, "change_24h": "+13.5%"},
-      {"name": "Pi Network", "symbol": "PI", "rank": 54, "change_24h": "+9.0%"},
-      {"name": "Solana", "symbol": "SOL", "rank": 7, "change_24h": "+8.9%"},
-      {"name": "Bitcoin", "symbol": "BTC", "rank": 1, "change_24h": "+5.0%"},
-      {"name": "Espresso", "symbol": "ESP", "rank": 615, "change_24h": "+2.7%"},
-      {"name": "Aztec", "symbol": "AZTEC", "rank": 388, "change_24h": "-6.0%"}
+      {
+        "name": "Bittensor",
+        "symbol": "TAO",
+        "rank": 42,
+        "change_24h": "+25.6%"
+      },
+      {
+        "name": "pippin",
+        "symbol": "PIPPIN",
+        "rank": 89,
+        "change_24h": "+24.7%"
+      },
+      {
+        "name": "Pudgy Penguins",
+        "symbol": "PENGU",
+        "rank": 107,
+        "change_24h": "+13.5%"
+      },
+      {
+        "name": "Pi Network",
+        "symbol": "PI",
+        "rank": 54,
+        "change_24h": "+9.0%"
+      },
+      {
+        "name": "Solana",
+        "symbol": "SOL",
+        "rank": 7,
+        "change_24h": "+8.9%"
+      },
+      {
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "rank": 1,
+        "change_24h": "+5.0%"
+      },
+      {
+        "name": "Espresso",
+        "symbol": "ESP",
+        "rank": 615,
+        "change_24h": "+2.7%"
+      },
+      {
+        "name": "Aztec",
+        "symbol": "AZTEC",
+        "rank": 388,
+        "change_24h": "-6.0%"
+      }
     ],
     "keyNews": [
-      "Robinhood Chain testnet launched — financial-grade Ethereum L2 on Arbitrum for tokenized RWAs",
+      "Robinhood Chain testnet launched \u2014 financial-grade Ethereum L2 on Arbitrum for tokenized RWAs",
       "Stripe launching x402 machine payments for AI agents",
       "LayerZero new chain launch",
       "Memecoins & AI tokens leading market, BTC range-bound below $70K",
@@ -121,13 +212,48 @@
   },
   "vcPeDeals": {
     "topDeals": [
-      {"company": "Anthropic", "amount": "$30B", "round": "Series G", "valuation": "$380B", "sector": "Generative AI", "lead": "GIC, Coatue"},
-      {"company": "Apptronik", "amount": "$520M", "round": "Series A extension", "total": "$935M", "sector": "Humanoid Robots"},
-      {"company": "Inertia Enterprises", "amount": "$450M", "round": "Series A", "sector": "Fusion Energy", "lead": "Bessemer Venture Partners"},
-      {"company": "Axiom Space", "amount": "Undisclosed large round", "sector": "Space Tech"},
-      {"company": "Entire (ex-GitHub CEO)", "amount": "$60M", "sector": "AI Coding"},
-      {"company": "Goodfire", "amount": "Large round", "sector": "AI"},
-      {"company": "Waymo", "amount": "$16B", "sector": "Autonomous Vehicles"}
+      {
+        "company": "Anthropic",
+        "amount": "$30B",
+        "round": "Series G",
+        "valuation": "$380B",
+        "sector": "Generative AI",
+        "lead": "GIC, Coatue"
+      },
+      {
+        "company": "Apptronik",
+        "amount": "$520M",
+        "round": "Series A extension",
+        "total": "$935M",
+        "sector": "Humanoid Robots"
+      },
+      {
+        "company": "Inertia Enterprises",
+        "amount": "$450M",
+        "round": "Series A",
+        "sector": "Fusion Energy",
+        "lead": "Bessemer Venture Partners"
+      },
+      {
+        "company": "Axiom Space",
+        "amount": "Undisclosed large round",
+        "sector": "Space Tech"
+      },
+      {
+        "company": "Entire (ex-GitHub CEO)",
+        "amount": "$60M",
+        "sector": "AI Coding"
+      },
+      {
+        "company": "Goodfire",
+        "amount": "Large round",
+        "sector": "AI"
+      },
+      {
+        "company": "Waymo",
+        "amount": "$16B",
+        "sector": "Autonomous Vehicles"
+      }
     ],
     "maActivity": {
       "headline": "US M&A megadeals surge 111.5% YoY in early 2026",
@@ -137,7 +263,7 @@
         "$40B AI Infrastructure Partnership (Nvidia + Microsoft) acquires Aligned Data Centers",
         "Palo Alto Networks acquiring CyberArk (identity/security consolidation)"
       ],
-      "trend": "AI Supercycle driving 'Great Rebound' — from software experimentation to physical infrastructure mandate. 3 consecutive Fed rate cuts unlocked deal flow."
+      "trend": "AI Supercycle driving 'Great Rebound' \u2014 from software experimentation to physical infrastructure mandate. 3 consecutive Fed rate cuts unlocked deal flow."
     }
   },
   "enterpriseSaaSAI": {
@@ -150,7 +276,7 @@
       {
         "company": "ServiceNow",
         "ticker": "NOW",
-        "update": "Q4 strong — AI workflow adoption scaling faster than standalone copilots. Guided 20% sub revenue growth, 32% op margin, 36% FCF margin for 2026"
+        "update": "Q4 strong \u2014 AI workflow adoption scaling faster than standalone copilots. Guided 20% sub revenue growth, 32% op margin, 36% FCF margin for 2026"
       },
       {
         "company": "Palantir",
@@ -158,18 +284,30 @@
         "update": "Beat Q4 estimates massively. FY2026 guidance $7.18-7.20B vs $6.22B consensus (61% revenue surge). AIP driving commercial growth 54% YoY"
       }
     ],
-    "theme": "Enterprise AI moving from pilots to production — workflow-native AI (ServiceNow, Salesforce Agentforce) scaling faster than generic copilots"
+    "theme": "Enterprise AI moving from pilots to production \u2014 workflow-native AI (ServiceNow, Salesforce Agentforce) scaling faster than generic copilots"
   },
   "githubTrending": {
     "note": "GitHub trending page didn't render repos via web_fetch. Based on newsletter signals:",
     "aiRepos": [
-      {"name": "GLM-5", "description": "Z.ai's 744B MIT-licensed model beating closed models on engineering", "language": "Python"},
-      {"name": "Codex-Spark", "description": "OpenAI's fast coding model for real-time use", "language": "Python"},
-      {"name": "Entire CLI", "description": "Ex-GitHub CEO's open CLI to track agent reasoning", "language": "TypeScript"}
+      {
+        "name": "GLM-5",
+        "description": "Z.ai's 744B MIT-licensed model beating closed models on engineering",
+        "language": "Python"
+      },
+      {
+        "name": "Codex-Spark",
+        "description": "OpenAI's fast coding model for real-time use",
+        "language": "Python"
+      },
+      {
+        "name": "Entire CLI",
+        "description": "Ex-GitHub CEO's open CLI to track agent reasoning",
+        "language": "TypeScript"
+      }
     ]
   },
   "grokPulse": {
-    "note": "Skipped to save time — newsletter data provides comprehensive X pulse",
+    "note": "Skipped to save time \u2014 newsletter data provides comprehensive X pulse",
     "fromNewsletters": [
       "Anthropic $30B raise dominating AI discourse",
       "OpenAI ChatGPT ads controversy",
@@ -177,5 +315,22 @@
       "Gemini Deep Think benchmarks",
       "Hollywood AI scare narratives"
     ]
+  },
+  "middayUpdate": {
+    "timestamp": "2026-02-14T19:15:00Z",
+    "newStories": [
+      "JPMorgan Chase begins accepting Bitcoin as collateral",
+      "Grok gaining US market share amid sexualized images backlash (Reuters)",
+      "Palo Alto Networks closed $25B CyberArk acquisition",
+      "AI agents now buy/manage domains autonomously with stablecoins",
+      "Aave Labs proposes 100% product revenue to DAO treasury + $50M funding request"
+    ],
+    "cryptoMidDay": {
+      "BTC": "$69,803 (+1.1%)",
+      "ETH": "$2,085 (+1.5%)",
+      "SOL": "$87.94 (+3.1%)",
+      "topGainer": "PEPE +21.1%",
+      "topLoser": "HYPE -2.4%"
+    }
   }
 }

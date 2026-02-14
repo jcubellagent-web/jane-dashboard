@@ -1,5 +1,5 @@
 {
-  "updated": "2026-02-14T15:05:00.000Z",
+  "updated": "2026-02-14T19:15:37.681963+00:00",
   "groups": [
     {
       "label": "\ud83c\udf05 Morning",
@@ -20,7 +20,7 @@
         {
           "name": "Sorare Daily Tasks",
           "time": "9:30 AM",
-          "done": false,
+          "done": true,
           "type": "ops"
         },
         {
@@ -37,14 +37,14 @@
         {
           "name": "Afternoon Refresh",
           "time": "2:00 PM",
-          "done": false,
+          "done": true,
           "type": "thread",
           "threadNum": 2
         },
         {
           "name": "X Replies (3 PM)",
           "time": "3:00 PM",
-          "done": false,
+          "done": true,
           "type": "replies"
         }
       ]

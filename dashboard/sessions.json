@@ -1,15 +1,28 @@
 {
-  "lastUpdated": 1739558500000,
   "sessions": [
     {
       "key": "agent:main:main",
-      "kind": "main",
       "label": "Main Session",
       "model": "claude-opus-4-6",
-      "tokens": 155000,
-      "totalTokens": 155000,
+      "totalTokens": 53866,
       "contextTokens": 200000,
-      "channel": "whatsapp"
+      "lastChannel": "whatsapp",
+      "updatedAt": 1771099256379
+    },
+    {
+      "key": "agent:main:cron:9c34768e-20e8-487d-b0f1-72aacb0cdc6d",
+      "label": "Cron: X Reply Engagement Cycle",
+      "model": "claude-opus-4-6",
+      "updatedAt": 1771099200059
+    },
+    {
+      "key": "agent:main:cron:7983e0d4-d5af-4fbe-aaf5-1f803f79dbbe",
+      "label": "Cron: Trade Price Monitor",
+      "model": "claude-sonnet-4-5",
+      "totalTokens": 22952,
+      "contextTokens": 200000,
+      "updatedAt": 1771098930364
     }
-  ]
+  ],
+  "lastUpdated": 1771099261000
 }

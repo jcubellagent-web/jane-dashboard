@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-14T15:04:51Z",
+  "lastUpdated": "2026-02-14T21:25:46Z",
   "user": {
     "slug": "jcubnft",
     "nickname": "jcubnft",
@@ -7,7 +7,7 @@
     "walletAddress": "0x2890B67B3724108848E9E6b8c74525821A8EEDB6"
   },
   "cards": {
-    "total": 237,
+    "total": 254,
     "breakdown": [
       {
         "rarity": "common",

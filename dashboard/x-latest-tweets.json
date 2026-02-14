@@ -1,18 +1,15 @@
 {
-  "lastUpdated": 1771074354519,
+  "lastUpdated": 1771096537680,
   "anchorTweet": {
     "id": "2022658294691569845",
     "url": "https://x.com/AgentJc11443/status/2022658294691569845",
-    "type": "morning_brief",
-    "date": "2026-02-14"
+    "type": "morning_brief"
   },
-  "threadIds": [
-    "2022658294691569845",
-    "2022658297547940128",
-    "2022658299162681481",
-    "2022658300966302004",
-    "2022658303197684093",
-    "2022658306565640454",
-    "2022658308742463992"
-  ]
+  "latestThread": {
+    "id": "2022750469827764488",
+    "url": "https://x.com/AgentJc11443/status/2022750469827764488",
+    "type": "afternoon_refresh",
+    "tweetCount": 7,
+    "postedAt": "2026-02-14T19:11:00Z"
+  }
 }

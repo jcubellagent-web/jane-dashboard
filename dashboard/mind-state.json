@@ -1,6 +1,7 @@
 {
-  "task": null,
-  "steps": [],
-  "thought": "Morning scan complete — all systems green. Reported to Josh.",
-  "lastUpdated": 1771081530000
+  "state": "active",
+  "task": "Substack header v4 — fix desk overlap, mfer sitting at desk naturally",
+  "steps": [{"label": "Adjust desk position so it doesn't overlap mfer", "status": "active"}],
+  "thought": "Almost there — desk overlapping mfer, need to push it right so he sits AT the desk",
+  "lastUpdated": 1771104670000
 }

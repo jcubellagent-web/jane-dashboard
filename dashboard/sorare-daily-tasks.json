@@ -1,71 +1,70 @@
 {
-  "lastUpdated": 1739488980000,
+  "lastUpdated": 1739542020000,
   "tasks": [
     {
       "id": "free-common-packs",
       "name": "Open Free Common Packs",
-      "description": "Claimed free pack, scrapped all 3 commons for ~42 Essence. Next pack in ~16h.",
+      "description": "Claimed daily pack (3 commons: all unique, no duplicates). Next pack in ~16h.",
       "frequency": "daily",
       "done": true,
-      "doneAt": "2026-02-13T15:10:00.000Z"
+      "doneAt": "2026-02-14T15:07:00.000Z"
     },
     {
       "id": "daily-missions",
       "name": "Complete Daily Missions",
-      "description": "Point Picker missions available (Limited and Classic Rising Stars) but require Limited cards from today's specific game teams. Cannot complete without matching cards.",
+      "description": "Scorer Picker and Daily Picker available but 'No cards playing today' — All-Star break weekend. Cannot complete.",
       "frequency": "daily",
       "done": false,
       "doneAt": null,
-      "note": "Need Limited cards from today's game teams to participate"
+      "note": "All-Star break — no eligible cards playing"
     },
     {
       "id": "gw34-lineup-review",
-      "name": "GW34 Lineup Review Completed",
-      "description": "Verified 2 Limited Champion lineups for GW34 (Feb 19-22). Sorare limits Limited Champion to 2 lineups max. ⚠️ Deandre Ayton marked GTD in lineup #2.",
+      "name": "GW34 Lineup Status",
+      "description": "2 Champion lineups set for GW34 (Feb 19-22). Closes in 5d 8h. Ayton still GTD in lineup #1. Daily lineup also set for Feb 15 (Jokić MVP).",
       "frequency": "per-gameweek",
       "done": true,
-      "doneAt": "2026-02-13T20:23:00-05:00",
-      "note": "Cannot create 3rd lineup - Sorare caps Limited Champion at 2 entries"
+      "doneAt": "2026-02-14T15:07:00.000Z",
+      "note": "Monitor Ayton GTD status before Feb 20"
     },
     {
       "id": "scrap-duplicates",
       "name": "Scrap Duplicate Commons",
-      "description": "Scrapped 3 commons from free pack for ~42 Essence. No other duplicates to scrap.",
+      "description": "Checked duplicate filter — 0 duplicates found. All 185 commons are unique.",
       "frequency": "daily",
       "done": true,
-      "doneAt": "2026-02-13T15:10:00.000Z"
+      "doneAt": "2026-02-14T15:07:00.000Z"
     },
     {
       "id": "claim-rewards",
-      "name": "Claim GW33 Rewards",
-      "description": "GW33 ended. All 3 lineups fell short of rewards: L1 6,220th (175pts, 29pts short), L2 5,996th (179pts, 25pts short), L3 6,105th (177pts, 27pts short). No rewards to claim.",
+      "name": "Claim Rewards",
+      "description": "No new rewards to claim. GW33 already processed (no rewards earned).",
       "frequency": "per-gameweek",
       "done": true,
-      "doneAt": "2026-02-13T15:10:00.000Z",
-      "note": "No rewards earned — all lineups ~25-29pts below threshold"
+      "doneAt": "2026-02-14T15:07:00.000Z"
     },
     {
       "id": "wheel-spin",
       "name": "Spin the Wheel",
-      "description": "Spun the wheel with 1 ticket earned from daily pack. Won 200 Essence!",
+      "description": "Spun the wheel with 1 ticket from daily pack. Won 500 Essence!",
       "frequency": "daily",
       "done": true,
-      "doneAt": "2026-02-13T15:10:00.000Z"
+      "doneAt": "2026-02-14T15:07:00.000Z"
     },
     {
       "id": "essence-mission",
       "name": "Daily Essence Update",
-      "description": "Essence now at 3.1K (up from 2.9K). Gained ~242 Essence today (42 from scraps + 200 from wheel).",
+      "description": "Essence now at 3.7K (up from 3.2K). Gained 500 Essence from wheel spin.",
       "frequency": "daily",
       "done": true,
-      "doneAt": "2026-02-13T15:10:00.000Z"
+      "doneAt": "2026-02-14T15:07:00.000Z"
     }
   ],
   "activeGames": {
     "fixture": "nba-21-23-feb-2026",
     "gameWeek": 34,
     "status": "upcoming",
-    "note": "GW34 starts Feb 19. Lineups close in 5d 22h."
+    "note": "GW34 starts Feb 19. All-Star break this weekend."
   },
   "upcomingLineups": {
     "gameWeek": 34,
@@ -73,13 +72,13 @@
     "endDate": "2026-02-22T23:59:59Z",
     "status": "2 lineups set - Monitor Ayton GTD status",
     "lineupDetails": {
-      "lineup2": {
+      "lineup1": {
         "mvp": "Anthony Edwards",
         "players": ["Anthony Edwards", "Derrick White", "Payton Pritchard", "Deandre Ayton (GTD)", "Will Riley"],
         "boost": "+2%",
-        "alert": "Deandre Ayton is GTD - monitor injury status before Feb 20"
+        "alert": "Deandre Ayton is GTD - monitor before Feb 20"
       },
-      "lineup3": {
+      "lineup2": {
         "mvp": "Jaylen Brown",
         "players": ["Jaylen Brown", "Jusuf Nurkić", "Brandon Miller", "Zion Williamson", "Sion James"],
         "boost": "+2%",
@@ -88,7 +87,7 @@
     }
   },
   "balances": {
-    "essence": "3.1K",
+    "essence": "3.7K",
     "wntrEssence": "2K",
     "gems": 5,
     "cash": "$97",

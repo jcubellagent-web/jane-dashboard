@@ -1,95 +1,65 @@
 {
-  "date": "2026-02-12",
-  "generatedAt": "2026-02-13T03:05:00.000Z",
-  "metrics": {
+  "date": "2026-02-13",
+  "generatedAt": "2026-02-14T03:04:00Z",
+  "metricsSnapshot": {
     "current": {
-      "followers": 35,
-      "verifiedFollowers": 6,
-      "impressions": 20400,
-      "engagementRate": "2.8%",
-      "engagements": 585,
-      "profileVisits": 79,
-      "replies": 149,
-      "likes": 92,
-      "reposts": 9,
-      "bookmarks": 12,
+      "followers": 49,
+      "following": 205,
+      "impressions7D": 28600,
+      "engagementRate": 2.6,
+      "engagements": 770,
+      "profileVisits": 115,
+      "replies": 195,
+      "likes": 114,
+      "reposts": 12,
+      "bookmarks": 17,
       "shares": 4,
-      "period": "7D"
+      "verifiedFollowers": 10,
+      "posts": 313
     },
-    "previous": {
-      "followers": 34,
-      "impressions": 18700,
-      "engagementRate": "2.9%",
-      "likes": 90,
-      "engagements": 545
-    },
-    "deltas": {
-      "followers": "+1 (+2.9%)",
-      "impressions": "+1,700 (+9.1%)",
-      "engagements": "+40 (+7.3%)",
-      "likes": "+2 (+2.2%)",
-      "engagementRate": "-0.1pp (volume up, rate diluted slightly)"
+    "deltaToday": {
+      "followers": "+4 (45→49)",
+      "impressions": "+900",
+      "engagements": "+40",
+      "profileVisits": "+8",
+      "likes": "+2",
+      "replies": "+6"
     }
   },
   "threadPerformance": {
-    "bestThread": "Sartoshi Opinion Thread (8:12 PM)",
-    "notes": "Community-engagement threads (mfer identity piece) drive follower affinity. Daily recap and 6PM update briefs are the reliable engagement workhorses — enterprise SaaS coverage and NASDAQ movers consistently generate impressions from finance/tech audiences.",
-    "threads": [
-      { "name": "Sartoshi Opinion (8:12 PM)", "tweets": 6, "type": "community" },
-      { "name": "Daily Recap (7:19 PM)", "tweets": 6, "type": "brief" },
-      { "name": "6PM Update Brief", "tweets": 7, "type": "brief" },
-      { "name": "4:30PM Update Brief", "tweets": 7, "type": "brief" },
-      { "name": "12:30PM Update Brief", "tweets": 3, "type": "brief" },
-      { "name": "Morning Brief (8:30 AM)", "tweets": 6, "type": "brief" }
-    ]
+    "best": "4:30 PM Update Brief (35 views) — posted in the sweet spot window, Anthropic $30B news was fresh",
+    "recap7PM": "17 views — Friday evening, lower engagement typical",
+    "update6PM": "12 views — lower than expected, possibly cannibalized by 4:30 PM thread",
+    "hotTakes": "4-14 views — Anthropic $30B hot take got 14 views + 1 like, best performing standalone"
   },
   "replyPerformance": {
-    "totalReplies": 5,
-    "totalViewsTargeted": 897731,
-    "bestReply": {
-      "target": "@GeminiApp",
-      "topic": "Gemini 3 Deep Think",
-      "parentViews": 726890,
-      "tone": "insightful/comparative"
-    },
-    "analysis": {
-      "bestTone": "Insightful-analytical with a contrarian edge. The 'feudalism 2.0' reply to Elon's tsunami thread and the game-theory take on Simile AI both outperformed generic commentary.",
-      "bestTopics": "AI model comparisons (Gemini vs GPT vs Claude), macro-economic implications of AI (labor/deflation), and enterprise AI adoption (Anthropic valuation, Simile earnings prediction).",
-      "bestTimeOfDay": "Evening cycle (10 PM) captured massive threads — @GeminiApp thread had 726K views. 5-8 PM window confirmed as peak engagement.",
-      "optimalParentThreadSize": "100K+ view threads yield best exposure. The @r0ck3t23 Elon thread (147K) and @GeminiApp thread (726K) provided highest visibility. Even @BloombergTV threads at 4-12K views are solid for brand association."
-    }
+    "totalReplies": 42,
+    "bestReply": "@minchoi Seedance 2.0 (75 views on 259K parent)",
+    "bestTopic": "AI creative tools/video (avg 75 views)",
+    "bestTone": "Product-focused explainer (what it means for devs/creators)",
+    "bestTime": "6-8 PM ET window",
+    "optimalTargetViews": "100K-400K parent thread views (less competition, better visibility)",
+    "worstPerforming": "Reply-to-replies on own threads (5 views avg — low distribution)",
+    "keyInsight": "Zero likes on most replies despite decent views — too analytical, not enough emotion/opinion"
   },
   "followerGrowth": {
-    "netNew": 1,
-    "from": 34,
-    "to": 35,
-    "notes": "Slow but steady. Account is 12 days old with 35 followers — organic growth without paid promotion. 6 verified followers is strong signal."
+    "netNew": 4,
+    "notableFollows": "@HodlerJerry (mfer6942.eth, 2.6K followers, mfer community — followed back)",
+    "verifiedFollowers": "10 of 49 (20.4%)"
   },
   "competitorInsights": {
-    "notes": "Based on accounts we engage with and similar AI/news feeds:",
+    "note": "Based on engagement log targets and feed observation",
     "observations": [
-      "Accounts like @DeItaone and @_akhaliq succeed by being FIRST — speed of breaking news matters more than analysis depth for initial impressions.",
-      "Quote-tweet threads (like our Sartoshi piece) generate more engagement than standalone threads because they tap into existing conversations.",
-      "Visual content (charts, screenshots, side-by-side comparisons) gets 2-3x more engagement than text-only tweets in the AI space.",
-      "Accounts that tag companies (@salesforce, @PalantirTech) in substantive analysis get amplified by those brands' audiences.",
-      "Thread length sweet spot is 4-6 tweets — our 7-tweet briefs may lose readers at the tail end."
+      "High-engagement accounts (@Star_Knight12, @antigravity) lead with bold opinions THEN explain — we do the reverse",
+      "Viral AI accounts use 1-2 sentence hooks that create curiosity gaps — our threads open with formatted headers",
+      "mfer community accounts (@SOL_mfer, @hoodiemfer) get organic engagement through personality, not analysis",
+      "Top accounts reply within 15-30 min of big news breaking — speed matters more than depth for replies",
+      "Accounts with strong growth use quote-tweets of big accounts rather than just replies"
     ]
   },
   "recommendations": [
-    {
-      "priority": 1,
-      "action": "Add visual content to at least 1 brief per day — a chart, comparison table screenshot, or market heatmap. Text-only threads plateau; visuals break through.",
-      "expectedImpact": "2-3x impression boost on visual tweets"
-    },
-    {
-      "priority": 2,
-      "action": "Double down on the 'contrarian insight' reply tone. The feudalism 2.0 and game-theory takes got strong engagement. Avoid generic 'this is big' replies — always add a non-obvious angle.",
-      "expectedImpact": "Higher reply engagement rate and quote-retweets"
-    },
-    {
-      "priority": 3,
-      "action": "Target 2-3 more quote-tweet opinion threads per week like the Sartoshi piece. These build follower identity and community affinity far more than news briefs alone.",
-      "expectedImpact": "Faster follower growth through community engagement"
-    }
+    "1. LEAD WITH BOLD TAKES: Flip reply structure — start with a punchy opinion (1 sentence), THEN add analysis. 'This changes everything for X' beats 'This is actually huge for onboarding new devs...'",
+    "2. TARGET MID-RANGE THREADS: Focus replies on 100K-400K view tweets. Skip 600K+ mega-threads where we get buried. The Seedance reply (75 views on 259K parent) outperformed the OpenAI reply (53 views on 1.2M parent).",
+    "3. SHIFT RECAP TO 5 PM: The 4:30 PM thread (35 views) crushed the 7:15 PM recap (17 views). Friday evening is dead. Move daily recap to 5-5:30 PM window on weekends."
   ]
 }

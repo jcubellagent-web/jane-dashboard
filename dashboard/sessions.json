@@ -1,8 +1,4 @@
 {
-  "lastUpdated": 1771027127000,
-  "activeSessions": [
-    {"key": "agent:main:main", "label": "Main Session", "model": "claude-opus-4-6", "status": "active"},
-    {"key": "agent:main:cron:7983e0d4", "label": "Trade Price Monitor", "model": "opus (switching to sonnet)", "status": "idle"},
-    {"key": "agent:main:cron:db53eb61", "label": "X Stats Scrape", "model": "opus (switching to sonnet)", "status": "idle"}
-  ]
+  "lastUpdated": 1771037224864,
+  "count": 32
 }

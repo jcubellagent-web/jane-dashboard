@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1739456820000,
+  "lastUpdated": 1739488980000,
   "tasks": [
     {
       "id": "free-common-packs",
@@ -19,13 +19,13 @@
       "note": "Need Limited cards from today's game teams to participate"
     },
     {
-      "id": "set-lineups",
-      "name": "GW34 Lineups Set",
-      "description": "2 Champion lineups set for GW34 (Feb 19-22). ⚠️ Deandre Ayton is OUT in lineup 1 — may need replacement.",
+      "id": "gw34-lineup-review",
+      "name": "GW34 Lineup Review Completed",
+      "description": "Verified 2 Limited Champion lineups for GW34 (Feb 19-22). Sorare limits Limited Champion to 2 lineups max. ⚠️ Deandre Ayton marked GTD in lineup #2.",
       "frequency": "per-gameweek",
       "done": true,
-      "doneAt": "2026-02-13T15:10:00.000Z",
-      "note": "ALERT: Deandre Ayton listed as OUT in lineup 1"
+      "doneAt": "2026-02-13T20:23:00-05:00",
+      "note": "Cannot create 3rd lineup - Sorare caps Limited Champion at 2 entries"
     },
     {
       "id": "scrap-duplicates",
@@ -62,15 +62,30 @@
     }
   ],
   "activeGames": {
-    "fixture": "nba-14-14-feb-2026",
+    "fixture": "nba-21-23-feb-2026",
     "gameWeek": 34,
     "status": "upcoming",
-    "note": "GW34 starts Feb 19. Daily competitions available for tonight's games."
+    "note": "GW34 starts Feb 19. Lineups close in 5d 22h."
   },
   "upcomingLineups": {
     "gameWeek": 34,
     "startDate": "2026-02-19T00:00:00Z",
-    "status": "2 lineups set — Ayton OUT in lineup 1, needs swap"
+    "endDate": "2026-02-22T23:59:59Z",
+    "status": "2 lineups set - Monitor Ayton GTD status",
+    "lineupDetails": {
+      "lineup2": {
+        "mvp": "Anthony Edwards",
+        "players": ["Anthony Edwards", "Derrick White", "Payton Pritchard", "Deandre Ayton (GTD)", "Will Riley"],
+        "boost": "+2%",
+        "alert": "Deandre Ayton is GTD - monitor injury status before Feb 20"
+      },
+      "lineup3": {
+        "mvp": "Jaylen Brown",
+        "players": ["Jaylen Brown", "Jusuf Nurkić", "Brandon Miller", "Zion Williamson", "Sion James"],
+        "boost": "+2%",
+        "alert": null
+      }
+    }
   },
   "balances": {
     "essence": "3.1K",

@@ -1,163 +1,121 @@
 {
-  "updated": "2026-02-14T01:01:00.000Z",
+  "updated": "2026-02-14T03:52:00.000000+00:00",
   "groups": [
     {
-      "label": "\ud83c\udf05 Morning",
+      "label": "🌅 Morning",
       "jobs": [
         {
-          "name": "TikTok Batch 1 (Manual/Optional)",
-          "time": "7:00 AM",
-          "done": true,
-          "type": "ops"
-        },
-        {
           "name": "Pre-Brief Data Fetch",
-          "time": "8:00 AM",
-          "done": true,
-          "type": "data",
-          "note": "Caught up after rate limit"
-        },
-        {
-          "name": "X Replies (8 AM)",
-          "time": "8:00 AM",
-          "done": true,
-          "type": "replies",
-          "count": 5,
-          "note": "Caught up after rate limit"
+          "time": "7:30 AM",
+          "done": false,
+          "type": "data"
         },
         {
           "name": "Daily Morning Brief",
-          "time": "8:30 AM",
-          "done": true,
+          "time": "8:00 AM",
+          "done": false,
           "type": "thread",
           "threadNum": 1,
           "tweets": 7
         },
         {
+          "name": "X Replies (8 AM)",
+          "time": "8:00 AM",
+          "done": false,
+          "type": "replies",
+          "count": 5
+        },
+        {
           "name": "Sorare Daily Tasks",
           "time": "9:30 AM",
-          "done": true,
+          "done": false,
           "type": "ops"
         },
         {
           "name": "X Replies (10 AM)",
           "time": "10:00 AM",
-          "done": true,
+          "done": false,
           "type": "replies",
           "count": 5
         },
         {
           "name": "Reply-to-Replies (11 AM)",
           "time": "11:00 AM",
-          "done": true,
+          "done": false,
           "type": "replies",
           "count": 3
         }
       ]
     },
     {
-      "label": "\u2600\ufe0f Midday",
+      "label": "☀️ Midday",
       "jobs": [
         {
           "name": "X Replies (12 PM)",
           "time": "12:00 PM",
-          "done": true,
+          "done": false,
           "type": "replies",
           "count": 5
         },
         {
-          "name": "TikTok Batch 2 (Lunch)",
-          "time": "12:00 PM",
+          "name": "Afternoon Refresh",
+          "time": "2:00 PM",
           "done": false,
-          "type": "ops"
-        },
-        {
-          "name": "Update Brief (12:30 PM)",
-          "time": "12:30 PM",
-          "done": true,
           "type": "thread",
           "threadNum": 2,
-          "tweets": 5
+          "tweets": 7
         },
         {
           "name": "X Replies (2 PM)",
           "time": "2:00 PM",
-          "done": true,
+          "done": false,
           "type": "replies",
           "count": 6
-        },
-        {
-          "name": "Update Brief (4:30 PM)",
-          "time": "4:30 PM",
-          "done": true,
-          "type": "thread",
-          "threadNum": 3,
-          "tweets": 7
         }
       ]
     },
     {
-      "label": "\ud83c\udf19 Evening",
+      "label": "🌙 Evening",
       "jobs": [
         {
           "name": "X Replies (4 PM)",
           "time": "4:00 PM",
-          "done": true,
+          "done": false,
           "type": "replies",
           "count": 5
         },
         {
           "name": "Reply-to-Replies (5 PM)",
           "time": "5:00 PM",
-          "done": true,
+          "done": false,
           "type": "replies",
           "count": 3
         },
         {
           "name": "X Replies (6 PM)",
           "time": "6:00 PM",
-          "done": true,
+          "done": false,
           "type": "replies",
           "count": 5
         },
         {
-          "name": "Update Brief (6:00 PM)",
-          "time": "6:00 PM",
-          "done": true,
-          "type": "thread",
-          "threadNum": 4,
-          "tweets": 7
-        },
-        {
-          "name": "TikTok Batch 3 (Prime Time)",
-          "time": "7:00 PM",
-          "done": false,
-          "type": "ops"
-        },
-        {
           "name": "Daily Recap",
-          "time": "7:15 PM",
-          "done": true,
+          "time": "7:30 PM",
+          "done": false,
           "type": "thread",
-          "threadNum": 5,
+          "threadNum": 3,
           "tweets": 7
         },
         {
           "name": "X Replies (8 PM)",
           "time": "8:00 PM",
-          "done": true,
+          "done": false,
           "type": "replies",
           "count": 6
         },
         {
           "name": "Substack Daily Digest",
           "time": "8:00 PM",
-          "done": true,
-          "type": "ops"
-        },
-        {
-          "name": "TikTok Batch 4 (Late Night)",
-          "time": "9:00 PM",
           "done": false,
           "type": "ops"
         },
@@ -172,17 +130,17 @@
           "time": "10:00 PM",
           "done": false,
           "type": "replies",
-          "count": 5
+          "count": 6
         }
       ]
     },
     {
-      "label": "\ud83d\udd04 Recurring",
+      "label": "🔄 Recurring",
       "jobs": [
         {
           "name": "X Stats Scrape",
           "time": "every 30 min",
-          "done": true,
+          "done": false,
           "type": "data"
         },
         {
@@ -194,18 +152,12 @@
         {
           "name": "Trade Price Monitor",
           "time": "every 10 min",
-          "done": true,
+          "done": false,
           "type": "data"
         },
         {
           "name": "Sorare Injury Monitor",
           "time": "every 6 hours",
-          "done": false,
-          "type": "ops"
-        },
-        {
-          "name": "TikTok Community Engagement",
-          "time": "2x daily",
           "done": false,
           "type": "ops"
         }

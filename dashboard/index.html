@@ -762,7 +762,6 @@
                     <span class="model-dot" style="--dot-color:#a78bfa">● Sonnet</span>
                     <span class="model-dot" style="--dot-color:#facc15">● Whisper</span>
                     <span class="model-dot" style="--dot-color:#f97316">● Ollama</span>
-                    <span class="model-dot" style="--dot-color:#ec4899">● Qwen</span>
                 </div>
                 <div class="mind-body" style="flex-direction: row-reverse;">
                     <!-- Brain Map SVG -->
@@ -1179,6 +1178,8 @@
                         }
                     }
                     const threadNum = tweet.threadNum ? '<span style="color:#4ade80;font-weight:600;font-size:0.65rem;margin-right:4px;">'+tweet.threadNum+'</span>' : '';
+                    const imageUrl = tweet.image || tweet.imageUrl || null;
+                    const imageHtml = imageUrl ? '<img src="'+imageUrl+'" style="max-width:30%;border-radius:4px;margin-top:4px;opacity:0.8;border:1px solid rgba(74,222,128,0.12);">' : '';
                     div.innerHTML = '<div class="x-tweet-meta">'+
                         '<div>'+threadNum+'<span class="x-tweet-stat">'+timeDisplay+'</span></div>'+
                         '<div style="display:flex;gap:0.5rem;">'+
@@ -1186,7 +1187,8 @@
                         (tweet.likes?'<span class="x-tweet-stat"><svg style="display:inline-block;vertical-align:middle;width:12px;height:12px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg> '+tweet.likes+'</span>':'')+
                         (tweet.reposts?'<span class="x-tweet-stat"><svg style="display:inline-block;vertical-align:middle;width:12px;height:12px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg> '+tweet.reposts+'</span>':'')+
                         '</div></div>'+
-                        '<div class="x-tweet-text">'+dtNeonEmoji(tweet.text||'')+'</div>';
+                        '<div class="x-tweet-text">'+dtNeonEmoji(tweet.text||'')+'</div>'+
+                        imageHtml;
                     container.appendChild(div);
                 });
             });
@@ -1235,7 +1237,7 @@
             if (!data || !data.groups) return;
             let total=0, done=0;
             const allJobs = [];
-            data.groups.forEach(g => g.jobs.forEach(j => { if(g.label !== '🔄 Recurring') { total++; if(j.done) done++; } allJobs.push({...j, group:g.label}); }));
+            data.groups.forEach(g => g.jobs.forEach(j => { if(g.label !== '🔄 Recurring') { total++; if(j.done === true || j.done === 'missed') done++; } allJobs.push({...j, group:g.label}); }));
             document.getElementById('jobs-count').textContent = `${done}/${total}`;
             // find next upcoming
             const now = new Date();
@@ -1243,7 +1245,7 @@
             for (const g of data.groups) {
                 if (g.label === '🔄 Recurring') continue;
                 for (const j of g.jobs) {
-                    if (!j.done) { nextJob = j; break; }
+                    if (!j.done && j.done !== 'missed') { nextJob = j; break; }
                 }
                 if (nextJob) break;
             }
@@ -1255,11 +1257,15 @@
                 html += `<div style="margin-top:0.4rem;margin-bottom:0.2rem;font-size:10px;font-weight:700;color:${color};letter-spacing:0.03em;">${svgIcon}${cleanLabel}</div>`;
                 g.jobs.forEach(j => {
                     const isNext = j === nextJob;
-                    const dim = j.done ? 'opacity:0.45;' : '';
-                    const strike = j.done ? 'text-decoration:line-through;' : '';
+                    const isMissed = j.done === 'missed';
+                    const isDone = j.done === true;
+                    const dim = (isDone || isMissed) ? 'opacity:0.45;' : '';
+                    const strike = (isDone || isMissed) ? 'text-decoration:line-through;' : '';
                     const border = isNext ? 'border-left:2px solid #4ade80;padding-left:6px;' : 'padding-left:8px;';
                     const badge = isNext ? '<span style="background:#4ade80;color:#000;font-size:9px;font-weight:800;padding:1px 4px;border-radius:3px;margin-left:6px;">NEXT</span>' : '';
-                    const status = j.done ? ' <svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : '';
+                    const status = isDone ? ' <svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>'
+                        : isMissed ? ' <span style="color:#ef4444;font-size:9px;font-weight:700;margin-left:4px;">MISSED</span>'
+                        : '';
                     const timeStr = j.nextRun ? `<span style="color:rgba(255,255,255,0.35);font-size:10px;margin-left:6px;">next: ${j.nextRun}</span>` : `<span style="color:rgba(255,255,255,0.3);font-size:10px;margin-left:6px;">${j.time}</span>`;
                     html += `<div style="display:flex;align-items:center;${dim}${border}margin:2px 0;"><span style="font-size:11px;color:rgba(255,255,255,0.85);${strike}">${j.name}${status}</span>${badge}${timeStr}</div>`;
                 });

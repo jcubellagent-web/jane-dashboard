@@ -39,7 +39,7 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - X API Free = post only; analytics via browser scraping
 - Manual refresh: `.x-refresh-requested` flag → heartbeat picks up
 - Strategy details: `memory/reference.md`
-- Schedule: 8AM pre-fetch, 8:30AM brief, 12:30PM/4:30PM/6PM updates, 7:15PM recap
+- Schedule: 7:30AM pre-fetch, 8AM morning brief, 2PM afternoon refresh, 7:30PM daily recap (3 threads, down from 5)
 - All thread jobs do data refresh before posting (Finnhub, CoinGecko, arXiv, SEC EDGAR, etc.)
 - Winning formula: technical-insightful tone, AI-product topics, 5-8PM posting window
 - News sources: arXiv, SEC EDGAR, DeFi Llama Raises, TechCrunch, @DeItaone, @_akhaliq
@@ -140,12 +140,15 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - **Key insight**: Playwright's evaluate passes parameters separately from fn string — no size limit on data!
 - All 5 thread crons updated to use this script
 
-## TikTok Upload Automation (KNOWN ISSUE)
-- **Playwright setInputFiles DOES NOT WORK** with TikTok Studio — React's custom onChange handler ignores it
-- **Hashtags must be entered via autocomplete** in TikTok's editor to become clickable links — plain text `#hashtag` stays unlinked
-- **No emulators installed** — need Android Studio + SDK for mobile TikTok automation (TODO)
-- **Workaround**: Send videos + captions to Josh via WhatsApp for manual upload from phone
-- **Browser tool evaluate timeout**: 20s fixed — can't fetch large files in-page
+## TikTok Upload Automation (WORKING via Android Emulator)
+- **Playwright setInputFiles & CDP inject both FAILED** — TikTok blocks programmatic file events
+- **Solution**: Android emulator (`TikTok_Phone` AVD) + `scripts/tiktok-upload.sh`
+- Upload script uses adb: push video → Create → Gallery → Select → Next → Next → Caption → Hashtags → Post
+- **Caption gotcha**: `adb input keyevent --longpress` for shift DOUBLES chars. Use `adb input text` with %s for spaces
+- **Hashtag gotcha**: Can't type # via adb. Use TikTok's built-in Hashtag button [42,715][289,799]
+- **No emojis** in captions — adb can't type Unicode
+- Google account: jcubellagent@gmail.com, password: `JcAgent-2026-Tik!`
+- Emulator launch: `$ANDROID_HOME/emulator/emulator -avd TikTok_Phone -no-audio -gpu auto &`
 
 ## TikTok Account Auth
 - Login: "Continue with Google" → jcubellagent@gmail.com

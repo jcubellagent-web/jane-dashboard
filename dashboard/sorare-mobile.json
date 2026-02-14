@@ -1,291 +1,118 @@
 {
-  "lastUpdated": 1770902898871,
-  "gwOffset": 55,
-  "activeFixture": {
-    "slug": "nba-10-13-feb-2026",
-    "gameWeek": 33,
-    "apiGameWeek": 88,
-    "startDate": "2026-02-10T00:00:00Z",
-    "endDate": "2026-02-13T04:47:00Z",
-    "lineups": [
-      {
-        "leaderboard": "Limited Champion",
-        "entries": [
-          {
-            "id": "So5Lineup:bdb6e096-9437-4323-9058-e191e54a1c06",
-            "ranking": 3858,
-            "score": 149.03,
-            "players": [
-              {
-                "name": "Anthony Edwards",
-                "team": "Minnesota Timberwolves",
-                "score": 53.76,
-                "rarity": "limited",
-                "status": "done"
-              },
-              {
-                "name": "Cooper Flagg",
-                "team": "Dallas Mavericks",
-                "score": 22.311,
-                "rarity": "limited",
-                "status": "live"
-              },
-              {
-                "name": "Brandon Miller",
-                "team": "Charlotte Hornets",
-                "score": 42.619,
-                "rarity": "limited",
-                "status": "done"
-              },
-              {
-                "name": "Kentavious Caldwell-Pope",
-                "team": "Memphis Grizzlies",
-                "score": 22.896,
-                "rarity": "limited",
-                "status": "done"
-              },
-              {
-                "name": "Sion James",
-                "team": "Charlotte Hornets",
-                "score": 7.452,
-                "rarity": "limited",
-                "status": "done"
-              }
-            ]
-          },
-          {
-            "id": "So5Lineup:8a9f6876-cefd-47cc-b8ab-809b1451c799",
-            "ranking": 4956,
-            "score": 133.71,
-            "players": [
-              {
-                "name": "Nikola Joki\u0107",
-                "team": "Denver Nuggets",
-                "score": 58.053,
-                "rarity": "limited",
-                "status": "done"
-              },
-              {
-                "name": "Lauri Markkanen",
-                "team": "Utah Jazz",
-                "score": 30.264,
-                "rarity": "limited",
-                "status": "done"
-              },
-              {
-                "name": "Jusuf Nurki\u0107",
-                "team": "Utah Jazz",
-                "score": 37.842,
-                "rarity": "limited",
-                "status": "done"
-              },
-              {
-                "name": "John Konchar",
-                "team": "Memphis Grizzlies",
-                "score": 3.24,
-                "rarity": "limited",
-                "status": "done"
-              },
-              {
-                "name": "Jalen Pickett",
-                "team": "Denver Nuggets",
-                "score": 4.32,
-                "rarity": "limited",
-                "status": "done"
-              }
-            ]
-          },
-          {
-            "id": "So5Lineup:59461755-382f-4c7d-92d0-ef720f25b837",
-            "ranking": 7500,
-            "score": 86.99,
-            "players": [
-              {
-                "name": "Bam Adebayo",
-                "team": "Miami Heat",
-                "score": 39.585,
-                "rarity": "limited",
-                "status": "done"
-              },
-              {
-                "name": "Zion Williamson",
-                "team": "New Orleans Pelicans",
-                "score": 34.56,
-                "rarity": "limited",
-                "status": "done"
-              },
-              {
-                "name": "Keldon Johnson",
-                "team": "San Antonio Spurs",
-                "score": 0.0,
-                "rarity": "limited",
-                "status": "scheduled"
-              },
-              {
-                "name": "Klay Thompson",
-                "team": "Dallas Mavericks",
-                "score": 0.0,
-                "rarity": "limited",
-                "status": "live"
-              },
-              {
-                "name": "Patrick Williams",
-                "team": "Chicago Bulls",
-                "score": 12.852,
-                "rarity": "limited",
-                "status": "done"
-              }
-            ]
-          }
-        ],
-        "liveGames": 0,
-        "scheduledGames": 0
-      }
-    ],
-    "status": "completed"
-  },
-  "upcomingFixture": {
-    "slug": "nba-21-23-feb-2026",
-    "gameWeek": 34,
-    "apiGameWeek": 89,
-    "startDate": "2026-02-19T00:00:00Z",
-    "endDate": "2026-02-22T04:47:00Z",
-    "lineups": [
-      {
-        "leaderboard": "Limited Champion",
-        "entries": [
-          {
-            "id": "gw34-lineup-1",
-            "ranking": null,
-            "score": null,
-            "players": [
-              {
-                "name": "Nikola Joki\u0107",
-                "team": "Denver Nuggets",
-                "score": null,
-                "rarity": "limited",
-                "tenGameAvg": 63,
-                "role": "MVP"
-              },
-              {
-                "name": "Derrick White",
-                "team": "Boston Celtics",
-                "score": null,
-                "rarity": "limited",
-                "tenGameAvg": 33
-              },
-              {
-                "name": "Payton Pritchard",
-                "team": "Boston Celtics",
-                "score": null,
-                "rarity": "limited",
-                "tenGameAvg": 32
-              },
-              {
-                "name": "Tre Johnson",
-                "team": "Washington Wizards",
-                "score": null,
-                "rarity": "limited",
-                "tenGameAvg": 25
-              },
-              {
-                "name": "Keldon Johnson",
-                "team": "San Antonio Spurs",
-                "score": null,
-                "rarity": "limited",
-                "tenGameAvg": 24
-              }
-            ]
-          },
-          {
-            "id": "gw34-lineup-2",
-            "ranking": null,
-            "score": null,
-            "players": [
-              {
-                "name": "Anthony Edwards",
-                "team": "Minnesota Timberwolves",
-                "score": null,
-                "rarity": "limited",
-                "tenGameAvg": 47,
-                "role": "MVP"
-              },
-              {
-                "name": "Derrick White",
-                "team": "Boston Celtics",
-                "score": null,
-                "rarity": "limited",
-                "tenGameAvg": 33
-              },
-              {
-                "name": "Payton Pritchard",
-                "team": "Boston Celtics",
-                "score": null,
-                "rarity": "limited",
-                "tenGameAvg": 32
-              },
-              {
-                "name": "Deandre Ayton",
-                "team": "Portland Trail Blazers",
-                "score": null,
-                "rarity": "limited",
-                "tenGameAvg": 25,
-                "status": "GTD"
-              },
-              {
-                "name": "Will Riley",
-                "team": "Washington Wizards",
-                "score": null,
-                "rarity": "limited",
-                "tenGameAvg": 25
-              }
-            ]
-          },
-          {
-            "id": "gw34-lineup-3",
-            "ranking": null,
-            "score": null,
-            "players": [
-              {
-                "name": "Jaylen Brown",
-                "team": "Boston Celtics",
-                "score": null,
-                "rarity": "limited",
-                "tenGameAvg": 46,
-                "role": "MVP"
-              },
-              {
-                "name": "Jusuf Nurki\u0107",
-                "team": "Phoenix Suns",
-                "score": null,
-                "rarity": "limited",
-                "tenGameAvg": 43
-              },
-              {
-                "name": "Brandon Miller",
-                "team": "Charlotte Hornets",
-                "score": null,
-                "rarity": "limited",
-                "tenGameAvg": 35
-              },
-              {
-                "name": "Zion Williamson",
-                "team": "New Orleans Pelicans",
-                "score": null,
-                "rarity": "limited",
-                "tenGameAvg": 33
-              },
-              {
-                "name": "Sion James",
-                "team": "Charlotte Hornets",
-                "score": null,
-                "rarity": "limited",
-                "tenGameAvg": 9
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+  "lastUpdated": "2026-02-13T20:23:00-05:00",
+  "gameWeek": 34,
+  "period": "Feb 19-22, 2026",
+  "status": "open",
+  "timeleft": "5d 22h",
+  "lineupsSet": 2,
+  "lineupsMax": 2,
+  "competition": "Limited Champion",
+  "prizePool": "$27,000",
+  "participants": 1443,
+  "lineups": [
+    {
+      "id": "Limited Champion #2",
+      "competition": "Champion",
+      "mvp": "Anthony Edwards",
+      "players": [
+        {
+          "name": "Anthony Edwards",
+          "team": "Timberwolves",
+          "date": "20 FRI",
+          "games": 2,
+          "status": "active",
+          "mvp": true
+        },
+        {
+          "name": "Derrick White",
+          "team": "Celtics",
+          "date": "19 THU",
+          "games": 2,
+          "status": "active",
+          "mvp": false
+        },
+        {
+          "name": "Payton Pritchard",
+          "team": "Celtics",
+          "date": "19 THU",
+          "games": 2,
+          "status": "active",
+          "mvp": false
+        },
+        {
+          "name": "Deandre Ayton",
+          "team": "Lakers",
+          "date": "20 FRI",
+          "games": 2,
+          "status": "GTD",
+          "mvp": false
+        },
+        {
+          "name": "Will Riley",
+          "team": "Wizards",
+          "date": "19 THU",
+          "games": 3,
+          "status": "active",
+          "mvp": false
+        }
+      ],
+      "boost": "+2%"
+    },
+    {
+      "id": "Limited Champion #3",
+      "competition": "Champion",
+      "mvp": "Jaylen Brown",
+      "players": [
+        {
+          "name": "Jaylen Brown",
+          "team": "Celtics",
+          "date": "19 THU",
+          "games": 2,
+          "status": "active",
+          "mvp": true
+        },
+        {
+          "name": "Jusuf Nurkić",
+          "team": "Suns",
+          "date": "20 FRI",
+          "games": 1,
+          "status": "active",
+          "mvp": false
+        },
+        {
+          "name": "Brandon Miller",
+          "team": "Hornets",
+          "date": "19 THU",
+          "games": 3,
+          "status": "active",
+          "mvp": false
+        },
+        {
+          "name": "Zion Williamson",
+          "team": "Pelicans",
+          "date": "20 FRI",
+          "games": 2,
+          "status": "active",
+          "mvp": false
+        },
+        {
+          "name": "Sion James",
+          "team": "Hornets",
+          "date": "19 THU",
+          "games": 3,
+          "status": "active",
+          "mvp": false
+        }
+      ],
+      "boost": "+2%"
+    }
+  ],
+  "notes": [
+    "GW34 lineups are open (Feb 19-22)",
+    "2 Limited Champion lineups already set",
+    "Sorare appears to limit Limited Champion to 2 lineups max per GW",
+    "Deandre Ayton marked GTD (game-time decision)",
+    "Both lineups show +2% boost",
+    "High-game-count players: Will Riley (3), Brandon Miller (3), Sion James (3)"
+  ]
 }

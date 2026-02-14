@@ -2734,6 +2734,29 @@ function handleRequest(req, res) {
         return;
     }
 
+    // Serve x-headers images from tiktok/x-headers directory
+    if (req.url.startsWith('/x-headers/')) {
+        const imageName = req.url.replace('/x-headers/', '');
+        const xHeadersPath = path.join(WORKSPACE, 'tiktok', 'x-headers', imageName);
+        if (fs.existsSync(xHeadersPath)) {
+            const ext = path.extname(xHeadersPath).toLowerCase();
+            const contentType = MIME_TYPES[ext] || 'image/png';
+            fs.readFile(xHeadersPath, (err, content) => {
+                if (err) {
+                    res.writeHead(500);
+                    res.end('Error reading image');
+                    return;
+                }
+                res.writeHead(200, { 'Content-Type': contentType });
+                res.end(content);
+            });
+        } else {
+            res.writeHead(404);
+            res.end('Image not found');
+        }
+        return;
+    }
+
     // Auto-detect mobile devices and serve mobile.html
     const userAgent = req.headers['user-agent'] || '';
     const isMobile = /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
@@ -2954,19 +2977,39 @@ fs.watch(tasksDir, (eventType, filename) => {
     let mainTranscript = null;
     let idleProtectedUntil = 0; // Debounce: protect idle state for 2s after setting
 
-    // Find the main session transcript (most recently modified .jsonl)
+    // Find the main session transcript (NOT sub-agents or crons)
     function findMainTranscript() {
         try {
+            // Try to find the main session via the sessions index
+            const indexFile = path.join(sessionsDir, '..', 'sessions.json');
+            if (fs.existsSync(indexFile)) {
+                const idx = JSON.parse(fs.readFileSync(indexFile, 'utf8'));
+                // Look for the main session entry
+                for (const [key, val] of Object.entries(idx)) {
+                    if (key === 'agent:main:main' || (val && val.key === 'agent:main:main')) {
+                        const sid = val?.sessionId || val?.id;
+                        if (sid) {
+                            const fp = path.join(sessionsDir, sid + '.jsonl');
+                            if (fs.existsSync(fp)) return fp;
+                        }
+                        const tp = val?.transcriptPath;
+                        if (tp) {
+                            const fp = path.join(sessionsDir, tp);
+                            if (fs.existsSync(fp)) return fp;
+                        }
+                    }
+                }
+            }
+            // Fallback: pick the largest .jsonl (main session is usually the biggest)
             const files = fs.readdirSync(sessionsDir).filter(f => f.endsWith('.jsonl') && !f.endsWith('.lock'));
             if (files.length === 0) return null;
-            // Pick the most recently modified
-            let newest = null, newestMtime = 0;
+            let biggest = null, biggestSize = 0;
             for (const f of files) {
                 const fp = path.join(sessionsDir, f);
                 const stat = fs.statSync(fp);
-                if (stat.mtimeMs > newestMtime) { newestMtime = stat.mtimeMs; newest = fp; }
+                if (stat.size > biggestSize) { biggestSize = stat.size; biggest = fp; }
             }
-            return newest;
+            return biggest;
         } catch { return null; }
     }
 
@@ -3026,7 +3069,7 @@ fs.watch(tasksDir, (eventType, filename) => {
                             const textParts = content.filter(c => c.type === 'text' && c.text && !c.text.startsWith('NO_REPLY') && !c.text.startsWith('HEARTBEAT'));
 
                             // Extract assistant's own narration as thought context
-                            const narration = textParts.length > 0 ? textParts[0].text.split('\n')[0].substring(0, 120) : null;
+                            const narration = textParts.length > 0 ? textParts[0].text.split('\n')[0].substring(0, 200) : null;
 
                             if (toolCalls.length > 0) {
                                 // Map tool names to human-readable labels

@@ -1,0 +1,473 @@
+Fetched 50 Limited cards so far...
+Fetched 52 Limited cards so far...
+[
+  {
+    "player": "Amen Thompson",
+    "playerSlug": "amen-thompson-20030130",
+    "team": "Houston Rockets",
+    "teamSlug": "houston-rockets",
+    "serialNumber": 138,
+    "season": 2023,
+    "cardSlug": "amen-thompson-20030130-2023-limited-138"
+  },
+  {
+    "player": "Domantas Sabonis",
+    "playerSlug": "domantas-sabonis-19960503",
+    "team": "Sacramento Kings",
+    "teamSlug": "sacramento-kings",
+    "serialNumber": 462,
+    "season": 2024,
+    "cardSlug": "domantas-sabonis-19960503-2024-limited-462"
+  },
+  {
+    "player": "Jabari Smith Jr.",
+    "playerSlug": "jabari-smith-jr-20030513",
+    "team": "Houston Rockets",
+    "teamSlug": "houston-rockets",
+    "serialNumber": 363,
+    "season": 2023,
+    "cardSlug": "jabari-smith-jr-20030513-2023-limited-363"
+  },
+  {
+    "player": "Naji Marshall",
+    "playerSlug": "naji-marshall-19980124",
+    "team": "Dallas Mavericks",
+    "teamSlug": "dallas-mavericks",
+    "serialNumber": 9,
+    "season": 2024,
+    "cardSlug": "naji-marshall-19980124-2024-limited-9"
+  },
+  {
+    "player": "Stephen Curry",
+    "playerSlug": "stephen-curry-19880314",
+    "team": "Golden State Warriors",
+    "teamSlug": "golden-state-warriors",
+    "serialNumber": 548,
+    "season": 2023,
+    "cardSlug": "stephen-curry-19880314-2023-limited-548"
+  },
+  {
+    "player": "Michael Porter Jr.",
+    "playerSlug": "michael-porter-jr-19980629",
+    "team": "Denver Nuggets",
+    "teamSlug": "denver-nuggets",
+    "serialNumber": 351,
+    "season": 2023,
+    "cardSlug": "michael-porter-jr-19980629-2023-limited-351"
+  },
+  {
+    "player": "Kevin Durant",
+    "playerSlug": "kevin-durant-19880929",
+    "team": "Phoenix Suns",
+    "teamSlug": "phoenix-suns",
+    "serialNumber": 675,
+    "season": 2024,
+    "cardSlug": "kevin-durant-19880929-2024-limited-675"
+  },
+  {
+    "player": "Aaron Wiggins",
+    "playerSlug": "aaron-wiggins-19990102",
+    "team": "Oklahoma City Thunder",
+    "teamSlug": "oklahoma-city-thunder",
+    "serialNumber": 768,
+    "season": 2024,
+    "cardSlug": "aaron-wiggins-19990102-2024-limited-768"
+  },
+  {
+    "player": "DeMar DeRozan",
+    "playerSlug": "demar-derozan-19890807",
+    "team": "Chicago Bulls",
+    "teamSlug": "chicago-bulls",
+    "serialNumber": 1028,
+    "season": 2022,
+    "cardSlug": "demar-derozan-19890807-2022-limited-1028"
+  },
+  {
+    "player": "Nikola Vučević",
+    "playerSlug": "nikola-vucevic-19901024",
+    "team": "Chicago Bulls",
+    "teamSlug": "chicago-bulls",
+    "serialNumber": 304,
+    "season": 2023,
+    "cardSlug": "nikola-vucevic-19901024-2023-limited-304"
+  },
+  {
+    "player": "Bam Adebayo",
+    "playerSlug": "bam-adebayo-19970718",
+    "team": "Miami Heat",
+    "teamSlug": "miami-heat",
+    "serialNumber": 701,
+    "season": 2025,
+    "cardSlug": "bam-adebayo-19970718-2025-limited-701"
+  },
+  {
+    "player": "Lauri Markkanen",
+    "playerSlug": "lauri-markkanen-19970522",
+    "team": "Utah Jazz",
+    "teamSlug": "utah-jazz",
+    "serialNumber": 329,
+    "season": 2024,
+    "cardSlug": "lauri-markkanen-19970522-2024-limited-329"
+  },
+  {
+    "player": "Jusuf Nurkić",
+    "playerSlug": "jusuf-nurkic-19940823",
+    "team": "Utah Jazz",
+    "teamSlug": "utah-jazz",
+    "serialNumber": 431,
+    "season": 2025,
+    "cardSlug": "jusuf-nurkic-19940823-2025-limited-431"
+  },
+  {
+    "player": "Will Riley",
+    "playerSlug": "will-riley-20060210",
+    "team": "Washington Wizards",
+    "teamSlug": "washington-wizards",
+    "serialNumber": 365,
+    "season": 2025,
+    "cardSlug": "will-riley-20060210-2025-limited-365"
+  },
+  {
+    "player": "Cade Cunningham",
+    "playerSlug": "cade-cunningham-20010925",
+    "team": "Detroit Pistons",
+    "teamSlug": "detroit-pistons",
+    "serialNumber": 603,
+    "season": 2025,
+    "cardSlug": "cade-cunningham-20010925-2025-limited-603"
+  },
+  {
+    "player": "Ryan Dunn",
+    "playerSlug": "ryan-dunn-20030107",
+    "team": "Phoenix Suns",
+    "teamSlug": "phoenix-suns",
+    "serialNumber": 500,
+    "season": 2025,
+    "cardSlug": "ryan-dunn-20030107-2025-limited-500"
+  },
+  {
+    "player": "Carter Bryant",
+    "playerSlug": "carter-bryant-20051126",
+    "team": "San Antonio Spurs",
+    "teamSlug": "san-antonio-spurs",
+    "serialNumber": 522,
+    "season": 2025,
+    "cardSlug": "carter-bryant-20051126-2025-limited-522"
+  },
+  {
+    "player": "Brandon Miller",
+    "playerSlug": "brandon-miller-20021122",
+    "team": "Charlotte Hornets",
+    "teamSlug": "charlotte-hornets",
+    "serialNumber": 398,
+    "season": 2025,
+    "cardSlug": "brandon-miller-20021122-2025-limited-398"
+  },
+  {
+    "player": "Tre Johnson",
+    "playerSlug": "tre-johnson-20060307",
+    "team": "Washington Wizards",
+    "teamSlug": "washington-wizards",
+    "serialNumber": 358,
+    "season": 2025,
+    "cardSlug": "tre-johnson-20060307-2025-limited-358"
+  },
+  {
+    "player": "Kris Murray",
+    "playerSlug": "kris-murray-20000819",
+    "team": "Portland Trail Blazers",
+    "teamSlug": "portland-trail-blazers",
+    "serialNumber": 282,
+    "season": 2025,
+    "cardSlug": "kris-murray-20000819-2025-limited-282"
+  },
+  {
+    "player": "Liam McNeeley",
+    "playerSlug": "liam-mcneeley-20051010",
+    "team": "Charlotte Hornets",
+    "teamSlug": "charlotte-hornets",
+    "serialNumber": 341,
+    "season": 2025,
+    "cardSlug": "liam-mcneeley-20051010-2025-limited-341"
+  },
+  {
+    "player": "Anthony Edwards",
+    "playerSlug": "anthony-edwards-20010805",
+    "team": "Minnesota Timberwolves",
+    "teamSlug": "minnesota-timberwolves",
+    "serialNumber": 260,
+    "season": 2023,
+    "cardSlug": "anthony-edwards-20010805-2023-limited-260"
+  },
+  {
+    "player": "Anthony Edwards",
+    "playerSlug": "anthony-edwards-20010805",
+    "team": "Minnesota Timberwolves",
+    "teamSlug": "minnesota-timberwolves",
+    "serialNumber": 249,
+    "season": 2024,
+    "cardSlug": "anthony-edwards-20010805-2024-limited-249"
+  },
+  {
+    "player": "Payton Pritchard",
+    "playerSlug": "payton-pritchard-19980128",
+    "team": "Boston Celtics",
+    "teamSlug": "boston-celtics",
+    "serialNumber": 714,
+    "season": 2022,
+    "cardSlug": "payton-pritchard-19980128-2022-limited-714"
+  },
+  {
+    "player": "Payton Pritchard",
+    "playerSlug": "payton-pritchard-19980128",
+    "team": "Boston Celtics",
+    "teamSlug": "boston-celtics",
+    "serialNumber": 481,
+    "season": 2023,
+    "cardSlug": "payton-pritchard-19980128-2023-limited-481"
+  },
+  {
+    "player": "Payton Pritchard",
+    "playerSlug": "payton-pritchard-19980128",
+    "team": "Boston Celtics",
+    "teamSlug": "boston-celtics",
+    "serialNumber": 316,
+    "season": 2022,
+    "cardSlug": "payton-pritchard-19980128-2022-limited-316"
+  },
+  {
+    "player": "Klay Thompson",
+    "playerSlug": "klay-thompson-19900208",
+    "team": "Dallas Mavericks",
+    "teamSlug": "dallas-mavericks",
+    "serialNumber": 190,
+    "season": 2025,
+    "cardSlug": "klay-thompson-19900208-2025-limited-190"
+  },
+  {
+    "player": "John Konchar",
+    "playerSlug": "john-konchar-19960322",
+    "team": "Memphis Grizzlies",
+    "teamSlug": "memphis-grizzlies",
+    "serialNumber": 266,
+    "season": 2025,
+    "cardSlug": "john-konchar-19960322-2025-limited-266"
+  },
+  {
+    "player": "Sion James",
+    "playerSlug": "sion-james-20021204",
+    "team": "Charlotte Hornets",
+    "teamSlug": "charlotte-hornets",
+    "serialNumber": 70,
+    "season": 2025,
+    "cardSlug": "sion-james-20021204-2025-limited-70"
+  },
+  {
+    "player": "Keldon Johnson",
+    "playerSlug": "keldon-johnson-19991011",
+    "team": "San Antonio Spurs",
+    "teamSlug": "san-antonio-spurs",
+    "serialNumber": 221,
+    "season": 2025,
+    "cardSlug": "keldon-johnson-19991011-2025-limited-221"
+  },
+  {
+    "player": "Jalen Pickett",
+    "playerSlug": "jalen-pickett-19991022",
+    "team": "Denver Nuggets",
+    "teamSlug": "denver-nuggets",
+    "serialNumber": 204,
+    "season": 2025,
+    "cardSlug": "jalen-pickett-19991022-2025-limited-204"
+  },
+  {
+    "player": "Corey Kispert",
+    "playerSlug": "corey-kispert-19990303",
+    "team": "Washington Wizards",
+    "teamSlug": "washington-wizards",
+    "serialNumber": 249,
+    "season": 2025,
+    "cardSlug": "corey-kispert-19990303-2025-limited-249"
+  },
+  {
+    "player": "Patrick Williams",
+    "playerSlug": "patrick-williams-20010826",
+    "team": "Chicago Bulls",
+    "teamSlug": "chicago-bulls",
+    "serialNumber": 184,
+    "season": 2025,
+    "cardSlug": "patrick-williams-20010826-2025-limited-184"
+  },
+  {
+    "player": "Gradey Dick",
+    "playerSlug": "gradey-dick-20031120",
+    "team": "Toronto Raptors",
+    "teamSlug": "toronto-raptors",
+    "serialNumber": 224,
+    "season": 2025,
+    "cardSlug": "gradey-dick-20031120-2025-limited-224"
+  },
+  {
+    "player": "Kentavious Caldwell-Pope",
+    "playerSlug": "kentavious-caldwell-pope-19930218",
+    "team": "Memphis Grizzlies",
+    "teamSlug": "memphis-grizzlies",
+    "serialNumber": 236,
+    "season": 2025,
+    "cardSlug": "kentavious-caldwell-pope-19930218-2025-limited-236"
+  },
+  {
+    "player": "Shai Gilgeous-Alexander",
+    "playerSlug": "shai-gilgeous-alexander-19980712",
+    "team": "Oklahoma City Thunder",
+    "teamSlug": "oklahoma-city-thunder",
+    "serialNumber": 273,
+    "season": 2025,
+    "cardSlug": "shai-gilgeous-alexander-19980712-2025-limited-273"
+  },
+  {
+    "player": "Payton Pritchard",
+    "playerSlug": "payton-pritchard-19980128",
+    "team": "Boston Celtics",
+    "teamSlug": "boston-celtics",
+    "serialNumber": 289,
+    "season": 2025,
+    "cardSlug": "payton-pritchard-19980128-2025-limited-289"
+  },
+  {
+    "player": "Cooper Flagg",
+    "playerSlug": "cooper-flagg-20061221",
+    "team": "Dallas Mavericks",
+    "teamSlug": "dallas-mavericks",
+    "serialNumber": 218,
+    "season": 2025,
+    "cardSlug": "cooper-flagg-20061221-2025-limited-218"
+  },
+  {
+    "player": "Derrick White",
+    "playerSlug": "derrick-white-19940702",
+    "team": "Boston Celtics",
+    "teamSlug": "boston-celtics",
+    "serialNumber": 294,
+    "season": 2025,
+    "cardSlug": "derrick-white-19940702-2025-limited-294"
+  },
+  {
+    "player": "Tyus Jones",
+    "playerSlug": "tyus-jones-19960510",
+    "team": "Orlando Magic",
+    "teamSlug": "orlando-magic",
+    "serialNumber": 142,
+    "season": 2025,
+    "cardSlug": "tyus-jones-19960510-2025-limited-142"
+  },
+  {
+    "player": "Chris Boucher",
+    "playerSlug": "chris-boucher-19930111",
+    "team": "Boston Celtics",
+    "teamSlug": "boston-celtics",
+    "serialNumber": 153,
+    "season": 2025,
+    "cardSlug": "chris-boucher-19930111-2025-limited-153"
+  },
+  {
+    "player": "Kevin Huerter",
+    "playerSlug": "kevin-huerter-19980827",
+    "team": "Chicago Bulls",
+    "teamSlug": "chicago-bulls",
+    "serialNumber": 146,
+    "season": 2025,
+    "cardSlug": "kevin-huerter-19980827-2025-limited-146"
+  },
+  {
+    "player": "Saddiq Bey",
+    "playerSlug": "saddiq-bey-19990409",
+    "team": "New Orleans Pelicans",
+    "teamSlug": "new-orleans-pelicans",
+    "serialNumber": 212,
+    "season": 2025,
+    "cardSlug": "saddiq-bey-19990409-2025-limited-212"
+  },
+  {
+    "player": "Deandre Ayton",
+    "playerSlug": "deandre-ayton-19980723",
+    "team": "Los Angeles Lakers",
+    "teamSlug": "los-angeles-lakers",
+    "serialNumber": 191,
+    "season": 2025,
+    "cardSlug": "deandre-ayton-19980723-2025-limited-191"
+  },
+  {
+    "player": "Payton Pritchard",
+    "playerSlug": "payton-pritchard-19980128",
+    "team": "Boston Celtics",
+    "teamSlug": "boston-celtics",
+    "serialNumber": 125,
+    "season": 2025,
+    "cardSlug": "payton-pritchard-19980128-2025-limited-125"
+  },
+  {
+    "player": "Anthony Edwards",
+    "playerSlug": "anthony-edwards-20010805",
+    "team": "Minnesota Timberwolves",
+    "teamSlug": "minnesota-timberwolves",
+    "serialNumber": 199,
+    "season": 2025,
+    "cardSlug": "anthony-edwards-20010805-2025-limited-199"
+  },
+  {
+    "player": "Tre Johnson",
+    "playerSlug": "tre-johnson-20060307",
+    "team": "Washington Wizards",
+    "teamSlug": "washington-wizards",
+    "serialNumber": 171,
+    "season": 2025,
+    "cardSlug": "tre-johnson-20060307-2025-limited-171"
+  },
+  {
+    "player": "Nikola Jokić",
+    "playerSlug": "nikola-jokic-19950219",
+    "team": "Denver Nuggets",
+    "teamSlug": "denver-nuggets",
+    "serialNumber": 99,
+    "season": 2025,
+    "cardSlug": "nikola-jokic-19950219-2025-limited-99"
+  },
+  {
+    "player": "Cooper Flagg",
+    "playerSlug": "cooper-flagg-20061221",
+    "team": "Dallas Mavericks",
+    "teamSlug": "dallas-mavericks",
+    "serialNumber": 177,
+    "season": 2025,
+    "cardSlug": "cooper-flagg-20061221-2025-limited-177"
+  },
+  {
+    "player": "Zion Williamson",
+    "playerSlug": "zion-williamson-20000706",
+    "team": "New Orleans Pelicans",
+    "teamSlug": "new-orleans-pelicans",
+    "serialNumber": 189,
+    "season": 2025,
+    "cardSlug": "zion-williamson-20000706-2025-limited-189"
+  },
+  {
+    "player": "Jaylen Brown",
+    "playerSlug": "jaylen-brown-19961024",
+    "team": "Boston Celtics",
+    "teamSlug": "boston-celtics",
+    "serialNumber": 165,
+    "season": 2025,
+    "cardSlug": "jaylen-brown-19961024-2025-limited-165"
+  },
+  {
+    "player": "Derrick White",
+    "playerSlug": "derrick-white-19940702",
+    "team": "Boston Celtics",
+    "teamSlug": "boston-celtics",
+    "serialNumber": 212,
+    "season": 2025,
+    "cardSlug": "derrick-white-19940702-2025-limited-212"
+  }
+]
+

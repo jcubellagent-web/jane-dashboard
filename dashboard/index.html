@@ -1919,6 +1919,35 @@
                     }
                 });
                 
+                // Always light Reasoning when brain is active (Claude is always thinking)
+                if (hasActive || mindState.task) {
+                    if (!activeRegions.has('Reasoning')) {
+                        activateBrainRegion('Reasoning', brainToolColors['opus']);
+                        const rIdx = brainRegions.findIndex(br => br.name === 'Reasoning');
+                        if (rIdx !== -1 && !activeNodeIndices.includes(rIdx)) activeNodeIndices.push(rIdx);
+                    }
+                }
+
+                // Thought-keyword region activation
+                if (thoughtLc) {
+                    const kwMap = {
+                        'Memory': ['memory','reading file','writing file','saving','recalling'],
+                        'Research': ['search','fetching','looking up','researching','web'],
+                        'Browsing': ['browser','navigating','screenshot','scraping'],
+                        'Communication': ['whatsapp','message','email','gmail','sending'],
+                        'Markets': ['trading','price','market','sorare','kalshi','coinbase','stock'],
+                        'Content': ['tweet','thread','x.com','posting','tiktok','substack'],
+                        'Coding': ['script','code','running','exec','deploy','git']
+                    };
+                    Object.entries(kwMap).forEach(([region, keywords]) => {
+                        if (!activeRegions.has(region) && keywords.some(kw => thoughtLc.includes(kw))) {
+                            activateBrainRegion(region, 'rgba(74,222,128,0.6)');
+                            const idx = brainRegions.findIndex(br => br.name === region);
+                            if (idx !== -1 && !activeNodeIndices.includes(idx)) activeNodeIndices.push(idx);
+                        }
+                    });
+                }
+
                 // Draw synaptic arcs between active nodes
                 if (activeNodeIndices.length > 1) {
                     drawSynapticArcs(activeNodeIndices);

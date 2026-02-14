@@ -16,6 +16,30 @@
     "skill-vetting": {
       "version": "1.0.1",
       "installedAt": 1771045338120
+    },
+    "gcalcli-calendar": {
+      "version": "3.0.0",
+      "installedAt": 1771045521905
+    },
+    "aisa-twitter-api": {
+      "version": "1.0.0",
+      "installedAt": 1771045531774
+    },
+    "x-twitter": {
+      "version": "2.3.1",
+      "installedAt": 1771045534742
+    },
+    "excalidraw": {
+      "version": "1.0.0",
+      "installedAt": 1771045537385
+    },
+    "yahoo-finance": {
+      "version": "1.0.0",
+      "installedAt": 1771045540786
+    },
+    "rss-ai-reader": {
+      "version": "1.0.0",
+      "installedAt": 1771045544003
     }
   }
 }

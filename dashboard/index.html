@@ -340,6 +340,12 @@
         .ollama-indicator { stroke:#f97316; fill:none; opacity:0; transition:opacity 0.4s; }
         .ollama-active .ollama-indicator { opacity:1; animation: ollamaPulse 2s ease-in-out infinite, ollamaGlow 2s ease-in-out infinite; }
         
+        /* Grok indicator ring segment */
+        @keyframes grokPulse { 0%,100% { stroke-opacity:0.3; stroke-width:2; } 50% { stroke-opacity:0.8; stroke-width:3; } }
+        @keyframes grokGlow { 0%,100% { filter:drop-shadow(0 0 4px rgba(239,68,68,0.4)); } 50% { filter:drop-shadow(0 0 12px rgba(239,68,68,0.8)); } }
+        .grok-indicator { stroke:#ef4444; fill:none; opacity:0; transition:opacity 0.4s; }
+        .grok-active .grok-indicator { opacity:1; animation: grokPulse 2s ease-in-out infinite, grokGlow 2s ease-in-out infinite; }
+        
         /* Synaptic arcs between nodes when active */
         .synapse-arc { stroke:rgba(74,222,128,0.3); fill:none; stroke-width:0.8; opacity:0; stroke-linecap:round; }
         @keyframes synapseFlash { 0%,100% { opacity:0; } 20%,80% { opacity:0.6; } 50% { opacity:1; } }
@@ -860,6 +866,8 @@
                                 <g id="radar-ticks"></g>
                                 <!-- Ollama indicator arc (shows when Ollama is active) -->
                                 <path id="ollama-indicator" class="ollama-indicator" d="M 100,158 A 32,32 0 0,1 127,171" stroke-width="2.5" stroke-linecap="round"/>
+                                <!-- Grok indicator arc (shows when Grok is active) -->
+                                <path id="grok-indicator" class="grok-indicator" d="M 100,158 A 32,32 0 0,0 73,171" stroke-width="2.5" stroke-linecap="round"/>
                                 <circle cx="100" cy="190" r="24" fill="rgba(74,222,128,0.08)" stroke="rgba(74,222,128,0.3)" stroke-width="0.6" stroke-dasharray="4 4" class="hub-outer-ring" id="hub-outer-ring"/>
                                 <circle cx="100" cy="190" r="18" fill="#0a0a0a" stroke="rgba(74,222,128,0.45)" stroke-width="1.2" id="brain-hub" class="brain-hub"/>
                                 <image href="icon-192.png" x="86" y="176" width="28" height="28" id="brain-hub-label" opacity="0.8"/>
@@ -1422,6 +1430,7 @@
             'whisper':'#facc15','tts':'#facc15',
             'browser':'#3b82f6','web_search':'#3b82f6','web_fetch':'#3b82f6',
             'ollama':'#f97316',
+            'grok':'#ef4444',
             'qwen':'#ec4899',
             'x':'#1d9bf0','twitter':'#1d9bf0',
             'sorare':'#ffd700',
@@ -1435,6 +1444,7 @@
         var brainToolToRegions = {
             'opus':['Reasoning'],'claude':['Reasoning'],'sonnet':['Reasoning'],
             'ollama':['Coding','Reasoning'],'qwen':['Coding'],
+            'grok':['Research','Browsing'],
             'whisper':['Communication'],'tts':['Communication'],
             'web_search':['Research'],'web_fetch':['Research'],'browser':['Browsing'],
             'exec':['Coding'],'read':['Memory'],'write':['Memory'],'edit':['Memory','Coding'],
@@ -1598,6 +1608,18 @@
             } else if (!isActive && _ollamaActive) {
                 svg.classList.remove('ollama-active');
                 _ollamaActive = false;
+            }
+        }
+
+        let _grokActive = false;
+        function updateGrokIndicator(isActive) {
+            const svg = document.getElementById('brain-map');
+            if (isActive && !_grokActive) {
+                svg.classList.add('grok-active');
+                _grokActive = true;
+            } else if (!isActive && _grokActive) {
+                svg.classList.remove('grok-active');
+                _grokActive = false;
             }
         }
 
@@ -1859,6 +1881,7 @@
             if (thoughtLc.includes('grok')) modelsActive.grok = true;
             if (thoughtLc.includes('ollama')) modelsActive.ollama = true;
             updateOllamaIndicator(modelsActive.ollama);
+            updateGrokIndicator(modelsActive.grok);
             
             // Update model legend dots
             ['opus', 'sonnet', 'whisper', 'ollama', 'grok'].forEach(m => {

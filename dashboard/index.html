@@ -1057,9 +1057,9 @@
                 ]);
                 _cachedSessions = sessions;
                 if (sessions?.sessions?.length) {
-                    const main = sessions.sessions.find(s => s.kind === 'main') || sessions.sessions[0];
+                    const main = sessions.sessions.find(s => s.kind === 'main' || s.key === 'agent:main:main') || sessions.sessions[0];
                     if (main) {
-                        const used = main.totalTokens || 0;
+                        const used = main.totalTokens || main.tokens || 0;
                         const cap = main.contextTokens || 200000;
                         const pct = Math.round((used / cap) * 100);
                         const ctxEl = document.getElementById('ctx-slim');

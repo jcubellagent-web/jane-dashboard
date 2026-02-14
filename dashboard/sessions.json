@@ -1,4 +1,15 @@
 {
-  "lastUpdated": 1771060000000,
-  "activeSessions": 20
+  "lastUpdated": 1739558500000,
+  "sessions": [
+    {
+      "key": "agent:main:main",
+      "kind": "main",
+      "label": "Main Session",
+      "model": "claude-opus-4-6",
+      "tokens": 155000,
+      "totalTokens": 155000,
+      "contextTokens": 200000,
+      "channel": "whatsapp"
+    }
+  ]
 }

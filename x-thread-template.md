@@ -48,7 +48,7 @@ Thread 👇
 ▸ [Speculative deal or upcoming IPO]
 
 ## Tweet 3.5 (AI Impact on Enterprise SaaS)
-🏢 THE LATEST & GREATEST ON AI'S IMPACT TO ENTERPRISE SaaS
+🏢 AI IMPACT ON ENTERPRISE SaaS
 
 Tracking how enterprise software giants are responding to the AI wave.
 

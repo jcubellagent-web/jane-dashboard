@@ -1,5 +1,5 @@
 {
-  "updated": "2026-02-13T23:35:12.222422+00:00",
+  "updated": "2026-02-14T01:01:00.000Z",
   "groups": [
     {
       "label": "\ud83c\udf05 Morning",
@@ -137,7 +137,7 @@
         {
           "name": "Daily Recap",
           "time": "7:15 PM",
-          "done": false,
+          "done": true,
           "type": "thread",
           "threadNum": 5,
           "tweets": 7
@@ -145,14 +145,14 @@
         {
           "name": "X Replies (8 PM)",
           "time": "8:00 PM",
-          "done": false,
+          "done": true,
           "type": "replies",
-          "count": 5
+          "count": 6
         },
         {
           "name": "Substack Daily Digest",
           "time": "8:00 PM",
-          "done": false,
+          "done": true,
           "type": "ops"
         },
         {

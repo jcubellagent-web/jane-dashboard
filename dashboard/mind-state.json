@@ -1,7 +1,13 @@
 {
-  "task": null,
-  "steps": [],
-  "thought": "Idle \u2014 2FA enabled, IMAP working, all wired up",
-  "lastUpdated": 1771045068025,
-  "goal": null
+  "task": "Gmail IMAP + Skills setup",
+  "steps": [
+    {"text": "Enable 2FA on Google", "status": "done", "tool": "browser"},
+    {"text": "Generate App Password", "status": "done", "tool": "browser"},
+    {"text": "Test IMAP access", "status": "done", "tool": "exec"},
+    {"text": "Install skill-vetting", "status": "done", "tool": "exec"},
+    {"text": "Vet & install remaining skills", "status": "pending", "tool": "exec"}
+  ],
+  "thought": "IMAP working! Gmail checks no longer need browser. Waiting on Josh for the numbered skill list.",
+  "lastUpdated": 1739509500000,
+  "subAgents": []
 }

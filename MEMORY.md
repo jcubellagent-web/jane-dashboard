@@ -166,6 +166,8 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - Stored in `.secrets/gmail.txt`
 - ⚠️ Google recovery flow auto-changes password on every "Continue" click — NEVER click Continue on the recovery nudge screen
 - 2FA enabled (Google prompt + SMS to Josh's phone)
-- App Password for IMAP: `.secrets/gmail_app_password.txt` (use with `imaplib.IMAP4_SSL('imap.gmail.com')`)
+- App Password for IMAP: `.secrets/gmail_app_password.txt` → `ulzp qyyi yztw wdou`
+- IMAP tested & working: `imaplib.IMAP4_SSL('imap.gmail.com')`, login with app password (no spaces needed but works either way)
+- 107 messages in inbox, 62 unread as of Feb 14
 
 _Last updated: 2026-02-14_

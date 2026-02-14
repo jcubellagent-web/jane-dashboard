@@ -1,0 +1,34 @@
+{
+  "description": "Running tracker of public statements by large software companies quantifying AI's impact",
+  "lastUpdated": "2026-02-14T04:10:00Z",
+  "statements": [
+    {
+      "company": "Salesforce",
+      "ticker": "CRM",
+      "date": "2026-02-12",
+      "source": "Q4 FY26 Earnings Call",
+      "statement": "Agentforce deployed to 1,000+ enterprise customers; AI-attributed revenue growing 'faster than any product in company history'",
+      "metrics": ["1,000+ Agentforce customers"],
+      "category": "adoption"
+    },
+    {
+      "company": "Duolingo",
+      "ticker": "DUOL",
+      "date": "2026-01-15",
+      "source": "Blog Post / Press Release",
+      "statement": "AI-generated content now covers 80%+ of new course material; reduced content creation costs significantly while expanding language offerings",
+      "metrics": ["80%+ AI-generated content"],
+      "category": "productivity"
+    },
+    {
+      "company": "Palantir",
+      "ticker": "PLTR",
+      "date": "2026-02-03",
+      "source": "Q4 2025 Earnings",
+      "statement": "AIP platform drove commercial revenue growth of 54% YoY; US commercial revenue up 64%",
+      "metrics": ["54% commercial revenue growth", "64% US commercial growth"],
+      "category": "revenue"
+    }
+  ],
+  "categories": ["revenue", "adoption", "productivity", "headcount", "cost_savings", "bookings", "guidance"]
+}

@@ -50,13 +50,23 @@ Thread 👇
 ## Tweet 3.5 (AI Impact on Enterprise SaaS)
 🏢 AI IMPACT ON ENTERPRISE SaaS
 
-Tracking how enterprise software giants are responding to the AI wave.
+Tracking ALL public statements by large software companies quantifying AI's impact — revenue attribution, productivity gains, cost savings, headcount changes, AI bookings, customer adoption metrics, and forward guidance tied to AI.
 
-▸ $CRM (Salesforce): [latest — layoffs, Agentforce updates, earnings, strategy shifts]
-▸ $NOW (ServiceNow): [latest — AI partnerships, revenue growth, platform plays]
-▸ $WDAY (Workday): [latest — AI monetization, analyst sentiment, strategic moves]
+**COMPANIES TO TRACK** (not limited to these — include ANY large software company making quantified AI impact statements):
+▸ $CRM (Salesforce): Agentforce metrics, AI revenue, workforce restructuring numbers
+▸ $NOW (ServiceNow): AI bookings, Now Assist adoption, AI-attributed revenue
+▸ $WDAY (Workday): AI monetization figures, customer adoption rates
+▸ $PLTR (Palantir): AIP revenue, commercial customer growth, AI contract values
+▸ $DUOL (Duolingo): AI-driven content creation efficiency, cost savings from AI
+▸ $MSFT (Microsoft): Copilot revenue/adoption, Azure AI growth numbers
+▸ $GOOG (Google): Gemini enterprise adoption, Cloud AI revenue
+▸ $ADBE (Adobe): Firefly usage stats, AI feature revenue impact
+▸ $INTU (Intuit): AI-assisted tax/accounting metrics
+▸ $SNOW (Snowflake), $MDB (MongoDB), $DDOG (Datadog), $TEAM (Atlassian), etc.
 
-📊 [One sharp pattern or insight tying it together — who's winning, who's restructuring]
+**PRIORITIZE**: Earnings calls, investor days, press releases, analyst notes, CEO/CFO quotes that put SPECIFIC NUMBERS on AI impact (e.g., "$X billion in AI bookings", "Y% productivity gain", "reduced headcount by Z through AI")
+
+📊 [Pattern/insight: who's quantifying real impact vs. who's just talking about AI without numbers]
 
 ## Tweet 4 (NASDAQ 100 Movers)
 📈 NASDAQ 100 — TOP MOVERS

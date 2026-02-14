@@ -1838,21 +1838,29 @@
             }
 
             // Check for model usage and update legend
-            let modelsActive = { opus: false, sonnet: false, whisper: false, ollama: false };
+            let modelsActive = { opus: false, sonnet: false, whisper: false, ollama: false, grok: false };
             if (mindState.steps) {
                 mindState.steps.forEach(s => {
                     const tool = (s.tool || '').toLowerCase();
                     const model = (s.model || '').toLowerCase();
-                    if (tool.includes('opus') || model.includes('opus') || tool.includes('claude') && !model.includes('sonnet')) modelsActive.opus = true;
-                    if (tool.includes('sonnet') || model.includes('sonnet')) modelsActive.sonnet = true;
-                    if (tool.includes('whisper') || model.includes('whisper') || tool.includes('tts')) modelsActive.whisper = true;
-                    if (tool.includes('ollama') || model.includes('ollama') || tool.includes('qwen')) modelsActive.ollama = true;
+                    const text = (s.text || '').toLowerCase();
+                    const combo = tool + ' ' + model + ' ' + text;
+                    if (combo.includes('opus') || (combo.includes('claude') && !combo.includes('sonnet'))) modelsActive.opus = true;
+                    if (combo.includes('sonnet')) modelsActive.sonnet = true;
+                    if (combo.includes('whisper') || combo.includes('transcrib') || combo.includes('tts') || combo.includes('voice')) modelsActive.whisper = true;
+                    if (combo.includes('ollama') || combo.includes('qwen') || combo.includes('llama')) modelsActive.ollama = true;
+                    if (combo.includes('grok')) modelsActive.grok = true;
                 });
             }
+            // Also check thought field for model mentions
+            const thought = (mindState.thought || '').toLowerCase();
+            if (thought.includes('whisper') || thought.includes('transcrib')) modelsActive.whisper = true;
+            if (thought.includes('grok')) modelsActive.grok = true;
+            if (thought.includes('ollama')) modelsActive.ollama = true;
             updateOllamaIndicator(modelsActive.ollama);
             
             // Update model legend dots
-            ['opus', 'sonnet', 'whisper', 'ollama'].forEach(m => {
+            ['opus', 'sonnet', 'whisper', 'ollama', 'grok'].forEach(m => {
                 const el = document.getElementById('model-' + m);
                 if (el) el.style.opacity = modelsActive[m] ? '1' : '0.4';
             });

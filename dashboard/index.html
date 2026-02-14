@@ -750,6 +750,10 @@
         <span class="status-slim-pill" id="mini2-slim" title="Mac Mini #2">Mini2: --</span>
         <span class="status-slim-divider">·</span>
         <span class="status-slim-pill" id="ctx-slim" title="Context window usage">Ctx: --%</span>
+        <span class="status-slim-divider">·</span>
+        <span class="status-slim-pill" id="session-limit-slim" title="Anthropic session usage limit">Sess: --%</span>
+        <span class="status-slim-divider">·</span>
+        <span class="status-slim-pill" id="weekly-limit-slim" title="Anthropic weekly usage limit">Wk: --%</span>
     </div>
 
     <!-- Main Grid -->
@@ -2431,6 +2435,38 @@
         refreshWallet().catch(e=>console.warn('Wallet:',e.message));
 
         // Auto-refresh
+        // Usage limits (session + weekly)
+        function timeUntil(isoStr) {
+            const ms = new Date(isoStr).getTime() - Date.now();
+            if (ms <= 0) return 'now';
+            const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000);
+            if (h > 24) { const d = Math.floor(h / 24); return d + 'd ' + (h % 24) + 'h'; }
+            return h ? h + 'h ' + m + 'm' : m + 'm';
+        }
+        async function refreshUsageLimits() {
+            try {
+                const r = await fetch('/dashboard/usage-limits.json?_=' + Date.now());
+                if (!r.ok) return;
+                const d = await r.json();
+                const sessEl = document.getElementById('session-limit-slim');
+                const wkEl = document.getElementById('weekly-limit-slim');
+                if (sessEl && d.session) {
+                    const p = d.session.pct;
+                    sessEl.textContent = 'Sess: ' + p + '% (' + timeUntil(d.session.resetsAt) + ')';
+                    sessEl.className = 'status-slim-pill ' + (p > 80 ? 'red' : p > 50 ? '' : 'green');
+                    sessEl.title = 'Anthropic session limit — resets ' + new Date(d.session.resetsAt).toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit'});
+                }
+                if (wkEl && d.weekly) {
+                    const p = d.weekly.pct;
+                    wkEl.textContent = 'Wk: ' + p + '% (' + timeUntil(d.weekly.resetsAt) + ')';
+                    wkEl.className = 'status-slim-pill ' + (p > 80 ? 'red' : p > 50 ? '' : 'green');
+                    wkEl.title = 'Anthropic weekly limit — resets ' + new Date(d.weekly.resetsAt).toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit',weekday:'short'});
+                }
+            } catch(e) {}
+        }
+        refreshUsageLimits();
+        setInterval(refreshUsageLimits, 30000);
+
         setInterval(refreshMind, 5000);
         setInterval(()=>{ refreshSystem(); }, 30000);
         setInterval(refreshXStats, 900000);

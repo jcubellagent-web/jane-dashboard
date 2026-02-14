@@ -1,0 +1,13 @@
+{
+  "session": {
+    "pct": 11,
+    "resetsAt": "2026-02-14T23:00:00Z",
+    "lastUpdated": 1739560300000
+  },
+  "weekly": {
+    "pct": 2,
+    "resetsAt": "2026-02-21T18:00:00Z",
+    "lastUpdated": 1739560300000
+  },
+  "note": "Session resets every ~5h. Weekly resets Saturdays ~1 PM ET (6 PM UTC). Updated manually from Anthropic dashboard or estimated from cost tracking."
+}

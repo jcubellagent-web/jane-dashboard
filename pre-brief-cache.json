@@ -205,5 +205,554 @@
       "value": "158627",
       "date": "2026-01-01"
     }
+  },
+  "openAlex": [
+    {
+      "title": "Interfaces and Free Boundaries, Mathematical Analysis, Computation and Applications",
+      "authors": "Klaus Deckelnick",
+      "publication_date": "2026-02-13",
+      "citations": 24,
+      "url": "https://openalex.org/W8772576",
+      "abstract": null
+    },
+    {
+      "title": "Linguistic Landscape. An international journal",
+      "authors": "Taylor-Leech, Kerry",
+      "publication_date": "2026-02-13",
+      "citations": 12,
+      "url": "https://openalex.org/W4210247300",
+      "abstract": null
+    },
+    {
+      "title": "AI for Everyone: Engaging Middle Schoolers through Collaborative, Ethical, and Multimodal AI Learning",
+      "authors": "Kayleigh Stallings, Nicole Tian, Elif Yayla Ercek",
+      "publication_date": "2026-02-13",
+      "citations": 2,
+      "url": "https://openalex.org/W7128820001",
+      "abstract": null
+    },
+    {
+      "title": "Distilling hydrological and land-surface model parameters from physio-geographical properties using text-generating AI",
+      "authors": "Moritz Feigl, Mathew Herrnegger, Karsten Schulz",
+      "publication_date": "2026-02-13",
+      "citations": 1,
+      "url": "https://openalex.org/W7128790315",
+      "abstract": null
+    },
+    {
+      "title": "Think Like AI: Hands-On Exploration of Sampling Parameters and Prompts for Middle School Students' Generative AI Literacy",
+      "authors": "Saniya Vahedian Movahed",
+      "publication_date": "2026-02-13",
+      "citations": 1,
+      "url": "https://openalex.org/W7128789547",
+      "abstract": null
+    }
+  ],
+  "redditAI": [
+    {
+      "title": "Oh, good: Discord's age verification rollout has ties to Palantir co-founder and panopticon architect Peter Thiel",
+      "author": "vriska1",
+      "subreddit": "technology",
+      "score": 45867,
+      "num_comments": 1228,
+      "url": "https://www.pcgamer.com/software/platforms/oh-good-discords-age-verification-rollout-has-ties-to-palantir-co-founder-and-panopticon-architect-peter-thiel/",
+      "permalink": "https://reddit.com/r/technology/comments/1r49346/oh_good_discords_age_verification_rollout_has/",
+      "created_utc": 1771037394.0
+    },
+    {
+      "title": "Discord Distances Itself From Age Verification Firm After Ties To Palantir’s Peter Thiel Surface",
+      "author": "CrispyMiner",
+      "subreddit": "technology",
+      "score": 13191,
+      "num_comments": 579,
+      "url": "https://kotaku.com/discord-palantir-peter-thiel-persona-age-verification-2000668951",
+      "permalink": "https://reddit.com/r/technology/comments/1r4thgz/discord_distances_itself_from_age_verification/",
+      "created_utc": 1771097207.0
+    },
+    {
+      "title": "In a blind test, audiophiles couldn't tell the difference between audio signals sent through copper wire, a banana, or wet mud — 'The mud should sound perfectly awful, but it doesn't,' notes the experiment creator",
+      "author": "edbegley1",
+      "subreddit": "technology",
+      "score": 12900,
+      "num_comments": 1269,
+      "url": "https://www.tomshardware.com/speakers/in-a-blind-test-audiophiles-couldnt-tell-the-difference-between-audio-signals-sent-through-copper-wire-a-banana-or-wet-mud-the-mud-should-sound-perfectly-awful-but-it-doesnt-notes-the-experiment-creator?utm_source=flipboard&amp;utm_content=topic%2Ftechnology",
+      "permalink": "https://reddit.com/r/technology/comments/1r4nn23/in_a_blind_test_audiophiles_couldnt_tell_the/",
+      "created_utc": 1771083389.0
+    },
+    {
+      "title": "Ford CEO Jim Farley says \"the customer has spoken\" after its EV business lost nearly $5 billion in 2025",
+      "author": "ControlCAD",
+      "subreddit": "technology",
+      "score": 11554,
+      "num_comments": 3193,
+      "url": "https://www.businessinsider.com/ford-ceo-customer-spoken-ev-business-lost-billions-2026-2",
+      "permalink": "https://reddit.com/r/technology/comments/1r41v2q/ford_ceo_jim_farley_says_the_customer_has_spoken/",
+      "created_utc": 1771018436.0
+    },
+    {
+      "title": "Meta says it won't chop the bottom 5% performers this year",
+      "author": "lurker_bee",
+      "subreddit": "technology",
+      "score": 2367,
+      "num_comments": 442,
+      "url": "https://www.businessinsider.com/meta-says-no-performance-related-layoffs-planned-2026-2",
+      "permalink": "https://reddit.com/r/technology/comments/1r4bsva/meta_says_it_wont_chop_the_bottom_5_performers/",
+      "created_utc": 1771045454.0
+    },
+    {
+      "title": "Swarms of AI bots can sway people’s beliefs – threatening democracy",
+      "author": "Wagamaga",
+      "subreddit": "technology",
+      "score": 2010,
+      "num_comments": 186,
+      "url": "https://theconversation.com/swarms-of-ai-bots-can-sway-peoples-beliefs-threatening-democracy-274778",
+      "permalink": "https://reddit.com/r/technology/comments/1r4jxlv/swarms_of_ai_bots_can_sway_peoples_beliefs/",
+      "created_utc": 1771073673.0
+    },
+    {
+      "title": "In a blind test, audiophiles couldn't tell the difference between audio signals sent through copper wire, a banana, or wet mud",
+      "author": "gdelacalle",
+      "subreddit": "technology",
+      "score": 1310,
+      "num_comments": 160,
+      "url": "https://www.tomshardware.com/speakers/in-a-blind-test-audiophiles-couldnt-tell-the-difference-between-audio-signals-sent-through-copper-wire-a-banana-or-wet-mud-the-mud-should-sound-perfectly-awful-but-it-doesnt-notes-the-experiment-creator",
+      "permalink": "https://reddit.com/r/technology/comments/1r4qkxm/in_a_blind_test_audiophiles_couldnt_tell_the/",
+      "created_utc": 1771090339.0
+    },
+    {
+      "title": "Verizon imposes new roadblock on users trying to unlock paid-off phones",
+      "author": "trydola",
+      "subreddit": "technology",
+      "score": 747,
+      "num_comments": 170,
+      "url": "https://arstechnica.com/tech-policy/2026/02/verizon-makes-customers-wait-35-days-to-unlock-fully-paid-off-phones/",
+      "permalink": "https://reddit.com/r/technology/comments/1r4m5xb/verizon_imposes_new_roadblock_on_users_trying_to/",
+      "created_utc": 1771079734.0
+    },
+    {
+      "title": "Heineken to slash up to 6,000 jobs in AI 'productivity savings' amid slump in beer sales",
+      "author": "MetaKnowing",
+      "subreddit": "technology",
+      "score": 700,
+      "num_comments": 160,
+      "url": "https://www.cnbc.com/2026/02/11/heineken-slash-6000-jobs-ai-productivity-savings-.html",
+      "permalink": "https://reddit.com/r/technology/comments/1r4p4hr/heineken_to_slash_up_to_6000_jobs_in_ai/",
+      "created_utc": 1771086961.0
+    },
+    {
+      "title": "[D] ICML: every paper in my review batch contains prompt-injection text embedded in the PDF",
+      "author": "Working-Read1838",
+      "subreddit": "MachineLearning",
+      "score": 394,
+      "num_comments": 52,
+      "url": "https://www.reddit.com/r/MachineLearning/comments/1r3oekq/d_icml_every_paper_in_my_review_batch_contains/",
+      "permalink": "https://reddit.com/r/MachineLearning/comments/1r3oekq/d_icml_every_paper_in_my_review_batch_contains/",
+      "created_utc": 1770987284.0
+    },
+    {
+      "title": "Spotify says its best developers haven't written a line of code since December, thanks to AI",
+      "author": "esporx",
+      "subreddit": "artificial",
+      "score": 279,
+      "num_comments": 146,
+      "url": "https://techcrunch.com/2026/02/12/spotify-says-its-best-developers-havent-written-a-line-of-code-since-december-thanks-to-ai/",
+      "permalink": "https://reddit.com/r/artificial/comments/1r35se7/spotify_says_its_best_developers_havent_written_a/",
+      "created_utc": 1770931098.0
+    },
+    {
+      "title": "Pentagon's use of Claude during Maduro raid sparks Anthropic feud",
+      "author": "Naurgul",
+      "subreddit": "artificial",
+      "score": 225,
+      "num_comments": 39,
+      "url": "https://www.axios.com/2026/02/13/anthropic-claude-maduro-raid-pentagon",
+      "permalink": "https://reddit.com/r/artificial/comments/1r4hgnu/pentagons_use_of_claude_during_maduro_raid_sparks/",
+      "created_utc": 1771065314.0
+    },
+    {
+      "title": "Hi! We're 404 Media's Jason Koebler and Joseph Cox. AMA (us) about the tech ICE is using, Flock and the state of surveillance in the US on Feb. 4, 12 pm ET",
+      "author": "404mediaco",
+      "subreddit": "technology",
+      "score": 193,
+      "num_comments": 122,
+      "url": "https://www.reddit.com/r/technology/comments/1qv9y8j/hi_were_404_medias_jason_koebler_and_joseph_cox/",
+      "permalink": "https://reddit.com/r/technology/comments/1qv9y8j/hi_were_404_medias_jason_koebler_and_joseph_cox/",
+      "created_utc": 1770166274.0
+    },
+    {
+      "title": "[D] Struggling on the NLP job market as a final-year PhD , looking for advice",
+      "author": "RepresentativeBed838",
+      "subreddit": "MachineLearning",
+      "score": 118,
+      "num_comments": 58,
+      "url": "https://www.reddit.com/r/MachineLearning/comments/1r467ra/d_struggling_on_the_nlp_job_market_as_a_finalyear/",
+      "permalink": "https://reddit.com/r/MachineLearning/comments/1r467ra/d_struggling_on_the_nlp_job_market_as_a_finalyear/",
+      "created_utc": 1771029413.0
+    },
+    {
+      "title": "1Password open sources a benchmark to stop AI agents from leaking credentials",
+      "author": "tekz",
+      "subreddit": "artificial",
+      "score": 38,
+      "num_comments": 8,
+      "url": "https://www.helpnetsecurity.com/2026/02/12/1password-security-comprehension-awareness-measure-scam-ai-benchmark/",
+      "permalink": "https://reddit.com/r/artificial/comments/1r3gbrx/1password_open_sources_a_benchmark_to_stop_ai/",
+      "created_utc": 1770959112.0
+    }
+  ],
+  "lobsters": [
+    {
+      "title": "An AI Agent Published a Hit Piece on Me – More Things Have Happened",
+      "author": "Garbi",
+      "score": 74,
+      "comment_count": 42,
+      "url": "https://theshamblog.com/an-ai-agent-published-a-hit-piece-on-me-part-2/",
+      "short_id_url": "https://lobste.rs/s/fbaxhc",
+      "tags": [
+        "practices",
+        "security",
+        "vibecoding"
+      ],
+      "created_at": "2026-02-14T00:33:08.000-06:00"
+    },
+    {
+      "title": "microgpt",
+      "author": "asb",
+      "score": 66,
+      "comment_count": 5,
+      "url": "http://karpathy.github.io/2026/02/12/microgpt/",
+      "short_id_url": "https://lobste.rs/s/uyjjtz",
+      "tags": [
+        "ai",
+        "python"
+      ],
+      "created_at": "2026-02-13T10:08:13.000-06:00"
+    },
+    {
+      "title": "Hacking a pharmacy to get free prescription drugs and more",
+      "author": "mtlynch",
+      "score": 1,
+      "comment_count": 0,
+      "url": "https://eaton-works.com/2026/02/13/dava-india-hack/",
+      "short_id_url": "https://lobste.rs/s/x4vtpq",
+      "tags": [
+        "security"
+      ],
+      "created_at": "2026-02-14T15:14:32.000-06:00"
+    },
+    {
+      "title": "ANN: I built a new Ada build tool for personal use",
+      "author": "tomekw",
+      "score": 15,
+      "comment_count": 2,
+      "url": "https://github.com/tomekw/tada",
+      "short_id_url": "https://lobste.rs/s/pgem2t",
+      "tags": [
+        "programming",
+        "release"
+      ],
+      "created_at": "2026-02-13T12:43:15.000-06:00"
+    }
+  ],
+  "githubTrending": [
+    {
+      "repo": "/trending/unknown?since=daily",
+      "url": "https://github.com/trending/unknown?since=daily"
+    },
+    {
+      "repo": "/trending/1c-enterprise?since=daily",
+      "url": "https://github.com/trending/1c-enterprise?since=daily"
+    },
+    {
+      "repo": "/trending/2-dimensional-array?since=daily",
+      "url": "https://github.com/trending/2-dimensional-array?since=daily"
+    },
+    {
+      "repo": "/trending/4d?since=daily",
+      "url": "https://github.com/trending/4d?since=daily"
+    },
+    {
+      "repo": "/trending/abap?since=daily",
+      "url": "https://github.com/trending/abap?since=daily"
+    },
+    {
+      "repo": "/trending/abap-cds?since=daily",
+      "url": "https://github.com/trending/abap-cds?since=daily"
+    },
+    {
+      "repo": "/trending/abnf?since=daily",
+      "url": "https://github.com/trending/abnf?since=daily"
+    },
+    {
+      "repo": "/trending/actionscript?since=daily",
+      "url": "https://github.com/trending/actionscript?since=daily"
+    },
+    {
+      "repo": "/trending/ada?since=daily",
+      "url": "https://github.com/trending/ada?since=daily"
+    },
+    {
+      "repo": "/trending/adblock-filter-list?since=daily",
+      "url": "https://github.com/trending/adblock-filter-list?since=daily"
+    },
+    {
+      "repo": "/trending/adobe-font-metrics?since=daily",
+      "url": "https://github.com/trending/adobe-font-metrics?since=daily"
+    },
+    {
+      "repo": "/trending/agda?since=daily",
+      "url": "https://github.com/trending/agda?since=daily"
+    },
+    {
+      "repo": "/trending/ags-script?since=daily",
+      "url": "https://github.com/trending/ags-script?since=daily"
+    },
+    {
+      "repo": "/trending/aidl?since=daily",
+      "url": "https://github.com/trending/aidl?since=daily"
+    },
+    {
+      "repo": "/trending/aiken?since=daily",
+      "url": "https://github.com/trending/aiken?since=daily"
+    },
+    {
+      "repo": "/trending/al?since=daily",
+      "url": "https://github.com/trending/al?since=daily"
+    },
+    {
+      "repo": "/trending/algol?since=daily",
+      "url": "https://github.com/trending/algol?since=daily"
+    },
+    {
+      "repo": "/trending/alloy?since=daily",
+      "url": "https://github.com/trending/alloy?since=daily"
+    }
+  ],
+  "newsAPI": [
+    {
+      "title": "Kiwi Chris Liddell recruited by AI gaint Anthropic ahead of its $630 billion IPO",
+      "source": "New Zealand Herald",
+      "author": "Chris Keall",
+      "description": "Chris Liddell served as deputy chief of staff in Donald Trump's first term.",
+      "url": "https://www.nzherald.co.nz/business/kiwi-chris-liddell-recruited-by-ai-gaint-anthropic-ahead-of-its-630-billion-ipo/QSZXDSRQXJBSLDAKIPEWGBDFEY/",
+      "publishedAt": "2026-02-13T21:38:12Z",
+      "content": "Liddell first rose to fame in US business circles when he was named Microsofts chief financial officer.\r\nIn 2009, he was head-hunted by General Motors then in Chapter 11 bankruptcy. As vice-president… [+2020 chars]"
+    },
+    {
+      "title": "Inflation Report Counters Investors' AI Nervousness",
+      "source": "Newser",
+      "author": "Bob Cronin",
+      "description": "US stocks steadied on Friday after an encouraging update on inflation helped calm a Wall Street that's been wracked by worries about how artificial intelligence technology may upend the business world. The Dow rose 48.95 to 49,500.93 to end the week down 1.2%…",
+      "url": "https://www.newser.com/story/383714/inflation-report-counters-investors-ai-nervousness.html",
+      "publishedAt": "2026-02-13T21:38:00Z",
+      "content": "Stocks got help from easing Treasury yields, which fell after a report showed inflation slowed last month by more than economists expected, the AP reports. Slower inflation could give the Federal Res… [+1254 chars]"
+    },
+    {
+      "title": "Is This What an Economic Bubble Looks Like?",
+      "source": "Foreign Policy",
+      "author": "Cameron Abadi and Adam Tooze",
+      "description": "AI investment is soaring, but returns remain uncertain.",
+      "url": "http://foreignpolicy.com/2026/02/13/is-this-what-an-economic-bubble-looks-like/",
+      "publishedAt": "2026-02-13T21:37:46Z",
+      "content": "U.S. artificial intelligence companies are expected to spend $650 billion on capital investments this year, mostly in the form of data center infrastructure. The companies clearly believe that the de… [+9555 chars]"
+    },
+    {
+      "title": "NY Dem running for Nadler seat left Palantir after allegedly making sexually explicit comments to colleague: report",
+      "source": "New York Post",
+      "author": "Ariel Zilber",
+      "description": "Bores, a 35-year-old former software engineer, recently posted on social media that he quit Palantir in protest of its contracts with ICE.",
+      "url": "https://nypost.com/2026/02/13/business/ny-dem-running-for-nadler-seat-left-palantir-after-allegedly-making-sexually-explicit-comments-to-colleague-report/",
+      "publishedAt": "2026-02-13T21:36:13Z",
+      "content": "Alex Bores, the New York State assemblymember running to succeed retiring Rep. Jerrold Nadler, resigned from Palantir in 2019 days after receiving a formal warning over alleged sexually explicit comm… [+4107 chars]"
+    },
+    {
+      "title": "S&P 500 ends up slightly as tech dips, inflation cools",
+      "source": "The Straits Times",
+      "author": null,
+      "description": "The Dow Jones Industrial Average rose 47.44 points, or 0.10 per cent, to 49,499.42, early data showed. Read more at straitstimes.com. Read more at straitstimes.com.",
+      "url": "https://www.straitstimes.com/business/companies-markets/sp-500-ends-up-slightly-as-tech-dips-inflation-cools",
+      "publishedAt": "2026-02-13T21:35:57Z",
+      "content": "NEW YORK - The S&amp;P 500 closed barely higher on Feb 13, with technology and communications services down on nagging fears of AI-disruption but equities drew support from optimism that cooling infl… [+2923 chars]"
+    },
+    {
+      "title": "How dashcams revealed 10% of sidewalk sheds are illegal",
+      "source": "New York Post",
+      "author": "Michael Samuelian, Matthew Franchi",
+      "description": "Built to protect pedestrians from falling debris, the ubiquitous sidewalk shed has become an unfortunate defining feature of New York City life.",
+      "url": "https://nypost.com/2026/02/13/opinion/how-to-shed-those-ugly-sheds-and-see-paradise-by-the-dashboard-camera/",
+      "publishedAt": "2026-02-13T21:32:29Z",
+      "content": "Built to protect pedestrians from falling debris, the ubiquitous sidewalk shed has become an unfortunate defining feature of New York City life.\r\nAnd while we can applaud the new, improved designs fo… [+4591 chars]"
+    },
+    {
+      "title": "Affaire Epstein : On connaît des noms mais c’est tout !",
+      "source": "Pauljorion.com",
+      "author": "Paul Jorion",
+      "description": "On nous régale avec la partie qui dépasse de l’iceberg mais on ne nous dit rien de ce qui s’est passé : Epstein faisait-il chanter ses copains ? Travaillait-il pour des services secrets ? On nous donne les noms de ses copains mais on n’a pas la moindre idée d…",
+      "url": "https://www.pauljorion.com/blog/2026/02/13/affaire-epstein-on-connait-des-noms-mais-cest-tout/",
+      "publishedAt": "2026-02-13T21:32:03Z",
+      "content": "Contactez Paul Jorion\r\nhttps://twitter.com/PaulJorion\r\n<ol><li>AlainFELER sur « Lindividualisme est redoutable pour la vie en démocratie »13 février 2026\r\nAmusant, votre lien, quel boulot de la part … [+14093 chars]"
+    },
+    {
+      "title": "GSA aims to publish results on USAi program, official says",
+      "source": "Nextgov",
+      "author": "Alexandra Kelley",
+      "description": "The agency’s chief AI officer discussed what GSA is learning from the new AI procurement program and how it plans to reveal those results.",
+      "url": "https://www.nextgov.com/artificial-intelligence/2026/02/gsa-aims-publish-results-usai-program-official-says/411439/",
+      "publishedAt": "2026-02-13T21:31:00Z",
+      "content": "The General Services Administration is moving to analyze the impact of the USAi program in order to better understand how agencies are using artificial intelligence tools in their daily operations.\r\n… [+3308 chars]"
+    },
+    {
+      "title": "Shield AI Seeks $1 Billion to Lead Global Defense Tech Surge",
+      "source": "pymnts.com",
+      "author": "PYMNTS",
+      "description": "Defense technology startup Shield AI is in talks to raise up to $1 billion in a funding round that would value the company at $11 billion, Bloomberg reported Friday (Feb. 13), citing unnamed sources. Shield AI provides artificial intelligence-powered software…",
+      "url": "https://www.pymnts.com/startups/2026/shield-ai-seeks-1-billion-dollars-lead-global-defense-tech-surge/",
+      "publishedAt": "2026-02-13T21:29:11Z",
+      "content": "Defense technology startup Shield AI is in talks to raise up to $1 billion in a funding round that would value the company at $11 billion, Bloomberg reported Friday (Feb. 13), citing unnamed sources.… [+2204 chars]"
+    },
+    {
+      "title": "Sales software companies Seismic and Highspot to merge",
+      "source": "SiliconANGLE News",
+      "author": "Maria Deutscher",
+      "description": "Seismic Software Inc. and Highspot Inc., two well-funded startups that develop software for enterprise sales teams, have signed a merger agreement. The companies announced the deal on Thursday. The combined organization is set to operate under the Seismic bra…",
+      "url": "https://siliconangle.com/2026/02/13/sales-software-companies-seismic-highspot-merge/",
+      "publishedAt": "2026-02-13T21:28:10Z",
+      "content": "Seismic Software Inc. and Highspot Inc., two well-funded startups that develop software for enterprise sales teams, have signed a merger agreement.\r\nThe companies announced the deal on Thursday. The … [+4190 chars]"
+    }
+  ],
+  "coinGecko": {
+    "trending": [
+      {
+        "name": "Pepe",
+        "symbol": "PEPE",
+        "market_cap_rank": 41,
+        "price_btc": 6.803815021405204E-11,
+        "score": 0
+      },
+      {
+        "name": "Pudgy Penguins",
+        "symbol": "PENGU",
+        "market_cap_rank": 99,
+        "price_btc": 1.142339829049743E-7,
+        "score": 1
+      },
+      {
+        "name": "Bittensor",
+        "symbol": "TAO",
+        "market_cap_rank": 44,
+        "price_btc": 0.0027190208990119755,
+        "score": 2
+      },
+      {
+        "name": "Virtuals Protocol",
+        "symbol": "VIRTUAL",
+        "market_cap_rank": 105,
+        "price_btc": 0.000009904478133889947,
+        "score": 3
+      },
+      {
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "market_cap_rank": 1,
+        "price_btc": 1.0,
+        "score": 4
+      },
+      {
+        "name": "Aztec",
+        "symbol": "AZTEC",
+        "market_cap_rank": 376,
+        "price_btc": 3.4038326192063366E-7,
+        "score": 5
+      },
+      {
+        "name": "Espresso",
+        "symbol": "ESP",
+        "market_cap_rank": 630,
+        "price_btc": 8.652718910489047E-7,
+        "score": 6
+      }
+    ],
+    "top_coins": [
+      {
+        "name": "Bitcoin",
+        "symbol": "btc",
+        "current_price": 69767,
+        "market_cap": 1394857425095,
+        "price_change_24h": 1.37523,
+        "volume_24h": 39089534924
+      },
+      {
+        "name": "Ethereum",
+        "symbol": "eth",
+        "current_price": 2080.38,
+        "market_cap": 250948440911,
+        "price_change_24h": 1.39911,
+        "volume_24h": 16044677027
+      },
+      {
+        "name": "Tether",
+        "symbol": "usdt",
+        "current_price": 0.999591,
+        "market_cap": 183738451968,
+        "price_change_24h": 0.00103,
+        "volume_24h": 62997556472
+      },
+      {
+        "name": "XRP",
+        "symbol": "xrp",
+        "current_price": 1.49,
+        "market_cap": 91015703489,
+        "price_change_24h": 5.89422,
+        "volume_24h": 2374000424
+      },
+      {
+        "name": "BNB",
+        "symbol": "bnb",
+        "current_price": 629.49,
+        "market_cap": 85854989055,
+        "price_change_24h": 1.31878,
+        "volume_24h": 807140374
+      },
+      {
+        "name": "USDC",
+        "symbol": "usdc",
+        "current_price": 0.999911,
+        "market_cap": 73535748314,
+        "price_change_24h": -0.00278,
+        "volume_24h": 4731774148
+      },
+      {
+        "name": "Solana",
+        "symbol": "sol",
+        "current_price": 87.58,
+        "market_cap": 49756007783,
+        "price_change_24h": 3.22382,
+        "volume_24h": 3032856769
+      },
+      {
+        "name": "TRON",
+        "symbol": "trx",
+        "current_price": 0.282358,
+        "market_cap": 26750692926,
+        "price_change_24h": 0.13641,
+        "volume_24h": 485401236
+      },
+      {
+        "name": "Dogecoin",
+        "symbol": "doge",
+        "current_price": 0.110286,
+        "market_cap": 18617344026,
+        "price_change_24h": 13.44299,
+        "volume_24h": 1439787352
+      },
+      {
+        "name": "Figure Heloc",
+        "symbol": "figr_heloc",
+        "current_price": 1.02,
+        "market_cap": 15462023670,
+        "price_change_24h": -2.09583,
+        "volume_24h": 56542
+      }
+    ]
   }
 }

@@ -611,6 +611,10 @@ function handleRequest(req, res) {
             hackernews: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6600'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='16' font-weight='bold'%3EY%3C/text%3E%3C/svg%3E",
             secedgar: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230A3161'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='9' font-weight='bold'%3ESEC%3C/text%3E%3C/svg%3E",
             techcrunch: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300A562'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='11' font-weight='bold'%3ETC%3C/text%3E%3C/svg%3E",
+            fred: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000080'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='9' font-weight='bold'%3EFRED%3C/text%3E%3C/svg%3E",
+            newsapi: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6B00'%3E%3Cpath d='M6 3h12a3 3 0 013 3v12a3 3 0 01-3 3H6a3 3 0 01-3-3V6a3 3 0 013-3zm2 3v2h8V6H8zm0 4v2h8v-2H8zm0 4v2h5v-2H8z'/%3E%3C/svg%3E",
+            openalex: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236B46C1'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='9' font-weight='bold'%3EOAlex%3C/text%3E%3C/svg%3E",
+            lobsters: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23DC2626'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3E🦞%3C/text%3E%3C/svg%3E",
         };
         const connections = {
             accounts: [
@@ -657,7 +661,13 @@ function handleRequest(req, res) {
                 { name: 'Carta Blog', detail: 'private market valuations', icon: icons.finnhub, active: true },
                 { name: 'Axios Pro Rata', detail: 'VC/PE deals roundup', icon: icons.hackernews, active: true },
                 { name: 'PE Hub', detail: 'PE transactions', icon: icons.finnhub, active: true },
-                { name: 'Reuters M&A', detail: 'strategic acquisitions', icon: icons.hackernews, active: true }
+                { name: 'Reuters M&A', detail: 'strategic acquisitions', icon: icons.hackernews, active: true },
+                { name: 'FRED API', detail: 'Fed economic data (GDP, CPI, etc)', icon: icons.fred, active: true },
+                { name: 'NewsAPI', detail: 'AI/tech headlines, 100/day', icon: icons.newsapi, active: true },
+                { name: 'OpenAlex', detail: 'recent AI research papers', icon: icons.openalex, active: true },
+                { name: 'Reddit AI', detail: 'r/MachineLearning + r/artificial', icon: icons.reddit, active: true },
+                { name: 'Lobste.rs', detail: 'tech community news', icon: icons.lobsters, active: true },
+                { name: 'GitHub Trending', detail: 'daily trending AI/ML repos', icon: icons.github, active: true }
             ],
             newsletters: [
                 { name: 'TLDR AI', detail: 'daily AI digest', active: true },
@@ -678,6 +688,9 @@ function handleRequest(req, res) {
                 { name: 'The Defiant', detail: 'DeFi news & on-chain data', active: true },
                 { name: 'Milk Road', detail: 'quick-hit crypto news', active: true },
                 { name: 'SaaStr', detail: 'enterprise SaaS metrics', active: true },
+                { name: 'The Neuron', detail: 'daily AI trends & tools', active: true },
+                { name: 'Superhuman AI', detail: 'weekly AI digest', active: false },
+                { name: 'AI Breakfast', detail: 'daily AI news roundup', active: false },
                 { name: 'Meritech Capital', detail: 'public SaaS comps', active: false }
             ]
         };

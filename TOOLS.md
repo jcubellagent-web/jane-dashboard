@@ -135,5 +135,52 @@ _How-to details and implementation notes archived in `memory/reference.md`._
    - Focus: AI trends, tools, industry analysis
    - URL: theneurondaily.com
 
+7. **NewsAPI.org**
+   - Free tier: 100 requests/day
+   - API key: `.secrets/newsapi_key.txt`
+   - Script: `scripts/fetch-newsapi.sh`
+   - Fetches top 10 AI/tech headlines
+   - Output: `pre-brief-cache.json` under `newsAPI` key
+
+8. **CoinGecko**
+   - Free tier
+   - API key: `.secrets/coingecko_api_key.txt` (header: x-cg-demo-api-key)
+   - Script: `scripts/fetch-coingecko-social.sh`
+   - Fetches trending coins + top 10 by market cap
+   - Output: `pre-brief-cache.json` under `coinGecko` key
+
+9. **OpenAlex API**
+   - Free, no key needed
+   - Script: `scripts/fetch-openalex.sh`
+   - Fetches recent AI papers (past 24h, sorted by citations)
+   - Endpoint: `https://api.openalex.org/works`
+   - Output: `pre-brief-cache.json` under `openAlex` key
+
+10. **Reddit AI**
+    - Free, public JSON endpoints
+    - Script: `scripts/fetch-reddit-ai.sh`
+    - Subreddits: r/MachineLearning, r/artificial, r/technology
+    - Top 15 posts across all subreddits
+    - Output: `pre-brief-cache.json` under `redditAI` key
+
+11. **Lobste.rs**
+    - Free, no key needed
+    - Script: `scripts/fetch-lobsters.sh`
+    - Tech/AI/ML stories filtered by tags
+    - Endpoint: `https://lobste.rs/hottest.json`
+    - Output: `pre-brief-cache.json` under `lobsters` key
+
+12. **GitHub Trending**
+    - Free, no key needed
+    - Script: `scripts/fetch-github-trending.sh`
+    - Daily trending repos (AI/ML focus)
+    - Output: `pre-brief-cache.json` under `githubTrending` key
+
+### Newsletters to Subscribe (Manual)
+13. **Superhuman AI** — subscribe at joinsuperhuman.ai
+14. **Import AI** — subscribe at importai.substack.com
+15. **AI Breakfast** — subscribe at aibreakfast.com
+16. **Stratechery** — subscribe at stratechery.com (free tier)
+
 **Cache File:** All API sources write to `/Users/jc_agent/.openclaw/workspace/pre-brief-cache.json`  
 **Usage:** Run all fetch scripts before generating daily X threads or pre-brief reports

@@ -745,6 +745,8 @@
         <span class="status-slim-divider">·</span>
         <span class="status-slim-pill" id="ram-slim">RAM: --%</span>
         <span class="status-slim-divider">·</span>
+        <span class="status-slim-pill green" id="mini1-slim" title="Mac Mini #1 (Main)">Mini1: ✓</span>
+        <span class="status-slim-divider">·</span>
         <span class="status-slim-pill" id="mini2-slim" title="Mac Mini #2">Mini2: --</span>
         <span class="status-slim-divider">·</span>
         <span class="status-slim-pill" id="ctx-slim" title="Context window usage">Ctx: --%</span>
@@ -1072,7 +1074,13 @@
                     const m1Ram = system.memory||0;
                     const m2Ram = system.mini2 ? (system.mini2.memory||0) : m1Ram;
                     document.getElementById('ram-slim').textContent = 'RAM: ' + Math.round((m1Ram+m2Ram)/2) + '%';
-                    if (system.uptime) document.getElementById('jane-age-slim').textContent = 'Age: ' + system.uptime;
+                    // Age in days since creation (Jan 31, 2026)
+                    const born = new Date('2026-01-31T00:00:00-05:00');
+                    const ageDays = Math.floor((Date.now() - born.getTime()) / 86400000);
+                    document.getElementById('jane-age-slim').textContent = 'Age: ' + ageDays + 'd';
+                    // Mini1 health (we're running on it, so if system responded, it's up)
+                    const m1 = document.getElementById('mini1-slim');
+                    if (m1) { m1.textContent = 'Mini1: ✓'; m1.className = 'status-slim-pill green'; }
                     const m2 = document.getElementById('mini2-slim');
                     if (m2 && system.mini2) {
                         m2.textContent = 'Mini2: ' + (system.mini2.online ? '✓' : '✗');

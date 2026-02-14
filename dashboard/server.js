@@ -2250,6 +2250,20 @@ function handleRequest(req, res) {
         return;
     }
 
+    if (req.url === '/api/refresh-desktop' && req.method === 'POST') {
+        // Force-refresh the desktop Chrome browser via AppleScript
+        const { exec: execCmd } = require('child_process');
+        execCmd("osascript -e 'tell application \"Google Chrome\" to reload active tab of first window'", (err) => {
+            res.writeHead(200, {'Content-Type':'application/json'});
+            if (err) {
+                res.end(JSON.stringify({ok:false, error: err.message}));
+            } else {
+                res.end('{"ok":true,"message":"Desktop browser refreshed"}');
+            }
+        });
+        return;
+    }
+
     if (req.url === '/api/x-plan' && req.method === 'GET') {
         const planFile = path.join(ROOT, 'x-plan.json');
         if (fs.existsSync(planFile)) {

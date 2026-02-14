@@ -1704,6 +1704,115 @@
             })(performance.now());
         }
 
+        // Context compaction: all nodes converge to hub, hub flashes, nodes re-expand
+        let compactionRunning = false;
+        function triggerCompactionAnimation() {
+            if (compactionRunning) return;
+            compactionRunning = true;
+            const hub = document.getElementById('brain-hub');
+            const brainSvg = document.getElementById('brain-map');
+            const nodesG = document.getElementById('brain-nodes');
+            if (!hub || !brainSvg || !nodesG) { compactionRunning = false; return; }
+            
+            // Phase 1: Light all nodes bright cyan
+            const compactColor = '#06b6d4';
+            brainRegions.forEach((r, i) => {
+                const node = document.getElementById('brain-node-' + i);
+                const line = document.getElementById('brain-line-' + i);
+                const label = document.getElementById('brain-label-' + i);
+                if (node) { node.setAttribute('fill', compactColor); node.setAttribute('r', '5.5'); node.setAttribute('filter', 'drop-shadow(0 0 12px ' + compactColor + ')'); }
+                if (line) { line.setAttribute('stroke', compactColor); line.setAttribute('stroke-opacity', '0.8'); line.setAttribute('stroke-width', '1.5'); }
+                if (label) { label.setAttribute('fill', compactColor); label.style.filter = 'drop-shadow(0 0 8px ' + compactColor + ')'; }
+                spawnActivationRing(r.x, r.y, compactColor);
+            });
+            brainSvg.classList.remove('brain-idle'); brainSvg.classList.add('brain-active');
+            
+            // Phase 2: After 400ms, animate nodes shrinking toward hub center
+            const hubCx = 100, hubCy = 190;
+            const origPositions = brainRegions.map(r => ({ x: r.x, y: r.y }));
+            setTimeout(() => {
+                let start = null;
+                const duration = 800;
+                (function animateConverge(ts) {
+                    if (!start) start = ts;
+                    const t = Math.min((ts - start) / duration, 1);
+                    const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; // easeInOutQuad
+                    brainRegions.forEach((r, i) => {
+                        const node = document.getElementById('brain-node-' + i);
+                        const line = document.getElementById('brain-line-' + i);
+                        if (node) {
+                            const cx = origPositions[i].x + (hubCx - origPositions[i].x) * ease;
+                            const cy = origPositions[i].y + (hubCy - origPositions[i].y) * ease;
+                            node.setAttribute('cx', cx); node.setAttribute('cy', cy);
+                            node.setAttribute('r', String(5.5 * (1 - ease * 0.7)));
+                        }
+                        if (line) {
+                            line.setAttribute('x2', origPositions[i].x + (hubCx - origPositions[i].x) * ease);
+                            line.setAttribute('y2', origPositions[i].y + (hubCy - origPositions[i].y) * ease);
+                        }
+                    });
+                    if (t < 1) { requestAnimationFrame(animateConverge); return; }
+                    
+                    // Phase 3: Hub flash
+                    hub.setAttribute('stroke', '#06b6d4'); hub.setAttribute('stroke-width', '4');
+                    hub.setAttribute('filter', 'drop-shadow(0 0 20px #06b6d4) drop-shadow(0 0 40px #06b6d4)');
+                    // Big pulse ring from hub
+                    const ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    ring.setAttribute('cx', hubCx); ring.setAttribute('cy', hubCy);
+                    ring.setAttribute('r', '8'); ring.setAttribute('fill', 'none');
+                    ring.setAttribute('stroke', '#06b6d4'); ring.setAttribute('stroke-width', '3'); ring.setAttribute('opacity', '0.8');
+                    nodesG.appendChild(ring);
+                    let rs = null;
+                    (function animateRing(ts2) {
+                        if (!rs) rs = ts2;
+                        const t2 = Math.min((ts2 - rs) / 1000, 1);
+                        ring.setAttribute('r', String(8 + t2 * 80));
+                        ring.setAttribute('opacity', String(0.8 * (1 - t2)));
+                        ring.setAttribute('stroke-width', String(3 * (1 - t2)));
+                        if (t2 < 1) requestAnimationFrame(animateRing);
+                        else { try { nodesG.removeChild(ring); } catch(e){} }
+                    })(performance.now());
+                    
+                    // Phase 4: After 600ms, expand nodes back
+                    setTimeout(() => {
+                        let es = null;
+                        const expandDur = 600;
+                        (function animateExpand(ts3) {
+                            if (!es) es = ts3;
+                            const t3 = Math.min((ts3 - es) / expandDur, 1);
+                            const ease3 = 1 - Math.pow(1 - t3, 3); // easeOutCubic
+                            brainRegions.forEach((r, i) => {
+                                const node = document.getElementById('brain-node-' + i);
+                                const line = document.getElementById('brain-line-' + i);
+                                if (node) {
+                                    node.setAttribute('cx', hubCx + (origPositions[i].x - hubCx) * ease3);
+                                    node.setAttribute('cy', hubCy + (origPositions[i].y - hubCy) * ease3);
+                                    node.setAttribute('r', String(1.7 + ease3 * 1.1));
+                                }
+                                if (line) {
+                                    line.setAttribute('x2', hubCx + (origPositions[i].x - hubCx) * ease3);
+                                    line.setAttribute('y2', hubCy + (origPositions[i].y - hubCy) * ease3);
+                                }
+                            });
+                            if (t3 < 1) { requestAnimationFrame(animateExpand); return; }
+                            // Reset everything
+                            hub.setAttribute('stroke', 'rgba(74,222,128,0.45)'); hub.setAttribute('stroke-width', '1.2');
+                            hub.removeAttribute('filter');
+                            brainRegions.forEach((r, i) => {
+                                const node = document.getElementById('brain-node-' + i);
+                                const line = document.getElementById('brain-line-' + i);
+                                const label = document.getElementById('brain-label-' + i);
+                                if (node) { node.setAttribute('fill', 'rgba(74,222,128,0.35)'); node.setAttribute('r', '2.8'); node.removeAttribute('filter'); }
+                                if (line) { line.setAttribute('stroke', 'rgba(74,222,128,0.1)'); line.setAttribute('stroke-opacity', '1'); line.setAttribute('stroke-width', '0.6'); }
+                                if (label) { label.setAttribute('fill', 'rgba(74,222,128,0.5)'); label.style.filter = 'none'; }
+                            });
+                            compactionRunning = false;
+                        })(performance.now());
+                    }, 600);
+                })(performance.now());
+            }, 400);
+        }
+
         function resetBrainRegions() {
             brainRegions.forEach((_,i) => {
                 const node=document.getElementById('brain-node-'+i), line=document.getElementById('brain-line-'+i), label=document.getElementById('brain-label-'+i);
@@ -1881,6 +1990,12 @@
             }
             if (steps !== undefined) mindState.steps = steps;
             if (thought !== undefined) { mindState.thought = thought; document.getElementById('mind-thought-text').textContent = thought; }
+
+            // Context compaction animation
+            const compactLc = (thought || mindState.thought || '').toLowerCase();
+            if (compactLc.includes('compacting') || compactLc.includes('compressing context') || compactLc.includes('context compaction')) {
+                triggerCompactionAnimation();
+            }
 
             resetBrainRegions();
             stopAllFlows();

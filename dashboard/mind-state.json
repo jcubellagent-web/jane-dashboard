@@ -1,21 +1,15 @@
 {
-  "task": "Restructuring X thread schedule",
+  "task": "Optimizing X thread token usage",
   "steps": [
     {
-      "label": "Updating cron jobs: 5 threads \u2192 3",
+      "label": "Implement shared data cache across threads",
       "status": "active",
       "tool": "exec"
     }
   ],
-  "thought": "Josh wants 3 daily threads instead of 5. Morning 8AM, Afternoon 2PM, Summary 7:30PM. Need to disable 12:30PM and 6PM briefs.",
-  "lastUpdated": 1771041155764,
-  "goal": "Reduce X threads from 5 to 3",
+  "thought": "Josh wants token optimization: shared caching so threads dont re-fetch the same data, while always using fresh data.",
+  "lastUpdated": 1771041427885,
+  "goal": "Reduce token waste via data caching",
   "subAgents": [],
-  "decisions": [
-    {
-      "text": "Cut X threads from 5 to 3: 8AM morning, 2PM afternoon, 7:30PM recap. Saves ~160K tokens/day.",
-      "icon": "brain",
-      "time": "10:51 PM"
-    }
-  ]
+  "decisions": []
 }

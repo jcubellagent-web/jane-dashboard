@@ -1,11 +1,7 @@
 {
-  "task": "Mobile dashboard tweaks + desktop night mode toggle",
-  "steps": [
-    {"label": "Remove model/provider from mobile", "status": "active"},
-    {"label": "Simplify age to days only", "status": "pending"},
-    {"label": "Add night mode toggle button for desktop", "status": "pending"}
-  ],
-  "thought": "Three mobile dashboard changes: clean up session info, simplify age display, add desktop night mode button",
+  "task": null,
+  "steps": [],
+  "thought": "Idle — all tasks done. Waiting for tiktok-degen-v2 sub-agent to finish video.",
   "subAgents": [{"label": "tiktok-degen-v2", "status": "active"}],
-  "lastUpdated": 1771049400000
+  "lastUpdated": 1771049440000
 }

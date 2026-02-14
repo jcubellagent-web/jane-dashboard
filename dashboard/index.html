@@ -26,10 +26,6 @@
             color: var(--text);
             height: 100vh;
             overflow: hidden;
-            transition: filter 0.5s ease;
-        }
-        body.night-mode {
-            filter: brightness(0.5) saturate(0.7);
         }
 
         /* Header */
@@ -2236,9 +2232,9 @@
             ws.onmessage = (evt) => {
                 try {
                     const msg = JSON.parse(evt.data);
-                    // Night mode toggle from mobile
+                    // Night mode toggle from mobile — trigger existing night mode overlay
                     if (msg.type === 'nightMode') {
-                        document.body.classList.toggle('night-mode', msg.enabled);
+                        if (msg.enabled) { toggleNightMode(); } else { exitNightMode(); }
                         return;
                     }
                     const wsPending = {};

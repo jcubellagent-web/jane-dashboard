@@ -2445,7 +2445,7 @@
         }
         async function refreshUsageLimits() {
             try {
-                const r = await fetch('/dashboard/usage-limits.json?_=' + Date.now());
+                const r = await fetch('/usage-limits.json?_=' + Date.now());
                 if (!r.ok) return;
                 const d = await r.json();
                 const sessEl = document.getElementById('session-limit-slim');

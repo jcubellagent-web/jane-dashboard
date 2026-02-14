@@ -26,3 +26,4 @@ video_edit/*.mp4
 video_edit/*.mp3
 video_edit/*.mov
 video_edit/*.wav
+node_modules/

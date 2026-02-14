@@ -237,7 +237,7 @@ def create_frame(frame_num, total_frames, lines_with_timing, text_layout, total_
     
     current_time = frame_num / FPS
     
-    # Animated mfer avatar - bouncing in top right
+    # Animated mfer avatar - bouncing in top right, CIRCULAR CROP
     if mfer_img:
         avatar_size = 200
         bounce_offset = int(math.sin(frame_num * 0.08) * 35)
@@ -250,6 +250,16 @@ def create_frame(frame_num, total_frames, lines_with_timing, text_layout, total_
         avatar = mfer_img.copy()
         avatar = avatar.resize((avatar_size, avatar_size), Image.LANCZOS)
         
+        # Circular crop mask
+        circle_mask = Image.new('L', (avatar_size, avatar_size), 0)
+        circle_draw = ImageDraw.Draw(circle_mask)
+        circle_draw.ellipse([0, 0, avatar_size - 1, avatar_size - 1], fill=255)
+        # Apply circular mask to avatar
+        avatar_circle = Image.new('RGBA', (avatar_size, avatar_size), (0, 0, 0, 0))
+        if avatar.mode != 'RGBA':
+            avatar = avatar.convert('RGBA')
+        avatar_circle.paste(avatar, (0, 0), circle_mask)
+        
         # Add stronger glow effect (neon green circle behind)
         glow_r = avatar_size // 2 + 10
         cx, cy = avatar_x + avatar_size // 2, avatar_y + avatar_size // 2
@@ -257,7 +267,7 @@ def create_frame(frame_num, total_frames, lines_with_timing, text_layout, total_
             alpha = int(80 * (1 - (glow_r - r) / 8))
             draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(0, 255, 100, alpha), width=2)
         
-        img.paste(avatar, (avatar_x, avatar_y), avatar if avatar.mode == 'RGBA' else None)
+        img.paste(avatar_circle, (avatar_x, avatar_y), avatar_circle)
     
     # Title text at top with outline
     title_font = get_font(52, bold=True)
@@ -268,12 +278,12 @@ def create_frame(frame_num, total_frames, lines_with_timing, text_layout, total_
     start_y = 420  # Starting Y position for text content
     scroll_offset = 0
     
-    if current_time > 2.0 and total_text_height > (HEIGHT - start_y - 300):
-        # Only scroll if text is taller than viewport
+    if current_time > 2.0 and total_text_height > (HEIGHT - start_y - MARGIN_BOTTOM):
+        # Only scroll if text is taller than viewport (use full screen minus small bottom margin)
         elapsed_scroll_time = current_time - 2.0
         scroll_offset = elapsed_scroll_time * SCROLL_SPEED  # pixels per second
         # Cap scroll so we don't scroll past the end
-        max_scroll = total_text_height - (HEIGHT - start_y - 300)
+        max_scroll = total_text_height - (HEIGHT - start_y - MARGIN_BOTTOM)
         scroll_offset = min(scroll_offset, max_scroll)
     
     # Render text blocks with scroll offset

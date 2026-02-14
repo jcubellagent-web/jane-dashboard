@@ -1064,8 +1064,15 @@
                         const pct = Math.round((used / cap) * 100);
                         const ctxEl = document.getElementById('ctx-slim');
                         if (ctxEl) {
-                            ctxEl.textContent = 'Ctx: ' + pct + '%';
+                            const prevPct = window._lastCtxPct || pct;
+                            // Detect significant drop (compaction) — at least 10% decrease
+                            if (prevPct - pct >= 10) {
+                                flashCtxCompaction(ctxEl, prevPct, pct);
+                            } else {
+                                ctxEl.textContent = 'Ctx: ' + pct + '%';
+                            }
                             ctxEl.className = 'status-slim-pill ' + (pct > 80 ? 'red' : pct > 60 ? '' : 'green');
+                            window._lastCtxPct = pct;
                         }
                     }
                 }
@@ -1701,6 +1708,36 @@
                 ring.setAttribute('stroke-width', String(2 * (1 - t)));
                 if (t < 1) requestAnimationFrame(animate);
                 else { try { nodesG.removeChild(ring); } catch(e){} }
+            })(performance.now());
+        }
+
+        // Context % flash on compaction — animates the number counting down
+        function flashCtxCompaction(el, fromPct, toPct) {
+            el.style.transition = 'none';
+            el.style.color = '#06b6d4';
+            el.style.textShadow = '0 0 12px #06b6d4, 0 0 24px #06b6d4';
+            el.style.transform = 'scale(1.3)';
+            let start = null;
+            const duration = 1200;
+            (function animateCount(ts) {
+                if (!start) start = ts;
+                const t = Math.min((ts - start) / duration, 1);
+                const current = Math.round(fromPct + (toPct - fromPct) * t);
+                el.textContent = 'Ctx: ' + current + '%';
+                if (t < 1) { requestAnimationFrame(animateCount); return; }
+                // Flash 3 times then settle
+                let flashes = 0;
+                const flashInterval = setInterval(() => {
+                    el.style.opacity = el.style.opacity === '0.3' ? '1' : '0.3';
+                    flashes++;
+                    if (flashes >= 6) {
+                        clearInterval(flashInterval);
+                        el.style.opacity = '1';
+                        el.style.color = '';
+                        el.style.textShadow = '';
+                        el.style.transform = '';
+                    }
+                }, 150);
             })(performance.now());
         }
 

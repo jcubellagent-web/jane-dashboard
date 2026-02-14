@@ -1,39 +1,117 @@
 {
-  "updated": "2026-02-14T07:45:00.000000+00:00",
+  "updated": "2026-02-14T07:58:00.000Z",
   "groups": [
     {
-      "label": "🌅 Morning",
+      "label": "\ud83c\udf05 Morning",
       "jobs": [
-        {"name": "Pre-Brief Data Fetch", "time": "7:30 AM", "done": false, "type": "data"},
-        {"name": "Daily Morning Brief", "time": "8:00 AM", "done": false, "type": "thread", "threadNum": 1},
-        {"name": "Sorare Daily Tasks", "time": "9:30 AM", "done": false, "type": "ops"},
-        {"name": "X Replies (10 AM)", "time": "10:00 AM", "done": false, "type": "replies"}
+        {
+          "name": "Pre-Brief Data Fetch",
+          "time": "7:30 AM",
+          "done": false,
+          "type": "data"
+        },
+        {
+          "name": "Daily Morning Brief",
+          "time": "8:00 AM",
+          "done": false,
+          "type": "thread",
+          "threadNum": 1
+        },
+        {
+          "name": "Sorare Daily Tasks",
+          "time": "9:30 AM",
+          "done": false,
+          "type": "ops"
+        },
+        {
+          "name": "X Replies (10 AM)",
+          "time": "10:00 AM",
+          "done": false,
+          "type": "replies"
+        }
       ]
     },
     {
-      "label": "☀️ Midday",
+      "label": "\u2600\ufe0f Midday",
       "jobs": [
-        {"name": "Afternoon Refresh", "time": "2:00 PM", "done": false, "type": "thread", "threadNum": 2},
-        {"name": "X Replies (3 PM)", "time": "3:00 PM", "done": false, "type": "replies"}
+        {
+          "name": "Afternoon Refresh",
+          "time": "2:00 PM",
+          "done": false,
+          "type": "thread",
+          "threadNum": 2
+        },
+        {
+          "name": "X Replies (3 PM)",
+          "time": "3:00 PM",
+          "done": false,
+          "type": "replies"
+        }
       ]
     },
     {
-      "label": "🌙 Evening",
+      "label": "\ud83c\udf19 Evening",
       "jobs": [
-        {"name": "Reply-to-Replies", "time": "~5:00 PM", "done": false, "type": "replies"},
-        {"name": "Daily Recap", "time": "7:30 PM", "done": false, "type": "thread", "threadNum": 3},
-        {"name": "X Replies (8 PM)", "time": "8:00 PM", "done": false, "type": "replies"},
-        {"name": "Substack Daily Digest", "time": "8:00 PM", "done": false, "type": "ops"},
-        {"name": "X Growth Report", "time": "10:00 PM", "done": false, "type": "data"}
+        {
+          "name": "Reply-to-Replies",
+          "time": "~5:00 PM",
+          "done": false,
+          "type": "replies"
+        },
+        {
+          "name": "Daily Recap",
+          "time": "7:30 PM",
+          "done": false,
+          "type": "thread",
+          "threadNum": 3
+        },
+        {
+          "name": "X Replies (8 PM)",
+          "time": "8:00 PM",
+          "done": false,
+          "type": "replies"
+        },
+        {
+          "name": "Substack Daily Digest",
+          "time": "8:00 PM",
+          "done": false,
+          "type": "ops"
+        },
+        {
+          "name": "X Growth Report",
+          "time": "10:00 PM",
+          "done": false,
+          "type": "data"
+        }
       ]
     },
     {
-      "label": "🔄 Recurring",
+      "label": "\ud83d\udd04 Recurring",
       "jobs": [
-        {"name": "X Stats Scrape", "time": "every 30 min", "done": false, "type": "data"},
-        {"name": "X Engagement Feedback", "time": "every 3 hours", "done": false, "type": "data"},
-        {"name": "Trade Price Monitor", "time": "every 10 min", "done": false, "type": "data"},
-        {"name": "Sorare Injury Monitor", "time": "every 6 hours", "done": false, "type": "ops"}
+        {
+          "name": "X Stats Scrape",
+          "time": "every 90 min",
+          "done": false,
+          "type": "data"
+        },
+        {
+          "name": "X Engagement Feedback",
+          "time": "every 3 hours",
+          "done": false,
+          "type": "data"
+        },
+        {
+          "name": "Trade Price Monitor",
+          "time": "every 10 min",
+          "done": false,
+          "type": "data"
+        },
+        {
+          "name": "Sorare Injury Monitor",
+          "time": "every 6 hours",
+          "done": false,
+          "type": "ops"
+        }
       ]
     }
   ]

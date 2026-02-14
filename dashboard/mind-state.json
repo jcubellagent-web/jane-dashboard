@@ -1,11 +1,10 @@
 {
-  "task": "Updating all daily tasks to reflect new X reply schedule",
+  "task": "Overnight maintenance + macOS update",
   "steps": [
-    {"label": "Update cron-schedule.json", "status": "done"},
-    {"label": "Update midnight reset cron", "status": "active"},
-    {"label": "Update MEMORY.md", "status": "pending"},
-    {"label": "Git commit", "status": "pending"}
+    {"label": "Git commit workspace", "status": "active", "tool": "exec"},
+    {"label": "Run macOS update", "status": "pending", "tool": "exec"}
   ],
-  "thought": "Syncing all files with the new 4-session reply strategy",
-  "lastUpdated": 1739515620000
+  "thought": "Josh heading to bed — doing maintenance then kicking off macOS Tahoe 26.3 update",
+  "lastUpdated": 1739517180000,
+  "subAgents": []
 }

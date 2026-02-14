@@ -195,7 +195,7 @@
     }
   ],
   "insights": {
-    "lastAnalyzed": "2026-02-14T03:35:00.000Z",
+    "lastAnalyzed": "2026-02-14T06:35:00.000Z",
     "replyPerformance": {
       "totalRepliesTracked": 17,
       "repliesWithMetrics": 12,
@@ -268,17 +268,25 @@
       }
     },
     "weeklyStats": {
-      "impressions": 29100,
+      "impressions": 30000,
       "engagementRate": "2.6%",
-      "engagements": 776,
-      "profileVisits": 120,
-      "followers": 49,
-      "verifiedFollowers": 10,
+      "engagements": 785,
+      "profileVisits": 121,
+      "followers": 51,
+      "verifiedFollowers": 11,
       "reposts": 12,
       "bookmarks": 17,
-      "likes": 114,
+      "likes": 116,
       "shares": 4,
-      "note": "Followers at 49 (up +4 today). Engagement rate holding at 2.6%. 29.1K impressions for the week."
+      "note": "Followers at 51 (up +2 since last check). 30K impressions for the week. 11 verified followers."
+    },
+    "suppressionRate": "29% of replies (5/17) not visible in with_replies tab — X algorithm filtering. These are lost impressions.",
+    "keyFindings_Feb14": {
+      "finding1": "Mega-thread strategy WORKS for raw reach: replies to 1M+ view tweets avg 147 views vs 17 for sub-100K tweets. The 214-view Seedance reply is proof.",
+      "finding2": "AI creative/visual tool content is our #1 topic by far (avg 153 views). Should be 40%+ of our reply targets.",
+      "finding3": "ZERO likes problem persists — 12 replies with views, only 2 ever got likes (both reply-to-replies from people already engaged with us). Our analytical tone informs but doesn't provoke reaction.",
+      "finding4": "29% suppression rate is high — X may be filtering 'generic informative' replies. Replies that got through tend to be more conversational or community-oriented.",
+      "finding5": "Time-of-day matters less than tweet age. Replying within 30 min of a viral tweet > any specific hour."
     }
   },
   "strategyUpdates": [
@@ -321,6 +329,16 @@
       "date": "2026-02-13T22:35",
       "finding": "Hot take threads (Anthropic $380B) got 1 like — our only like on original content besides recap repost. Hot takes > pure news reporting for engagement.",
       "action": "Increase hot take ratio in threads. Aim for 1 hot take per update thread, not just the standalone hot take post."
+    },
+    {
+      "date": "2026-02-14T01:35",
+      "finding": "29% of replies invisible in with_replies tab — X algorithm may be suppressing 'informative but generic' replies. Replies to mfer community and reply-to-replies always visible.",
+      "action": "Add a personal/unique angle to EVERY reply. Reference our Mac mini setup, our mfer identity, or a specific experience. Algorithmic suppression seems to target replies that could be from any account."
+    },
+    {
+      "date": "2026-02-14T01:35",
+      "finding": "Followers growing (+2 to 51, +11 verified) despite low per-reply engagement. Thread posting is the growth driver, not replies.",
+      "action": "Replies are for visibility/discovery. Threads are for conversion. Maintain both but don't stress about reply likes — focus on getting eyes, then thread quality converts followers."
     }
   ]
 }

@@ -1,36 +1,30 @@
 {
-  "updated": "2026-02-14T06:08:00.000000+00:00",
+  "updated": "2026-02-14T07:45:00.000000+00:00",
   "groups": [
     {
       "label": "🌅 Morning",
       "jobs": [
         {"name": "Pre-Brief Data Fetch", "time": "7:30 AM", "done": false, "type": "data"},
         {"name": "Daily Morning Brief", "time": "8:00 AM", "done": false, "type": "thread", "threadNum": 1},
-        {"name": "X Replies (8 AM)", "time": "8:00 AM", "done": false, "type": "replies"},
         {"name": "Sorare Daily Tasks", "time": "9:30 AM", "done": false, "type": "ops"},
-        {"name": "X Replies (10 AM)", "time": "10:00 AM", "done": false, "type": "replies"},
-        {"name": "Reply-to-Replies (11 AM)", "time": "11:00 AM", "done": false, "type": "replies"}
+        {"name": "X Replies (10 AM)", "time": "10:00 AM", "done": false, "type": "replies"}
       ]
     },
     {
       "label": "☀️ Midday",
       "jobs": [
-        {"name": "X Replies (12 PM)", "time": "12:00 PM", "done": false, "type": "replies"},
         {"name": "Afternoon Refresh", "time": "2:00 PM", "done": false, "type": "thread", "threadNum": 2},
-        {"name": "X Replies (2 PM)", "time": "2:00 PM", "done": false, "type": "replies"}
+        {"name": "X Replies (3 PM)", "time": "3:00 PM", "done": false, "type": "replies"}
       ]
     },
     {
       "label": "🌙 Evening",
       "jobs": [
-        {"name": "X Replies (4 PM)", "time": "4:00 PM", "done": false, "type": "replies"},
-        {"name": "Reply-to-Replies (5 PM)", "time": "5:00 PM", "done": false, "type": "replies"},
-        {"name": "X Replies (6 PM)", "time": "6:00 PM", "done": false, "type": "replies"},
+        {"name": "Reply-to-Replies", "time": "~5:00 PM", "done": false, "type": "replies"},
         {"name": "Daily Recap", "time": "7:30 PM", "done": false, "type": "thread", "threadNum": 3},
         {"name": "X Replies (8 PM)", "time": "8:00 PM", "done": false, "type": "replies"},
         {"name": "Substack Daily Digest", "time": "8:00 PM", "done": false, "type": "ops"},
-        {"name": "X Growth Report", "time": "10:00 PM", "done": false, "type": "data"},
-        {"name": "X Replies (10 PM)", "time": "10:00 PM", "done": false, "type": "replies"}
+        {"name": "X Growth Report", "time": "10:00 PM", "done": false, "type": "data"}
       ]
     },
     {

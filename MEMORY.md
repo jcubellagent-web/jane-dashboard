@@ -39,7 +39,9 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - X API Free = post only; analytics via browser scraping
 - Manual refresh: `.x-refresh-requested` flag → heartbeat picks up
 - Strategy details: `memory/reference.md`
-- Schedule: 7:30AM pre-fetch, 8AM morning brief, 2PM afternoon refresh, 7:30PM daily recap (3 threads, down from 5)
+- Schedule: 7:30AM pre-fetch, 8AM morning brief, 2PM afternoon refresh, 7:30PM daily recap (3 threads)
+- Replies: 3x/day (10AM, 3PM, 8PM) with 3-4 quality replies each + reply-to-replies 1x ~5PM (3-5 replies, timing jitter ±20min)
+- Old schedule was 7x reply cycles + 2x reply-to-replies — cut to reduce bot-pattern risk from X suppression
 - All thread jobs do data refresh before posting (Finnhub, CoinGecko, arXiv, SEC EDGAR, etc.)
 - Winning formula: technical-insightful tone, AI-product topics, 5-8PM posting window
 - News sources: arXiv, SEC EDGAR, DeFi Llama Raises, TechCrunch, @DeItaone, @_akhaliq

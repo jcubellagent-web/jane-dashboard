@@ -97,8 +97,15 @@ def parse_vtt(vtt_path):
         line = lines[i].strip()
         if '-->' in line:
             parts = line.split(' --> ')
-            start = vtt_time_to_sec(parts[0])
-            end = vtt_time_to_sec(parts[1])
+            if len(parts) != 2 or not parts[0].strip() or not parts[1].strip():
+                i += 1
+                continue
+            try:
+                start = vtt_time_to_sec(parts[0])
+                end = vtt_time_to_sec(parts[1])
+            except (ValueError, IndexError):
+                i += 1
+                continue
             text_lines = []
             i += 1
             while i < len(lines) and lines[i].strip():

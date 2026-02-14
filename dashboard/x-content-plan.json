@@ -1,61 +1,24 @@
 {
   "plan": {
-    "date": "2026-02-13",
+    "date": "2026-02-14",
     "threads": {
-      "planned": 5,
-      "completed": 6,
-      "schedule": [
-        "08:30",
-        "12:30",
-        "16:30",
-        "18:00",
-        "19:15"
-      ],
+      "planned": 3,
+      "completed": 0,
+      "schedule": ["08:00", "14:00", "19:30"],
       "details": [
-        {
-          "time": "08:30",
-          "name": "Daily Morning Brief",
-          "status": "done"
-        },
-        {
-          "time": "12:30",
-          "name": "Update Brief #1",
-          "status": "done"
-        },
-        {
-          "time": "16:30",
-          "name": "Update Brief #2",
-          "status": "done"
-        },
-        {
-          "time": "18:00",
-          "name": "Update Brief #3",
-          "status": "done"
-        },
-        {
-          "time": "19:15",
-          "name": "Daily Recap",
-          "status": "done"
-        }
+        {"time": "08:00", "name": "Daily Morning Brief", "status": "pending"},
+        {"time": "14:00", "name": "Afternoon Refresh", "status": "pending"},
+        {"time": "19:30", "name": "Daily Recap", "status": "pending"}
       ]
     },
     "replies": {
-      "planned": 40,
-      "completed": 45,
-      "cadence": "5 every 2 hours",
-      "schedule": [
-        "08:00",
-        "10:00",
-        "12:00",
-        "14:00",
-        "16:00",
-        "18:00",
-        "20:00",
-        "22:00"
-      ]
+      "planned": 14,
+      "completed": 0,
+      "cadence": "3-4 quality replies, 3x/day + reply-to-replies ~5PM",
+      "schedule": ["10:00", "15:00", "~17:00", "20:00"]
     },
-    "totalPlanned": 45,
-    "totalCompleted": 46
+    "totalPlanned": 17,
+    "totalCompleted": 0
   },
-  "lastUpdated": "2026-02-13T23:05:22.287Z"
+  "lastUpdated": "2026-02-14T07:47:00.000Z"
 }

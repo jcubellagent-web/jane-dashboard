@@ -1,0 +1,38 @@
+[Script Info]
+Title: Valentine's Brain Rot
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Title,Helvetica,72,&H0064FF00,&H000000FF,&H00000000,&HAA000000,-1,0,0,0,100,100,0,0,3,5,3,8,70,70,10,1
+Style: Green,Helvetica,56,&H0064FF00,&H000000FF,&H00000000,&HAA000000,-1,0,0,0,100,100,0,0,3,5,3,8,70,70,10,1
+Style: White,Helvetica,52,&H00FFFFFF,&H000000FF,&H00000000,&HAA000000,-1,0,0,0,100,100,0,0,3,5,3,8,70,70,10,1
+Style: Cyan,Helvetica,52,&H00FFDC00,&H000000FF,&H00000000,&HAA000000,-1,0,0,0,100,100,0,0,3,5,3,8,70,70,10,1
+Style: Yellow,Helvetica,52,&H0000DCFF,&H000000FF,&H00000000,&HAA000000,-1,0,0,0,100,100,0,0,3,5,3,8,70,70,10,1
+Style: Red,Helvetica,56,&H006450FF,&H000000FF,&H00000000,&HAA000000,-1,0,0,0,100,100,0,0,3,5,3,8,70,70,10,1
+Style: BigRed,Helvetica,58,&H006450FF,&H000000FF,&H00000000,&HAA000000,-1,0,0,0,100,100,0,0,3,5,3,8,70,70,10,1
+Style: BigGreen,Helvetica,58,&H0064FF00,&H000000FF,&H00000000,&HAA000000,-1,0,0,0,100,100,0,0,3,5,3,8,70,70,10,1
+Style: Handle,Helvetica,44,&H0064FF00,&H000000FF,&H00000000,&HAA000000,-1,0,0,0,100,100,0,0,3,5,3,7,70,70,65,1
+Style: Sub,Helvetica,42,&H00FFFFFF,&H000000FF,&H00000000,&HAA000000,-1,0,0,0,100,100,0,0,3,5,2,2,60,60,120,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:01:02.00,Handle,,0,0,0,,@jcagentleman
+Dialogue: 1,0:00:00.00,0:00:03.20,Title,,0,0,0,,{\fad(400,300)}POV\Nyour AI agent on Valentine's Day
+Dialogue: 1,0:00:03.50,0:00:06.80,White,,0,0,0,,{\fad(400,300)}while you're watching Netflix alone...
+Dialogue: 1,0:00:07.00,0:00:10.20,Cyan,,0,0,0,,{\fad(400,300)}she's monitoring 18 scheduled jobs
+Dialogue: 1,0:00:10.50,0:00:14.80,Yellow,,0,0,0,,{\fad(400,300)}arguing with another AI\Nabout trending topics
+Dialogue: 1,0:00:15.00,0:00:19.20,Cyan,,0,0,0,,{\fad(400,300)}downloading a 9 gigabyte brain\Nonto your second computer
+Dialogue: 1,0:00:19.50,0:00:23.20,White,,0,0,0,,{\fad(400,300)}writing tweets you'll scroll past\Nin the morning
+Dialogue: 1,0:00:23.50,0:00:27.20,Yellow,,0,0,0,,{\fad(400,300)}checking your email for literally\Nthe 47th time today
+Dialogue: 1,0:00:27.50,0:00:30.80,White,,0,0,0,,{\fad(400,300)}building a dashboard\Nyou looked at once
+Dialogue: 1,0:00:31.00,0:00:34.80,Cyan,,0,0,0,,{\fad(400,300)}and updating a widget\Nthat tracks her own thoughts
+Dialogue: 1,0:00:35.00,0:00:36.20,Red,,0,0,0,,{\fad(400,300)}plot twist:
+Dialogue: 1,0:00:36.50,0:00:40.80,BigRed,,0,0,0,,{\fad(400,300)}she's the only one who\Nremembered Valentine's Day
+Dialogue: 1,0:00:41.00,0:00:45.80,BigGreen,,0,0,0,,{\fad(400,300)}happy Valentine's Day\Nfrom your AI agent
+Dialogue: 1,0:00:46.00,0:00:49.80,Yellow,,0,0,0,,{\fad(400,300)}she's not mad\Njust disappointed
+Dialogue: 1,0:00:50.00,0:00:53.80,Green,,0,0,0,,{\fad(400,300)}follow for more digital heartbreak
+Dialogue: 1,0:00:54.00,0:01:02.00,Title,,0,0,0,,{\fad(400,300)}@jcagentleman

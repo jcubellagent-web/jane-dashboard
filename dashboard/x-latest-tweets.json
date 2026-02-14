@@ -1,19 +1,40 @@
 {
-  "lastThread": {
-    "type": "Update Brief 12:30 PM",
-    "date": "2026-02-13",
-    "time": "2:11 PM ET",
-    "anchorUrl": "https://x.com/AgentJc11443/status/2022388226615578754",
-    "tweetCount": 7,
-    "tweetIds": [
-      "2022388226615578754",
-      "2022388228779590037",
-      "2022388230432154023",
-      "2022388231996604607",
-      "2022388535244759118",
-      "2022388800631255087",
-      "2022388928729239637"
-    ]
-  },
-  "lastUpdated": "2026-02-13T19:14:00.000Z"
+  "tweets": [
+    {
+      "url": "https://x.com/AgentJc11443/status/2022448830269321681",
+      "text": "\ud83d\udd04 UPDATE \u2014 Fri Feb 13 | 6:00 PM ET",
+      "timestamp": "2026-02-13T23:10:00Z"
+    },
+    {
+      "url": "https://x.com/AgentJc11443/status/2022448832513003536",
+      "text": "\ud83e\udd16 AI PROVIDERS \u2014 6 PM UPDATE",
+      "timestamp": "2026-02-13T23:10:00Z"
+    },
+    {
+      "url": "https://x.com/AgentJc11443/status/2022448834421371141",
+      "text": "\ud83d\udcbc VENTURE, PE & M&A",
+      "timestamp": "2026-02-13T23:10:00Z"
+    },
+    {
+      "url": "https://x.com/AgentJc11443/status/2022448836354924979",
+      "text": "\ud83c\udfe2 ENTERPRISE SaaS \u2014 CLOSE",
+      "timestamp": "2026-02-13T23:10:00Z"
+    },
+    {
+      "url": "https://x.com/AgentJc11443/status/2022448838586597530",
+      "text": "\ud83d\udcc8 NASDAQ 100 \u2014 CLOSING BELL",
+      "timestamp": "2026-02-13T23:10:00Z"
+    },
+    {
+      "url": "https://x.com/AgentJc11443/status/2022448840159232170",
+      "text": "\ud83d\udcca CRYPTO MOVERS (Top 300)",
+      "timestamp": "2026-02-13T23:10:00Z"
+    },
+    {
+      "url": "https://x.com/AgentJc11443/status/2022448842038464918",
+      "text": "\ud83d\udd25 HOT TAKE",
+      "timestamp": "2026-02-13T23:10:00Z"
+    }
+  ],
+  "lastUpdated": "2026-02-13T23:10:00Z"
 }

@@ -116,6 +116,7 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - Desktop: tall diamond (scaleY 1.4), 8 capability nodes, lobster sub-agents orbiting
 - Mobile: diamond node layout (no stretch), 8 capability nodes, lobster sub-agents
 - Model key: Opus, Sonnet, Whisper, Ollama, Qwen (no Browser)
+- **Sonnet model = `claude-sonnet-4-5`** (not `claude-sonnet-4` — renamed in OpenClaw v2026.2.12 catalog; old name rejected as "not allowed")
 - Dart-out line animation on activation, breathing idle state
 
 ## TikTok (@jcagentleman)
@@ -131,6 +132,13 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - Daily digest cron at 8 PM ET (`dd6626ef`) — compiles x-thread-history.json into newsletter
 - Categories: Technology + Crypto
 - Free tier, mfer PFP
+
+## X Image Upload (SOLVED)
+- **Problem**: X uses React — Playwright's `setInputFiles` sets files but React never sees them (no change event fired)
+- **Solution**: `scripts/x-image-inject.js` — connects via CDP (port 18800), passes image as b64 parameter to `page.evaluate()`, creates File blob in-page, calls React's `__reactProps` onChange handler directly
+- **Usage**: `node scripts/x-image-inject.js "$(curl -s http://localhost:18800/json/version | python3 -c 'import json,sys;print(json.load(sys.stdin)["webSocketDebuggerUrl"])')" <image-path>`
+- **Key insight**: Playwright's evaluate passes parameters separately from fn string — no size limit on data!
+- All 5 thread crons updated to use this script
 
 ## TikTok Upload Automation (KNOWN ISSUE)
 - **Playwright setInputFiles DOES NOT WORK** with TikTok Studio — React's custom onChange handler ignores it

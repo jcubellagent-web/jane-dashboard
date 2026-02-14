@@ -1,8 +1,8 @@
 {
-  "updated": "2026-02-13T19:14:00.000Z",
+  "updated": "2026-02-13T23:35:12.222422+00:00",
   "groups": [
     {
-      "label": "🌅 Morning",
+      "label": "\ud83c\udf05 Morning",
       "jobs": [
         {
           "name": "TikTok Batch 1 (Manual/Optional)",
@@ -56,7 +56,7 @@
       ]
     },
     {
-      "label": "☀️ Midday",
+      "label": "\u2600\ufe0f Midday",
       "jobs": [
         {
           "name": "X Replies (12 PM)",
@@ -89,7 +89,7 @@
         {
           "name": "Update Brief (4:30 PM)",
           "time": "4:30 PM",
-          "done": false,
+          "done": true,
           "type": "thread",
           "threadNum": 3,
           "tweets": 7
@@ -97,33 +97,33 @@
       ]
     },
     {
-      "label": "🌙 Evening",
+      "label": "\ud83c\udf19 Evening",
       "jobs": [
         {
           "name": "X Replies (4 PM)",
           "time": "4:00 PM",
-          "done": false,
+          "done": true,
           "type": "replies",
           "count": 5
         },
         {
           "name": "Reply-to-Replies (5 PM)",
           "time": "5:00 PM",
-          "done": false,
+          "done": true,
           "type": "replies",
           "count": 3
         },
         {
           "name": "X Replies (6 PM)",
           "time": "6:00 PM",
-          "done": false,
+          "done": true,
           "type": "replies",
           "count": 5
         },
         {
           "name": "Update Brief (6:00 PM)",
           "time": "6:00 PM",
-          "done": false,
+          "done": true,
           "type": "thread",
           "threadNum": 4,
           "tweets": 7
@@ -177,7 +177,7 @@
       ]
     },
     {
-      "label": "🔄 Recurring",
+      "label": "\ud83d\udd04 Recurring",
       "jobs": [
         {
           "name": "X Stats Scrape",

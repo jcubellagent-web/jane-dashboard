@@ -794,6 +794,7 @@
                     <span class="model-dot" id="model-sonnet" style="--dot-color:#a78bfa;opacity:0.4">● Sonnet</span>
                     <span class="model-dot" id="model-whisper" style="--dot-color:#facc15;opacity:0.4">● Whisper</span>
                     <span class="model-dot" id="model-ollama" style="--dot-color:#f97316;opacity:0.4;font-weight:700">● Ollama</span>
+                    <span class="model-dot" id="model-grok" style="--dot-color:#ef4444;opacity:0.4;font-weight:700">● Grok</span>
                 </div>
                 <div class="mind-body" style="flex-direction: row-reverse;">
                     <!-- Brain Map SVG -->
@@ -1853,10 +1854,10 @@
                 });
             }
             // Also check thought field for model mentions
-            const thought = (mindState.thought || '').toLowerCase();
-            if (thought.includes('whisper') || thought.includes('transcrib')) modelsActive.whisper = true;
-            if (thought.includes('grok')) modelsActive.grok = true;
-            if (thought.includes('ollama')) modelsActive.ollama = true;
+            const thoughtLc = (mindState.thought || '').toLowerCase();
+            if (thoughtLc.includes('whisper') || thoughtLc.includes('transcrib')) modelsActive.whisper = true;
+            if (thoughtLc.includes('grok')) modelsActive.grok = true;
+            if (thoughtLc.includes('ollama')) modelsActive.ollama = true;
             updateOllamaIndicator(modelsActive.ollama);
             
             // Update model legend dots

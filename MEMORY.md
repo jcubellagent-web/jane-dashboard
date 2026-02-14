@@ -165,5 +165,7 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - Current: `JcAgent-2026-Tik!` (confirmed Feb 14)
 - Stored in `.secrets/gmail.txt`
 - ⚠️ Google recovery flow auto-changes password on every "Continue" click — NEVER click Continue on the recovery nudge screen
+- 2FA enabled (Google prompt + SMS to Josh's phone)
+- App Password for IMAP: `.secrets/gmail_app_password.txt` (use with `imaplib.IMAP4_SSL('imap.gmail.com')`)
 
 _Last updated: 2026-02-14_

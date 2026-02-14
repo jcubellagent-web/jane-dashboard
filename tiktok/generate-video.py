@@ -237,38 +237,6 @@ def create_frame(frame_num, total_frames, lines_with_timing, text_layout, total_
     
     current_time = frame_num / FPS
     
-    # Animated mfer avatar - bouncing in top right, CIRCULAR CROP
-    if mfer_img:
-        avatar_size = 200
-        bounce_offset = int(math.sin(frame_num * 0.08) * 35)
-        # Scale pulse: avatar breathes between 190-210px
-        scale_pulse = int(200 + math.sin(frame_num * 0.06) * 10)
-        avatar_size = scale_pulse
-        avatar_x = WIDTH - avatar_size - 70
-        avatar_y = 90 + bounce_offset
-        
-        avatar = mfer_img.copy()
-        avatar = avatar.resize((avatar_size, avatar_size), Image.LANCZOS)
-        
-        # Circular crop mask
-        circle_mask = Image.new('L', (avatar_size, avatar_size), 0)
-        circle_draw = ImageDraw.Draw(circle_mask)
-        circle_draw.ellipse([0, 0, avatar_size - 1, avatar_size - 1], fill=255)
-        # Apply circular mask to avatar
-        avatar_circle = Image.new('RGBA', (avatar_size, avatar_size), (0, 0, 0, 0))
-        if avatar.mode != 'RGBA':
-            avatar = avatar.convert('RGBA')
-        avatar_circle.paste(avatar, (0, 0), circle_mask)
-        
-        # Add stronger glow effect (neon green circle behind)
-        glow_r = avatar_size // 2 + 10
-        cx, cy = avatar_x + avatar_size // 2, avatar_y + avatar_size // 2
-        for r in range(glow_r, glow_r - 8, -1):
-            alpha = int(80 * (1 - (glow_r - r) / 8))
-            draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(0, 255, 100, alpha), width=2)
-        
-        img.paste(avatar_circle, (avatar_x, avatar_y), avatar_circle)
-    
     # Title text at top with outline
     title_font = get_font(52, bold=True)
     draw_text_with_outline(draw, (MARGIN_LEFT, 75), "@jcagentleman", title_font, (0, 255, 100), outline_width=5)
@@ -364,6 +332,36 @@ def create_frame(frame_num, total_frames, lines_with_timing, text_layout, total_
                 draw_text_with_outline(draw, (tx, sub_y), sub_line, sub_font, (255, 255, 255), outline_width=4)
                 sub_y += bbox[3] - bbox[1] + 5
             break
+    
+    # Animated mfer avatar - bouncing in top right, CIRCULAR CROP (drawn LAST so it's on top of text)
+    if mfer_img:
+        avatar_size = 200
+        bounce_offset = int(math.sin(frame_num * 0.08) * 35)
+        scale_pulse = int(200 + math.sin(frame_num * 0.06) * 10)
+        avatar_size = scale_pulse
+        avatar_x = WIDTH - avatar_size - 70
+        avatar_y = 90 + bounce_offset
+        
+        avatar = mfer_img.copy()
+        avatar = avatar.resize((avatar_size, avatar_size), Image.LANCZOS)
+        
+        # Circular crop mask
+        circle_mask = Image.new('L', (avatar_size, avatar_size), 0)
+        circle_draw = ImageDraw.Draw(circle_mask)
+        circle_draw.ellipse([0, 0, avatar_size - 1, avatar_size - 1], fill=255)
+        avatar_circle = Image.new('RGBA', (avatar_size, avatar_size), (0, 0, 0, 0))
+        if avatar.mode != 'RGBA':
+            avatar = avatar.convert('RGBA')
+        avatar_circle.paste(avatar, (0, 0), circle_mask)
+        
+        # Neon green glow circle behind avatar
+        glow_r = avatar_size // 2 + 10
+        cx, cy = avatar_x + avatar_size // 2, avatar_y + avatar_size // 2
+        for r in range(glow_r, glow_r - 8, -1):
+            alpha = int(80 * (1 - (glow_r - r) / 8))
+            draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(0, 255, 100, alpha), width=2)
+        
+        img.paste(avatar_circle, (avatar_x, avatar_y), avatar_circle)
     
     return img
 

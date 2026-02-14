@@ -1965,14 +1965,16 @@
                         'Memory': ['memory','reading file','writing file','saving','recalling'],
                         'Research': ['search','fetching','looking up','researching','web'],
                         'Browsing': ['browser','navigating','screenshot','scraping'],
-                        'Communication': ['whatsapp','message','email','gmail','sending'],
+                        'Communication': ['whatsapp','message','email','gmail','sending','transcrib','whisper','voice'],
                         'Markets': ['trading','price','market','sorare','kalshi','coinbase','stock'],
                         'Content': ['tweet','thread','x.com','posting','tiktok','substack'],
                         'Coding': ['script','code','running','exec','deploy','git']
                     };
+                    // Determine dominant active model color
+                    const activeModelColor = modelsActive.whisper ? '#facc15' : modelsActive.grok ? '#ef4444' : modelsActive.ollama ? '#f97316' : modelsActive.sonnet ? '#a78bfa' : 'rgba(74,222,128,0.6)';
                     Object.entries(kwMap).forEach(([region, keywords]) => {
                         if (!activeRegions.has(region) && keywords.some(kw => thoughtLc.includes(kw))) {
-                            activateBrainRegion(region, 'rgba(74,222,128,0.6)');
+                            activateBrainRegion(region, activeModelColor);
                             const idx = brainRegions.findIndex(br => br.name === region);
                             if (idx !== -1 && !activeNodeIndices.includes(idx)) activeNodeIndices.push(idx);
                         }

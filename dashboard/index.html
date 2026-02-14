@@ -801,6 +801,8 @@
                     <span class="model-dot" id="model-whisper" style="--dot-color:#facc15;opacity:0.4">● Whisper</span>
                     <span class="model-dot" id="model-ollama" style="--dot-color:#f97316;opacity:0.4;font-weight:700">● Ollama</span>
                     <span class="model-dot" id="model-grok" style="--dot-color:#ef4444;opacity:0.4;font-weight:700">● Grok</span>
+                    <span class="model-dot" id="model-qwen" style="--dot-color:#06b6d4;opacity:0.4">● Qwen</span>
+                    <span class="model-dot" id="model-phi" style="--dot-color:#ec4899;opacity:0.4">● Phi-4</span>
                 </div>
                 <div class="mind-body" style="flex-direction: row-reverse;">
                     <!-- Brain Map SVG -->
@@ -1429,6 +1431,8 @@
             'browser':'#3b82f6','web_search':'#3b82f6','web_fetch':'#3b82f6',
             'ollama':'#f97316',
             'grok':'#ef4444',
+            'qwen':'#06b6d4',
+            'phi':'#ec4899',
             'qwen':'#ec4899',
             'x':'#1d9bf0','twitter':'#1d9bf0',
             'sorare':'#ffd700',
@@ -1443,6 +1447,8 @@
             'opus':['Reasoning'],'claude':['Reasoning'],'sonnet':['Reasoning'],
             'ollama':['Coding','Reasoning'],'qwen':['Coding'],
             'grok':['Research','Browsing'],
+            'qwen':['Coding','Reasoning'],
+            'phi':['Research','Reasoning'],
             'whisper':['Communication'],'tts':['Communication'],
             'web_search':['Research'],'web_fetch':['Research'],'browser':['Browsing'],
             'exec':['Coding'],'read':['Memory'],'write':['Memory'],'edit':['Memory','Coding'],
@@ -1859,7 +1865,7 @@
             }
 
             // Check for model usage and update legend
-            let modelsActive = { opus: false, sonnet: false, whisper: false, ollama: false, grok: false };
+            let modelsActive = { opus: false, sonnet: false, whisper: false, ollama: false, grok: false, qwen: false, phi: false };
             if (mindState.steps) {
                 mindState.steps.forEach(s => {
                     const tool = (s.tool || '').toLowerCase();
@@ -1869,8 +1875,10 @@
                     if (combo.includes('opus') || (combo.includes('claude') && !combo.includes('sonnet'))) modelsActive.opus = true;
                     if (combo.includes('sonnet')) modelsActive.sonnet = true;
                     if (combo.includes('whisper') || combo.includes('transcrib') || combo.includes('tts') || combo.includes('voice')) modelsActive.whisper = true;
-                    if (combo.includes('ollama') || combo.includes('qwen') || combo.includes('llama')) modelsActive.ollama = true;
+                    if (combo.includes('ollama') || combo.includes('llama') || combo.includes('mistral')) modelsActive.ollama = true;
                     if (combo.includes('grok')) modelsActive.grok = true;
+                    if (combo.includes('qwen') || combo.includes('coder')) modelsActive.qwen = true;
+                    if (combo.includes('phi')) modelsActive.phi = true;
                 });
             }
             // Also check thought field for model mentions
@@ -1882,7 +1890,7 @@
             updateGrokIndicator(modelsActive.grok);
             
             // Update model legend dots
-            ['opus', 'sonnet', 'whisper', 'ollama', 'grok'].forEach(m => {
+            ['opus', 'sonnet', 'whisper', 'ollama', 'grok', 'qwen', 'phi'].forEach(m => {
                 const el = document.getElementById('model-' + m);
                 if (el) el.style.opacity = modelsActive[m] ? '1' : '0.4';
             });

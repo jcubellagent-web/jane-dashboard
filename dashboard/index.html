@@ -746,6 +746,8 @@
         <span class="status-slim-pill" id="ram-slim">RAM: --%</span>
         <span class="status-slim-divider">·</span>
         <span class="status-slim-pill" id="mini2-slim" title="Mac Mini #2">Mini2: --</span>
+        <span class="status-slim-divider">·</span>
+        <span class="status-slim-pill" id="ctx-slim" title="Context window usage">Ctx: --%</span>
     </div>
 
     <!-- Main Grid -->
@@ -1054,6 +1056,16 @@
                 _cachedSessions = sessions;
                 if (sessions?.sessions?.length) {
                     const main = sessions.sessions.find(s => s.kind === 'main') || sessions.sessions[0];
+                    if (main) {
+                        const used = main.totalTokens || 0;
+                        const cap = main.contextTokens || 200000;
+                        const pct = Math.round((used / cap) * 100);
+                        const ctxEl = document.getElementById('ctx-slim');
+                        if (ctxEl) {
+                            ctxEl.textContent = 'Ctx: ' + pct + '%';
+                            ctxEl.className = 'status-slim-pill ' + (pct > 80 ? 'red' : pct > 60 ? '' : 'green');
+                        }
+                    }
                 }
                 if (system) {
                     document.getElementById('cpu-slim').textContent = 'CPU: ' + (system.cpu||0) + '%';

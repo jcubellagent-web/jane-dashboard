@@ -1,0 +1,19 @@
+{
+  "plan": "Claude Max",
+  "weeklyReset": "2026-02-21T18:00:00.000Z",
+  "sessionReset": "2026-02-14T22:00:00.000Z",
+  "snapshots": [
+    {
+      "ts": "2026-02-14T18:28:00.000Z",
+      "session": 2,
+      "weeklyAll": 0,
+      "weeklySonnet": 0,
+      "note": "Fresh weekly reset. Session 2% from recent conversation."
+    }
+  ],
+  "budget": {
+    "dailyTarget": "~14% weekly (100%/7 days)",
+    "sessionWindow": "5 hours",
+    "strategy": "Keep daily usage under 14% weekly to avoid hitting limits"
+  }
+}

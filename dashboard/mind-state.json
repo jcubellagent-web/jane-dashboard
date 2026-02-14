@@ -1,13 +1,11 @@
 {
-  "task": "Gmail IMAP + Skills setup",
+  "task": "Mobile dashboard tweaks + desktop night mode toggle",
   "steps": [
-    {"text": "Enable 2FA on Google", "status": "done", "tool": "browser"},
-    {"text": "Generate App Password", "status": "done", "tool": "browser"},
-    {"text": "Test IMAP access", "status": "done", "tool": "exec"},
-    {"text": "Install skill-vetting", "status": "done", "tool": "exec"},
-    {"text": "Vet & install remaining skills", "status": "pending", "tool": "exec"}
+    {"label": "Remove model/provider from mobile", "status": "active"},
+    {"label": "Simplify age to days only", "status": "pending"},
+    {"label": "Add night mode toggle button for desktop", "status": "pending"}
   ],
-  "thought": "IMAP working! Gmail checks no longer need browser. Waiting on Josh for the numbered skill list.",
-  "lastUpdated": 1739509500000,
-  "subAgents": []
+  "thought": "Three mobile dashboard changes: clean up session info, simplify age display, add desktop night mode button",
+  "subAgents": [{"label": "tiktok-degen-v2", "status": "active"}],
+  "lastUpdated": 1771049400000
 }

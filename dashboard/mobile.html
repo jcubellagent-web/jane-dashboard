@@ -802,6 +802,28 @@
     </div>
     <script src="dashboard-common.js"></script>
     <script>
+        // Toggle desktop night mode remotely
+        let desktopNightMode = false;
+        async function toggleDesktopNightMode() {
+            const pill = document.getElementById('night-mode-pill');
+            desktopNightMode = !desktopNightMode;
+            pill.textContent = '⏳ Toggling...';
+            try {
+                const r = await fetch('/api/desktop-night-mode', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({enabled: desktopNightMode})
+                });
+                const d = await r.json();
+                pill.textContent = desktopNightMode ? '☀️ Day' : '🌙 Night';
+                pill.className = 'status-pill' + (desktopNightMode ? ' dim' : '');
+            } catch(e) {
+                pill.textContent = '❌ Error';
+                desktopNightMode = !desktopNightMode;
+                setTimeout(() => { pill.textContent = desktopNightMode ? '☀️ Day' : '🌙 Night'; }, 2000);
+            }
+        }
+
         // Refresh desktop browser remotely
         async function refreshDesktop() {
             const pill = document.getElementById('refresh-desktop-pill');
@@ -832,14 +854,13 @@
     <div class="card" id="status-card" style="cursor:pointer;position:sticky;top:36px;z-index:100;background:#0a0a0f;border-color:rgba(74,222,128,0.15);border-top:none;border-radius:0 0 12px 12px;margin-top:0;" onclick="toggleStatusExpand()">
         <div class="status-bar">
             <div class="status-pills">
-                <span class="status-pill" id="model-pill">Model: --</span>
-                <span class="status-pill green" id="plan-pill">Max</span>
-                <span class="status-pill dim" id="age-pill">Age: --</span>
+                <span class="status-pill dim" id="age-pill">Day --</span>
                 <span class="status-pill" id="cpu-pill">CPU: --%</span>
                 <span class="status-pill" id="ram-pill">RAM: --%</span>
                 <span class="status-pill" id="mini2-pill">Mini2: --</span>
                 <span class="status-pill" id="mini1-pill">Mini1: --</span>
                 <span class="status-pill green" id="refresh-desktop-pill" style="cursor:pointer;" onclick="event.stopPropagation();refreshDesktop()">🔄 Desktop</span>
+                <span class="status-pill" id="night-mode-pill" style="cursor:pointer;" onclick="event.stopPropagation();toggleDesktopNightMode()">🌙 Night</span>
             </div>
         </div>
         <div id="status-expanded" style="display:none;margin-top:0.3rem;padding-top:0.3rem;border-top:1px solid rgba(255,255,255,0.06);">
@@ -1073,19 +1094,10 @@
                 fetchJSON('/api/system').then(r => r, () => fetchJSON('/system-status.json')).catch(() => null)
             ]);
 
-            if (sessions?.sessions?.length) {
-                const main = sessions.sessions.find(s => s.kind === 'main') || sessions.sessions[0];
-                if (main?.model) {
-                    const name = main.model.split('/').pop()
-                        .replace('claude-', '').replace(/-/g, ' ')
-                        .replace('4 5', '4.5').replace('4 6', '4.6');
-                    document.getElementById('model-pill').textContent = 'Model: ' + name;
-                } else {
-                    document.getElementById('model-pill').textContent = 'Model: opus 4.6';
-                }
-            } else {
-                document.getElementById('model-pill').textContent = 'Model: opus 4.6';
-            }
+            // Age pill: show day number since Jan 31, 2026
+            const birthDate = new Date('2026-01-31T00:00:00-05:00');
+            const dayNum = Math.floor((Date.now() - birthDate.getTime()) / 86400000);
+            document.getElementById('age-pill').textContent = 'Day ' + dayNum;
 
             if (system) {
                 document.getElementById('cpu-pill').textContent = 'CPU: ' + (system.cpu || 0) + '%';
@@ -1095,9 +1107,7 @@
                 const blendedRam = Math.round((m1Ram + m2Ram) / 2);
                 document.getElementById('ram-pill').textContent = 'RAM: ' + blendedRam + '%';
 
-                if (system.uptime) {
-                    document.getElementById('age-pill').textContent = 'Age: ' + system.uptime;
-                }
+                // Age pill handled above (day count)
 
                 // Expanded row — combined RAM detail
                 // Main row Mini1 pill

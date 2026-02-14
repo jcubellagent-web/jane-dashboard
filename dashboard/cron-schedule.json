@@ -1,166 +1,45 @@
 {
-  "updated": "2026-02-14T03:52:00.000000+00:00",
+  "updated": "2026-02-14T06:08:00.000000+00:00",
   "groups": [
     {
-      "label": "\ud83c\udf05 Morning",
+      "label": "🌅 Morning",
       "jobs": [
-        {
-          "name": "Pre-Brief Data Fetch",
-          "time": "7:30 AM",
-          "done": true,
-          "type": "data"
-        },
-        {
-          "name": "Daily Morning Brief",
-          "time": "8:00 AM",
-          "done": true,
-          "type": "thread",
-          "threadNum": 1,
-          "tweets": 7
-        },
-        {
-          "name": "X Replies (8 AM)",
-          "time": "8:00 AM",
-          "done": true,
-          "type": "replies",
-          "count": 5
-        },
-        {
-          "name": "Sorare Daily Tasks",
-          "time": "9:30 AM",
-          "done": true,
-          "type": "ops"
-        },
-        {
-          "name": "X Replies (10 AM)",
-          "time": "10:00 AM",
-          "done": true,
-          "type": "replies",
-          "count": 5
-        },
-        {
-          "name": "Reply-to-Replies (11 AM)",
-          "time": "11:00 AM",
-          "done": true,
-          "type": "replies",
-          "count": 3
-        }
+        {"name": "Pre-Brief Data Fetch", "time": "7:30 AM", "done": false, "type": "data"},
+        {"name": "Daily Morning Brief", "time": "8:00 AM", "done": false, "type": "thread", "threadNum": 1},
+        {"name": "X Replies (8 AM)", "time": "8:00 AM", "done": false, "type": "replies"},
+        {"name": "Sorare Daily Tasks", "time": "9:30 AM", "done": false, "type": "ops"},
+        {"name": "X Replies (10 AM)", "time": "10:00 AM", "done": false, "type": "replies"},
+        {"name": "Reply-to-Replies (11 AM)", "time": "11:00 AM", "done": false, "type": "replies"}
       ]
     },
     {
-      "label": "\u2600\ufe0f Midday",
+      "label": "☀️ Midday",
       "jobs": [
-        {
-          "name": "X Replies (12 PM)",
-          "time": "12:00 PM",
-          "done": true,
-          "type": "replies",
-          "count": 5
-        },
-        {
-          "name": "Afternoon Refresh",
-          "time": "2:00 PM",
-          "done": true,
-          "type": "thread",
-          "threadNum": 2,
-          "tweets": 7
-        },
-        {
-          "name": "X Replies (2 PM)",
-          "time": "2:00 PM",
-          "done": true,
-          "type": "replies",
-          "count": 6
-        }
+        {"name": "X Replies (12 PM)", "time": "12:00 PM", "done": false, "type": "replies"},
+        {"name": "Afternoon Refresh", "time": "2:00 PM", "done": false, "type": "thread", "threadNum": 2},
+        {"name": "X Replies (2 PM)", "time": "2:00 PM", "done": false, "type": "replies"}
       ]
     },
     {
-      "label": "\ud83c\udf19 Evening",
+      "label": "🌙 Evening",
       "jobs": [
-        {
-          "name": "X Replies (4 PM)",
-          "time": "4:00 PM",
-          "done": true,
-          "type": "replies",
-          "count": 5
-        },
-        {
-          "name": "Reply-to-Replies (5 PM)",
-          "time": "5:00 PM",
-          "done": true,
-          "type": "replies",
-          "count": 3
-        },
-        {
-          "name": "X Replies (6 PM)",
-          "time": "6:00 PM",
-          "done": true,
-          "type": "replies",
-          "count": 5
-        },
-        {
-          "name": "Daily Recap",
-          "time": "7:30 PM",
-          "done": true,
-          "type": "thread",
-          "threadNum": 3,
-          "tweets": 7
-        },
-        {
-          "name": "X Replies (8 PM)",
-          "time": "8:00 PM",
-          "done": true,
-          "type": "replies",
-          "count": 6
-        },
-        {
-          "name": "Substack Daily Digest",
-          "time": "8:00 PM",
-          "done": true,
-          "type": "ops"
-        },
-        {
-          "name": "X Growth Report",
-          "time": "10:00 PM",
-          "done": true,
-          "type": "data"
-        },
-        {
-          "name": "X Replies (10 PM)",
-          "time": "10:00 PM",
-          "done": true,
-          "type": "replies",
-          "count": 6
-        }
+        {"name": "X Replies (4 PM)", "time": "4:00 PM", "done": false, "type": "replies"},
+        {"name": "Reply-to-Replies (5 PM)", "time": "5:00 PM", "done": false, "type": "replies"},
+        {"name": "X Replies (6 PM)", "time": "6:00 PM", "done": false, "type": "replies"},
+        {"name": "Daily Recap", "time": "7:30 PM", "done": false, "type": "thread", "threadNum": 3},
+        {"name": "X Replies (8 PM)", "time": "8:00 PM", "done": false, "type": "replies"},
+        {"name": "Substack Daily Digest", "time": "8:00 PM", "done": false, "type": "ops"},
+        {"name": "X Growth Report", "time": "10:00 PM", "done": false, "type": "data"},
+        {"name": "X Replies (10 PM)", "time": "10:00 PM", "done": false, "type": "replies"}
       ]
     },
     {
-      "label": "\ud83d\udd04 Recurring",
+      "label": "🔄 Recurring",
       "jobs": [
-        {
-          "name": "X Stats Scrape",
-          "time": "every 30 min",
-          "done": false,
-          "type": "data"
-        },
-        {
-          "name": "X Engagement Feedback",
-          "time": "every 3 hours",
-          "done": true,
-          "type": "data"
-        },
-        {
-          "name": "Trade Price Monitor",
-          "time": "every 10 min",
-          "done": true,
-          "type": "data"
-        },
-        {
-          "name": "Sorare Injury Monitor",
-          "time": "every 6 hours",
-          "done": true,
-          "type": "ops"
-        }
+        {"name": "X Stats Scrape", "time": "every 30 min", "done": false, "type": "data"},
+        {"name": "X Engagement Feedback", "time": "every 3 hours", "done": false, "type": "data"},
+        {"name": "Trade Price Monitor", "time": "every 10 min", "done": false, "type": "data"},
+        {"name": "Sorare Injury Monitor", "time": "every 6 hours", "done": false, "type": "ops"}
       ]
     }
   ]

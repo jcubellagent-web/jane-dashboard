@@ -1,1 +1,1 @@
-{"lastUpdated":1739509140000,"sessions":[{"key":"agent:main:main","kind":"other","channel":"whatsapp","model":"claude-opus-4-6","totalTokens":185264},{"key":"agent:main:cron:7983e0d4-d5af-4fbe-aaf5-1f803f79dbbe","label":"Cron: Trade Price Monitor","model":"claude-opus-4-6","totalTokens":21884},{"key":"agent:main:cron:db53eb61-4a7c-48b5-b24c-907fb9d07ebb","label":"Cron: X Stats Scrape","model":"claude-opus-4-6","totalTokens":25960}]}
+{"lastUpdated":1771049040000,"activeSessions":32}

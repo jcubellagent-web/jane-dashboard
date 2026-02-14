@@ -79,7 +79,7 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - Mini #2 (jcagent2, `ssh mini2`, 100.66.132.34): Compute offload, 16GB
 - Ollama on Mini #2: `http://100.66.132.34:11434`
 - Remote Whisper: `scripts/whisper-remote.sh`
-- Local models: nomic-embed-text, llama3.1:8b, mistral:7b, MLX SD 2.1
+- Local models: nomic-embed-text, llama3.1:8b, mistral:7b, qwen2.5-coder:7b, phi4:14b, MLX SD 2.1
 
 ## PWA / Push Notifications
 - HTTPS on port 3443 (self-signed cert, trusted on Josh's iPhone)

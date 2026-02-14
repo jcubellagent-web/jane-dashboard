@@ -2250,6 +2250,35 @@ function handleRequest(req, res) {
         return;
     }
 
+    if (req.url === '/api/desktop-night-mode' && req.method === 'POST') {
+        let body = '';
+        req.on('data', c => body += c);
+        req.on('end', () => {
+            try {
+                const { enabled } = JSON.parse(body);
+                // Write night mode state so desktop can pick it up
+                const nmFile = path.join(ROOT, '.night-mode');
+                if (enabled) {
+                    fs.writeFileSync(nmFile, '1');
+                } else {
+                    if (fs.existsSync(nmFile)) fs.unlinkSync(nmFile);
+                }
+                // Broadcast to desktop via WebSocket
+                if (typeof wss !== 'undefined') {
+                    wss.clients.forEach(c => {
+                        if (c.readyState === 1) c.send(JSON.stringify({type:'nightMode', enabled}));
+                    });
+                }
+                res.writeHead(200, {'Content-Type':'application/json'});
+                res.end(JSON.stringify({ok:true, enabled}));
+            } catch(e) {
+                res.writeHead(400, {'Content-Type':'application/json'});
+                res.end(JSON.stringify({ok:false, error: e.message}));
+            }
+        });
+        return;
+    }
+
     if (req.url === '/api/refresh-desktop' && req.method === 'POST') {
         // Force-refresh the desktop Chrome browser via AppleScript
         const { exec: execCmd } = require('child_process');

@@ -154,4 +154,16 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - Login: "Continue with Google" → jcubellagent@gmail.com
 - Josh's phone (+17175759384) added as 2FA on the Google account
 
-_Last updated: 2026-02-12_
+## AgentMail
+- Account: "Jane AI" on console.agentmail.to (jcubellagent@gmail.com)
+- API key: `.secrets/agentmail_api_key.txt`
+- Inbox: `combativeobject69@agentmail.to` (free tier = random usernames, 3 inbox limit)
+- Gmail forwarding blocked by Google's anti-bot "secure verification" — use AgentMail SDK polling instead
+- SDK: `agentmail` Python package, `client.inboxes.list()` returns `ListInboxesResponse` with `.inboxes` array
+
+## Gmail Password
+- Current: `JcAgent-2026-Tik!` (confirmed Feb 14)
+- Stored in `.secrets/gmail.txt`
+- ⚠️ Google recovery flow auto-changes password on every "Continue" click — NEVER click Continue on the recovery nudge screen
+
+_Last updated: 2026-02-14_

@@ -1693,12 +1693,13 @@
                         </div>
                     `).join('');
                 };
-                render(data.accounts || [], 'conn-accounts');
-                render(data.dataSources || [], 'conn-datasources');
+                const sortA = arr => [...arr].sort((a,b) => a.name.localeCompare(b.name));
+                render(sortA(data.accounts || []), 'conn-accounts');
+                render(sortA(data.dataSources || []), 'conn-datasources');
                 if (data.newsletters && data.newsletters.length) {
                     document.getElementById('conn-newsletters-section').style.display = '';
                     const nlEl = document.getElementById('conn-newsletters');
-                    nlEl.innerHTML = data.newsletters.map(i => `
+                    nlEl.innerHTML = sortA(data.newsletters).map(i => `
                         <div style="display:flex;align-items:center;gap:0.25rem;padding:0.1rem 0;font-size:0.6rem;color:rgba(255,255,255,0.7);">
                             <span style="font-size:0.5rem;">📧</span>
                             <span>${esc(i.name)}</span>
@@ -1708,7 +1709,7 @@
                 }
                 if (data.podcasts && data.podcasts.length) {
                     document.getElementById('conn-podcasts-section').style.display = '';
-                    document.getElementById('conn-podcasts').innerHTML = data.podcasts.map(i => `
+                    document.getElementById('conn-podcasts').innerHTML = sortA(data.podcasts).map(i => `
                         <div style="display:flex;align-items:center;gap:0.25rem;padding:0.1rem 0;font-size:0.6rem;color:rgba(255,255,255,0.7);">
                             <span style="font-size:0.5rem;">🎙️</span>
                             <span>${esc(i.name)}</span>

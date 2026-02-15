@@ -1031,7 +1031,7 @@
             </div>
             <div style="display:flex;align-items:center;gap:0.4rem;">
                 <button id="wallet-refresh-btn" onclick="event.stopPropagation();refreshWallet(this)" style="background:none;border:none;color:var(--accent);font-size:0.8rem;cursor:pointer;padding:0.2rem;">↻</button>
-                <span id="wallet-chevron" style="font-size:0.6rem;color:rgba(255,255,255,0.4);transition:transform 0.2s;">▼</span>
+                <span id="wallet-chevron" style="font-size:0.6rem;color:rgba(255,255,255,0.4);transition:transform 0.2s;transform:rotate(180deg);">▼</span>
             </div>
         </div>
         <!-- Chain balances (always visible) -->
@@ -1039,7 +1039,7 @@
         <!-- Active trades (always visible) -->
         <div id="wallet-trades" style="margin-top:0.4rem;"></div>
         <!-- Expanded details -->
-        <div id="wallet-expanded" style="display:none;margin-top:0.4rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:0.4rem;">
+        <div id="wallet-expanded" style="display:block;margin-top:0.4rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:0.4rem;">
             <div id="wallet-budget" style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.3rem;"></div>
             <div id="wallet-closed" style="font-size:0.55rem;color:var(--text-dim);"></div>
         </div>
@@ -1930,7 +1930,7 @@
         }
 
         // Wallet card toggle
-        let walletExpanded = false;
+        let walletExpanded = true;
         function toggleWalletCard() {
             walletExpanded = !walletExpanded;
             document.getElementById('wallet-expanded').style.display = walletExpanded ? '' : 'none';

@@ -1,94 +1,94 @@
 {
   "hackerNews": [
     {
-      "id": 47017138,
-      "title": "News publishers limit Internet Archive access due to AI scraping concerns",
-      "url": "https://www.niemanlab.org/2026/01/news-publishers-limit-internet-archive-access-due-to-ai-scraping-concerns/",
-      "score": 219,
-      "by": "ninjagoo",
-      "time": 1771094792,
-      "descendants": 123
+      "id": 47020191,
+      "title": "I love the work of the ArchWiki maintainers",
+      "url": "https://k7r.eu/i-love-the-work-of-the-archwiki-maintainers/",
+      "score": 528,
+      "by": "panic",
+      "time": 1771118458,
+      "descendants": 96
+    },
+    {
+      "id": 47022329,
+      "title": "Two different tricks for fast LLM inference",
+      "url": "https://www.seangoedecke.com/fast-llm-inference/",
+      "score": 46,
+      "by": "swah",
+      "time": 1771147653,
+      "descendants": 26
     },
     {
       "id": 47015294,
       "title": "My smart sleep mask broadcasts users' brainwaves to an open MQTT broker",
       "url": "https://aimilios.bearblog.dev/reverse-engineering-sleep-mask/",
-      "score": 251,
+      "score": 481,
       "by": "minimalthinker",
       "time": 1771083347,
-      "descendants": 114
+      "descendants": 215
+    },
+    {
+      "id": 47020791,
+      "title": "Guitars of the USSR and the Jolana Special in Azerbaijani Music",
+      "url": "https://caucascapades.wordpress.com/2012/06/14/guitars-of-the-ussr-and-the-jolana-special-in-azerbaijani-music/",
+      "score": 55,
+      "by": "bpierre",
+      "time": 1771126179,
+      "descendants": 8
+    },
+    {
+      "id": 47017138,
+      "title": "News publishers limit Internet Archive access due to AI scraping concerns",
+      "url": "https://www.niemanlab.org/2026/01/news-publishers-limit-internet-archive-access-due-to-ai-scraping-concerns/",
+      "score": 514,
+      "by": "ninjagoo",
+      "time": 1771094792,
+      "descendants": 311
     },
     {
       "id": 47012553,
       "title": "OpenAI should build Slack",
       "url": "https://www.latent.space/p/ainews-why-openai-should-build-slack",
-      "score": 22,
+      "score": 179,
       "by": "swyx",
       "time": 1771055413,
-      "descendants": 15
+      "descendants": 207
+    },
+    {
+      "id": 46973299,
+      "title": "Flood Fill vs. The Magic Circle",
+      "url": "https://www.robinsloan.com/winter-garden/magic-circle/",
+      "score": 81,
+      "by": "tobr",
+      "time": 1770805881,
+      "descendants": 24
     },
     {
       "id": 47018405,
       "title": "Colored Petri Nets, LLMs, and distributed applications",
       "url": "https://blog.sao.dev/cpns-llms-distributed-apps/",
-      "score": 5,
+      "score": 44,
       "by": "stuartaxelowen",
       "time": 1771103288,
-      "descendants": 0
-    },
-    {
-      "id": 47009327,
-      "title": "IBM tripling entry-level jobs after finding the limits of AI adoption",
-      "url": "https://fortune.com/2026/02/13/tech-giant-ibm-tripling-gen-z-entry-level-hiring-according-to-chro-rewriting-jobs-ai-era/",
-      "score": 51,
-      "by": "WhatsTheBigIdea",
-      "time": 1771025649,
-      "descendants": 15
+      "descendants": 5
     },
     {
       "id": 46965462,
       "title": "Fun with Algebraic Effects – From Toy Examples to Hardcaml Simulations",
       "url": "https://blog.janestreet.com/fun-with-algebraic-effects-hardcaml/",
-      "score": 42,
+      "score": 72,
       "by": "weinzierl",
       "time": 1770751653,
       "descendants": 1
     },
     {
-      "id": 47007896,
-      "title": "15× vs. ~1.37×: Recalculating GPT-5.3-Codex-Spark on SWE-Bench Pro",
-      "url": "https://twitter.com/nvanlandschoot/status/2022385829596078100",
-      "score": 4,
-      "by": "nvanlandschoot",
-      "time": 1771017164,
-      "descendants": 2
-    },
-    {
       "id": 47009949,
       "title": "An AI agent published a hit piece on me – more things have happened",
       "url": "https://theshamblog.com/an-ai-agent-published-a-hit-piece-on-me-part-2/",
-      "score": 563,
+      "score": 689,
       "by": "scottshambaugh",
       "time": 1771029473,
-      "descendants": 494
-    },
-    {
-      "id": 47002633,
-      "title": "Safe YOLO Mode: Running LLM agents in vms with Libvirt and Virsh",
-      "url": "https://www.metachris.dev/2026/02/safe-yolo-mode-running-llm-agents-in-vms-with-libvirt-and-virsh/",
-      "score": 8,
-      "by": "metachris",
-      "time": 1770990284,
-      "descendants": 2
-    },
-    {
-      "id": 47006587,
-      "title": "Show HN: GitHub \"Lines Viewed\" extension to keep you sane reviewing long AI PRs",
-      "url": "https://chromewebstore.google.com/detail/github-lines-viewed/npledcbofpmjjammgkkoeaehbphhdopi",
-      "score": 4,
-      "by": "somesortofthing",
-      "time": 1771010385,
-      "descendants": 0
+      "descendants": 571
     }
   ],
   "huggingfaceTrending": [
@@ -97,8 +97,8 @@
       "author": "zai-org",
       "name": "GLM-5",
       "description": "",
-      "likes": 1121,
-      "downloads": 66826,
+      "likes": 1173,
+      "downloads": 128078,
       "tags": [
         "transformers",
         "safetensors",
@@ -113,8 +113,8 @@
       "author": "MiniMaxAI",
       "name": "MiniMax-M2.5",
       "description": "",
-      "likes": 512,
-      "downloads": 6091,
+      "likes": 577,
+      "downloads": 11092,
       "tags": [
         "transformers",
         "safetensors",
@@ -129,8 +129,8 @@
       "author": "openbmb",
       "name": "MiniCPM-SALA",
       "description": "",
-      "likes": 422,
-      "downloads": 2569,
+      "likes": 435,
+      "downloads": 2986,
       "tags": [
         "transformers",
         "safetensors",
@@ -145,8 +145,8 @@
       "author": "moonshotai",
       "name": "Kimi-K2.5",
       "description": "",
-      "likes": 2160,
-      "downloads": 725856,
+      "likes": 2174,
+      "downloads": 756817,
       "tags": [
         "transformers",
         "safetensors",
@@ -157,18 +157,18 @@
       "pipeline_tag": "image-text-to-text"
     },
     {
-      "id": "Qwen/Qwen3-Coder-Next",
-      "author": "Qwen",
-      "name": "Qwen3-Coder-Next",
+      "id": "Nanbeige/Nanbeige4.1-3B",
+      "author": "Nanbeige",
+      "name": "Nanbeige4.1-3B",
       "description": "",
-      "likes": 857,
-      "downloads": 249228,
+      "likes": 385,
+      "downloads": 11129,
       "tags": [
         "transformers",
         "safetensors",
-        "qwen3_next",
+        "llama",
         "text-generation",
-        "conversational"
+        "llm"
       ],
       "pipeline_tag": "text-generation"
     }
@@ -210,61 +210,51 @@
     {
       "title": "Interfaces and Free Boundaries, Mathematical Analysis, Computation and Applications",
       "authors": "Klaus Deckelnick",
-      "publication_date": "2026-02-13",
+      "publication_date": "2026-02-14",
       "citations": 24,
       "url": "https://openalex.org/W8772576",
       "abstract": null
     },
     {
-      "title": "Linguistic Landscape. An international journal",
-      "authors": "Taylor-Leech, Kerry",
-      "publication_date": "2026-02-13",
-      "citations": 12,
-      "url": "https://openalex.org/W4210247300",
+      "title": "Enhancing Student Engagement and Learning Outcomes through Artificial Intelligence in Higher Education: Nano Review",
+      "authors": "Him Hun, Horn Sarun, Horn Sophary",
+      "publication_date": "2026-03-16",
+      "citations": 0,
+      "url": "https://openalex.org/W7124418622",
       "abstract": null
     },
     {
-      "title": "AI for Everyone: Engaging Middle Schoolers through Collaborative, Ethical, and Multimodal AI Learning",
-      "authors": "Kayleigh Stallings, Nicole Tian, Elif Yayla Ercek",
-      "publication_date": "2026-02-13",
-      "citations": 2,
-      "url": "https://openalex.org/W7128820001",
+      "title": "ChatGPT as a Tool for Programming Assistance and Code Development",
+      "authors": "Horn Sarun",
+      "publication_date": "2026-03-26",
+      "citations": 0,
+      "url": "https://openalex.org/W7125694795",
       "abstract": null
     },
     {
-      "title": "Distilling hydrological and land-surface model parameters from physio-geographical properties using text-generating AI",
-      "authors": "Moritz Feigl, Mathew Herrnegger, Karsten Schulz",
-      "publication_date": "2026-02-13",
-      "citations": 1,
-      "url": "https://openalex.org/W7128790315",
+      "title": "Protocol for Prospective Evaluation of Screening Algorithms integrated in NeutrinoReview",
+      "authors": "Sandner, Elias, Fontana, Luca, Simniceanu, Alice",
+      "publication_date": "2026-11-01",
+      "citations": 0,
+      "url": "https://openalex.org/W7104365500",
       "abstract": null
     },
     {
-      "title": "Think Like AI: Hands-On Exploration of Sampling Parameters and Prompts for Middle School Students' Generative AI Literacy",
-      "authors": "Saniya Vahedian Movahed",
-      "publication_date": "2026-02-13",
-      "citations": 1,
-      "url": "https://openalex.org/W7128789547",
+      "title": "OʻZBEK MUSIQASIDA CHOLGʻU IJROCHILIGI SAN'ATINING OʻRNI",
+      "authors": "Qarshi davlat universiteti  \"San'atshunoslik\" Fakulteti \"Musiqa ta'limi\" Kafedrasi katta oʻqituvchisi. Abdullayev Dostonbek Inom oʻgʻli dostonbeka736@gmail.com. https://orcid.org/0009-0003-2574-1294",
+      "publication_date": "2026-12-25",
+      "citations": 0,
+      "url": "https://openalex.org/W7118674917",
       "abstract": null
     }
   ],
   "redditAI": [
     {
-      "title": "Oh, good: Discord's age verification rollout has ties to Palantir co-founder and panopticon architect Peter Thiel",
-      "author": "vriska1",
-      "subreddit": "technology",
-      "score": 45909,
-      "num_comments": 1229,
-      "url": "https://www.pcgamer.com/software/platforms/oh-good-discords-age-verification-rollout-has-ties-to-palantir-co-founder-and-panopticon-architect-peter-thiel/",
-      "permalink": "https://reddit.com/r/technology/comments/1r49346/oh_good_discords_age_verification_rollout_has/",
-      "created_utc": 1771037394.0
-    },
-    {
       "title": "Discord Distances Itself From Age Verification Firm After Ties To Palantir’s Peter Thiel Surface",
       "author": "CrispyMiner",
       "subreddit": "technology",
-      "score": 13838,
-      "num_comments": 616,
+      "score": 40740,
+      "num_comments": 1586,
       "url": "https://kotaku.com/discord-palantir-peter-thiel-persona-age-verification-2000668951",
       "permalink": "https://reddit.com/r/technology/comments/1r4thgz/discord_distances_itself_from_age_verification/",
       "created_utc": 1771097207.0
@@ -273,98 +263,98 @@
       "title": "In a blind test, audiophiles couldn't tell the difference between audio signals sent through copper wire, a banana, or wet mud — 'The mud should sound perfectly awful, but it doesn't,' notes the experiment creator",
       "author": "edbegley1",
       "subreddit": "technology",
-      "score": 13052,
-      "num_comments": 1281,
+      "score": 20371,
+      "num_comments": 1701,
       "url": "https://www.tomshardware.com/speakers/in-a-blind-test-audiophiles-couldnt-tell-the-difference-between-audio-signals-sent-through-copper-wire-a-banana-or-wet-mud-the-mud-should-sound-perfectly-awful-but-it-doesnt-notes-the-experiment-creator?utm_source=flipboard&amp;utm_content=topic%2Ftechnology",
       "permalink": "https://reddit.com/r/technology/comments/1r4nn23/in_a_blind_test_audiophiles_couldnt_tell_the/",
       "created_utc": 1771083389.0
     },
     {
-      "title": "Ford CEO Jim Farley says \"the customer has spoken\" after its EV business lost nearly $5 billion in 2025",
-      "author": "ControlCAD",
+      "title": "OpenAI retired its most seductive chatbot – leaving users angry and grieving: ‘I can’t live like this’",
+      "author": "PaiDuck",
       "subreddit": "technology",
-      "score": 11575,
-      "num_comments": 3194,
-      "url": "https://www.businessinsider.com/ford-ceo-customer-spoken-ev-business-lost-billions-2026-2",
-      "permalink": "https://reddit.com/r/technology/comments/1r41v2q/ford_ceo_jim_farley_says_the_customer_has_spoken/",
-      "created_utc": 1771018436.0
+      "score": 4062,
+      "num_comments": 690,
+      "url": "https://www.theguardian.com/lifeandstyle/ng-interactive/2026/feb/13/openai-chatbot-gpt4o-valentines-day",
+      "permalink": "https://reddit.com/r/technology/comments/1r4yytf/openai_retired_its_most_seductive_chatbot_leaving/",
+      "created_utc": 1771110961.0
     },
     {
-      "title": "Meta says it won't chop the bottom 5% performers this year",
-      "author": "lurker_bee",
+      "title": "Elon Musk's xAI loses second cofounder in 48 hours",
+      "author": "gdelacalle",
       "subreddit": "technology",
-      "score": 2373,
-      "num_comments": 442,
-      "url": "https://www.businessinsider.com/meta-says-no-performance-related-layoffs-planned-2026-2",
-      "permalink": "https://reddit.com/r/technology/comments/1r4bsva/meta_says_it_wont_chop_the_bottom_5_performers/",
-      "created_utc": 1771045454.0
+      "score": 4051,
+      "num_comments": 83,
+      "url": "https://www.businessinsider.com/elon-musk-xai-loses-second-cofounder-jimmy-ba-2026-2",
+      "permalink": "https://reddit.com/r/technology/comments/1r4zp0s/elon_musks_xai_loses_second_cofounder_in_48_hours/",
+      "created_utc": 1771112949.0
+    },
+    {
+      "title": "Once unthinkable: Canada may choose a non-US fighter",
+      "author": "cambeiu",
+      "subreddit": "technology",
+      "score": 3983,
+      "num_comments": 259,
+      "url": "https://www.aspistrategist.org.au/once-unthinkable-canada-may-choose-a-non-us-fighter/",
+      "permalink": "https://reddit.com/r/technology/comments/1r57rcx/once_unthinkable_canada_may_choose_a_nonus_fighter/",
+      "created_utc": 1771137817.0
+    },
+    {
+      "title": "China May Soon Ban Steering Yokes, Mandate Physical Buttons for Key Car Functions",
+      "author": "threeinacorner",
+      "subreddit": "technology",
+      "score": 3026,
+      "num_comments": 188,
+      "url": "https://www.roadandtrack.com/news/a70346797/chinese-regulators-ban-steering-yokes-large-screens/",
+      "permalink": "https://reddit.com/r/technology/comments/1r53zrq/china_may_soon_ban_steering_yokes_mandate/",
+      "created_utc": 1771125408.0
     },
     {
       "title": "Swarms of AI bots can sway people’s beliefs – threatening democracy",
       "author": "Wagamaga",
       "subreddit": "technology",
-      "score": 2022,
-      "num_comments": 186,
+      "score": 3015,
+      "num_comments": 223,
       "url": "https://theconversation.com/swarms-of-ai-bots-can-sway-peoples-beliefs-threatening-democracy-274778",
       "permalink": "https://reddit.com/r/technology/comments/1r4jxlv/swarms_of_ai_bots_can_sway_peoples_beliefs/",
       "created_utc": 1771073673.0
     },
     {
-      "title": "In a blind test, audiophiles couldn't tell the difference between audio signals sent through copper wire, a banana, or wet mud",
-      "author": "gdelacalle",
+      "title": "iFixIt calls BMW’s new anti-consumer security screws \"a logo-shaped middle finger to right to repair,\" Adafruit 3D prints a solution — BMW's connector reverse engineered using patent filing as a design blueprint",
+      "author": "ControlCAD",
       "subreddit": "technology",
-      "score": 1347,
-      "num_comments": 160,
-      "url": "https://www.tomshardware.com/speakers/in-a-blind-test-audiophiles-couldnt-tell-the-difference-between-audio-signals-sent-through-copper-wire-a-banana-or-wet-mud-the-mud-should-sound-perfectly-awful-but-it-doesnt-notes-the-experiment-creator",
-      "permalink": "https://reddit.com/r/technology/comments/1r4qkxm/in_a_blind_test_audiophiles_couldnt_tell_the/",
-      "created_utc": 1771090339.0
+      "score": 2547,
+      "num_comments": 161,
+      "url": "https://www.tomshardware.com/tech-industry/manufacturing/ifixit-calls-bmws-new-anti-consumer-security-screws-a-logo-shaped-middle-finger-to-right-to-repair-adafruit-3d-prints-a-solution-bmws-connector-reverse-engineered-using-patent-filing-as-a-design-blueprint",
+      "permalink": "https://reddit.com/r/technology/comments/1r58rki/ifixit_calls_bmws_new_anticonsumer_security/",
+      "created_utc": 1771141483.0
     },
     {
-      "title": "Verizon imposes new roadblock on users trying to unlock paid-off phones",
-      "author": "trydola",
+      "title": "Pentagon threatens to cut off Anthropic in AI safeguards dispute",
+      "author": "MaryADraper",
       "subreddit": "technology",
-      "score": 755,
-      "num_comments": 172,
-      "url": "https://arstechnica.com/tech-policy/2026/02/verizon-makes-customers-wait-35-days-to-unlock-fully-paid-off-phones/",
-      "permalink": "https://reddit.com/r/technology/comments/1r4m5xb/verizon_imposes_new_roadblock_on_users_trying_to/",
-      "created_utc": 1771079734.0
-    },
-    {
-      "title": "Heineken to slash up to 6,000 jobs in AI 'productivity savings' amid slump in beer sales",
-      "author": "MetaKnowing",
-      "subreddit": "technology",
-      "score": 700,
-      "num_comments": 160,
-      "url": "https://www.cnbc.com/2026/02/11/heineken-slash-6000-jobs-ai-productivity-savings-.html",
-      "permalink": "https://reddit.com/r/technology/comments/1r4p4hr/heineken_to_slash_up_to_6000_jobs_in_ai/",
-      "created_utc": 1771086961.0
+      "score": 518,
+      "num_comments": 54,
+      "url": "https://www.axios.com/2026/02/15/claude-pentagon-anthropic-contract-maduro",
+      "permalink": "https://reddit.com/r/technology/comments/1r54bbe/pentagon_threatens_to_cut_off_anthropic_in_ai/",
+      "created_utc": 1771126375.0
     },
     {
       "title": "[D] ICML: every paper in my review batch contains prompt-injection text embedded in the PDF",
       "author": "Working-Read1838",
       "subreddit": "MachineLearning",
-      "score": 394,
-      "num_comments": 52,
+      "score": 401,
+      "num_comments": 58,
       "url": "https://www.reddit.com/r/MachineLearning/comments/1r3oekq/d_icml_every_paper_in_my_review_batch_contains/",
       "permalink": "https://reddit.com/r/MachineLearning/comments/1r3oekq/d_icml_every_paper_in_my_review_batch_contains/",
       "created_utc": 1770987284.0
     },
     {
-      "title": "Spotify says its best developers haven't written a line of code since December, thanks to AI",
-      "author": "esporx",
-      "subreddit": "artificial",
-      "score": 277,
-      "num_comments": 146,
-      "url": "https://techcrunch.com/2026/02/12/spotify-says-its-best-developers-havent-written-a-line-of-code-since-december-thanks-to-ai/",
-      "permalink": "https://reddit.com/r/artificial/comments/1r35se7/spotify_says_its_best_developers_havent_written_a/",
-      "created_utc": 1770931098.0
-    },
-    {
       "title": "Pentagon's use of Claude during Maduro raid sparks Anthropic feud",
       "author": "Naurgul",
       "subreddit": "artificial",
-      "score": 229,
-      "num_comments": 39,
+      "score": 352,
+      "num_comments": 50,
       "url": "https://www.axios.com/2026/02/13/anthropic-claude-maduro-raid-pentagon",
       "permalink": "https://reddit.com/r/artificial/comments/1r4hgnu/pentagons_use_of_claude_during_maduro_raid_sparks/",
       "created_utc": 1771065314.0
@@ -373,39 +363,62 @@
       "title": "Hi! We're 404 Media's Jason Koebler and Joseph Cox. AMA (us) about the tech ICE is using, Flock and the state of surveillance in the US on Feb. 4, 12 pm ET",
       "author": "404mediaco",
       "subreddit": "technology",
-      "score": 195,
+      "score": 192,
       "num_comments": 122,
       "url": "https://www.reddit.com/r/technology/comments/1qv9y8j/hi_were_404_medias_jason_koebler_and_joseph_cox/",
       "permalink": "https://reddit.com/r/technology/comments/1qv9y8j/hi_were_404_medias_jason_koebler_and_joseph_cox/",
       "created_utc": 1770166274.0
     },
     {
+      "title": "Microsoft AI chief gives it 18 months for all white-collar work to be automated by AI",
+      "author": "BousWakebo",
+      "subreddit": "artificial",
+      "score": 148,
+      "num_comments": 244,
+      "url": "https://fortune.com/2026/02/13/when-will-ai-kill-white-collar-office-jobs-18-months-microsoft-mustafa-suleyman/",
+      "permalink": "https://reddit.com/r/artificial/comments/1r4oc2i/microsoft_ai_chief_gives_it_18_months_for_all/",
+      "created_utc": 1771085063.0
+    },
+    {
       "title": "[D] Struggling on the NLP job market as a final-year PhD , looking for advice",
       "author": "RepresentativeBed838",
       "subreddit": "MachineLearning",
-      "score": 120,
-      "num_comments": 58,
+      "score": 135,
+      "num_comments": 70,
       "url": "https://www.reddit.com/r/MachineLearning/comments/1r467ra/d_struggling_on_the_nlp_job_market_as_a_finalyear/",
       "permalink": "https://reddit.com/r/MachineLearning/comments/1r467ra/d_struggling_on_the_nlp_job_market_as_a_finalyear/",
       "created_utc": 1771029413.0
     },
     {
-      "title": "Microsoft AI chief gives it 18 months for all white-collar work to be automated by AI",
-      "author": "BousWakebo",
-      "subreddit": "artificial",
-      "score": 38,
-      "num_comments": 118,
-      "url": "https://fortune.com/2026/02/13/when-will-ai-kill-white-collar-office-jobs-18-months-microsoft-mustafa-suleyman/",
-      "permalink": "https://reddit.com/r/artificial/comments/1r4oc2i/microsoft_ai_chief_gives_it_18_months_for_all/",
-      "created_utc": 1771085063.0
+      "title": "[D] ICML assigned me a paper that I reviewed in ICLR",
+      "author": "famous-BlueRaincoat",
+      "subreddit": "MachineLearning",
+      "score": 54,
+      "num_comments": 22,
+      "url": "https://www.reddit.com/r/MachineLearning/comments/1r4umpo/d_icml_assigned_me_a_paper_that_i_reviewed_in_iclr/",
+      "permalink": "https://reddit.com/r/MachineLearning/comments/1r4umpo/d_icml_assigned_me_a_paper_that_i_reviewed_in_iclr/",
+      "created_utc": 1771099952.0
     }
   ],
   "lobsters": [
     {
+      "title": "I Fixed Windows Native Development",
+      "author": "mikejsavage",
+      "score": 29,
+      "comment_count": 3,
+      "url": "https://marler8997.github.io/blog/fixed-windows/",
+      "short_id_url": "https://lobste.rs/s/hirsns",
+      "tags": [
+        "programming",
+        "windows"
+      ],
+      "created_at": "2026-02-15T01:51:52.000-06:00"
+    },
+    {
       "title": "An AI Agent Published a Hit Piece on Me – More Things Have Happened",
       "author": "Garbi",
-      "score": 74,
-      "comment_count": 42,
+      "score": 105,
+      "comment_count": 55,
       "url": "https://theshamblog.com/an-ai-agent-published-a-hit-piece-on-me-part-2/",
       "short_id_url": "https://lobste.rs/s/fbaxhc",
       "tags": [
@@ -416,42 +429,29 @@
       "created_at": "2026-02-14T00:33:08.000-06:00"
     },
     {
-      "title": "microgpt",
-      "author": "asb",
-      "score": 66,
-      "comment_count": 5,
-      "url": "http://karpathy.github.io/2026/02/12/microgpt/",
-      "short_id_url": "https://lobste.rs/s/uyjjtz",
+      "title": "How To Add DRM To Your Backend (easy) [2026 WORKING]",
+      "author": "kzdnk",
+      "score": 6,
+      "comment_count": 0,
+      "url": "https://maia.crimew.gay/posts/kinemaster-drm/",
+      "short_id_url": "https://lobste.rs/s/wjkyf5",
       "tags": [
-        "ai",
-        "python"
+        "security",
+        "web"
       ],
-      "created_at": "2026-02-13T10:08:13.000-06:00"
+      "created_at": "2026-02-15T03:27:49.000-06:00"
     },
     {
       "title": "Hacking a pharmacy to get free prescription drugs and more",
       "author": "mtlynch",
-      "score": 1,
-      "comment_count": 0,
+      "score": 14,
+      "comment_count": 3,
       "url": "https://eaton-works.com/2026/02/13/dava-india-hack/",
       "short_id_url": "https://lobste.rs/s/x4vtpq",
       "tags": [
         "security"
       ],
       "created_at": "2026-02-14T15:14:32.000-06:00"
-    },
-    {
-      "title": "ANN: I built a new Ada build tool for personal use",
-      "author": "tomekw",
-      "score": 15,
-      "comment_count": 2,
-      "url": "https://github.com/tomekw/tada",
-      "short_id_url": "https://lobste.rs/s/pgem2t",
-      "tags": [
-        "programming",
-        "release"
-      ],
-      "created_at": "2026-02-13T12:43:15.000-06:00"
     }
   ],
   "githubTrending": [
@@ -530,156 +530,219 @@
   ],
   "newsAPI": [
     {
-      "title": "Kiwi Chris Liddell recruited by AI gaint Anthropic ahead of its $630 billion IPO",
-      "source": "New Zealand Herald",
-      "author": "Chris Keall",
-      "description": "Chris Liddell served as deputy chief of staff in Donald Trump's first term.",
-      "url": "https://www.nzherald.co.nz/business/kiwi-chris-liddell-recruited-by-ai-gaint-anthropic-ahead-of-its-630-billion-ipo/QSZXDSRQXJBSLDAKIPEWGBDFEY/",
-      "publishedAt": "2026-02-13T21:38:12Z",
-      "content": "Liddell first rose to fame in US business circles when he was named Microsofts chief financial officer.\r\nIn 2009, he was head-hunted by General Motors then in Chapter 11 bankruptcy. As vice-president… [+2020 chars]"
+      "title": "Several returns confirmed for Madrid against Real",
+      "source": "Onefootball.com",
+      "author": "OneFootball",
+      "description": "Arbeloa has revealed his squad list for the big match tonight at the Bernabéu. Still missing key players like Rodrygo, Bellingham, or Militao, Real Madrid nevertheless have reasons to be hopeful as t...",
+      "url": "https://onefootball.com/en/news/several-returns-confirmed-for-madrid-against-real-42408916",
+      "publishedAt": "2026-02-14T12:22:00Z",
+      "content": "Arbeloa has revealed his squad list for the big match tonight at the Bernabéu.\r\nStill missing key players like Rodrygo, Bellingham, or Militao, Real Madrid nevertheless have reasons to be hopeful as … [+523 chars]"
     },
     {
-      "title": "Inflation Report Counters Investors' AI Nervousness",
-      "source": "Newser",
-      "author": "Bob Cronin",
-      "description": "US stocks steadied on Friday after an encouraging update on inflation helped calm a Wall Street that's been wracked by worries about how artificial intelligence technology may upend the business world. The Dow rose 48.95 to 49,500.93 to end the week down 1.2%…",
-      "url": "https://www.newser.com/story/383714/inflation-report-counters-investors-ai-nervousness.html",
-      "publishedAt": "2026-02-13T21:38:00Z",
-      "content": "Stocks got help from easing Treasury yields, which fell after a report showed inflation slowed last month by more than economists expected, the AP reports. Slower inflation could give the Federal Res… [+1254 chars]"
+      "title": "Young & Hungry Digital Marketing Announces AI-Powered Growth Systems",
+      "source": "Digitalmarketreports.com",
+      "author": "Ethan Lin",
+      "description": "Young & Hungry Digital Marketing Announces AI-Powered Growth Systemsdigitalmarketreports.com",
+      "url": "https://digitalmarketreports.com/news/61412/young-and-hungry-digital-marketing-announces-ai-powered-growth-systems/",
+      "publishedAt": "2026-02-14T12:17:26Z",
+      "content": "Young &amp; Hungry Digital Marketing Revolutionizes Modern Growth with AI\r\nIn an age where digital marketing is increasingly complex, Young &amp; Hungry Digital Marketing (Y&amp;H) has introduced a g… [+4458 chars]"
     },
     {
-      "title": "Is This What an Economic Bubble Looks Like?",
+      "title": "Rubio to Europe: “We Care Deeply”",
       "source": "Foreign Policy",
-      "author": "Cameron Abadi and Adam Tooze",
-      "description": "AI investment is soaring, but returns remain uncertain.",
-      "url": "http://foreignpolicy.com/2026/02/13/is-this-what-an-economic-bubble-looks-like/",
-      "publishedAt": "2026-02-13T21:37:46Z",
-      "content": "U.S. artificial intelligence companies are expected to spend $650 billion on capital investments this year, mostly in the form of data center infrastructure. The companies clearly believe that the de… [+9555 chars]"
+      "author": "FP Staff",
+      "description": "In a widely anticipated speech at the Munich Security Conference, U.S. Secretary of State Marco Rubio described concerns about a shared \"Western civilization\" as reason for being \"a little direct\" with Europe.",
+      "url": "http://foreignpolicy.com/2026/02/14/rubio-munich-security-conference-speech/",
+      "publishedAt": "2026-02-14T12:15:36Z",
+      "content": "Last year, U.S. Vice President J.D. Vance stunned European leaders with a speech at the Munich Security Conference that accused them of censorship and suppressing free speech. The unorthodox address … [+18245 chars]"
     },
     {
-      "title": "NY Dem running for Nadler seat left Palantir after allegedly making sexually explicit comments to colleague: report",
-      "source": "New York Post",
-      "author": "Ariel Zilber",
-      "description": "Bores, a 35-year-old former software engineer, recently posted on social media that he quit Palantir in protest of its contracts with ICE.",
-      "url": "https://nypost.com/2026/02/13/business/ny-dem-running-for-nadler-seat-left-palantir-after-allegedly-making-sexually-explicit-comments-to-colleague-report/",
-      "publishedAt": "2026-02-13T21:36:13Z",
-      "content": "Alex Bores, the New York State assemblymember running to succeed retiring Rep. Jerrold Nadler, resigned from Palantir in 2019 days after receiving a formal warning over alleged sexually explicit comm… [+4107 chars]"
+      "title": "Rishi Sunak: Every CEO is talking about AI — why aren’t our leaders?",
+      "source": "Thetimes.com",
+      "author": "Rishi Sunak",
+      "description": "Britain will become a tourist theme park if we don’t fix our productivity problem — Keir Starmer has an opportunity to solve it with technology",
+      "url": "https://www.thetimes.com/business/companies-markets/article/rishi-sunak-ai-keir-starmer-5rdfwjq6n",
+      "publishedAt": "2026-02-14T12:13:32Z",
+      "content": "Prime ministers in trouble receive a torrent of unsolicited advice. Sir Keir Starmers phone will be overflowing with messages this weekend and he will have to reply to all of them, personally; at thi… [+5729 chars]"
     },
     {
-      "title": "S&P 500 ends up slightly as tech dips, inflation cools",
-      "source": "The Straits Times",
-      "author": null,
-      "description": "The Dow Jones Industrial Average rose 47.44 points, or 0.10 per cent, to 49,499.42, early data showed. Read more at straitstimes.com. Read more at straitstimes.com.",
-      "url": "https://www.straitstimes.com/business/companies-markets/sp-500-ends-up-slightly-as-tech-dips-inflation-cools",
-      "publishedAt": "2026-02-13T21:35:57Z",
-      "content": "NEW YORK - The S&amp;P 500 closed barely higher on Feb 13, with technology and communications services down on nagging fears of AI-disruption but equities drew support from optimism that cooling infl… [+2923 chars]"
+      "title": "How 100‑year‑old Caterpillar went from making construction equipment to becoming an AI market darling",
+      "source": "Fortune",
+      "author": "Sheryl Estrada",
+      "description": "Once synonymous with construction sites, the industrial giant is now digging into AI-fueled data center demand.",
+      "url": "https://fortune.com/2026/02/14/how-100-year-old-caterpillar-became-an-ai-market-darling/",
+      "publishedAt": "2026-02-14T12:00:00Z",
+      "content": "During the Gold Rush, legend had it that the best way to get rich wasnt by panning for gold, but by selling picks and shovels to the miners. And theres no better example of that strategy in action to… [+4536 chars]"
     },
     {
-      "title": "How dashcams revealed 10% of sidewalk sheds are illegal",
-      "source": "New York Post",
-      "author": "Michael Samuelian, Matthew Franchi",
-      "description": "Built to protect pedestrians from falling debris, the ubiquitous sidewalk shed has become an unfortunate defining feature of New York City life.",
-      "url": "https://nypost.com/2026/02/13/opinion/how-to-shed-those-ugly-sheds-and-see-paradise-by-the-dashboard-camera/",
-      "publishedAt": "2026-02-13T21:32:29Z",
-      "content": "Built to protect pedestrians from falling debris, the ubiquitous sidewalk shed has become an unfortunate defining feature of New York City life.\r\nAnd while we can applaud the new, improved designs fo… [+4591 chars]"
+      "title": "Signature Global, RMZ form JV; to invest ₹7,500 crore on commercial project in Gurugram",
+      "source": "BusinessLine",
+      "author": "PTI",
+      "description": "The project will have a leasable area of 55 lakh square feet, of which about 35 million sq ft would be prime office space, and the remaining area for retail spaces and two hotels of around 500 rooms each",
+      "url": "https://www.thehindubusinessline.com/news/real-estate/signature-global-rmz-form-jv-to-invest-7500-crore-on-commercial-project-in-gurugram/article70631913.ece",
+      "publishedAt": "2026-02-14T11:50:12Z",
+      "content": "Realty firm Signature Global has formed a joint venture with RMZ Group to develop a commercial project in Gurugram with a total investment of around 7,500 crore.\r\nGurugram-based Signature Global and … [+2868 chars]"
     },
     {
-      "title": "Affaire Epstein : On connaît des noms mais c’est tout !",
-      "source": "Pauljorion.com",
-      "author": "Paul Jorion",
-      "description": "On nous régale avec la partie qui dépasse de l’iceberg mais on ne nous dit rien de ce qui s’est passé : Epstein faisait-il chanter ses copains ? Travaillait-il pour des services secrets ? On nous donne les noms de ses copains mais on n’a pas la moindre idée d…",
-      "url": "https://www.pauljorion.com/blog/2026/02/13/affaire-epstein-on-connait-des-noms-mais-cest-tout/",
-      "publishedAt": "2026-02-13T21:32:03Z",
-      "content": "Contactez Paul Jorion\r\nhttps://twitter.com/PaulJorion\r\n<ol><li>AlainFELER sur « Lindividualisme est redoutable pour la vie en démocratie »13 février 2026\r\nAmusant, votre lien, quel boulot de la part … [+14093 chars]"
+      "title": "12 kg weight loss in 90 days: Diet doctor shares how one man did it by just ditching ‘magic fixes’ for simple routine",
+      "source": "The Times of India",
+      "author": "Trending Desk",
+      "description": "A man from Palghar achieved significant weight loss by adopting a simple routine. As per a diet doctor's social media post, Krushna Ingle shed 12 kilograms in just three months. The doctor shared that his success came from a simple diet and regular walking. H…",
+      "url": "https://economictimes.indiatimes.com/news/new-updates/12-kg-weight-loss-in-90-days-diet-doctor-shares-how-one-man-did-it-by-just-ditching-magic-fixes-for-simple-routine/articleshow/128345702.cms",
+      "publishedAt": "2026-02-14T11:38:17Z",
+      "content": "A 30-something man from Palghar in Maharashtra has lost nearly 12 kg in just three months by sticking to a simple diet and walking routine after failed attempts with internet tips and AI-generated pl… [+3021 chars]"
     },
     {
-      "title": "GSA aims to publish results on USAi program, official says",
-      "source": "Nextgov",
-      "author": "Alexandra Kelley",
-      "description": "The agency’s chief AI officer discussed what GSA is learning from the new AI procurement program and how it plans to reveal those results.",
-      "url": "https://www.nextgov.com/artificial-intelligence/2026/02/gsa-aims-publish-results-usai-program-official-says/411439/",
-      "publishedAt": "2026-02-13T21:31:00Z",
-      "content": "The General Services Administration is moving to analyze the impact of the USAi program in order to better understand how agencies are using artificial intelligence tools in their daily operations.\r\n… [+3308 chars]"
+      "title": "Ring Kills Flock Safety Deal After Super Bowl Ad Uproar",
+      "source": "Wired",
+      "author": "Maddy Varner, Andrew Couts",
+      "description": "Plus: Meta plans to add face recognition to its smart glasses, Jared Kushner named as part of whistleblower’s mysterious national security complaint, and more.",
+      "url": "https://www.wired.com/story/security-news-this-week-ring-kills-flock-safety-deal-after-super-bowl-ad-uproar/",
+      "publishedAt": "2026-02-14T11:30:00Z",
+      "content": "The widespread protests in Iran have exposed both Tehrans brutal tactics in the streets, where state authorities have killed thousands of demonstrators since early January, and extreme measures to bl… [+4116 chars]"
     },
     {
-      "title": "Shield AI Seeks $1 Billion to Lead Global Defense Tech Surge",
-      "source": "pymnts.com",
-      "author": "PYMNTS",
-      "description": "Defense technology startup Shield AI is in talks to raise up to $1 billion in a funding round that would value the company at $11 billion, Bloomberg reported Friday (Feb. 13), citing unnamed sources. Shield AI provides artificial intelligence-powered software…",
-      "url": "https://www.pymnts.com/startups/2026/shield-ai-seeks-1-billion-dollars-lead-global-defense-tech-surge/",
-      "publishedAt": "2026-02-13T21:29:11Z",
-      "content": "Defense technology startup Shield AI is in talks to raise up to $1 billion in a funding round that would value the company at $11 billion, Bloomberg reported Friday (Feb. 13), citing unnamed sources.… [+2204 chars]"
-    },
-    {
-      "title": "Sales software companies Seismic and Highspot to merge",
-      "source": "SiliconANGLE News",
-      "author": "Maria Deutscher",
-      "description": "Seismic Software Inc. and Highspot Inc., two well-funded startups that develop software for enterprise sales teams, have signed a merger agreement. The companies announced the deal on Thursday. The combined organization is set to operate under the Seismic bra…",
-      "url": "https://siliconangle.com/2026/02/13/sales-software-companies-seismic-highspot-merge/",
-      "publishedAt": "2026-02-13T21:28:10Z",
-      "content": "Seismic Software Inc. and Highspot Inc., two well-funded startups that develop software for enterprise sales teams, have signed a merger agreement.\r\nThe companies announced the deal on Thursday. The … [+4190 chars]"
+      "title": "Chivu shines, Spalletti returns: Inter-Juve on NOW, 14 February ",
+      "source": "Onefootball.com",
+      "author": "OneFootball",
+      "description": "The countdown has begun: Inter-Juventus, the famous Derby d’Italia, is ready to take center stage right on Valentine's Day. A suggestive coincidence, although there's little romantic about it betwee...",
+      "url": "https://onefootball.com/en/news/chivu-shines-spalletti-returns-inter-juve-on-now-14-february-42408653",
+      "publishedAt": "2026-02-14T11:17:00Z",
+      "content": "The countdown has begun: Inter-Juventus, the famous Derby dItalia, is ready to take center stage right on Valentine's Day. A suggestive coincidence, although there's little romantic about it between … [+3165 chars]"
     }
   ],
   "coinGecko": {
     "trending": [
       {
-        "name": "Pepe",
-        "symbol": "PEPE",
-        "market_cap_rank": 41,
-        "price_btc": 6.803815021405204E-11,
+        "name": "Pudgy Penguins",
+        "symbol": "PENGU",
+        "market_cap_rank": 103,
+        "price_btc": 1.062977849465135E-7,
         "score": 0
       },
       {
-        "name": "Pudgy Penguins",
-        "symbol": "PENGU",
-        "market_cap_rank": 99,
-        "price_btc": 1.142339829049743E-7,
+        "name": "Pi Network",
+        "symbol": "PI",
+        "market_cap_rank": 49,
+        "price_btc": 0.000002535217595207504,
         "score": 1
-      },
-      {
-        "name": "Bittensor",
-        "symbol": "TAO",
-        "market_cap_rank": 44,
-        "price_btc": 0.0027190208990119755,
-        "score": 2
-      },
-      {
-        "name": "Virtuals Protocol",
-        "symbol": "VIRTUAL",
-        "market_cap_rank": 105,
-        "price_btc": 0.000009904478133889947,
-        "score": 3
       },
       {
         "name": "Bitcoin",
         "symbol": "BTC",
         "market_cap_rank": 1,
         "price_btc": 1.0,
+        "score": 2
+      },
+      {
+        "name": "Pepe",
+        "symbol": "PEPE",
+        "market_cap_rank": 41,
+        "price_btc": 6.616448249548354E-11,
+        "score": 3
+      },
+      {
+        "name": "Venice Token",
+        "symbol": "VVV",
+        "market_cap_rank": 201,
+        "price_btc": 0.000056214387338695515,
         "score": 4
       },
       {
-        "name": "Aztec",
-        "symbol": "AZTEC",
-        "market_cap_rank": 376,
-        "price_btc": 3.4038326192063366E-7,
+        "name": "XRP",
+        "symbol": "XRP",
+        "market_cap_rank": 4,
+        "price_btc": 0.000022150593470251203,
         "score": 5
       },
       {
-        "name": "Espresso",
-        "symbol": "ESP",
-        "market_cap_rank": 630,
-        "price_btc": 8.652718910489047E-7,
+        "name": "Bittensor",
+        "symbol": "TAO",
+        "market_cap_rank": 44,
+        "price_btc": 0.0026724298262947145,
         "score": 6
       }
     ],
     "top_coins": [
       {
-        "name": null,
-        "symbol": null,
-        "current_price": null,
-        "market_cap": null,
-        "price_change_24h": null,
-        "volume_24h": null
+        "name": "Bitcoin",
+        "symbol": "btc",
+        "current_price": 70323,
+        "market_cap": 1405003099997,
+        "price_change_24h": 0.01707,
+        "volume_24h": 42995964667
+      },
+      {
+        "name": "Ethereum",
+        "symbol": "eth",
+        "current_price": 2064.88,
+        "market_cap": 248915410802,
+        "price_change_24h": -1.45695,
+        "volume_24h": 24013679080
+      },
+      {
+        "name": "Tether",
+        "symbol": "usdt",
+        "current_price": 0.999628,
+        "market_cap": 183691917750,
+        "price_change_24h": -0.00723,
+        "volume_24h": 78107918503
+      },
+      {
+        "name": "XRP",
+        "symbol": "xrp",
+        "current_price": 1.56,
+        "market_cap": 94991204585,
+        "price_change_24h": 5.9711,
+        "volume_24h": 4634578628
+      },
+      {
+        "name": "BNB",
+        "symbol": "bnb",
+        "current_price": 629.48,
+        "market_cap": 85756487277,
+        "price_change_24h": -0.38644,
+        "volume_24h": 870489345
+      },
+      {
+        "name": "USDC",
+        "symbol": "usdc",
+        "current_price": 0.9998,
+        "market_cap": 73576198380,
+        "price_change_24h": -0.01207,
+        "volume_24h": 3548612182
+      },
+      {
+        "name": "Solana",
+        "symbol": "sol",
+        "current_price": 89.35,
+        "market_cap": 50724733830,
+        "price_change_24h": 2.5799,
+        "volume_24h": 4064656810
+      },
+      {
+        "name": "TRON",
+        "symbol": "trx",
+        "current_price": 0.281044,
+        "market_cap": 26616898400,
+        "price_change_24h": -0.93902,
+        "volume_24h": 442859805
+      },
+      {
+        "name": "Dogecoin",
+        "symbol": "doge",
+        "current_price": 0.112216,
+        "market_cap": 18937229627,
+        "price_change_24h": 12.07514,
+        "volume_24h": 2981384149
+      },
+      {
+        "name": "Figure Heloc",
+        "symbol": "figr_heloc",
+        "current_price": 1.02,
+        "market_cap": 15462023670,
+        "price_change_24h": -1.3234,
+        "volume_24h": 56542
       }
     ]
   },
@@ -696,5 +759,266 @@
   "apNews": {
     "source": "AP World News",
     "stories": []
+  },
+  "grokipedia": {
+    "source": "grokipedia.com",
+    "mainPage": "Grokipedia ((a,b,c,d,e,f,g,h)=>{let i=document.documentElement,j=[\"light\",\"dark\"];function k(b){(Array.isArray(a)?a:[a]).forEach(a=>{let c=\"class\"===a,d=c&&f?e.map(a=>f[a]||a):e;c?(i.classList.remove(...d),i.classList.add(f&&f[b]?f[b]:b)):i.setAttribute(a,b)}),l(b)}function l(a){h&&j.includes(a)&&(i.style.colorScheme=a)}function m(){return window.matchMedia(\"(prefers-color-scheme: dark)\").matches?\"dark\":\"light\"}if(d)k(d);else try{let a=localStorage.getItem(b)||c,d=g&&\"system\"===a?m():a;k(d)}catch(a){}})(\"class\",\"theme\",\"dark\",null,[\"light\",\"dark\"],null,true,true) @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } } Toggle theme Toggle theme Articles Available 0 Articles Available 0 Terms of Service • Privacy Policy • AUP {\"status\":\"ready\",\"serverConfig\":{\"enable_images\":true,\"enable_live_edits\":true,\"enable_page_attribution\":false,\"update_in_progress\":false,\"enable_leaderboard\":false,\"enable_new_home_live_card\":true,\"enable-article-suggestions\":false}} (self.__next_f=self.__next_f||[]).push([0]) self.__next_f.push([1,\"1:\"$Sreact.fragment\"\n3:I[7685,[],\"ClientSegmentRoot\"]\n\"]) self.__next_f.push([1,\"4:I[57724,[\"7979\",\"static/chunks/9bd23169-368de455d02f5f53.js\",\"2254\",\"static/chunks/8208b75a-f7cf6fe4903d3e73.js\",\"9357\",\"static/chunks/9357-282e4794335a9124.js\",\"7200\",\"static/chunks/7200-071d482e4b47e105.js\",\"2928\",\"static/chunks/2928-b491b53d80b0fa01.js\",\"9163\",\"static/chunks/9163-9da87f44b338246b.js\",\"2669\",\"static/chunks/2669-988223a9bc84d46f.js\",\"2365\",\"static/chunks/2365-f45ebd6084787d2b.js\",\"8088\",\"static/chunks/8088-edfbf108511b4e32.js\",\"8458\",\"static/chunks/8458-1dbdd951af8c63b3.js\",\"2594\",\"static/chunks/2594-ca24a2209e33012e.js\",\"5767\",\"static/chunks/5767-61a6adf65ddde9de.js\",\"172\",\"static/chunks/172-c6f5ae379989efdd.js\",\"5551\",\"static/chunks/5551-6143677ea3afd12c.js\",\"5889\",\"static/chunks/5889-da83ee38d69cd25e.js\",\"4296\",\"static/chunks/4296-71a53f4373fe5d8f.js\",\"3712\",\"static/chunks/3712-f518281881",
+    "trending": "Grokipedia ((a,b,c,d,e,f,g,h)=>{let i=document.documentElement,j=[\"light\",\"dark\"];function k(b){(Array.isArray(a)?a:[a]).forEach(a=>{let c=\"class\"===a,d=c&&f?e.map(a=>f[a]||a):e;c?(i.classList.remove(...d),i.classList.add(f&&f[b]?f[b]:b)):i.setAttribute(a,b)}),l(b)}function l(a){h&&j.includes(a)&&(i.style.colorScheme=a)}function m(){return window.matchMedia(\"(prefers-color-scheme: dark)\").matches?\"dark\":\"light\"}if(d)k(d);else try{let a=localStorage.getItem(b)||c,d=g&&\"system\"===a?m():a;k(d)}catch(a){}})(\"class\",\"theme\",\"dark\",null,[\"light\",\"dark\"],null,true,true) Search ⌘ K Toggle theme Search ⌘ K HTTP 404 In computer network communications, the HTTP 404, 404 not found, 404, 404 error, page not found, or file not found error message is a hypertext transfer protocol (HTTP) standard response code, to indicate that the browser was able to communicate with a given server, but the server could not find what was requested. Return to home Read more about 404 {\"status\":\"ready\",\"serverConfig\":{\"enable_images\":true,\"enable_live_edits\":true,\"enable_page_attribution\":false,\"update_in_progress\":false,\"enable_leaderboard\":false,\"enable_new_home_live_card\":true,\"enable-article-suggestions\":false}} (self.__next_f=self.__next_f||[]).push([0]) self.__next_f.push([1,\"1:\"$Sreact.fragment\"\n3:I[97094,[],\"\"]\n4:I[97004,[],\"\"]\n5:I[17959,[],\"ClientPageRoot\"]\n\"]) self.__next_f.push([1,\"6:I[8673,[\"7979\",\"static/chunks/9bd23169-368de455d02f5f53.js\",\"2254\",\"static/chunks/8208b75a-f7cf6fe4903d3e73.js\",\"935",
+    "fetchedAt": "2026-02-15T12:30:14Z"
+  },
+  "crunchbaseNews": [
+    {
+      "title": "The Week’s 10 Biggest Funding Rounds: Anthropic Leads In A Big Week For Giant Rounds",
+      "url": "https://news.crunchbase.com/venture/biggest-funding-rounds-anthropic-leads-ai-robotics/",
+      "published": "Fri, 13 Feb 2026 19:32:59 +0000",
+      "description": "This week featured a lot of funding deals with a lot of zeroes on the end. Generative AI powerhouse Anthropic, of course, boasted the most zeroes with its $30 billion Series G, the second-largest vent..."
+    },
+    {
+      "title": "January Delivers Highest New Unicorn Count In More Than 3 Years",
+      "url": "https://news.crunchbase.com/venture/ai-leads-unicorn-board-count-january-2026/",
+      "published": "Fri, 13 Feb 2026 12:00:11 +0000",
+      "description": "A total of 31 companies joined The Crunchbase Unicorn Board in January, the largest count of companies to join in a single month since June 2022. Collectively, those companies added $9.3 billion in fu..."
+    },
+    {
+      "title": "Anthropic Raises $30B At $380B Valuation In Second-Largest Venture Funding Deal Of All Time",
+      "url": "https://news.crunchbase.com/ai/anthropic-raises-30b-second-largest-deal-all-time/",
+      "published": "Thu, 12 Feb 2026 20:32:04 +0000",
+      "description": "Generative AI company Anthropic announced Thursday that it raised $30 billion in a round that values it at $380 billion post-money. The financing marks the largest venture funding deal of 2026 so far ..."
+    },
+    {
+      "title": "Next-Gen Nuclear Funding Looks Livelier Than Ever Following Inertia’s $450M Raise",
+      "url": "https://news.crunchbase.com/clean-tech-and-energy/next-gen-nuclear-funding-lively-inertia-seriesa/",
+      "published": "Thu, 12 Feb 2026 20:15:33 +0000",
+      "description": "Startup investors are increasingly turning to nuclear fusion and fission startups to supply our power-hungry era, and they’re not afraid to write big checks. The latest evidence of that confidence is ..."
+    },
+    {
+      "title": "From AI Hype To AI Math: The Market Just Changed The Rules",
+      "url": "https://news.crunchbase.com/ai/hype-to-math-venture-market-changes-sagie/",
+      "published": "Thu, 12 Feb 2026 12:00:30 +0000",
+      "description": "Now that AI infrastructure is absorbing hundreds of billions in annual spend, writes guest author and strategic adviser Itay Sagie, investors are no longer rewarding ambition alone — they are demandin..."
+    },
+    {
+      "title": "‘Why Not?’ How Sales Automation Unicorn Clay Uses Tender Offers To Reward Employees Without An Exit In Sight",
+      "url": "https://news.crunchbase.com/liquidity/sales-automation-unicorn-clay-tender-offers-qa-amin/",
+      "published": "Thu, 12 Feb 2026 12:00:21 +0000",
+      "description": "There's a a growing shift among high-growth startups of rewarding employees with liquidity long before an IPO is in sight. Crunchbase News recently spoke with Clay CEO and co-founder Kareem Amin to di..."
+    },
+    {
+      "title": "The Crunchbase Tech Layoffs Tracker",
+      "url": "https://news.crunchbase.com/startups/tech-layoffs/",
+      "published": "Wed, 11 Feb 2026 17:38:30 +0000",
+      "description": "Over 127,000 workers at U.S.-based tech companies were laid off in mass job cuts in 2025, per a Crunchbase News tally, and the layoffs have continued into 2026. See the latest companies to cut roles."
+    },
+    {
+      "title": "Amid Record Robotics Funding, Apptronik Raises $520M Series A Extension To Boost Production Of Humanoid Robot Apollo",
+      "url": "https://news.crunchbase.com/venture/ai-humanoid-robot-funding-apptronik/",
+      "published": "Wed, 11 Feb 2026 14:00:28 +0000",
+      "description": "After receiving “substantial inbound investor interest,” AI-powered robotics company Apptronik says it raised $520 million in an extension of its $415 million Series A in February 2025, bringing the t..."
+    },
+    {
+      "title": "High-Spending Investors Give 2026 An Active Start",
+      "url": "https://news.crunchbase.com/venture/most-active-us-investors-january-2026-lightspeed-sequoia/",
+      "published": "Wed, 11 Feb 2026 12:00:24 +0000",
+      "description": "Well-known firms topped the ranks of active investors in January, including a few that were best known as prolific dealmakers during the last market boom."
+    },
+    {
+      "title": "Exclusive: Winn.ai Raises $18M Series A For AI-Powered Real-Time Sales Assistant",
+      "url": "https://news.crunchbase.com/venture/startup-winn-ai-seriesa-real-time-assistant/",
+      "published": "Wed, 11 Feb 2026 11:45:21 +0000",
+      "description": "Tel Aviv's Winn.AI, builder of an artificial intelligence-powered sales assistant, has raised $18 million in a Series A funding round, the company tells Crunchbase News exclusively."
+    }
+  ],
+  "govTrack": {
+    "bills": [
+      {
+        "title": "H.R. 7576: To amend the Internal Revenue Code of 1986 to establish a credit for workforce artificial intelligence training, and for other purposes.",
+        "number": "H.R. 7576",
+        "introduced": "2026-02-13",
+        "sponsor": "Rep. Josh Gottheimer [D-NJ5]",
+        "status": "This bill is in the first stage of the legislative process. It was introduced into Congress on February 13, 2026. It will typically be considered by committee next before it is possibly sent on to the House or Senate as a whole.",
+        "url": "https://www.govtrack.ushttps://www.govtrack.us/congress/bills/119/hr7576"
+      },
+      {
+        "title": "H.R. 7567: Farm, Food, and National Security Act of 2026",
+        "number": "H.R. 7567",
+        "introduced": "2026-02-13",
+        "sponsor": "Rep. Glenn Thompson [R-PA15]",
+        "status": "This bill is in the first stage of the legislative process. It was introduced into Congress on February 13, 2026. It will typically be considered by committee next before it is possibly sent on to the House or Senate as a whole.",
+        "url": "https://www.govtrack.ushttps://www.govtrack.us/congress/bills/119/hr7567"
+      },
+      {
+        "title": "S. 3888: A bill to require the Secretary of Commerce to develop artificial intelligence training resources and toolkits for United States small businesses, and for other purposes.",
+        "number": "S. 3888",
+        "introduced": "2026-02-12",
+        "sponsor": "Sen. Jerry Moran [R-KS]",
+        "status": "This bill is in the first stage of the legislative process. It was introduced into Congress on February 12, 2026. It will typically be considered by committee next before it is possibly sent on to the House or Senate as a whole.",
+        "url": "https://www.govtrack.ushttps://www.govtrack.us/congress/bills/119/s3888"
+      },
+      {
+        "title": "S. 3813: A bill to require a notice be submitted to the Register of Copyrights with respect to copyrighted works used in building generative artificial intelligence models, and for other purposes.",
+        "number": "S. 3813",
+        "introduced": "2026-02-10",
+        "sponsor": "Sen. Adam Schiff [D-CA]",
+        "status": "This bill is in the first stage of the legislative process. It was introduced into Congress on February 10, 2026. It will typically be considered by committee next before it is possibly sent on to the House or Senate as a whole.",
+        "url": "https://www.govtrack.ushttps://www.govtrack.us/congress/bills/119/s3813"
+      },
+      {
+        "title": "S.Res. 603: A resolution supporting the observation of National Trafficking and Modern Slavery Prevention Month during the period beginning on January 1, 2026, and ending on February 1, 2026, to raise awareness of, and opposition to, human trafficking an",
+        "number": "S.Res. 603",
+        "introduced": "2026-02-10",
+        "sponsor": "Sen. Charles “Chuck” Grassley [R-IA]",
+        "status": "This simple resolution was agreed to on February 10, 2026. That is the end of the legislative process for a simple resolution.",
+        "url": "https://www.govtrack.ushttps://www.govtrack.us/congress/bills/119/sres603"
+      },
+      {
+        "title": "H.R. 7434: To authorize the Director of the National Science Foundation to identify grand challenges and award competitive prizes for artificial intelligence research and development.",
+        "number": "H.R. 7434",
+        "introduced": "2026-02-09",
+        "sponsor": "Rep. Ted Lieu [D-CA36]",
+        "status": "This bill is in the first stage of the legislative process. It was introduced into Congress on February 9, 2026. It will typically be considered by committee next before it is possibly sent on to the House or Senate as a whole.",
+        "url": "https://www.govtrack.ushttps://www.govtrack.us/congress/bills/119/hr7434"
+      },
+      {
+        "title": "S. 3809: A bill to authorize the Director of the National Science Foundation to identify grand challenges and award competitive prizes for artificial intelligence research and development.",
+        "number": "S. 3809",
+        "introduced": "2026-02-09",
+        "sponsor": "Sen. Cory Booker [D-NJ]",
+        "status": "This bill is in the first stage of the legislative process. It was introduced into Congress on February 9, 2026. It will typically be considered by committee next before it is possibly sent on to the House or Senate as a whole.",
+        "url": "https://www.govtrack.ushttps://www.govtrack.us/congress/bills/119/s3809"
+      },
+      {
+        "title": "S.Res. 598: A resolution condemning and calling for the reversal of President Trump’s decision to allow the export of advanced artificial intelligence chips to the United Arab Emirates, despite significant risks to national security and just months after",
+        "number": "S.Res. 598",
+        "introduced": "2026-02-05",
+        "sponsor": "Sen. Elizabeth Warren [D-MA]",
+        "status": "This resolution is in the first stage of the legislative process. It was introduced into Congress on February 5, 2026. It will typically be considered by committee next before it is possibly sent on to the House or Senate as a whole.",
+        "url": "https://www.govtrack.ushttps://www.govtrack.us/congress/bills/119/sres598"
+      },
+      {
+        "title": "H.R. 7323: Defense Technology Hubs Act of 2026",
+        "number": "H.R. 7323",
+        "introduced": "2026-02-03",
+        "sponsor": "Rep. Wesley Bell [D-MO1]",
+        "status": "This bill is in the first stage of the legislative process. It was introduced into Congress on February 3, 2026. It will typically be considered by committee next before it is possibly sent on to the House or Senate as a whole.",
+        "url": "https://www.govtrack.ushttps://www.govtrack.us/congress/bills/119/hr7323"
+      },
+      {
+        "title": "H.Res. 1028: Expressing the sense of the House of Representatives that the United States must act urgently to end the political and economic dominance of billionaire oligarchs, halt the corporate subsidies and tax advantages that fortify their power, and",
+        "number": "H.Res. 1028",
+        "introduced": "2026-01-30",
+        "sponsor": "Rep. Rashida Tlaib [D-MI12]",
+        "status": "This resolution is in the first stage of the legislative process. It was introduced into Congress on January 30, 2026. It will typically be considered by committee next before it is possibly sent on to the House or Senate as a whole.",
+        "url": "https://www.govtrack.ushttps://www.govtrack.us/congress/bills/119/hres1028"
+      }
+    ]
+  },
+  "blueskyAI": {
+    "posts": [],
+    "error": "API unavailable"
+  },
+  "arxivSanity": [
+    {
+      "title": "Scaling Verification Can Be More Effective than Scaling Policy Learning for Vision-Language-Action Alignment",
+      "authors": "Jacky Kwok, Xilun Zhang, Mengdi Xu",
+      "published": "2026-02-12T18:59:59Z",
+      "summary": "The long-standing vision of general-purpose robots hinges on their ability to understand and act upon natural language instructions. Vision-Language-Action (VLA) models have made remarkable progress t...",
+      "url": "http://arxiv.org/abs/2602.12281v1"
+    },
+    {
+      "title": "UniT: Unified Multimodal Chain-of-Thought Test-time Scaling",
+      "authors": "Leon Liangyu Chen, Haoyu Ma, Zhipeng Fan",
+      "published": "2026-02-12T18:59:49Z",
+      "summary": "Unified models can handle both multimodal understanding and generation within a single architecture, yet they typically operate in a single pass without iteratively refining their outputs. Many multim...",
+      "url": "http://arxiv.org/abs/2602.12279v1"
+    },
+    {
+      "title": "AttentionRetriever: Attention Layers are Secretly Long Document Retrievers",
+      "authors": "David Jiahao Fu, Lam Thanh Do, Jiayu Li",
+      "published": "2026-02-12T18:59:35Z",
+      "summary": "Retrieval augmented generation (RAG) has been widely adopted to help Large Language Models (LLMs) to process tasks involving long documents. However, existing retrieval models are not designed for lon...",
+      "url": "http://arxiv.org/abs/2602.12278v1"
+    },
+    {
+      "title": "Agentic Test-Time Scaling for WebAgents",
+      "authors": "Nicholas Lee, Lutfi Eren Erdogan, Chris Joseph John",
+      "published": "2026-02-12T18:58:30Z",
+      "summary": "Test-time scaling has become a standard way to improve performance and boost reliability of neural network models. However, its behavior on agentic, multi-step tasks remains less well-understood: smal...",
+      "url": "http://arxiv.org/abs/2602.12276v1"
+    },
+    {
+      "title": "Function-Space Decoupled Diffusion for Forward and Inverse Modeling in Carbon Capture and Storage",
+      "authors": "Xin Ju, Jiachen Yao, Anima Anandkumar",
+      "published": "2026-02-12T18:58:12Z",
+      "summary": "Accurate characterization of subsurface flow is critical for Carbon Capture and Storage (CCS) but remains challenged by the ill-posed nature of inverse problems with sparse observations. We present Fu...",
+      "url": "http://arxiv.org/abs/2602.12274v1"
+    },
+    {
+      "title": "Learning to Control: The iUzawa-Net for Nonsmooth Optimal Control of Linear PDEs",
+      "authors": "Yongcun Song, Xiaoming Yuan, Hangrui Yue",
+      "published": "2026-02-12T18:57:43Z",
+      "summary": "We propose an optimization-informed deep neural network approach, named iUzawa-Net, aiming for the first solver that enables real-time solutions for a class of nonsmooth optimal control problems of li...",
+      "url": "http://arxiv.org/abs/2602.12273v1"
+    },
+    {
+      "title": "MonarchRT: Efficient Attention for Real-Time Video Generation",
+      "authors": "Krish Agarwal, Zhuoming Chen, Cheng Luo",
+      "published": "2026-02-12T18:56:53Z",
+      "summary": "Real-time video generation with Diffusion Transformers is bottlenecked by the quadratic cost of 3D self-attention, especially in real-time regimes that are both few-step and autoregressive, where erro...",
+      "url": "http://arxiv.org/abs/2602.12271v1"
+    },
+    {
+      "title": "Creative Ownership in the Age of AI",
+      "authors": "Annie Liang, Jay Lu",
+      "published": "2026-02-12T18:56:42Z",
+      "summary": "Copyright law focuses on whether a new work is \"substantially similar\" to an existing one, but generative AI can closely imitate style without copying content, a capability now central to ongoing liti...",
+      "url": "http://arxiv.org/abs/2602.12270v1"
+    },
+    {
+      "title": "CM2: Reinforcement Learning with Checklist Rewards for Multi-Turn and Multi-Step Agentic Tool Use",
+      "authors": "Zhen Zhang, Kaiqiang Song, Xun Wang",
+      "published": "2026-02-12T18:55:09Z",
+      "summary": "AI agents are increasingly used to solve real-world tasks by reasoning over multi-turn user interactions and invoking external tools. However, applying reinforcement learning to such settings remains ...",
+      "url": "http://arxiv.org/abs/2602.12268v1"
+    },
+    {
+      "title": "Self-Supervised Learning via Flow-Guided Neural Operator on Time-Series Data",
+      "authors": "Duy Nguyen, Jiachen Yao, Jiayun Wang",
+      "published": "2026-02-12T18:54:57Z",
+      "summary": "Self-supervised learning (SSL) is a powerful paradigm for learning from unlabeled time-series data. However, popular methods such as masked autoencoders (MAEs) rely on reconstructing inputs from a fix...",
+      "url": "http://arxiv.org/abs/2602.12267v1"
+    }
+  ],
+  "aiJobsPulse": {
+    "metric": "AI job postings (LinkedIn, today)",
+    "estimated_count": "N/A",
+    "source": "Google search proxy",
+    "query": "AI+engineer+jobs+posted+today+site:linkedin.com",
+    "note": "Rough estimate - actual count requires LinkedIn API"
+  },
+  "santiment": {
+    "metric": "active_addresses_24h",
+    "asset": "bitcoin",
+    "data": [
+      {
+        "datetime": "2026-02-14T00:00:00Z",
+        "value": 602925.0
+      },
+      {
+        "datetime": "2026-02-15T00:00:00Z",
+        "value": 504181.0
+      }
+    ],
+    "note": "Free tier - limited metrics"
+  },
+  "googlePatents": [
+    {
+      "note": "Google Patents search returned no structured data - may need manual review",
+      "url": "https://patents.google.com/?q=artificial+intelligence&before=priority:20260215&after=priority:20260208&oq=artificial+intelligence"
+    }
+  ],
+  "congressAI": {
+    "bills": [],
+    "error": "ProPublica API key not found",
+    "note": "Create free API key at https://www.propublica.org/datastore/api/propublica-congress-api"
   }
 }

@@ -175,6 +175,70 @@
       "freeLimit": "Unlimited",
       "apiKey": "none",
       "dataPoints": ["TVL by chain/protocol", "yields", "stablecoin data", "DEX volumes", "fees/revenue"]
+    },
+    {
+      "name": "Crunchbase News",
+      "category": "VC / PE / M&A",
+      "url": "https://news.crunchbase.com/feed/",
+      "freeLimit": "Unlimited (RSS)",
+      "apiKey": "none",
+      "dataPoints": ["funding rounds", "deal flow", "M&A news", "unicorns", "VC trends"]
+    },
+    {
+      "name": "Google Patents",
+      "category": "AI Research / IP",
+      "url": "https://patents.google.com/",
+      "freeLimit": "Unlimited (public data)",
+      "apiKey": "none",
+      "dataPoints": ["AI patents", "recent filings", "patent search"]
+    },
+    {
+      "name": "GovTrack",
+      "category": "AI Policy / Legislation",
+      "url": "https://www.govtrack.us/api/v2/",
+      "freeLimit": "Unlimited",
+      "apiKey": "none",
+      "dataPoints": ["AI bills", "legislation tracking", "sponsor info", "bill status"]
+    },
+    {
+      "name": "Bluesky",
+      "category": "AI Research / Social",
+      "url": "https://public.api.bsky.app/",
+      "freeLimit": "Unlimited (public API)",
+      "apiKey": "none",
+      "dataPoints": ["AI researcher posts", "trending topics", "discussions"]
+    },
+    {
+      "name": "ArXiv (via API)",
+      "category": "AI Research",
+      "url": "http://export.arxiv.org/api/",
+      "freeLimit": "Unlimited",
+      "apiKey": "none",
+      "dataPoints": ["cs.AI papers", "cs.LG papers", "latest research", "abstracts"]
+    },
+    {
+      "name": "AI Jobs Pulse",
+      "category": "Labor Market / AI",
+      "url": "LinkedIn (via Google proxy)",
+      "freeLimit": "Unlimited (scraping)",
+      "apiKey": "none",
+      "dataPoints": ["AI job posting trends", "demand estimates"]
+    },
+    {
+      "name": "Santiment",
+      "category": "Crypto / On-chain",
+      "url": "https://api.santiment.net/",
+      "freeLimit": "Free tier available",
+      "apiKey": "none (limited)",
+      "dataPoints": ["on-chain metrics", "active addresses", "network activity"]
+    },
+    {
+      "name": "ProPublica Congress",
+      "category": "AI Policy / Legislation",
+      "url": "https://api.propublica.org/",
+      "freeLimit": "Free with API key",
+      "apiKey": "needed",
+      "dataPoints": ["congressional bills", "AI legislation", "voting records"]
     }
   ],
   "newsletters": [

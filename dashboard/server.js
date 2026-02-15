@@ -616,6 +616,13 @@ function handleRequest(req, res) {
             openalex: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236B46C1'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='9' font-weight='bold'%3EOAlex%3C/text%3E%3C/svg%3E",
             lobsters: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23DC2626'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3E🦞%3C/text%3E%3C/svg%3E",
             grokipedia: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231DA1F2'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='9' font-weight='bold'%3EGrok%3C/text%3E%3C/svg%3E",
+            crunchbase: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230288D1'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='9' font-weight='bold'%3ECB%3C/text%3E%3C/svg%3E",
+            googlepatents: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234285F4'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='9' font-weight='bold'%3EGP%3C/text%3E%3C/svg%3E",
+            govtrack: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230A3161'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='9' font-weight='bold'%3EGT%3C/text%3E%3C/svg%3E",
+            bluesky: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231185FE'%3E%3Cpath d='M12 3.5c-2.4 2.6-5.5 6.2-5.5 8.8 0 1.7.9 3.2 2.3 3.9-.4.1-.9.1-1.4 0C5.3 15.5 4 13.4 4 11c0-3.5 3.8-8.5 8-8.5s8 5 8 8.5c0 2.4-1.3 4.5-3.4 5.2-.5.1-1 .1-1.4 0 1.4-.7 2.3-2.2 2.3-3.9 0-2.6-3.1-6.2-5.5-8.8z'/%3E%3C/svg%3E",
+            santiment: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235461DA'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='9' font-weight='bold'%3ESAN%3C/text%3E%3C/svg%3E",
+            propublica: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='9' font-weight='bold'%3EPP%3C/text%3E%3C/svg%3E",
+            aijobs: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230077B5'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='11' font-weight='bold'%3ELI%3C/text%3E%3C/svg%3E",
         };
         const connections = {
             accounts: [
@@ -673,7 +680,14 @@ function handleRequest(req, res) {
                 { name: 'Reuters World', detail: 'geopolitics & trade policy', icon: icons.hackernews, active: true },
                 { name: 'AP News World', detail: 'global breaking news', icon: icons.hackernews, active: true },
                 { name: 'GDELT Project', detail: 'global conflict & trade events', icon: icons.finnhub, active: true },
-                { name: 'Grokipedia', detail: 'AI-curated encyclopedia (xAI)', icon: icons.grokipedia, active: true }
+                { name: 'Grokipedia', detail: 'AI-curated encyclopedia (xAI)', icon: icons.grokipedia, active: true },
+                { name: 'Google Patents', detail: 'recent AI patents', icon: icons.googlepatents, active: true },
+                { name: 'GovTrack', detail: 'AI legislation tracking', icon: icons.govtrack, active: true },
+                { name: 'Bluesky', detail: 'AI researcher discussions', icon: icons.bluesky, active: true },
+                { name: 'ArXiv (Sanity)', detail: 'latest cs.AI/cs.LG papers', icon: icons.arxiv, active: true },
+                { name: 'AI Jobs Pulse', detail: 'LinkedIn job posting trends', icon: icons.aijobs, active: true },
+                { name: 'Santiment', detail: 'on-chain crypto metrics', icon: icons.santiment, active: true },
+                { name: 'ProPublica Congress', detail: 'congressional AI bills', icon: icons.propublica, active: true }
             ],
             podcasts: [
                 { name: 'All-In Podcast', detail: 'tech, VC, geopolitics (weekly)', active: true },

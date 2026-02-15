@@ -176,11 +176,65 @@ _How-to details and implementation notes archived in `memory/reference.md`._
     - Daily trending repos (AI/ML focus)
     - Output: `pre-brief-cache.json` under `githubTrending` key
 
+13. **Crunchbase News RSS**
+    - Free RSS feed
+    - Script: `scripts/fetch-crunchbase-news.sh`
+    - VC/PE deal flow, funding rounds
+    - Output: `pre-brief-cache.json` under `crunchbaseNews` key
+
+14. **Google Patents**
+    - Free (public data)
+    - Script: `scripts/fetch-google-patents.sh`
+    - Recent AI patents (7-day window)
+    - Output: `pre-brief-cache.json` under `googlePatents` key
+
+15. **GovTrack API**
+    - Free, no key needed
+    - Script: `scripts/fetch-govtrack.sh`
+    - AI legislation tracking
+    - Endpoint: `https://www.govtrack.us/api/v2/bill?q=artificial+intelligence`
+    - Output: `pre-brief-cache.json` under `govTrack` key
+
+16. **Bluesky Public API**
+    - Free, no auth needed
+    - Script: `scripts/fetch-bluesky-ai.sh`
+    - AI researcher takes and discussions
+    - Endpoint: `https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts`
+    - Output: `pre-brief-cache.json` under `blueskyAI` key
+
+17. **ArXiv Sanity (via arXiv API)**
+    - Free, unlimited
+    - Script: `scripts/fetch-arxiv-sanity.sh`
+    - Latest AI/ML papers (cs.AI, cs.LG)
+    - Endpoint: `http://export.arxiv.org/api/query`
+    - Output: `pre-brief-cache.json` under `arxivSanity` key
+
+18. **AI Jobs Pulse (LinkedIn via Google)**
+    - Free (web scraping proxy)
+    - Script: `scripts/fetch-ai-jobs-pulse.sh`
+    - AI job posting trends estimate
+    - Output: `pre-brief-cache.json` under `aiJobsPulse` key
+
+19. **Santiment**
+    - Free tier (limited)
+    - Script: `scripts/fetch-santiment.sh`
+    - On-chain crypto metrics
+    - Endpoint: `https://api.santiment.net/graphql`
+    - Output: `pre-brief-cache.json` under `santiment` key
+
+20. **ProPublica Congress API**
+    - Free API key required (`.secrets/propublica_api_key.txt`)
+    - Script: `scripts/fetch-congress-ai.sh`
+    - Congressional AI bills and legislation
+    - Endpoint: `https://api.propublica.org/congress/v1/bills/search.json`
+    - Output: `pre-brief-cache.json` under `congressAI` key
+    - Get API key: https://www.propublica.org/datastore/api/propublica-congress-api
+
 ### Newsletters to Subscribe (Manual)
-13. **Superhuman AI** — subscribe at joinsuperhuman.ai
-14. **Import AI** — subscribe at importai.substack.com
-15. **AI Breakfast** — subscribe at aibreakfast.com
-16. **Stratechery** — subscribe at stratechery.com (free tier)
+21. **Superhuman AI** — subscribe at joinsuperhuman.ai
+22. **Import AI** — subscribe at importai.substack.com
+23. **AI Breakfast** — subscribe at aibreakfast.com
+24. **Stratechery** — subscribe at stratechery.com (free tier)
 
 **Cache File:** All API sources write to `/Users/jc_agent/.openclaw/workspace/pre-brief-cache.json`  
 **Usage:** Run all fetch scripts before generating daily X threads or pre-brief reports

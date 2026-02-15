@@ -327,6 +327,31 @@
         .brain-node-circle { transition: all 0.4s ease; }
         .brain-node-label { font-size:8px; font-family:'SF Mono',monospace; letter-spacing:0.8px; text-transform:uppercase; fill:rgba(74,222,128,0.5); text-anchor:middle; pointer-events:none; }
         .brain-line { transition: stroke 0.4s ease; }
+        /* Active state: data flowing out to nodes */
+        @keyframes dataFlowLine { 0% { stroke-dashoffset:40; stroke-opacity:0.3; } 50% { stroke-dashoffset:0; stroke-opacity:0.9; } 100% { stroke-dashoffset:-40; stroke-opacity:0.3; } }
+        @keyframes nodeReceive { 0%,100% { r:4; fill-opacity:0.6; filter:none; } 50% { r:5.5; fill-opacity:1; filter:drop-shadow(0 0 8px rgba(74,222,128,0.8)); } }
+        @keyframes nodeActivePulse { 0% { r:5.5; filter:drop-shadow(0 0 6px var(--c,#4ade80)); } 25% { r:7.5; filter:drop-shadow(0 0 18px var(--c,#4ade80)) drop-shadow(0 0 30px var(--c,#4ade80)); } 50% { r:6; filter:drop-shadow(0 0 10px var(--c,#4ade80)); } 75% { r:8; filter:drop-shadow(0 0 22px var(--c,#4ade80)) drop-shadow(0 0 35px var(--c,#4ade80)); } 100% { r:5.5; filter:drop-shadow(0 0 6px var(--c,#4ade80)); } }
+        @keyframes nodeActiveRipple { 0% { r:6; opacity:0.5; stroke-width:2; } 100% { r:25; opacity:0; stroke-width:0.3; } }
+        @keyframes nodeLabelGlow { 0%,100% { filter:drop-shadow(0 0 4px var(--c,#4ade80)); opacity:0.85; } 50% { filter:drop-shadow(0 0 14px var(--c,#4ade80)) drop-shadow(0 0 22px var(--c,#4ade80)); opacity:1; } }
+        .brain-active .brain-line { stroke:rgba(74,222,128,0.7)!important; stroke-dasharray:8 4; animation: dataFlowLine 1.5s linear infinite; }
+        .brain-active #brain-line-0 { animation-delay:0s; }
+        .brain-active #brain-line-1 { animation-delay:0.2s; }
+        .brain-active #brain-line-2 { animation-delay:0.4s; }
+        .brain-active #brain-line-3 { animation-delay:0.6s; }
+        .brain-active #brain-line-4 { animation-delay:0.8s; }
+        .brain-active #brain-line-5 { animation-delay:1.0s; }
+        .brain-active #brain-line-6 { animation-delay:1.2s; }
+        .brain-active #brain-line-7 { animation-delay:1.4s; }
+        .brain-active .brain-node-circle { animation: nodeReceive 2s ease-in-out infinite; fill:rgba(74,222,128,0.8)!important; stroke:rgba(74,222,128,0.9)!important; }
+        .brain-active #brain-node-0 .brain-node-circle { animation-delay:0s; }
+        .brain-active #brain-node-1 .brain-node-circle { animation-delay:0.25s; }
+        .brain-active #brain-node-2 .brain-node-circle { animation-delay:0.5s; }
+        .brain-active #brain-node-3 .brain-node-circle { animation-delay:0.75s; }
+        .brain-active #brain-node-4 .brain-node-circle { animation-delay:1s; }
+        .brain-active #brain-node-5 .brain-node-circle { animation-delay:1.25s; }
+        .brain-active #brain-node-6 .brain-node-circle { animation-delay:1.5s; }
+        .brain-active #brain-node-7 .brain-node-circle { animation-delay:1.75s; }
+        .brain-active .brain-node-label { fill:rgba(74,222,128,0.85)!important; }
         @keyframes pulseDot { 0% { offset-distance:0%; opacity:1; } 100% { offset-distance:100%; opacity:0; } }
         
         /* Radar sweep for outer ring */
@@ -476,13 +501,14 @@
         }
         .x-stats-strip {
             display: flex; align-items: center; justify-content: space-evenly;
-            gap: 1rem; padding: 0.7rem 1rem; margin-bottom: 0.5rem;
-            background: rgba(255,255,255,0.03); border-radius: 8px; flex-shrink: 0;
+            gap: 0.6rem; padding: 0.45rem 0.75rem; margin-bottom: 0.4rem;
+            background: rgba(255,255,255,0.03); border-radius: 6px; flex-shrink: 0;
         }
-        .x-strip-stat { font-size: 0.9rem; display: flex; flex-direction: column; align-items: center; gap: 0.15rem; }
-        .x-strip-val { color: rgba(255,255,255,0.95); font-weight: 700; font-size: 1.1rem; font-variant-numeric: tabular-nums; }
-        .x-strip-lbl { color: rgba(255,255,255,0.4); font-weight: 500; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.03em; }
-        .x-strip-delta { font-size: 0.7rem; font-weight: 600; }
+        .x-strip-stat { font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 0.08rem; }
+        .x-strip-val-row { display: flex; align-items: baseline; gap: 0.25rem; }
+        .x-strip-val { color: rgba(255,255,255,0.95); font-weight: 700; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+        .x-strip-lbl { color: rgba(255,255,255,0.4); font-weight: 500; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.03em; }
+        .x-strip-delta { font-size: 0.55rem; font-weight: 600; }
         .x-strip-delta.up { color: #4ade80; }
         .x-strip-delta.down { color: #ef4444; }
         .x-strip-delta.flat { color: rgba(255,255,255,0.2); }
@@ -605,6 +631,9 @@
         .wallet-header-info { display: flex; align-items: center; gap: 0.5rem; }
         .wallet-header-title { font-size: 0.8rem; font-weight: 700; color: #4ade80; }
         .wallet-header-bal { font-size: 0.85rem; font-weight: 700; color: #fff; }
+        .wallet-header-24h { font-size: 0.7rem; font-weight: 600; padding: 0.1rem 0.35rem; border-radius: 4px; }
+        .wallet-header-24h.positive { background: rgba(74,222,128,0.15); color: #4ade80; }
+        .wallet-header-24h.negative { background: rgba(239,68,68,0.15); color: #ef4444; }
         .wallet-arrow {
             font-size: 0.55rem; color: rgba(255,255,255,0.4); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
         }
@@ -617,10 +646,17 @@
             max-height: 800px;
             padding: 0 1rem 0.75rem;
         }
-        /* Compact trades summary — visible when collapsed */
+        /* Compact trades summary — hidden when collapsed, shown when expanded */
         .wallet-trades-compact {
-            padding: 0 1rem 0.5rem;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
             display: flex; flex-direction: column; gap: 2px;
+            transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
+        }
+        .wallet-trades-compact.open {
+            max-height: 300px;
+            padding: 0 1rem 0.5rem;
         }
         .wallet-trades-compact:empty { padding: 0; }
         .wallet-compact-trade {
@@ -909,6 +945,7 @@
                         <div class="wallet-header-info">
                             <span class="wallet-header-title"><svg style="display:inline-block;vertical-align:middle;width:14px;height:14px;margin-right:4px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="3"/><path d="M16 12h2v4h-2z" fill="#4ade80"/><path d="M6 6V4a2 2 0 012-2h8a2 2 0 012 2v2"/></svg> MyWallet</span>
                             <span class="wallet-header-bal" id="wallet-total-bal">$0.00</span>
+                            <span class="wallet-header-24h" id="wallet-24h-pct"></span>
                         </div>
                     </div>
                     <div style="display:flex;align-items:center;gap:0.4rem;">
@@ -989,10 +1026,10 @@
                 </div>
                 <!-- Stats Strip -->
                 <div class="x-stats-strip">
-                    <span class="x-strip-stat" id="x-followers"><span class="x-strip-val">--</span> <span class="x-strip-lbl">Followers</span> <span class="x-strip-delta" id="x-d-followers"></span></span>
-                    <span class="x-strip-stat" id="x-impressions"><span class="x-strip-val">--</span> <span class="x-strip-lbl">Impressions</span> <span class="x-strip-delta" id="x-d-impressions"></span></span>
-                    <span class="x-strip-stat" id="x-engagement"><span class="x-strip-val" style="color:#4ade80;">--</span> <span class="x-strip-lbl">Engagement</span></span>
-                    <span class="x-strip-stat" id="x-likes"><span class="x-strip-val">--</span> <span class="x-strip-lbl">likes</span> <span class="x-strip-delta" id="x-d-likes"></span></span>
+                    <span class="x-strip-stat" id="x-followers"><span class="x-strip-val-row"><span class="x-strip-val">--</span><span class="x-strip-delta" id="x-d-followers"></span></span><span class="x-strip-lbl">Followers</span></span>
+                    <span class="x-strip-stat" id="x-impressions"><span class="x-strip-val-row"><span class="x-strip-val">--</span><span class="x-strip-delta" id="x-d-impressions"></span></span><span class="x-strip-lbl">Impressions</span></span>
+                    <span class="x-strip-stat" id="x-engagement"><span class="x-strip-val-row"><span class="x-strip-val" style="color:#4ade80;">--</span></span><span class="x-strip-lbl">Engagement</span></span>
+                    <span class="x-strip-stat" id="x-likes"><span class="x-strip-val-row"><span class="x-strip-val">--</span><span class="x-strip-delta" id="x-d-likes"></span></span><span class="x-strip-lbl">Likes</span></span>
                 </div>
                 <div id="x-content-plan" style="display:flex;align-items:center;gap:0.75rem;padding:0.35rem 0.5rem;font-size:0.7rem;border-top:1px solid rgba(255,255,255,0.06);margin-top:0.25rem;"></div>
                 <!-- Tweet Feed -->
@@ -1179,7 +1216,7 @@
                         const baseEng = parseFloat(base.engagementRate) || 0;
                         const engDiff = (curEng - baseEng).toFixed(1);
                         let deltaSpan = engEl.querySelector('.x-strip-delta');
-                        if (!deltaSpan) { deltaSpan = document.createElement('span'); deltaSpan.className = 'x-strip-delta'; engEl.appendChild(deltaSpan); }
+                        if (!deltaSpan) { deltaSpan = document.createElement('span'); deltaSpan.className = 'x-strip-delta'; const valRow = engEl.querySelector('.x-strip-val-row'); (valRow || engEl).appendChild(deltaSpan); }
                         if (engDiff > 0) { deltaSpan.textContent = '+'+engDiff+'%'; deltaSpan.className = 'x-strip-delta up'; }
                         else if (engDiff < 0) { deltaSpan.textContent = engDiff+'%'; deltaSpan.className = 'x-strip-delta down'; }
                         else { deltaSpan.textContent = '—'; deltaSpan.className = 'x-strip-delta flat'; }
@@ -1557,8 +1594,8 @@
                 // Position label outside the shape based on node direction
                 let lx=x, ly=y, anchor='middle';
                 if (Math.abs(region.dx) > Math.abs(region.dy)) {
-                    // Primarily left/right
-                    ly = y + 3; // vertically center
+                    // Primarily left/right — label above node
+                    ly = y - 8;
                     if (region.dx > 0) { lx = x + 8; anchor = 'start'; }
                     else { lx = x - 8; anchor = 'end'; }
                 } else {
@@ -1690,17 +1727,51 @@
             if (node) { 
                 node.setAttribute('fill',color); 
                 node.setAttribute('fill-opacity','0.85'); 
-                node.setAttribute('filter','drop-shadow(0 0 8px '+color+') drop-shadow(0 0 16px '+color+')'); 
-                node.setAttribute('r','5.5'); 
-                // Spawn expanding activation ring
+                node.style.setProperty('--c', color);
+                node.style.animation = 'nodeActivePulse 1.6s ease-in-out infinite';
+                // Spawn initial activation ring
                 spawnActivationRing(brainRegions[idx].x, brainRegions[idx].y, color);
+                // Spawn repeating ripples
+                spawnRepeatingRipple(idx, color);
             }
             if (line) { line.setAttribute('stroke',color); line.setAttribute('stroke-opacity','0.7'); line.setAttribute('stroke-width','1.2'); }
-            if (label) { label.setAttribute('fill',color); label.setAttribute('font-size','7.5'); label.style.filter='drop-shadow(0 0 8px '+color+') drop-shadow(0 0 16px '+color+')'; }
+            if (label) { label.setAttribute('fill',color); label.setAttribute('font-size','7.5'); label.style.setProperty('--c', color); label.style.animation='nodeLabelGlow 2s ease-in-out infinite'; }
             activeRegions.add(regionName);
             spawnPulseDot(idx, color);
         }
         
+        // Repeating ripple rings on active nodes
+        var _rippleIntervals = {};
+        function spawnRepeatingRipple(idx, color) {
+            if (_rippleIntervals[idx]) return;
+            function doRipple() {
+                const nodesG = document.getElementById('brain-nodes');
+                if (!nodesG) return;
+                const r = brainRegions[idx];
+                const ring = document.createElementNS('http://www.w3.org/2000/svg','circle');
+                ring.setAttribute('cx', r.x); ring.setAttribute('cy', r.y);
+                ring.setAttribute('r', '6'); ring.setAttribute('fill', 'none');
+                ring.setAttribute('stroke', color); ring.setAttribute('stroke-width', '1.5');
+                ring.setAttribute('opacity', '0.4');
+                nodesG.appendChild(ring);
+                let start = null;
+                (function anim(ts) {
+                    if (!start) start = ts;
+                    const t = Math.min((ts - start) / 1200, 1);
+                    ring.setAttribute('r', String(6 + t * 20));
+                    ring.setAttribute('opacity', String(0.4 * (1 - t)));
+                    ring.setAttribute('stroke-width', String(1.5 * (1 - t * 0.8)));
+                    if (t < 1) requestAnimationFrame(anim);
+                    else { try { nodesG.removeChild(ring); } catch(e){} }
+                })(performance.now());
+            }
+            doRipple();
+            _rippleIntervals[idx] = setInterval(doRipple, 2200);
+        }
+        function stopAllRipples() {
+            Object.keys(_rippleIntervals).forEach(k => { clearInterval(_rippleIntervals[k]); delete _rippleIntervals[k]; });
+        }
+
         // Expanding ring effect when node activates
         function spawnActivationRing(x, y, color) {
             const nodesG = document.getElementById('brain-nodes');
@@ -1869,11 +1940,12 @@
         function resetBrainRegions() {
             brainRegions.forEach((_,i) => {
                 const node=document.getElementById('brain-node-'+i), line=document.getElementById('brain-line-'+i), label=document.getElementById('brain-label-'+i);
-                if (node) { node.setAttribute('fill','rgba(74,222,128,0.35)'); node.setAttribute('fill-opacity','1'); node.setAttribute('r','2.8'); node.setAttribute('filter','none'); }
+                if (node) { node.setAttribute('fill','rgba(74,222,128,0.35)'); node.setAttribute('fill-opacity','1'); node.setAttribute('r','2.8'); node.setAttribute('filter','none'); node.style.animation=''; }
                 if (line) { line.setAttribute('stroke','rgba(74,222,128,0.1)'); line.setAttribute('stroke-opacity','1'); line.setAttribute('stroke-width','0.6'); }
-                if (label) { label.setAttribute('fill','rgba(74,222,128,0.5)'); label.style.filter='none'; }
+                if (label) { label.setAttribute('fill','rgba(74,222,128,0.5)'); label.style.filter='none'; label.style.animation=''; }
             });
             activeRegions.clear();
+            stopAllRipples();
             document.getElementById('brain-pulses').innerHTML = '';
             const synapsesG = document.getElementById('brain-synapses');
             if (synapsesG) synapsesG.innerHTML = '';
@@ -2252,7 +2324,15 @@
         // ===== COINBASE WALLET + TRADES (merged) =====
         document.getElementById('wallet-toggle').addEventListener('click', () => {
             const body = document.getElementById('wallet-body');
+            const compact = document.getElementById('wallet-trades-compact');
+            const arrow = document.getElementById('wallet-arrow');
             body.classList.toggle('open');
+            compact.classList.toggle('open');
+            if (body.classList.contains('open')) {
+                arrow.style.transform = 'rotate(90deg)';
+            } else {
+                arrow.style.transform = 'rotate(0deg)';
+            }
         });
 
         function truncAddr(addr) {
@@ -2285,6 +2365,27 @@
                     }
 
                     document.getElementById('wallet-total-bal').textContent = '$' + totalUsd.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+
+                    // Calculate 24h % change
+                    const pctEl = document.getElementById('wallet-24h-pct');
+                    const now = Date.now();
+                    const prevKey = 'walletPrev24hDesktop';
+                    let prev = null;
+                    try {
+                        const stored = localStorage.getItem(prevKey);
+                        if (stored) prev = JSON.parse(stored);
+                    } catch(e) {}
+                    
+                    if (!prev || !prev.timestamp || (now - prev.timestamp) > 20*60*60*1000) {
+                        // No baseline or >20h old — set new baseline
+                        localStorage.setItem(prevKey, JSON.stringify({total: totalUsd, timestamp: now}));
+                        pctEl.textContent = '';
+                    } else {
+                        // Calculate % change
+                        const pct = prev.total > 0 ? ((totalUsd - prev.total) / prev.total * 100) : 0;
+                        pctEl.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
+                        pctEl.className = 'wallet-header-24h ' + (pct >= 0 ? 'positive' : 'negative');
+                    }
 
                     function renderChainCard(chain, label, iconClass, network) {
                         if (!chain) return '';

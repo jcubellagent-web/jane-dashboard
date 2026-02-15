@@ -2341,8 +2341,9 @@
                         updated = `<div class="wallet-footer"><span class="wallet-updated">Updated ${d.toLocaleDateString()} ${d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span></div>`;
                     }
 
+                    const evmHasTokens = data.evm?.balances?.length > 0;
                     container.innerHTML =
-                        renderChainCard(data.evm, 'EVM', 'base', data.evm?.network) +
+                        (evmHasTokens ? renderChainCard(data.evm, 'EVM', 'base', data.evm?.network) : '') +
                         renderChainCard(data.solana, 'Solana', 'solana', null) +
                         updated;
 

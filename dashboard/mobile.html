@@ -2065,7 +2065,8 @@
                             '<button onclick="event.stopPropagation();navigator.clipboard.writeText(\'' + (chain.address || '') + '\');this.innerHTML=\'<svg width=10 height=10 viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;#4ade80&quot; stroke-width=&quot;3&quot;><polyline points=&quot;20 6 9 17 4 12&quot;/></svg>\';setTimeout(()=>this.innerHTML=\'<svg width=10 height=10 viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;#4ade80&quot; stroke-width=&quot;2&quot;><rect x=&quot;9&quot; y=&quot;9&quot; width=&quot;13&quot; height=&quot;13&quot; rx=&quot;2&quot;/><path d=&quot;M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1&quot;/></svg>\',1000)" style="background:none;border:none;cursor:pointer;padding:0;display:inline-flex;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>' +
                             '</div></div>';
                     }
-                    chainsEl.innerHTML = chainHtml(data.solana, 'Solana', 'SOL') + chainHtml(data.evm, 'Base', 'ETH');
+                    const evmHasTokens = data.evm?.balances?.length > 0;
+                    chainsEl.innerHTML = chainHtml(data.solana, 'Solana', 'SOL') + (evmHasTokens ? chainHtml(data.evm, 'Base', 'ETH') : '');
 
                     const tradesEl = document.getElementById('wallet-trades');
                     const positions = tradesData?.openPositions || [];

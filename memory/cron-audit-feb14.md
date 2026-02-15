@@ -227,3 +227,19 @@ All cron jobs are now:
 - Verified all other crons (9 total) are working correctly
 
 **Result:** Flawless Sunday execution ready. All systems green. 🟢
+
+---
+
+## 🔄 UPDATE (22:06 PM) — All-In Quotes in Geopolitics Section
+
+**Josh feedback:** All-In podcast covers geopolitics heavily (Chamath, Sacks). Ensure All-In quotes are woven into the Geopolitics & Macro section.
+
+**Action taken:** Updated all three thread crons (Morning Brief, Afternoon Refresh, Daily Recap) to explicitly mention:
+> "Weave in All-In quotes (Chamath/Sacks heavily cover geopolitics), Prof G, and The Daily insights if relevant."
+
+**Before:** Only mentioned Prof G and The Daily in Geopolitics section  
+**After:** Now explicitly calls out All-In (Chamath/Sacks) as primary geopolitics source alongside Prof G and The Daily
+
+**Files modified:** `~/.openclaw/cron/jobs.json` (live cron configuration)
+
+This ensures tomorrow's threads properly leverage All-In's geopolitics coverage in the new Geopolitics & Macro section (Tweet 5).

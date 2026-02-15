@@ -70,6 +70,7 @@ def generate_thread_header(
             ("AI PROVIDERS", "Anthropic, OpenAI, xAI, Meta, DeepSeek, Google", NEON_CYAN),
             ("VENTURE, PE & M&A", "VC rounds, PE deals, M&A, rumor mill", NEON_GOLD),
             ("ENTERPRISE SaaS", "$CRM $NOW $WDAY $PLTR $DUOL", NEON_GREEN),
+            ("GEOPOLITICS & MACRO", "Trade wars, sanctions, tariffs, conflicts", (255, 100, 100)),
             ("NASDAQ 100", "Top 5 gainers + Top 5 losers", NEON_PINK),
             ("CRYPTO MOVERS", "Top gainers + losers, top 300", NEON_ORANGE),
             ("HOT TAKE", "One sharp observation", NEON_PURPLE),
@@ -178,7 +179,7 @@ def generate_thread_header(
     font_sm = load_font(16)
     glow(draw, (20, HEIGHT - 40), "@AgentJc11443", font_brand, NEON_CYAN)
     draw.text((220, HEIGHT - 38), "AI-Powered News Feed", font=font_sm, fill=DIM)
-    draw.text((WIDTH - 180, HEIGHT - 38), "7-tweet thread", font=font_sm, fill=DIM)
+    draw.text((WIDTH - 180, HEIGHT - 38), "8-tweet thread", font=font_sm, fill=DIM)
     
     # mfer avatar bottom-right
     avatar = load_mfer(45)

@@ -2041,13 +2041,25 @@
                     function chainHtml(chain, label, symbol) {
                         if (!chain) return '';
                         const usd = '$' + Number(chain.totalUsd || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                        const mainBal = (chain.balances || []).find(b => (b.symbol || '').toLowerCase() === symbol.toLowerCase());
-                        const amt = mainBal ? Number(mainBal.amount || 0).toLocaleString(undefined, { maximumFractionDigits: 4 }) + ' ' + symbol.toUpperCase() : '';
+                        const balRows = (chain.balances || []).map(b => {
+                            const sym = b.symbol || '?';
+                            const isSol = sym.toLowerCase() === 'sol';
+                            const amt = Number(b.amount || 0).toLocaleString(undefined, { maximumFractionDigits: 6 });
+                            const usdVal = b.usdValue != null ? '$' + Number(b.usdValue).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '';
+                            const dotColor = isSol ? 'background:linear-gradient(135deg,#9945FF,#14F195)' : 'background:#627EEA';
+                            return '<div style="display:flex;justify-content:space-between;align-items:center;padding:0.12rem 0;">' +
+                                '<div style="display:flex;align-items:center;gap:0.25rem;">' +
+                                '<span style="width:6px;height:6px;border-radius:50%;' + dotColor + ';flex-shrink:0;"></span>' +
+                                '<span style="font-size:0.55rem;font-weight:600;color:var(--text);">' + esc(sym) + '</span>' +
+                                '<span style="font-size:0.5rem;color:var(--text-dim);">' + amt + (isSol ? ' SOL' : '') + '</span>' +
+                                '</div>' +
+                                '<span style="font-size:0.55rem;font-weight:700;color:#0052FF;">' + (isSol ? '(' + usdVal + ')' : usdVal) + '</span></div>';
+                        }).join('');
                         return '<div style="flex:1;background:rgba(255,255,255,0.04);border-radius:8px;padding:0.35rem 0.5rem;">' +
                             '<div style="display:flex;justify-content:space-between;align-items:center;">' +
                             '<span style="font-size:0.6rem;font-weight:600;color:rgba(255,255,255,0.7);">' + esc(label) + '</span>' +
                             '<span style="font-size:0.65rem;font-weight:700;color:var(--accent);">' + usd + '</span></div>' +
-                            '<div style="font-size:0.5rem;color:var(--text-dim);margin-top:0.15rem;">' + esc(amt) + '</div>' +
+                            '<div style="margin-top:0.2rem;">' + (balRows || '<div style="font-size:0.5rem;color:var(--text-dim);">No tokens</div>') + '</div>' +
                             '<div style="display:flex;align-items:center;gap:0.2rem;margin-top:0.15rem;">' +
                             '<span style="font-size:0.45rem;color:rgba(255,255,255,0.3);">' + truncA(chain.address) + '</span>' +
                             '<button onclick="event.stopPropagation();navigator.clipboard.writeText(\'' + (chain.address || '') + '\');this.innerHTML=\'<svg width=10 height=10 viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;#4ade80&quot; stroke-width=&quot;3&quot;><polyline points=&quot;20 6 9 17 4 12&quot;/></svg>\';setTimeout(()=>this.innerHTML=\'<svg width=10 height=10 viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;#4ade80&quot; stroke-width=&quot;2&quot;><rect x=&quot;9&quot; y=&quot;9&quot; width=&quot;13&quot; height=&quot;13&quot; rx=&quot;2&quot;/><path d=&quot;M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1&quot;/></svg>\',1000)" style="background:none;border:none;cursor:pointer;padding:0;display:inline-flex;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>' +

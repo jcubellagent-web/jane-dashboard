@@ -2,8 +2,8 @@
   "lastUpdated": "2026-02-14T01:35:00.000Z",
   "budget": {
     "totalSol": 1.5,
-    "deployedSol": 0.7,
-    "availableSol": 0.8,
+    "deployedSol": 0.85,
+    "availableSol": 0.65,
     "reservedForGas": 0.1
   },
   "openPositions": [
@@ -31,6 +31,19 @@
       "priceUpdatedAt": "2026-02-14T01:35:00.000Z",
       "status": "open",
       "notes": "AI-themed memecoin. GigaChad vibes per Josh. Min TP +70%, full autonomy to ride higher if ripping. SL -30% unchanged. Will use judgment on exit based on momentum/volume."
+    },
+    {
+      "token": "POPCAT",
+      "name": "Popcat",
+      "mint": "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr",
+      "chain": "solana",
+      "entryPrice": 5.92e-05,
+      "currentPrice": 0.05,
+      "pnlPct": -15.0,
+      "solSpent": 0.15,
+      "entryTimestamp": "2026-02-14T22:55:00Z",
+      "mcapAtEntry": 0,
+      "currentMcap": 0
     }
   ],
   "closedPositions": [],

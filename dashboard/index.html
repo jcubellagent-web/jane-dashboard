@@ -329,10 +329,10 @@
         .brain-line { transition: stroke 0.4s ease; }
         /* Active state: data flowing out to nodes */
         @keyframes dataFlowLine { 0% { stroke-dashoffset:40; stroke-opacity:0.3; } 50% { stroke-dashoffset:0; stroke-opacity:0.9; } 100% { stroke-dashoffset:-40; stroke-opacity:0.3; } }
-        @keyframes nodeReceive { 0%,100% { r:4; fill-opacity:0.6; filter:none; } 50% { r:5.5; fill-opacity:1; filter:drop-shadow(0 0 8px rgba(74,222,128,0.8)); } }
-        @keyframes nodeActivePulse { 0% { r:4; filter:drop-shadow(0 0 4px var(--c,#4ade80)); } 15% { r:9; filter:drop-shadow(0 0 22px var(--c,#4ade80)) drop-shadow(0 0 40px var(--c,#4ade80)); } 30% { r:5; filter:drop-shadow(0 0 6px var(--c,#4ade80)); } 50% { r:10; filter:drop-shadow(0 0 28px var(--c,#4ade80)) drop-shadow(0 0 45px var(--c,#4ade80)); } 65% { r:5.5; filter:drop-shadow(0 0 8px var(--c,#4ade80)); } 80% { r:8.5; filter:drop-shadow(0 0 20px var(--c,#4ade80)) drop-shadow(0 0 35px var(--c,#4ade80)); } 100% { r:4; filter:drop-shadow(0 0 4px var(--c,#4ade80)); } }
+        @keyframes nodeReceive { 0%,100% { r:3; fill-opacity:0.4; filter:none; } 50% { r:4; fill-opacity:0.7; filter:drop-shadow(0 0 5px rgba(74,222,128,0.4)); } }
+        @keyframes nodeActivePulse { 0%,100% { r:3.5; filter:drop-shadow(0 0 3px var(--c,#4ade80)); } 50% { r:5; filter:drop-shadow(0 0 10px var(--c,#4ade80)) drop-shadow(0 0 18px var(--c,#4ade80)); } }
         @keyframes nodeActiveRipple { 0% { r:6; opacity:0.5; stroke-width:2; } 100% { r:25; opacity:0; stroke-width:0.3; } }
-        @keyframes nodeLabelGlow { 0%,100% { filter:drop-shadow(0 0 4px var(--c,#4ade80)); opacity:0.8; letter-spacing:0.8px; } 25% { filter:drop-shadow(0 0 18px var(--c,#4ade80)) drop-shadow(0 0 30px var(--c,#4ade80)); opacity:1; letter-spacing:1.2px; } 50% { filter:drop-shadow(0 0 8px var(--c,#4ade80)); opacity:0.9; letter-spacing:0.9px; } 75% { filter:drop-shadow(0 0 16px var(--c,#4ade80)) drop-shadow(0 0 25px var(--c,#4ade80)); opacity:1; letter-spacing:1.1px; } }
+        @keyframes nodeLabelGlow { 0%,100% { filter:drop-shadow(0 0 2px var(--c,#4ade80)); opacity:0.7; } 50% { filter:drop-shadow(0 0 8px var(--c,#4ade80)); opacity:1; } }
         .brain-active .brain-line { stroke:rgba(74,222,128,0.7)!important; stroke-dasharray:8 4; animation: dataFlowLine 1.5s linear infinite; }
         .brain-active #brain-line-0 { animation-delay:0s; }
         .brain-active #brain-line-1 { animation-delay:0.2s; }
@@ -342,7 +342,7 @@
         .brain-active #brain-line-5 { animation-delay:1.0s; }
         .brain-active #brain-line-6 { animation-delay:1.2s; }
         .brain-active #brain-line-7 { animation-delay:1.4s; }
-        .brain-active .brain-node-circle { animation: nodeReceive 2s ease-in-out infinite; fill:rgba(74,222,128,0.8)!important; stroke:rgba(74,222,128,0.9)!important; }
+        .brain-active .brain-node-circle { animation: nodeReceive 3s ease-in-out infinite; fill:rgba(74,222,128,0.5)!important; stroke:rgba(74,222,128,0.6)!important; }
         .brain-active #brain-node-0 .brain-node-circle { animation-delay:0s; }
         .brain-active #brain-node-1 .brain-node-circle { animation-delay:0.25s; }
         .brain-active #brain-node-2 .brain-node-circle { animation-delay:0.5s; }
@@ -1728,14 +1728,14 @@
                 node.setAttribute('fill',color); 
                 node.setAttribute('fill-opacity','0.85'); 
                 node.style.setProperty('--c', color);
-                node.style.animation = 'nodeActivePulse 1.2s ease-in-out infinite';
+                node.style.animation = 'nodeActivePulse 2.5s ease-in-out infinite';
                 // Spawn initial activation ring
                 spawnActivationRing(brainRegions[idx].x, brainRegions[idx].y, color);
                 // Spawn repeating ripples
                 spawnRepeatingRipple(idx, color);
             }
             if (line) { line.setAttribute('stroke',color); line.setAttribute('stroke-opacity','0.7'); line.setAttribute('stroke-width','1.2'); }
-            if (label) { label.setAttribute('fill',color); label.setAttribute('font-size','7.5'); label.style.setProperty('--c', color); label.style.animation='nodeLabelGlow 1.4s ease-in-out infinite'; }
+            if (label) { label.setAttribute('fill',color); label.setAttribute('font-size','7.5'); label.style.setProperty('--c', color); label.style.animation='nodeLabelGlow 3s ease-in-out infinite'; }
             activeRegions.add(regionName);
             spawnPulseDot(idx, color);
         }
@@ -1750,23 +1750,23 @@
                 const r = brainRegions[idx];
                 const ring = document.createElementNS('http://www.w3.org/2000/svg','circle');
                 ring.setAttribute('cx', r.x); ring.setAttribute('cy', r.y);
-                ring.setAttribute('r', '6'); ring.setAttribute('fill', 'none');
-                ring.setAttribute('stroke', color); ring.setAttribute('stroke-width', '1.5');
-                ring.setAttribute('opacity', '0.4');
+                ring.setAttribute('r', '5'); ring.setAttribute('fill', 'none');
+                ring.setAttribute('stroke', color); ring.setAttribute('stroke-width', '0.8');
+                ring.setAttribute('opacity', '0.25');
                 nodesG.appendChild(ring);
                 let start = null;
                 (function anim(ts) {
                     if (!start) start = ts;
                     const t = Math.min((ts - start) / 1200, 1);
-                    ring.setAttribute('r', String(6 + t * 20));
-                    ring.setAttribute('opacity', String(0.4 * (1 - t)));
-                    ring.setAttribute('stroke-width', String(1.5 * (1 - t * 0.8)));
+                    ring.setAttribute('r', String(5 + t * 14));
+                    ring.setAttribute('opacity', String(0.25 * (1 - t)));
+                    ring.setAttribute('stroke-width', String(0.8 * (1 - t * 0.7)));
                     if (t < 1) requestAnimationFrame(anim);
                     else { try { nodesG.removeChild(ring); } catch(e){} }
                 })(performance.now());
             }
             doRipple();
-            _rippleIntervals[idx] = setInterval(doRipple, 1400);
+            _rippleIntervals[idx] = setInterval(doRipple, 3000);
         }
         function stopAllRipples() {
             Object.keys(_rippleIntervals).forEach(k => { clearInterval(_rippleIntervals[k]); delete _rippleIntervals[k]; });

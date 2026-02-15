@@ -99,6 +99,18 @@
             border-color: rgba(29,155,240,0.2);
             box-shadow: 0 0 12px rgba(29,155,240,0.06), inset 0 0 12px rgba(29,155,240,0.03);
         }
+        /* Premium touch: smooth card entrance animation */
+        @keyframes cardSlideIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card { animation: cardSlideIn 0.4s ease-out; }
+        .card:nth-child(2) { animation-delay: 0.05s; }
+        .card:nth-child(3) { animation-delay: 0.1s; }
+        .card:nth-child(4) { animation-delay: 0.15s; }
+        .card:nth-child(5) { animation-delay: 0.2s; }
+        /* Active state feedback for tappable elements */
+        .card:active { transform: scale(0.995); transition: transform 0.1s; }
 
         /* Status Bar */
         .status-bar {
@@ -807,7 +819,7 @@
         async function toggleDesktopNightMode() {
             const pill = document.getElementById('night-mode-pill');
             desktopNightMode = !desktopNightMode;
-            pill.textContent = '⏳ Toggling...';
+            pill.textContent = 'Toggling...';
             try {
                 const r = await fetch('/api/desktop-night-mode', {
                     method: 'POST',
@@ -818,7 +830,7 @@
                 pill.innerHTML = desktopNightMode ? '<svg style="display:inline-block;vertical-align:middle;width:12px;height:12px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>Day' : '<svg style="display:inline-block;vertical-align:middle;width:12px;height:12px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>Night';
                 pill.className = 'status-pill' + (desktopNightMode ? ' dim' : '');
             } catch(e) {
-                pill.textContent = '❌ Error';
+                pill.textContent = 'Error';
                 desktopNightMode = !desktopNightMode;
                 setTimeout(() => { pill.innerHTML = desktopNightMode ? '<svg style="display:inline-block;vertical-align:middle;width:12px;height:12px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>Day' : '<svg style="display:inline-block;vertical-align:middle;width:12px;height:12px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>Night'; }, 2000);
             }
@@ -827,12 +839,12 @@
         // Refresh desktop browser remotely
         async function refreshDesktop() {
             const pill = document.getElementById('refresh-desktop-pill');
-            pill.textContent = '⏳ Refreshing...';
+            pill.textContent = 'Refreshing...';
             try {
                 const r = await fetch('/api/refresh-desktop', { method: 'POST' });
                 const d = await r.json();
-                pill.textContent = d.ok ? '✅ Refreshed!' : '❌ Failed';
-            } catch(e) { pill.textContent = '❌ Error'; }
+                pill.textContent = d.ok ? 'Refreshed!' : 'Failed';
+            } catch(e) { pill.textContent = 'Error'; }
             setTimeout(() => { pill.innerHTML = '<svg style="display:inline-block;vertical-align:middle;width:12px;height:12px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>Desktop'; }, 2000);
         }
 
@@ -986,6 +998,10 @@
             <div class="mind-section" id="mind-actions-section" style="display:none;">
                 <div class="mind-section-label">ACTIONS &amp; TOOLS</div>
                 <div class="mind-steps" id="mind-steps"></div>
+            </div>
+            <div class="mind-section" id="mind-decisions-section" style="display:none;">
+                <div class="mind-section-label">DECISION LOG</div>
+                <div id="mind-decisions" style="max-height:120px;overflow-y:auto;scrollbar-width:none;"></div>
             </div>
         </div>
     </div>
@@ -1443,8 +1459,11 @@
             // Actions & Tools (steps) — each step colored by its own tool/model + Decisions Log
             const stepsEl = document.getElementById('mind-steps');
             if (data.steps && data.steps.length) {
-                const indicators = { done: '✓', active: '●', pending: '○' };
-                // Deduplicate consecutive steps with same label (desktop feature)
+                const indicators = {
+                    done: '<svg style="width:10px;height:10px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>',
+                    active: '<svg style="width:10px;height:10px;" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="5"/></svg>',
+                    pending: '<svg style="width:10px;height:10px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/></svg>'
+                };
                 const dedupedSteps = data.steps.reduce((acc, step) => {
                     if (!acc.length || (step.label||step.text||'') !== (acc[acc.length-1].label||acc[acc.length-1].text||'')) acc.push(step);
                     else acc[acc.length-1] = step;
@@ -1453,21 +1472,30 @@
                 stepsEl.innerHTML = dedupedSteps.map(step => {
                     const s = step.status || 'pending';
                     const stepColor = modelColors[(step.tool||'').toLowerCase()] || 'var(--accent)';
-                    return `<div class="mind-step ${s}" style="color:${stepColor}"><span class="mind-step-icon">${indicators[s]||'○'}</span><span>${esc(step.label||step.text)}</span></div>`;
+                    const badge = step.tool ? `<span style="font-size:0.5rem;padding:1px 5px;border-radius:3px;background:${stepColor}22;color:${stepColor};margin-left:auto;flex-shrink:0;font-weight:600;">${step.tool}</span>` : '';
+                    return `<div class="mind-step ${s}" style="color:${stepColor}"><span class="mind-step-icon">${indicators[s]||indicators.pending}</span><span>${esc(step.label||step.text)}</span>${badge}</div>`;
                 }).join('');
             } else {
                 stepsEl.innerHTML = '';
             }
             
-            // Append decisions log (NEW FEATURE synced from desktop)
+            // Append decisions log (with neon SVG icons)
+            const _decIconMap = {
+                'brain': '<svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M9.5 2A5.5 5.5 0 004 7.5c0 1.58.68 3 1.76 4L9.5 15l3.74-3.5A5.48 5.48 0 0015 7.5 5.5 5.5 0 009.5 2z"/><path d="M14.5 2A5.5 5.5 0 0120 7.5c0 1.58-.68 3-1.76 4L14.5 15"/></svg>',
+                'thought': '<svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>',
+                'chart': '<svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>',
+                'trade': '<svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>',
+                'wrench': '<svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>',
+                'lobster': '<svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M4 8l2 2M20 8l-2 2M8 4l1 3M16 4l-1 3"/></svg>',
+            };
             if (data.decisions && data.decisions.length > 0) {
                 const decisionsHtml = data.decisions.slice(-6).reverse().map(d => {
                     const time = d.time || '';
-                    const icon = d.icon || '●';
+                    const icon = _decIconMap[d.icon] || _decIconMap['thought'];
                     const mColor = d.model ? (modelColors[d.model.toLowerCase()] || 'rgba(255,255,255,0.5)') : 'rgba(255,255,255,0.5)';
                     return `<div style="display:flex;gap:0.3rem;align-items:flex-start;padding:0.15rem 0;border-left:2px solid ${mColor};padding-left:0.4rem;margin:0.1rem 0;color:rgba(255,255,255,0.6);font-size:0.6rem;line-height:1.3;">
                         <span style="flex-shrink:0;font-size:0.5rem;color:rgba(255,255,255,0.25);min-width:36px;">${time}</span>
-                        <span>${icon} ${d.text||''}</span>
+                        <span>${icon} ${esc(d.text||'')}</span>
                     </div>`;
                 }).join('');
                 if (decisionsHtml) {
@@ -1842,7 +1870,7 @@
                 if (essNeeded > 0) {
                     cHtml += '<span style="font-size:0.45rem;color:rgba(255,255,255,0.4);">' + essNeeded + ' more needed</span>';
                 } else {
-                    cHtml += '<span style="font-size:0.45rem;color:#4ade80;font-weight:600;">✓ Enough</span>';
+                    cHtml += '<span style="font-size:0.45rem;color:#4ade80;font-weight:600;"><svg style="display:inline-block;vertical-align:middle;width:8px;height:8px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Enough</span>';
                 }
                 cHtml += '</div>';
                 // Bar 2: Requirements readiness
@@ -2022,7 +2050,7 @@
                             '<div style="font-size:0.5rem;color:var(--text-dim);margin-top:0.15rem;">' + esc(amt) + '</div>' +
                             '<div style="display:flex;align-items:center;gap:0.2rem;margin-top:0.15rem;">' +
                             '<span style="font-size:0.45rem;color:rgba(255,255,255,0.3);">' + truncA(chain.address) + '</span>' +
-                            '<button onclick="event.stopPropagation();navigator.clipboard.writeText(\'' + (chain.address || '') + '\');this.textContent=\'✓\';setTimeout(()=>this.textContent=\'📋\',1000)" style="background:none;border:none;font-size:0.5rem;cursor:pointer;padding:0;">📋</button>' +
+                            '<button onclick="event.stopPropagation();navigator.clipboard.writeText(\'' + (chain.address || '') + '\');this.innerHTML=\'<svg width=10 height=10 viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;#4ade80&quot; stroke-width=&quot;3&quot;><polyline points=&quot;20 6 9 17 4 12&quot;/></svg>\';setTimeout(()=>this.innerHTML=\'<svg width=10 height=10 viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;#4ade80&quot; stroke-width=&quot;2&quot;><rect x=&quot;9&quot; y=&quot;9&quot; width=&quot;13&quot; height=&quot;13&quot; rx=&quot;2&quot;/><path d=&quot;M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1&quot;/></svg>\',1000)" style="background:none;border:none;cursor:pointer;padding:0;display:inline-flex;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>' +
                             '</div></div>';
                     }
                     chainsEl.innerHTML = chainHtml(data.solana, 'Solana', 'SOL') + chainHtml(data.evm, 'Base', 'ETH');
@@ -2140,7 +2168,7 @@
                 // Fallback: try HTTPS port for full push support
                 if (location.protocol === 'http:' && location.port === '3000') {
                     if (btn) { 
-                        btn.textContent = '🔔'; 
+                        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>'; 
                         btn.style.color = 'rgba(255,255,255,0.6)';
                         btn.onclick = () => {
                             // Redirect to HTTPS version for push support
@@ -2151,7 +2179,7 @@
                 }
                 const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
                 const info = `SW: ${'serviceWorker' in navigator}\nPush: ${'PushManager' in window}\nNotification: ${'Notification' in window}\nStandalone: ${standalone}\nUA: ${navigator.userAgent}`;
-                if (btn) { btn.textContent = '🔕'; btn.style.color = 'rgba(255,255,255,0.3)'; btn.onclick = () => alert(info); }
+                if (btn) { btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" opacity="0.4"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'; btn.style.color = 'rgba(255,255,255,0.3)'; btn.onclick = () => alert(info); }
                 return;
             }
             try {
@@ -2162,7 +2190,7 @@
                 const existing = await reg.pushManager.getSubscription();
                 const btn = document.getElementById('push-btn');
                 if (existing) {
-                    if (btn) { btn.textContent = '🔔'; btn.style.color = 'rgba(74,222,128,0.5)'; btn.onclick = null; }
+                    if (btn) { btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>'; btn.style.color = 'rgba(74,222,128,0.5)'; btn.onclick = null; }
                     return;
                 }
                 
@@ -2180,10 +2208,10 @@
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(sub.toJSON())
                         });
-                        if (btn) { btn.textContent = '🔔'; btn.style.color = 'rgba(74,222,128,0.5)'; btn.onclick = null; btn.style.display = 'inline-flex'; }
+                        if (btn) { btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>'; btn.style.color = 'rgba(74,222,128,0.5)'; btn.onclick = null; btn.style.display = 'inline-flex'; }
                     } catch (e) {
                         console.error('Push subscription failed:', e);
-                        if (btn) { btn.textContent = '🔔'; btn.style.display = 'inline-flex'; btn.onclick = subscribePush; }
+                        if (btn) { btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>'; btn.style.display = 'inline-flex'; btn.onclick = subscribePush; }
                     }
                 }
                 // Auto-prompt if in standalone PWA mode
@@ -2625,7 +2653,7 @@ function buildGantt(data){return; // Gantt chart removed
     const active=visibleBars.filter(b=>{return b.start<=nowH&&b.start+b.dur>nowH&&!b.done;}).length;
     const upcoming=visibleBars.filter(b=>b.start>nowH&&!b.done).length;
     html+='<div style="display:flex;justify-content:space-between;margin-top:0.4rem;padding:0.25rem 0.4rem;background:rgba(255,255,255,0.03);border-radius:4px;font-size:8px;">';
-    html+=`<span style="color:rgba(255,255,255,0.3);">✓ ${done} done</span>`;
+    html+=`<span style="color:rgba(255,255,255,0.3);"><svg style="display:inline-block;vertical-align:middle;width:8px;height:8px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> ${done} done</span>`;
     html+=`<span style="color:var(--accent);font-weight:600;">${active>0?'▸ '+active+' active':'—'}</span>`;
     html+=`<span style="color:rgba(255,255,255,0.3);">${upcoming} upcoming</span>`;
     html+='</div>';
@@ -2640,14 +2668,14 @@ function buildGantt(data){return; // Gantt chart removed
 function showGanttTooltip(bar,e){
     const tip=document.getElementById('gantt-tooltip');
     const name=bar.dataset.name, time=bar.dataset.time, cat=bar.dataset.cat, done=bar.dataset.done==='true';
-    const statusIcon=done?'✅ Complete':'🔄 Scheduled';
+    const statusIcon=done?'Complete':'Scheduled';
     const typ=bar.dataset.type||'';
     const threadNum=bar.dataset.threadnum||'';
     const tweets=bar.dataset.tweets||'';
     const count=bar.dataset.count||'';
     let detail='';
-    if(typ==='thread'&&threadNum) detail=`<div style="font-size:8px;color:rgba(255,255,255,0.5);">📝 Thread #${threadNum} · ${tweets} tweets</div>`;
-    if(typ==='replies'&&count) detail=`<div style="font-size:8px;color:rgba(255,255,255,0.5);">💬 ${count} replies this batch</div>`;
+    if(typ==='thread'&&threadNum) detail=`<div style="font-size:8px;color:rgba(255,255,255,0.5);"><svg style="display:inline-block;vertical-align:middle;width:9px;height:9px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Thread #${threadNum} · ${tweets} tweets</div>`;
+    if(typ==='replies'&&count) detail=`<div style="font-size:8px;color:rgba(255,255,255,0.5);"><svg style="display:inline-block;vertical-align:middle;width:9px;height:9px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> ${count} replies this batch</div>`;
     tip.innerHTML=`
         <div style="font-size:10px;font-weight:700;color:var(--accent);margin-bottom:3px;">${name}</div>
         <div style="font-size:8px;color:rgba(255,255,255,0.5);margin-bottom:2px;">⏰ ${time} · ${cat}</div>
@@ -2689,11 +2717,11 @@ function renderCronSchedule(d){
             const border=isNext?'border-left:2px solid #4ade80;padding-left:0.4rem;':'padding-left:0.5rem;';
             const nameStyle=isDone?'text-decoration:line-through;color:rgba(255,255,255,0.25);':'color:rgba(255,255,255,0.7);';
             const timeStyle=isDone?'color:rgba(255,255,255,0.15);':'color:rgba(255,255,255,0.6);';
-            const icon=isDone?'✅':'';
+            const icon=isDone?'<svg style="display:inline-block;vertical-align:middle;width:10px;height:10px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>':'';
             const nextBadge=isNext?'<span style="font-size:7px;background:rgba(74,222,128,0.2);color:#4ade80;padding:0.05rem 0.25rem;border-radius:3px;font-weight:600;margin-left:0.3rem;">NEXT</span>':'';
             h+=`<div style="display:flex;align-items:center;gap:0.3rem;font-size:10px;padding:0.12rem 0;${border}background:${bg};border-radius:2px;">`;
             h+=`<span style="${timeStyle}font-size:9px;min-width:52px;">${j.time}</span>`;
-            h+=`<span style="${nameStyle}">${isDone?icon+' ':''}${j.name}${nextBadge}</span>`;
+            h+=`<span style="${nameStyle}">${isDone?icon:''}${j.name}${nextBadge}</span>`;
             h+=`</div>`;
         });
     });

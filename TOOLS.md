@@ -184,3 +184,34 @@ _How-to details and implementation notes archived in `memory/reference.md`._
 
 **Cache File:** All API sources write to `/Users/jc_agent/.openclaw/workspace/pre-brief-cache.json`  
 **Usage:** Run all fetch scripts before generating daily X threads or pre-brief reports
+
+## Podcast Transcript Monitoring
+
+### Setup
+- **Tool:** yt-dlp (installed via Homebrew)
+- **Fetch Script:** `scripts/fetch-podcast-transcripts.sh`
+- **Summary Script:** `scripts/summarize-podcasts.sh`
+- **Transcripts:** `podcast-transcripts/YYYY-MM-DD-podcast-name.txt`
+- **Documentation:** `memory/podcast-setup.md` (full details)
+
+### Monitored Podcasts (5 total)
+1. **All-In Podcast** (@allin) — UCESLZhusAkFfsNsApnjF_Cg — Weekly, ~13k words
+2. **Anthony Pompliano** (@AnthonyPompliano) — UCevXpeL8cNyAnww-NqJ4m2w — Daily, ~4-6k words
+3. **Unchained** (Laura Shin) — UCWiiMnsnw5Isc2PP1to9nNw — Weekly
+4. **This Week in Startups** (@thisweekinstartups) — UC1UbgWkb41KrhF824U6t6uQ — Multiple/week
+5. **The Daily (NYT)** — UCkdnY2hNC0sdlVXPtWuNQ8g — Daily
+
+### Daily Workflow
+```bash
+# Fetch latest episodes
+bash scripts/fetch-podcast-transcripts.sh
+
+# Generate summary (last 7 days)
+bash scripts/summarize-podcasts.sh 7
+```
+
+### Topics Extracted
+AI, enterprise SaaS, crypto, markets, startups — ideal for daily threads and newsletter content
+
+### Status
+✅ Operational (tested Feb 14, 2026) — Auto-captions work for all 5 podcasts

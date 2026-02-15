@@ -14,9 +14,15 @@ mkdir -p "${TRANSCRIPT_DIR}"
 mkdir -p "${TEMP_DIR}"
 
 # Podcast configuration arrays (parallel arrays for Bash 3.2 compatibility)
+# Original 5 podcasts
 PODCAST_NAMES=("all-in" "pomp" "unchained" "twis" "the-daily")
 PODCAST_CHANNELS=("UCESLZhusAkFfsNsApnjF_Cg" "UCevXpeL8cNyAnww-NqJ4m2w" "UCWiiMnsnw5Isc2PP1to9nNw" "UC1UbgWkb41KrhF824U6t6uQ" "UCkdnY2hNC0sdlVXPtWuNQ8g")
 PODCAST_HANDLES=("@allin" "@AnthonyPompliano" "@unchained" "@thisweekinstartups" "@thedaily")
+
+# New 9 podcasts added Feb 2026
+PODCAST_NAMES+=("acquired" "bg2" "20vc" "bankless" "hardfork" "turpentine" "profg" "lennys" "oddlots")
+PODCAST_CHANNELS+=("UCyFqFYfTW2VoIQKylJ04Rtw" "UC-yRDvpR99LUc5l7i7jLzew" "UCf0PBRjhf0rF8fWBIxTuoWA" "UCAl9Ld79qaZxp9JzEOwd3aA" "UCZcR2SVWaGWNlMqPxvQS3vw" "UCIiUCv0yvVGx2XYU4IJ2CKg" "UC1E1SVcVyU3ntWMSQEp38Yw" "UC6t1O76G0jYXOAoYCm153dA" "UChF5O40UBqAc82I7-i5ig6A")
+PODCAST_HANDLES+=("@AcquiredFM" "@Bg2Pod" "@20VC" "@Bankless" "@hardfork" "@TurpentineVC" "@TheProfGPod" "@LennysPodcast" "@BloombergPodcasts")
 
 # Function to clean VTT/SRT to plain text
 clean_subtitles() {

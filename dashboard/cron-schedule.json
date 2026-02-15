@@ -61,14 +61,14 @@
         {
           "name": "Daily Recap",
           "time": "7:30 PM",
-          "done": false,
+          "done": true,
           "type": "thread",
           "threadNum": 3
         },
         {
           "name": "X Replies (8 PM)",
           "time": "8:00 PM",
-          "done": false,
+          "done": true,
           "type": "replies"
         },
         {
@@ -80,7 +80,7 @@
         {
           "name": "X Growth Report",
           "time": "10:00 PM",
-          "done": false,
+          "done": true,
           "type": "data"
         }
       ]
@@ -115,5 +115,5 @@
       ]
     }
   ],
-  "lastUpdated": 1771117808945
+  "lastUpdated": 1739504400000
 }

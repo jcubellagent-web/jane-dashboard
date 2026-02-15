@@ -682,5 +682,19 @@
         "volume_24h": null
       }
     ]
+  },
+  "gdelt": {
+    "source": "GDELT Global Events",
+    "events": [],
+    "error": "API unavailable or invalid response"
+  },
+  "reuters": {
+    "source": "Reuters World",
+    "stories": [],
+    "error": "Feed unavailable"
+  },
+  "apNews": {
+    "source": "AP World News",
+    "stories": []
   }
 }

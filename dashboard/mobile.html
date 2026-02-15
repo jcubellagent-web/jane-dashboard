@@ -890,6 +890,11 @@
                 <div style="font-size:0.55rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim);font-weight:600;margin-bottom:0.2rem;">📧 Newsletters</div>
                 <div id="conn-newsletters" style="display:grid;grid-template-columns:1fr 1fr;gap:0.15rem 0.5rem;"></div>
             </div>
+            <div id="conn-podcasts-section" style="display:none;">
+                <div style="border-top:1px solid rgba(255,255,255,0.05);margin:0.3rem 0;"></div>
+                <div style="font-size:0.55rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim);font-weight:600;margin-bottom:0.2rem;">🎙️ Podcasts (14)</div>
+                <div id="conn-podcasts" style="display:grid;grid-template-columns:1fr 1fr;gap:0.15rem 0.5rem;"></div>
+            </div>
         </div>
     </div>
 
@@ -1696,6 +1701,16 @@
                     nlEl.innerHTML = data.newsletters.map(i => `
                         <div style="display:flex;align-items:center;gap:0.25rem;padding:0.1rem 0;font-size:0.6rem;color:rgba(255,255,255,0.7);">
                             <span style="font-size:0.5rem;">📧</span>
+                            <span>${esc(i.name)}</span>
+                            ${i.active ? '<span style="color:var(--accent);font-size:0.4rem;">●</span>' : ''}
+                        </div>
+                    `).join('');
+                }
+                if (data.podcasts && data.podcasts.length) {
+                    document.getElementById('conn-podcasts-section').style.display = '';
+                    document.getElementById('conn-podcasts').innerHTML = data.podcasts.map(i => `
+                        <div style="display:flex;align-items:center;gap:0.25rem;padding:0.1rem 0;font-size:0.6rem;color:rgba(255,255,255,0.7);">
+                            <span style="font-size:0.5rem;">🎙️</span>
                             <span>${esc(i.name)}</span>
                             ${i.active ? '<span style="color:var(--accent);font-size:0.4rem;">●</span>' : ''}
                         </div>

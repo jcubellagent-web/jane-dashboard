@@ -966,6 +966,11 @@
                         <div class="conn-section-title"><svg style="display:inline-block;vertical-align:middle;width:14px;height:14px;margin-right:4px;" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22 4 12 13 2 4"/></svg> Newsletters</div>
                         <div class="conn-grid" id="conn-newsletters"></div>
                     </div>
+                    <div id="conn-podcasts-section" style="display:none;">
+                        <div class="conn-divider"></div>
+                        <div class="conn-section-title"><svg style="display:inline-block;vertical-align:middle;width:14px;height:14px;margin-right:4px;" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Podcasts (14)</div>
+                        <div class="conn-grid" id="conn-podcasts"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1309,6 +1314,7 @@
                 try {
                     const data = await fetchWithTimeout('/api/connections', 5000);
                     if (!data) return;
+                    const sortA = arr => [...arr].sort((a,b) => a.name.localeCompare(b.name));
                     const render = (items, id) => {
                         const el = document.getElementById(id);
                         el.innerHTML = items.map(i => `
@@ -1319,12 +1325,18 @@
                             </div>
                         `).join('');
                     };
-                    render(data.accounts||[], 'conn-accounts');
-                    render(data.dataSources||[], 'conn-datasources');
+                    render(sortA(data.accounts||[]), 'conn-accounts');
+                    render(sortA(data.dataSources||[]), 'conn-datasources');
                     if (data.newsletters && data.newsletters.length) {
                         document.getElementById('conn-newsletters-section').style.display = '';
-                        document.getElementById('conn-newsletters').innerHTML = data.newsletters.map(i => `
+                        document.getElementById('conn-newsletters').innerHTML = sortA(data.newsletters).map(i => `
                             <div class="conn-item"><span style="font-size:0.7rem;"><svg style="display:inline-block;vertical-align:middle;width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22 4 12 13 2 4"/></svg></span><span>${i.name}</span>${i.active?'<span class="conn-dot"></span>':''}</div>
+                        `).join('');
+                    }
+                    if (data.podcasts && data.podcasts.length) {
+                        document.getElementById('conn-podcasts-section').style.display = '';
+                        document.getElementById('conn-podcasts').innerHTML = sortA(data.podcasts).map(i => `
+                            <div class="conn-item"><span style="font-size:0.7rem;"><svg style="display:inline-block;vertical-align:middle;width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></span><span>${i.name}</span>${i.active?'<span class="conn-dot"></span>':''}</div>
                         `).join('');
                     }
                     document.getElementById('connections-refresh').textContent = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});

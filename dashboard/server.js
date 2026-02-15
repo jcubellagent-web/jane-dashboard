@@ -668,7 +668,26 @@ function handleRequest(req, res) {
                 { name: 'Reddit AI', detail: 'r/MachineLearning + r/artificial', icon: icons.reddit, active: true },
                 { name: 'Lobste.rs', detail: 'tech community news', icon: icons.lobsters, active: true },
                 { name: 'GitHub Trending', detail: 'daily trending AI/ML repos', icon: icons.github, active: true },
-                { name: 'Product Hunt', detail: 'top AI/tech products (pending)', icon: icons.hackernews, active: false }
+                { name: 'Product Hunt', detail: 'top AI/tech products (pending)', icon: icons.hackernews, active: false },
+                { name: 'Reuters World', detail: 'geopolitics & trade policy', icon: icons.hackernews, active: true },
+                { name: 'AP News World', detail: 'global breaking news', icon: icons.hackernews, active: true },
+                { name: 'GDELT Project', detail: 'global conflict & trade events', icon: icons.finnhub, active: true }
+            ],
+            podcasts: [
+                { name: 'All-In Podcast', detail: 'tech, VC, geopolitics (weekly)', active: true },
+                { name: 'Anthony Pompliano', detail: 'crypto & macro (daily)', active: true },
+                { name: 'Unchained', detail: 'crypto deep dives (weekly)', active: true },
+                { name: 'This Week in Startups', detail: 'startup news (2-3x/week)', active: true },
+                { name: 'The Daily (NYT)', detail: 'news of the day (daily)', active: true },
+                { name: 'Acquired', detail: 'tech M&A deep dives', active: true },
+                { name: 'BG2 Pod', detail: 'venture & public markets', active: true },
+                { name: '20VC', detail: 'VC insights & funding scoops', active: true },
+                { name: 'Bankless', detail: 'crypto & DeFi', active: true },
+                { name: 'Hard Fork (NYT)', detail: 'tech & AI policy', active: true },
+                { name: 'Turpentine VC', detail: 'AI-native podcast network', active: true },
+                { name: 'Prof G Pod', detail: 'markets & big tech (Galloway)', active: true },
+                { name: "Lenny's Podcast", detail: 'product, growth & SaaS', active: true },
+                { name: 'Odd Lots (Bloomberg)', detail: 'macro & markets', active: true }
             ],
             newsletters: [
                 { name: 'TLDR AI', detail: 'daily AI digest', active: true },

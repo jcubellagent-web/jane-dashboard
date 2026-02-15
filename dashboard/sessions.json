@@ -1,12 +1,15 @@
 {
-  "lastUpdated": 1771105560000,
+  "lastUpdated": 1739588000000,
   "sessions": [
-    {"key": "agent:main:main", "model": "claude-opus-4-6", "tokens": 28393, "channel": "whatsapp"},
-    {"key": "hook-up-remaining-10-sources", "model": "claude-sonnet-4-5", "tokens": 67883, "status": "complete"},
-    {"key": "upload-substack-header", "model": "claude-sonnet-4-5", "tokens": 97687, "status": "complete"},
-    {"key": "hook-up-top5-sources", "model": "claude-sonnet-4-5", "tokens": 76011, "status": "complete"},
-    {"key": "post-weekend-special-thread", "model": "claude-sonnet-4-5", "tokens": 133466, "status": "complete"},
-    {"key": "Trade Price Monitor", "model": "claude-sonnet-4-5", "tokens": 24309, "status": "active"},
-    {"key": "X Stats Scrape", "model": "claude-sonnet-4-5", "tokens": 34277, "status": "active"}
+    {"key": "agent:main:main", "model": "claude-opus-4-6", "channel": "whatsapp", "tokens": 32064},
+    {"key": "cron:X Stats Scrape", "model": "claude-sonnet-4-5", "tokens": 33973},
+    {"key": "subagent:sorare-lineup-optimizer", "model": "claude-sonnet-4-5"},
+    {"key": "cron:Trade Price Monitor", "model": "claude-sonnet-4-5", "tokens": 24786},
+    {"key": "subagent:reply-cycle-makeup", "model": "claude-sonnet-4-5", "tokens": 66054},
+    {"key": "cron:Substack Daily Digest", "model": "claude-opus-4-6", "tokens": 65841},
+    {"key": "cron:X Reply Engagement", "model": "claude-opus-4-6", "tokens": 91333},
+    {"key": "cron:X Daily Recap", "model": "claude-opus-4-6"},
+    {"key": "cron:X Reply-to-Replies", "model": "claude-sonnet-4-5", "tokens": 112099},
+    {"key": "cron:X Update Brief 3PM", "model": "claude-opus-4-6", "tokens": 30122}
   ]
 }

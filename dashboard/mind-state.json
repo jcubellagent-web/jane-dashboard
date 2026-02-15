@@ -1,6 +1,9 @@
 {
-  "task": null,
-  "steps": [],
-  "thought": "Idle — Substack daily digest published, waiting for Josh",
-  "lastUpdated": 1739582400000
+  "task": "Debugging mobile Connected Accounts — podcasts not showing",
+  "steps": [{"label":"Check mobile data loading","status":"active"}],
+  "thought": "Josh sees newsletters but no podcasts section below — investigating",
+  "subAgents": [
+    {"id": "cron-audit-sunday-prep", "label": "cron-audit", "status": "active"}
+  ],
+  "lastUpdated": 1739594500000
 }

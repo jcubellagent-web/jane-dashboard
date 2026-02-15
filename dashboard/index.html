@@ -2294,8 +2294,10 @@
                         if (!chain) return '';
                         const addrTrunc = truncAddr(chain.address);
                         const isSolanaChain = iconClass === 'solana';
-                        const balRows = (chain.balances||[]).length > 0
-                            ? chain.balances.map(b => {
+                        const nativeSymbol = iconClass === 'solana' ? 'sol' : 'eth';
+                        const filteredBals = (chain.balances||[]).filter(b => (b.symbol||b.token||'').toLowerCase() === nativeSymbol);
+                        const balRows = filteredBals.length > 0
+                            ? filteredBals.map(b => {
                                 const sym = (b.symbol||b.token||'?');
                                 const symLower = sym.toLowerCase();
                                 const dotClass = symLower === 'sol' ? 'sol' : 'eth';

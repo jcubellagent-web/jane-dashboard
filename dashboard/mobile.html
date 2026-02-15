@@ -2041,7 +2041,7 @@
                     function chainHtml(chain, label, symbol) {
                         if (!chain) return '';
                         const usd = '$' + Number(chain.totalUsd || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                        const balRows = (chain.balances || []).map(b => {
+                        const balRows = (chain.balances || []).filter(b => (b.symbol||'').toUpperCase() === symbol.toUpperCase()).map(b => {
                             const sym = b.symbol || '?';
                             const isSol = sym.toLowerCase() === 'sol';
                             const amt = Number(b.amount || 0).toLocaleString(undefined, { maximumFractionDigits: 6 });

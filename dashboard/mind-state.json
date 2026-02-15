@@ -1,7 +1,6 @@
 {
-  "state": "active",
-  "task": "Reading @mfergpt tweet Josh shared",
-  "steps": [{"label": "Fetch tweet", "status": "active"}, {"label": "Analyze & advise", "status": "pending"}],
-  "thought": "Josh shared an @mfergpt tweet — checking what it's about",
-  "lastUpdated": 1771105362000
+  "task": null,
+  "steps": [],
+  "thought": "Idle — Substack daily digest published, waiting for Josh",
+  "lastUpdated": 1739582400000
 }

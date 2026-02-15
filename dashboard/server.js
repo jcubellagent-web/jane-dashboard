@@ -667,7 +667,8 @@ function handleRequest(req, res) {
                 { name: 'OpenAlex', detail: 'recent AI research papers', icon: icons.openalex, active: true },
                 { name: 'Reddit AI', detail: 'r/MachineLearning + r/artificial', icon: icons.reddit, active: true },
                 { name: 'Lobste.rs', detail: 'tech community news', icon: icons.lobsters, active: true },
-                { name: 'GitHub Trending', detail: 'daily trending AI/ML repos', icon: icons.github, active: true }
+                { name: 'GitHub Trending', detail: 'daily trending AI/ML repos', icon: icons.github, active: true },
+                { name: 'Product Hunt', detail: 'top AI/tech products (pending)', icon: icons.hackernews, active: false }
             ],
             newsletters: [
                 { name: 'TLDR AI', detail: 'daily AI digest', active: true },

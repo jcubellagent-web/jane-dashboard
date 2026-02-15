@@ -55,7 +55,7 @@
         {
           "name": "Reply-to-Replies",
           "time": "~5:00 PM",
-          "done": false,
+          "done": true,
           "type": "replies"
         },
         {
@@ -74,7 +74,7 @@
         {
           "name": "Substack Daily Digest",
           "time": "8:00 PM",
-          "done": false,
+          "done": true,
           "type": "ops"
         },
         {
@@ -115,5 +115,5 @@
       ]
     }
   ],
-  "lastUpdated": 1771074360180
+  "lastUpdated": 1771117808945
 }

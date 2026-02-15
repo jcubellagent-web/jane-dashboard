@@ -1,28 +1,12 @@
 {
+  "lastUpdated": 1771105560000,
   "sessions": [
-    {
-      "key": "agent:main:main",
-      "label": "Main Session",
-      "model": "claude-opus-4-6",
-      "totalTokens": 53866,
-      "contextTokens": 200000,
-      "lastChannel": "whatsapp",
-      "updatedAt": 1771099256379
-    },
-    {
-      "key": "agent:main:cron:9c34768e-20e8-487d-b0f1-72aacb0cdc6d",
-      "label": "Cron: X Reply Engagement Cycle",
-      "model": "claude-opus-4-6",
-      "updatedAt": 1771099200059
-    },
-    {
-      "key": "agent:main:cron:7983e0d4-d5af-4fbe-aaf5-1f803f79dbbe",
-      "label": "Cron: Trade Price Monitor",
-      "model": "claude-sonnet-4-5",
-      "totalTokens": 22952,
-      "contextTokens": 200000,
-      "updatedAt": 1771098930364
-    }
-  ],
-  "lastUpdated": 1771099261000
+    {"key": "agent:main:main", "model": "claude-opus-4-6", "tokens": 28393, "channel": "whatsapp"},
+    {"key": "hook-up-remaining-10-sources", "model": "claude-sonnet-4-5", "tokens": 67883, "status": "complete"},
+    {"key": "upload-substack-header", "model": "claude-sonnet-4-5", "tokens": 97687, "status": "complete"},
+    {"key": "hook-up-top5-sources", "model": "claude-sonnet-4-5", "tokens": 76011, "status": "complete"},
+    {"key": "post-weekend-special-thread", "model": "claude-sonnet-4-5", "tokens": 133466, "status": "complete"},
+    {"key": "Trade Price Monitor", "model": "claude-sonnet-4-5", "tokens": 24309, "status": "active"},
+    {"key": "X Stats Scrape", "model": "claude-sonnet-4-5", "tokens": 34277, "status": "active"}
+  ]
 }

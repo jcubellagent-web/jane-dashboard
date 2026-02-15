@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1771128982306,
+  "lastUpdated": 1771129180119,
   "evm": {
     "address": "0xe8f6f50c79d24ef271764447E46f66f1Ef4Cae8F",
     "network": "Base",
@@ -26,11 +26,11 @@
         "symbol": "POPCAT",
         "name": "Popcat",
         "amount": 222.07,
-        "usdValue": 0.01,
+        "usdValue": 11.1,
         "mint": "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr",
-        "priceUsd": 5.92e-05
+        "priceUsd": 0.05
       }
     ],
-    "totalUsd": 158.98
+    "totalUsd": 170.07
   }
 }

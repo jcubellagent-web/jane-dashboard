@@ -2276,14 +2276,10 @@
                     ]);
                     if (!data) return;
                     const container = document.getElementById('wallet-content');
+                    // Traded token symbols — shown in Active Trades, exclude from wallet to avoid double-count
+                    const tradedSymbols = new Set((tradesData?.openPositions || []).map(p => (p.token || p.symbol || '').toUpperCase()));
+                    // Wallet total already includes traded tokens; don't add trade values again
                     let totalUsd = (data.evm?.totalUsd||0) + (data.solana?.totalUsd||0);
-                    // Include open trade values in total balance
-                    if (tradesData?.openPositions) {
-                        tradesData.openPositions.forEach(p => {
-                            const val = (p.currentPrice||p.entryPrice||0) * (p.amount||0);
-                            if (val > 0) totalUsd += val;
-                        });
-                    }
                     if (tradesData?.budget?.realizedPnl) {
                         totalUsd += tradesData.budget.realizedPnl;
                     }
@@ -2318,9 +2314,9 @@
                                 </div>`;
                             }).join('')
                             : '<div class="wallet-empty">No tokens</div>';
-                        const chainUsdDisplay = isSolanaChain
-                            ? Number(chain.totalUsd||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})
-                            : Number(chain.totalUsd||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+                        // Exclude traded tokens from chain total (shown in Active Trades instead)
+                        const chainUsdVal = (chain.balances||[]).filter(b => !tradedSymbols.has((b.symbol||b.token||'').toUpperCase())).reduce((s,b) => s + (b.usdValue||b.usd||0), 0);
+                        const chainUsdDisplay = Number(chainUsdVal).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
                         return `<div class="wallet-chain-card">
                             <div class="wallet-chain-top">
                                 <div class="wallet-chain-id">

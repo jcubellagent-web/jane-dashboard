@@ -2026,13 +2026,10 @@
                         fetchJSON('/trades.json').catch(() => null)
                     ]);
                     if (!data) return;
+                    // Traded token symbols to exclude from wallet display (avoid double-count)
+                    const tradedSymbols = new Set((tradesData?.openPositions || []).map(p => (p.token || p.symbol || '').toUpperCase()));
+                    // Total = wallet total (already includes traded tokens) + realized PnL
                     let totalUsd = (data.evm?.totalUsd || 0) + (data.solana?.totalUsd || 0);
-                    if (tradesData?.openPositions) {
-                        tradesData.openPositions.forEach(p => {
-                            const val = (p.currentPrice || p.entryPrice || 0) * (p.amount || 0);
-                            if (val > 0) totalUsd += val;
-                        });
-                    }
                     if (tradesData?.budget?.realizedPnl) totalUsd += tradesData.budget.realizedPnl;
                     document.getElementById('wallet-total').textContent = '$' + totalUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
@@ -2040,7 +2037,9 @@
                     const truncA = a => a ? a.slice(0, 6) + '…' + a.slice(-4) : '';
                     function chainHtml(chain, label, symbol) {
                         if (!chain) return '';
-                        const usd = '$' + Number(chain.totalUsd || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        // Exclude traded tokens from chain total to avoid double-count with Active Trades
+                        const chainUsdVal = (chain.balances || []).filter(b => !tradedSymbols.has((b.symbol||'').toUpperCase())).reduce((s, b) => s + (b.usdValue || 0), 0);
+                        const usd = '$' + Number(chainUsdVal).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                         const balRows = (chain.balances || []).filter(b => (b.symbol||'').toUpperCase() === symbol.toUpperCase()).map(b => {
                             const sym = b.symbol || '?';
                             const isSol = sym.toLowerCase() === 'sol';

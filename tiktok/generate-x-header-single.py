@@ -103,13 +103,21 @@ def generate_thread_header(
     font_headline = load_bold(34)
     font_storm = load_bold(26)
     
+    # Big "gm" for morning brief
+    if thread_type == "DAILY BRIEF":
+        font_gm = load_bold(120)
+        glow(draw, (30, -10), "gm", font_gm, NEON_GREEN, r=6)
+        badge_y_start = 115
+    else:
+        badge_y_start = 15
+
     # Type badge
     badge_text = f"AI {thread_type}"
-    draw.rectangle([(30, 15), (30 + len(badge_text)*16 + 24, 55)], fill=NEON_CYAN, outline=None)
-    draw.text((42, 18), badge_text, font=font_type, fill=BG_DARK)
+    draw.rectangle([(30, badge_y_start), (30 + len(badge_text)*16 + 24, badge_y_start + 40)], fill=NEON_CYAN, outline=None)
+    draw.text((42, badge_y_start + 3), badge_text, font=font_type, fill=BG_DARK)
     
     # Date
-    draw.text((30 + len(badge_text)*16 + 40, 22), date_str, font=font_date, fill=DIM)
+    draw.text((30 + len(badge_text)*16 + 40, badge_y_start + 7), date_str, font=font_date, fill=DIM)
     
     # Main headline
     words = strip_emoji(headline).split()
@@ -125,7 +133,7 @@ def generate_thread_header(
             line = test
     if line: lines.append(line)
     
-    y = 65
+    y = badge_y_start + 50
     for l in lines[:3]:
         glow(draw, (30, y), l, font_title, WHITE, r=4)
         y += 80

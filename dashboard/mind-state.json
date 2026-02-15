@@ -1,7 +1,7 @@
 {
-  "task": "Adding mfer PFP to header image",
-  "steps": [{"label":"Find avatar file","status":"active"},{"label":"Add to generator","status":"pending"}],
-  "thought": "Adding mfer #9581 PFP to the header in a tasteful way",
+  "task": "Making mfer PFP bigger and full-color in header",
+  "steps": [{"label":"Resize avatar larger","status":"active"},{"label":"Regenerate","status":"pending"}],
+  "thought": "Josh wants mfer PFP much bigger, full color, prominent — not matching the neon theme",
   "subAgents": [],
-  "lastUpdated": 1739597200000
+  "lastUpdated": 1739597500000
 }

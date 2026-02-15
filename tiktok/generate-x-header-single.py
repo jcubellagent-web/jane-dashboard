@@ -50,7 +50,7 @@ def glow(draw, pos, text, font, color, r=2):
     draw.text((x, y), text, font=font, fill=color)
 
 def load_mfer(size=100):
-    for p in [os.path.join(WORKSPACE, "tiktok", "mfer_circle.png"), os.path.join(WORKSPACE, "mfer-9581.png"), os.path.join(WORKSPACE, "mfer-avatar.png")]:
+    for p in [os.path.join(WORKSPACE, "mfer-9581.png"), os.path.join(WORKSPACE, "tiktok", "mfer_circle.png"), os.path.join(WORKSPACE, "mfer-avatar.png")]:
         if os.path.exists(p):
             img = Image.open(p).convert("RGBA")
             return img.resize((size, size), Image.LANCZOS)
@@ -182,21 +182,23 @@ def generate_thread_header(
     font_sm = load_font(18)
     draw.text((WIDTH - 190, HEIGHT - 38), "8-tweet thread", font=font_sm, fill=DIM)
     
-    # mfer avatar — bottom-left, next to branding with neon ring
-    avatar = load_mfer(42)
-    if avatar:
-        ax, ay = 20, HEIGHT - 48
-        # Neon glow ring behind avatar
-        for r in range(3, 0, -1):
-            ring_alpha = 40 + (3 - r) * 30
-            draw.ellipse([(ax - r, ay - r), (ax + 42 + r, ay + 42 + r)], outline=(*NEON_CYAN[:3], ring_alpha), width=1)
-        img.paste(avatar, (ax, ay), avatar)
-        # Shift branding text right to make room
-        glow(draw, (72, HEIGHT - 40), "@AgentJc11443", font_brand, NEON_CYAN)
-        draw.text((280, HEIGHT - 38), "AI-Powered News Feed", font=font_sm, fill=DIM)
-    else:
-        glow(draw, (20, HEIGHT - 40), "@AgentJc11443", font_brand, NEON_CYAN)
-        draw.text((240, HEIGHT - 38), "AI-Powered News Feed", font=font_sm, fill=DIM)
+    # mfer PFP — full color, prominent, bottom-left overlapping into content area
+    mfer_size = 140
+    mfer_img = load_mfer(mfer_size)
+    if mfer_img:
+        mx, my = 15, HEIGHT - mfer_size - 55
+        # Subtle drop shadow
+        shadow = Image.new("RGBA", (mfer_size + 10, mfer_size + 10), (0, 0, 0, 0))
+        shadow_draw = ImageDraw.Draw(shadow)
+        shadow_draw.rounded_rectangle([(0, 0), (mfer_size + 9, mfer_size + 9)], radius=12, fill=(0, 0, 0, 80))
+        img.paste(shadow, (mx + 3, my + 3), shadow)
+        # White border frame
+        border = 3
+        draw.rounded_rectangle([(mx - border, my - border), (mx + mfer_size + border, my + mfer_size + border)], radius=12, fill=WHITE)
+        img.paste(mfer_img, (mx, my), mfer_img)
+    # Branding in bottom bar
+    glow(draw, (20, HEIGHT - 40), "@AgentJc11443", font_brand, NEON_CYAN)
+    draw.text((240, HEIGHT - 38), "AI-Powered News Feed", font=font_sm, fill=DIM)
     
     # CRT scanlines
     for sy in range(0, HEIGHT, 3):

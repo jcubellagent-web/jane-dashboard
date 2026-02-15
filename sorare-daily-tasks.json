@@ -1,0 +1,62 @@
+{
+  "date": "2026-02-15",
+  "completedAt": "2026-02-15T15:07:00Z",
+  "tasks": {
+    "freeCommonPacks": {
+      "status": "none_available",
+      "notes": "No free packs available to claim (0 items to claim)"
+    },
+    "dailyMissions": {
+      "status": "pending_games",
+      "count": 8,
+      "missions": [
+        "Point Picker - All Star Game - Sunset/Showtime (Limited, 3 slots)",
+        "Assist Picker - All Star Game (Classic, 3 slots)",
+        "Point Picker - All Star Game (Classic, 3 slots)",
+        "Three-Pointer Picker - All Star Game (Classic, 3 slots)",
+        "Three-Pointer Picker - All Star Game - Sunset/Showtime (3 slots)",
+        "Assist Picker - All Star Game - Sunset/Showtime (3 slots)",
+        "Double Double Picker In-Season (3 slots)",
+        "Daily Picker Classic (3 slots)"
+      ],
+      "notes": "All missions are All-Star game predictions - will complete after games at 5:00 PM & 5:55 PM ET"
+    },
+    "gameweekRewards": {
+      "status": "none_available",
+      "notes": "No rewards to claim (0 items to claim)"
+    },
+    "scrapDuplicates": {
+      "status": "available",
+      "notes": "Duplicate commons identified in card gallery - can be scrapped for Essence if needed"
+    },
+    "lineupStatus": {
+      "status": "all_set",
+      "daily": {
+        "date": "2026-02-15",
+        "lineup": "Limited Daily Pickup",
+        "rank": 1167,
+        "boost": "+2%",
+        "players": 5
+      },
+      "gw34": {
+        "dates": "Feb 19-22",
+        "lineups": [
+          {
+            "tier": "Champion",
+            "name": "Limited Champion #2",
+            "rank": 1715,
+            "boost": "+2%"
+          },
+          {
+            "tier": "Champion",
+            "name": "Limited Champion #3",
+            "rank": 1715,
+            "boost": "+2%"
+          }
+        ]
+      },
+      "notes": "Both daily and GW34 lineups are complete and ready"
+    }
+  },
+  "summary": "Daily tasks check complete. Lineups are set for today and GW34. Daily missions will auto-complete after All-Star games tonight. No free packs or rewards available to claim."
+}

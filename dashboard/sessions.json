@@ -1,15 +1,33 @@
 {
-  "lastUpdated": 1739588000000,
-  "sessions": [
-    {"key": "agent:main:main", "model": "claude-opus-4-6", "channel": "whatsapp", "tokens": 32064},
-    {"key": "cron:X Stats Scrape", "model": "claude-sonnet-4-5", "tokens": 33973},
-    {"key": "subagent:sorare-lineup-optimizer", "model": "claude-sonnet-4-5"},
-    {"key": "cron:Trade Price Monitor", "model": "claude-sonnet-4-5", "tokens": 24786},
-    {"key": "subagent:reply-cycle-makeup", "model": "claude-sonnet-4-5", "tokens": 66054},
-    {"key": "cron:Substack Daily Digest", "model": "claude-opus-4-6", "tokens": 65841},
-    {"key": "cron:X Reply Engagement", "model": "claude-opus-4-6", "tokens": 91333},
-    {"key": "cron:X Daily Recap", "model": "claude-opus-4-6"},
-    {"key": "cron:X Reply-to-Replies", "model": "claude-sonnet-4-5", "tokens": 112099},
-    {"key": "cron:X Update Brief 3PM", "model": "claude-opus-4-6", "tokens": 30122}
+  "lastUpdated": 1739646000000,
+  "activeSessions": [
+    {
+      "key": "agent:main:cron:35e0a42c-3c02-45da-b566-acf0f15784bc",
+      "label": "Cron: X Afternoon Refresh - 2:00 PM",
+      "model": "claude-opus-4-6",
+      "status": "running"
+    }
+  ],
+  "recentCompleted": [
+    {
+      "key": "agent:main:subagent:823c832f",
+      "label": "Wallet widget slim-down (desktop)",
+      "status": "done"
+    },
+    {
+      "key": "agent:main:subagent:53bcf02d",
+      "label": "Wallet widget slim-down (mobile)",
+      "status": "done"
+    },
+    {
+      "key": "agent:main:cron:9c34768e",
+      "label": "X Replies 12:30 PM",
+      "status": "done"
+    },
+    {
+      "key": "agent:main:cron:db53eb61",
+      "label": "X Stats Scrape",
+      "status": "done"
+    }
   ]
 }

@@ -1,9 +1,9 @@
 {
   "plan": {
-    "date": "2026-02-14",
+    "date": "2026-02-15",
     "threads": {
       "planned": 3,
-      "completed": 2,
+      "completed": 0,
       "schedule": [
         "08:00",
         "14:00",
@@ -13,12 +13,12 @@
         {
           "time": "08:00",
           "name": "Daily Morning Brief",
-          "status": "done"
+          "status": "pending"
         },
         {
           "time": "14:00",
           "name": "Afternoon Refresh",
-          "status": "done"
+          "status": "pending"
         },
         {
           "time": "19:30",
@@ -29,7 +29,7 @@
     },
     "replies": {
       "planned": 14,
-      "completed": 9,
+      "completed": 3,
       "cadence": "3-4 quality replies, 3x/day + reply-to-replies ~5PM",
       "schedule": [
         "10:00",
@@ -41,12 +41,17 @@
         {
           "time": "10:00",
           "name": "X Replies (10 AM)",
-          "status": "done"
+          "status": "pending"
+        },
+        {
+          "time": "12:30",
+          "name": "X Replies (12:30 PM cron)",
+          "status": "completed"
         },
         {
           "time": "15:00",
           "name": "X Replies (3 PM)",
-          "status": "done"
+          "status": "failed"
         },
         {
           "time": "~17:00",
@@ -56,15 +61,16 @@
         {
           "time": "20:00",
           "name": "X Replies (8 PM)",
-          "status": "done"
+          "status": "pending"
         }
       ]
     },
     "totalPlanned": 17,
-    "totalCompleted": 10
+    "totalCompleted": 3
   },
-  "lastUpdated": "2026-02-14T20:00:00.000Z",
+  "lastUpdated": "2026-02-15T20:30:00.000Z",
   "notes": [
-    "Weekend Special thread posted on 2026-02-14 at 4:08 PM ET"
+    "3:30 PM cron FAILED: Browser control service timeout",
+    "12:30 PM cron completed: 3 replies to @BritishHodl (25.8K views), @rcbregman (67.1K), @ClaesBackman (10.9K)"
   ]
 }

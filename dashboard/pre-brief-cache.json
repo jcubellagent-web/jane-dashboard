@@ -1,290 +1,196 @@
 {
-  "lastUpdated": "2026-02-14T12:30:00Z",
-  "date": "2026-02-14",
-  "dayOfWeek": "Saturday",
+  "lastUpdated": 1771158736510,
+  "date": "2026-02-15",
+  "dayOfWeek": "Sunday",
   "economicCalendar": {
-    "note": "Saturday \u2014 light calendar, no major US releases",
-    "majorEvents": [],
-    "internationalEvents": [
+    "thisWeek": [
       {
-        "event": "CPI YY",
-        "country": "Malawi",
-        "time": "11:00 AM UTC",
-        "for": "Jan",
-        "actual": "24.9",
-        "prior": "26"
+        "date": "2026-02-13",
+        "event": "CPI (January)",
+        "actual": "+0.3% m/m",
+        "note": "Released Thursday \u2014 hot print"
       },
       {
-        "event": "CPI YY",
-        "country": "Saudi Arabia",
-        "for": "Jan",
-        "prior": "2.1"
+        "date": "2026-02-17",
+        "event": "Presidents Day \u2014 Markets Closed",
+        "impact": "HIGH"
       },
       {
-        "event": "GDP YY",
-        "country": "Peru",
-        "for": "Dec",
-        "prior": "1.53"
+        "date": "2026-02-18",
+        "event": "Empire State Manufacturing Index",
+        "impact": "MEDIUM"
       },
       {
-        "event": "Business Confidence Idx",
-        "country": "South Africa",
-        "for": "Jan",
-        "prior": "132.3"
+        "date": "2026-02-19",
+        "event": "FOMC Minutes (January meeting)",
+        "impact": "HIGH"
+      },
+      {
+        "date": "2026-02-20",
+        "event": "Initial Jobless Claims",
+        "impact": "MEDIUM"
+      },
+      {
+        "date": "2026-02-20",
+        "event": "Philadelphia Fed Manufacturing",
+        "impact": "MEDIUM"
+      },
+      {
+        "date": "2026-02-21",
+        "event": "Existing Home Sales",
+        "impact": "MEDIUM"
+      },
+      {
+        "date": "2026-02-21",
+        "event": "S&P Global PMI Flash",
+        "impact": "HIGH"
       }
     ],
-    "upcomingWeek": "Presidents' Day Monday (markets closed). Watch for: Retail Sales (Tue), FOMC Minutes (Wed), Housing Starts (Thu), Leading Indicators (Fri)"
+    "flags": [
+      "CPI came in hot (+0.3% m/m)",
+      "FOMC Minutes Wednesday \u2014 key for rate cut expectations",
+      "Presidents Day Monday \u2014 no trading"
+    ],
+    "lastUpdated": 1771158736510
   },
   "marketData": {
-    "topGainers": [
-      {
-        "ticker": "RIME",
-        "price": "3.595",
-        "change_pct": "+232.87%"
-      },
-      {
-        "ticker": "JDZG",
-        "price": "3.81",
-        "change_pct": "+125.44%"
-      },
-      {
-        "ticker": "MLEC",
-        "price": "8.63",
-        "change_pct": "+69.22%"
-      }
+    "finnhubNews": [
+      "More companies beating Wall Street expectations \u2014 hasn't helped investors",
+      "Safer chip stocks boomed this year \u2014 too late to buy?",
+      "Memory-chip stocks still cheap, especially overseas",
+      "Polymarket back in US with free grocery store",
+      "Stock market reflecting fears of AI apocalypse for white-collar jobs",
+      "Crypto investors: new tax form could cause overpayment",
+      "AI riptide could seep into Fed decisions and housing market"
     ],
-    "topLosers": [
-      {
-        "ticker": "POAS",
-        "price": "1.10",
-        "change_pct": "-82.87%"
-      },
-      {
-        "ticker": "ANPA",
-        "price": "31.13",
-        "change_pct": "-50.05%"
-      },
-      {
-        "ticker": "BRAI",
-        "price": "22.77",
-        "change_pct": "-48.87%"
-      }
-    ],
-    "earningsNextWeek": [
-      "GHC (Feb 20)",
-      "WBD (Feb 20)",
-      "PPL (Feb 20)",
-      "OIS (Feb 20)"
-    ]
+    "alphaVantage": {
+      "topGainers": [
+        "RIME +232.9%",
+        "JDZG +125.4%",
+        "MLEC +69.2%"
+      ],
+      "topLosers": [
+        "POAS -82.9%",
+        "ANPA -50.0%",
+        "BRAI -48.9%"
+      ],
+      "mostActive": [
+        "SOXS -2.5% (656M vol)",
+        "NVDA -2.2% (159M vol)",
+        "IVDA +16.2% (199M vol)"
+      ]
+    },
+    "lastUpdated": 1771158736510
   },
   "crypto": {
-    "trending": [
-      {
-        "name": "Bittensor",
-        "symbol": "TAO",
-        "rank": 42,
-        "change_24h": "+25.6%"
+    "top10": {
+      "BTC": {
+        "price": 70323,
+        "change24h": 0.0
       },
-      {
-        "name": "pippin",
-        "symbol": "PIPPIN",
-        "rank": 89,
-        "change_24h": "+24.7%"
+      "ETH": {
+        "price": 2064.88,
+        "change24h": -1.5
       },
-      {
-        "name": "Pudgy Penguins",
-        "symbol": "PENGU",
-        "rank": 107,
-        "change_24h": "+13.5%"
+      "XRP": {
+        "price": 1.56,
+        "change24h": 6.0
       },
-      {
-        "name": "Pi Network",
-        "symbol": "PI",
-        "rank": 54,
-        "change_24h": "+9.0%"
+      "BNB": {
+        "price": 629.48,
+        "change24h": -0.4
       },
-      {
-        "name": "Solana",
-        "symbol": "SOL",
-        "rank": 7,
-        "change_24h": "+8.9%"
+      "SOL": {
+        "price": 89.35,
+        "change24h": 2.6
       },
-      {
-        "name": "Bitcoin",
-        "symbol": "BTC",
-        "rank": 1,
-        "change_24h": "+5.0%"
+      "DOGE": {
+        "price": 0.112,
+        "change24h": 12.1
       },
-      {
-        "name": "Espresso",
-        "symbol": "ESP",
-        "rank": 615,
-        "change_24h": "+2.7%"
-      },
-      {
-        "name": "Aztec",
-        "symbol": "AZTEC",
-        "rank": 388,
-        "change_24h": "-6.0%"
+      "TRX": {
+        "price": 0.281,
+        "change24h": -0.9
       }
+    },
+    "trending": [
+      "PENGU +5.2%",
+      "PI +10.1%",
+      "PEPE +18.1%",
+      "VVV (Venice Token) +37.1%",
+      "XRP +6.0%",
+      "PIPPIN +10.3%",
+      "TAO -4.2%"
     ],
-    "keyNews": [
-      "Robinhood Chain testnet launched \u2014 financial-grade Ethereum L2 on Arbitrum for tokenized RWAs",
-      "Stripe launching x402 machine payments for AI agents",
-      "LayerZero new chain launch",
-      "Memecoins & AI tokens leading market, BTC range-bound below $70K",
-      "Polymarket sues Massachusetts over prediction market regulation"
-    ]
+    "lastUpdated": 1771158736510
   },
   "aiNews": {
-    "majorStories": [
-      {
-        "headline": "Anthropic raises $30B Series G at $380B valuation",
-        "detail": "Largest VC deal of 2026, 2nd largest all-time. Led by GIC and Coatue. Anthropic pledged to keep Claude ad-free (poking at OpenAI's ChatGPT ads)",
-        "source": "Crunchbase"
-      },
-      {
-        "headline": "GPT-5.3-Codex-Spark released",
-        "detail": "Smaller ultra-fast coding model optimized for real-time Codex use, 1000+ tokens/sec",
-        "source": "TLDR AI"
-      },
-      {
-        "headline": "Google Gemini Deep Think hits 84.6% on ARC-AGI-2",
-        "detail": "Beats Claude by 1,103 points. Also reached 90% on IMO-ProofBench for autonomous math research",
-        "source": "AlphaSignal"
-      },
-      {
-        "headline": "Z.ai GLM-5: 744B MIT-licensed model",
-        "detail": "Beats closed AI models on engineering tasks. Major open-source milestone",
-        "source": "AlphaSignal"
-      },
-      {
-        "headline": "Claude Opus 4.6 extended thinking improvements",
-        "detail": "Thinks smarter with better reasoning chains",
-        "source": "The Batch / DeepLearning.AI"
-      },
-      {
-        "headline": "xAI restructures into four teams; co-founders leave",
-        "detail": "Tony Wu and Jimmy Ba depart. xAI joins SpaceX partnership",
-        "source": "TLDR AI / The Batch"
-      },
-      {
-        "headline": "OpenAI adds ads to ChatGPT free tier",
-        "detail": "Free tier gets ads beside responses. Anthropic counters with ad-free pledge",
-        "source": "AlphaSignal / Axios"
-      },
-      {
-        "headline": "Ex-GitHub CEO Dohmke raises $60M for Entire",
-        "detail": "New AI coding startup from former GitHub leader",
-        "source": "AlphaSignal"
-      },
-      {
-        "headline": "Former OpenAI/Anthropic employees warn of AI dangers",
-        "detail": "Hollywood has a new AI scare; ex-employees speaking out",
-        "source": "Morning Brew"
-      },
-      {
-        "headline": "MiniMax M2.5 scores 80.2% SWE-Bench",
-        "detail": "Claude powers 4% of all commits",
-        "source": "AlphaSignal"
-      },
-      {
-        "headline": "ByteDance developing AI chip, in talks with Samsung",
-        "detail": "Taiwan hikes 2026 GDP forecast to 7.7% on AI demand",
-        "source": "Reuters"
-      },
-      {
-        "headline": "Harvard AI workload study (8-month field study)",
-        "detail": "Anthropic Opus 4.6 sabotage behaviors documented in 6 controlled tests",
-        "source": "AlphaSignal"
-      }
+    "headlines": [
+      "Anthropic raises $30B at $380B valuation \u2014 2nd largest VC round ever",
+      "Anthropic Super Bowl ads mock OpenAI's ChatGPT ad plans \u2014 pledges Claude stays ad-free",
+      "OpenAI starts testing ads in ChatGPT free tier",
+      "US military used Claude AI in Venezuela raid (The Guardian)",
+      "AI researchers sounding alarm on way out \u2014 safety concerns at OpenAI & Anthropic",
+      "China AI models: Alibaba, ByteDance, Kuaishou keep pace with US (CNBC)",
+      "India AI Impact Summit 2026 starts Feb 16 \u2014 Pichai, Altman, Amodei attending",
+      "Grok gains US market share amid sexualized images backlash",
+      "SaaStr rebrands to \"SaaStr AI\" \u2014 software companies rushing AI identity (NYT)",
+      "SpaceX acquires xAI \u2014 combined valuation ~$1.25 trillion",
+      "2026 Winter Olympics in session \u2014 NBC using AI-powered Olympic guide OLI",
+      "GPT-5.3-Codex-Spark: ultra-fast coding model (1000+ tok/sec) for real-time Codex",
+      "Gemini Deep Think: 84.6% ARC-AGI-2, 90% IMO-ProofBench \u2014 leading reasoning benchmarks",
+      "Z.ai GLM-5: 744B open-source model beating closed AI on engineering",
+      "Claude powers 4% of all code commits globally",
+      "Ex-GitHub CEO Dohmke raises $60M for Entire (AI coding)",
+      "MiniMax M2.5: 80.2% SWE-Bench score",
+      "Customer support hiring down 65% in 2 years \u2014 AI's most tangible job displacement",
+      "Robinhood Chain testnet: Ethereum L2 for tokenized RWAs",
+      "Stripe x402: machine payments for AI agents",
+      "India AI Impact Summit starts tomorrow \u2014 Pichai, Altman, Amodei in New Delhi"
     ],
-    "providerUpdates": {
-      "anthropic": "$30B Series G at $380B, Claude ad-free pledge, Cowork for Windows released",
-      "openai": "GPT-5.3-Codex-Spark (fast coding), ChatGPT ads in free tier, device delayed",
-      "google": "Gemini Deep Think (84.6% ARC-AGI-2, 90% IMO-ProofBench), AI Studio Omnibar",
-      "xai": "Restructured into 4 teams, co-founders leaving, SpaceX partnership",
-      "meta": "No major updates this cycle",
-      "mistral": "Updates mentioned in AlphaSignal",
-      "deepseek": "No major updates this cycle",
-      "zhipu": "GLM-5 744B released (MIT license), beats closed models on engineering"
-    }
+    "lastUpdated": 1771158736510
   },
   "vcPeDeals": {
-    "topDeals": [
+    "megaDeals": [
       {
         "company": "Anthropic",
         "amount": "$30B",
-        "round": "Series G",
         "valuation": "$380B",
-        "sector": "Generative AI",
-        "lead": "GIC, Coatue"
-      },
-      {
-        "company": "Apptronik",
-        "amount": "$520M",
-        "round": "Series A extension",
-        "total": "$935M",
-        "sector": "Humanoid Robots"
-      },
-      {
-        "company": "Inertia Enterprises",
-        "amount": "$450M",
-        "round": "Series A",
-        "sector": "Fusion Energy",
-        "lead": "Bessemer Venture Partners"
-      },
-      {
-        "company": "Axiom Space",
-        "amount": "Undisclosed large round",
-        "sector": "Space Tech"
-      },
-      {
-        "company": "Entire (ex-GitHub CEO)",
-        "amount": "$60M",
-        "sector": "AI Coding"
-      },
-      {
-        "company": "Goodfire",
-        "amount": "Large round",
-        "sector": "AI"
+        "stage": "Late",
+        "note": "2nd largest VC round ever"
       },
       {
         "company": "Waymo",
         "amount": "$16B",
-        "sector": "Autonomous Vehicles"
+        "stage": "Late",
+        "note": "Largest autonomy round"
+      },
+      {
+        "company": "SpaceX-xAI merger",
+        "valuation": "~$1.25T",
+        "note": "Landmark AI + space integration"
       }
     ],
-    "maActivity": {
-      "headline": "US M&A megadeals surge 111.5% YoY in early 2026",
-      "totalDealValue": "Up 127% vs year ago",
-      "keyDeals": [
-        "Devon Energy + Coterra Energy: $58B merger for AI data center power",
-        "$40B AI Infrastructure Partnership (Nvidia + Microsoft) acquires Aligned Data Centers",
-        "Palo Alto Networks acquiring CyberArk (identity/security consolidation)"
-      ],
-      "trend": "AI Supercycle driving 'Great Rebound' \u2014 from software experimentation to physical infrastructure mandate. 3 consecutive Fed rate cuts unlocked deal flow."
-    }
+    "trends": [
+      "AI startups captured $270.2B of $512.6B total VC in 2025 (52.7%)",
+      "Mega-round dominance: fewer deals but much larger rounds",
+      "PitchBook: 2026 may mark rebalancing in AI capital allocation",
+      "Crunchbase: 2,300+ AI companies likely to be acquired, 443 likely IPO",
+      "Physical AI & infrastructure now capital-intensive rollouts, not research"
+    ],
+    "lastUpdated": 1771158736510
   },
   "enterpriseSaaSAI": {
-    "keyUpdates": [
-      {
-        "company": "Salesforce",
-        "ticker": "CRM",
-        "update": "Wall Street bullish ahead of FQ4 2026 earnings. Agentforce token consumption rising. Prior Q: $900M AI ARR (120% YoY), 5,000+ Agentforce deals, RPO $63.4B (+11%)"
-      },
-      {
-        "company": "ServiceNow",
-        "ticker": "NOW",
-        "update": "Q4 strong \u2014 AI workflow adoption scaling faster than standalone copilots. Guided 20% sub revenue growth, 32% op margin, 36% FCF margin for 2026"
-      },
-      {
-        "company": "Palantir",
-        "ticker": "PLTR",
-        "update": "Beat Q4 estimates massively. FY2026 guidance $7.18-7.20B vs $6.22B consensus (61% revenue surge). AIP driving commercial growth 54% YoY"
-      }
+    "highlights": [
+      "Palantir Q4 beat: 137% US commercial growth, $7.2B 2026 guide (+61%)",
+      "ServiceNow: $15.5B 2026 sub revenue target (from $12.9B), CEO says $1T company in making",
+      "ServiceNow deepens AI with Anthropic partnership",
+      "Salesforce pioneering \"Agentic Enterprise License Agreement\" (AELA) \u2014 all-you-can-eat Agentforce",
+      "Fortune: AI agents aren't eating SaaS, they're using it \u2014 but pricing models shifting",
+      "Legacy SaaS (CRM, NOW) seeing muted recovery vs AI-native (PLTR, ORCL) post selloff",
+      "ServiceNow moving to consumption/value-based pricing for AI agents"
     ],
-    "theme": "Enterprise AI moving from pilots to production \u2014 workflow-native AI (ServiceNow, Salesforce Agentforce) scaling faster than generic copilots"
+    "lastUpdated": 1771158736510
   },
   "githubTrending": {
     "note": "GitHub trending page didn't render repos via web_fetch. Based on newsletter signals:",
@@ -332,5 +238,87 @@
       "topGainer": "PEPE +21.1%",
       "topLoser": "HYPE -2.4%"
     }
+  },
+  "geopolitics": {
+    "tradeDevelopments": [
+      "US-Taiwan reciprocal trade deal signed: 15% US tariff on Taiwan imports, Taiwan lowering tariffs on US goods",
+      "Major corporations challenging US tariff policy \u2014 consumers bear most costs",
+      "Cuba energy crisis: US tariff threat on oil suppliers squeezing Havana"
+    ],
+    "conflicts": [
+      "US intervention in Venezuela ongoing \u2014 military used Anthropic Claude AI in raid",
+      "Venezuela: sanctions eased Feb 13 \u2014 licenses for international oil/gas companies",
+      "Munich Security Conference: Rubio addresses allies, Ukraine negotiations"
+    ],
+    "sanctions": [
+      "Congress to vote on Russia oil sanctions in ~2 weeks \u2014 pressure on Russian oil",
+      "Trump favors secondary sanctions on countries buying Russian oil (India targeted)",
+      "Venezuela oil sanctions partially eased with new licenses"
+    ],
+    "tariffs": [
+      "US-Taiwan: 15% reciprocal tariff finalized",
+      "Hispanic support for Trump softening over tariff discontent",
+      "Cuba facing energy rationing from tariff-related oil supply disruption"
+    ],
+    "marketImpact": [
+      "Tariff uncertainty keeping markets volatile",
+      "India-France Innovation Year 2026 \u2014 deepening tech/AI cooperation"
+    ],
+    "lastUpdated": 1771158736510
+  },
+  "newsletterDigest": {
+    "keyInsights": [
+      "GPT-5.3-Codex-Spark: ultra-fast coding model (1000+ tok/sec) for real-time Codex use",
+      "Google Gemini Deep Think: 84.6% ARC-AGI-2, 90% IMO-ProofBench \u2014 leading reasoning benchmarks",
+      "Z.ai GLM-5: 744B open-source model beating closed AI on engineering tasks",
+      "Robinhood Chain testnet: Ethereum L2 on Arbitrum for tokenized real-world assets",
+      "Stripe x402: machine payments protocol for AI agents",
+      "Customer support hiring down 65% in 2 years (SaaStr) \u2014 AI's most tangible job impact",
+      "Claude powers 4% of all code commits (AlphaSignal)",
+      "Ex-GitHub CEO Dohmke raises $60M for Entire (AI coding startup)",
+      "MiniMax M2.5: 80.2% SWE-Bench score",
+      "Hollywood AI scare intensifying \u2014 former OpenAI/Anthropic employees sounding alarms"
+    ],
+    "sources": [
+      "TLDR AI",
+      "TLDR Crypto",
+      "AlphaSignal",
+      "The Batch",
+      "Morning Brew",
+      "SaaStr",
+      "The Daily Upside"
+    ],
+    "lastUpdated": 1771158810816
+  },
+  "podcastHighlights": {
+    "episodes": [
+      {
+        "show": "All-In Podcast",
+        "date": "2026-02-13",
+        "topics": [
+          "Prediction markets (Kalshi $1B+, Polymarket $2B)",
+          "Startups moving to AI",
+          "Token/crypto market dynamics"
+        ]
+      },
+      {
+        "show": "Anthony Pompliano",
+        "date": "2026-02-14",
+        "title": "The Bitcoin Rotation No One Sees Coming",
+        "topics": [
+          "Bitcoin rotation thesis",
+          "Cathie Wood insights"
+        ]
+      },
+      {
+        "show": "20VC",
+        "date": "2026-02-12",
+        "topics": [
+          "Venture firm restructuring for AI",
+          "Investing in 10 startups in OpenClaw"
+        ]
+      }
+    ],
+    "lastUpdated": 1771158825210
   }
 }

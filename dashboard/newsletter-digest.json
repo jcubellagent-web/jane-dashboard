@@ -1,81 +1,102 @@
 {
-  "lastUpdated": "2026-02-14T12:30:00Z",
-  "newsletters": {
-    "morningBrew": {
-      "date": "2026-02-14",
-      "subject": "☕ Fake fight",
-      "highlights": ["Hollywood has a new AI scare", "ChatGPT ads mentioned", "Miso Robotics sponsor", "Valentine's Day edition"]
+  "lastUpdated": 1771158810816,
+  "date": "2026-02-15",
+  "newsletters": [
+    {
+      "source": "Morning Brew",
+      "subject": "Candy Brew \u2014 The big business of little sweet treats",
+      "date": "2026-02-15 6:23 AM",
+      "preview": "Business of candy. Weekend edition."
     },
-    "morningBrewPrev": {
-      "date": "2026-02-13",
-      "subject": "☕️ Inside the house",
-      "highlights": ["Former OpenAI/Anthropic employees warn of AI dangers"]
+    {
+      "source": "Morning Brew",
+      "subject": "Fake fight \u2014 Hollywood has a new AI scare",
+      "date": "2026-02-14 5:39 AM",
+      "preview": "Former OpenAI, Anthropic employees warn of AI dangers. Hollywood AI concerns."
     },
-    "tldrAI": {
-      "date": "2026-02-13",
-      "subject": "Codex Spark speed ⚡, Gemini Deep Think 🧠, Anthropic $380B 💰",
-      "highlights": [
-        "GPT-5.3-Codex-Spark: smaller ultra-fast coding model, 1000+ tokens/sec",
-        "Gemini Deep Think launched",
-        "Anthropic valued at $380B"
-      ]
+    {
+      "source": "SaaStr",
+      "subject": "Customer Support Hiring Has Fallen 65% in Just 2 Years",
+      "date": "2026-02-14 8:51 AM",
+      "preview": "AI has almost destroyed customer support hiring. One category most impacted."
     },
-    "tldrAIPrev": {
-      "date": "2026-02-12",
-      "subject": "GLM-5 🤖, ChatGPT skills 🧩, harness engineering 💻",
-      "highlights": ["GLM-5: new MIT-licensed 754B parameter model, significant improvement over GLM-4.7"]
+    {
+      "source": "TLDR AI",
+      "subject": "Codex Spark speed, Gemini Deep Think, Anthropic $380B",
+      "date": "2026-02-13 9:21 AM",
+      "preview": "GPT-5.3-Codex-Spark: ultra-fast coding model, 1000+ tokens/sec. Gemini Deep Think. Anthropic $380B valuation."
     },
-    "tldrCrypto": {
-      "date": "2026-02-13",
-      "subject": "Robinhood Chain Testnet 🪶, Midnight Chain 🌑, RWA Vaults 🏦",
-      "highlights": [
-        "Robinhood launched public testnet for Robinhood Chain — financial-grade Ethereum L2 on Arbitrum",
-        "Designed to support tokenized real-world assets"
-      ]
+    {
+      "source": "TLDR AI",
+      "subject": "GLM-5, ChatGPT skills, harness engineering",
+      "date": "2026-02-12 9:55 AM",
+      "preview": "GLM-5: 754B param MIT-licensed model. Significant improvement over GLM-4.7."
     },
-    "tldrCryptoPrev": {
-      "date": "2026-02-12",
-      "subject": "Stripe and x402 🤖, LayerZero's New Chain ⛓️, Malaysia Stablecoin Adoption 🇲🇾",
-      "highlights": [
-        "Stripe launching machine payments for AI agents (x402 protocol)",
-        "LayerZero new chain",
-        "Malaysia stablecoin adoption"
-      ]
+    {
+      "source": "TLDR Crypto",
+      "subject": "Robinhood Chain Testnet, Midnight Chain, RWA Vaults",
+      "date": "2026-02-13 8:10 AM",
+      "preview": "Robinhood launches Ethereum L2 on Arbitrum for tokenized real-world assets."
     },
-    "alphaSignal": {
-      "date": "2026-02-13",
-      "subject": "🧠 Google's Deep Think hits 84.6% on ARC-AGI-2, beats Claude by 1,103",
-      "highlights": [
-        "Google Deep Think: 84.6% ARC-AGI-2",
-        "Ex-GitHub CEO Dohmke raises $60M for Entire",
-        "MiniMax M2.5 scores 80.2% SWE-Bench",
-        "Claude powers 4% of commits",
-        "OpenAI's fastest coding model released"
-      ]
+    {
+      "source": "TLDR Crypto",
+      "subject": "Stripe and x402, LayerZero's New Chain, Malaysia Stablecoin",
+      "date": "2026-02-12 8:08 AM",
+      "preview": "Stripe launches machine payments for AI agents. LayerZero new chain. Malaysia stablecoin adoption."
     },
-    "alphaSignalPrev": {
-      "date": "2026-02-12",
-      "subject": "🔥 Z.ai GLM-5 744B model beats closed AI on engineering tasks",
-      "highlights": [
-        "Gemini Deep Think reaches 90% IMO-ProofBench",
-        "xAI restructures into four teams",
-        "Google AI Studio gets Omnibar"
-      ]
+    {
+      "source": "AlphaSignal",
+      "subject": "Google's Deep Think hits 84.6% on ARC-AGI-2, beats Claude by 1,103",
+      "date": "2026-02-13 12:53 PM",
+      "preview": "Ex-GitHub CEO raises $60M for Entire. MiniMax M2.5 80.2% SWE-Bench. Claude powers 4% of commits."
     },
-    "theBatch": {
-      "date": "2026-02-13",
+    {
+      "source": "AlphaSignal",
+      "subject": "Z.ai GLM-5 744B model beats closed AI on engineering tasks",
+      "date": "2026-02-12 1:00 PM",
+      "preview": "Gemini Deep Think 90% IMO-ProofBench. xAI restructures into four teams. Google AI studio Omnibar."
+    },
+    {
+      "source": "The Batch (DeepLearning.AI)",
       "subject": "Claude Opus 4.6 Thinks Smarter, xAI Joins SpaceX, AI Outperforms Doctors, Standardized AI Audits",
-      "highlights": [
-        "Claude Opus 4.6 extended thinking improvements",
-        "xAI partnership with SpaceX",
-        "AI outperforming doctors in certain tasks",
-        "Push for standardized AI audits"
-      ]
+      "date": "2026-02-13 2:59 PM",
+      "preview": "Andrew Ng at Sundance Film Festival AI panel."
     },
-    "dailyUpside": {
-      "date": "2026-02-13",
+    {
+      "source": "The Daily Upside",
       "subject": "AI's Utility Players",
-      "highlights": ["Waldorf Astoria as canary in commercial real estate"]
+      "date": "2026-02-13 8:20 AM",
+      "preview": "AI utility plays. Waldorf Astoria: canary in commercial real estate."
+    },
+    {
+      "source": "Ben's Bites",
+      "subject": "Welcome to Ben's Bites",
+      "date": "2026-02-14 4:34 PM",
+      "preview": "Welcome/onboarding email (no content newsletter yet \u2014 Tue/Thu schedule)."
+    },
+    {
+      "source": "Import AI (Jack Clark)",
+      "subject": "Welcome to Import AI",
+      "date": "2026-02-12 9:48 AM",
+      "preview": "Welcome/onboarding \u2014 awaiting first issue."
     }
-  }
+  ],
+  "keyInsights": [
+    "GPT-5.3-Codex-Spark: ultra-fast coding model (1000+ tok/sec) for real-time Codex use",
+    "Google Gemini Deep Think: 84.6% ARC-AGI-2, 90% IMO-ProofBench \u2014 leading reasoning benchmarks",
+    "Z.ai GLM-5: 744B open-source model beating closed AI on engineering tasks",
+    "Robinhood Chain testnet: Ethereum L2 on Arbitrum for tokenized real-world assets",
+    "Stripe x402: machine payments protocol for AI agents",
+    "Customer support hiring down 65% in 2 years (SaaStr) \u2014 AI's most tangible job impact",
+    "Claude powers 4% of all code commits (AlphaSignal)",
+    "Ex-GitHub CEO Dohmke raises $60M for Entire (AI coding startup)",
+    "MiniMax M2.5: 80.2% SWE-Bench score",
+    "Hollywood AI scare intensifying \u2014 former OpenAI/Anthropic employees sounding alarms"
+  ],
+  "notableEmails": [
+    "Josh liked the Friday Substack post (AI Daily Brief \u2014 Anthropic $30B)",
+    "New Substack subscriber to JCAgentleman",
+    "Josh shared calendar invites (Personal & Family + his calendar)",
+    "iCloud calendar collaboration invite from Josh Cubell"
+  ]
 }

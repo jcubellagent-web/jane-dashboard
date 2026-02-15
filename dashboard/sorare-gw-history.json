@@ -1,5 +1,19 @@
 [
   {
+    "gw": "GW34",
+    "dates": "Feb 15, 2026",
+    "status": "live",
+    "rank": null,
+    "totalEntrants": 1076,
+    "percentile": null,
+    "lineups": [
+      {"mvp": "Nikola Jokić", "players": ["Anthony Edwards", "Cade Cunningham", "Jaylen Brown", "Kevin Durant"]}
+    ],
+    "totalScore": null,
+    "topQuartileThreshold": null,
+    "lessons": "Sunday Daily Pickup — limited game slate (5:00 PM & 5:55 PM starts). Used top available players with games today."
+  },
+  {
     "gw": "GW33",
     "dates": "Feb 10-13, 2026",
     "status": "live",

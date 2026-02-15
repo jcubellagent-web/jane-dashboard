@@ -99,18 +99,6 @@
             border-color: rgba(29,155,240,0.2);
             box-shadow: 0 0 12px rgba(29,155,240,0.06), inset 0 0 12px rgba(29,155,240,0.03);
         }
-        /* Premium touch: smooth card entrance animation */
-        @keyframes cardSlideIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .card { animation: cardSlideIn 0.4s ease-out; }
-        .card:nth-child(2) { animation-delay: 0.05s; }
-        .card:nth-child(3) { animation-delay: 0.1s; }
-        .card:nth-child(4) { animation-delay: 0.15s; }
-        .card:nth-child(5) { animation-delay: 0.2s; }
-        /* Active state feedback for tappable elements */
-        .card:active { transform: scale(0.995); transition: transform 0.1s; }
 
         /* Status Bar */
         .status-bar {
@@ -793,26 +781,6 @@
             letter-spacing: 0.05em;
             margin-bottom: 0.3rem;
         }
-        /* Wallet 24h change badge */
-        .wallet-24h-change {
-            font-size: 0.5rem;
-            font-weight: 700;
-            padding: 0.1rem 0.35rem;
-            border-radius: 6px;
-            white-space: nowrap;
-        }
-        .wallet-24h-change.positive {
-            background: rgba(74,222,128,0.15);
-            color: #4ade80;
-        }
-        .wallet-24h-change.negative {
-            background: rgba(239,68,68,0.15);
-            color: #ef4444;
-        }
-        .wallet-24h-change.neutral {
-            background: rgba(255,255,255,0.06);
-            color: rgba(255,255,255,0.5);
-        }
     </style>
 </head>
 <body>
@@ -828,7 +796,7 @@
             <span style="font-size:0.6rem;color:var(--text-dim);font-weight:400;">Josh's Personal Assistant</span>
         </div>
         <div style="display:flex;align-items:center;gap:0.4rem;">
-            <button id="push-btn" style="display:inline-flex;font-size:0.65rem;background:none;border:none;color:rgba(255,255,255,0.3);padding:0.2rem;cursor:pointer;-webkit-tap-highlight-color:transparent;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></button>
+            <button id="push-btn" style="display:inline-flex;font-size:0.65rem;background:none;border:none;color:rgba(255,255,255,0.3);padding:0.2rem;cursor:pointer;-webkit-tap-highlight-color:transparent;">🔔</button>
             <span id="greeting" style="font-size:0.7rem;font-weight:600;color:var(--accent);"></span>
         </div>
     </div>
@@ -839,7 +807,7 @@
         async function toggleDesktopNightMode() {
             const pill = document.getElementById('night-mode-pill');
             desktopNightMode = !desktopNightMode;
-            pill.textContent = 'Toggling...';
+            pill.textContent = '⏳ Toggling...';
             try {
                 const r = await fetch('/api/desktop-night-mode', {
                     method: 'POST',
@@ -850,7 +818,7 @@
                 pill.innerHTML = desktopNightMode ? '<svg style="display:inline-block;vertical-align:middle;width:12px;height:12px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>Day' : '<svg style="display:inline-block;vertical-align:middle;width:12px;height:12px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>Night';
                 pill.className = 'status-pill' + (desktopNightMode ? ' dim' : '');
             } catch(e) {
-                pill.textContent = 'Error';
+                pill.textContent = '❌ Error';
                 desktopNightMode = !desktopNightMode;
                 setTimeout(() => { pill.innerHTML = desktopNightMode ? '<svg style="display:inline-block;vertical-align:middle;width:12px;height:12px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>Day' : '<svg style="display:inline-block;vertical-align:middle;width:12px;height:12px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>Night'; }, 2000);
             }
@@ -859,12 +827,12 @@
         // Refresh desktop browser remotely
         async function refreshDesktop() {
             const pill = document.getElementById('refresh-desktop-pill');
-            pill.textContent = 'Refreshing...';
+            pill.textContent = '⏳ Refreshing...';
             try {
                 const r = await fetch('/api/refresh-desktop', { method: 'POST' });
                 const d = await r.json();
-                pill.textContent = d.ok ? 'Refreshed!' : 'Failed';
-            } catch(e) { pill.textContent = 'Error'; }
+                pill.textContent = d.ok ? '✅ Refreshed!' : '❌ Failed';
+            } catch(e) { pill.textContent = '❌ Error'; }
             setTimeout(() => { pill.innerHTML = '<svg style="display:inline-block;vertical-align:middle;width:12px;height:12px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>Desktop'; }, 2000);
         }
 
@@ -891,9 +859,6 @@
                 <span class="status-pill" id="ram-pill">RAM: --%</span>
                 <span class="status-pill" id="mini2-pill">Mini2: --</span>
                 <span class="status-pill" id="mini1-pill">Mini1: --</span>
-                <span class="status-pill" id="ctx-pill">Ctx: --%</span>
-                <span class="status-pill" id="session-pill">Sess: --%</span>
-                <span class="status-pill" id="weekly-pill">Wk: --%</span>
                 <span class="status-pill green" id="refresh-desktop-pill" style="cursor:pointer;" onclick="event.stopPropagation();refreshDesktop()"><svg style="display:inline-block;vertical-align:middle;width:12px;height:12px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>Desktop</span>
                 <span class="status-pill" id="night-mode-pill" style="cursor:pointer;" onclick="event.stopPropagation();toggleDesktopNightMode()"><svg style="display:inline-block;vertical-align:middle;width:12px;height:12px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>Night</span>
             </div>
@@ -922,12 +887,12 @@
             <div id="conn-datasources" style="display:grid;grid-template-columns:1fr 1fr;gap:0.15rem 0.5rem;"></div>
             <div id="conn-newsletters-section" style="display:none;">
                 <div style="border-top:1px solid rgba(255,255,255,0.05);margin:0.3rem 0;"></div>
-                <div style="font-size:0.55rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim);font-weight:600;margin-bottom:0.2rem;"><svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22 4 12 13 2 4"/></svg>Newsletters</div>
+                <div style="font-size:0.55rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim);font-weight:600;margin-bottom:0.2rem;">📧 Newsletters</div>
                 <div id="conn-newsletters" style="display:grid;grid-template-columns:1fr 1fr;gap:0.15rem 0.5rem;"></div>
             </div>
             <div id="conn-podcasts-section" style="display:none;">
                 <div style="border-top:1px solid rgba(255,255,255,0.05);margin:0.3rem 0;"></div>
-                <div style="font-size:0.55rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim);font-weight:600;margin-bottom:0.2rem;"><svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>Podcasts (14)</div>
+                <div style="font-size:0.55rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim);font-weight:600;margin-bottom:0.2rem;">🎙️ Podcasts (14)</div>
                 <div id="conn-podcasts" style="display:grid;grid-template-columns:1fr 1fr;gap:0.15rem 0.5rem;"></div>
             </div>
         </div>
@@ -1019,10 +984,6 @@
                 <div class="mind-section-label">ACTIONS &amp; TOOLS</div>
                 <div class="mind-steps" id="mind-steps"></div>
             </div>
-            <div class="mind-section" id="mind-decisions-section" style="display:none;">
-                <div class="mind-section-label">DECISION LOG</div>
-                <div id="mind-decisions" style="max-height:120px;overflow-y:auto;scrollbar-width:none;"></div>
-            </div>
         </div>
     </div>
 
@@ -1066,20 +1027,19 @@
                 <div style="display:flex;align-items:center;gap:0.4rem;">
                     <span style="font-size:0.75rem;font-weight:700;color:#4ade80;">MyWallet</span>
                     <span id="wallet-total" style="font-size:0.8rem;font-weight:700;color:#fff;">$--</span>
-                    <span id="wallet-24h-change" class="wallet-24h-change neutral">--</span>
                 </div>
             </div>
             <div style="display:flex;align-items:center;gap:0.4rem;">
                 <button id="wallet-refresh-btn" onclick="event.stopPropagation();refreshWallet(this)" style="background:none;border:none;color:var(--accent);font-size:0.8rem;cursor:pointer;padding:0.2rem;">↻</button>
-                <span id="wallet-chevron" style="font-size:0.6rem;color:rgba(255,255,255,0.4);transition:transform 0.2s;">▼</span>
+                <span id="wallet-chevron" style="font-size:0.6rem;color:rgba(255,255,255,0.4);transition:transform 0.2s;transform:rotate(180deg);">▼</span>
             </div>
         </div>
-        <!-- Expanded details (now includes chains and trades) -->
-        <div id="wallet-expanded" style="display:none;margin-top:0.4rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:0.4rem;">
-            <!-- Chain balances (now inside expanded) -->
-            <div id="wallet-chains" style="display:flex;gap:0.5rem;margin-bottom:0.4rem;"></div>
-            <!-- Active trades (now inside expanded) -->
-            <div id="wallet-trades" style="margin-bottom:0.4rem;"></div>
+        <!-- Chain balances (always visible) -->
+        <div id="wallet-chains" style="display:flex;gap:0.5rem;margin-top:0.4rem;"></div>
+        <!-- Active trades (always visible) -->
+        <div id="wallet-trades" style="margin-top:0.4rem;"></div>
+        <!-- Expanded details -->
+        <div id="wallet-expanded" style="display:block;margin-top:0.4rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:0.4rem;">
             <div id="wallet-budget" style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.3rem;"></div>
             <div id="wallet-closed" style="font-size:0.55rem;color:var(--text-dim);"></div>
         </div>
@@ -1144,28 +1104,22 @@
             const dayNum = Math.floor((Date.now() - birthDate.getTime()) / 86400000);
             document.getElementById('age-pill').textContent = 'Day ' + dayNum;
 
-            if (sessions?.sessions?.length) {
-                const main = sessions.sessions.find(s => s.kind === 'main' || s.key === 'agent:main:main') || sessions.sessions[0];
-                if (main) {
-                    const used = main.totalTokens || main.tokens || 0;
-                    const cap = main.contextTokens || 200000;
-                    const pct = Math.round((used / cap) * 100);
-                    const ctxEl = document.getElementById('ctx-pill');
-                    if (ctxEl) {
-                        ctxEl.textContent = 'Ctx: ' + pct + '%';
-                        ctxEl.className = 'status-pill ' + (pct > 80 ? 'red' : pct > 60 ? '' : 'green');
-                    }
-                }
-            }
             if (system) {
                 document.getElementById('cpu-pill').textContent = 'CPU: ' + (system.cpu || 0) + '%';
+                // Blended RAM: average of Mini #1 + Mini #2 (both 16GB)
                 const m1Ram = system.memory || 0;
                 const m2Ram = system.mini2 ? (system.mini2.memory || 0) : m1Ram;
                 const blendedRam = Math.round((m1Ram + m2Ram) / 2);
                 document.getElementById('ram-pill').textContent = 'RAM: ' + blendedRam + '%';
+
+                // Age pill handled above (day count)
+
+                // Expanded row — combined RAM detail
+                // Main row Mini1 pill
                 const m1Online = system.cpu !== undefined;
                 document.getElementById('mini1-pill').textContent = 'Mini1: ' + (m1Online ? '✓' : '✗');
                 document.getElementById('mini1-pill').className = 'status-pill ' + (m1Online ? 'green' : 'red');
+
                 const m2 = document.getElementById('mini2-pill');
                 if (system.mini2) {
                     if (system.mini2.online) {
@@ -1178,23 +1132,6 @@
                     document.getElementById('ram-detail-pill').textContent = 'M1: ' + (system.memory || 0) + '% · M2: ' + (system.mini2.memory || 0) + '%';
                 }
             }
-            // Usage limits
-            try {
-                const limits = await fetchJSON('/usage-limits.json');
-                if (limits) {
-                    const timeUntil = (iso) => { const ms = new Date(iso).getTime() - Date.now(); if (ms <= 0) return 'now'; const h = Math.floor(ms/3600000), m = Math.floor((ms%3600000)/60000); return h > 24 ? Math.floor(h/24)+'d' : h ? h+'h'+m+'m' : m+'m'; };
-                    if (limits.session) {
-                        const p = limits.session.pct;
-                        const el = document.getElementById('session-pill');
-                        if (el) { el.textContent = 'Sess: '+p+'%'; el.className = 'status-pill '+(p>80?'red':p>50?'':'green'); }
-                    }
-                    if (limits.weekly) {
-                        const p = limits.weekly.pct;
-                        const el = document.getElementById('weekly-pill');
-                        if (el) { el.textContent = 'Wk: '+p+'%'; el.className = 'status-pill '+(p>80?'red':p>50?'':'green'); }
-                    }
-                }
-            } catch(e) {}
         }
 
         // Ticker tap to expand/collapse
@@ -1383,9 +1320,9 @@
                     div.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">' +
                         '<div>' + threadNum + '<span style="font-size:0.5rem;color:rgba(255,255,255,0.35);">' + timeDisplay + '</span></div>' +
                         '<div style="display:flex;gap:0.4rem;font-size:0.5rem;color:rgba(255,255,255,0.3);">' +
-                        (tweet.views ? '<span><svg style="display:inline-block;vertical-align:middle;width:10px;height:10px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' + tweet.views + '</span>' : '') +
-                        (tweet.likes ? '<span><svg style="display:inline-block;vertical-align:middle;width:10px;height:10px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>' + tweet.likes + '</span>' : '') +
-                        (tweet.reposts ? '<span><svg style="display:inline-block;vertical-align:middle;width:10px;height:10px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>' + tweet.reposts + '</span>' : '') +
+                        (tweet.views ? '<span>👁 ' + tweet.views + '</span>' : '') +
+                        (tweet.likes ? '<span>❤️ ' + tweet.likes + '</span>' : '') +
+                        (tweet.reposts ? '<span>🔁 ' + tweet.reposts + '</span>' : '') +
                         '</div></div>' +
                         '<div style="font-size:0.6rem;color:rgba(255,255,255,0.8);line-height:1.4;white-space:pre-wrap;">' + (tweet.text || '') + '</div>';
                     container.appendChild(div);
@@ -1477,51 +1414,17 @@
             thoughtEl.textContent = data.thought || 'Ready for your next request.';
             thoughtEl.style.color = activeColor;
 
-            // Actions & Tools (steps) — each step colored by its own tool/model + Decisions Log
+            // Actions & Tools (steps) — each step colored by its own tool/model
             const stepsEl = document.getElementById('mind-steps');
             if (data.steps && data.steps.length) {
-                const indicators = {
-                    done: '<svg style="width:10px;height:10px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>',
-                    active: '<svg style="width:10px;height:10px;" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="5"/></svg>',
-                    pending: '<svg style="width:10px;height:10px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/></svg>'
-                };
-                const dedupedSteps = data.steps.reduce((acc, step) => {
-                    if (!acc.length || (step.label||step.text||'') !== (acc[acc.length-1].label||acc[acc.length-1].text||'')) acc.push(step);
-                    else acc[acc.length-1] = step;
-                    return acc;
-                }, []);
-                stepsEl.innerHTML = dedupedSteps.map(step => {
+                const indicators = { done: '✓', active: '●', pending: '○' };
+                stepsEl.innerHTML = data.steps.map(step => {
                     const s = step.status || 'pending';
                     const stepColor = modelColors[(step.tool||'').toLowerCase()] || 'var(--accent)';
-                    const badge = step.tool ? `<span style="font-size:0.5rem;padding:1px 5px;border-radius:3px;background:${stepColor}22;color:${stepColor};margin-left:auto;flex-shrink:0;font-weight:600;">${step.tool}</span>` : '';
-                    return `<div class="mind-step ${s}" style="color:${stepColor}"><span class="mind-step-icon">${indicators[s]||indicators.pending}</span><span>${esc(step.label||step.text)}</span>${badge}</div>`;
+                    return `<div class="mind-step ${s}" style="color:${stepColor}"><span class="mind-step-icon">${indicators[s]}</span><span>${esc(step.label)}</span></div>`;
                 }).join('');
             } else {
                 stepsEl.innerHTML = '';
-            }
-            
-            // Append decisions log (with neon SVG icons)
-            const _decIconMap = {
-                'brain': '<svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M9.5 2A5.5 5.5 0 004 7.5c0 1.58.68 3 1.76 4L9.5 15l3.74-3.5A5.48 5.48 0 0015 7.5 5.5 5.5 0 009.5 2z"/><path d="M14.5 2A5.5 5.5 0 0120 7.5c0 1.58-.68 3-1.76 4L14.5 15"/></svg>',
-                'thought': '<svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>',
-                'chart': '<svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>',
-                'trade': '<svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>',
-                'wrench': '<svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>',
-                'lobster': '<svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M4 8l2 2M20 8l-2 2M8 4l1 3M16 4l-1 3"/></svg>',
-            };
-            if (data.decisions && data.decisions.length > 0) {
-                const decisionsHtml = data.decisions.slice(-6).reverse().map(d => {
-                    const time = d.time || '';
-                    const icon = _decIconMap[d.icon] || _decIconMap['thought'];
-                    const mColor = d.model ? (modelColors[d.model.toLowerCase()] || 'rgba(255,255,255,0.5)') : 'rgba(255,255,255,0.5)';
-                    return `<div style="display:flex;gap:0.3rem;align-items:flex-start;padding:0.15rem 0;border-left:2px solid ${mColor};padding-left:0.4rem;margin:0.1rem 0;color:rgba(255,255,255,0.6);font-size:0.6rem;line-height:1.3;">
-                        <span style="flex-shrink:0;font-size:0.5rem;color:rgba(255,255,255,0.25);min-width:36px;">${time}</span>
-                        <span>${icon} ${esc(d.text||'')}</span>
-                    </div>`;
-                }).join('');
-                if (decisionsHtml) {
-                    stepsEl.innerHTML += '<div style="border-top:1px solid rgba(255,255,255,0.06);margin-top:0.3rem;padding-top:0.3rem;">' + decisionsHtml + '</div>';
-                }
             }
         }
 
@@ -1798,7 +1701,7 @@
                     const nlEl = document.getElementById('conn-newsletters');
                     nlEl.innerHTML = sortA(data.newsletters).map(i => `
                         <div style="display:flex;align-items:center;gap:0.25rem;padding:0.1rem 0;font-size:0.6rem;color:rgba(255,255,255,0.7);">
-                            <svg style="width:10px;height:10px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22 4 12 13 2 4"/></svg>
+                            <span style="font-size:0.5rem;">📧</span>
                             <span>${esc(i.name)}</span>
                             ${i.active ? '<span style="color:var(--accent);font-size:0.4rem;">●</span>' : ''}
                         </div>
@@ -1808,7 +1711,7 @@
                     document.getElementById('conn-podcasts-section').style.display = '';
                     document.getElementById('conn-podcasts').innerHTML = sortA(data.podcasts).map(i => `
                         <div style="display:flex;align-items:center;gap:0.25rem;padding:0.1rem 0;font-size:0.6rem;color:rgba(255,255,255,0.7);">
-                            <svg style="width:10px;height:10px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+                            <span style="font-size:0.5rem;">🎙️</span>
                             <span>${esc(i.name)}</span>
                             ${i.active ? '<span style="color:var(--accent);font-size:0.4rem;">●</span>' : ''}
                         </div>
@@ -1843,7 +1746,7 @@
             // Daily tasks
             const tasksEl = document.getElementById('sorare-daily-tasks');
             if (tasksData && tasksData.tasks && tasksData.tasks.length > 0) {
-                let tHtml = '<div class="sorare-section-label"><svg style="display:inline-block;vertical-align:middle;width:10px;height:10px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="14" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg> Daily Tasks</div>';
+                let tHtml = '<div class="sorare-section-label">📋 Daily Tasks</div>';
                 tHtml += '<div class="sorare-lineup" style="padding:0.3rem 0.5rem;">';
                 tasksData.tasks.forEach(t => {
                     const doneClass = t.done ? ' done' : '';
@@ -1876,7 +1779,7 @@
                 const noLevelReq = !reqs.levelRequirement || !reqs.levelRequirement.required;
                 const readyPct = (essReqMet ? 50 : 0) + (noCollectionReq ? 25 : 0) + (noLevelReq ? 25 : 0);
                 const readyColor = readyPct >= 100 ? '#4ade80' : '#a78bfa';
-                let cHtml = '<div class="sorare-section-label"><svg style="display:inline-block;vertical-align:middle;width:10px;height:10px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Crafting Progress</div>';
+                let cHtml = '<div class="sorare-section-label">🔮 Crafting Progress</div>';
                 cHtml += '<div class="sorare-lineup" style="padding:0.4rem 0.5rem;">';
                 // Bar 1: Essence
                 cHtml += '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.2rem;">';
@@ -1891,7 +1794,7 @@
                 if (essNeeded > 0) {
                     cHtml += '<span style="font-size:0.45rem;color:rgba(255,255,255,0.4);">' + essNeeded + ' more needed</span>';
                 } else {
-                    cHtml += '<span style="font-size:0.45rem;color:#4ade80;font-weight:600;"><svg style="display:inline-block;vertical-align:middle;width:8px;height:8px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Enough</span>';
+                    cHtml += '<span style="font-size:0.45rem;color:#4ade80;font-weight:600;">✓ Enough</span>';
                 }
                 cHtml += '</div>';
                 // Bar 2: Requirements readiness
@@ -1903,15 +1806,13 @@
                 cHtml += '<div style="width:' + readyPct + '%;height:100%;background:' + readyColor + ';border-radius:3px;transition:width 0.5s;"></div>';
                 cHtml += '</div>';
                 cHtml += '<div style="font-size:0.45rem;color:rgba(255,255,255,0.4);display:flex;flex-wrap:wrap;gap:0.2rem 0.5rem;">';
-                const svgCheck = '<svg style="display:inline-block;vertical-align:middle;width:9px;height:9px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
-                const svgEmpty = '<svg style="display:inline-block;vertical-align:middle;width:9px;height:9px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>';
-                cHtml += '<span>' + (essReqMet ? svgCheck : svgEmpty) + ' Essence</span>';
-                cHtml += '<span>' + svgCheck + ' No collection req</span>';
-                cHtml += '<span>' + svgCheck + ' No level req</span>';
+                cHtml += '<span>' + (essReqMet ? '✅' : '⬜') + ' Essence</span>';
+                cHtml += '<span>✅ No collection req</span>';
+                cHtml += '<span>✅ No level req</span>';
                 cHtml += '</div>';
                 // Overall status
                 if (essPct >= 100) {
-                    cHtml += '<div style="margin-top:0.3rem;text-align:center;font-size:0.55rem;color:#4ade80;font-weight:600;"><svg style="display:inline-block;vertical-align:middle;width:11px;height:11px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Ready to craft a Limited card!</div>';
+                    cHtml += '<div style="margin-top:0.3rem;text-align:center;font-size:0.55rem;color:#4ade80;font-weight:600;">✨ Ready to craft a Limited card!</div>';
                 }
                 cHtml += '</div>';
                 craftEl.innerHTML = cHtml;
@@ -1950,10 +1851,7 @@
             if (fix.lineups.length === 0) {
                 html = '<div style="font-size:0.55rem;color:rgba(255,255,255,0.4);text-align:center;padding:0.5rem;">No lineups set for this matchup</div>';
             } else {
-                const svgLive = '<svg style="display:inline-block;vertical-align:middle;width:10px;height:10px;margin-right:3px;" viewBox="0 0 24 24" fill="#4ade80"><circle cx="12" cy="12" r="6"/></svg>';
-                const svgDone = '<svg style="display:inline-block;vertical-align:middle;width:10px;height:10px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
-                const svgList = '<svg style="display:inline-block;vertical-align:middle;width:10px;height:10px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="14" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg>';
-                html += '<div class="sorare-section-label">' + (isLive ? svgLive + 'GW' + fix.gameWeek + ' Active' : isPast ? svgDone + 'GW' + fix.gameWeek + ' Completed' : svgList + 'GW' + fix.gameWeek + ' Set') + ' — ' + fix.lineups[0].leaderboard + '</div>';
+                html += '<div class="sorare-section-label">' + (isLive ? '🟢 GW' + fix.gameWeek + ' Active' : isPast ? '✅ GW' + fix.gameWeek + ' Completed' : '📋 GW' + fix.gameWeek + ' Set') + ' — ' + fix.lineups[0].leaderboard + '</div>';
                 let teamCounter = 0;
                 fix.lineups.forEach((lb, lbIdx) => {
                     lb.entries.forEach((entry, idx) => {
@@ -1986,7 +1884,7 @@
             if (data.upcomingFixture && data.upcomingFixture.lineups && data.upcomingFixture.lineups.length > 0) {
                 const upStart = new Date(data.upcomingFixture.startDate);
                 const upDateStr = (upStart.getMonth()+1) + '/' + upStart.getDate();
-                let upHtml = '<div class="sorare-section-label" style="margin-top:0.3rem;"><svg style="display:inline-block;vertical-align:middle;width:10px;height:10px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> GW' + data.upcomingFixture.gameWeek + ' Upcoming (Feb ' + upStart.getDate() + '-' + new Date(data.upcomingFixture.endDate).getDate() + ')</div>';
+                let upHtml = '<div class="sorare-section-label" style="margin-top:0.3rem;">📅 GW' + data.upcomingFixture.gameWeek + ' Upcoming (Feb ' + upStart.getDate() + '-' + new Date(data.upcomingFixture.endDate).getDate() + ')</div>';
                 data.upcomingFixture.lineups.forEach(lb => {
                     lb.entries.forEach((entry, idx) => {
                         upHtml += '<div class="sorare-lineup" style="opacity:0.7;">';
@@ -2009,7 +1907,7 @@
                 const ul = tasksData.upcomingLineups;
                 const upStart = new Date(ul.startDate);
                 const upEnd = new Date(ul.endDate);
-                let upHtml = '<div class="sorare-section-label" style="margin-top:0.3rem;"><svg style="display:inline-block;vertical-align:middle;width:10px;height:10px;margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> GW' + (data.upcomingFixture ? data.upcomingFixture.gameWeek : ul.gameWeek) + ' Planned (Feb ' + upStart.getDate() + '-' + upEnd.getDate() + ')</div>';
+                let upHtml = '<div class="sorare-section-label" style="margin-top:0.3rem;">📅 GW' + (data.upcomingFixture ? data.upcomingFixture.gameWeek : ul.gameWeek) + ' Planned (Feb ' + upStart.getDate() + '-' + upEnd.getDate() + ')</div>';
                 ul.teams.forEach((team, idx) => {
                     upHtml += '<div class="sorare-lineup" style="opacity:0.7;">';
                     upHtml += '<div class="sorare-lineup-header">';
@@ -2032,7 +1930,7 @@
         }
 
         // Wallet card toggle
-        let walletExpanded = false;
+        let walletExpanded = true;
         function toggleWalletCard() {
             walletExpanded = !walletExpanded;
             document.getElementById('wallet-expanded').style.display = walletExpanded ? '' : 'none';
@@ -2047,69 +1945,34 @@
                         fetchJSON('/trades.json').catch(() => null)
                     ]);
                     if (!data) return;
-                    // Traded token symbols to exclude from wallet display (avoid double-count)
-                    const tradedSymbols = new Set((tradesData?.openPositions || []).map(p => (p.token || p.symbol || '').toUpperCase()));
-                    // Total = wallet total (already includes traded tokens) + realized PnL
                     let totalUsd = (data.evm?.totalUsd || 0) + (data.solana?.totalUsd || 0);
+                    if (tradesData?.openPositions) {
+                        tradesData.openPositions.forEach(p => {
+                            const val = (p.currentPrice || p.entryPrice || 0) * (p.amount || 0);
+                            if (val > 0) totalUsd += val;
+                        });
+                    }
                     if (tradesData?.budget?.realizedPnl) totalUsd += tradesData.budget.realizedPnl;
                     document.getElementById('wallet-total').textContent = '$' + totalUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-                    // 24h % change calculation
-                    const now = Date.now();
-                    const changeEl = document.getElementById('wallet-24h-change');
-                    try {
-                        const stored = JSON.parse(localStorage.getItem('walletPrev24h') || '{}');
-                        const hoursOld = stored.timestamp ? (now - stored.timestamp) / 3600000 : 999;
-                        // If baseline is >20h old, snapshot new baseline
-                        if (hoursOld > 20) {
-                            localStorage.setItem('walletPrev24h', JSON.stringify({ total: totalUsd, timestamp: now }));
-                            changeEl.textContent = '--';
-                            changeEl.className = 'wallet-24h-change neutral';
-                        } else {
-                            // Calculate % change from baseline
-                            const prevTotal = stored.total || totalUsd;
-                            const pctChange = prevTotal > 0 ? ((totalUsd - prevTotal) / prevTotal * 100) : 0;
-                            changeEl.textContent = (pctChange >= 0 ? '+' : '') + pctChange.toFixed(1) + '%';
-                            changeEl.className = 'wallet-24h-change ' + (pctChange > 0 ? 'positive' : pctChange < 0 ? 'negative' : 'neutral');
-                        }
-                    } catch(e) {
-                        changeEl.textContent = '--';
-                        changeEl.className = 'wallet-24h-change neutral';
-                    }
 
                     const chainsEl = document.getElementById('wallet-chains');
                     const truncA = a => a ? a.slice(0, 6) + '…' + a.slice(-4) : '';
                     function chainHtml(chain, label, symbol) {
                         if (!chain) return '';
-                        // Exclude traded tokens from chain total to avoid double-count with Active Trades
-                        const chainUsdVal = (chain.balances || []).filter(b => !tradedSymbols.has((b.symbol||'').toUpperCase())).reduce((s, b) => s + (b.usdValue || 0), 0);
-                        const usd = '$' + Number(chainUsdVal).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                        const balRows = (chain.balances || []).filter(b => (b.symbol||'').toUpperCase() === symbol.toUpperCase()).map(b => {
-                            const sym = b.symbol || '?';
-                            const isSol = sym.toLowerCase() === 'sol';
-                            const amt = Number(b.amount || 0).toLocaleString(undefined, { maximumFractionDigits: 6 });
-                            const usdVal = b.usdValue != null ? '$' + Number(b.usdValue).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '';
-                            const dotColor = isSol ? 'background:linear-gradient(135deg,#9945FF,#14F195)' : 'background:#627EEA';
-                            return '<div style="display:flex;justify-content:space-between;align-items:center;padding:0.12rem 0;">' +
-                                '<div style="display:flex;align-items:center;gap:0.25rem;">' +
-                                '<span style="width:6px;height:6px;border-radius:50%;' + dotColor + ';flex-shrink:0;"></span>' +
-                                '<span style="font-size:0.55rem;font-weight:600;color:var(--text);">' + esc(sym) + '</span>' +
-                                '<span style="font-size:0.5rem;color:var(--text-dim);">' + amt + (isSol ? ' SOL' : '') + '</span>' +
-                                '</div>' +
-                                '<span style="font-size:0.55rem;font-weight:700;color:#0052FF;">' + (isSol ? '(' + usdVal + ')' : usdVal) + '</span></div>';
-                        }).join('');
+                        const usd = '$' + Number(chain.totalUsd || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        const mainBal = (chain.balances || []).find(b => (b.symbol || '').toLowerCase() === symbol.toLowerCase());
+                        const amt = mainBal ? Number(mainBal.amount || 0).toLocaleString(undefined, { maximumFractionDigits: 4 }) + ' ' + symbol.toUpperCase() : '';
                         return '<div style="flex:1;background:rgba(255,255,255,0.04);border-radius:8px;padding:0.35rem 0.5rem;">' +
                             '<div style="display:flex;justify-content:space-between;align-items:center;">' +
                             '<span style="font-size:0.6rem;font-weight:600;color:rgba(255,255,255,0.7);">' + esc(label) + '</span>' +
                             '<span style="font-size:0.65rem;font-weight:700;color:var(--accent);">' + usd + '</span></div>' +
-                            '<div style="margin-top:0.2rem;">' + (balRows || '<div style="font-size:0.5rem;color:var(--text-dim);">No tokens</div>') + '</div>' +
+                            '<div style="font-size:0.5rem;color:var(--text-dim);margin-top:0.15rem;">' + esc(amt) + '</div>' +
                             '<div style="display:flex;align-items:center;gap:0.2rem;margin-top:0.15rem;">' +
                             '<span style="font-size:0.45rem;color:rgba(255,255,255,0.3);">' + truncA(chain.address) + '</span>' +
-                            '<button onclick="event.stopPropagation();navigator.clipboard.writeText(\'' + (chain.address || '') + '\');this.innerHTML=\'<svg width=10 height=10 viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;#4ade80&quot; stroke-width=&quot;3&quot;><polyline points=&quot;20 6 9 17 4 12&quot;/></svg>\';setTimeout(()=>this.innerHTML=\'<svg width=10 height=10 viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;#4ade80&quot; stroke-width=&quot;2&quot;><rect x=&quot;9&quot; y=&quot;9&quot; width=&quot;13&quot; height=&quot;13&quot; rx=&quot;2&quot;/><path d=&quot;M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1&quot;/></svg>\',1000)" style="background:none;border:none;cursor:pointer;padding:0;display:inline-flex;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>' +
+                            '<button onclick="event.stopPropagation();navigator.clipboard.writeText(\'' + (chain.address || '') + '\');this.textContent=\'✓\';setTimeout(()=>this.textContent=\'📋\',1000)" style="background:none;border:none;font-size:0.5rem;cursor:pointer;padding:0;">📋</button>' +
                             '</div></div>';
                     }
-                    const evmHasTokens = data.evm?.balances?.length > 0;
-                    chainsEl.innerHTML = chainHtml(data.solana, 'Solana', 'SOL') + (evmHasTokens ? chainHtml(data.evm, 'Base', 'ETH') : '');
+                    chainsEl.innerHTML = chainHtml(data.solana, 'Solana', 'SOL') + chainHtml(data.evm, 'Base', 'ETH');
 
                     const tradesEl = document.getElementById('wallet-trades');
                     const positions = tradesData?.openPositions || [];
@@ -2224,7 +2087,7 @@
                 // Fallback: try HTTPS port for full push support
                 if (location.protocol === 'http:' && location.port === '3000') {
                     if (btn) { 
-                        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>'; 
+                        btn.textContent = '🔔'; 
                         btn.style.color = 'rgba(255,255,255,0.6)';
                         btn.onclick = () => {
                             // Redirect to HTTPS version for push support
@@ -2235,7 +2098,7 @@
                 }
                 const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
                 const info = `SW: ${'serviceWorker' in navigator}\nPush: ${'PushManager' in window}\nNotification: ${'Notification' in window}\nStandalone: ${standalone}\nUA: ${navigator.userAgent}`;
-                if (btn) { btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" opacity="0.4"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'; btn.style.color = 'rgba(255,255,255,0.3)'; btn.onclick = () => alert(info); }
+                if (btn) { btn.textContent = '🔕'; btn.style.color = 'rgba(255,255,255,0.3)'; btn.onclick = () => alert(info); }
                 return;
             }
             try {
@@ -2246,7 +2109,7 @@
                 const existing = await reg.pushManager.getSubscription();
                 const btn = document.getElementById('push-btn');
                 if (existing) {
-                    if (btn) { btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>'; btn.style.color = 'rgba(74,222,128,0.5)'; btn.onclick = null; }
+                    if (btn) { btn.textContent = '🔔'; btn.style.color = 'rgba(74,222,128,0.5)'; btn.onclick = null; }
                     return;
                 }
                 
@@ -2264,10 +2127,10 @@
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(sub.toJSON())
                         });
-                        if (btn) { btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>'; btn.style.color = 'rgba(74,222,128,0.5)'; btn.onclick = null; btn.style.display = 'inline-flex'; }
+                        if (btn) { btn.textContent = '🔔'; btn.style.color = 'rgba(74,222,128,0.5)'; btn.onclick = null; btn.style.display = 'inline-flex'; }
                     } catch (e) {
                         console.error('Push subscription failed:', e);
-                        if (btn) { btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>'; btn.style.display = 'inline-flex'; btn.onclick = subscribePush; }
+                        if (btn) { btn.textContent = '🔔'; btn.style.display = 'inline-flex'; btn.onclick = subscribePush; }
                     }
                 }
                 // Auto-prompt if in standalone PWA mode
@@ -2709,7 +2572,7 @@ function buildGantt(data){return; // Gantt chart removed
     const active=visibleBars.filter(b=>{return b.start<=nowH&&b.start+b.dur>nowH&&!b.done;}).length;
     const upcoming=visibleBars.filter(b=>b.start>nowH&&!b.done).length;
     html+='<div style="display:flex;justify-content:space-between;margin-top:0.4rem;padding:0.25rem 0.4rem;background:rgba(255,255,255,0.03);border-radius:4px;font-size:8px;">';
-    html+=`<span style="color:rgba(255,255,255,0.3);"><svg style="display:inline-block;vertical-align:middle;width:8px;height:8px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> ${done} done</span>`;
+    html+=`<span style="color:rgba(255,255,255,0.3);">✓ ${done} done</span>`;
     html+=`<span style="color:var(--accent);font-weight:600;">${active>0?'▸ '+active+' active':'—'}</span>`;
     html+=`<span style="color:rgba(255,255,255,0.3);">${upcoming} upcoming</span>`;
     html+='</div>';
@@ -2724,14 +2587,14 @@ function buildGantt(data){return; // Gantt chart removed
 function showGanttTooltip(bar,e){
     const tip=document.getElementById('gantt-tooltip');
     const name=bar.dataset.name, time=bar.dataset.time, cat=bar.dataset.cat, done=bar.dataset.done==='true';
-    const statusIcon=done?'Complete':'Scheduled';
+    const statusIcon=done?'✅ Complete':'🔄 Scheduled';
     const typ=bar.dataset.type||'';
     const threadNum=bar.dataset.threadnum||'';
     const tweets=bar.dataset.tweets||'';
     const count=bar.dataset.count||'';
     let detail='';
-    if(typ==='thread'&&threadNum) detail=`<div style="font-size:8px;color:rgba(255,255,255,0.5);"><svg style="display:inline-block;vertical-align:middle;width:9px;height:9px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Thread #${threadNum} · ${tweets} tweets</div>`;
-    if(typ==='replies'&&count) detail=`<div style="font-size:8px;color:rgba(255,255,255,0.5);"><svg style="display:inline-block;vertical-align:middle;width:9px;height:9px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> ${count} replies this batch</div>`;
+    if(typ==='thread'&&threadNum) detail=`<div style="font-size:8px;color:rgba(255,255,255,0.5);">📝 Thread #${threadNum} · ${tweets} tweets</div>`;
+    if(typ==='replies'&&count) detail=`<div style="font-size:8px;color:rgba(255,255,255,0.5);">💬 ${count} replies this batch</div>`;
     tip.innerHTML=`
         <div style="font-size:10px;font-weight:700;color:var(--accent);margin-bottom:3px;">${name}</div>
         <div style="font-size:8px;color:rgba(255,255,255,0.5);margin-bottom:2px;">⏰ ${time} · ${cat}</div>
@@ -2773,11 +2636,11 @@ function renderCronSchedule(d){
             const border=isNext?'border-left:2px solid #4ade80;padding-left:0.4rem;':'padding-left:0.5rem;';
             const nameStyle=isDone?'text-decoration:line-through;color:rgba(255,255,255,0.25);':'color:rgba(255,255,255,0.7);';
             const timeStyle=isDone?'color:rgba(255,255,255,0.15);':'color:rgba(255,255,255,0.6);';
-            const icon=isDone?'<svg style="display:inline-block;vertical-align:middle;width:10px;height:10px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>':'';
+            const icon=isDone?'✅':'';
             const nextBadge=isNext?'<span style="font-size:7px;background:rgba(74,222,128,0.2);color:#4ade80;padding:0.05rem 0.25rem;border-radius:3px;font-weight:600;margin-left:0.3rem;">NEXT</span>':'';
             h+=`<div style="display:flex;align-items:center;gap:0.3rem;font-size:10px;padding:0.12rem 0;${border}background:${bg};border-radius:2px;">`;
             h+=`<span style="${timeStyle}font-size:9px;min-width:52px;">${j.time}</span>`;
-            h+=`<span style="${nameStyle}">${isDone?icon:''}${j.name}${nextBadge}</span>`;
+            h+=`<span style="${nameStyle}">${isDone?icon+' ':''}${j.name}${nextBadge}</span>`;
             h+=`</div>`;
         });
     });

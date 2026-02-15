@@ -1,0 +1,49 @@
+{
+  "gameweek": "GW34 - Sunday Feb 15",
+  "competition": "Limited Daily Pickup",
+  "lineup": [
+    {
+      "name": "Nikola Jokić",
+      "rarity": "Limited",
+      "position": "MVP",
+      "cost": 63,
+      "momentum": 11,
+      "gameTime": "Sun 5:00 PM",
+      "opponent": "@"
+    },
+    {
+      "name": "Anthony Edwards",
+      "rarity": "Limited",
+      "cost": 47,
+      "momentum": 8,
+      "gameTime": "Sun 5:00 PM",
+      "opponent": "vs"
+    },
+    {
+      "name": "Cade Cunningham",
+      "rarity": "Limited",
+      "cost": 45,
+      "momentum": 6,
+      "gameTime": "Sun 5:00 PM",
+      "opponent": "vs"
+    },
+    {
+      "name": "Jaylen Brown",
+      "rarity": "Limited",
+      "cost": 46,
+      "momentum": 10,
+      "gameTime": "Sun 5:55 PM",
+      "opponent": "vs"
+    },
+    {
+      "name": "Kevin Durant",
+      "rarity": "Limited",
+      "cost": 39,
+      "momentum": 2,
+      "gameTime": "Sun 5:55 PM",
+      "opponent": "vs"
+    }
+  ],
+  "submittedAt": "2026-02-15T02:22:00-05:00",
+  "lockTime": "14h 36m"
+}

@@ -1,0 +1,2523 @@
+===================================
+Podcast: 20vc
+Title: Anthropic's Super Bowl Ad: Who Won & Lost? | Sierra Hits $150M ARR: Is Customer Support Too Crowded?
+Date: 2026-02-12
+Video: https://youtube.com/watch?v=RdunfbobxaY
+===================================
+
+ 
+The idea that software as a category is
+dead is ludicrous to me. I'm like, it's
+tough out there. It's going to be hard.
+Welcome to the technology industry.
+&gt;&gt; Now, today we have Mike Cannon Brooks,
+co-founder of Atlassian, joining us for
+my favorite show of the week.
+&gt;&gt; I just think we have to give up on TAM.
+We just have to let the revenue show us
+the path to TAM. Every category that I
+know of outside of engineering and
+product is at existential risk of
+shrinking seats.
+&gt;&gt; It's the venture capital equivalent of
+you can't get fired for buying IBM,
+right? You can't get fired for sticking
+money in with a 1x preference on the
+consensus winner. This is classic top of
+the bubble stuff.
+Ready to go.
+So excited for this guys. We have a very
+special guest joining the trio in Mike
+Cannon Brooks. Mike, thank you so much
+for joining such a phenomenal group of
+intellectuals.
+&gt;&gt; Thanks for having me.
+&gt;&gt; Now, I I want to start we we saw
+Anthropic release updates which wiped
+billions off the stock market. I want to
+start with Anthropic predicts 149
+billion in ARR in 2029 under the most
+optimistic scenario. The question that
+we ask ourselves is is this just the
+collective budgets of enterprises all
+going to Anthropic
+and how do we think about that?
+&gt;&gt; Well, just to me just to mention it out
+quickly 150 billion
+for entropic. Let's just say if they
+make that number open AI's estimate for
+the same year I checked is 180 right so
+call it you know 350 380 between them
+right you know the total US the total
+worldwide software business is 700
+billion so it's a it's a it would be a
+pretty big chunk unless you expand the
+TAM it's the same old discussion if you
+don't believe in TAM expansion and it's
+a zero sum game then if two companies
+are going to do 400 billion and we can
+probably assume Microsoft who's already
+at 200 billion going to roll over and
+die then yeah they're going to they're
+going to have to take the money away
+from the rest of us. But clearly the bet
+is time expansion
+otherwise it gets really hard. I mean
+that would be the first pass.
+&gt;&gt; Hey Mike, can I ask you a meta question?
+I'm sure you've thought about does does
+all this anthropic revenue at some point
+companies only have so much budgets
+especially CIOS and down at some level
+do you compete with that budget on
+product engineering? I know it's a boost
+for you but on the other hand there's
+only so much budget to get extra seats
+to get extra licenses. Do you feel any
+any meta competition from that or or
+none at all?
+&gt;&gt; Let me take that second. I think you
+also have to work out the revenue stack
+here because like we use Enthropic a
+lot. It's one of one of our biggest
+models. We use you know multiple models.
+Um uh which I think is what most good
+SAS vendors are doing within their
+customers choices, right? Like we use a
+lot of Gemini, a lot of anthropic. We
+have a whole bunch of Llama and Mistral
+running and stuff internally and and a
+bunch of open AI, right? And our job is
+to pick the best model for the best cost
+with the best quality outcome and the
+best speed. Then we have a whole gateway
+that's constantly balancing that. But
+when we spend money on anthropic, don't
+forget we pay AWS and then AWS pay
+anthropic. So if someone spends a
+million on the Alassium platform and we
+spend $200,000 on AI bills or something,
+pick a numbers nowhere near that high
+proportionally, but that goes to AWS
+revenue. And then AWS spend what 150,000
+on anthropic revenue. Don't forget like
+the individual revenue number is not
+necessarily counting the whole stack,
+right? And they have to buy a bunch of
+chips and stuff. So the revenue stacking
+here gets a bit complicated.
+Um because like it there is a whole set
+of layers underneath this, right?
+There's no doubt that's a big number
+though. Um do we compete with the model
+providers? I think this is one of the
+big questions over the long term, right?
+I don't know we've yet worked out for
+all the model providers what they're
+going to do right we use a lot of Gemini
+deep partner with Google
+but obviously you could argue I don't
+know Google Docs and Confluence are
+somewhat competitive the two ways you
+can write a piece of text and
+collaborate on it and change it mega
+corpse in tech competing on one level
+and partnering on other levels that's
+there's nothing new in that I don't
+think um I think we have to be good
+right I think the question the question
+for underneath that is can they all
+afford to shut down their models right?
+That that they get so good they'll only
+use themselves. I I don't believe they
+will given the competition from the
+other three, four before we get to China
+on models or anything else. Right? So,
+I'm not particularly worried about that.
+We have to compete with everybody that's
+providing our customers with the same
+value that we're providing them, right?
+In some era, there's 150 billion for
+Anthropic. It's a lot of CIO budget.
+It does make you wonder, the more I
+read, the more I get confused where that
+money uh is really coming from. Um,
+&gt;&gt; but I think to Rory's point, it depends
+on your question of whether it's zero
+sum,
+&gt;&gt; right? Like I I don't think any of this
+is going to be zero sum. Like people
+say, "Oh, well that's going to swap
+software." And I'm like, "Well, is it
+really swapping for software?" Like, if
+your business is getting more
+productive, you're building more
+products and services, your your quality
+is going up, your speed is going up,
+whatever. You're going to spend money on
+different things. The technology budget
+of most companies over the last 30 years
+has gone up massively, I would argue,
+since 30 years ago when they were buying
+keyboards and mice and stuff like that.
+Uh
+that I don't think that's going to stop.
+I
+&gt;&gt; think the interesting thing about that,
+there's a ton in answer to unpack, but I
+just want to highlight the you have to
+be good sentence because when we're
+going to talk about all the oh what
+happens to SAS and all that, I think
+Mike's big picture comment we should
+remember every time. It turns out if you
+want to make a lot of money, you have to
+be good, right? And you have to compete
+with everyone else for the same dollars.
+And my guess is that will be a recurring
+theme. It's not impossible to succeed.
+You just quote unquote have to be good.
+There's such a lot of complexity here
+because you're right, you have the
+margin stacking. So, you know, a classic
+example is you look at Entropic, it's
+doing a billion dollars in revenue. You
+look at Cursor, it's doing a billion
+dollars in revenue, but it's pretty much
+the same billion dollars. So, you have
+to think about the margin stacking. Then
+on the other hand you have to say to
+yourself if say you're you know if
+Andropic hypothetic was doing a hundred
+billion dollars and all of it was
+through third party ISVS that were also
+adding value and getting more money on
+that it would point to the end market
+would have to expand a lot right if
+everyone's going to eat and grow you're
+going to have to buy into big TAM
+expansion and you're right my yeah you
+software's grown nicely over the year my
+guess is for this kind of growth you
+probably need need more than the trend
+line of the last 20 years, you probably
+need some acceleration on top just
+because the numbers are so big. I mean,
+you know, to go if if An entropy goes
+from 4 and a half billion to and I'm not
+not for a second thing saying I think
+they will. It's just like their number
+to
+150 bill in a world where, you know,
+Microsoft does 200 billion. You're
+basically saying to a rounding error,
+entropic is another Microsoft.
+Open AAI is another Microsoft. And
+that's two more Microsofts which are
+pretty voracious mouths to feed out of
+the same pile of cash. It's, you know,
+there better be more money coming or
+it's going to get pretty kind of short
+around here. I mean, you know, an
+obvious one is when you look at the IT
+spend, you know, you get 6700 billion of
+software. But the stunning thing is you
+have a billion plus or minus of sorry
+trillion of consulting servicesy type
+stuff and if some of the software can
+eat that that's a pretty big slug of
+extra you know budget that's available
+for a more efficient product. So I I
+kind of agree it's it's finding the
+extra money is the thing.
+&gt;&gt; Do you not think that consulting
+services pie actually goes up? I think
+one of the most uh profitable categories
+right now is your accentures on the
+implementation and integration of some
+of these systems in the largest
+enterprises in the world. I tweeted
+this. I said I think they will be more
+revenue generative than the foundation
+model companies in the next two to three
+years as they often are in early stages
+of kind of cycles but actually I think
+that would grow not shrink. N Rory
+&gt;&gt; that kind of stuff maybe. Yes. The you
+know the consulting to help you
+implement AI. Yes. The consulting to
+help you you know morph your code base
+from Fortrron to blah the a market we've
+been looking at a lot is all the
+consulting spend around systems
+integration. You know SAP Oracle
+Netswuite. A lot of that is pretty wrote
+stuff and you know it makes coding look
+hard and there's a lot of automation
+that we think you'll see there. So again
+it's the same thing. It's the swings and
+roundabouts, places where it grows and
+places where you're going to get
+scrunched.
+&gt;&gt; Listen, we we all need these
+consultants, whether they're FDES or
+Accenture. We all we all need them,
+right? We need I think we need them more
+in the age of AI. The only thing that I
+find lost in this in the simplistic
+version, the argument is they have to be
+smarter than they used to be.
+They really do. The average agency um I
+don't I don't know. I mean I I maybe
+I've lost a little bit track of this at
+Atlassian but traditionally in the more
+enterprise Mike there were a lot of
+partner agencies that were helping doing
+big deployments right of Jira and
+Confluence. I'm sure they had to be
+smart, but not quite train the agent
+from scratch. Smart. And maybe
+Atlassian's a bad example, but I can
+tell you only a handful of folks that we
+work with are really smart. Like this is
+why customer success is dead because all
+these B2B companies are trying to
+convert their CS teams to FDES. And I
+don't think even 10% of them can do it.
+They can't really be like product
+engineers. They don't need to code. So,
+I wonder if we have enough consultants
+out there to really do this to to to
+fully f to fully uh lubricate the
+&gt;&gt; I like the argument that we're heading
+into the death of consulting because
+we're going to run out of consultants.
+&gt;&gt; The ones that will do the ones that are
+smart enough
+&gt;&gt; we'll have to make a new factory.
+&gt;&gt; Mike's taking no prisoners here. Okay,
+it's open season. Okay, but the thing
+that's going to stop that is look, their
+economic incentive with the software
+provider is to make this adoptable by
+ordinary people. If the only people who
+can roll out your [&nbsp;__&nbsp;] are wizards, then
+you're going to run out of wizards and
+then you're going to run out of revenue.
+So have mass adoption, you're going to
+need mass simplification. We will build
+those guardrails, right? We do most of
+our customers deploying agents. The
+agents that they deploy themselves when
+they start are relatively simplistic.
+They are small automations and pieces of
+software that make some business process
+go a little quicker. And you could
+argue, well, it's a very minor
+improvement. I said, no, but it's a
+major leap in their learning, right? and
+they're learning and they're controlling
+and they're letting them out slowly and
+they're getting understanding what they
+can and can't do as the technology
+improves and as they find more business
+processes that they can automate with
+software right we can call it an agent
+we can call it whatever we want but like
+that's a pretty normal I would say
+corporate adoption pattern and we're
+super early in that cycle right like
+these companies are they'll tell you
+some sort of fantastic AI story but
+they're not like having millions of
+agents run right over their bank So, how
+do you genuine comment because that all
+makes sense to me and I've said this to
+guys before is like I think one of my
+weaknesses as a VC sometimes I can be
+too incrementalist. That makes sense to
+me is how I'd adopt it, right? How do
+you square that with you know the
+the Wall Street VC buzz that you know
+the entire SAS industry was meant to
+implode in the last two weeks and the
+and new company agents are going to take
+over everywhere. How do you like I don't
+want to put you on the spot on that last
+scene in particular, but how do you
+unless you want to but
+&gt;&gt; on the spot.
+&gt;&gt; Okay, come on. Rory, put put him on the
+spot. Rory, come on.
+&gt;&gt; 24 years of being on the spot. It's
+&gt;&gt; okay. I just didn't want to be rude to
+our guest, but I'm game. Yeah.
+Genuinely, how do you respond to pe like
+how do you respond to the madness of the
+last three weeks where people were like,
+you know, the entire software industry
+is going away and being replaced by AI?
+Because my LPs are asking me, how do you
+think about SAS today? Which, you know,
+what's your what's your thoughts on
+that?
+I I look I've said a few times I don't
+think software is dead. I think software
+is alive and kicking. Um I think it's
+confusing to a lot of people in the
+software industry and maybe that's
+normal. Like to take the most generous
+view. Will every single software and SAS
+company make it through the next 5 to 10
+years? Absolutely not. Will a lot of
+them continue to grow and prosper
+through that 5 to 10 years? Absolutely.
+Is that any different to the last 10
+years? No. I keep saying internally the
+competitors we had in 200 the
+competitors we had in 2005 and 2010 and
+2015 I went and pulled all these old
+documents a whole bunch of those
+companies don't exist they've been
+merged acquired gone out of business
+right and we have a set of competitors
+today that are are new and upcoming and
+we have to compete with those that is
+the history of the technology industry
+and that's going to keep going the idea
+that software as a category is dead is
+ludicrous to me I'm like wait a second
+it it's very efficient for businesses to
+buy pre-anned solutions of technology.
+They don't write everything with
+assembly and they probably still won't.
+&gt;&gt; But can I throw in one one micro
+thought? Do we have my I view Atlassian
+and I'm just a student. I I I didn't
+found it as above the fold. And what I
+mean is um you're not seeing seat
+reduction product and engineering is a
+beneficiary of AI spend right and
+whether it's vibe coding or however we
+mobile we are creating radically more
+software than six months ago. like any
+curve if you look at for mo like it's
+exploding right and at least for a while
+I think that benefits Atlassian because
+I need more tools right I need to track
+more issues more tickets more everything
+I think there's plenty of other spaces
+that are being that are being decimated
+employ I mean if your traditional
+support software like zenesk the the old
+zenesk is growing 0% like we are cutting
+humans and to go to Rory's point I think
+there's some folks that are above the
+fold and there's there's a few that like
+anthropic that are so far above the fold
+We need to figure out how to scroll
+above the top of the monitor. But I
+think more are below the fold. More are
+seeing hits. And I actually think
+product and engineering is is an island
+of stability today. No one is the idea
+that I you maybe you see teams with
+fewer engineers. But when I walk into
+leaders, you know, I was at Replet the
+other day at 300 million in revenue, 300
+people. It's it's there's like 11 people
+in go to market. It's probably like the
+old days at Lassian, right? But a lot of
+engineers like they're not shrinking the
+size of their engineering team, but
+everything else looks pretty lean.
+&gt;&gt; Look, we're product and engineering and
+software teams is a significant part of
+our business, right? 40% it's a big part
+of our business. Um
+service in general is a big part of our
+business. So your argument about Zenesk
+service collection is a very large
+business. It's our largest atscale
+business growing very fast, faster than
+the overall company. Um and that is IT
+service management, HR service
+management is like our fastest
+functional area, right? Going inside
+there, financial service management,
+just general employee service
+management. We just shipped a customer
+service offering uh in October. So like
+we're waiting into those waters. This is
+crazy, right? This doesn't make any
+sense. No, the business is growing
+really really well, right? We have to
+provide that software layer that makes
+that cheaper. There's no doubt about
+that, right? like that's that's our job
+to do. I think the
+generalized view that customers are
+going away in these times like certainly
+for some businesses yes you can say that
+like some software businesses the
+industrywide phenomenon which I think is
+what Rory was asking doesn't make any
+logical sense to me right and again
+we're either an example of the whole
+industry or we are somehow
+unique and people to argue one or the
+other depending on the point they're
+trying to make. So it's very difficult.
+The one point I would make is again
+we're accelerating our cloud revenue
+which is a 26% quarter growth rate at
+well north of 56 billion at the moment
+and we grew our RPO by 44%. Right?
+That's also accelerated for the third
+quarter in a row. Now what is RPO? That
+is customers who are buying $3 million
+worth of software for 3 years something
+like this. two two million of that goes
+into our our balance of the future,
+right? We book a billion dollars in
+revenue. Ultra simplistic CFOs and
+accountants. I understand how it works,
+but that's a close enough proxy. Those
+others are customers making three-year
+bets. And so now we have people arguing,
+ah, but in year four it's all going to
+fall apart. And I'm like, really? Like
+&gt;&gt; I think
+&gt;&gt; these customers aren't stupid
+&gt;&gt; comments. One is because of the um what
+we call them the um AI and open AI and
+entropic. We now all are experts on RPO.
+So everyone has everyone knows RPO now.
+Turns out once you once someone signs
+100 billion in RPO, everyone has to
+figure it out. But going back to your
+comment, first I want the software word
+is overused because you're right. The
+people owe it's the death of software.
+But on the other hand, we're going to
+talk in a while Harvey just raised a
+wonderful sum of money at a high price
+and that's clearly software. So software
+is dead is a stupid statement, right?
+And we should discard it, right? But on
+the other hand, your comment, yes,
+there's always an element of change and
+you know, if you look at your
+competitors every 5 years, you know,
+some folks go to the wall. The argument
+here would be somewhere in the middle.
+It would say when technology doesn't do
+a step function change, you probably
+have an organic death rate of 5 10% a
+year because that's the way capitalism
+works and the winners like you guys come
+to the top. But every 10 or 15 years
+there's an architectural shift in
+software, right? where it just gets it
+just gets so new that instead of being a
+5% death rate, you go through a two-year
+period where there's a 50% death rate.
+I'm just picking numbers out of my ass,
+right? And and that at least is a
+credible discussion. And so to make it
+kind of tactical to you, do you think
+that the software you guys write with
+LLMs is quantum different than what you
+did before or do you see it as a step
+function change in the kind of software
+you make or just an organic progression?
+Do you Does that make sense?
+&gt;&gt; It's it's both. It's both. So, so the
+way that we are building software, and I
+think the irony is often forgotten here,
+that apparently we're some sort of
+cavemen sitting around just banging on
+clicky clacky keyboards and writing
+assembly code and we haven't figured out
+that LLMs are pretty good at writing
+code and can speed us up. We got 10,000
+people in R&amp;D. This is amazing, right?
+I'm like, sweet. We can build a lot more
+stuff a lot better. Do we have some
+pockets of the company where people just
+sit and claude code all day every day
+and write cool stuff? Yes. But I don't
+know there are many software companies
+probably sitting around in their R&amp;D
+department still working the old way,
+right? Some won't make it fast enough.
+Totally agree with you. You have to
+build new things. Some of those will
+work. Some of those probably won't work.
+And I don't think it's like it gets very
+simplified in people's minds that like
+you're just bolting on AI features. I'm
+like no, I'm building I have a very very
+large team at this stage building an
+entire substrate of context and search
+and chat not to sell but because I have
+to. And I have a very large
+infrastructure team at this point
+managing AI costs. Right? You guys all
+went on about inference cost. It's going
+to crush us, etc. I'm like, actually,
+it's going the other way, right? Our
+inference costs are going down. And
+we're very good at adopting new models,
+but we're also good about knowing the
+features that need the old models that
+get very cheap. Some of our features are
+a thousand times cheaper to run than
+when we introduce them today. And the
+feature still works really well as an AI
+feature. So guess what? We're good at
+optimizing infrastructure, right? Our
+cogs has gone up or rather cogs has gone
+down, right? Our gross margin has gone
+up last six or seven quarters and we've
+deployed a lot of AI, right?
+&gt;&gt; My question is then like are we just
+throwing the babies out with the bath
+water because we've got your Mondays,
+your duos, your work days, your hubspots
+that I mean like this is real. I'm just
+trying to understand
+like should I just call it quits and
+sell my Monday and my duo and just
+accept defeat like they ain't coming
+back or like they coming back.
+Mike, we have a brilliant saying on this
+show. Rory always says it wonderfully.
+Harry says that's great, but um what
+what about me? I'm like help me out
+here. I'm looking at all my positionist
+manage his portfolio. It's a living.
+&gt;&gt; That's right.
+Well, apparently AI can just AI just
+listen to this podcast repeatedly and
+it'll do the trading for you and you'll
+be fine. I think look, there's no doubt
+we have a sexual rotation out of
+software, right? Um
+uh been on many many therapy calls with
+many software CEOs and other things like
+it's it's tricky to understand how that
+changes and rerates and everything else.
+I would say in my view that's
+definitively fear driven at the moment
+and fear overrides it. Generally fear
+comes from somewhere real as well
+though, right? Like so will every single
+one of those names be bigger in 5 years
+time than today? It's probably pretty
+hard to say. If you list a basket of 20
+companies, they will all do that. Will
+the overall average be higher? I would
+argue yes. The feard driven sort of
+average software price at the moment is
+there. But also you get all sorts of
+financial effects like people are buying
+chips. You know the software versus semi
+charts been around a lot, right? Like
+it's this thing. And guess where those
+chips are going? Well, these chips are
+going into data centers to make AI
+inference to do all sorts of wonderful
+APIs and eventually that's delivered
+through applications at some layer and
+we're working out where the the profit
+stack and the revenue stack gets
+redistributed as we talked about
+beforehand.
+&gt;&gt; Maybe I've got my Atlassian numbers
+wrong. Forgive me, but Elastian had a
+pretty good quarter. I know Mike
+probably doesn't want to talk about
+this, but somehow we got down it. But
+Alassian's growing 23% and RPO is up
+44%. Right? That's pretty good. Okay.
+But more importantly, and I don't want
+to put Mike on the public, it's
+accelerating. Okay, Elastian is doing
+better. The problem with so many peer
+companies and these are the best founder
+companies. Almost all the public SAS and
+BDP are founderled, right? Very few are
+is they're not they're not they're still
+decelerating. And how long do you get in
+my the LLMs are open to everybody? You
+have a year. You know, Claude 35 37 were
+really good. Like you've had seven
+months since then. Do you get 12 months?
+Do you get 18 months? It's like how long
+do we give you to recapture some growth
+and some revenue from the AI revolution
+because it's Atlassian's got this layer
+but it's also got growth. If you if you
+spent the last year with 50,000
+engineers building all this this great
+stuff and now your growth is in the
+teens maybe heading down to 10%. I mean
+better cos than me but that's the one
+where Rory I think you should tell your
+LPs you're worried and it's more of the
+public folks have seen no reaceleration
+than have more of them have seen
+persistent deceleration go and we're
+going to see more this quarter and I
+wish it wasn't the case my life would be
+better if it wasn't my life would be
+better if SAS was on autopilot like it
+was through 2022
+but you got to show me the money in 2026
+at some point all that all that uh
+infrastructure spend goes to inference
+has to go to software like it's got to
+go down and you've got to show you've
+got to show a connection to that spend
+or you you may not have a reason
+&gt;&gt; presumably if you look at history some
+of that goes to
+new companies that arrive right
+&gt;&gt; you nailed it I was actually said you're
+exactly right is that the problem with
+looking at the overall SAS growth rate
+now is we haven't add any good ones to
+the top of the funnel right so we're
+gradually so the the the survivor growth
+rates going down because you know we
+looked at this once And it was 30% for
+about a decade and a half. But when you
+went into it, that's because anyone who
+goes to your to your point, Jason, when
+you go below 10, you get you get the red
+card. You're sent off. You're told, you
+know, you go off DCF PE land, but they
+were dropping another one in at 60%
+growth on the top, right? So it stayed
+roughly 30% median growth rate for a
+decade and a half, and now there's been
+nothing good coming in. So, you know,
+you're just seeing the bad side.
+&gt;&gt; And in fact, you've you've had a lot
+more. I would argue there's a whole
+series of phenomenons. Maybe it's a
+great post to to break apart. Software
+IPOs for the last 5 years have not been
+a category of new companies introduced,
+right? And to be fair, if you go talk to
+a Figma employee, my friend Dylan's
+having a fun time over there. They're a
+good example of a company who's like, I
+think they're going to do great in the
+current environment, right? But you're
+probably not setting an example where a
+lot of other private company CEOs, you
+had Cliffy on a little while, another
+good friend of mine, actually lives like
+two blocks down that way. you know, he's
+he's a little bit less motivated having
+seen what's going on, right?
+&gt;&gt; I wouldn't be rushing today to IPO
+there.
+&gt;&gt; Well, number one number one factor is
+you don't have those 60 70 80% growers
+that take the average up, right? Because
+you've got you do have this one. Number
+two, you've had private equity and again
+a totally valid part of the capital
+markets come in and hoover up a ton of
+companies over the last 5 years, right?
+I'll give you an example. In co in 2020,
+we formed a group of SAS CEOs. I think
+there were 16 of us that got together.
+We'd meet on Zoom every single week,
+right? At one stage, 10, 11 of us were
+public, maybe more. We all had earnings
+calls and, you know, it was a really
+good therapy group for a while. I think
+it's like me, Eric from Zoom, Aaron from
+Box, Toby from Shopify. That's it. That
+we're all that's left, right? Because
+almost all of them have been bought by
+private equity or big tech. Big tech's
+getting a lot better at buying stuff
+historically, right? Like, so all of
+these phenomenon lead to this weird
+average
+system and you have companies going p
+staying private a lot longer, right?
+They've got a lot more capital, right?
+Poor Cliffy Mel Campbell would have gone
+public a lot longer in an old era. They
+don't need to nowadays as much, right?
+The stripe guys, same thing. But that
+means when you look at a public company,
+you're like almost seeing this like the
+the survivor bias of not small enough to
+get bought by private equity, not large
+enough to get bought by big tech, no new
+companies coming in. I don't it's hard
+to work out what that average should be
+actually, right? Um but that's not
+saying that's not happening. I think
+this is where these are all a set of
+forces that are happening
+simultaneously. We will see how much
+this case cuz there's one more effect
+that we're not talking about which is
+some of those SAS companies and again
+people have argued it's us and we're
+like wait a second uh that that that 44%
+RPO growth is not coming from people
+paying $20 off Google ads. Um, some of
+those have been affected also by the
+changes in like marketing channels and
+other things that AI have talked about
+that isn't again I would argue if you're
+a multi-deade company you get used to
+this right you've you've moved your
+marketing to Tik Tok or some other way
+of the business model right and you get
+these chasms in marketing that have
+opened up some of those have also become
+a lot more challenged
+&gt;&gt; um so there's a lot of different forces
+happening here right it's often
+oversimplified by people fundamentally
+though software customers are they going
+to buy more in the future Yes,
+&gt;&gt; we mentioned that new companies bringing
+enterprise value and expanding budgets.
+Harvey, we mentioned that raised in
+December raised $200 million at an 11
+billion price. It must be quite nice
+though every month to fund raise. It's
+just like a nice hit of like ego, isn't
+it? Um, another $200 million from
+venture investors. Um,
+&gt;&gt; a nice bunch of secondary.
+&gt;&gt; Nothing wrong with that. It drives a lot
+of this is secondary. It drives a lot of
+it.
+Okay, let's let's talk about this. How
+do we think about this deal? They're
+going to end the year supposedly at
+close to 600.
+Um the growth is pretty phenomenal from
+200 today. Um how do we think about
+this? First of all, let's just pick the
+obvious point. It was fun that it
+happened this week because if you think
+of what also happened this week is
+Claude Code produced a plugin and what
+13 plugins and one of the plugins was
+the legal plugin and that's one of the
+things that's alleged to have caused the
+SAS apocalypse. Oh my god, the old
+school vendors Thompson Reuters and some
+of these guys declined, right? While at
+the same time a company who if you
+squint one way is just quote unquote a
+GPT rapper you or a Claude Code rapper
+raised $200 million at 11 billion. So
+literally this the the kind of whiplash
+in terms of the thinking here is
+hilarious right I think all software is
+dead except this software which is
+pretty close to the plugin from Claude
+but at the same time it's worth 11
+billion so it just work so a fair amount
+of inconsistency there in the worldview
+right I don't think so that's just worth
+pausing on other than that I think it's
+all a look we've discussed it's actually
+very similar to the discussion who had
+an open evidence this is the killer this
+is the lead company in the AI for law
+firms space. Obviously, Lora is number
+two. They're both killing it. You're
+seeing mass adoption. And the
+million-dollar question, and you know,
+you you you cited what you think they'll
+do at year end. All you know for sure is
+what they're doing today at 190 million
+a year. The question here is total time,
+right? In other words, can you compound?
+If you can compound for three or more
+years at this kind of rate, you'll do
+amazing. And if you top out based on the
+number of you know amlaw lawyers in the
+US which isn't as large as you'd think
+you could find yourself time constraint
+and that's the bet because they're
+clearly going to get arbitrary number
+60% of the market share with Lora
+getting 40 I don't know 50 something
+like that. So it's really a question of
+how big is the TAM and when do they hit
+it?
+&gt;&gt; If they're going from 200 to 600 in one
+year so that's tripling. If they're
+magically able to double the next year
+to 1.2 two, we're paying 10 times
+two-year forward revenue, right? It it's
+uh for an asset that uh unlike
+Atlassian, I can't go buy it. So,
+there's scarcity on top of it, right? I
+just think we have to give up on TAM. I
+think we have to give up on the I think
+we just have to let the revenue show us
+the path to TAM. But, if the numbers are
+there, I think I think if Harvey does
+200 to 600, it showed us the money on
+TAM,
+&gt;&gt; right?
+&gt;&gt; So, so why do you think we should give
+up on TAM? Just because it goes from 200
+to 600 doesn't mean we should give up on
+town
+&gt;&gt; because of it's a reason to say no.
+You got because if if you're generating
+it's a reason to say no to data bricks
+growing 56% at 5.5 billion right or 65%
+65% at 5.5 billion right you just uh
+sometimes you got to lean into it if you
+want to make money at least
+&gt;&gt; I don't know TAM is a I've always
+struggled with the concept of TAM right
+because our whole job in technology is
+to change TAM actually like if you think
+about it that the TAM of technology has
+changed as a whole for 50 years I think
+Harvey is a is a fantastic fantastic
+business, but let's not forget if
+anyone's been involved in legal
+proceedings or court cases or even just
+dealt with a lot of lawyers, they're not
+an efficient part of an industry, right?
+And they deal with a lot of text. So,
+you'd argue that there's a ripeness to
+do that. And credit to this this
+company, maybe maybe Harvey is a GPT
+rapper, but you know what? They're a GPT
+rapper that's got a product that their
+customers like. They've got a go to
+market model that's clearly working in a
+market that probably doesn't have a lot
+of competition to start with. Good job
+building a piece of technology that
+customers want and hence a valuable
+business whether it's worth 11 billion
+or whatever. Okay, great. But like it's
+growing 300% a year at 190 AR fantastic
+business.
+&gt;&gt; Totally agree. I want to come back in
+two things. One is because I realize as
+I replay it I was using the word GPT
+rapper as a third I didn't that's not a
+phrase I would use. It was a phrase that
+was applied to the sector and then
+people simultaneously were doing this
+and I'm pointing out the dis you know
+the the the divergence you can't it
+can't be bought at the same time. I
+think that you know you you can't people
+are you know if you're doing a deal like
+this and I think it's an amazing deal
+and we have a deal in a related space. I
+I don't buy the GPT rapper Appalation is
+my point. I don't think it's a useful
+phrase. Right. My point was um it was it
+was wonderful and funny that it happened
+the same week that Claude was deemed to
+be able to annex the entire legal market
+just by issuing a plugin. Right. So my
+point is those were two different
+contradictive ways of looking at the
+world.
+&gt;&gt; Oh entire entirely agree. And I think
+what I was sorry I was trying to poke
+fun at the GPT rapper. Right. If
+Atlassian's just an orchestrator of
+humans, right? All of software is just a
+process rapper. We take some business
+process and we deliver a better UI to do
+that or a way to repeatably do said
+process and we we make money doing that,
+right? Is Harvey got a s has Harvey got
+a sustainable competitive advantage that
+will just be eaten up? That is entirely
+I assume what their leadership team is
+sitting about thinking is like we've got
+customers and distribution and that is
+in itself an advantage, right? Like
+those customers presumably are pretty
+sticky right now. Do they keep adding
+value to their customers with more GPT
+wrapping or do they add more and more
+bits of the legal process into the UI
+into the technology? I suspect that's
+exactly what they're doing and that's
+what they're getting paid for, right?
+&gt;&gt; Any law firm can pick up anthropic and
+go build their own Harvey. Are they? No.
+&gt;&gt; But but I think I think the important
+question to ask is like risk adjusted
+and opportunity cost adjusted. Is this a
+good place to put my dollars? And when
+you go back to Jason's argument, I'm
+totally with you and I'm not [&nbsp;__&nbsp;] on
+them at all, Mike. [&nbsp;__&nbsp;] me. I've created
+a podcast. These guys have created $600
+million at the end of this year. So, who
+the [&nbsp;__&nbsp;] am I to throw shade? But like
+ultimately, I can put my money in
+Atlassian today, which respectfully is
+is obviously, as you know, down to very
+low levels, unfairly priced, brilliant
+business. Um, and I can put my money
+there today, or I can put my money in
+Harvey, which needs to triple and then
+double, and then I pay 10x. That
+&gt;&gt; and I to I totally agree. I'm not
+arguing whether you should put a dollar
+in A or B. um and and there'll be
+mispricings up and down the stack,
+right? I'll give you an example from
+history, which I'm sure the Excel guys
+wouldn't mind. So, when the Excel guys
+invested in Atlassian, right, was all
+secondary. They put 60 million bucks in
+2010. Uh and they bid highest of the
+five VCs, can I just say they're also
+the nicest and had the onepage term
+sheet and all sorts of other things. But
+when they put in that, we I now we have
+their model. We've known them 15 years.
+Rich just stepped off the board in
+December after 15 years of amazing
+service, right? Well beyond Excel's
+investment. Um and they're legendary
+people as far as I'm concerned. Their
+expectation was that Jurro would grow
+and confluence collectively I think 30%
+the year after they invested then 20%
+then sort of peter out at 15%. So by
+2013 instead we did 50 60 70 or
+something and they were like what and we
+are still growing Jura at faster than
+their 3year terminal rate 15 years
+later. Now are they stupid and did they
+get the TAM wrong? No. The business just
+was a lot better than than they even
+they understood. They were trying to get
+two to three times their money. They
+made a hundred times their money. And
+like, but that's a success. You're
+looking back at a success example,
+right? That they probably did a bunch of
+those deals that didn't work around us,
+right? Um, it's very hard to predict
+what the management team of Harvey are
+going to do in building out their
+business over the next some years. So I
+assume the smart people that are putting
+this money in believe that management
+team can build a business that gets to
+on current SAS rates 11 billion they'd
+have to be what
+four times forward revenue to like 4
+billion in revenue or something three
+billion in revenue
+&gt;&gt; because just to take your two I I think
+your comment is correct as the entre but
+I also think Harry's comment was correct
+as the investor because look when you're
+talking about companies that are raising
+at 11 billion there's no useful sentence
+that says this is a bad company. They're
+freaking amazing companies. But as Harry
+points out, we're not here to say,
+"You're amazing cuz you built a big
+company. The Harvey team are amazing cuz
+they built a big company. I didn't build
+a big company. I'm not amazing on that
+dimension." But in terms of capital
+allocation, you have to say to yourself
+and compare the two scenarios. You were
+a profitable company. Excel stick in 60
+60 million. You know, my guess is the
+revenue multiple well sub 10, right?
+growth rate. You know, thinking back, I
+can tell you what it wasn't. You know,
+it like what we got? Harvey's at 190 AR
+now. 11 billion. That's 50 times. I can
+tell you it wasn't 50 times, Mike.
+&gt;&gt; No. No. I was going to say it was
+probably 10 to 12 times forward revenue,
+but we were an unusual company. We're
+like 50 mil in revenue with 20 million
+profit or something.
+&gt;&gt; And and that's a deal that outperformed
+on the growth rate. And as a result, as
+you say, a 3x became a 50 to 100x,
+right? And then when you look at another
+deal where you're paying, you know, you
+just got to say to yourself, you're
+paying 50 times run rate revenues. It's
+growing much faster than you were
+growing at the time. And then how do you
+to Harry's point, how do you think about
+the risk return on that, right? And it
+boils down to you just have to have you
+were able to beat their model by just
+growing a 30% instead of 20, right? What
+do you have to do to beat the model when
+you're paying 50 times? The answer is
+you have to peg that growth rate at well
+north of three 400% a year for three or
+four years.
+&gt;&gt; Yeah, I can't agree with the math.
+&gt;&gt; If you do then it works.
+&gt;&gt; The only thing I I I would just add
+&gt;&gt; that's worked every time so far is just
+&gt;&gt; that's the point. Go.
+&gt;&gt; Sorry. Just on the TAM thing. What I
+mean is that listen when we started this
+podcast I was actually fairly skeptical
+of AI replacing humans. Not because I
+didn't think it would happen when I
+started vibe coding but because I
+thought too many VCs talked out of their
+rear. Oh, you know, we're going to
+replace AI is going to destroy all jobs.
+And I thought, this is a bunch of people
+who haven't done any any work. Are they
+just reading Twitter all day? But my
+mind has changed over time is and and so
+what I mean is when you look, it's not
+going to be true in all categories. But
+when you say, listen, there's 200
+billion a year spent in the US on
+nonpartner lawyers, associates and
+parallegals. 200 billion a year. Okay?
+You can, six months ago, you could say
+it'd be ridiculous to think Harvey's
+going to make a dent in that. Maybe it's
+not ridiculous now. And so if that
+growth stays, if it stays, if it can
+literally grow at the pace it is, what
+you're seeing is it's happening. It has
+to come to Rory's prior points, it can't
+come out of the legacy software budgets.
+It can't come out of the old the old TAM
+for Bitbucket or whatever or legal
+software of the old days. And so my
+point is it it's not all going to prove
+itself. Some of these will flame out,
+but that amount of growth is
+spectacular. It's it's spectacular. and
+and and and at some point like anthropic
+you prove it like the growth is so
+stellar you have proven that you have
+captured a mass amount of TAM that was
+uncapturable before and so as an
+investor I would just put my money in at
+some point right
+&gt;&gt; agree what you watch I I totally agree
+let me make the argument against not
+because I think it's correct but because
+it is the other argument I you know I
+sat there as an investor thinking about
+it what if you look at they have 200
+million 190 million in revenue right in
+ARR 100,000 active users That's 2K per
+active user, right? That's under what
+West Law gets from from a lawyer. That's
+not replace the labor revenue. That's
+nice next generation tool revenue. Do
+you understand me? Right. And if so
+today there and the point is if you're
+only getting 2,000 times a lawyer and
+there's, you know, five there's 1.3
+million lawyers in America. Some of them
+are in house. Some of them do weird
+things like patent that can buy Harry's
+product. There's four or 500,000 lawyers
+that are in, you know, am law big law
+people who would be a buyer for this.
+You know, it's a billion billion two
+marketplace. If you're only getting two
+grand per head, the mat won't work. Now,
+Mike's right. In the end, my point is
+this, and this is why I get back to
+Harry saying to make this a big ass
+company, you have to take that two grand
+and turn it into five grand and 10 grand
+per lawyer by by eating the work, right?
+And then you, you know, time expand and
+it's doable. Well, Mike's right. The
+whole last 50 years has been software
+does more.
+&gt;&gt; I don't think it's going to be true,
+Jen. I think it's because this is what
+I'm already seeing. It's not that. It's
+50 to 100 because you get rid of the
+humans. All of the agents that now
+listen, we're in a weird niche, but I
+can tell you because I know the GTM
+agent category really well. I know
+everything. They're all 50 to 100 grand
+because you get rid of the people. And
+so if you compare a pipe drive or you
+know a Trello clone for CRM in the old
+days for eight $12 to an agentic product
+that gets rid of humans I'm not saying
+for sure this is what happened to Harvey
+but 50 to 100 grand if you can get rid
+of half of your associates or two-thirds
+of your associates it's dirt and and
+you'll just pay it because they won't
+quit. They don't want raises. They don't
+complain about weekends. Um they don't
+have all the issues like our agent
+closed you know I mean closed 100k deal
+the other day on a Saturday night.
+doesn't complain. You know, these
+agents, they want they want they want
+family lives. These associates and law
+firms, you just get rid of them. A 100
+grand is nothing. There's two arguments
+against what you're saying. One, Mike's
+already made, which is this, which is if
+we can make more software, we're not
+going to get rid of those humans and the
+coordination problem. We're just going
+to make more software, have the same
+number of humans, and have the same
+coordination problem and keep buying
+Atlassian stuff. So, the same argument
+in law here. Maybe you just automate
+more. No, it's totally different. We we
+are building more software than ever and
+we need the humans and no one is
+reducing their engineering team. No, the
+world is so competitive today. You can't
+wait every four years for a release like
+the old days. You're pushing content. So
+So that cate every other category may
+shrink that. Okay, that's that's
+coherent at least. What you're saying is
+if you're selling to engineers No,
+seriously, because we've talked enough
+that we know what we're going to say.
+You're right. What you're saying is
+every engineering category in software
+won't be cut. will use the tills to just
+make more software but every
+non-engineering area like law like a
+SDRs could be automated away so the
+headcount goes down there that's
+&gt;&gt; I think every category that I know of
+outside of engineering and product is at
+existential risk of shrinking seats you
+workday said it um everyone else is
+saying it we're seeing subst I mean
+workday just founder had to go back they
+said they said even at workday we're
+seeing headwinds on seats because people
+just aren't hiring across the for you
+know the Fortune 500 like they used to.
+They're seeing but but but we are in a
+renaissance of software. We are building
+so much software. It is it is
+unbelievable.
+&gt;&gt; I think it's fascinating that on this on
+this podcast the product and engineering
+firms are going to win. So we're a
+winner. We're above the fold which I
+love that as well. This is that in
+itself is an old school term Jason. The
+fold doesn't exist anymore.
+&gt;&gt; I know. But I think listen
+&gt;&gt; but I think Zoom I mean HubSpot and
+Monday even Zoom are below the fold.
+&gt;&gt; Mike still has the floor.
+&gt;&gt; Well well a few things. Firstly, your
+holiday party with your lack of belief
+in humans is going to be amazing, right?
+You're sitting around drinking wine with
+all your agents that are going to be
+super fun holiday party, right? I'm
+really looking forward to it. I want to
+see the pictures.
+&gt;&gt; Get drunk and make an ass of themselves
+if they're all agents. At least we won't
+be but managers there. But
+&gt;&gt; I like humans. Humans are fun to hang
+out with, right? We we're going to need
+a lot of these people. Um I I think
+there's
+there's a lot in Harvey that's
+fascinating. The question is two two
+things. One, legal firms generally bill
+time. So, it's it's hard for them to
+increase their profit margin by billing
+more and less time. So, I don't know how
+that affects this particular industry.
+I'm not an expert at all on on on
+legals, but I'm just saying there's some
+interesting their pricing, right? I
+don't know how legal services are going
+to be valuebased priced or something.
+They're literally the ultimate selling
+of ours um photocopying and all that
+sort of stuff. So, we'll see how that
+works for the billing model and maybe
+Harvey helps them with that or doesn't
+help them with that. Secondly, I think
+you'll
+I like to think about things that are
+demand or supply constrained, right? Is
+a particular function input or output
+constrained and that makes a big
+difference in how I think AI will be
+applied to it. It's one of the
+interesting schemas to put to it. So,
+you've talked about customer service or
+legal. I would argue those are input
+constraint domains. All right. I have a
+whole lot of fantastical lawyers at
+Atlassian in-house council, you know,
+group. their input constraint because if
+I make them more efficient or if Harvey
+makes them more efficient, they can't
+like create more legal problems. There
+is a certain set of problems. Just like
+customer service, your customers ask a
+100 questions a day. You need a certain
+amount of service to help them out.
+Well, if you have twice as many
+customers, you'll probably have 200
+questions a day. So, it is it's it's
+based on some other ratio. The
+difference with something like software
+or engineering is it's creation, right?
+It's how much can you make, right? the
+the road map is never finished. You can
+keep creating more. So some domains in a
+company have like a constraint on the
+input is fixed and you're doing a
+certain amount. Now sales and marketing
+are kind of in this middle ground which
+is fascinating because ostensibly sales
+is sort of input constrained by a TAM
+but you can build new products and new
+ways of going to market. So I don't know
+we we sometimes jump across these
+categories and it's not super helpful
+because they're very different in
+&gt;&gt; I think genuine that's super helpful
+because I remember when we were looking
+at the systems integration automation
+category one of the things that we
+realized and you got to in a second and
+it took us a few days is like if we
+automate the process of installing SAP
+installing Salesforce installing
+Netswuite it's not like the company's
+going to buy two helpings of Netswuite
+because it got cheaper they're just
+going to spend less money doing And
+those are inherently less magical
+markets than you know the stuff where
+where the intelligence allows just whole
+new things to come. I think that input
+output thing is actually a very useful
+way to think about where the magic
+upside might be.
+&gt;&gt; But we but AI may also let us have more
+more inputs right like for example when
+when we when I mean we're like one of
+the few organizations of our size uses
+agent force. Okay. But we ran an
+experiment. Mark said use agent force to
+go after the leads. it's no not worth
+anybody's time to do, right? Because
+that that is and so we did that. We
+unleashed Asian force on all of our
+leads, everyone to come to an event, to
+sponsor us, do anything that that it
+wasn't worth a human's time to come back
+and it worked. And that's like radically
+more inputs. That's like five to six
+times more inputs. And there's a lot of
+lawy legal things that aren't worth
+taking to your lawyer. Like I can't wait
+4 days for a sales contract to be
+reviewed. I can't do this. And there may
+be Jevans paradox or whatever in every
+category. Like it may explode. And like
+we've all have terrible customer support
+so often, but when you have a magical
+customer support experience with AI or
+human, you want more of it. Like you'll
+consume mass. Like I if I could get help
+all day long with a product, I would be
+in that agent all day long. Like helping
+me helping me vi not just Vibe code vibe
+use my product. So we made Jeving every
+every category.
+&gt;&gt; Go Jean.
+&gt;&gt; Customer support is one I just cannot
+get my head around. And I I know that
+sounds ridiculous and and very uh basic,
+but when you look at the sheer number of
+players have been funded to huge
+extremes and we saw Sierra's 50 million
+plus quarter taking to over 150 million
+there are now. Um it kind of I thought
+of that straight away when we're
+thinking about net additive versus
+replacing things. Is this eating
+Zandesk's lunch? Is this adding new
+users that never had customer support
+before? Is this taking on jobs that
+weren't being done before? How do we
+think about that? I'm waiting for Mike
+because I didn't know it, but he has a
+customer support product coming out.
+&gt;&gt; It's already out. It's doing very well.
+Um I can't tell you how well it's doing,
+but it's doing very well. Um our service
+collection business, like our service
+collection business could go public by
+itself, right? It's a it's a big
+business. It's growing. It would have
+great numbers. Jason would be writing
+great posts on it.
+&gt;&gt; Jason says it needs four billion to go
+public. Mike, just
+&gt;&gt; for a banger. For a banger, Harry.
+&gt;&gt; Banger IPO. For a banger IP,
+&gt;&gt; get back to the question. Mike, let's
+stop.
+&gt;&gt; It's it's it's a it's a textualbased
+field and and I say that with the
+broadest definition of text in that
+voice and other things can can quickly
+be approximated to text now with AI and
+vice versa. Right? So let's assume it's
+a it's a conversationbased area. It's
+probably
+3 to 7% of every business in the world
+on service and support. your bank, your
+insurance company, your car company,
+every company has this. Then you get
+internal support and service, right?
+Most of the service collection revenue
+is on the internal basis, right? Um
+Twitter X now whatever has like you know
+300 400 service desks running on on on
+service collection, right? But that's
+not all internal service. So the idea of
+any team helping some other team in a
+business or any team helping their
+customers is ripe for making it
+efficient. Right? All the things you
+talked about Jeb's paradox is totally
+true. But it's also a measurable input
+and efficiency play. So I can say I
+spend X your product can very easily
+make X less. Is the less more or is the
+less that I'm the money I'm saving more
+or less than I'm paying for your
+product? There's high ROI. It's a
+sellable thing. We we we go around the
+loop, right? I think it's a great
+category. Whether the category will grow
+or not is a different question. The hard
+part is in year two and year three. The
+savings are baked into the business. So
+you have to be delivering continual
+value to the company and and that's
+going to be really interesting when we
+get through this set of changes in the
+service market most broadly. Right? You
+got service now and ask and others at at
+the top end. You got a lot of legacy
+providers out there. There's still tons
+of legacy providers of service. And then
+you've got lots of customer service
+companies. Um, you know, Mark has
+ServiceCloud over there. I think some
+people still use that. Uh, there are a
+lot of tools in this space.
+You know, Zenesk probably went private
+for a reason.
+&gt;&gt; I think uh, Zenesk has says they have
+like three or 400 300 million plus of AI
+support revenue. It's just the legacy
+business. That category is tough, right?
+So, so they've got two streams going.
+They the agentic pieces exploding. Um,
+the only thing I would say on you asked
+why why the category is exploding. I
+mean, I just think there's it's
+interesting there's just two threads
+helping for for support. May maybe not
+at last, but overall for the for so many
+of the players is one um I mean if you
+look at pay is it pave? I think that's
+how you pronounce it's it's an HR
+startup that tracks like 300,000
+startups. No category has been more
+decimated in hiring than support. No
+one's hiring. Like it's radically down.
+So that money is going into agentic
+products. Okay. traditional support and
+then a good a great AI support tool can
+do radically more than a legacy tool
+like there are like I think software in
+the AI age and this is why I think so
+many SAS leaders are struggling today
+mature ones is there's no more aha
+moment there's no more moment when you
+walk in and yeah maybe Sierra spent a
+month configuring your demo but
+literally it answers questions like
+you've never seen answered before in
+your enterprise you want to buy that
+product and most SAS products didn't
+change for a decade and we fell out of
+the aha moment. And so there's budget,
+there's aha moment, and there's like the
+most humans were cutting ever. It is a
+it is a great moment. And and then the
+final point, not to ramble, but we've
+talked about it before, but the the
+super interesting thing about support is
+it becomes a Trojan horse to do
+everything else because when that's the
+main agent, if that is the main agent
+you're working with, you'll start using
+it for sales help or for research or for
+marketing or for other things. And a
+these become more horizontal agents. So,
+um, but man, the hiring is, uh, it's
+it's over in the space.
+&gt;&gt; And bringing it back to Harry's
+question, Harry, I think the reason So,
+I think we're all saying bluntly, you're
+wrong because you were doing the I don't
+get this market. I don't know why people
+have funded 10 companies. And I think
+what you're hearing, I think it's true,
+is that it's not a single market. There
+are I mean at a high level of you know
+people help working with other people
+you can say it's all the same but
+internal help desk is different than
+external help desk. One thing we saw, we
+had a prelim AI company that B2B help
+desk B2B external support has a
+different rhythm than B TOC. B TOC is
+lots and lots of small interactions. B2B
+you might have a long lived interaction
+with multiple people internally in your
+if Mike's one of Mike's best customers
+has a P1 bug. You don't just have one
+person involved. You have yeah six or
+seven people involved. You're reaching
+across departments. the internal
+workflow to manage that help that that
+support is very different than you know
+thousands of people ringing about you
+know how do I change a password
+internally or externally how do I get my
+ticket to the whatever concert right so
+there's differences there there's
+difference in company size so I think
+actually and then there's difference in
+modalities because you got people who
+lead with chat you got people who lead
+with voice and yeah they're converging
+you got people lead with video I I think
+that I think there's a lot of different
+there's a lot of different submarkets
+rather than one big mega market is my
+gut
+&gt;&gt; and I I think it just like just like
+Harvey though there's some interesting
+things that it tells us about how AI is
+changing the world right I think there's
+no doubt that the overall service
+category is probably going to have not a
+lot of growth in humans let's just say
+working in that field however I would
+guess and I don't have any stats to hand
+it's a very short-term field anyway
+right like I know my my sister worked in
+in in in telephone banking in the mid
+'9s for a bank here, right? And everyone
+was there for a year or two. They train
+you do it and you move. It was not a
+career job. It was it had a high
+turnover already. So that's that's
+different to like lawyers where they've
+done many many years of training and
+they've got 40 years of career, you
+know. So it's an interesting job field.
+It's pretty different firstly. Secondly,
+one of the interesting things that we
+see both internally, I have a few
+examples of agents internally, but I've
+got a number of customers have seen it
+phenomenon as well, is your AI and your
+agents that are helping people to in in
+the case of answering a question and
+service needs to be much more broadly
+thought about than than just customer
+service like I lost my wallet in the
+Uber kind of stuff. But the AI that's
+answering the question is as good as
+things you have written down. So some
+teams you see are employ are deploying
+agents and then writing a lot more
+documentation and their documentation is
+getting a lot more stepwise because it's
+less about the humans reading it then
+it's the agent that reads that doc and
+then answers the question. So you may
+end up with in some areas more writers
+and less people answering questions to
+get an overall better support response.
+Right? We have a lot of examples of this
+in a service collection. It the more
+knowledge you hook it up to the better
+answers it gives. It's sort of logical.
+Some businesses don't have all this
+knowledge documented because it was in
+the heads of the people who did the
+service. So that's one interesting
+effect of AI probably applies elsewhere.
+The last thing I will say is uh agent
+service collection is one of the areas
+where most agents are deployed right in
+terms of AI agents and it's confusing in
+service because we talk about human
+agents that answer questions and then we
+have AI agents that either answer the
+question or help the human to answer the
+question uh uh faster in the complex
+scenarios and B2B especially that
+they've already talked about it's far
+higher deployed in that category agents
+for us of any of our collections I think
+it's the highest proportional deployment
+The reason is because those agents are
+taking actions. So service traditionally
+someone's coming in to ask a question.
+If you think about HR service management
+like can I uh uh take these people out
+for lunch when I'm in the Indian office.
+I want to apply for leave or parental
+leave whatever it is right you're asking
+some sort of HR based question. There is
+answers to the question yes you can. And
+then there is actions taken. Hey I'm
+going to go and file this expense claim
+or I'm going to go and do that. The AI
+and service that's most interesting to
+customers often is not we always talk
+about the costsaving aspect of it. It's
+the ability for it to actually go and do
+things to make my business quicker.
+Right? If it goes and files the parental
+application or it resets your password,
+the cononical IT sort of service thing,
+the actions that AI can take more
+accurately, the automations that we used
+to call them, now they're agentic
+automations and workflows, that expands
+massively, which means you not only get
+your question answered, you get your job
+done and that business moves a little
+quicker.
+So your TAM argument, what's the TAM on
+that? Like it's not really a thing we
+had before, right? About the human
+service.
+&gt;&gt; It could be better than the humans.
+It enables that business.
+&gt;&gt; If the whole form gets filled out for
+you for parental leave and everything
+and I don't have to do anything and it's
+all automated, it's be it's better.
+&gt;&gt; Totally understand that. Rory, let me
+punch back at you, my friend. We, as we
+said, live in a resource allocation
+world or mindset where we have the
+choice to invest in categories and
+companies. There have been 14 companies
+in the last two years that have been
+created that have now raised over hund00
+million. You then have traditional
+players like Service Now, Atlassian,
+Salesforce, the list goes on. Zenesk,
+Intercom, I can go on and on and on.
+Okay. And then we have the new
+generation of very fast and public
+companies, Allah navan or Allah airwalls
+who are building their own systems. And
+there is a generation of technology
+first companies that are building their
+own customer support systems to deal
+with very intricate and complex needs.
+When we live in this risk adjusted
+opportunity cost world, I don't feel
+that is a good place to put your
+dollars. When I'm competing against
+Mike, Mark, and the 14 companies in the
+last two years that raised over hund00
+million with Brett from Sierra, I don't
+think that's a good place to be
+investing. And I agree. I think look we
+looked at a number of companies that
+were behind Sierra and Decagon and came
+to the conclusion that a direct
+head-to-head
+against those companies when you're an a
+smart it's just a little bit too hard
+you kind of go there's all the air out
+of the room with Sierra at the high end
+I think decagon have executed well it's
+that classic it's a big market but you
+don't in the subsegment you never want
+to find yourself third in a sub segment
+right that's about you know you you can
+be winning in adjacent
+section and then you can get unlucky
+because the big dog can come in and
+decide to annex your adjacent section
+and that's just stuff that happens. But
+agreed there is going to be overfunding
+in all these sectors and you know a lot
+of it is we're all trying to pick our
+points
+and you know and if I if I was to fast
+forward in fact I said the same thing if
+you look back in five years from now
+you'll probably find that one of the
+biggest source of errors was oh we
+invested in the number one or two player
+in this little space here but it turns
+out that this little space wasn't a
+thing this big space was a thing and the
+adjacent competitor just says I now
+bundle this in and do it as part of what
+I do. You know, suddenly Mike decides he
+wants to be king of service cloud and he
+just rolls over us because he just, you
+know, adds it to every one of his
+customers, right? So, I I hear you. I
+think that you're trying to pick it. by
+the way probably explains I want to go
+back to it probably explains the Harvey
+financing
+because when you have all the dynamics
+that you just outlined it's arguable
+despite the TAM comment I made it's
+arguable that the best risk adjusted bet
+and we're seeing it happen is screw it
+I'm just going to pay the winner at any
+price because if you're in the winner
+you can't it's the venture capital
+equivalent of you can't get fired for
+buying IBM right you can't get fired for
+sticking money in with a 1x preference
+on the consensus winner, which is why
+this market is way more consensus up and
+down the stack than it's ever been in
+terms of venture. You know, there's not
+a whole ton of people trying to be
+contrarian out there. There's a whole
+bunch I mean, the stat I tell my
+partners that blows me away is, and I
+probably repeated it in this podcast, is
+of the unic newly minted unicorns in Q1
+of last year, by Q4, 40% of them already
+had one or more up rounds. In other
+words, the money is saying once you are
+a winner, king make double kingmate,
+treble kingmate, pile on top. It's too
+hard to pick. It's too hard to pick the
+guy at 50 pre that might make it. Just
+pile into the guy who's made it. Even if
+it's at 12 billion, worst case is a 1x.
+&gt;&gt; I think what you're going to be amazed
+by is uh every time we get one of these
+new technology disruptions, everyone
+gets very frothy and yells and screams a
+lot. It's going to change the world. It
+usually does. That means a lot of
+capital is raised and deployed and a
+whole bunch of it turns out to be
+torched because VCs are very individual
+thinkers that they pile into the two
+winners and then the next 10 companies
+and probably the next 15 and a whole
+bunch of those don't really work very
+well and it takes five or six years for
+us to figure that out. Technology just
+changed the world. A handful of winners
+are made. A lot of money is lost net
+money is made more than lost in the
+transition to said new technology. And
+this has never happened before. This is
+a totally new phenomenon. We're in the
+era of AI. Everything's new and
+different and you know they're not a
+herd of sheep following the potential
+next winner.
+&gt;&gt; The the the only
+&gt;&gt; and will will that will that Harvey
+round pay off? To the point of Rory, one
+thing that they don't say is a lot of
+VCs want the loose on the wall. So when
+you walk into the office on the wall is
+a nice logo that says, "Oh, you invested
+in Open AI. You invested in Enthropic."
+Well, if you put money 350 billion,
+you're probably not doing the VC thing
+of getting on the $4 million round. But
+you get the logo on your wall. That's
+important, I think, from the VC
+marketing point of view, isn't it?
+&gt;&gt; Oh, we can put early investor on our
+bios if we buy some Atlassian today,
+can't we? Is that not
+&gt;&gt; That's right. Yeah.
+&gt;&gt; early in 2026.
+&gt;&gt; Yeah, Mike. That was
+&gt;&gt; I feel vindicated, by the way. Thank you
+for that, Mike and Rory. I appreciate
+that you conceded that I was right on
+the customer support argument. It's
+awesome. Uh, but I I I would I would
+love to finish on on one thing, which is
+the Super Bowl ad. I'm sorry. We got to
+finish on this. Which got the essay back
+from Sam and then the CMO of Open AI
+being like betrayal, treacherous, epic,
+disaster, whatever the kind of words
+were. How did we think about this and
+the response?
+&gt;&gt; Maybe just I'm going to say what I
+think. Let's confirm the facts which was
+that I understand it Anthropic ran a you
+know no basically they went the ad I
+think open eye was going to do one ad
+I'm not quite sure what that was again
+remind me please then ran an ad trail
+that they were going to run an ad that
+basically said you know we don't have
+ads in our AI we're good you're bad and
+they ran that ad versions of that ad and
+then open AAI kind of pivoted and ran a
+very you know you can just build things
+rah ad in the actual Super Bowl. Is that
+the kind of chain of events here, Harry?
+&gt;&gt; Absolutely. I mean, the chain of events
+really is Anthropic ran an series of ads
+laughing at OpenAI for having ads.
+Slightly ironic in that way. Uh, and
+then Sam and their CMO basically came
+back with these like epic
+tweet the tweet. I think everyone
+getting angry is a sure a sure sign it's
+hard to say. A sure sign of tension.
+Yes. I mean, but actually Brian Kim from
+Andre and Hur just did a really good
+piece was basically said, "Of course
+they're going to run ads. It's a
+consumer subscript. It's a consumer
+product and less than 5% of consu
+consumers ever pony up for for kind of
+subscription products. So if you're
+going to be the consumer product,
+they're going to run ads and that's
+Chhat GPT. And if you're going to be the
+enterprise product, you're not going to
+run ads and that's Claude. 95% of people
+watching that game must have gone, what
+are these people talking about and why
+is this why are we taking away from Bad
+Bunny for these morons to talk about
+something I don't even know what's going
+on. Matt,
+&gt;&gt; back to the prior discussion, you know,
+when these technology revolutions happen
+and everyone pours in the capital and
+torches a whole bunch of it. One thing
+that does is again unique about this era
+is the purchasing of Super Bowl ads to
+try to I guess justify ego. I think is
+is largely what's going on here. Let's
+face it, it's human beings. They've got
+a lot of capital, so they make Super
+Bowl ads. Again, never happened in the
+history of technology before, except
+Pets.com. I thought you were talking
+about the AI.com. The guy that bought
+the domain for 70 million bucks, spent
+$8 million on an ad, and then is selling
+open claw. And I'm like, that is also a
+weird business, but like maybe they're
+going to I I Rory's comment that the
+what do they call them online nowadays?
+The normies, the regular people who just
+wanted to watch the Super Bowl are like,
+"What the hell is this about next? Give
+me the Doritos commercial." No, I and
+one thing I've I've I'm getting to know
+you, Mike, is it's the way your tone
+doesn't change when you move from
+fact-based comments to acute sarcasm
+with literally no variation in tone.
+Takes a while to adjust to, but you're
+so right, man. It's like when you said
+it's never happened again. We all flash
+back to 99. We flash back to crypto.
+This is this is classic top of I mean
+top of the bubble stuff. you have 200
+million bucks burning a hole in your
+pocket and you're like, I can I can put
+spend five million and be in the
+national agenda. I'm in the super.
+&gt;&gt; You know why this the ad was weird
+though? I'll tell you what was weird
+about it for what it's worth is um look
+Anthropic is I mean it's I mean it's a
+generational generational company. It
+changed coding. It changed everything.
+But the only place Anthropic is weak is
+consumer. I mean I'm one of the seven
+people that uses Claude instead of
+ChatgPT as a consumer app. Okay. So, of
+all the things they could have done in
+the Super Bowl, say, you know, the the
+the the the the the engineers pal, the
+the product guy's buddy, all the things
+they could say, how he revolutionized
+product creation, they talk about the
+one area they fail, which is say we
+won't put ads in an app nobody uses for
+this use case. So, uh it was some sort
+of metad because it's it's it's
+advertising for its worst product.
+It's nothing but a dig. It makes no
+sense. It's like I saw a smart tweet
+that made the point, yeah, the the the
+redeeming argument on this is
+never thought I'd say so. We're actually
+not talking to the 95%. It was two
+people exchanging signals to each other
+and each other's employees in the valley
+using $5 million of money to send a
+signal, right? And we're talking, you
+know, this is Entropic reinforcing their
+we are the, you know, we are the
+consumer
+we are, so we are the enterprise good
+guys here. and they're really messaging
+to maybe 10,000 engineers they might
+want to hire and literally the other 325
+million people involved are just, you
+know,
+and plus our head of safety quit this
+week. So, let's mask that over with the
+Super Bowl ad.
+&gt;&gt; It's all just it's all just possession.
+It would be so much cheaper to buy a
+billboard on the 101.
+&gt;&gt; I I think but it does back to the
+original discussion, Harry. I think
+what's what's interesting there is it's
+a sign of the times. I'm not sure we can
+call it a sign of the top. I don't think
+that's probably true at all. Um, but
+it's a sign of the times. But look, look
+deeper at it, right? If you're burning a
+billion dollars a week and people are
+going to keep funding you, the ads are
+cheap. They don't make any difference,
+right? Your CMO doesn't have a
+constrained capital efficient like
+profit eps calculation right now. One
+day they will. Right now they do not. So
+right now everyone is maximalist.
+They're trying to be in every single
+category all the time. What's
+fascinating is you go to the SAS and
+software world, you have financializing
+going on a lot because they can't afford
+to be maximalists cuz those, you know,
+those those pesky public market
+investors are making valid questions
+around, hey, profitability and growth
+and all these things and you have a lot
+of categories that are raising tons of
+money and don't have that problem.
+Hence, you get these ads as one example
+of that. That will normalize. It does
+every time. I I think we're
+automatically assuming that Super Bowl
+ads are I'll say frivolous, sign at the
+top, not actually effective. Like Wix,
+for example, which is obviously
+incredibly hit in the public markets. I
+spent an hour and a half with their CMO
+the other day who's bought six different
+Super Bowl adverts over the years. This
+year he bought two, one for base 44 and
+one for Wix. And he's like, the
+impressions that you get from Super
+Bowl, the effectiveness of this
+advertising channel is immense. I I I
+back entirely. I don't think either of
+them were like top of market, we got a
+billion. I think they were brilliant
+uses of capital.
+&gt;&gt; Okay,
+I I'll answer that and then I want to
+come back to Mike's point because I
+think there's something more important
+in that point. But on your point, if it
+was a brilliant use of capital, you'd
+see it happen consistently across the
+cycle. But in fact, you only see tech
+compan
+when when they don't have capital to
+burn out, marketing is the first thing
+that gets a brilliant use of capital in
+general. Therefore, what it is is a good
+way to spend the marginal dollar when
+you've already spent it on everything
+else. But I want to come back on Mike's
+point because I actually think there's a
+more serious point in there. You made a
+comment on these guys are not
+financialized
+and the public SAS companies are
+financialized and I think there's a
+bigger comment in that and maybe it
+applies to you. When I was thinking
+about these these fights between public
+company, you know, public company and
+incumbent and private company next
+generation player, I think one of the
+biggest things is the public companies
+have this constraint of, you know,
+having to make EPS, having to grow,
+whereas the private companies are in,
+you know, as you say, no marginal
+costing is taking place and do you think
+that impacts public companies in general
+ability to compete or do you think it
+makes them more efficient?
+&gt;&gt; Um, man, so many great topics. Uh
+firstly I think Super Bowl ads just just
+very quickly Super Bowl ads are priced
+that way because that's what people pay.
+It's it's a efficient market in Super
+Bowl ads surely right. Doritos pay 8
+million bucks cuz it sells a bunch of
+Doritos. It's a good investment. Is it
+like the best use of capital? Probably.
+Why do Doritos and beer companies
+advertise all the time? So for some
+businesses like Wix, I would argue it's
+a totally sensible investment. For
+others it's completely ego. The CEO
+wants a Super Bowl ad so they go bake
+one. that ego stuff happens when capital
+is not being efficiently spent in a
+business, right? And both of these two
+things happen in every Super Bowl,
+probably in some crypto, whatever. Um, I
+think there is an interesting argument
+of public companies and maybe why I mean
+I know things I shouldn't know, I guess,
+but the good public company CEOs are
+often founders as you've pointed out a
+few times. Um, because you're trying to
+take a long-term view and manage the
+short term. You are trying to do both.
+We have massive investments in AI.
+We have to deliver public company
+results and that's the job is to do
+both. If we just focus on the public
+company results part in the very short
+term, we will not have a good business
+in 5 years time from now because we
+won't be investing in building AI. But
+that takes usually necessarily away from
+something you could otherwise be doing
+today. And that's the balance of capital
+allocation in any of these businesses.
+Right? Microsoft has to do it. Everybody
+has to do it. Right? Capital allocation
+is not easy.
+But a good leader, I think, will
+allocate capital to those investment
+areas and allocate enough capital and
+then tell a story about why that capital
+is being invested. Right? We spend a
+huge amount of money on R&amp;D. We spend a
+huge amount on AI. I would argue if
+you're a public company today and you're
+not spending a lot of money on
+fundamental kind of new R&amp;D around AI
+and your product category, you're
+probably in trouble. Now, you can't see
+that in any public company accounts,
+right? It is very hard to actually see
+where they are allocating their R&amp;D
+dollars. But I would guarantee you a lot
+of them are moving more and more and
+more towards thinking how is they are
+going to change my world. How am I going
+to hire in this era? How am I going to
+do this? And you have to tell a story to
+your investors and your shareholders,
+your stakeholders, your employees about
+why that's going to make a difference.
+Why are you going to be relevant and
+competitive in the AI era? Doesn't mean
+you need to make a foundational model,
+but you have to be relevant and
+competitive and and you have to actually
+do both. Now Rory, I think you're trying
+to make the point that maybe there's a
+world where the free capital in the
+private markets makes it impossible for
+those spends in the public. I I don't I
+don't think that's the case. You've had
+Adobe's and Microsoft be public for an
+awful long time. You have to make tough
+choices. You have to make capital
+allocation choices. You have to bet on
+the future to some extent. And not every
+company's going to get that right. But I
+don't think that's impossible at all. I
+think it's it's what you have to do.
+Great answer because yeah, I mean
+reading the commentary after your last
+result, you know, listing the things
+that people bust your chops on and you
+they're giving you grief about sockbased
+compensation and then you're looking on
+the private side and you're like these
+guys are doullling out SBC like it's
+candy and no one even calculates it,
+right? It does feel I mean I'm glad to
+see that it's not doing your head in as
+we'd say in England. Um but because it
+does feel like it's it's two sep. almost
+like both teams are playing the same
+game but one of them has to play it with
+different rules which must be a little
+irksome.
+&gt;&gt; Uh
+yes, but the difference in rules again I
+I I've said this to a few people. We're
+a better company because we're a public
+company. Like we have become a better
+business, right? We're better at
+forecasting. We're better at planning.
+We're better at executing. What we have
+to do is not replace forecasting and
+planning. Executing for strategy. I
+think that's where it gets wrong is
+where you just focus on that piece of
+the business. You still have
+strategically compete and grow and go
+into new areas, invest and build things,
+right? You absolutely have to do both of
+those things. I think managing the
+finances of that is is very challenging
+at the moment, right? For all the
+reasons you pointed out. Totally agree
+with the challenge that that that's
+going on. Secondly, it's very hard for
+investors to see winners in that process
+right now. Right? If I say as
+generically as possible, I think that's
+the challenge, right? is because where
+is that money going? What are those
+people building? Who are the what is the
+talent? What is that likely to change
+your strategic positioning with
+customers over the next few years that
+you have sustainability and durability?
+That's very hard to see at this current
+time, right? For for for investors,
+right? If you look at any list of AI
+winners and losers is above the fold,
+let's call it, every list is different.
+That alone tells you people are like, I
+don't know, somewhere over here. That's
+our job. That's my I'm not complaining
+about that for a second. My job is to
+tell a great story about why we're a
+winner and then make us a winner and do
+both at the same time. And I have to
+fund that. That's
+&gt;&gt; got to enjoy that. You should be doing a
+different job.
+&gt;&gt; I love you and I'm so grateful to you
+for being a friend, being awesome, being
+so good. If the numbers are they're so
+good, but the stock price is down so
+much, do you think you're doing a good
+job telling that story? Then
+&gt;&gt; this gets to the CEO scorecard, right?
+And and things like this is is we had a
+fantastic quarter. Our numbers in almost
+every category are great delivery of our
+goals.
+um the external current time judgment of
+the delivery of those goals leading to
+future value is not in a good spot.
+There's no doubt about that. And we're
+working hard to change that. Right? We
+have the same business we had a year
+ago. We we will still have a great
+business in a year and two years. And my
+job is to make sure we have a great
+business in 5 years time. Look, you've
+got the the sort of there's a mental
+health aspect of it for staff and things
+like this. And then there's a we just
+got a lot of work to do. let's let's
+let's get back to work and just go do
+that, right? And we if we keep
+delivering
+great results, we're not short in the
+Bank of England here, but like at some
+point you're like, I don't know, we got
+we got to do what we got to do, right?
+And you got to also adjust. I said this
+in my in my shout out letter. We spent a
+lot of time writing our shout out
+letter. Like you got to accept reality
+as well. Sometimes I see people and as I
+said, I do a lot of the moment there's a
+lot of sassy therapy going on. Um, one
+of the things I've told a few people is,
+dude, you just got to accept reality and
+then and then go build something. Go do
+something, right? You can't pontificate
+about the technology journey. Oh, about
+creation and everything else. Guess
+what? Part of creation is destruction.
+You got to go build value for customers.
+You got to go build new products and
+technologies and services. Like the way
+I see it, we're going to create our way
+out of this problem. We're not going to
+like hide in a hole and like wait for it
+to go away. And and part of that is
+accepting the reality of what's changed
+and also what's changed in a positive
+way. That always seems very negative. We
+can build things way faster and way
+better than we ever have been able to
+before. I think we talked on a year ago
+whenever that was like if we refounded
+Atlassian today with 350,000 customers,
+50,000 enterprise customers, couple of
+billion bucks in the bank and 10,000
+people in R&amp;D and a great distribution
+engine to get to all those customers and
+deliver new value. you'd be like, "It's
+a pretty good starting point to start a
+business, right? Like, let's go build
+some stuff, right?"
+&gt;&gt; You're right, Mike. When you talk about
+creating value, we as three VCs know
+exactly how you feel. Yeah. We are the
+value creators.
+&gt;&gt; Just to be clear, it's clear when
+Harry's being sarcastic.
+&gt;&gt; I would say, I don't know what you think
+of your I mean, your your SAS group's
+pretty elite, Mike, but I would say
+maybe only the best SAS B2B CEOs are
+really up for that. A lot of them are
+introspecting. A lot of them I I talked
+to one that quit at the end of the year
+at hundreds of millions of revenue and
+said I was told AI wasn't important in
+our space. That was that was the goodbye
+message. And so uh not everyone has it
+in them to go through to to push through
+this next wave. Uh maybe only the best
+maybe only the best do. May maybe I mean
+you're one of the best, right? We don't
+have to rank you and
+&gt;&gt; and that's okay, right? I think we
+shouldn't we shouldn't pass judgment on
+that.
+&gt;&gt; I totally agree. It's not even the best
+at the world. Totally. Look, it's the
+same in our industry. Some people
+decide, I've done enough, I'm 50. Some
+people I've done enough, I'm 40. You
+only got one life, right? Someone really
+want to go to ballet at 50. I'm totally
+with your mic on that one. It's like
+actually it's a better call if you don't
+have it in you to do it. I actually
+admire more the person who says you guys
+should get someone else than hanging on
+waiting to get the head shot, you know,
+and just call it. I mean, you know,
+&gt;&gt; I actually agree that's a that's a
+hotter call to make, right? That that's
+a very difficult decision. in our
+business. One partner said to me years
+ago, he said, "Our business is a
+learning business and the day you stop
+learning is the day you should say to
+your partners in about a year and a half
+you should be replacing me, right?" And
+it's just and you know you because you
+can't just be sitting here not you can't
+take the money and not play the game.
+And I agree let those actually so you
+should tell those guys who aren't
+feeling it. It's really simple.
+Congratulations. You've made
+life-changing money. You don't have to
+do it anymore. Um, how's your number
+two? Cuz he's in charge now. I'll bring
+back that founder who left. Are you
+working harder, Mike, than you have in
+the last few years? Are you working
+harder?
+&gt;&gt; Am I working harder than I have in the
+last three years? Yeah. Well,
+&gt;&gt; uh, my co-founder, God love him, we had
+a whole bottle of wine not before last.
+Um,
+you know, he retired a year and a half
+ago, so that that makes like, you know,
+that's a big 20 23 years. Um, uh, and he
+has full of gratitude, which is really
+nice. He understands, right? That
+creates more work. And there's no doubt
+the era like, man, I start working at 5
+a.m. every day at the moment, right?
+&gt;&gt; Yes. Yes. People are working harder now
+than they had before. 100% true, right?
+Because of the disruption and the speed
+and the change and everything. And
+that's I think that's not a bad thing.
+That's that's a normal thing. That's an
+okay thing, right? The question is, do
+you enjoy it? And do you have enough
+balance? Like again, I am the worst
+person to be a therapist to any of these
+CEOs and SAS founders, but I I do tell
+them like what you're saying, those
+people are making the choice is balance,
+right? Do you have enough time with your
+kids? Do you get out in the trees? Do
+you walk around? Do you do some excess?
+Whatever it is that's your jam in terms
+of balance. Stop doing that for a year
+or two. You're going to be in trouble. I
+believe like I've done this long enough.
+You can't shortcut those things.
+Secondly, are you enjoying it? And don't
+just tell me yes in one second. Wait,
+think. Go away, take a weekend, drink a
+bottle of wine, drink a green tea,
+whatever is your thing. Are you enjoying
+what you're doing? Would you choose this
+job again today? Because it's tough out
+there. It's going to be hard. Welcome to
+the technology industry. If you're not
+enjoying it, you know, no harm, no foul.
+Go do something you do enjoy, right?
+Move to a different arena if you want to
+use the, you know, we throw that around
+all the time in the tech industry. The
+enjoyment is sometimes forgotten in the
+the ego, the the need to win, to
+disrupt, to to grow, those sorts of
+things. Like you said, if you built a
+great business, a couple hundred ARR,
+whatever it is, that's not a do it
+decently. Like, you know, give your team
+time, give your company time, make no,
+you know, there's a thoughtful way to do
+any of these sorts of things. But I
+think it should be seen as a mark of,
+you know, amazing human achievement to
+do that. The problem is if Mike said
+that to most of the people I know they'd
+quit if they said if you said are you
+really enjoy do you love do you love
+every minute of your job as founder CEO
+are you getting enough time with your
+kids are you walking enough if not you
+should I'm being a little facicious but
+but not completely right but not
+completely
+&gt;&gt; I'm not I'm not being poland at all
+right like there are parts there are
+days that suck there are times that suck
+but over some average of a 90day one
+year Rory's point you got one life right
+we we got into We enjoyed creating
+things. We enjoyed building teams and
+businesses and delivering value to
+customers. Not in the tr like way, but
+literally sitting down with customers
+and seeing what they do with your [&nbsp;__&nbsp;]
+is awesome. And you're like, man, that's
+so cool. Hey, let's go do some more of
+that, right? So, you've got to enjoy
+that part of the job. It doesn't mean
+every part of the day or the job is
+going to be easy. It doesn't mean you
+don't sit there with your team and go,
+"How the [&nbsp;__&nbsp;] are we going to deal with
+this?" Right? These guys are coming over
+the wall. But if you don't enjoy that, I
+don't know, there's some analogy that
+that like every era is going to be
+different. The the echoes are the same,
+but there's different ways to your point
+of learning. You got to learn. You got
+to think about how you're going to
+compete. You're not sitting there with
+bows and arrows if people are coming
+with the machine guns or whatever.
+&gt;&gt; Yeah. You got to be willing to Exactly.
+&gt;&gt; But I do think you can be balanced. I do
+think it's important. I actually
+&gt;&gt; You think all founders are a little
+crazy?
+&gt;&gt; Yes.
+&gt;&gt; Yeah. How can you be balanced if you're
+crazy? Like there's no B like because
+you're going to be miserable or bored or
+you're not building. Uh you know, I
+don't think Elon doesn't look too happy
+to me.
+&gt;&gt; There are some people
+&gt;&gt; I think all the good founders are crazy
+&gt;&gt; have unique choice sets. Um
+&gt;&gt; that was well done.
+&gt;&gt; I think in whatever way you enjoy what
+it is that you do and you choose to be
+intentional with your own time, right? I
+spend a ton of time with my kids because
+it's super fun and it's super different
+and they're awesome little human beings
+and I'm trying to grow them into awesome
+big human beings, right? And help them
+on on whatever journey they're on. That
+is enjoyment. I think it makes me a
+better CEO to do that. I don't spend 60
+hours a week with my kids, you know what
+I mean? They're sleeping and this and
+that and other things, but I don't spend
+a 100 hours a week at work. Right now,
+when we were younger, we did, and that's
+the evolution. But you have to learn to
+do that. I think if you spend 100% of
+your time at work, you make worse
+decisions, right? But you have to do the
+job, right? And the balance is really
+tricky. The intentional time management
+is really tricky. Do I spend as much
+time with my mates as I used to? No.
+Right? We catch up once a quarter. We do
+this and that. Like, but so there is
+things you got to trade off. All I'm
+saying is if you don't do any of that
+outside work because you're like this
+era I got to knuckle down and do 100% of
+this is right now. I don't think that's
+sustainable. Maybe that's just not for
+me.
+&gt;&gt; It's not. Every time I give that speech
+to my this era I've got to do. And she
+just looks at me and says, "Stop. You're
+just going to go insane and then you're
+going to become irrational and then
+you're going to make bad decisions. So,
+we're going for a hike for the next hour
+and a half." And I just say, "Okay,
+Matt, I'm going." And Harry's moving in
+for the kill to tell us we're too old
+and we're going to get rolled over by
+him.
+Well, I I do think that, but that's a
+little bit rude. And we have a guest,
+Rory, so I wouldn't say that with our
+guest, obviously. Uh, no, I uh I
+actually have a secret for you, Mike,
+which is just work with your great
+mates. Yeah, I have become great mates
+with Rory and Jason, and I now get
+dedicated time with them every single
+week. What a joy. Well, I mean, how
+lovely.
+&gt;&gt; Okay.
+&gt;&gt; Anyone's team, any any of the best
+things that we've done, and we've had a
+series of fantastic leadership teams,
+really good friends that I still hang
+out with. They had a whole bunch of
+them, you know, over the Christmas
+period old time Atlassian leadership
+team people that came to join us.
+They're amazing people. We've been in
+various trenches and scuffles and fights
+together. We've had some victories.
+We've had some losses. Do you get
+enjoyment from that part of it, right?
+You're winning more than you're losing.
+Great. And you go back and you can have
+people that you can have a, you know, a
+cup of tea with 10 years later. Man,
+like we we did a good job there. You
+know what I mean? Like there's a part of
+the human tribal
+getting together that your leadership
+team wherever you are in whatever
+business
+&gt;&gt; has to do
+&gt;&gt; that has to be part of your enjoyment
+right and you have to create that and
+it's hard to create don't get me wrong
+like it's it's tricky you can treat
+people as employees and mercenaries or
+you can say hey we got a challenge to do
+and we're a group of people in a room
+we're trying to deal with this challenge
+we need help we all need help um to to
+do that from each other
+&gt;&gt; boys thank you so much for

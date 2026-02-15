@@ -1,6 +1,6 @@
 {
   "description": "Running tracker of public statements by large software companies quantifying AI's impact",
-  "lastUpdated": "2026-02-14T12:30:00Z",
+  "lastUpdated": 1771158755844,
   "statements": [
     {
       "company": "Salesforce",
@@ -74,6 +74,30 @@
         "$63.4B RPO"
       ],
       "category": "revenue"
+    },
+    {
+      "company": "Palantir",
+      "date": "2026-02-12",
+      "metric": "137% US commercial revenue growth, $7.2B 2026 revenue guide (+61% YoY)",
+      "source": "Q4 2025 earnings"
+    },
+    {
+      "company": "ServiceNow",
+      "date": "2026-02-10",
+      "metric": "$15.5B 2026 subscription revenue target (from $12.9B in 2025), CEO targets $1T valuation",
+      "source": "Earnings guidance / Motley Fool"
+    },
+    {
+      "company": "ServiceNow",
+      "date": "2026-02-06",
+      "metric": "Deepened AI platform strategy with Anthropic partnership",
+      "source": "Moor Insights & Strategy"
+    },
+    {
+      "company": "Salesforce",
+      "date": "2026-02-10",
+      "metric": "Pioneering 'Agentic Enterprise License Agreement' (AELA) \u2014 fixed-price all-you-can-eat Agentforce",
+      "source": "Fortune"
     }
   ],
   "categories": [

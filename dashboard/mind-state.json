@@ -1,7 +1,7 @@
 {
-  "task": "Updating header image generator for new thread structure",
-  "steps": [{"label":"Check current generator","status":"active"},{"label":"Update sections","status":"pending"}],
-  "thought": "Need to update generate-x-header-single.py to reflect geopolitics section instead of podcasts",
+  "task": "Adding mfer PFP to header image",
+  "steps": [{"label":"Find avatar file","status":"active"},{"label":"Add to generator","status":"pending"}],
+  "thought": "Adding mfer #9581 PFP to the header in a tasteful way",
   "subAgents": [],
-  "lastUpdated": 1739596400000
+  "lastUpdated": 1739597200000
 }

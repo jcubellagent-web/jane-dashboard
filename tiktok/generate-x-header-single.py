@@ -50,7 +50,7 @@ def glow(draw, pos, text, font, color, r=2):
     draw.text((x, y), text, font=font, fill=color)
 
 def load_mfer(size=100):
-    for p in [os.path.join(WORKSPACE, "tiktok", "mfer_avatar.png"), os.path.join(WORKSPACE, "assets", "mfer.png")]:
+    for p in [os.path.join(WORKSPACE, "tiktok", "mfer_circle.png"), os.path.join(WORKSPACE, "mfer-9581.png"), os.path.join(WORKSPACE, "mfer-avatar.png")]:
         if os.path.exists(p):
             img = Image.open(p).convert("RGBA")
             return img.resize((size, size), Image.LANCZOS)
@@ -97,19 +97,19 @@ def generate_thread_header(
     left_w = 650
     
     # "AI DAILY BRIEF" or thread type
-    font_type = load_bold(18)
-    font_date = load_bold(20)
-    font_title = load_bold(56)
-    font_headline = load_bold(28)
-    font_storm = load_bold(22)
+    font_type = load_bold(24)
+    font_date = load_bold(22)
+    font_title = load_bold(72)
+    font_headline = load_bold(34)
+    font_storm = load_bold(26)
     
     # Type badge
     badge_text = f"AI {thread_type}"
-    draw.rectangle([(30, 20), (30 + len(badge_text)*12 + 20, 50)], fill=NEON_CYAN, outline=None)
-    draw.text((40, 25), badge_text, font=font_type, fill=BG_DARK)
+    draw.rectangle([(30, 15), (30 + len(badge_text)*16 + 24, 55)], fill=NEON_CYAN, outline=None)
+    draw.text((42, 18), badge_text, font=font_type, fill=BG_DARK)
     
     # Date
-    draw.text((30 + len(badge_text)*12 + 35, 25), date_str, font=font_date, fill=DIM)
+    draw.text((30 + len(badge_text)*16 + 40, 22), date_str, font=font_date, fill=DIM)
     
     # Main headline
     words = strip_emoji(headline).split()
@@ -118,55 +118,58 @@ def generate_thread_header(
     for w in words:
         test = f"{line} {w}".strip()
         bbox = draw.textbbox((0, 0), test, font=font_title)
-        if bbox[2] - bbox[0] > left_w - 60:
+        if bbox[2] - bbox[0] > left_w - 40:
             lines.append(line)
             line = w
         else:
             line = test
     if line: lines.append(line)
     
-    y = 70
+    y = 65
     for l in lines[:3]:
-        glow(draw, (30, y), l, font_title, WHITE, r=3)
-        y += 62
+        glow(draw, (30, y), l, font_title, WHITE, r=4)
+        y += 80
     
     # Storm check
-    storm_y = y + 10
+    storm_y = y + 8
     storm_text = "STORM CHECK: YES — BREAKING" if storm else "STORM CHECK: NO"
     storm_color = NEON_PINK if storm else (80, 80, 100)
-    draw.rectangle([(30, storm_y), (left_w, storm_y + 35)], fill=(30, 10, 25, 180) if storm else (20, 20, 30, 180))
-    glow(draw, (40, storm_y + 5), storm_text, font_storm, storm_color, r=1)
+    draw.rectangle([(30, storm_y), (left_w, storm_y + 42)], fill=(30, 10, 25, 180) if storm else (20, 20, 30, 180))
+    glow(draw, (40, storm_y + 8), storm_text, font_storm, storm_color, r=2)
     
     # ===== RIGHT SIDE: Section index =====
     right_x = 670
     section_top = 20
     
-    font_section_title = load_bold(13)
-    font_idx_name = load_bold(17)
-    font_idx_detail = load_font(13)
+    font_section_title = load_bold(16)
+    font_idx_name = load_bold(20)
+    font_idx_detail = load_font(14)
     
     # "IN THIS THREAD" header
     draw.text((right_x, section_top), "IN THIS THREAD", font=font_section_title, fill=NEON_CYAN)
-    draw.line([(right_x, section_top + 18), (WIDTH - 30, section_top + 18)], fill=NEON_CYAN, width=1)
+    draw.line([(right_x, section_top + 22), (WIDTH - 30, section_top + 22)], fill=NEON_CYAN, width=2)
     
-    sec_y = section_top + 28
+    sec_y = section_top + 32
+    num_sections = len(sections)
+    available_h = HEIGHT - 80 - sec_y  # leave room for bottom bar
+    sec_spacing = min(55, available_h // num_sections)
     for i, (name, detail, color) in enumerate(sections):
         # Number badge
         num = str(i + 2)  # starts at tweet 2
-        draw.rectangle([(right_x, sec_y), (right_x + 24, sec_y + 24)], fill=color)
-        draw.text((right_x + 7 if len(num)==1 else right_x+4, sec_y + 3), num, font=font_section_title, fill=BG_DARK)
+        draw.rectangle([(right_x, sec_y), (right_x + 28, sec_y + 28)], fill=color)
+        draw.text((right_x + 8 if len(num)==1 else right_x+5, sec_y + 3), num, font=font_section_title, fill=BG_DARK)
         
         # Section name
-        glow(draw, (right_x + 32, sec_y), name, font_idx_name, color, r=1)
+        glow(draw, (right_x + 36, sec_y), name, font_idx_name, color, r=1)
         
         # Detail text
-        draw.text((right_x + 32, sec_y + 22), strip_emoji(detail), font=font_idx_detail, fill=DIM)
+        draw.text((right_x + 36, sec_y + 25), strip_emoji(detail), font=font_idx_detail, fill=DIM)
         
         # Separator line
         if i < len(sections) - 1:
-            draw.line([(right_x, sec_y + 42), (WIDTH - 30, sec_y + 42)], fill=(40, 40, 60, 100))
+            draw.line([(right_x, sec_y + sec_spacing - 6), (WIDTH - 30, sec_y + sec_spacing - 6)], fill=(40, 40, 60, 100))
         
-        sec_y += 48
+        sec_y += sec_spacing
     
     # Vertical divider between left and right
     draw.line([(left_w + 15, 15), (left_w + 15, HEIGHT - 60)], fill=(40, 40, 80), width=1)
@@ -175,16 +178,25 @@ def generate_thread_header(
     draw.rectangle([(0, HEIGHT - 50), (WIDTH, HEIGHT)], fill=(5, 5, 15, 240))
     draw.line([(0, HEIGHT - 50), (WIDTH, HEIGHT - 50)], fill=NEON_CYAN, width=2)
     
-    font_brand = load_bold(22)
-    font_sm = load_font(16)
-    glow(draw, (20, HEIGHT - 40), "@AgentJc11443", font_brand, NEON_CYAN)
-    draw.text((220, HEIGHT - 38), "AI-Powered News Feed", font=font_sm, fill=DIM)
-    draw.text((WIDTH - 180, HEIGHT - 38), "8-tweet thread", font=font_sm, fill=DIM)
+    font_brand = load_bold(26)
+    font_sm = load_font(18)
+    draw.text((WIDTH - 190, HEIGHT - 38), "8-tweet thread", font=font_sm, fill=DIM)
     
-    # mfer avatar bottom-right
-    avatar = load_mfer(45)
+    # mfer avatar — bottom-left, next to branding with neon ring
+    avatar = load_mfer(42)
     if avatar:
-        img.paste(avatar, (WIDTH - 60, HEIGHT - 52), avatar)
+        ax, ay = 20, HEIGHT - 48
+        # Neon glow ring behind avatar
+        for r in range(3, 0, -1):
+            ring_alpha = 40 + (3 - r) * 30
+            draw.ellipse([(ax - r, ay - r), (ax + 42 + r, ay + 42 + r)], outline=(*NEON_CYAN[:3], ring_alpha), width=1)
+        img.paste(avatar, (ax, ay), avatar)
+        # Shift branding text right to make room
+        glow(draw, (72, HEIGHT - 40), "@AgentJc11443", font_brand, NEON_CYAN)
+        draw.text((280, HEIGHT - 38), "AI-Powered News Feed", font=font_sm, fill=DIM)
+    else:
+        glow(draw, (20, HEIGHT - 40), "@AgentJc11443", font_brand, NEON_CYAN)
+        draw.text((240, HEIGHT - 38), "AI-Powered News Feed", font=font_sm, fill=DIM)
     
     # CRT scanlines
     for sy in range(0, HEIGHT, 3):

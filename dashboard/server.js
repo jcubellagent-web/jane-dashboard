@@ -615,6 +615,7 @@ function handleRequest(req, res) {
             newsapi: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6B00'%3E%3Cpath d='M6 3h12a3 3 0 013 3v12a3 3 0 01-3 3H6a3 3 0 01-3-3V6a3 3 0 013-3zm2 3v2h8V6H8zm0 4v2h8v-2H8zm0 4v2h5v-2H8z'/%3E%3C/svg%3E",
             openalex: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236B46C1'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='9' font-weight='bold'%3EOAlex%3C/text%3E%3C/svg%3E",
             lobsters: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23DC2626'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3E🦞%3C/text%3E%3C/svg%3E",
+            grokipedia: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231DA1F2'%3E%3Crect width='24' height='24' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' fill='white' font-size='9' font-weight='bold'%3EGrok%3C/text%3E%3C/svg%3E",
         };
         const connections = {
             accounts: [
@@ -671,7 +672,8 @@ function handleRequest(req, res) {
                 { name: 'Product Hunt', detail: 'top AI/tech products (pending)', icon: icons.hackernews, active: false },
                 { name: 'Reuters World', detail: 'geopolitics & trade policy', icon: icons.hackernews, active: true },
                 { name: 'AP News World', detail: 'global breaking news', icon: icons.hackernews, active: true },
-                { name: 'GDELT Project', detail: 'global conflict & trade events', icon: icons.finnhub, active: true }
+                { name: 'GDELT Project', detail: 'global conflict & trade events', icon: icons.finnhub, active: true },
+                { name: 'Grokipedia', detail: 'AI-curated encyclopedia (xAI)', icon: icons.grokipedia, active: true }
             ],
             podcasts: [
                 { name: 'All-In Podcast', detail: 'tech, VC, geopolitics (weekly)', active: true },

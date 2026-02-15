@@ -5,7 +5,7 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 ---
 
 ## Josh Rules (IMPORTANT)
-- **INSTANT REACTION**: On EVERY message (voice or text), update mind-state.json as the VERY FIRST action — before transcription, before processing. The desktop brain must light up the moment Josh sends something.
+- **INSTANT REACTION**: On EVERY message (voice or text), update mind-state.json as the VERY FIRST action — before transcription, before processing. The desktop brain must light up the moment Josh sends something. For voice messages specifically: set thought to "Receiving voice message — transcribing…" BEFORE calling Whisper. Never let mind-state stay idle while processing.
 - Ask "desktop, mobile, or both?" before dashboard changes
 - Commit to git frequently — lost work from uncommitted changes before
 - Keep him in the loop during long operations; spawn sub-agents for heavy tasks
@@ -66,8 +66,11 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 ## Trading
 - First memecoin run: +$13.10 (+50.8%) — taking profits works
 - Strategy: "moderately safe" tokens, strong community, 1-2 week holds, min +70% TP (ride higher if ripping), -30% SL
-- CLAUDE token: "GigaChad vibes" per Josh — full autonomy to ride
-- Wallet: `ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L`
+- CLAUDE token: "GigaChad vibes" per Josh — full autonomy to ride (23,695 tokens, Coinbase wallet)
+- POPCAT: 0.15 SOL starter, DCA +0.1-0.2 if drops 20-30%
+- Phantom wallet: `ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L` (~0.079 SOL)
+- **Coinbase swap script**: `trading/coinbase-swap.js` — Jupiter swaps via CDP SDK
+- **CDP key format**: raw wallet secret works (NO PEM wrapping). Wallet name: `Jane-SOL`
 
 ## Key APIs
 - Sorare: token valid until March 4, 2026, slug `jcubnft`
@@ -172,5 +175,12 @@ _Distilled wisdom. Implementation details archived in `memory/reference.md`._
 - App Password for IMAP: `.secrets/gmail_app_password.txt` → `ulzp qyyi yztw wdou`
 - IMAP tested & working: `imaplib.IMAP4_SSL('imap.gmail.com')`, login with app password (no spaces needed but works either way)
 - 107 messages in inbox, 62 unread as of Feb 14
+
+## Thread Structure (as of Feb 14)
+- 8 tweets per thread: Header → AI Providers → VC/PE/M&A → Enterprise SaaS → Geopolitics & Macro → NASDAQ 100 → Crypto → Hot Take
+- Podcast quotes woven INTO sections (no standalone podcast tweet)
+- Geopolitics sources: Reuters, AP, GDELT, FRED trade, Finnhub country risk
+- 14 podcasts monitored (All-In, Pompliano, Unchained, TWIS, The Daily, Acquired, BG2, 20VC, Bankless, Hard Fork, Turpentine, Prof G, Lenny's, Odd Lots)
+- Header image: full-color mfer #9581 PFP, 140px, white border, bigger fonts
 
 _Last updated: 2026-02-14_

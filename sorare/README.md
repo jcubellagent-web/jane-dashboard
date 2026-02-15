@@ -20,6 +20,9 @@ Map real NBA statistics to Sorare fantasy points to make intelligent lineup deci
 ### Scripts
 - **`fetch-collection.js`** - Query Sorare GraphQL API for our card collection
 - **`player-projections.py`** - Fetch NBA stats and calculate Sorare fantasy projections
+- **`lineup-optimizer.py`** ⭐ - **Main optimizer** - Recommend optimal 5-player lineups by rarity
+- **`schedule-checker.py`** - Check which players have games in the current game week
+- **`market-value.py`** - Analyze market opportunities for undervalued cards
 
 ## 🏀 Scoring System Summary
 
@@ -55,27 +58,52 @@ Map real NBA statistics to Sorare fantasy points to make intelligent lineup deci
 
 ## 🔧 How to Use
 
-### 1. Fetch Latest Collection
+### Quick Start (Recommended Workflow)
+
+#### 1. Fetch Latest Collection
 ```bash
 node fetch-collection.js > our-collection.json
 ```
 
-### 2. Run Player Projections
+#### 2. Check Game Schedule
+```bash
+python3 schedule-checker.py
+```
+**Output**: Shows which players have games this week, grouped by number of games. Saves to `schedule-report.json`.
+
+#### 3. Run Lineup Optimizer ⭐
+```bash
+python3 lineup-optimizer.py
+```
+**Output**: 
+- Fetches last 10 games for each player with upcoming games
+- Calculates projected Sorare scores
+- Factors in opponent defense, home/away, recent trends
+- Recommends optimal 5-player lineups by rarity (Limited, Rare, etc.)
+- Saves full results to `lineup-recommendations.json`
+
+**Runtime**: ~2-4 minutes depending on number of players with games
+
+#### 4. Find Market Opportunities
+```bash
+python3 market-value.py
+```
+**Output**: Identifies top performers NOT in your collection, sorted by projected value. Use this to scout undervalued cards on the market.
+
+### Individual Tools
+
+#### Player Projections (Legacy)
 ```bash
 python3 player-projections.py
 ```
+Analyzes all players in collection (even without upcoming games). Good for offseason research.
 
-**Note**: Full run takes ~3 minutes (186 players × 0.6s rate limit). Outputs:
-- Average projected score
-- Floor (worst game in last 10)
-- Ceiling (best game in last 10)
-- Standard deviation (consistency measure)
-
-### 3. Analyze Results
-Check `player-projections.json` for:
-- Top performers by position
-- Consistent vs boom-or-bust players
-- Optimal lineup combinations
+### Output Files
+- **`lineup-recommendations.json`** - Optimal lineups with projections
+- **`schedule-report.json`** - Game schedule for all players
+- **`market-analysis.json`** - Buy targets ranked by value
+- **`nba-player-ids.json`** - Cached NBA API player ID mappings (auto-generated)
+- **`player-projections.json`** - Historical projection data
 
 ## 📈 Next Steps
 

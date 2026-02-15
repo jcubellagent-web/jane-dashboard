@@ -1,5 +1,35 @@
 {
-  "positions": [],
+  "positions": [
+    {
+      "token": "CLAUDE",
+      "fullName": "make no mistakes",
+      "mint": "jkAWzPumRhJE2KyqVy4kB7m9KwXBeSEXnFAGoWtpump",
+      "wallet": "coinbase",
+      "amount": 23694.95,
+      "entryPrice": 0.002,
+      "currentPrice": 0.002386,
+      "unrealizedPnL": 9.14,
+      "unrealizedPnLPercent": 19.3,
+      "positionValueUsd": 56.53,
+      "entryDate": "2026-02-10",
+      "note": "GigaChad vibes per Josh. Full autonomy to ride. Valentine Day rally +21%."
+    },
+    {
+      "token": "POPCAT",
+      "fullName": "Popcat",
+      "mint": "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr",
+      "wallet": "coinbase",
+      "amount": 222071.377564,
+      "entryPrice": 5.96e-08,
+      "entrySol": 0.15,
+      "entryUsd": 13.14,
+      "currentPrice": 0.0596,
+      "positionValueUsd": 13.14,
+      "entryDate": "2026-02-14T22:55:00Z",
+      "txHash": "oMUsiZJrcMqHPqyK6ZXByQwtsq5HN3x2DhKhAkDukVgpEWxQmZDHkpYJwnTzwYoLsxGFgd1Dvbjxj6krH6Qvi57",
+      "note": "Starter position. DCA plan: add 0.1-0.2 SOL if drops 20-30%. Ride with CLAUDE."
+    }
+  ],
   "realizedTrades": [
     {
       "token": "COPPERINU",
@@ -48,25 +78,25 @@
       "soldFor": "0.097 SOL",
       "soldForUSD": 10.13,
       "costBasis": 10.33,
-      "realizedPnL": -0.20,
+      "realizedPnL": -0.2,
       "realizedPnLPercent": -1.9,
       "date": "2026-02-02T22:48:00Z",
       "note": "Full exit. Small loss ~2%."
     }
   ],
   "wallet": "ExgSrepdc3DHTJ3xRzyMofXwTofvmRu6iSqm66oaYK6L",
-  "lastChecked": "2026-02-03T05:34:59Z",
+  "lastChecked": "2026-02-14T22:55:00Z",
   "lastPrices": {},
   "strategy": {
     "takeProfit": "50% at 2x, rest rides",
     "stopLoss": "-30% from entry",
     "holdPeriod": "1-2 weeks"
   },
-  "totalRealizedPnL": 13.10,
+  "totalRealizedPnL": 13.1,
   "exitSummary": {
-    "totalCostBasis": 25.80,
-    "totalProceeds": 38.90,
-    "netPnL": 13.10,
+    "totalCostBasis": 25.8,
+    "totalProceeds": 38.9,
+    "netPnL": 13.1,
     "netPnLPercent": 50.8,
     "exitDate": "2026-02-02",
     "finalSOLBalance": 0.584

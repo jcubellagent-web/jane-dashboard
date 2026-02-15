@@ -11,6 +11,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@coinbase/cdp-sdk": "^1.44.1",
     "@solana/web3.js": "^1.98.4",
     "bip39": "^3.1.0",
     "bs58": "^6.0.0",
